@@ -16,6 +16,8 @@
 
 #include "include/gaussian_model.h"
 
+#include <cstdint>
+
 #include "include/gaussian_rasterizer.h"
 
 GaussianModel::GaussianModel(const int sh_degree)
@@ -160,6 +162,12 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
   this->exist_since_iter_ = torch::zeros(
       {fused_point_cloud.size(0)},
       torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
+  this->selector_birth_iter_ = torch::zeros(
+      {fused_point_cloud.size(0)},
+      torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
+  this->selector_seen_count_ = torch::zeros(
+      {fused_point_cloud.size(0)},
+      torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
 
   this->xyz_ = fused_point_cloud.requires_grad_();
   this->features_dc_ =
@@ -184,6 +192,8 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
 
   this->max_radii2D_ = torch::zeros(
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
+  assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
+  assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
 }
 
 void GaussianModel::increasePcd(std::vector<float> points,
@@ -243,6 +253,9 @@ void GaussianModel::increasePcd(std::vector<float> points,
   torch::Tensor new_exist_since_iter = torch::full(
       {new_point_cloud.size(0)}, iteration,
       torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
+  torch::Tensor new_selector_birth_iter = new_exist_since_iter.clone();
+  torch::Tensor new_selector_seen_count = torch::zeros_like(
+      new_selector_birth_iter);
 
   auto new_xyz = new_point_cloud;
   auto new_features_dc =
@@ -269,7 +282,8 @@ void GaussianModel::increasePcd(std::vector<float> points,
 
   densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                        new_opacities, new_scaling, new_rotation,
-                       new_exist_since_iter);
+                       new_exist_since_iter, new_selector_birth_iter,
+                       new_selector_seen_count);
 
   c10::cuda::CUDACachingAllocator::emptyCache();
   // auto time3 = std::chrono::steady_clock::now();
@@ -323,6 +337,9 @@ void GaussianModel::increasePcd(torch::Tensor& new_point_cloud,
   torch::Tensor new_exist_since_iter = torch::full(
       {new_point_cloud.size(0)}, iteration,
       torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
+  torch::Tensor new_selector_birth_iter = new_exist_since_iter.clone();
+  torch::Tensor new_selector_seen_count = torch::zeros_like(
+      new_selector_birth_iter);
 
   auto new_xyz = new_point_cloud;
   auto new_features_dc =
@@ -349,7 +366,8 @@ void GaussianModel::increasePcd(torch::Tensor& new_point_cloud,
 
   densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                        new_opacities, new_scaling, new_rotation,
-                       new_exist_since_iter);
+                       new_exist_since_iter, new_selector_birth_iter,
+                       new_selector_seen_count);
 
   c10::cuda::CUDACachingAllocator::emptyCache();
 
@@ -612,12 +630,43 @@ void GaussianModel::prunePoints(torch::Tensor& mask) {
   GAUSSIAN_MODEL_TENSORS_TO_VEC
 
   this->exist_since_iter_ = this->exist_since_iter_.index({valid_points_mask});
+  this->selector_birth_iter_ =
+      this->selector_birth_iter_.index({valid_points_mask});
+  this->selector_seen_count_ =
+      this->selector_seen_count_.index({valid_points_mask});
 
   this->xyz_gradient_accum_ =
       this->xyz_gradient_accum_.index({valid_points_mask});
 
   this->denom_ = this->denom_.index({valid_points_mask});
   this->max_radii2D_ = this->max_radii2D_.index({valid_points_mask});
+  assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
+  assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+}
+
+torch::Tensor GaussianModel::getSelectorMatureMask(int current_iteration,
+                                                   int min_age,
+                                                   int min_seen) const {
+  if (this->selector_birth_iter_.numel() == 0) {
+    return torch::empty(
+        {0}, torch::TensorOptions().dtype(torch::kBool).device(device_type_));
+  }
+
+  auto age = current_iteration - this->selector_birth_iter_;
+  return torch::logical_and(age >= min_age,
+                            this->selector_seen_count_ >= min_seen);
+}
+
+void GaussianModel::updateSelectorSeenCount(
+    const torch::Tensor& visibility_filter) {
+  if (visibility_filter.numel() == 0 ||
+      this->selector_seen_count_.numel() == 0)
+    return;
+
+  torch::NoGradGuard no_grad;
+  this->selector_seen_count_.index_put_(
+      {visibility_filter},
+      this->selector_seen_count_.index({visibility_filter}) + 1);
 }
 
 void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
@@ -626,7 +675,9 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
                                          torch::Tensor& new_opacities,
                                          torch::Tensor& new_scaling,
                                          torch::Tensor& new_rotation,
-                                         torch::Tensor& new_exist_since_iter) {
+                                         torch::Tensor& new_exist_since_iter,
+                                         torch::Tensor& new_selector_birth_iter,
+                                         torch::Tensor& new_selector_seen_count) {
   // cat_tensors_to_optimizer
   std::vector<torch::Tensor> optimizable_tensors(6);
   std::vector<torch::Tensor> tensors_dict = {new_xyz,           new_features_dc,
@@ -685,6 +736,10 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
 
   this->exist_since_iter_ =
       torch::cat({this->exist_since_iter_, new_exist_since_iter}, /*dim=*/0);
+  this->selector_birth_iter_ = torch::cat(
+      {this->selector_birth_iter_, new_selector_birth_iter}, /*dim=*/0);
+  this->selector_seen_count_ = torch::cat(
+      {this->selector_seen_count_, new_selector_seen_count}, /*dim=*/0);
 
   this->xyz_gradient_accum_ = torch::zeros(
       {this->getXYZ().size(0), 1}, torch::TensorOptions().device(device_type_));
@@ -692,6 +747,8 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
                               torch::TensorOptions().device(device_type_));
   this->max_radii2D_ = torch::zeros(
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
+  assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
+  assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
 }
 
 void GaussianModel::densifyAndSplit(torch::Tensor& grads,
@@ -730,10 +787,15 @@ void GaussianModel::densifyAndSplit(torch::Tensor& grads,
 
   auto new_exist_since_iter =
       this->exist_since_iter_.index({selected_pts_mask}).repeat({N});
+  auto new_selector_birth_iter =
+      this->selector_birth_iter_.index({selected_pts_mask}).repeat({N});
+  auto new_selector_seen_count =
+      this->selector_seen_count_.index({selected_pts_mask}).repeat({N});
 
   this->densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                              new_opacity, new_scaling, new_rotation,
-                             new_exist_since_iter);
+                             new_exist_since_iter, new_selector_birth_iter,
+                             new_selector_seen_count);
 
   auto prune_filter = torch::cat(
       {selected_pts_mask,
@@ -763,10 +825,15 @@ void GaussianModel::densifyAndClone(torch::Tensor& grads,
 
   auto new_exist_since_iter =
       this->exist_since_iter_.index({selected_pts_mask});
+  auto new_selector_birth_iter =
+      this->selector_birth_iter_.index({selected_pts_mask});
+  auto new_selector_seen_count =
+      this->selector_seen_count_.index({selected_pts_mask});
 
   this->densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                              new_opacities, new_scaling, new_rotation,
-                             new_exist_since_iter);
+                             new_exist_since_iter, new_selector_birth_iter,
+                             new_selector_seen_count);
 }
 
 void GaussianModel::densifyAndPrune(float max_grad,
@@ -842,6 +909,8 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
   }
 
   std::shared_ptr<tinyply::PlyData> xyz, f_dc, f_rest, opacity, scales, rot;
+  std::shared_ptr<tinyply::PlyData> selector_birth_iter,
+      selector_seen_count;
 
   try {
     xyz = ply_file.request_properties_from_element("vertex", {"x", "y", "z"});
@@ -887,6 +956,20 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
         "vertex", {"rot_0", "rot_1", "rot_2", "rot_3"});
   } catch (const std::exception& e) {
     std::cerr << "tinyply exception: " << e.what() << std::endl;
+  }
+
+  try {
+    selector_birth_iter = ply_file.request_properties_from_element(
+        "vertex", {"selector_birth_iter"});
+  } catch (const std::exception&) {
+    // Legacy PLY files do not contain selector metadata.
+  }
+
+  try {
+    selector_seen_count = ply_file.request_properties_from_element(
+        "vertex", {"selector_seen_count"});
+  } catch (const std::exception&) {
+    // Legacy PLY files do not contain selector metadata.
   }
 
   ply_file.read(instream_binary);
@@ -963,9 +1046,33 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
                        torch::TensorOptions().dtype(torch::kFloat32))
           .to(device_type_);
 
+  std::vector<int32_t> selector_birth_iter_vector(num_points, 0);
+  if (selector_birth_iter && selector_birth_iter->count == num_points) {
+    std::memcpy(selector_birth_iter_vector.data(),
+                selector_birth_iter->buffer.get(),
+                selector_birth_iter->buffer.size_bytes());
+  }
+  std::vector<int32_t> selector_seen_count_vector(num_points, 0);
+  if (selector_seen_count && selector_seen_count->count == num_points) {
+    std::memcpy(selector_seen_count_vector.data(), selector_seen_count->buffer.get(),
+                selector_seen_count->buffer.size_bytes());
+  }
+  this->selector_birth_iter_ =
+      torch::from_blob(selector_birth_iter_vector.data(), {num_points},
+                       torch::TensorOptions().dtype(torch::kInt32))
+          .clone()
+          .to(device_type_);
+  this->selector_seen_count_ =
+      torch::from_blob(selector_seen_count_vector.data(), {num_points},
+                       torch::TensorOptions().dtype(torch::kInt32))
+          .clone()
+          .to(device_type_);
+
   GAUSSIAN_MODEL_TENSORS_TO_VEC
 
   this->active_sh_degree_ = this->max_sh_degree_;
+  assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
+  assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
 }
 
 void GaussianModel::savePly(std::filesystem::path result_path) {
@@ -982,6 +1089,14 @@ void GaussianModel::savePly(std::filesystem::path result_path) {
   torch::Tensor opacities = this->opacity_.detach().cpu();
   torch::Tensor scale = this->scaling_.detach().cpu();
   torch::Tensor rotation = this->rotation_.detach().cpu();
+  torch::Tensor selector_birth_iter = this->selector_birth_iter_.detach()
+                                         .toType(torch::kInt32)
+                                         .contiguous()
+                                         .cpu();
+  torch::Tensor selector_seen_count = this->selector_seen_count_.detach()
+                                          .toType(torch::kInt32)
+                                          .contiguous()
+                                          .cpu();
 
   std::filebuf fb_binary;
   fb_binary.open(result_path, std::ios::out | std::ios::binary);
@@ -1055,6 +1170,21 @@ void GaussianModel::savePly(std::filesystem::path result_path) {
       "vertex", property_names_rotation, tinyply::Type::FLOAT32,
       rotation.size(0), reinterpret_cast<uint8_t*>(rotation.data_ptr<float>()),
       tinyply::Type::INVALID, 0);
+
+  if (selector_birth_iter.defined() && selector_seen_count.defined() &&
+      selector_birth_iter.size(0) == xyz.size(0) &&
+      selector_seen_count.size(0) == xyz.size(0)) {
+    result_file.add_properties_to_element(
+        "vertex", {"selector_birth_iter"}, tinyply::Type::INT32,
+        selector_birth_iter.size(0),
+        reinterpret_cast<uint8_t*>(selector_birth_iter.data_ptr<int32_t>()),
+        tinyply::Type::INVALID, 0);
+    result_file.add_properties_to_element(
+        "vertex", {"selector_seen_count"}, tinyply::Type::INT32,
+        selector_seen_count.size(0),
+        reinterpret_cast<uint8_t*>(selector_seen_count.data_ptr<int32_t>()),
+        tinyply::Type::INVALID, 0);
+  }
 
   // Write the file
   result_file.write(outstream_binary, true);

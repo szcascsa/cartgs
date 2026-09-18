@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include <torch/torch.h>
 
 #include <algorithm>
@@ -32,6 +32,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <opencv2/cudaimgproc.hpp>
 #include <opencv2/cudastereo.hpp>
 #include <opencv2/cudawarping.hpp>
@@ -45,6 +46,7 @@
 
 #include "ORB-SLAM3/Thirdparty/Sophus/sophus/se3.hpp"
 #include "ORB-SLAM3/include/System.h"
+#include "improvements/selector/gumbel_network.h"
 #include "gaussian_keyframe.h"
 #include "gaussian_scene.h"
 #include "operate_points.h"
@@ -95,7 +97,8 @@ class GaussianMapper {
                  std::filesystem::path gaussian_config_file_path,
                  std::filesystem::path result_dir = "",
                  int seed = 0,
-                 torch::DeviceType device_type = torch::kCUDA);
+                 torch::DeviceType device_type = torch::kCUDA,
+                 std::optional<bool> selector_enabled_override = std::nullopt);
 
   void readConfigFromFile(std::filesystem::path cfg_path);
 
@@ -129,6 +132,7 @@ class GaussianMapper {
   bool isKeepingTraining();
   bool isdoingGausPyramidTraining();
   bool isdoingInactiveGeoDensify();
+  bool isSelectorEnabled() const;
 
   void setPositionLearningRateInit(const float lr);
   void setFeatureLearningRate(const float lr);
@@ -300,6 +304,17 @@ class GaussianMapper {
   int stable_num_iter_existence_;
 
   bool do_gaus_pyramid_training_;
+  bool selector_enabled_ = false;
+  std::vector<float> selector_target_ratios_ = {0.01f, 0.05f, 0.1f, 0.15f};
+  int selector_min_age_ = 10000;
+  int selector_min_seen_ = 8000;
+  float selector_temperature_ = 1.0f;
+  float selector_learning_rate_ = 0.001f;
+  float selector_render_loss_weight_ = 1.0f;
+  float selector_ratio_loss_weight_ = 0.01f;
+  improvements::selector::GumbelNetwork selector_network_ = nullptr;
+  std::shared_ptr<torch::optim::Adam> selector_optimizer_;
+  std::mt19937 selector_ratio_rng_;
 
   std::filesystem::path result_dir_;
   int keyframe_record_interval_;

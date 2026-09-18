@@ -33,6 +33,7 @@
 
 #include "ORB-SLAM3/include/System.h"
 #include "include/gaussian_mapper.h"
+#include "improvements/selector/selector_options.h"
 #include "viewer/imgui_viewer.h"
 
 void LoadImages(const std::filesystem::path &pathImageDir,
@@ -43,6 +44,8 @@ void saveTrackingTime(std::vector<float> &vTimesTrack,
 void saveGpuPeakMemoryUsage(std::filesystem::path pathSave);
 
 int main(int argc, char **argv) {
+  const auto selector_enabled_override =
+      improvements::selector::extractSelectorEnabledOverride(argc, argv);
   if (argc != 6 && argc != 7) {
     std::cerr << std::endl
               << "Usage: " << argv[0] << " path_to_vocabulary" /*1*/
@@ -51,6 +54,7 @@ int main(int argc, char **argv) {
               << " path_to_sequence"                           /*4*/
               << " path_to_trajectory_output_directory/"       /*5*/
               << " (optional)no_viewer"                        /*6*/
+              << " [--selector-enabled 0|1]"
               << std::endl;
     return 1;
   }
@@ -97,7 +101,7 @@ int main(int argc, char **argv) {
   std::filesystem::path gaussian_cfg_path(argv[3]);
   std::shared_ptr<GaussianMapper> pGausMapper =
       std::make_shared<GaussianMapper>(pSLAM, gaussian_cfg_path, output_dir, 0,
-                                       device_type);
+                                       device_type, selector_enabled_override);
   std::thread training_thd(&GaussianMapper::run, pGausMapper.get());
 
   // Create Gaussian Viewer

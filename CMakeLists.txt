@@ -1,6 +1,20 @@
 cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 project(photo-slam LANGUAGES CXX CUDA)
 
+if(NOT CMAKE_CUDA_COMPILER_VERSION MATCHES "^11\\.8(\\.|$)")
+    message(FATAL_ERROR
+        "CaRtGS requires CUDA 11.8; found CUDA compiler ${CMAKE_CUDA_COMPILER_VERSION}")
+endif()
+
+if(DEFINED CMAKE_CUDA_ARCHITECTURES
+   AND NOT "${CMAKE_CUDA_ARCHITECTURES}" STREQUAL "86")
+    message(FATAL_ERROR
+        "CaRtGS supports only RTX 3090 (sm_86); found CUDA architectures ${CMAKE_CUDA_ARCHITECTURES}")
+endif()
+
+set(CMAKE_CUDA_ARCHITECTURES 86 CACHE STRING
+    "CUDA architecture for RTX 3090" FORCE)
+
 if(NOT CMAKE_BUILD_TYPE)
     # set(CMAKE_BUILD_TYPE Debug)
     set(CMAKE_BUILD_TYPE Release)
@@ -24,6 +38,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS} -pthread")
 # set(ENV{TORCH_USE_CUDA_DSA} 1)
 
 find_package(CUDA REQUIRED)
+if(NOT CUDA_VERSION_STRING MATCHES "^11\\.8(\\.|$)")
+    message(FATAL_ERROR
+        "CaRtGS requires the CUDA 11.8 toolkit; found ${CUDA_VERSION_STRING}")
+endif()
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV 4 REQUIRED)
 find_package(jsoncpp REQUIRED)
@@ -88,7 +106,7 @@ add_library(
     cuda_rasterizer/adam.h
     cuda_rasterizer/conv.cu
 )
-set_target_properties(cuda_rasterizer PROPERTIES CUDA_ARCHITECTURES "75;86")
+set_target_properties(cuda_rasterizer PROPERTIES CUDA_ARCHITECTURES "86")
 # target_compile_features(cuda_rasterizer PUBLIC cxx_std_17)
 target_include_directories(
     cuda_rasterizer

@@ -62,6 +62,10 @@
   this->xyz_gradient_accum_ =                                                 \
       torch::empty(0, torch::TensorOptions().device(device_type));            \
   this->denom_ = torch::empty(0, torch::TensorOptions().device(device_type)); \
+  this->selector_birth_iter_ = torch::empty(                              \
+      0, torch::TensorOptions().dtype(torch::kInt32).device(device_type));   \
+  this->selector_seen_count_ = torch::empty(                               \
+      0, torch::TensorOptions().dtype(torch::kInt32).device(device_type));   \
   GAUSSIAN_MODEL_TENSORS_TO_VEC
 
 class GaussianModel {
@@ -119,13 +123,20 @@ class GaussianModel {
 
   void prunePoints(torch::Tensor& mask);
 
+  torch::Tensor getSelectorMatureMask(int current_iteration,
+                                      int min_age = 10000,
+                                      int min_seen = 8000) const;
+  void updateSelectorSeenCount(const torch::Tensor& visibility_filter);
+
   void densificationPostfix(torch::Tensor& new_xyz,
                             torch::Tensor& new_features_dc,
                             torch::Tensor& new_features_rest,
                             torch::Tensor& new_opacities,
                             torch::Tensor& new_scaling,
                             torch::Tensor& new_rotation,
-                            torch::Tensor& new_exist_since_iter);
+                            torch::Tensor& new_exist_since_iter,
+                            torch::Tensor& new_selector_birth_iter,
+                            torch::Tensor& new_selector_seen_count);
 
   void densifyAndSplit(torch::Tensor& grads,
                        float grad_threshold,
@@ -172,6 +183,8 @@ class GaussianModel {
   torch::Tensor xyz_gradient_accum_;
   torch::Tensor denom_;
   torch::Tensor exist_since_iter_;
+  torch::Tensor selector_birth_iter_;
+  torch::Tensor selector_seen_count_;
 
   std::vector<torch::Tensor> Tensor_vec_xyz_, Tensor_vec_feature_dc_,
       Tensor_vec_feature_rest_, Tensor_vec_opacity_, Tensor_vec_scaling_,

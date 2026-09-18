@@ -23,7 +23,6 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include "simple_knn.h"
-#define __CUDACC__
 #include <cooperative_groups.h>
 #include <cooperative_groups/reduce.h>
 

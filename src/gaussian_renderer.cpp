@@ -30,7 +30,9 @@ GaussianRenderer::render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
                          torch::Tensor& bg_color,
                          torch::Tensor& override_color,
                          float scaling_modifier,
-                         bool use_override_color) {
+                         bool use_override_color,
+                         torch::Tensor selector_mask,
+                         bool detach_gaussian_parameters) {
   /* Render the scene.
 
      Background tensor (bg_color) must be on GPU!
@@ -62,8 +64,17 @@ GaussianRenderer::render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
   GaussianRasterizer rasterizer(raster_settings);
 
   auto means3D = pc->getXYZ();
+  if (detach_gaussian_parameters) means3D = means3D.detach();
   auto means2D = screenspace_points;
   auto opacity = pc->getOpacityActivation();
+  if (detach_gaussian_parameters) opacity = opacity.detach();
+  if (selector_mask.defined()) {
+    if (selector_mask.dim() != 1 || selector_mask.size(0) != opacity.size(0)) {
+      throw std::runtime_error(
+          "Selector mask must have one value per Gaussian.");
+    }
+    opacity = opacity * selector_mask.unsqueeze(1);
+  }
 
   /* If precomputed 3d covariance is provided, use it. If not, then it will be
      computed from scaling / rotation by the rasterizer.
@@ -71,9 +82,14 @@ GaussianRenderer::render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
   torch::Tensor scales, rotations, cov3D_precomp;
   if (pipe.compute_cov3D_) {
     cov3D_precomp = pc->getCovarianceActivation();
+    if (detach_gaussian_parameters) cov3D_precomp = cov3D_precomp.detach();
   } else {
     scales = pc->getScalingActivation();
     rotations = pc->getRotationActivation();
+    if (detach_gaussian_parameters) {
+      scales = scales.detach();
+      rotations = rotations.detach();
+    }
   }
 
   /* If precomputed colors are provided, use them. Otherwise, if it is desired
@@ -100,10 +116,20 @@ GaussianRenderer::render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
       if (pipe.separate_sh_) {
         dc = pc->features_dc_.clone();
         shs = pc->features_rest_.clone();
+        if (detach_gaussian_parameters) {
+          dc = dc.detach();
+          shs = shs.detach();
+        }
       } else {
         shs = pc->getFeatures();
+        if (detach_gaussian_parameters) shs = shs.detach();
       }
     }
+  }
+  if (detach_gaussian_parameters) {
+    if (colors_precomp.defined()) colors_precomp = colors_precomp.detach();
+    if (dc.defined()) dc = dc.detach();
+    if (shs.defined()) shs = shs.detach();
   }
 
   // Rasterize visible Gaussians to image, obtain their radii (on screen).

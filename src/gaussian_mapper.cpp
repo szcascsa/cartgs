@@ -18,6 +18,8 @@
 
 #include "include/gaussian_mapper.h"
 
+#include <cmath>
+
 #include "include/gaussian_renderer.h"
 #include "include/loss_utils.h"
 
@@ -42,7 +44,8 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
                                std::filesystem::path gaussian_config_file_path,
                                std::filesystem::path result_dir,
                                int seed,
-                               torch::DeviceType device_type)
+                               torch::DeviceType device_type,
+                               std::optional<bool> selector_enabled_override)
     : pSLAM_(pSLAM),
       initial_mapped_(false),
       interrupt_training_(false),
@@ -58,6 +61,7 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
   // Random seed
   std::srand(seed);
   torch::manual_seed(seed);
+  selector_ratio_rng_.seed(static_cast<std::mt19937::result_type>(seed));
 
   // Device
   if (device_type == torch::kCUDA && torch::cuda::is_available()) {
@@ -75,6 +79,9 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
   CHECK_DIRECTORY_AND_CREATE_IF_NOT_EXISTS(result_dir)
   config_file_path_ = gaussian_config_file_path;
   readConfigFromFile(gaussian_config_file_path);
+  if (selector_enabled_override.has_value()) {
+    selector_enabled_ = *selector_enabled_override;
+  }
 
   std::vector<float> bg_color;
   if (model_params_.white_background_)
@@ -91,6 +98,13 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
   // Initialize scene and model
   gaussians_ = std::make_shared<GaussianModel>(model_params_);
   scene_ = std::make_shared<GaussianScene>(model_params_);
+  if (selector_enabled_) {
+    selector_network_ = improvements::selector::GumbelNetwork();
+    selector_network_->to(torch::Device(device_type_));
+    torch::optim::AdamOptions selector_adam_options(selector_learning_rate_);
+    selector_optimizer_.reset(new torch::optim::Adam(
+        selector_network_->parameters(), selector_adam_options));
+  }
 
   // Mode
   if (!pSLAM) {
@@ -260,6 +274,42 @@ void GaussianMapper::readConfigFromFile(std::filesystem::path cfg_path) {
   model_params_.white_background_ =
       (settings_file["Model.white_background"].operator int()) != 0;
   model_params_.eval_ = (settings_file["Model.eval"].operator int()) != 0;
+
+  const cv::FileNode selector_enabled_node = settings_file["Selector.enabled"];
+  selector_enabled_ = !selector_enabled_node.empty() &&
+                      selector_enabled_node.operator int() != 0;
+  const cv::FileNode selector_ratios_node =
+      settings_file["Selector.target_ratios"];
+  if (!selector_ratios_node.empty() && selector_ratios_node.isSeq()) {
+    std::vector<float> configured_ratios;
+    for (auto ratio_it = selector_ratios_node.begin();
+         ratio_it != selector_ratios_node.end(); ++ratio_it) {
+      const float ratio = (*ratio_it).operator float();
+      if (ratio > 0.0f && ratio <= 1.0f) configured_ratios.push_back(ratio);
+    }
+    if (!configured_ratios.empty()) selector_target_ratios_ = configured_ratios;
+  }
+  const cv::FileNode selector_min_age_node = settings_file["Selector.min_age"];
+  if (!selector_min_age_node.empty())
+    selector_min_age_ = selector_min_age_node.operator int();
+  const cv::FileNode selector_min_seen_node = settings_file["Selector.min_seen"];
+  if (!selector_min_seen_node.empty())
+    selector_min_seen_ = selector_min_seen_node.operator int();
+  const cv::FileNode selector_temperature_node =
+      settings_file["Selector.temperature"];
+  if (!selector_temperature_node.empty())
+    selector_temperature_ = selector_temperature_node.operator float();
+  const cv::FileNode selector_lr_node = settings_file["Selector.learning_rate"];
+  if (!selector_lr_node.empty())
+    selector_learning_rate_ = selector_lr_node.operator float();
+  const cv::FileNode selector_render_weight_node =
+      settings_file["Selector.render_loss_weight"];
+  if (!selector_render_weight_node.empty())
+    selector_render_loss_weight_ = selector_render_weight_node.operator float();
+  const cv::FileNode selector_ratio_weight_node =
+      settings_file["Selector.ratio_loss_weight"];
+  if (!selector_ratio_weight_node.empty())
+    selector_ratio_loss_weight_ = selector_ratio_weight_node.operator float();
 
   // Pipeline Parameters
   z_near_ = settings_file["Camera.z_near"].operator float();
@@ -680,6 +730,7 @@ void GaussianMapper::trainForOneIteration() {
   auto viewspace_point_tensor = std::get<1>(render_pkg);
   auto visibility_filter = std::get<2>(render_pkg);
   auto radii = std::get<3>(render_pkg);
+  if (selector_network_) gaussians_->updateSelectorSeenCount(visibility_filter);
 
   // Loss
   auto l1_loss =
@@ -687,19 +738,81 @@ void GaussianMapper::trainForOneIteration() {
   auto Ll1 = l1_loss(rendered_image, gt_image, 1.0f);
   auto Lssim = loss_utils::fast_ssim(rendered_image, gt_image);
   float lambda_dssim = lambdaDssim();
-  auto loss = (1.0 - lambda_dssim) * Ll1 + lambda_dssim * (1.0 - Lssim);
-  if (opt_params_.opacity_reg_) {
-    loss += opt_params_.opacity_reg_ *
-            gaussians_->getOpacityActivation().abs().mean();
+  auto full_loss =
+      (1.0 - lambda_dssim) * Ll1 + lambda_dssim * (1.0 - Lssim);
+  auto selector_loss = torch::zeros_like(full_loss);
+  if (selector_optimizer_) selector_optimizer_->zero_grad();
+  if (selector_network_) {
+    std::uniform_int_distribution<std::size_t> ratio_distribution(
+        0, selector_target_ratios_.size() - 1);
+    const float target_ratio =
+        selector_target_ratios_[ratio_distribution(selector_ratio_rng_)];
+    const auto num_gaussians = gaussians_->getXYZ().size(0);
+    auto target_ratio_tensor = torch::full(
+        {num_gaussians, 1}, target_ratio,
+        torch::TensorOptions().dtype(torch::kFloat32).device(device_type_));
+    auto selector_output = selector_network_->forward(
+        gaussians_->getXYZ().detach(),
+        gaussians_->getRotationActivation().detach(),
+        gaussians_->getScalingActivation().detach(), target_ratio_tensor,
+        selector_temperature_);
+    auto selector_soft_score = std::get<2>(selector_output);
+    auto mature_mask = gaussians_->getSelectorMatureMask(
+        getIteration(), selector_min_age_, selector_min_seen_);
+    auto protected_mask = ~mature_mask;
+    const int64_t mature_count = mature_mask.sum().item<int64_t>();
+    const int64_t selected_count =
+        mature_count > 0
+            ? static_cast<int64_t>(std::floor(
+                  static_cast<double>(target_ratio) *
+                  static_cast<double>(mature_count)))
+            : 0;
+
+    // Protected points stay active; only mature points participate in Top-K.
+    auto hard_mask = torch::zeros_like(selector_soft_score);
+    hard_mask.index_put_({protected_mask}, 1.0f);
+    if (selected_count > 0) {
+      auto mature_indices = torch::nonzero(mature_mask).squeeze(1);
+      auto mature_scores = selector_soft_score.index({mature_indices});
+      auto topk_result = torch::topk(mature_scores, selected_count);
+      auto selected_indices =
+          mature_indices.index({std::get<1>(topk_result)});
+      hard_mask.index_put_({selected_indices}, 1.0f);
+    }
+    auto selector_mask =
+        hard_mask - selector_soft_score.detach() + selector_soft_score;
+    selector_mask = torch::where(protected_mask,
+                                 torch::ones_like(selector_mask),
+                                 selector_mask);
+    auto selected_render_pkg = GaussianRenderer::render(
+        viewpoint_cam, image_height, image_width, gaussians_, pipe_params_,
+        background_, override_color_, 1.0f, false, selector_mask, true);
+    auto selected_rendered_image = std::get<0>(selected_render_pkg);
+    auto selected_l1 = l1_loss(selected_rendered_image, gt_image, 1.0f);
+    auto ratio_loss = torch::zeros_like(full_loss);
+    if (mature_count > 0) {
+      auto mature_selected_mask = selector_mask.index({mature_mask});
+      ratio_loss =
+          torch::abs(mature_selected_mask.mean() - target_ratio);
+    }
+    selector_loss = selector_render_loss_weight_ * selected_l1 +
+                    selector_ratio_loss_weight_ * ratio_loss;
   }
-  loss.backward();
+  if (opt_params_.opacity_reg_) {
+    full_loss += opt_params_.opacity_reg_ *
+                 gaussians_->getOpacityActivation().abs().mean();
+  }
+  // Keep the adaptive keyframe/Gaussian channel separate from selector loss.
+  full_loss.backward();
+  if (selector_network_) selector_loss.backward();
 
   torch::cuda::synchronize();
 
   {
     torch::NoGradGuard no_grad;
-    kfs_loss_[viewpoint_cam->fid_] = loss.item().toFloat();
-    ema_loss_for_log_ = 0.4f * loss.item().toFloat() + 0.6 * ema_loss_for_log_;
+    const float full_loss_value = full_loss.item().toFloat();
+    kfs_loss_[viewpoint_cam->fid_] = full_loss_value;
+    ema_loss_for_log_ = 0.4f * full_loss_value + 0.6 * ema_loss_for_log_;
 
     if (keyframe_record_interval_ &&
         getIteration() % keyframe_record_interval_ == 0)
@@ -744,7 +857,7 @@ void GaussianMapper::trainForOneIteration() {
     // Log and save
     if (training_report_interval_ &&
         (getIteration() % training_report_interval_ == 0))
-      trainingReport(getIteration(), opt_params_.iterations_, Ll1, loss,
+      trainingReport(getIteration(), opt_params_.iterations_, Ll1, full_loss,
                      ema_loss_for_log_, iter_time, *gaussians_, *scene_,
                      pipe_params_, background_);
     if ((all_keyframes_record_interval_ &&
@@ -759,6 +872,7 @@ void GaussianMapper::trainForOneIteration() {
     if (getIteration() < opt_params_.iterations_ ||
         opt_params_.iterations_ == -1) {
       gaussians_->optimizer_->step();
+      if (selector_optimizer_) selector_optimizer_->step();
       gaussians_->optimizer_->zero_grad(true);
     }
   }
@@ -1769,6 +1883,7 @@ bool GaussianMapper::isdoingInactiveGeoDensify() {
   std::unique_lock<std::mutex> lock(mutex_settings_);
   return inactive_geo_densify_;
 }
+bool GaussianMapper::isSelectorEnabled() const { return selector_enabled_; }
 
 void GaussianMapper::setPositionLearningRateInit(const float lr) {
   std::unique_lock<std::mutex> lock(mutex_settings_);

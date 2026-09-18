@@ -27,9 +27,9 @@ from evo.tools import plot
 import matplotlib.pyplot as plt
 import copy
 
-calc_psnr = PeakSignalNoiseRatio().cuda()
-calc_ssim = StructuralSimilarityIndexMeasure().cuda()
-calc_lpips = LearnedPerceptualImagePatchSimilarity().cuda()
+calc_psnr = PeakSignalNoiseRatio(data_range=1.0).cuda()
+calc_ssim = StructuralSimilarityIndexMeasure(data_range=1.0).cuda()
+calc_lpips = LearnedPerceptualImagePatchSimilarity(normalize=True).cuda()
 
 
 def loadReplica(path):

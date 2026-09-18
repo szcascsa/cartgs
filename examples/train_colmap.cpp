@@ -28,6 +28,7 @@
 #include <unordered_map>
 
 #include "include/gaussian_mapper.h"
+#include "improvements/selector/selector_options.h"
 #include "third_party/colmap/utils/endian.h"
 #include "viewer/imgui_viewer.h"
 
@@ -251,6 +252,8 @@ void readColmapScene(std::shared_ptr<GaussianMapper> pMapper) {
 }
 
 int main(int argc, char** argv) {
+  const auto selector_enabled_override =
+      improvements::selector::extractSelectorEnabledOverride(argc, argv);
   if (argc != 4 && argc != 5) {
     std::cerr << std::endl
               << "Usage: " << argv[0]
@@ -258,6 +261,7 @@ int main(int argc, char** argv) {
               << " path_to_colmap_data_directory/"    /*2*/
               << " path_to_output_directory/"         /*3*/
               << " (optional)no_viewer"               /*4*/
+              << " [--selector-enabled 0|1]"
               << std::endl;
     return 1;
   }
@@ -282,8 +286,9 @@ int main(int argc, char** argv) {
   // Create GaussianMapper
   std::filesystem::path gaussian_cfg_path(argv[1]);
   std::shared_ptr<GaussianMapper> pGausMapper =
-      std::make_shared<GaussianMapper>(nullptr, gaussian_cfg_path, output_dir,
-                                       0, device_type);
+      std::make_shared<GaussianMapper>(
+          nullptr, gaussian_cfg_path, output_dir, 0, device_type,
+          selector_enabled_override);
 
   // Read the colmap scene
   pGausMapper->setSensorType(MONOCULAR);

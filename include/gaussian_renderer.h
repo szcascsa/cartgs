@@ -37,5 +37,7 @@ class GaussianRenderer {
          torch::Tensor& bg_color,
          torch::Tensor& override_color,
          float scaling_modifier = 1.0f,
-         bool has_override_color = false);
+         bool has_override_color = false,
+         torch::Tensor selector_mask = torch::Tensor(),
+         bool detach_gaussian_parameters = false);
 };

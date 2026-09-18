@@ -25,15 +25,19 @@
 #include <memory>
 
 #include "include/gaussian_mapper.h"
+#include "improvements/selector/selector_options.h"
 #include "viewer/imgui_viewer.h"
 
 int main(int argc, char** argv) {
+  const auto selector_enabled_override =
+      improvements::selector::extractSelectorEnabledOverride(argc, argv);
   if (argc != 4) {
     std::cerr << std::endl
               << "Usage: " << argv[0]
               << " path_to_gaussian_mapping_settings" /*1*/
               << " path_to_camera_parameters"         /*2*/
               << " path_to_result_ply_file"           /*3*/
+              << " [--selector-enabled 0|1]"
               << std::endl;
     return 1;
   }
@@ -54,7 +58,8 @@ int main(int argc, char** argv) {
   std::filesystem::path result_ply_path(argv[3]);
   std::shared_ptr<GaussianMapper> pGausMapper =
       std::make_shared<GaussianMapper>(nullptr, gaussian_cfg_path,
-                                       std::filesystem::path(), 0, device_type);
+                                       std::filesystem::path(), 0, device_type,
+                                       selector_enabled_override);
   pGausMapper->loadPly(result_ply_path, camera_path);
 
   // Create Gaussian Viewer

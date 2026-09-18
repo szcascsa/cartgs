@@ -13,13 +13,18 @@ Sun Yat-Sen University<sup>1</sup>, The University of Hong Kong<sup>2</sup>, WeR
 ### Dependencies
 
 ```
-sudo apt install libeigen3-dev libboost-all-dev libjsoncpp-dev libopengl-dev mesa-utils libglfw3-dev libglm-dev
+sudo apt install build-essential gcc-9 g++-9 ninja-build pkg-config wget unzip tar \
+    libboost-serialization-dev libssl-dev libglm-dev libglfw3-dev \
+    libopengl-dev libgl1-mesa-dev
 ```
+
+`build.sh` installs its required Eigen and JsonCpp versions under `third_party/install`.
 
 ## Installation of CaRtGS
 ``` bash
 git clone --recursive https://github.com/DapengFeng/cartgs.git
 cd cartgs/
+./build.sh --check
 ./build.sh
 ```
 
@@ -80,8 +85,9 @@ results
 
 ### Install required python package
 ``` bash
-conda create -n cartgs python=3.10.12 pytorch=2.3.1 torchvision pytorch-cuda=12.1 opencv -c pytorch -c nvidia -c conda-forge
+conda create -n cartgs python=3.10.12 opencv -c conda-forge
 conda activate cartgs
+pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 --index-url https://download.pytorch.org/whl/cu118
 pip install -r python/requirement.txt
 ```
 
