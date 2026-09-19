@@ -25,6 +25,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
 #include <ctime>
 #include <filesystem>
 #include <fstream>
@@ -182,6 +183,18 @@ class GaussianMapper {
   void generateKfidRandomShuffle();
   std::shared_ptr<GaussianKeyframe> useOneRandomSlidingWindowKeyframe();
   std::shared_ptr<GaussianKeyframe> useOneRandomKeyframe();
+  bool shouldRunSelectorReplay() const;
+  std::vector<std::shared_ptr<GaussianKeyframe>> sampleReplayKeyframes(
+      const std::shared_ptr<GaussianKeyframe>& current_kf,
+      int num_keyframes);
+  void trainMappingIteration(std::shared_ptr<GaussianKeyframe> viewpoint_cam);
+  void trainSelectorReplay(std::shared_ptr<GaussianKeyframe> replay_kf);
+  bool trainSelectorUpdate(std::shared_ptr<GaussianKeyframe> viewpoint_cam,
+                           int image_height,
+                           int image_width,
+                           torch::Tensor& gt_image,
+                           std::mt19937& ratio_rng,
+                           bool step_optimizer);
   void increaseKeyframeTimesOfUse(std::shared_ptr<GaussianKeyframe> pkf,
                                   int times);
   void cullKeyframes();
@@ -271,6 +284,8 @@ class GaussianMapper {
   bool loop_closure_iteration_;
   bool keep_training_ = false;
   int default_sh_ = 0;
+  std::uint64_t mapping_iter_ = 0;
+  std::uint64_t selector_step_ = 0;
 
   // Settings
   SystemSensorType sensor_type_;
@@ -313,9 +328,15 @@ class GaussianMapper {
   float selector_learning_rate_ = 0.001f;
   float selector_render_loss_weight_ = 1.0f;
   float selector_ratio_loss_weight_ = 0.01f;
+  bool selector_replay_enabled_ = true;
+  int selector_replay_interval_ = 300;
+  int selector_replay_num_frames_ = 2;
+  int selector_replay_seed_ = 0;
   improvements::selector::GumbelNetwork selector_network_ = nullptr;
   std::shared_ptr<torch::optim::Adam> selector_optimizer_;
   std::mt19937 selector_ratio_rng_;
+  std::mt19937 selector_replay_frame_rng_;
+  std::mt19937 selector_replay_ratio_rng_;
 
   std::filesystem::path result_dir_;
   int keyframe_record_interval_;

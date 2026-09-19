@@ -79,6 +79,11 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
   CHECK_DIRECTORY_AND_CREATE_IF_NOT_EXISTS(result_dir)
   config_file_path_ = gaussian_config_file_path;
   readConfigFromFile(gaussian_config_file_path);
+  selector_replay_frame_rng_.seed(
+      static_cast<std::mt19937::result_type>(selector_replay_seed_));
+  selector_replay_ratio_rng_.seed(
+      static_cast<std::mt19937::result_type>(selector_replay_seed_) ^
+      0x9e3779b9U);
   if (selector_enabled_override.has_value()) {
     selector_enabled_ = *selector_enabled_override;
   }
@@ -314,6 +319,31 @@ void GaussianMapper::readConfigFromFile(std::filesystem::path cfg_path) {
       settings_file["Selector.ratio_loss_weight"];
   if (!selector_ratio_weight_node.empty())
     selector_ratio_loss_weight_ = selector_ratio_weight_node.operator float();
+  const cv::FileNode selector_replay_enabled_node =
+      settings_file["Selector.replay_enabled"];
+  if (!selector_replay_enabled_node.empty())
+    selector_replay_enabled_ =
+        selector_replay_enabled_node.operator int() != 0;
+  const cv::FileNode selector_replay_interval_node =
+      settings_file["Selector.replay_interval"];
+  if (!selector_replay_interval_node.empty()) {
+    const int replay_interval = selector_replay_interval_node.operator int();
+    if (replay_interval >= 0) selector_replay_interval_ = replay_interval;
+  }
+  const cv::FileNode selector_replay_num_frames_node =
+      settings_file["Selector.replay_num_frames"];
+  if (!selector_replay_num_frames_node.empty()) {
+    const int replay_num_frames =
+        selector_replay_num_frames_node.operator int();
+    if (replay_num_frames >= 0)
+      selector_replay_num_frames_ = replay_num_frames;
+  }
+  const cv::FileNode selector_replay_seed_node =
+      settings_file["Selector.replay_seed"];
+  if (!selector_replay_seed_node.empty()) {
+    const int replay_seed = selector_replay_seed_node.operator int();
+    if (replay_seed >= 0) selector_replay_seed_ = replay_seed;
+  }
 
   // Pipeline Parameters
   z_near_ = settings_file["Camera.z_near"].operator float();
@@ -674,15 +704,27 @@ void GaussianMapper::trainColmap() {
  */
 void GaussianMapper::trainForOneIteration() {
   increaseIteration(1);
-  auto iter_start_timing = std::chrono::steady_clock::now();
-
-  // Pick a random Camera
   std::shared_ptr<GaussianKeyframe> viewpoint_cam =
       useOneRandomSlidingWindowKeyframe();
   if (!viewpoint_cam) {
     increaseIteration(-1);
     return;
   }
+
+  if (shouldRunSelectorReplay()) {
+    auto replay_keyframes = sampleReplayKeyframes(
+        viewpoint_cam, selector_replay_num_frames_);
+    for (const auto& replay_kf : replay_keyframes)
+      trainSelectorReplay(replay_kf);
+  }
+
+  trainMappingIteration(viewpoint_cam);
+  ++mapping_iter_;
+}
+
+void GaussianMapper::trainMappingIteration(
+    std::shared_ptr<GaussianKeyframe> viewpoint_cam) {
+  auto iter_start_timing = std::chrono::steady_clock::now();
 
   writeKeyframeUsedTimes(result_dir_ / "used_times");
 
@@ -744,91 +786,15 @@ void GaussianMapper::trainForOneIteration() {
   float lambda_dssim = lambdaDssim();
   auto full_loss =
       (1.0 - lambda_dssim) * Ll1 + lambda_dssim * (1.0 - Lssim);
-  auto selector_loss = torch::zeros_like(full_loss);
-  bool has_selector_loss = false;
-  if (selector_optimizer_) selector_optimizer_->zero_grad();
-  if (selector_network_) {
-    std::uniform_int_distribution<std::size_t> ratio_distribution(
-        0, selector_target_ratios_.size() - 1);
-    const float target_ratio =
-        selector_target_ratios_[ratio_distribution(selector_ratio_rng_)];
-    const auto num_gaussians = gaussians_->getXYZ().size(0);
-    auto target_ratio_tensor = torch::full(
-        {num_gaussians, 1}, target_ratio,
-        torch::TensorOptions().dtype(torch::kFloat32).device(device_type_));
-    auto selector_output = selector_network_->forward(
-        gaussians_->getXYZ().detach(),
-        gaussians_->getRotationActivation().detach(),
-        gaussians_->getScalingActivation().detach(), target_ratio_tensor,
-        selector_temperature_);
-    auto selector_soft_score = std::get<2>(selector_output);
-    auto mature_mask = selector_protection_enabled_
-                           ? gaussians_->getSelectorMatureMask(
-                                 getIteration(), selector_min_age_,
-                                 selector_min_seen_)
-                           : torch::ones(
-                                 {num_gaussians},
-                                 torch::TensorOptions()
-                                     .dtype(torch::kBool)
-                                     .device(device_type_));
-    auto protected_mask = ~mature_mask;
-    const int64_t mature_count = mature_mask.sum().item<int64_t>();
-    const int64_t selected_count =
-        mature_count > 0
-            ? static_cast<int64_t>(std::floor(
-                  static_cast<double>(target_ratio) *
-                  static_cast<double>(mature_count)))
-            : 0;
-
-    // Protected points stay active; only mature points participate in Top-K.
-    // Before the first mature Gaussian exists, a selected render is identical
-    // to the full render and has zero selector gradient.  Avoid launching a
-    // second full-size rasterizer in that phase.
-    if (mature_count > 0) {
-      auto hard_mask = torch::zeros_like(selector_soft_score);
-      hard_mask.index_put_({protected_mask}, 1.0f);
-      if (selected_count > 0) {
-        auto mature_indices = torch::nonzero(mature_mask).squeeze(1);
-        auto mature_scores = selector_soft_score.index({mature_indices});
-        auto topk_result = torch::topk(mature_scores, selected_count);
-        auto selected_indices =
-            mature_indices.index({std::get<1>(topk_result)});
-        hard_mask.index_put_({selected_indices}, 1.0f);
-      }
-      auto selector_mask =
-          hard_mask - selector_soft_score.detach() + selector_soft_score;
-      selector_mask = torch::where(protected_mask,
-                                   torch::ones_like(selector_mask),
-                                   selector_mask);
-      auto mature_selected_mask = selector_mask.index({mature_mask});
-      auto ratio_loss =
-          torch::abs(mature_selected_mask.mean() - target_ratio);
-
-      // floor(ratio * mature_count) may be zero for a small mature set.  In
-      // that case, all points can be dropped and the CUDA rasterizer has no
-      // valid tile to process; train the ratio term without rendering.
-      const int64_t active_count = hard_mask.sum().item<int64_t>();
-      if (active_count > 0) {
-        auto selected_render_pkg = GaussianRenderer::render(
-            viewpoint_cam, image_height, image_width, gaussians_, pipe_params_,
-            background_, override_color_, 1.0f, false, selector_mask, true);
-        auto selected_rendered_image = std::get<0>(selected_render_pkg);
-        auto selected_l1 = l1_loss(selected_rendered_image, gt_image, 1.0f);
-        selector_loss = selector_render_loss_weight_ * selected_l1 +
-                        selector_ratio_loss_weight_ * ratio_loss;
-      } else {
-        selector_loss = selector_ratio_loss_weight_ * ratio_loss;
-      }
-      has_selector_loss = true;
-    }
-  }
   if (opt_params_.opacity_reg_) {
     full_loss += opt_params_.opacity_reg_ *
                  gaussians_->getOpacityActivation().abs().mean();
   }
   // Keep the adaptive keyframe/Gaussian channel separate from selector loss.
   full_loss.backward();
-  if (selector_network_ && has_selector_loss) selector_loss.backward();
+  const bool has_selector_update =
+      trainSelectorUpdate(viewpoint_cam, image_height, image_width, gt_image,
+                          selector_ratio_rng_, false);
 
   torch::cuda::synchronize();
 
@@ -896,10 +862,145 @@ void GaussianMapper::trainForOneIteration() {
     if (getIteration() < opt_params_.iterations_ ||
         opt_params_.iterations_ == -1) {
       gaussians_->optimizer_->step();
-      if (selector_optimizer_) selector_optimizer_->step();
+      if (has_selector_update) {
+        selector_optimizer_->step();
+        ++selector_step_;
+      }
       gaussians_->optimizer_->zero_grad(true);
     }
   }
+}
+
+bool GaussianMapper::shouldRunSelectorReplay() const {
+  return selector_replay_enabled_ && selector_network_ && selector_optimizer_ &&
+         selector_replay_interval_ > 0 && selector_replay_num_frames_ > 0 &&
+         mapping_iter_ > 0 &&
+         mapping_iter_ %
+                 static_cast<std::uint64_t>(selector_replay_interval_) ==
+             0;
+}
+
+std::vector<std::shared_ptr<GaussianKeyframe>>
+GaussianMapper::sampleReplayKeyframes(
+    const std::shared_ptr<GaussianKeyframe>& current_kf,
+    int num_keyframes) {
+  std::vector<std::shared_ptr<GaussianKeyframe>> candidates;
+  if (!current_kf || num_keyframes <= 0) return candidates;
+
+  const auto keyframe_snapshot = scene_->getAllKeyframes();
+  candidates.reserve(keyframe_snapshot.size());
+  for (const auto& [fid, keyframe] : keyframe_snapshot) {
+    if (keyframe && fid != current_kf->fid_) candidates.push_back(keyframe);
+  }
+
+  std::shuffle(candidates.begin(), candidates.end(),
+               selector_replay_frame_rng_);
+  const std::size_t selected_count = std::min(
+      candidates.size(), static_cast<std::size_t>(num_keyframes));
+  candidates.resize(selected_count);
+  return candidates;
+}
+
+void GaussianMapper::trainSelectorReplay(
+    std::shared_ptr<GaussianKeyframe> replay_kf) {
+  if (!replay_kf || !selector_network_ || !selector_optimizer_) return;
+
+  // Replay does not consume the keyframe's pyramid schedule or update any
+  // Gaussian state.  GI teacher construction is added at this boundary later.
+  const int image_height = replay_kf->image_height_;
+  const int image_width = replay_kf->image_width_;
+  auto gt_image = replay_kf->original_image_.cuda();
+
+  std::unique_lock<std::mutex> lock_render(mutex_render_);
+  trainSelectorUpdate(replay_kf, image_height, image_width, gt_image,
+                      selector_replay_ratio_rng_, true);
+}
+
+bool GaussianMapper::trainSelectorUpdate(
+    std::shared_ptr<GaussianKeyframe> viewpoint_cam,
+    int image_height,
+    int image_width,
+    torch::Tensor& gt_image,
+    std::mt19937& ratio_rng,
+    bool step_optimizer) {
+  if (!viewpoint_cam || !selector_network_ || !selector_optimizer_ ||
+      selector_target_ratios_.empty())
+    return false;
+  if (getIteration() >= opt_params_.iterations_ &&
+      opt_params_.iterations_ != -1)
+    return false;
+
+  const auto num_gaussians = gaussians_->getXYZ().size(0);
+  if (num_gaussians == 0) return false;
+
+  selector_optimizer_->zero_grad();
+  std::uniform_int_distribution<std::size_t> ratio_distribution(
+      0, selector_target_ratios_.size() - 1);
+  const float target_ratio =
+      selector_target_ratios_[ratio_distribution(ratio_rng)];
+  auto target_ratio_tensor = torch::full(
+      {num_gaussians, 1}, target_ratio,
+      torch::TensorOptions().dtype(torch::kFloat32).device(device_type_));
+  auto selector_output = selector_network_->forward(
+      gaussians_->getXYZ().detach(), gaussians_->getRotationActivation().detach(),
+      gaussians_->getScalingActivation().detach(), target_ratio_tensor,
+      selector_temperature_);
+  auto selector_soft_score = std::get<2>(selector_output);
+  auto mature_mask = selector_protection_enabled_
+                         ? gaussians_->getSelectorMatureMask(
+                               getIteration(), selector_min_age_,
+                               selector_min_seen_)
+                         : torch::ones(
+                               {num_gaussians},
+                               torch::TensorOptions()
+                                   .dtype(torch::kBool)
+                                   .device(device_type_));
+  const int64_t mature_count = mature_mask.sum().item<int64_t>();
+  if (mature_count == 0) return false;
+
+  const auto protected_mask = ~mature_mask;
+  const int64_t selected_count = static_cast<int64_t>(std::floor(
+      static_cast<double>(target_ratio) * static_cast<double>(mature_count)));
+  auto hard_mask = torch::zeros_like(selector_soft_score);
+  hard_mask.index_put_({protected_mask}, 1.0f);
+  if (selected_count > 0) {
+    auto mature_indices = torch::nonzero(mature_mask).squeeze(1);
+    auto mature_scores = selector_soft_score.index({mature_indices});
+    auto topk_result = torch::topk(mature_scores, selected_count);
+    auto selected_indices = mature_indices.index({std::get<1>(topk_result)});
+    hard_mask.index_put_({selected_indices}, 1.0f);
+  }
+
+  auto selector_mask =
+      hard_mask - selector_soft_score.detach() + selector_soft_score;
+  selector_mask = torch::where(protected_mask, torch::ones_like(selector_mask),
+                               selector_mask);
+  auto mature_selected_mask = selector_mask.index({mature_mask});
+  auto ratio_loss = torch::abs(mature_selected_mask.mean() - target_ratio);
+
+  auto l1_loss =
+      opt_params_.smooth_l1_ ? loss_utils::smooth_l1_loss : loss_utils::l1_loss;
+  torch::Tensor selector_loss;
+  const int64_t active_count = hard_mask.sum().item<int64_t>();
+  if (active_count > 0) {
+    auto selected_render_pkg = GaussianRenderer::render(
+        viewpoint_cam, image_height, image_width, gaussians_, pipe_params_,
+        background_, override_color_, 1.0f, false, selector_mask, true);
+    auto selected_rendered_image = std::get<0>(selected_render_pkg);
+    auto selected_l1 = l1_loss(selected_rendered_image, gt_image, 1.0f);
+    selector_loss = selector_render_loss_weight_ * selected_l1 +
+                    selector_ratio_loss_weight_ * ratio_loss;
+  } else {
+    selector_loss = selector_ratio_loss_weight_ * ratio_loss;
+  }
+
+  selector_loss.backward();
+  if (step_optimizer) {
+    torch::NoGradGuard no_grad;
+    selector_optimizer_->step();
+    ++selector_step_;
+  }
+  return true;
 }
 
 bool GaussianMapper::isStopped() {

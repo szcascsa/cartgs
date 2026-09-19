@@ -18,6 +18,10 @@ Selector.temperature: 1.0
 Selector.learning_rate: 0.001
 Selector.render_loss_weight: 1.0
 Selector.ratio_loss_weight: 0.01
+Selector.replay_enabled: 1
+Selector.replay_interval: 300
+Selector.replay_num_frames: 2
+Selector.replay_seed: 0
 
 #--------------------------------------------------------------------------------------------
 # Pipeline Parameters
