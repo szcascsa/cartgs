@@ -19,11 +19,14 @@
 #include <torch/torch.h>
 
 #include <algorithm>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "ORB-SLAM3/Thirdparty/Sophus/sophus/se3.hpp"
@@ -70,6 +73,11 @@
 
 class GaussianModel {
  public:
+  using OnlineGIAppendCallback = std::function<void(std::int64_t)>;
+  using OnlineGIPruneCallback =
+      std::function<void(const torch::Tensor& survivor_mask)>;
+  using OnlineGIResetCallback = std::function<void(std::int64_t)>;
+
   explicit GaussianModel(const int sh_degree);
   explicit GaussianModel(const GaussianModelParams& model_params);
 
@@ -163,6 +171,10 @@ class GaussianModel {
   void saveSelectorMetadataPly(std::filesystem::path result_path);
   void saveSparsePointsPly(std::filesystem::path result_path);
 
+  void setOnlineGIStateCallbacks(OnlineGIAppendCallback on_append,
+                                 OnlineGIPruneCallback on_prune,
+                                 OnlineGIResetCallback on_reset);
+
   float percentDense();
   void setPercentDense(const float percent_dense);
 
@@ -207,4 +219,8 @@ class GaussianModel {
   int max_steps_;
 
   std::mutex mutex_settings_;
+
+  OnlineGIAppendCallback online_gi_append_callback_;
+  OnlineGIPruneCallback online_gi_prune_callback_;
+  OnlineGIResetCallback online_gi_reset_callback_;
 };

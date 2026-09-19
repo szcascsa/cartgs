@@ -51,6 +51,7 @@
 #include "gaussian_keyframe.h"
 #include "gaussian_scene.h"
 #include "operate_points.h"
+#include "online_gi.h"
 #include "stereo_vision.h"
 #include "tensor_utils.h"
 
@@ -333,9 +334,8 @@ class GaussianMapper {
   int selector_replay_num_frames_ = 2;
   int selector_replay_seed_ = 0;
 
-  // Phase 3 owns allocation and update of persistent Online GI state.
-  torch::Tensor gi_fast_;
-  torch::Tensor gi_slow_;
+  OnlineGIConfig online_gi_config_;
+  std::unique_ptr<OnlineGIManager> online_gi_;
 
   improvements::selector::GumbelNetwork selector_network_ = nullptr;
   std::shared_ptr<torch::optim::Adam> selector_optimizer_;

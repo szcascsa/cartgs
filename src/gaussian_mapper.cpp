@@ -103,6 +103,20 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
   // Initialize scene and model
   gaussians_ = std::make_shared<GaussianModel>(model_params_);
   scene_ = std::make_shared<GaussianScene>(model_params_);
+  if (online_gi_config_.enabled) {
+    online_gi_ = std::make_unique<OnlineGIManager>(device_type_,
+                                                   online_gi_config_);
+    gaussians_->setOnlineGIStateCallbacks(
+        [this](std::int64_t count) {
+          online_gi_->appendGaussians(count);
+        },
+        [this](const torch::Tensor& survivor_mask) {
+          online_gi_->pruneGaussians(survivor_mask);
+        },
+        [this](std::int64_t count) {
+          online_gi_->resetForGaussianCount(count);
+        });
+  }
   if (selector_enabled_) {
     selector_network_ = improvements::selector::GumbelNetwork();
     selector_network_->to(torch::Device(device_type_));
@@ -344,6 +358,21 @@ void GaussianMapper::readConfigFromFile(std::filesystem::path cfg_path) {
     const int replay_seed = selector_replay_seed_node.operator int();
     if (replay_seed >= 0) selector_replay_seed_ = replay_seed;
   }
+
+  const cv::FileNode online_gi_enabled_node = settings_file["OnlineGI.enable"];
+  if (!online_gi_enabled_node.empty())
+    online_gi_config_.enabled = online_gi_enabled_node.operator int() != 0;
+  const cv::FileNode online_gi_decay_node =
+      settings_file["OnlineGI.fast_ema_decay"];
+  if (!online_gi_decay_node.empty())
+    online_gi_config_.fast_ema_decay = online_gi_decay_node.operator float();
+  const cv::FileNode online_gi_weight_node =
+      settings_file["OnlineGI.fast_weight"];
+  if (!online_gi_weight_node.empty())
+    online_gi_config_.fast_weight = online_gi_weight_node.operator float();
+  const cv::FileNode online_gi_eps_node = settings_file["OnlineGI.eps"];
+  if (!online_gi_eps_node.empty())
+    online_gi_config_.eps = online_gi_eps_node.operator float();
 
   // Pipeline Parameters
   z_near_ = settings_file["Camera.z_near"].operator float();
@@ -769,7 +798,7 @@ void GaussianMapper::trainMappingIteration(
   // Render
   std::cout << "\r[Gaussian Mapper] Rendering "
             << gaussians_->getXYZ().sizes()[0] << "..." << std::flush;
-  const bool collect_importance = selector_enabled_;
+  const bool collect_importance = online_gi_ && online_gi_->enabled();
   auto render_pkg = GaussianRenderer::render(
       viewpoint_cam, image_height, image_width, gaussians_, pipe_params_,
       background_, override_color_, 1.0f, false, torch::Tensor(), false,
@@ -778,11 +807,25 @@ void GaussianMapper::trainMappingIteration(
   auto viewspace_point_tensor = render_pkg.viewspace_points;
   auto visibility_filter = render_pkg.visibility_indices;
   auto radii = render_pkg.radii;
-  // Phase 3 will consume these per-frame tensors; no persistent GI state is
-  // updated in this phase.
-  [[maybe_unused]] const auto& frame_importance = render_pkg.frame_importance;
-  [[maybe_unused]] const auto& contribution_count =
-      render_pkg.contribution_count;
+  if (online_gi_ && online_gi_->enabled() &&
+      render_pkg.frame_importance.defined() &&
+      render_pkg.contribution_count.defined() &&
+      render_pkg.frame_importance.numel() > 0) {
+    auto frame_score = online_gi_->normalizeFrame(
+        render_pkg.frame_importance, render_pkg.contribution_count);
+    online_gi_->updateFast(frame_score,
+                           static_cast<std::int64_t>(mapping_iter_));
+    const bool full_resolution =
+        training_level == num_gaus_pyramid_sub_levels_;
+    if (full_resolution && frame_score.num_observed > 0 &&
+        !viewpoint_cam->gi_slow_committed_) {
+      online_gi_->updateSlow(frame_score);
+      viewpoint_cam->gi_slow_committed_ = true;
+    }
+    // Part 4 consumes this snapshot to build the selector teacher. Part 3
+    // only owns the persistent measurement state.
+    [[maybe_unused]] auto combined_gi = online_gi_->getCombinedGI();
+  }
   if (selector_network_) gaussians_->updateSelectorSeenCount(visibility_filter);
 
   // Loss
@@ -913,12 +956,27 @@ void GaussianMapper::trainSelectorReplay(
   if (!replay_kf || !selector_network_ || !selector_optimizer_) return;
 
   // Replay does not consume the keyframe's pyramid schedule or update any
-  // Gaussian state.  GI teacher construction is added at this boundary later.
+  // persistent Gaussian/GI state; its normalized importance is temporary.
   const int image_height = replay_kf->image_height_;
   const int image_width = replay_kf->image_width_;
   auto gt_image = replay_kf->original_image_.cuda();
 
   std::unique_lock<std::mutex> lock_render(mutex_render_);
+  if (online_gi_ && online_gi_->enabled()) {
+    torch::NoGradGuard no_grad;
+    auto replay_full = GaussianRenderer::render(
+        replay_kf, image_height, image_width, gaussians_, pipe_params_,
+        background_, override_color_, 1.0f, false, torch::Tensor(), true,
+        true);
+    if (replay_full.frame_importance.defined() &&
+        replay_full.contribution_count.defined() &&
+        replay_full.frame_importance.numel() > 0) {
+      // This is intentionally temporary. Replay must not alter persistent GI
+      // or CaRtGS scheduling state.
+      [[maybe_unused]] auto replay_score = online_gi_->normalizeFrame(
+          replay_full.frame_importance, replay_full.contribution_count);
+    }
+  }
   trainSelectorUpdate(replay_kf, image_height, image_width, gt_image,
                       selector_replay_ratio_rng_, true);
 }

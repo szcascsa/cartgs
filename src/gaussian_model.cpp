@@ -194,6 +194,8 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if (online_gi_reset_callback_)
+    online_gi_reset_callback_(this->xyz_.size(0));
 }
 
 void GaussianModel::increasePcd(std::vector<float> points,
@@ -642,6 +644,8 @@ void GaussianModel::prunePoints(torch::Tensor& mask) {
   this->max_radii2D_ = this->max_radii2D_.index({valid_points_mask});
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if (online_gi_prune_callback_)
+    online_gi_prune_callback_(valid_points_mask);
 }
 
 torch::Tensor GaussianModel::getSelectorMatureMask(int current_iteration,
@@ -749,6 +753,17 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if (online_gi_append_callback_ && new_xyz.size(0) > 0)
+    online_gi_append_callback_(new_xyz.size(0));
+}
+
+void GaussianModel::setOnlineGIStateCallbacks(
+    OnlineGIAppendCallback on_append,
+    OnlineGIPruneCallback on_prune,
+    OnlineGIResetCallback on_reset) {
+  online_gi_append_callback_ = std::move(on_append);
+  online_gi_prune_callback_ = std::move(on_prune);
+  online_gi_reset_callback_ = std::move(on_reset);
 }
 
 void GaussianModel::densifyAndSplit(torch::Tensor& grads,
@@ -1042,6 +1057,8 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
   this->active_sh_degree_ = this->max_sh_degree_;
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if (online_gi_reset_callback_)
+    online_gi_reset_callback_(this->xyz_.size(0));
 }
 
 void GaussianModel::loadSelectorMetadataPly(
