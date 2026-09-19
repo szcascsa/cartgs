@@ -371,7 +371,16 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
     const bool prefiltered,
     float* out_color,
     int* radii,
-    bool debug) {
+    bool debug,
+    bool collect_importance,
+    float* frame_importance,
+    int* contribution_count) {
+  if (collect_importance &&
+      (frame_importance == nullptr || contribution_count == nullptr)) {
+    throw std::runtime_error(
+        "Importance collection requires non-null output buffers.");
+  }
+
   const float focal_y = height / (2.0f * tan_fovy);
   const float focal_x = width / (2.0f * tan_fovx);
 
@@ -514,7 +523,9 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
                              sampleState.ar, width, height, geomState.means2D,
                              feature_ptr, geomState.conic_opacity,
                              imgState.accum_alpha, imgState.n_contrib,
-                             imgState.max_contrib, background, out_color),
+                             imgState.max_contrib, background, out_color,
+                             collect_importance, frame_importance,
+                             contribution_count),
              debug)
 
   CHECK_CUDA(cudaMemcpy(imgState.pixel_colors, out_color,

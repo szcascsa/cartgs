@@ -769,13 +769,20 @@ void GaussianMapper::trainMappingIteration(
   // Render
   std::cout << "\r[Gaussian Mapper] Rendering "
             << gaussians_->getXYZ().sizes()[0] << "..." << std::flush;
+  const bool collect_importance = selector_enabled_;
   auto render_pkg = GaussianRenderer::render(
       viewpoint_cam, image_height, image_width, gaussians_, pipe_params_,
-      background_, override_color_);
-  auto rendered_image = std::get<0>(render_pkg);
-  auto viewspace_point_tensor = std::get<1>(render_pkg);
-  auto visibility_filter = std::get<2>(render_pkg);
-  auto radii = std::get<3>(render_pkg);
+      background_, override_color_, 1.0f, false, torch::Tensor(), false,
+      collect_importance);
+  auto rendered_image = render_pkg.image;
+  auto viewspace_point_tensor = render_pkg.viewspace_points;
+  auto visibility_filter = render_pkg.visibility_indices;
+  auto radii = render_pkg.radii;
+  // Phase 3 will consume these per-frame tensors; no persistent GI state is
+  // updated in this phase.
+  [[maybe_unused]] const auto& frame_importance = render_pkg.frame_importance;
+  [[maybe_unused]] const auto& contribution_count =
+      render_pkg.contribution_count;
   if (selector_network_) gaussians_->updateSelectorSeenCount(visibility_filter);
 
   // Loss
@@ -986,7 +993,7 @@ bool GaussianMapper::trainSelectorUpdate(
     auto selected_render_pkg = GaussianRenderer::render(
         viewpoint_cam, image_height, image_width, gaussians_, pipe_params_,
         background_, override_color_, 1.0f, false, selector_mask, true);
-    auto selected_rendered_image = std::get<0>(selected_render_pkg);
+    auto selected_rendered_image = selected_render_pkg.image;
     auto selected_l1 = l1_loss(selected_rendered_image, gt_image, 1.0f);
     selector_loss = selector_render_loss_weight_ * selected_l1 +
                     selector_ratio_loss_weight_ * ratio_loss;
@@ -1712,7 +1719,7 @@ cv::Mat GaussianMapper::renderFromPose(const Sophus::SE3f& Tcw,
         "[GaussianMapper::renderFromPose]KeyFrame Camera not found!");
   }
 
-  std::tuple<at::Tensor, at::Tensor, at::Tensor, at::Tensor> render_pkg;
+  RenderPackage render_pkg;
   {
     std::unique_lock<std::mutex> lock_render(mutex_render_);
     // Render
@@ -1722,7 +1729,7 @@ cv::Mat GaussianMapper::renderFromPose(const Sophus::SE3f& Tcw,
   }
 
   // Result
-  return tensor_utils::torchTensor2CvMat_Float32(std::get<0>(render_pkg));
+  return tensor_utils::torchTensor2CvMat_Float32(render_pkg.image);
 }
 
 void GaussianMapper::renderAndRecordKeyframe(
@@ -1739,7 +1746,7 @@ void GaussianMapper::renderAndRecordKeyframe(
   auto render_pkg = GaussianRenderer::render(
       pkf, pkf->image_height_, pkf->image_width_, gaussians_, pipe_params_,
       background_, override_color_);
-  auto rendered_image = std::get<0>(render_pkg);
+  auto rendered_image = render_pkg.image;
   torch::cuda::synchronize();
   auto end_timing = std::chrono::steady_clock::now();
   auto render_time_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(

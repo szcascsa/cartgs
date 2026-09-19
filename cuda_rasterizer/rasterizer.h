@@ -52,7 +52,10 @@ class Rasterizer {
       const bool prefiltered,
       float* out_color,
       int* radii = nullptr,
-      bool debug = false);
+      bool debug = false,
+      bool collect_importance = false,
+      float* frame_importance = nullptr,
+      int* contribution_count = nullptr);
 
   static void backward(const int P,
                        int D,

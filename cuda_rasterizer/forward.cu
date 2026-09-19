@@ -310,7 +310,10 @@ __global__ void __launch_bounds__(BLOCK_X* BLOCK_Y)
                uint32_t* __restrict__ n_contrib,
                uint32_t* __restrict__ max_contrib,
                const float* __restrict__ bg_color,
-               float* __restrict__ out_color) {
+               float* __restrict__ out_color,
+               const bool collect_importance,
+               float* __restrict__ frame_importance,
+               int* __restrict__ contribution_count) {
   // Identify current tile and associated min/max pixel range.
   auto block = cg::this_thread_block();
   uint32_t horizontal_blocks = (W + BLOCK_X - 1) / BLOCK_X;
@@ -408,6 +411,12 @@ __global__ void __launch_bounds__(BLOCK_X* BLOCK_Y)
         continue;
       }
 
+      if (collect_importance) {
+        const int gaussian_id = collected_id[j];
+        atomicAdd(frame_importance + gaussian_id, con_o.w * T);
+        atomicAdd(contribution_count + gaussian_id, 1);
+      }
+
       // Eq. (3) from 3D Gaussian splatting paper.
       for (int ch = 0; ch < CHANNELS; ch++)
         C[ch] += features[collected_id[j] * CHANNELS + ch] * alpha * T;
@@ -458,11 +467,15 @@ void FORWARD::render(const dim3 grid,
                      uint32_t* n_contrib,
                      uint32_t* max_contrib,
                      const float* bg_color,
-                     float* out_color) {
+                     float* out_color,
+                     bool collect_importance,
+                     float* frame_importance,
+                     int* contribution_count) {
   renderCUDA<NUM_CHAFFELS><<<grid, block>>>(
       ranges, point_list, per_tile_bucket_offset, bucket_to_tile, sampled_T,
       sampled_ar, W, H, means2D, colors, conic_opacity, final_T, n_contrib,
-      max_contrib, bg_color, out_color);
+      max_contrib, bg_color, out_color, collect_importance, frame_importance,
+      contribution_count);
 }
 
 void FORWARD::preprocess(int P,

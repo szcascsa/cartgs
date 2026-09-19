@@ -332,6 +332,11 @@ class GaussianMapper {
   int selector_replay_interval_ = 300;
   int selector_replay_num_frames_ = 2;
   int selector_replay_seed_ = 0;
+
+  // Phase 3 owns allocation and update of persistent Online GI state.
+  torch::Tensor gi_fast_;
+  torch::Tensor gi_slow_;
+
   improvements::selector::GumbelNetwork selector_network_ = nullptr;
   std::shared_ptr<torch::optim::Adam> selector_optimizer_;
   std::mt19937 selector_ratio_rng_;

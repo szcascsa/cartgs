@@ -18,21 +18,19 @@
 /**
  * @brief
  *
- * @return std::tuple<render, viewspace_points, visibility_filter, radii>, which
- * are all `torch::Tensor`
+ * @return RenderPackage with the render result, CaRtGS visibility data, and
+ * optional non-differentiable raw importance statistics.
  */
-std::tuple<torch::Tensor, torch::Tensor, torch::Tensor, torch::Tensor>
-GaussianRenderer::render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
-                         int image_height,
-                         int image_width,
-                         std::shared_ptr<GaussianModel> pc,
-                         GaussianPipelineParams& pipe,
-                         torch::Tensor& bg_color,
-                         torch::Tensor& override_color,
-                         float scaling_modifier,
-                         bool use_override_color,
-                         torch::Tensor selector_mask,
-                         bool detach_gaussian_parameters) {
+RenderPackage GaussianRenderer::render(
+    std::shared_ptr<GaussianKeyframe> viewpoint_camera,
+    int image_height, int image_width, std::shared_ptr<GaussianModel> pc,
+    GaussianPipelineParams& pipe, torch::Tensor& bg_color,
+    torch::Tensor& override_color,
+    float scaling_modifier,
+    bool use_override_color,
+    torch::Tensor selector_mask,
+    bool detach_gaussian_parameters,
+    bool collect_importance) {
   /* Render the scene.
 
      Background tensor (bg_color) must be on GPU!
@@ -59,7 +57,7 @@ GaussianRenderer::render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
       image_height, image_width, tanfovx, tanfovy, bg_color, scaling_modifier,
       viewpoint_camera->world_view_transform_,
       viewpoint_camera->full_proj_transform_, pc->active_sh_degree_,
-      viewpoint_camera->camera_center_, false, false);
+      viewpoint_camera->camera_center_, false, false, collect_importance);
 
   GaussianRasterizer rasterizer(raster_settings);
 
@@ -138,16 +136,17 @@ GaussianRenderer::render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
   auto rasterizer_result =
       rasterizer.forward(means3D, means2D, opacity, dc, shs, colors_precomp,
                          scales, rotations, cov3D_precomp);
-  auto rendered_image = std::get<0>(rasterizer_result);
-  auto radii = std::get<1>(rasterizer_result);
+  auto rendered_image = rasterizer_result.image;
+  auto radii = rasterizer_result.radii;
 
   /* Those Gaussians that were frustum culled or had a radius of 0 were not
      visible. They will be excluded from value updates used in the splitting
      criteria.
    */
-  return std::make_tuple(
-      rendered_image,                      /*render*/
-      screenspace_points,                  /*viewspace_points*/
-      (radii > 0).nonzero().reshape({-1}), /*visibility_filter*/
-      radii /*radii*/);
+  return {rendered_image,
+          screenspace_points,
+          (radii > 0).nonzero().reshape({-1}),
+          radii,
+          rasterizer_result.frame_importance,
+          rasterizer_result.contribution_count};
 }
