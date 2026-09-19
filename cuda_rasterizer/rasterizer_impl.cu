@@ -145,6 +145,7 @@ __global__ void duplicateWithKeys(int P,
     // Find this Gaussian's offset in buffer for writing keys/values.
     uint32_t off = (idx == 0) ? 0 : offsets[idx - 1];
     const uint32_t offset_to = offsets[idx];
+    if (offset_to < off) return;
     uint2 rect_min, rect_max;
 
     if (rects == nullptr)
@@ -164,6 +165,7 @@ __global__ void duplicateWithKeys(int P,
     // are first sorted by tile and then by depth.
     for (int y = rect_min.y; y < rect_max.y; y++) {
       for (int x = rect_min.x; x < rect_max.x; x++) {
+        if (off >= offset_to) break;
         const glm::vec2 tile_min(x * BLOCK_X, y * BLOCK_Y);
         const glm::vec2 tile_max((x + 1) * BLOCK_X - 1, (y + 1) * BLOCK_Y - 1);
 
@@ -200,21 +202,22 @@ __global__ void duplicateWithKeys(int P,
 // Run once per instanced (duplicated) Gaussian ID.
 __global__ void identifyTileRanges(int L,
                                    uint64_t* point_list_keys,
-                                   uint2* ranges) {
+                                   uint2* ranges,
+                                   uint32_t num_tiles) {
   auto idx = cg::this_grid().thread_rank();
   if (idx >= L) return;
 
   // Read tile ID from key. Update start/end of tile range if at limit.
   uint64_t key = point_list_keys[idx];
   uint32_t currtile = key >> 32;
-  bool valid_tile = currtile != (uint32_t)-1;
+  bool valid_tile = currtile < num_tiles;
 
   if (idx == 0) {
-    ranges[currtile].x = 0;
+    if (valid_tile) ranges[currtile].x = 0;
   } else {
     uint32_t prevtile = point_list_keys[idx - 1] >> 32;
     if (currtile != prevtile) {
-      ranges[prevtile].y = idx;
+      if (prevtile < num_tiles) ranges[prevtile].y = idx;
       if (valid_tile) ranges[currtile].x = idx;
     }
   }
@@ -223,12 +226,17 @@ __global__ void identifyTileRanges(int L,
 
 // for each tile, see how many buckets/warps are needed to store the state
 __global__ void perTileBucketCount(int T,
+                                   int L,
                                    uint2* ranges,
                                    uint32_t* bucketCount) {
   auto idx = cg::this_grid().thread_rank();
   if (idx >= T) return;
 
   uint2 range = ranges[idx];
+  if (range.x > range.y || range.y > static_cast<uint32_t>(L)) {
+    bucketCount[idx] = 0;
+    return;
+  }
   int num_splats = range.y - range.x;
   int num_buckets = (num_splats + 31) / 32;
   bucketCount[idx] = (uint32_t)num_buckets;
@@ -326,6 +334,13 @@ __global__ void set(int N, uint32_t* where, int* space) {
   space[off] = 1;
 }
 
+__global__ void fillBackground(int N, int pixels, const float* background,
+                               float* out_color) {
+  const int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  if (idx >= N) return;
+  out_color[idx] = background[idx / pixels];
+}
+
 // Forward rendering procedure for differentiable rasterization
 // of Gaussians.
 std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
@@ -406,12 +421,22 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
   int num_rendered;
   CHECK_CUDA(cudaMemcpy(&num_rendered, geomState.point_offsets + P - 1,
                         sizeof(int), cudaMemcpyDeviceToHost),
-             debug);
+              debug);
+
+  // A sparse selector can leave no Gaussian instance to rasterize.  Do not
+  // construct zero-length binning/sample states or launch empty CUDA work.
+  if (num_rendered <= 0) {
+    fillBackground<<<(width * height * NUM_CHAFFELS + 255) / 256, 256>>>(
+        width * height * NUM_CHAFFELS, width * height, background, out_color);
+    CHECK_CUDA(, debug)
+    return std::make_tuple(0, 0);
+  }
 
   size_t binning_chunk_size = required<BinningState>(num_rendered);
   char* binning_chunkptr = binningBuffer(binning_chunk_size);
   BinningState binningState =
       BinningState::fromChunk(binning_chunkptr, num_rendered);
+  const int num_tiles = tile_grid.x * tile_grid.y;
 
   // For each instance to be rendered, produce adequate [ tile | depth ] key
   // and corresponding dublicated Gaussian indices to be sorted
@@ -421,7 +446,7 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
       binningState.point_list_unsorted, radii, tile_grid, nullptr)
       CHECK_CUDA(, debug)
 
-          int bit = getHigherMsb(tile_grid.x * tile_grid.y);
+  int bit = getHigherMsb(num_tiles);
 
   // Sort complete list of (duplicated) Gaussian indices by keys
   CHECK_CUDA(cub::DeviceRadixSort::SortPairs(
@@ -429,22 +454,36 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
                  binningState.point_list_keys_unsorted,
                  binningState.point_list_keys, binningState.point_list_unsorted,
                  binningState.point_list, num_rendered, 0, 32 + bit),
-             debug)
+              debug)
 
-  CHECK_CUDA(
-      cudaMemset(imgState.ranges, 0, tile_grid.x * tile_grid.y * sizeof(uint2)),
+  // Sparse selections are the common all-sentinel case.  Avoid launching any
+  // range/bucket kernel when the sorted list has no valid tile key.
+  if (num_rendered <= 256) {
+    uint64_t first_key = 0;
+    CHECK_CUDA(cudaMemcpy(&first_key, binningState.point_list_keys,
+                         sizeof(uint64_t), cudaMemcpyDeviceToHost),
+              debug);
+    if ((first_key >> 32) >= static_cast<uint32_t>(num_tiles)) {
+      fillBackground<<<(width * height * NUM_CHAFFELS + 255) / 256, 256>>>(
+          width * height * NUM_CHAFFELS, width * height, background, out_color);
+      CHECK_CUDA(, debug)
+      return std::make_tuple(num_rendered, 0);
+    }
+  }
+
+  CHECK_CUDA(cudaMemset(imgState.ranges, 0, num_tiles * sizeof(uint2)),
       debug);
 
   // Identify start and end of per-tile workloads in sorted list
   if (num_rendered > 0)
     identifyTileRanges<<<(num_rendered + 255) / 256, 256>>>(
-        num_rendered, binningState.point_list_keys, imgState.ranges);
+        num_rendered, binningState.point_list_keys, imgState.ranges,
+        static_cast<uint32_t>(num_tiles));
   CHECK_CUDA(, debug)
 
   // bucket count
-  int num_tiles = tile_grid.x * tile_grid.y;
   perTileBucketCount<<<(num_tiles + 255) / 256, 256>>>(
-      num_tiles, imgState.ranges, imgState.bucket_count);
+      num_tiles, num_rendered, imgState.ranges, imgState.bucket_count);
   CHECK_CUDA(cub::DeviceScan::InclusiveSum(imgState.bucket_count_scanning_space,
                                            imgState.bucket_count_scan_size,
                                            imgState.bucket_count,
@@ -453,7 +492,13 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
   unsigned int bucket_sum;
   CHECK_CUDA(cudaMemcpy(&bucket_sum, imgState.bucket_offsets + num_tiles - 1,
                         sizeof(unsigned int), cudaMemcpyDeviceToHost),
-             debug);
+              debug);
+  if (bucket_sum == 0) {
+    fillBackground<<<(width * height * NUM_CHAFFELS + 255) / 256, 256>>>(
+        width * height * NUM_CHAFFELS, width * height, background, out_color);
+    CHECK_CUDA(, debug)
+    return std::make_tuple(num_rendered, 0);
+  }
   // create a state to store. size is number is the total number of buckets *
   // block_size
   size_t sample_chunk_size = required<SampleState>(bucket_sum);
@@ -520,9 +565,11 @@ void CudaRasterizer::Rasterizer::backward(const int P,
                                           float* dL_drot,
                                           bool debug) {
   GeometryState geomState = GeometryState::fromChunk(geom_buffer, P);
-  BinningState binningState = BinningState::fromChunk(binning_buffer, R);
+  BinningState binningState{};
+  if (R > 0) binningState = BinningState::fromChunk(binning_buffer, R);
   ImageState imgState = ImageState::fromChunk(img_buffer, width * height);
-  SampleState sampleState = SampleState::fromChunk(sample_buffer, B);
+  SampleState sampleState{};
+  if (B > 0) sampleState = SampleState::fromChunk(sample_buffer, B);
 
   if (radii == nullptr) {
     radii = geomState.internal_radii;
@@ -540,16 +587,18 @@ void CudaRasterizer::Rasterizer::backward(const int P,
   // If we were given precomputed colors and not SHs, use them.
   const float* color_ptr =
       (colors_precomp != nullptr) ? colors_precomp : geomState.rgb;
-  CHECK_CUDA(
-      BACKWARD::render(
-          tile_grid, block, imgState.ranges, binningState.point_list, width,
-          height, R, B, imgState.bucket_offsets, sampleState.bucket_to_tile,
-          sampleState.T, sampleState.ar, background, geomState.means2D,
-          geomState.conic_opacity, color_ptr, imgState.accum_alpha,
-          imgState.n_contrib, imgState.max_contrib, imgState.pixel_colors,
-          dL_dpix, (float3*)dL_dmean2D, (float4*)dL_dconic, dL_dopacity,
-          dL_dcolor),
-      debug)
+  if (B > 0) {
+    CHECK_CUDA(
+        BACKWARD::render(
+            tile_grid, block, imgState.ranges, binningState.point_list, width,
+            height, R, B, imgState.bucket_offsets, sampleState.bucket_to_tile,
+            sampleState.T, sampleState.ar, background, geomState.means2D,
+            geomState.conic_opacity, color_ptr, imgState.accum_alpha,
+            imgState.n_contrib, imgState.max_contrib, imgState.pixel_colors,
+            dL_dpix, (float3*)dL_dmean2D, (float4*)dL_dconic, dL_dopacity,
+            dL_dcolor),
+        debug)
+  }
 
   // Take care of the rest of preprocessing. Was the precomputed covariance
   // given to us or a scales/rot pair? If precomputed, pass that. If not,

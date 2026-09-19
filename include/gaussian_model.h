@@ -159,6 +159,8 @@ class GaussianModel {
 
   void loadPly(std::filesystem::path ply_path);
   void savePly(std::filesystem::path result_path);
+  void loadSelectorMetadataPly(std::filesystem::path ply_path);
+  void saveSelectorMetadataPly(std::filesystem::path result_path);
   void saveSparsePointsPly(std::filesystem::path result_path);
 
   float percentDense();

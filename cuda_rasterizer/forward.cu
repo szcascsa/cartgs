@@ -211,13 +211,21 @@ __global__ void preprocessCUDA(int P,
   if (!in_frustum(idx, orig_points, viewmatrix, projmatrix, prefiltered,
                   p_view))
     return;
+  if (!isfinite(p_view.x) || !isfinite(p_view.y) || !isfinite(p_view.z) ||
+      !isfinite(opacities[idx]))
+    return;
 
   // Transform point by projecting
   float3 p_orig = {orig_points[3 * idx], orig_points[3 * idx + 1],
                    orig_points[3 * idx + 2]};
   float4 p_hom = transformPoint4x4(p_orig, projmatrix);
+  if (!isfinite(p_hom.x) || !isfinite(p_hom.y) || !isfinite(p_hom.z) ||
+      !isfinite(p_hom.w))
+    return;
   float p_w = 1.0f / (p_hom.w + 0.0000001f);
   float3 p_proj = {p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w};
+  if (!isfinite(p_proj.x) || !isfinite(p_proj.y) || !isfinite(p_proj.z))
+    return;
 
   // If 3D covariance matrix is precomputed, use it, otherwise compute
   // from scaling and rotation parameters.
@@ -232,12 +240,14 @@ __global__ void preprocessCUDA(int P,
   // Compute 2D screen-space covariance matrix
   float3 cov = computeCov2D(p_orig, focal_x, focal_y, tan_fovx, tan_fovy, cov3D,
                             viewmatrix);
+  if (!isfinite(cov.x) || !isfinite(cov.y) || !isfinite(cov.z)) return;
 
   // Invert covariance (EWA algorithm)
   float det = (cov.x * cov.z - cov.y * cov.y);
-  if (det == 0.0f) return;
+  if (!isfinite(det) || det <= 0.0f) return;
   float det_inv = 1.f / det;
   float3 conic = {cov.z * det_inv, -cov.y * det_inv, cov.x * det_inv};
+  if (!isfinite(conic.x) || !isfinite(conic.y) || !isfinite(conic.z)) return;
 
   // Compute extent in screen space (by finding eigenvalues of
   // 2D covariance matrix). Use extent to compute a bounding rectangle
@@ -247,7 +257,13 @@ __global__ void preprocessCUDA(int P,
   float lambda1 = mid + sqrt(max(0.1f, mid * mid - det));
   float lambda2 = mid - sqrt(max(0.1f, mid * mid - det));
   float my_radius = ceil(3.f * sqrt(max(lambda1, lambda2)));
+  if (!isfinite(my_radius) || my_radius <= 0.0f)
+    return;
+  // A finite radius larger than the image extent already covers every tile;
+  // clamp it before the float-to-int rectangle conversion.
+  my_radius = min(my_radius, 2.0f * max(W, H));
   float2 point_image = {ndc2Pix(p_proj.x, W), ndc2Pix(p_proj.y, H)};
+  if (!isfinite(point_image.x) || !isfinite(point_image.y)) return;
   uint2 rect_min, rect_max;
   getRect(point_image, my_radius, rect_min, rect_max, grid);
   if ((rect_max.x - rect_min.x) * (rect_max.y - rect_min.y) == 0) return;
@@ -257,6 +273,8 @@ __global__ void preprocessCUDA(int P,
   if (colors_precomp == nullptr) {
     glm::vec3 result = computeColorFromSH(idx, D, M, (glm::vec3*)orig_points,
                                           *cam_pos, dc, shs, clamped);
+    if (!isfinite(result.x) || !isfinite(result.y) || !isfinite(result.z))
+      return;
     rgb[idx * C + 0] = result.x;
     rgb[idx * C + 1] = result.y;
     rgb[idx * C + 2] = result.z;

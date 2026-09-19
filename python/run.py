@@ -8,6 +8,7 @@ import glob
 from renderer import render
 from argparse import ArgumentParser
 from gaussian_model import GaussianModel
+from selector import build_selector_mask, load_selector, load_selector_metadata
 from scipy.spatial.transform import Rotation
 from utils import MiniCam, focal2fov
 
@@ -92,14 +93,39 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="evaluation script parameters")
     parser.add_argument("result_path", type=str, default=None)
     parser.add_argument("gt_path", type=str, default=None)
+    parser.add_argument(
+        "--output_path",
+        type=str,
+        default=None,
+        help="write metrics/images to this directory while reading the model from result_path",
+    )
+    parser.add_argument("--selector", type=str, default=None)
+    parser.add_argument("--selector-ratio", type=float, default=None)
+    parser.add_argument("--selector-min-age", type=int, default=10000)
+    parser.add_argument("--selector-min-seen", type=int, default=8000)
+    parser.add_argument(
+        "--selector-protection-enabled",
+        type=int,
+        choices=(0, 1),
+        default=1,
+    )
+    parser.add_argument("--selector-temperature", type=float, default=1.0)
     parser.add_argument("--correct_scale", action="store_true")
     parser.add_argument("--show_plot", action="store_true")
     args = parser.parse_args()
+    source_result_path = os.path.abspath(args.result_path)
+    output_result_path = os.path.abspath(args.output_path or args.result_path)
+    os.makedirs(output_result_path, exist_ok=True)
+    if args.selector and args.selector_ratio is None:
+        parser.error("--selector requires --selector-ratio")
     sh_degree = 3
     gaussians = GaussianModel(sh_degree)
     bg_color = [0, 0, 0]
     background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
-    dirs = os.listdir(args.result_path)
+    selector_model = (
+        load_selector(args.selector, "cuda") if args.selector else None
+    )
+    dirs = os.listdir(source_result_path)
     # load model
     width, height, fovx, fovy = 0, 0, 0, 0
     ts = []
@@ -109,7 +135,7 @@ if __name__ == "__main__":
         if "shutdown" in file_name:
             iter = file_name.split("_")[0]
             ply_path = os.path.join(
-                args.result_path,
+                source_result_path,
                 file_name,
                 "ply/point_cloud/iteration_{}".format(iter),
                 "point_cloud.ply",
@@ -117,7 +143,7 @@ if __name__ == "__main__":
             gaussians.load_ply(ply_path)
             with open(
                 os.path.join(
-                    args.result_path, file_name, "ply", "cameras.json"
+                    source_result_path, file_name, "ply", "cameras.json"
                 ),
                 "r",
             ) as fin:
@@ -133,11 +159,40 @@ if __name__ == "__main__":
             fovy = focal2fov(fy, height)
 
             render_time = np.loadtxt(
-                os.path.join(args.result_path, file_name, "render_time.txt"),
+                os.path.join(source_result_path, file_name, "render_time.txt"),
                 delimiter=" ",
                 dtype=np.str_,
             )
             render_time = render_time[:, 1].astype(np.float32)
+
+            selector_mask = None
+            selector_stats = None
+            if selector_model is not None:
+                birth_iter = seen_count = None
+                if args.selector_protection_enabled:
+                    metadata_path = os.path.join(
+                        source_result_path,
+                        file_name,
+                        "ply",
+                        "point_cloud",
+                        "iteration_{}".format(iter),
+                        "selector_metadata.ply",
+                    )
+                    birth_iter, seen_count = load_selector_metadata(
+                        metadata_path, "cuda"
+                    )
+                selector_mask, selector_stats = build_selector_mask(
+                    selector_model,
+                    gaussians,
+                    birth_iter,
+                    seen_count,
+                    int(iter),
+                    args.selector_ratio,
+                    args.selector_min_age,
+                    args.selector_min_seen,
+                    args.selector_temperature,
+                    protection_enabled=bool(args.selector_protection_enabled),
+                )
 
     # load gt
     if "replica" in args.gt_path.lower():
@@ -152,7 +207,7 @@ if __name__ == "__main__":
 
     #### pose evaluation
     # load estimated poses
-    pose_path = os.path.join(args.result_path, "CameraTrajectory_TUM.txt")
+    pose_path = os.path.join(source_result_path, "CameraTrajectory_TUM.txt")
     traj_est = file_interface.read_tum_trajectory_file(pose_path)
     # load gt pose
     if "kitti" in args.gt_path.lower():
@@ -241,7 +296,7 @@ if __name__ == "__main__":
         correct_scale=args.correct_scale,
     )
 
-    out_path = os.path.join(args.result_path, "metrics_traj.txt")
+    out_path = os.path.join(output_result_path, "metrics_traj.txt")
     with open(out_path, "w") as fp:
         fp.write(result.pretty_str())
         fp.write(result_rotation_part.pretty_str())
@@ -263,19 +318,21 @@ if __name__ == "__main__":
     tstamp = traj_est.timestamps
     associations = associate_frames(tstamp, gt_tstamp)
 
-    os.makedirs(os.path.join(args.result_path, "image"), exist_ok=True)
-    if "_0" in args.result_path:
-        os.makedirs(os.path.join(args.result_path, "gt"), exist_ok=True)
+    os.makedirs(os.path.join(output_result_path, "image"), exist_ok=True)
+    if "_0" in output_result_path:
+        os.makedirs(os.path.join(output_result_path, "gt"), exist_ok=True)
     psnr_list, ssim_list, lpips_list, time_list = [], [], [], []
     for index in trange(
         len(associations),
-        desc="rendering {}".format(args.result_path.split("/")[-1]),
+        desc="rendering {}".format(output_result_path.split("/")[-1]),
     ):
         (result_indx, gt_indx) = associations[index]
         w2c = np.linalg.inv(poses[result_indx])
         cam = MiniCam(width, height, fovx, fovy, w2c)
         t0 = time.time()
-        render_image = render(cam, gaussians, background)["render"]
+        render_image = render(
+            cam, gaussians, background, selector_mask=selector_mask
+        )["render"]
         t1 = time.time() - t0
         render_image = render_image.permute(1, 2, 0)
         gt_image = cv2.imread(gt_color_paths[gt_indx], cv2.IMREAD_COLOR)
@@ -302,10 +359,10 @@ if __name__ == "__main__":
         val_lpips = calc_lpips(render_image_torch, gt_image_torch).item()
 
         gt_image = cv2.cvtColor(gt_image, cv2.COLOR_BGR2RGB)
-        if "_0" in args.result_path:
+        if "_0" in output_result_path:
             cv2.imwrite(
                 os.path.join(
-                    args.result_path,
+                    output_result_path,
                     "gt",
                     gt_color_paths[gt_indx].split("/")[-1],
                 ),
@@ -313,7 +370,7 @@ if __name__ == "__main__":
             )
         cv2.imwrite(
             os.path.join(
-                args.result_path,
+                output_result_path,
                 "image",
                 gt_color_paths[gt_indx].split("/")[-1],
             ),
@@ -329,15 +386,15 @@ if __name__ == "__main__":
     ssim_list = np.array(ssim_list)
     lpips_list = np.array(lpips_list)
     time_list = np.array(time_list)
-    np.savetxt(os.path.join(args.result_path, "psnr.txt"), psnr_list)
-    np.savetxt(os.path.join(args.result_path, "ssim.txt"), ssim_list)
-    np.savetxt(os.path.join(args.result_path, "lpips.txt"), lpips_list)
+    np.savetxt(os.path.join(output_result_path, "psnr.txt"), psnr_list)
+    np.savetxt(os.path.join(output_result_path, "ssim.txt"), ssim_list)
+    np.savetxt(os.path.join(output_result_path, "lpips.txt"), lpips_list)
 
-    with open(os.path.join(args.result_path, "TrackingTime.txt"), "r") as fin:
+    with open(os.path.join(source_result_path, "TrackingTime.txt"), "r") as fin:
         tracking_time = fin.readlines()
     tracking_time = np.array(tracking_time[:-3]).astype(np.float32)
 
-    with open(os.path.join(args.result_path, "eval.txt"), "w") as fout:
+    with open(os.path.join(output_result_path, "eval.txt"), "w") as fout:
         fout.write("psnr: {}\n".format(np.mean(psnr_list)))
         fout.write("ssim: {}\n".format(np.mean(ssim_list)))
         fout.write("lpips: {}\n".format(np.mean(lpips_list)))
@@ -346,3 +403,9 @@ if __name__ == "__main__":
 
         fout.write("rendering ms: {}\n".format(np.mean(render_time)))
         fout.write("rendering FPS: {}\n".format(1000 / np.mean(render_time)))
+
+    if selector_stats is not None:
+        with open(
+            os.path.join(output_result_path, "selector_stats.json"), "w"
+        ) as fout:
+            json.dump(selector_stats, fout, indent=2)

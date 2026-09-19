@@ -305,6 +305,7 @@ class GaussianMapper {
 
   bool do_gaus_pyramid_training_;
   bool selector_enabled_ = false;
+  bool selector_protection_enabled_ = true;
   std::vector<float> selector_target_ratios_ = {0.01f, 0.05f, 0.1f, 0.15f};
   int selector_min_age_ = 10000;
   int selector_min_seen_ = 8000;

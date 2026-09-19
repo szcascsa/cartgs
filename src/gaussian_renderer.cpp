@@ -73,7 +73,9 @@ GaussianRenderer::render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
       throw std::runtime_error(
           "Selector mask must have one value per Gaussian.");
     }
-    opacity = opacity * selector_mask.unsqueeze(1);
+    // The CUDA rasterizer consumes raw pointers and expects dense row-major
+    // tensors after applying the per-Gaussian selector mask.
+    opacity = (opacity * selector_mask.unsqueeze(1)).contiguous();
   }
 
   /* If precomputed 3d covariance is provided, use it. If not, then it will be

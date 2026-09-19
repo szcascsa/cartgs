@@ -909,8 +909,6 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
   }
 
   std::shared_ptr<tinyply::PlyData> xyz, f_dc, f_rest, opacity, scales, rot;
-  std::shared_ptr<tinyply::PlyData> selector_birth_iter,
-      selector_seen_count;
 
   try {
     xyz = ply_file.request_properties_from_element("vertex", {"x", "y", "z"});
@@ -956,20 +954,6 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
         "vertex", {"rot_0", "rot_1", "rot_2", "rot_3"});
   } catch (const std::exception& e) {
     std::cerr << "tinyply exception: " << e.what() << std::endl;
-  }
-
-  try {
-    selector_birth_iter = ply_file.request_properties_from_element(
-        "vertex", {"selector_birth_iter"});
-  } catch (const std::exception&) {
-    // Legacy PLY files do not contain selector metadata.
-  }
-
-  try {
-    selector_seen_count = ply_file.request_properties_from_element(
-        "vertex", {"selector_seen_count"});
-  } catch (const std::exception&) {
-    // Legacy PLY files do not contain selector metadata.
   }
 
   ply_file.read(instream_binary);
@@ -1046,33 +1030,96 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
                        torch::TensorOptions().dtype(torch::kFloat32))
           .to(device_type_);
 
-  std::vector<int32_t> selector_birth_iter_vector(num_points, 0);
-  if (selector_birth_iter && selector_birth_iter->count == num_points) {
-    std::memcpy(selector_birth_iter_vector.data(),
-                selector_birth_iter->buffer.get(),
-                selector_birth_iter->buffer.size_bytes());
-  }
-  std::vector<int32_t> selector_seen_count_vector(num_points, 0);
-  if (selector_seen_count && selector_seen_count->count == num_points) {
-    std::memcpy(selector_seen_count_vector.data(), selector_seen_count->buffer.get(),
-                selector_seen_count->buffer.size_bytes());
-  }
-  this->selector_birth_iter_ =
-      torch::from_blob(selector_birth_iter_vector.data(), {num_points},
-                       torch::TensorOptions().dtype(torch::kInt32))
-          .clone()
-          .to(device_type_);
-  this->selector_seen_count_ =
-      torch::from_blob(selector_seen_count_vector.data(), {num_points},
-                       torch::TensorOptions().dtype(torch::kInt32))
-          .clone()
-          .to(device_type_);
+  this->selector_birth_iter_ = torch::zeros(
+      {num_points},
+      torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
+  this->selector_seen_count_ = torch::zeros(
+      {num_points},
+      torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
 
   GAUSSIAN_MODEL_TENSORS_TO_VEC
 
   this->active_sh_degree_ = this->max_sh_degree_;
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+}
+
+void GaussianModel::loadSelectorMetadataPly(
+    std::filesystem::path ply_path) {
+  std::ifstream instream_binary(ply_path, std::ios::binary);
+  if (!instream_binary.is_open() || instream_binary.fail())
+    throw std::runtime_error("Fail to open selector metadata PLY at " +
+                             ply_path.string());
+
+  tinyply::PlyFile ply_file;
+  ply_file.parse_header(instream_binary);
+  std::shared_ptr<tinyply::PlyData> birth, seen;
+  try {
+    birth = ply_file.request_properties_from_element(
+        "vertex", {"selector_birth_iter"});
+    seen = ply_file.request_properties_from_element(
+        "vertex", {"selector_seen_count"});
+  } catch (const std::exception& e) {
+    throw std::runtime_error("Invalid selector metadata PLY at " +
+                             ply_path.string() + ": " + e.what());
+  }
+  ply_file.read(instream_binary);
+
+  const auto num_points = this->xyz_.size(0);
+  if (birth->count != num_points || seen->count != num_points)
+    throw std::runtime_error("Selector metadata count does not match Gaussian "
+                             "count in " + ply_path.string());
+
+  std::vector<int32_t> birth_values(num_points);
+  std::vector<int32_t> seen_values(num_points);
+  std::memcpy(birth_values.data(), birth->buffer.get(),
+              birth->buffer.size_bytes());
+  std::memcpy(seen_values.data(), seen->buffer.get(),
+              seen->buffer.size_bytes());
+  this->selector_birth_iter_ =
+      torch::from_blob(birth_values.data(), {num_points},
+                       torch::TensorOptions().dtype(torch::kInt32))
+          .clone()
+          .to(device_type_);
+  this->selector_seen_count_ =
+      torch::from_blob(seen_values.data(), {num_points},
+                       torch::TensorOptions().dtype(torch::kInt32))
+          .clone()
+          .to(device_type_);
+}
+
+void GaussianModel::saveSelectorMetadataPly(
+    std::filesystem::path result_path) {
+  torch::Tensor birth = this->selector_birth_iter_.detach()
+                            .toType(torch::kInt32)
+                            .contiguous()
+                            .cpu();
+  torch::Tensor seen = this->selector_seen_count_.detach()
+                           .toType(torch::kInt32)
+                           .contiguous()
+                           .cpu();
+  if (birth.size(0) != this->xyz_.size(0) ||
+      seen.size(0) != this->xyz_.size(0))
+    throw std::runtime_error(
+        "Selector metadata count does not match Gaussian count");
+
+  std::filebuf fb_binary;
+  fb_binary.open(result_path, std::ios::out | std::ios::binary);
+  std::ostream outstream_binary(&fb_binary);
+  if (outstream_binary.fail())
+    throw std::runtime_error("failed to open " + result_path.string());
+
+  tinyply::PlyFile result_file;
+  result_file.add_properties_to_element(
+      "vertex", {"selector_birth_iter"}, tinyply::Type::INT32,
+      birth.size(0), reinterpret_cast<uint8_t*>(birth.data_ptr<int32_t>()),
+      tinyply::Type::INVALID, 0);
+  result_file.add_properties_to_element(
+      "vertex", {"selector_seen_count"}, tinyply::Type::INT32,
+      seen.size(0), reinterpret_cast<uint8_t*>(seen.data_ptr<int32_t>()),
+      tinyply::Type::INVALID, 0);
+  result_file.write(outstream_binary, true);
+  fb_binary.close();
 }
 
 void GaussianModel::savePly(std::filesystem::path result_path) {
@@ -1089,14 +1136,6 @@ void GaussianModel::savePly(std::filesystem::path result_path) {
   torch::Tensor opacities = this->opacity_.detach().cpu();
   torch::Tensor scale = this->scaling_.detach().cpu();
   torch::Tensor rotation = this->rotation_.detach().cpu();
-  torch::Tensor selector_birth_iter = this->selector_birth_iter_.detach()
-                                         .toType(torch::kInt32)
-                                         .contiguous()
-                                         .cpu();
-  torch::Tensor selector_seen_count = this->selector_seen_count_.detach()
-                                          .toType(torch::kInt32)
-                                          .contiguous()
-                                          .cpu();
 
   std::filebuf fb_binary;
   fb_binary.open(result_path, std::ios::out | std::ios::binary);
@@ -1170,21 +1209,6 @@ void GaussianModel::savePly(std::filesystem::path result_path) {
       "vertex", property_names_rotation, tinyply::Type::FLOAT32,
       rotation.size(0), reinterpret_cast<uint8_t*>(rotation.data_ptr<float>()),
       tinyply::Type::INVALID, 0);
-
-  if (selector_birth_iter.defined() && selector_seen_count.defined() &&
-      selector_birth_iter.size(0) == xyz.size(0) &&
-      selector_seen_count.size(0) == xyz.size(0)) {
-    result_file.add_properties_to_element(
-        "vertex", {"selector_birth_iter"}, tinyply::Type::INT32,
-        selector_birth_iter.size(0),
-        reinterpret_cast<uint8_t*>(selector_birth_iter.data_ptr<int32_t>()),
-        tinyply::Type::INVALID, 0);
-    result_file.add_properties_to_element(
-        "vertex", {"selector_seen_count"}, tinyply::Type::INT32,
-        selector_seen_count.size(0),
-        reinterpret_cast<uint8_t*>(selector_seen_count.data_ptr<int32_t>()),
-        tinyply::Type::INVALID, 0);
-  }
 
   // Write the file
   result_file.write(outstream_binary, true);

@@ -13,6 +13,7 @@ Selector.enabled: 0  # 0:original logic, 1:enable selector path
 Selector.target_ratios: [0.01, 0.05, 0.10, 0.15]
 Selector.min_age: 10000
 Selector.min_seen: 8000
+Selector.protection_enabled: 1
 Selector.temperature: 1.0
 Selector.learning_rate: 0.001
 Selector.render_loss_weight: 1.0

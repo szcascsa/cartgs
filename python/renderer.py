@@ -24,6 +24,7 @@ def render(
     bg_color: torch.Tensor,
     scaling_modifier=1.0,
     override_color=None,
+    selector_mask=None,
 ):
     """Render the scene.
 
@@ -70,6 +71,18 @@ def render(
     means3D = pc.get_xyz
     means2D = screenspace_points
     opacity = pc.get_opacity
+    active_mask = None
+    if selector_mask is not None:
+        if selector_mask.ndim != 1 or selector_mask.shape[0] != opacity.shape[0]:
+            raise ValueError("selector mask must have one value per Gaussian")
+        # Zero opacity still sends every Gaussian through preprocessing.  The
+        # rasterizer can then produce an all-invalid tile list when none of the
+        # selected Gaussians contributes to a view.  Compact the inputs so
+        # dropped Gaussians never enter the CUDA rasterizer.
+        active_mask = selector_mask.to(device=means3D.device, dtype=torch.bool)
+        means3D = means3D[active_mask].contiguous()
+        means2D = means2D[active_mask].contiguous()
+        opacity = opacity[active_mask].contiguous()
 
     # If precomputed 3d covariance is provided, use it.
     # If not, then it will be computed from
@@ -80,6 +93,9 @@ def render(
 
     scales = pc.get_scaling
     rotations = pc.get_rotation
+    if active_mask is not None:
+        scales = scales[active_mask].contiguous()
+        rotations = rotations[active_mask].contiguous()
 
     # If precomputed colors are provided, use them.
     # Otherwise, if it is desired to precompute colors
@@ -89,8 +105,27 @@ def render(
     colors_precomp = None
     if override_color is None:
         dc, shs = pc.get_features_dc, pc.get_features_rest
+        if active_mask is not None:
+            dc = dc[active_mask].contiguous()
+            shs = shs[active_mask].contiguous()
     else:
         colors_precomp = override_color
+        if active_mask is not None:
+            colors_precomp = colors_precomp[active_mask].contiguous()
+
+    if active_mask is not None and not torch.any(active_mask):
+        rendered_image = bg_color[:, None, None].expand(
+            -1, int(viewpoint_camera.image_height), int(viewpoint_camera.image_width)
+        ).clone()
+        radii = torch.zeros(
+            selector_mask.shape[0], dtype=torch.int32, device=means3D.device
+        )
+        return {
+            "render": rendered_image,
+            "viewspace_points": screenspace_points,
+            "visibility_filter": radii > 0,
+            "radii": radii,
+        }
 
     # Rasterize visible Gaussians to image, obtain their radii (on screen).
     rendered_image, radii = rasterizer(
@@ -104,6 +139,15 @@ def render(
         rotations=rotations,
         cov3D_precomp=cov3D_precomp,
     )
+
+    if active_mask is not None:
+        compact_radii = radii
+        radii = torch.zeros(
+            selector_mask.shape[0],
+            dtype=compact_radii.dtype,
+            device=compact_radii.device,
+        )
+        radii[active_mask] = compact_radii
 
     # Those Gaussians that were frustum culled or had a radius of 0 were not visible.
     # They will be excluded from value updates used in the splitting criteria.
