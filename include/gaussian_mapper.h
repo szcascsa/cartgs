@@ -50,6 +50,7 @@
 #include "improvements/selector/gumbel_network.h"
 #include "gaussian_keyframe.h"
 #include "gaussian_scene.h"
+#include "gi_teacher.h"
 #include "operate_points.h"
 #include "online_gi.h"
 #include "stereo_vision.h"
@@ -328,6 +329,7 @@ class GaussianMapper {
   float selector_temperature_ = 1.0f;
   float selector_learning_rate_ = 0.001f;
   float selector_render_loss_weight_ = 1.0f;
+  float selector_gi_loss_weight_ = 1.0f;
   float selector_ratio_loss_weight_ = 0.01f;
   bool selector_replay_enabled_ = true;
   int selector_replay_interval_ = 300;
@@ -339,6 +341,7 @@ class GaussianMapper {
 
   improvements::selector::GumbelNetwork selector_network_ = nullptr;
   std::shared_ptr<torch::optim::Adam> selector_optimizer_;
+  GITeacherBuilder gi_teacher_builder_;
   std::mt19937 selector_ratio_rng_;
   std::mt19937 selector_replay_frame_rng_;
   std::mt19937 selector_replay_ratio_rng_;

@@ -329,6 +329,10 @@ void GaussianMapper::readConfigFromFile(std::filesystem::path cfg_path) {
       settings_file["Selector.render_loss_weight"];
   if (!selector_render_weight_node.empty())
     selector_render_loss_weight_ = selector_render_weight_node.operator float();
+  const cv::FileNode selector_gi_weight_node =
+      settings_file["Selector.gi_loss_weight"];
+  if (!selector_gi_weight_node.empty())
+    selector_gi_loss_weight_ = selector_gi_weight_node.operator float();
   const cv::FileNode selector_ratio_weight_node =
       settings_file["Selector.ratio_loss_weight"];
   if (!selector_ratio_weight_node.empty())
@@ -822,9 +826,7 @@ void GaussianMapper::trainMappingIteration(
       online_gi_->updateSlow(frame_score);
       viewpoint_cam->gi_slow_committed_ = true;
     }
-    // Part 4 consumes this snapshot to build the selector teacher. Part 3
-    // only owns the persistent measurement state.
-    [[maybe_unused]] auto combined_gi = online_gi_->getCombinedGI();
+    if (frame_score.num_observed > 0) online_gi_->commitVersion();
   }
   if (selector_network_) gaussians_->updateSelectorSeenCount(visibility_filter);
 
@@ -956,27 +958,13 @@ void GaussianMapper::trainSelectorReplay(
   if (!replay_kf || !selector_network_ || !selector_optimizer_) return;
 
   // Replay does not consume the keyframe's pyramid schedule or update any
-  // persistent Gaussian/GI state; its normalized importance is temporary.
+  // persistent Gaussian/GI state. It uses the same global GI teacher as the
+  // normal mapping path.
   const int image_height = replay_kf->image_height_;
   const int image_width = replay_kf->image_width_;
   auto gt_image = replay_kf->original_image_.cuda();
 
   std::unique_lock<std::mutex> lock_render(mutex_render_);
-  if (online_gi_ && online_gi_->enabled()) {
-    torch::NoGradGuard no_grad;
-    auto replay_full = GaussianRenderer::render(
-        replay_kf, image_height, image_width, gaussians_, pipe_params_,
-        background_, override_color_, 1.0f, false, torch::Tensor(), true,
-        true);
-    if (replay_full.frame_importance.defined() &&
-        replay_full.contribution_count.defined() &&
-        replay_full.frame_importance.numel() > 0) {
-      // This is intentionally temporary. Replay must not alter persistent GI
-      // or CaRtGS scheduling state.
-      [[maybe_unused]] auto replay_score = online_gi_->normalizeFrame(
-          replay_full.frame_importance, replay_full.contribution_count);
-    }
-  }
   trainSelectorUpdate(replay_kf, image_height, image_width, gt_image,
                       selector_replay_ratio_rng_, true);
 }
@@ -1024,6 +1012,16 @@ bool GaussianMapper::trainSelectorUpdate(
   if (mature_count == 0) return false;
 
   const auto protected_mask = ~mature_mask;
+  GITeacher gi_teacher;
+  if (online_gi_ && online_gi_->enabled()) {
+    auto combined_gi = online_gi_->getCombinedGI();
+    if (combined_gi.defined() &&
+        combined_gi.size(0) == num_gaussians) {
+      gi_teacher = gi_teacher_builder_.build(
+          combined_gi, mature_mask, protected_mask, target_ratio,
+          online_gi_->version());
+    }
+  }
   const int64_t selected_count = static_cast<int64_t>(std::floor(
       static_cast<double>(target_ratio) * static_cast<double>(mature_count)));
   auto hard_mask = torch::zeros_like(selector_soft_score);
@@ -1045,6 +1043,15 @@ bool GaussianMapper::trainSelectorUpdate(
 
   auto l1_loss =
       opt_params_.smooth_l1_ ? loss_utils::smooth_l1_loss : loss_utils::l1_loss;
+  torch::Tensor gi_loss;
+  if (gi_teacher.valid() && gi_teacher.supervised_k > 0 &&
+      selector_gi_loss_weight_ != 0.0f) {
+    auto selector_supervised =
+        selector_mask.index({gi_teacher.supervised_mask});
+    auto teacher_supervised =
+        gi_teacher.label.index({gi_teacher.supervised_mask});
+    gi_loss = l1_loss(selector_supervised, teacher_supervised, 1.0f);
+  }
   torch::Tensor selector_loss;
   const int64_t active_count = hard_mask.sum().item<int64_t>();
   if (active_count > 0) {
@@ -1058,6 +1065,7 @@ bool GaussianMapper::trainSelectorUpdate(
   } else {
     selector_loss = selector_ratio_loss_weight_ * ratio_loss;
   }
+  if (gi_loss.defined()) selector_loss += selector_gi_loss_weight_ * gi_loss;
 
   selector_loss.backward();
   if (step_optimizer) {

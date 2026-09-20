@@ -60,6 +60,7 @@ void OnlineGIManager::resetForGaussianCount(std::int64_t count) {
   gi_slow_ = torch::zeros({count}, float_options);
   gi_slow_count_ = torch::zeros({count}, int_options);
   gi_last_seen_ = torch::full({count}, -1, last_options);
+  ++gi_version_;
 }
 
 void OnlineGIManager::appendGaussians(std::int64_t count) {
@@ -77,6 +78,7 @@ void OnlineGIManager::appendGaussians(std::int64_t count) {
       torch::cat({gi_slow_count_, torch::zeros({count}, int_options)});
   gi_last_seen_ = torch::cat(
       {gi_last_seen_, torch::full({count}, -1, last_options)});
+  ++gi_version_;
 }
 
 void OnlineGIManager::pruneGaussians(const torch::Tensor& survivor_mask) {
@@ -91,6 +93,7 @@ void OnlineGIManager::pruneGaussians(const torch::Tensor& survivor_mask) {
   gi_slow_ = gi_slow_.index({mask});
   gi_slow_count_ = gi_slow_count_.index({mask});
   gi_last_seen_ = gi_last_seen_.index({mask});
+  ++gi_version_;
 }
 
 void OnlineGIManager::updateFast(const FrameGIScore& frame,

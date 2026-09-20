@@ -33,8 +33,11 @@ class OnlineGIManager {
 
   void updateFast(const FrameGIScore& frame, std::int64_t mapping_iter);
   void updateSlow(const FrameGIScore& frame);
+  // Mark one completed normal-frame Fast/Slow update. Replay never calls it.
+  void commitVersion() { ++gi_version_; }
 
   torch::Tensor getCombinedGI() const;
+  std::uint64_t version() const { return gi_version_; }
 
   // Gaussian lifecycle hooks. New points start with no GI evidence; pruning
   // receives the same survivor mask used by GaussianModel.
@@ -53,4 +56,5 @@ class OnlineGIManager {
   torch::Tensor gi_slow_;
   torch::Tensor gi_slow_count_;
   torch::Tensor gi_last_seen_;
+  std::uint64_t gi_version_ = 0;
 };

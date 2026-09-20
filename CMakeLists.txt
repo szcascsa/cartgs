@@ -156,6 +156,7 @@ add_library(
     include/gaussian_renderer.h
     include/gaussian_scene.h
     include/gaussian_mapper.h
+    include/gi_teacher.h
     include/online_gi.h
     include/general_utils.h
     include/graphics_utils.h
@@ -174,6 +175,7 @@ add_library(
     src/gaussian_renderer.cpp
     src/gaussian_scene.cpp
     src/gaussian_mapper.cpp
+    src/gi_teacher.cpp
     src/online_gi.cpp
 )
 target_link_libraries(
