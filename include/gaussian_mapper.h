@@ -195,7 +195,6 @@ class GaussianMapper {
                            int image_height,
                            int image_width,
                            torch::Tensor& gt_image,
-                           std::mt19937& ratio_rng,
                            bool step_optimizer);
   void increaseKeyframeTimesOfUse(std::shared_ptr<GaussianKeyframe> pkf,
                                   int times);
@@ -342,9 +341,7 @@ class GaussianMapper {
   improvements::selector::GumbelNetwork selector_network_ = nullptr;
   std::shared_ptr<torch::optim::Adam> selector_optimizer_;
   GITeacherBuilder gi_teacher_builder_;
-  std::mt19937 selector_ratio_rng_;
   std::mt19937 selector_replay_frame_rng_;
-  std::mt19937 selector_replay_ratio_rng_;
 
   std::filesystem::path result_dir_;
   int keyframe_record_interval_;

@@ -61,7 +61,6 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
   // Random seed
   std::srand(seed);
   torch::manual_seed(seed);
-  selector_ratio_rng_.seed(static_cast<std::mt19937::result_type>(seed));
 
   // Device
   if (device_type == torch::kCUDA && torch::cuda::is_available()) {
@@ -81,9 +80,6 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
   readConfigFromFile(gaussian_config_file_path);
   selector_replay_frame_rng_.seed(
       static_cast<std::mt19937::result_type>(selector_replay_seed_));
-  selector_replay_ratio_rng_.seed(
-      static_cast<std::mt19937::result_type>(selector_replay_seed_) ^
-      0x9e3779b9U);
   if (selector_enabled_override.has_value()) {
     selector_enabled_ = *selector_enabled_override;
   }
@@ -846,7 +842,7 @@ void GaussianMapper::trainMappingIteration(
   full_loss.backward();
   const bool has_selector_update =
       trainSelectorUpdate(viewpoint_cam, image_height, image_width, gt_image,
-                          selector_ratio_rng_, false);
+                          false);
 
   torch::cuda::synchronize();
 
@@ -966,7 +962,7 @@ void GaussianMapper::trainSelectorReplay(
 
   std::unique_lock<std::mutex> lock_render(mutex_render_);
   trainSelectorUpdate(replay_kf, image_height, image_width, gt_image,
-                      selector_replay_ratio_rng_, true);
+                      true);
 }
 
 bool GaussianMapper::trainSelectorUpdate(
@@ -974,7 +970,6 @@ bool GaussianMapper::trainSelectorUpdate(
     int image_height,
     int image_width,
     torch::Tensor& gt_image,
-    std::mt19937& ratio_rng,
     bool step_optimizer) {
   if (!viewpoint_cam || !selector_network_ || !selector_optimizer_ ||
       selector_target_ratios_.empty())
@@ -987,10 +982,8 @@ bool GaussianMapper::trainSelectorUpdate(
   if (num_gaussians == 0) return false;
 
   selector_optimizer_->zero_grad();
-  std::uniform_int_distribution<std::size_t> ratio_distribution(
-      0, selector_target_ratios_.size() - 1);
   const float target_ratio =
-      selector_target_ratios_[ratio_distribution(ratio_rng)];
+      selector_target_ratios_[selector_step_ % selector_target_ratios_.size()];
   auto target_ratio_tensor = torch::full(
       {num_gaussians, 1}, target_ratio,
       torch::TensorOptions().dtype(torch::kFloat32).device(device_type_));
@@ -998,7 +991,9 @@ bool GaussianMapper::trainSelectorUpdate(
       gaussians_->getXYZ().detach(), gaussians_->getRotationActivation().detach(),
       gaussians_->getScalingActivation().detach(), target_ratio_tensor,
       selector_temperature_);
-  auto selector_soft_score = std::get<2>(selector_output);
+  // GumbelNetwork returns a hard=True straight-through mask as its second
+  // output.  Keep its binary forward values and soft backward path intact.
+  auto selector_hard_mask = std::get<1>(selector_output);
   auto mature_mask = selector_protection_enabled_
                          ? gaussians_->getSelectorMatureMask(
                                getIteration(), selector_min_age_,
@@ -1022,24 +1017,13 @@ bool GaussianMapper::trainSelectorUpdate(
           online_gi_->version());
     }
   }
-  const int64_t selected_count = static_cast<int64_t>(std::floor(
-      static_cast<double>(target_ratio) * static_cast<double>(mature_count)));
-  auto hard_mask = torch::zeros_like(selector_soft_score);
-  hard_mask.index_put_({protected_mask}, 1.0f);
-  if (selected_count > 0) {
-    auto mature_indices = torch::nonzero(mature_mask).squeeze(1);
-    auto mature_scores = selector_soft_score.index({mature_indices});
-    auto topk_result = torch::topk(mature_scores, selected_count);
-    auto selected_indices = mature_indices.index({std::get<1>(topk_result)});
-    hard_mask.index_put_({selected_indices}, 1.0f);
-  }
-
+  const auto protected_f = protected_mask.to(torch::kFloat32);
+  // Protected Gaussians are forced active, while mature Gaussians retain the
+  // Gumbel hard straight-through mask for both rendering and supervision.
   auto selector_mask =
-      hard_mask - selector_soft_score.detach() + selector_soft_score;
-  selector_mask = torch::where(protected_mask, torch::ones_like(selector_mask),
-                               selector_mask);
-  auto mature_selected_mask = selector_mask.index({mature_mask});
-  auto ratio_loss = torch::abs(mature_selected_mask.mean() - target_ratio);
+      protected_f + (1.0f - protected_f) * selector_hard_mask;
+  auto hard_mature = selector_hard_mask.index({mature_mask});
+  auto ratio_loss = torch::abs(hard_mature.mean() - target_ratio);
 
   auto l1_loss =
       opt_params_.smooth_l1_ ? loss_utils::smooth_l1_loss : loss_utils::l1_loss;
@@ -1047,20 +1031,26 @@ bool GaussianMapper::trainSelectorUpdate(
   if (gi_teacher.valid() && gi_teacher.supervised_k > 0 &&
       selector_gi_loss_weight_ != 0.0f) {
     auto selector_supervised =
-        selector_mask.index({gi_teacher.supervised_mask});
+        selector_hard_mask.index({gi_teacher.supervised_mask});
     auto teacher_supervised =
         gi_teacher.label.index({gi_teacher.supervised_mask});
     gi_loss = l1_loss(selector_supervised, teacher_supervised, 1.0f);
   }
   torch::Tensor selector_loss;
-  const int64_t active_count = hard_mask.sum().item<int64_t>();
+  const int64_t active_count = selector_mask.detach().sum().item<int64_t>();
   if (active_count > 0) {
     auto selected_render_pkg = GaussianRenderer::render(
         viewpoint_cam, image_height, image_width, gaussians_, pipe_params_,
         background_, override_color_, 1.0f, false, selector_mask, true);
     auto selected_rendered_image = selected_render_pkg.image;
     auto selected_l1 = l1_loss(selected_rendered_image, gt_image, 1.0f);
-    selector_loss = selector_render_loss_weight_ * selected_l1 +
+    auto selected_ssim =
+        loss_utils::fast_ssim(selected_rendered_image, gt_image);
+    const float lambda_dssim = lambdaDssim();
+    auto selected_photo =
+        (1.0 - lambda_dssim) * selected_l1 +
+        lambda_dssim * (1.0 - selected_ssim);
+    selector_loss = selector_render_loss_weight_ * selected_photo +
                     selector_ratio_loss_weight_ * ratio_loss;
   } else {
     selector_loss = selector_ratio_loss_weight_ * ratio_loss;

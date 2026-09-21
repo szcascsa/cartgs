@@ -102,11 +102,17 @@ RenderPackage GaussianRenderer::render(
   } else {
     if (pipe.convert_SHs_) {
       int max_sh_degree = pc->max_sh_degree_ + 1;
-      torch::Tensor shs_view = pc->getFeatures().transpose(1, 2).view(
+      auto features = pc->getFeatures();
+      auto xyz = pc->getXYZ();
+      if (detach_gaussian_parameters) {
+        features = features.detach();
+        xyz = xyz.detach();
+      }
+      torch::Tensor shs_view = features.transpose(1, 2).view(
           {-1, 3, max_sh_degree * max_sh_degree});
       torch::Tensor dir_pp =
-          (pc->getXYZ() - viewpoint_camera->camera_center_.repeat(
-                              {pc->getFeatures().size(0), 1}));
+          (xyz - viewpoint_camera->camera_center_.repeat(
+                     {features.size(0), 1}));
       auto dir_pp_normalized =
           dir_pp / torch::frobenius_norm(dir_pp, /*dim=*/{1}, /*keepdim=*/true);
       auto sh2rgb =
