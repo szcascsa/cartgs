@@ -17,7 +17,16 @@ Selector.protection_enabled: 1
 Selector.temperature: 1.0
 Selector.learning_rate: 0.001
 Selector.render_loss_weight: 1.0
+Selector.gi_loss_weight: 1.0
 Selector.ratio_loss_weight: 0.01
+Selector.replay_enabled: 1
+Selector.replay_interval: 300
+Selector.replay_num_frames: 2
+Selector.replay_seed: 0
+OnlineGI.enable: 1
+OnlineGI.fast_ema_decay: 0.9
+OnlineGI.fast_weight: 0.7
+OnlineGI.eps: 1e-8
 
 #--------------------------------------------------------------------------------------------
 # Pipeline Parameters

@@ -81,6 +81,7 @@ class GaussianKeyframe {
   std::size_t fid_;
   int creation_iter_;
   int remaining_times_of_use_ = 0;
+  bool gi_slow_committed_ = false;
 
   bool set_camera_ = false;
 

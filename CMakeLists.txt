@@ -156,6 +156,8 @@ add_library(
     include/gaussian_renderer.h
     include/gaussian_scene.h
     include/gaussian_mapper.h
+    include/gi_teacher.h
+    include/online_gi.h
     include/general_utils.h
     include/graphics_utils.h
     include/loss_utils.h
@@ -173,6 +175,8 @@ add_library(
     src/gaussian_renderer.cpp
     src/gaussian_scene.cpp
     src/gaussian_mapper.cpp
+    src/gi_teacher.cpp
+    src/online_gi.cpp
 )
 target_link_libraries(
     gaussian_mapper
@@ -184,6 +188,25 @@ target_link_libraries(
     simple_knn
     cuda_rasterizer
 )
+
+option(CARTGS_BUILD_TESTS "Build CaRtGS first-party tests" OFF)
+if(CARTGS_BUILD_TESTS)
+    enable_testing()
+    add_executable(
+        online_gi_lifecycle_test
+        tests/online_gi_lifecycle_test.cpp
+        src/online_gi.cpp
+    )
+    target_link_libraries(online_gi_lifecycle_test ${TORCH_LIBRARIES})
+    add_test(NAME online_gi_lifecycle COMMAND online_gi_lifecycle_test)
+
+    add_executable(
+        gaussian_model_lifecycle_test
+        tests/gaussian_model_lifecycle_test.cpp
+    )
+    target_link_libraries(gaussian_model_lifecycle_test gaussian_mapper)
+    add_test(NAME gaussian_model_lifecycle COMMAND gaussian_model_lifecycle_test)
+endif()
 
 ##################################################################################
 ##  Build the viewer library to ${PROJECT_SOURCE_DIR}/lib

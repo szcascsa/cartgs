@@ -26,18 +26,31 @@
 #include "gaussian_rasterizer.h"
 #include "sh_utils.h"
 
+struct RenderPackage {
+  torch::Tensor image;
+  torch::Tensor viewspace_points;
+  torch::Tensor visibility_indices;
+  torch::Tensor radii;
+
+  // Raw non-differentiable per-Gaussian statistics. They are empty unless the
+  // caller enables collection.
+  torch::Tensor frame_importance;
+  torch::Tensor contribution_count;
+};
+
 class GaussianRenderer {
  public:
-  static std::tuple<torch::Tensor, torch::Tensor, torch::Tensor, torch::Tensor>
-  render(std::shared_ptr<GaussianKeyframe> viewpoint_camera,
-         int image_height,
-         int image_width,
-         std::shared_ptr<GaussianModel> gaussians,
-         GaussianPipelineParams& pipe,
-         torch::Tensor& bg_color,
-         torch::Tensor& override_color,
-         float scaling_modifier = 1.0f,
-         bool has_override_color = false,
-         torch::Tensor selector_mask = torch::Tensor(),
-         bool detach_gaussian_parameters = false);
+  static RenderPackage render(
+      std::shared_ptr<GaussianKeyframe> viewpoint_camera,
+      int image_height,
+      int image_width,
+      std::shared_ptr<GaussianModel> gaussians,
+      GaussianPipelineParams& pipe,
+      torch::Tensor& bg_color,
+      torch::Tensor& override_color,
+      float scaling_modifier = 1.0f,
+      bool has_override_color = false,
+      torch::Tensor selector_mask = torch::Tensor(),
+      bool detach_gaussian_parameters = false,
+      bool collect_importance = false);
 };

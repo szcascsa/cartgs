@@ -194,6 +194,8 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if (online_gi_reset_callback_)
+    online_gi_reset_callback_(this->xyz_.size(0));
 }
 
 void GaussianModel::increasePcd(std::vector<float> points,
@@ -642,6 +644,8 @@ void GaussianModel::prunePoints(torch::Tensor& mask) {
   this->max_radii2D_ = this->max_radii2D_.index({valid_points_mask});
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if (online_gi_prune_callback_)
+    online_gi_prune_callback_(valid_points_mask);
 }
 
 torch::Tensor GaussianModel::getSelectorMatureMask(int current_iteration,
@@ -749,12 +753,24 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if (online_gi_append_callback_ && new_xyz.size(0) > 0)
+    online_gi_append_callback_(new_xyz.size(0));
+}
+
+void GaussianModel::setOnlineGIStateCallbacks(
+    OnlineGIAppendCallback on_append,
+    OnlineGIPruneCallback on_prune,
+    OnlineGIResetCallback on_reset) {
+  online_gi_append_callback_ = std::move(on_append);
+  online_gi_prune_callback_ = std::move(on_prune);
+  online_gi_reset_callback_ = std::move(on_reset);
 }
 
 void GaussianModel::densifyAndSplit(torch::Tensor& grads,
                                     float grad_threshold,
                                     float scene_extent,
-                                    int N) {
+                                    int N,
+                                    int current_iteration) {
   int n_init_points = this->getXYZ().size(0);
   // Extract points that satisfy the gradient condition
   auto padded_grad = torch::zeros({n_init_points},
@@ -787,10 +803,13 @@ void GaussianModel::densifyAndSplit(torch::Tensor& grads,
 
   auto new_exist_since_iter =
       this->exist_since_iter_.index({selected_pts_mask}).repeat({N});
-  auto new_selector_birth_iter =
-      this->selector_birth_iter_.index({selected_pts_mask}).repeat({N});
-  auto new_selector_seen_count =
-      this->selector_seen_count_.index({selected_pts_mask}).repeat({N});
+  // Split children are new Selector identities. Keep CaRtGS' original
+  // existence metadata, but restart the protection warm-up for each child.
+  auto new_selector_birth_iter = torch::full(
+      {new_xyz.size(0)}, current_iteration,
+      this->selector_birth_iter_.options());
+  auto new_selector_seen_count = torch::zeros(
+      {new_xyz.size(0)}, this->selector_seen_count_.options());
 
   this->densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                              new_opacity, new_scaling, new_rotation,
@@ -807,7 +826,8 @@ void GaussianModel::densifyAndSplit(torch::Tensor& grads,
 
 void GaussianModel::densifyAndClone(torch::Tensor& grads,
                                     float grad_threshold,
-                                    float scene_extent) {
+                                    float scene_extent,
+                                    int current_iteration) {
   // Extract points that satisfy the gradient condition
   auto selected_pts_mask = torch::where(
       torch::frobenius_norm(grads, /*dim=*/-1) >= grad_threshold, true, false);
@@ -825,10 +845,13 @@ void GaussianModel::densifyAndClone(torch::Tensor& grads,
 
   auto new_exist_since_iter =
       this->exist_since_iter_.index({selected_pts_mask});
-  auto new_selector_birth_iter =
-      this->selector_birth_iter_.index({selected_pts_mask});
-  auto new_selector_seen_count =
-      this->selector_seen_count_.index({selected_pts_mask});
+  // Clone children are also fresh Selector identities; parent protection
+  // metadata must not make them mature at birth.
+  auto new_selector_birth_iter = torch::full(
+      {new_xyz.size(0)}, current_iteration,
+      this->selector_birth_iter_.options());
+  auto new_selector_seen_count = torch::zeros(
+      {new_xyz.size(0)}, this->selector_seen_count_.options());
 
   this->densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                              new_opacities, new_scaling, new_rotation,
@@ -839,11 +862,12 @@ void GaussianModel::densifyAndClone(torch::Tensor& grads,
 void GaussianModel::densifyAndPrune(float max_grad,
                                     float min_opacity,
                                     float extent,
-                                    int max_screen_size) {
+                                    int max_screen_size,
+                                    int current_iteration) {
   auto grads = this->xyz_gradient_accum_ / this->denom_;
   grads.index_put_({grads.isnan()}, 0.0f);
-  this->densifyAndClone(grads, max_grad, extent);
-  this->densifyAndSplit(grads, max_grad, extent);
+  this->densifyAndClone(grads, max_grad, extent, current_iteration);
+  this->densifyAndSplit(grads, max_grad, extent, 2, current_iteration);
 
   auto prune_mask = (this->getOpacityActivation() < min_opacity).squeeze();
   if (max_screen_size) {
@@ -1042,6 +1066,8 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
   this->active_sh_degree_ = this->max_sh_degree_;
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if (online_gi_reset_callback_)
+    online_gi_reset_callback_(this->xyz_.size(0));
 }
 
 void GaussianModel::loadSelectorMetadataPly(

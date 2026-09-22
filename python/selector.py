@@ -146,23 +146,29 @@ def build_selector_mask(
         protected = torch.zeros_like(mature)
     eligible_indices = torch.nonzero(mature, as_tuple=False).flatten()
     eligible_count = int(eligible_indices.numel())
-    selected_count = int(math.floor(float(ratio) * eligible_count))
 
     mask = protected.clone()
-    if selected_count > 0:
+    selected = eligible_indices[:0]
+    if eligible_count > 0:
         eligible_scores = scores[eligible_indices]
-        selected = eligible_indices[
-            torch.topk(eligible_scores, selected_count).indices
-        ]
+        threshold_index = int(
+            math.floor((1.0 - float(ratio)) * (eligible_count - 1))
+        )
+        threshold = torch.sort(eligible_scores, dim=0).values[threshold_index]
+        selected = eligible_indices[eligible_scores > threshold]
         mask[selected] = True
+
+    selected_count = int(selected.numel())
+    target_selected_count = int(math.floor(float(ratio) * eligible_count))
 
     stats = {
         "total_gaussians": int(total),
         "protected_gaussians": int(protected.sum().item()),
-        "mature_gaussians": eligible_count if protection_enabled else 0,
+        "mature_gaussians": eligible_count,
         "eligible_gaussians": eligible_count,
         "selected_mature_gaussians": selected_count,
         "selected_eligible_gaussians": selected_count,
+        "target_selected_mature_gaussians": target_selected_count,
         "active_gaussians": int(mask.sum().item()),
         "ratio": float(ratio),
         "protection_enabled": bool(protection_enabled),

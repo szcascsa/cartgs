@@ -37,16 +37,17 @@ torch::autograd::tensor_list GaussianRasterizerFunction::forward(
     torch::Tensor cov3Ds_precomp,
     GaussianRasterizationSettings raster_settings) {
   // Invoke C++/CUDA rasterizer
-  auto [num_rendered, num_buckets, color, radii, geomBuffer, binningBuffer,
-        imgBuffer, sampleBuffer] =
-      RasterizeGaussiansCUDA(
+  auto [num_rendered, num_buckets, color, radii, frame_importance,
+        contribution_count, geomBuffer, binningBuffer, imgBuffer, sampleBuffer] =
+      RasterizeGaussiansCUDAWithImportance(
           raster_settings.bg_, means3D, colors_precomp, opacities, scales,
           rotations, raster_settings.scale_modifier_, cov3Ds_precomp,
           raster_settings.viewmatrix_, raster_settings.projmatrix_,
           raster_settings.tanfovx_, raster_settings.tanfovy_,
           raster_settings.image_height_, raster_settings.image_width_, dc, sh,
           raster_settings.sh_degree_, raster_settings.campos_,
-          raster_settings.prefiltered_, raster_settings.debug_);
+          raster_settings.prefiltered_, raster_settings.debug_,
+          raster_settings.collect_importance_);
 
   // Keep relevant tensors for backward
   ctx->saved_data["num_rendered"] = num_rendered;
@@ -61,8 +62,9 @@ torch::autograd::tensor_list GaussianRasterizerFunction::forward(
                           colors_precomp, means3D, scales, rotations,
                           cov3Ds_precomp, radii, dc, sh, geomBuffer,
                           binningBuffer, imgBuffer, sampleBuffer});
+  ctx->mark_non_differentiable({frame_importance, contribution_count});
 
-  return {color, radii};
+  return {color, radii, frame_importance, contribution_count};
 }
 
 torch::autograd::tensor_list GaussianRasterizerFunction::backward(
@@ -125,7 +127,7 @@ torch::autograd::tensor_list GaussianRasterizerFunction::backward(
   };
 }
 
-std::tuple<torch::Tensor, torch::Tensor> GaussianRasterizer::forward(
+GaussianRasterizationOutput GaussianRasterizer::forward(
     torch::Tensor means3D,
     torch::Tensor means2D,
     torch::Tensor opacities,
@@ -169,7 +171,7 @@ std::tuple<torch::Tensor, torch::Tensor> GaussianRasterizer::forward(
       rasterizeGaussians(means3D, means2D, dc, shs, colors_precomp, opacities,
                          scales, rotations, cov3D_precomp, raster_settings);
 
-  return std::make_tuple(result[0] /*color*/, result[1] /*radii*/);
+  return {result[0], result[1], result[2], result[3]};
 }
 
 void SparseGaussianAdam::step(torch::Tensor& visibility, const uint32_t N) {

@@ -71,5 +71,8 @@ void render(const dim3 grid,
             uint32_t* n_contrib,
             uint32_t* max_contrib,
             const float* bg_color,
-            float* out_color);
+            float* out_color,
+            bool collect_importance,
+            float* frame_importance,
+            int* contribution_count);
 }  // namespace FORWARD

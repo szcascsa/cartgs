@@ -24,6 +24,13 @@
 #include "cuda_rasterizer/rasterize_points.h"
 #include "gaussian_model.h"
 
+struct GaussianRasterizationOutput {
+  torch::Tensor image;
+  torch::Tensor radii;
+  torch::Tensor frame_importance;
+  torch::Tensor contribution_count;
+};
+
 struct GaussianRasterizationSettings {
   GaussianRasterizationSettings(int image_height,
                                 int image_width,
@@ -36,7 +43,8 @@ struct GaussianRasterizationSettings {
                                 int sh_degree,
                                 torch::Tensor& campos,
                                 bool prefiltered,
-                                bool debug)
+                                bool debug,
+                                bool collect_importance = false)
       : image_height_(image_height),
         image_width_(image_width),
         tanfovx_(tanfovx),
@@ -48,7 +56,8 @@ struct GaussianRasterizationSettings {
         sh_degree_(sh_degree),
         campos_(campos),
         prefiltered_(prefiltered),
-        debug_(debug) {}
+        debug_(debug),
+        collect_importance_(collect_importance) {}
 
   int image_height_;
   int image_width_;
@@ -62,6 +71,7 @@ struct GaussianRasterizationSettings {
   torch::Tensor campos_;
   bool prefiltered_;
   bool debug_;
+  bool collect_importance_;
 };
 
 class GaussianRasterizerFunction
@@ -108,15 +118,16 @@ class GaussianRasterizer : public torch::nn::Module {
 
   torch::Tensor markVisibleGaussians(torch::Tensor& positions);
 
-  std::tuple<torch::Tensor, torch::Tensor> forward(torch::Tensor means3D,
-                                                   torch::Tensor means2D,
-                                                   torch::Tensor opacities,
-                                                   torch::Tensor dc,
-                                                   torch::Tensor shs,
-                                                   torch::Tensor colors_precomp,
-                                                   torch::Tensor scales,
-                                                   torch::Tensor rotations,
-                                                   torch::Tensor cov3D_precomp);
+  GaussianRasterizationOutput forward(
+      torch::Tensor means3D,
+      torch::Tensor means2D,
+      torch::Tensor opacities,
+      torch::Tensor dc,
+      torch::Tensor shs,
+      torch::Tensor colors_precomp,
+      torch::Tensor scales,
+      torch::Tensor rotations,
+      torch::Tensor cov3D_precomp);
 
  public:
   GaussianRasterizationSettings raster_settings_;
