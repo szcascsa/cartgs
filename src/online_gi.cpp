@@ -43,9 +43,57 @@ void OnlineGIManager::ensureStateInitialized(std::int64_t count) {
     resetForGaussianCount(count);
     return;
   }
+  assertStateInvariants();
   if (size() != count)
     throw std::runtime_error(
         "OnlineGI state is not aligned with the Gaussian model");
+}
+
+void OnlineGIManager::assertStateInvariants() const {
+  if (!gi_fast_.defined() || !gi_slow_.defined() ||
+      !gi_slow_count_.defined() || !gi_last_seen_.defined()) {
+    throw std::runtime_error("OnlineGI state is only partially initialized");
+  }
+
+  if (gi_fast_.dim() != 1 || gi_slow_.dim() != 1 ||
+      gi_slow_count_.dim() != 1 || gi_last_seen_.dim() != 1) {
+    throw std::runtime_error(
+        "OnlineGI tensors must be aligned one-dimensional state");
+  }
+  const auto count = gi_fast_.size(0);
+  if (gi_slow_.size(0) != count || gi_slow_count_.size(0) != count ||
+      gi_last_seen_.size(0) != count)
+    throw std::runtime_error("OnlineGI tensor length invariant violated");
+  if (gi_fast_.scalar_type() != torch::kFloat32 ||
+      gi_slow_.scalar_type() != torch::kFloat32 ||
+      gi_slow_count_.scalar_type() != torch::kInt32 ||
+      gi_last_seen_.scalar_type() != torch::kInt64) {
+    throw std::runtime_error("OnlineGI tensor dtype invariant violated");
+  }
+  if (gi_fast_.device().type() != device_type_ ||
+      gi_slow_.device() != gi_fast_.device() ||
+      gi_slow_count_.device() != gi_fast_.device() ||
+      gi_last_seen_.device() != gi_fast_.device()) {
+    throw std::runtime_error("OnlineGI tensor device invariant violated");
+  }
+  if (gi_fast_.requires_grad() || gi_slow_.requires_grad() ||
+      gi_slow_count_.requires_grad() || gi_last_seen_.requires_grad()) {
+    throw std::runtime_error("OnlineGI state must not require gradients");
+  }
+}
+
+void OnlineGIManager::assertAligned(
+    const torch::Tensor& gaussian_xyz) const {
+  if (!gaussian_xyz.defined() || gaussian_xyz.dim() < 1)
+    throw std::invalid_argument(
+        "Gaussian tensor must be defined for OnlineGI alignment");
+  assertStateInvariants();
+  if (size() != gaussian_xyz.size(0))
+    throw std::runtime_error(
+        "OnlineGI state is not aligned with the Gaussian model");
+  if (gi_fast_.device() != gaussian_xyz.device())
+    throw std::runtime_error(
+        "OnlineGI state is not on the Gaussian model device");
 }
 
 void OnlineGIManager::resetForGaussianCount(std::int64_t count) {
@@ -60,15 +108,20 @@ void OnlineGIManager::resetForGaussianCount(std::int64_t count) {
   gi_slow_ = torch::zeros({count}, float_options);
   gi_slow_count_ = torch::zeros({count}, int_options);
   gi_last_seen_ = torch::full({count}, -1, last_options);
+  assertStateInvariants();
   ++gi_version_;
+  topology_version_ = 0;
 }
 
 void OnlineGIManager::appendGaussians(std::int64_t count) {
-  if (count <= 0) return;
+  if (count < 0)
+    throw std::invalid_argument("Gaussian count cannot be negative");
+  if (count == 0) return;
   if (!gi_fast_.defined()) {
     resetForGaussianCount(count);
     return;
   }
+  assertStateInvariants();
   auto float_options = gi_fast_.options();
   auto int_options = gi_slow_count_.options();
   auto last_options = gi_last_seen_.options();
@@ -78,28 +131,42 @@ void OnlineGIManager::appendGaussians(std::int64_t count) {
       torch::cat({gi_slow_count_, torch::zeros({count}, int_options)});
   gi_last_seen_ = torch::cat(
       {gi_last_seen_, torch::full({count}, -1, last_options)});
+  assertStateInvariants();
   ++gi_version_;
+  ++topology_version_;
 }
 
 void OnlineGIManager::pruneGaussians(const torch::Tensor& survivor_mask) {
   if (!survivor_mask.defined()) return;
-  if (!gi_fast_.defined() || survivor_mask.dim() != 1 ||
+  assertStateInvariants();
+  if (survivor_mask.dim() != 1 ||
       survivor_mask.size(0) != gi_fast_.size(0)) {
     throw std::invalid_argument(
         "OnlineGI survivor mask does not match Gaussian state");
   }
-  auto mask = survivor_mask.to(torch::kBool);
-  gi_fast_ = gi_fast_.index({mask});
-  gi_slow_ = gi_slow_.index({mask});
-  gi_slow_count_ = gi_slow_count_.index({mask});
-  gi_last_seen_ = gi_last_seen_.index({mask});
+  if (survivor_mask.scalar_type() != torch::kBool)
+    throw std::invalid_argument("OnlineGI survivor mask must be boolean");
+  if (survivor_mask.device() != gi_fast_.device())
+    throw std::invalid_argument(
+        "OnlineGI survivor mask is not on the Gaussian state device");
+  gi_fast_ = gi_fast_.index({survivor_mask});
+  gi_slow_ = gi_slow_.index({survivor_mask});
+  gi_slow_count_ = gi_slow_count_.index({survivor_mask});
+  gi_last_seen_ = gi_last_seen_.index({survivor_mask});
+  assertStateInvariants();
   ++gi_version_;
+  ++topology_version_;
 }
 
 void OnlineGIManager::updateFast(const FrameGIScore& frame,
                                   std::int64_t mapping_iter) {
-  if (frame.num_observed == 0) return;
+  if (!frame.score.defined()) {
+    if (frame.num_observed != 0)
+      throw std::invalid_argument("OnlineGI frame score is undefined");
+    return;
+  }
   ensureStateInitialized(frame.score.size(0));
+  if (frame.num_observed == 0) return;
   torch::NoGradGuard no_grad;
   auto idx = frame.observed_indices;
   auto x = frame.score.index({idx});
@@ -113,8 +180,13 @@ void OnlineGIManager::updateFast(const FrameGIScore& frame,
 }
 
 void OnlineGIManager::updateSlow(const FrameGIScore& frame) {
-  if (frame.num_observed == 0) return;
+  if (!frame.score.defined()) {
+    if (frame.num_observed != 0)
+      throw std::invalid_argument("OnlineGI frame score is undefined");
+    return;
+  }
   ensureStateInitialized(frame.score.size(0));
+  if (frame.num_observed == 0) return;
   torch::NoGradGuard no_grad;
   auto idx = frame.observed_indices;
   auto old_count = gi_slow_count_.index({idx});
@@ -128,6 +200,7 @@ void OnlineGIManager::updateSlow(const FrameGIScore& frame) {
 
 torch::Tensor OnlineGIManager::getCombinedGI() const {
   if (!gi_fast_.defined()) return torch::Tensor();
+  assertStateInvariants();
   auto fast_valid = gi_last_seen_ >= 0;
   auto slow_valid = gi_slow_count_ > 0;
   auto both = fast_valid & slow_valid;

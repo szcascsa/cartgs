@@ -6,8 +6,8 @@
 GITeacher GITeacherBuilder::build(const torch::Tensor& combined_gi,
                                   const torch::Tensor& mature_mask,
                                   const torch::Tensor& protected_mask,
-                                  float ratio,
-                                  std::uint64_t gi_version) const {
+                                  float ratio, std::uint64_t gi_version,
+                                  std::uint64_t topology_version) const {
   if (!combined_gi.defined() || !mature_mask.defined() ||
       !protected_mask.defined())
     return {};
@@ -36,6 +36,7 @@ GITeacher GITeacherBuilder::build(const torch::Tensor& combined_gi,
       static_cast<double>(ratio) * static_cast<double>(mature_count)));
   teacher.ratio = ratio;
   teacher.gi_version = gi_version;
+  teacher.topology_version = topology_version;
   teacher.label = torch::zeros(
       {count}, combined_gi.options().dtype(torch::kFloat32));
 

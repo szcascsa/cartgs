@@ -20,6 +20,7 @@ struct GITeacher {
   std::int64_t supervised_k = 0;
   float ratio = 0.0f;
   std::uint64_t gi_version = 0;
+  std::uint64_t topology_version = 0;
 
   bool valid() const {
     return label.defined() && supervised_mask.defined();
@@ -31,5 +32,6 @@ class GITeacherBuilder {
   GITeacher build(const torch::Tensor& combined_gi,
                   const torch::Tensor& mature_mask,
                   const torch::Tensor& protected_mask, float ratio,
-                  std::uint64_t gi_version) const;
+                  std::uint64_t gi_version,
+                  std::uint64_t topology_version = 0) const;
 };

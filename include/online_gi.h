@@ -38,17 +38,20 @@ class OnlineGIManager {
 
   torch::Tensor getCombinedGI() const;
   std::uint64_t version() const { return gi_version_; }
+  std::uint64_t topologyVersion() const { return topology_version_; }
 
   // Gaussian lifecycle hooks. New points start with no GI evidence; pruning
   // receives the same survivor mask used by GaussianModel.
   void resetForGaussianCount(std::int64_t count);
   void appendGaussians(std::int64_t count);
   void pruneGaussians(const torch::Tensor& survivor_mask);
+  void assertAligned(const torch::Tensor& gaussian_xyz) const;
 
   std::int64_t size() const;
 
  private:
   void ensureStateInitialized(std::int64_t count);
+  void assertStateInvariants() const;
 
   torch::DeviceType device_type_;
   OnlineGIConfig config_;
@@ -57,4 +60,5 @@ class OnlineGIManager {
   torch::Tensor gi_slow_count_;
   torch::Tensor gi_last_seen_;
   std::uint64_t gi_version_ = 0;
+  std::uint64_t topology_version_ = 0;
 };

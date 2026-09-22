@@ -105,12 +105,15 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
     gaussians_->setOnlineGIStateCallbacks(
         [this](std::int64_t count) {
           online_gi_->appendGaussians(count);
+          online_gi_->assertAligned(gaussians_->getXYZ());
         },
         [this](const torch::Tensor& survivor_mask) {
           online_gi_->pruneGaussians(survivor_mask);
+          online_gi_->assertAligned(gaussians_->getXYZ());
         },
         [this](std::int64_t count) {
           online_gi_->resetForGaussianCount(count);
+          online_gi_->assertAligned(gaussians_->getXYZ());
         });
   }
   if (selector_enabled_) {
@@ -857,6 +860,8 @@ void GaussianMapper::trainMappingIteration(
       recordKeyframeRendered(rendered_image, gt_image, viewpoint_cam->fid_,
                              result_dir_, result_dir_, result_dir_);
 
+    // Full-render GI and Selector work for the current topology is complete.
+    // From this point onward every append/prune is mirrored by OnlineGI.
     // Densification
     if (getIteration() < opt_params_.densify_until_iter_ ||
         opt_params_.densify_until_iter_ == -1) {
@@ -877,7 +882,10 @@ void GaussianMapper::trainMappingIteration(
                                  : 20;
         gaussians_->densifyAndPrune(densifyGradThreshold(),
                                     densify_min_opacity_,  // 0.005,//
-                                    scene_->cameras_extent_, size_threshold);
+                                    scene_->cameras_extent_, size_threshold,
+                                    getIteration());
+        if (online_gi_ && online_gi_->enabled())
+          online_gi_->assertAligned(gaussians_->getXYZ());
       }
 
       if (opacityResetInterval() &&
@@ -980,6 +988,8 @@ bool GaussianMapper::trainSelectorUpdate(
 
   const auto num_gaussians = gaussians_->getXYZ().size(0);
   if (num_gaussians == 0) return false;
+  if (online_gi_ && online_gi_->enabled())
+    online_gi_->assertAligned(gaussians_->getXYZ());
 
   selector_optimizer_->zero_grad();
   const float target_ratio =
@@ -1014,7 +1024,7 @@ bool GaussianMapper::trainSelectorUpdate(
         combined_gi.size(0) == num_gaussians) {
       gi_teacher = gi_teacher_builder_.build(
           combined_gi, mature_mask, protected_mask, target_ratio,
-          online_gi_->version());
+          online_gi_->version(), online_gi_->topologyVersion());
     }
   }
   const auto protected_f = protected_mask.to(torch::kFloat32);

@@ -149,16 +149,21 @@ class GaussianModel {
   void densifyAndSplit(torch::Tensor& grads,
                        float grad_threshold,
                        float scene_extent,
-                       int N = 2);
+                       int N,
+                       int current_iteration);
 
   void densifyAndClone(torch::Tensor& grads,
                        float grad_threshold,
-                       float scene_extent);
+                       float scene_extent,
+                       int current_iteration);
 
+  // current_iteration initializes fresh Selector protection metadata for all
+  // clone/split children; CaRtGS existence metadata remains inherited.
   void densifyAndPrune(float max_grad,
                        float min_opacity,
                        float extent,
-                       int max_screen_size);
+                       int max_screen_size,
+                       int current_iteration);
 
   void addDensificationStats(torch::Tensor& viewspace_point_tensor,
                              torch::Tensor& update_filter);
