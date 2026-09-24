@@ -10,7 +10,6 @@ from argparse import ArgumentParser
 from gaussian_model import GaussianModel
 from selector import build_selector_mask, load_selector, load_selector_metadata
 from transform_field import (
-    load_canonical_frames,
     load_transform_field,
     transformed_attributes,
 )
@@ -234,10 +233,6 @@ if __name__ == "__main__":
                     protection_enabled=bool(args.selector_protection_enabled),
                 )
                 if transform_model is not None:
-                    canonical_frames = load_canonical_frames(
-                        os.path.join(os.path.dirname(ply_path), "canonical_frames.ply"),
-                        gaussians.get_xyz.shape[0], "cuda",
-                    )
                     mature_mask = (
                         (int(iter) - birth_iter >= args.selector_min_age)
                         & (seen_count >= args.selector_min_seen)
@@ -246,8 +241,8 @@ if __name__ == "__main__":
                         )
                     )
                     elastic_attributes = transformed_attributes(
-                        transform_model, gaussians, canonical_frames,
-                        selector_mask, mature_mask, args.selector_ratio,
+                        transform_model, gaussians, selector_mask, mature_mask,
+                        args.selector_ratio,
                     )
                     selector_stats["transform_applied"] = elastic_attributes is not None
 

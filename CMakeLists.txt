@@ -158,7 +158,7 @@ add_library(
     include/gaussian_mapper.h
     include/gi_teacher.h
     include/online_gi.h
-    include/canonical_frame.h
+    include/quaternion_utils.h
     include/hexplane_field.h
     include/transform_field.h
     include/general_utils.h
@@ -211,13 +211,6 @@ if(CARTGS_BUILD_TESTS)
     )
     target_link_libraries(gaussian_model_lifecycle_test gaussian_mapper)
     add_test(NAME gaussian_model_lifecycle COMMAND gaussian_model_lifecycle_test)
-
-    add_executable(
-        canonical_frame_test
-        tests/canonical_frame_test.cpp
-    )
-    target_link_libraries(canonical_frame_test ${TORCH_LIBRARIES})
-    add_test(NAME canonical_frame COMMAND canonical_frame_test)
 
     add_executable(
         transform_field_test

@@ -20,9 +20,9 @@ class HexPlaneFieldImpl : public torch::nn::Module {
                     const torch::Tensor& aabb_max,
                     const HexPlaneConfig& config);
 
-  torch::Tensor forward(const torch::Tensor& canonical_xyz,
+  torch::Tensor forward(const torch::Tensor& xyz,
                         const torch::Tensor& ratio);
-  torch::Tensor insideMask(const torch::Tensor& canonical_xyz) const;
+  torch::Tensor insideMask(const torch::Tensor& xyz) const;
 
   torch::Tensor spatialSmoothness() const;
   torch::Tensor ratioSmoothness() const;

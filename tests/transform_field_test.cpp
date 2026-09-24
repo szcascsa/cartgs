@@ -14,23 +14,24 @@ int main() {
   config.hidden_dim = 8;
   TransformField field(torch::full({3}, -2.0f, options),
                        torch::full({3}, 2.0f, options), config);
-  auto canonical_xyz = torch::tensor({{0.0f, 0.0f, 0.0f}}, options);
+  auto xyz = torch::tensor({{0.0f, 0.0f, 0.0f}}, options);
   auto world_scale = torch::ones({1, 3}, options);
   auto identity_rotation = torch::tensor(
       {{1.0f, 0.0f, 0.0f, 0.0f}}, options);
-  auto frame_scale = torch::ones({1, 1}, options);
-  auto frame_translation = torch::zeros({1, 3}, options);
-  if (!field->insideMask(canonical_xyz).item<bool>() ||
+  if (!field->insideMask(xyz).item<bool>() ||
       field->insideMask(torch::full({1, 3}, 3.0f, options)).item<bool>())
     throw std::runtime_error("Transform Field AABB mask is incorrect");
 
+  auto residual = field->forward(xyz, 0.1f);
   auto transformed = field->applyResidual(
-      canonical_xyz, world_scale, identity_rotation, frame_scale,
-      identity_rotation, frame_translation, 0.1f);
-  if (transformed.xyz.sizes() != canonical_xyz.sizes() ||
+      xyz, world_scale, identity_rotation, 0.1f);
+  if (transformed.xyz.sizes() != xyz.sizes() ||
       transformed.scaling.sizes() != world_scale.sizes() ||
       transformed.rotation.sizes() != identity_rotation.sizes())
     throw std::runtime_error("Transform Field output shape is incorrect");
+  if (!torch::allclose(transformed.xyz, xyz + residual.delta_xyz))
+    throw std::runtime_error(
+        "Transform Field position residual must use current coordinates");
   auto loss = transformed.xyz.sum() + transformed.scaling.sum() +
               transformed.rotation.sum() + field->regularizationLoss();
   loss.backward();

@@ -1,12 +1,10 @@
-"""Inference counterpart of the C++ canonical Transform Field."""
+"""Inference counterpart of the C++ current-coordinate Transform Field."""
 
 import json
 import os
 
-import numpy as np
 import torch
 import torch.nn.functional as functional
-from plyfile import PlyData
 from torch import nn
 
 
@@ -24,16 +22,6 @@ def _multiply_quaternion(lhs, rhs):
         + torch.cross(lhs[:, 1:], rhs[:, 1:], dim=-1)
     )
     return torch.cat((scalar, vector), dim=-1)
-
-
-def _rotate(quaternion, vector):
-    quaternion = _normalize_quaternion(quaternion)
-    twice_cross = 2.0 * torch.cross(quaternion[:, 1:], vector, dim=-1)
-    return (
-        vector
-        + quaternion[:, :1] * twice_cross
-        + torch.cross(quaternion[:, 1:], twice_cross, dim=-1)
-    )
 
 
 class HexPlaneField(nn.Module):
@@ -73,18 +61,18 @@ class HexPlaneField(nn.Module):
                     ),
                 )
 
-    def inside_mask(self, canonical_xyz):
-        return ((canonical_xyz >= self.aabb_min) & (canonical_xyz <= self.aabb_max)).all(
+    def inside_mask(self, xyz):
+        return ((xyz >= self.aabb_min) & (xyz <= self.aabb_max)).all(
             dim=1
         )
 
-    def forward(self, canonical_xyz, ratio):
-        if canonical_xyz.shape[0] == 0:
-            return canonical_xyz.new_empty((0, self.feature_dim * len(self.multires)))
-        normalized = 2.0 * (canonical_xyz - self.aabb_min) / (
+    def forward(self, xyz, ratio):
+        if xyz.shape[0] == 0:
+            return xyz.new_empty((0, self.feature_dim * len(self.multires)))
+        normalized = 2.0 * (xyz - self.aabb_min) / (
             self.aabb_max - self.aabb_min
         ) - 1.0
-        ratio_column = normalized.new_full((canonical_xyz.shape[0], 1), ratio)
+        ratio_column = normalized.new_full((xyz.shape[0], 1), ratio)
         coordinates = torch.cat((normalized, ratio_column), dim=1)
         features = []
         for level in range(len(self.multires)):
@@ -92,7 +80,7 @@ class HexPlaneField(nn.Module):
             for name, (first, second) in zip(self.plane_names, self.pairs):
                 plane = getattr(self, "L{}_{}".format(level, name))
                 grid = coordinates[:, (first, second)].reshape(
-                    1, 1, canonical_xyz.shape[0], 2
+                    1, 1, xyz.shape[0], 2
                 )
                 sampled = functional.grid_sample(
                     plane, grid, mode="bilinear", padding_mode="border", align_corners=True
@@ -118,8 +106,8 @@ class TransformField(nn.Module):
         self.rotation_out = nn.Linear(hidden_dim, 4)
         self.to(device)
 
-    def forward(self, canonical_xyz, ratio):
-        feature = self.feature_out(self.grid(canonical_xyz, ratio))
+    def forward(self, xyz, ratio):
+        feature = self.feature_out(self.grid(xyz, ratio))
         delta_xyz = self.position_out(
             functional.relu(self.position_hidden(functional.relu(feature)))
         )
@@ -130,24 +118,6 @@ class TransformField(nn.Module):
             functional.relu(self.rotation_hidden(functional.relu(feature)))
         )
         return delta_xyz, delta_scale, delta_rotation
-
-
-def load_canonical_frames(path, count, device):
-    if not os.path.isfile(path):
-        raise FileNotFoundError("canonical frames not found: {}".format(path))
-    vertex = PlyData.read(path)["vertex"]
-    columns = ("canonical_scale",) + tuple(
-        "canonical_rot_{}".format(index) for index in range(4)
-    ) + tuple("canonical_trans_{}".format(index) for index in range(3))
-    if len(vertex) != count or not set(columns).issubset(vertex.data.dtype.names):
-        raise RuntimeError("canonical frames do not align with the Gaussian PLY")
-    values = torch.as_tensor(
-        np.stack([vertex[column] for column in columns], axis=1).astype(np.float32),
-        device=device,
-    )
-    if not torch.isfinite(values).all() or not (values[:, 0] > 0).all():
-        raise RuntimeError("canonical frames contain invalid Sim(3) parameters")
-    return values[:, :1], _normalize_quaternion(values[:, 1:5]), values[:, 5:]
 
 
 def load_transform_field(ply_directory, device):
@@ -180,44 +150,30 @@ def load_transform_field(ply_directory, device):
 
 
 @torch.no_grad()
-def transformed_attributes(model, gaussians, frames, selected_mask, mature_mask, ratio):
+def transformed_attributes(model, gaussians, selected_mask, mature_mask, ratio):
     """Apply the field using the checkpoint's maturity/AABB policy."""
-    world_xyz = gaussians.get_xyz.detach()
-    if selected_mask.numel() != world_xyz.shape[0] or mature_mask.numel() != world_xyz.shape[0]:
+    xyz_base = gaussians.get_xyz.detach()
+    if selected_mask.numel() != xyz_base.shape[0] or mature_mask.numel() != xyz_base.shape[0]:
         raise ValueError("selection and maturity masks must match Gaussian count")
-    frame_scale, frame_rotation, frame_translation = frames
-    if any(value.shape[0] != world_xyz.shape[0] for value in frames):
-        raise ValueError("canonical frames must match Gaussian count")
-    inverse_rotation = frame_rotation * frame_rotation.new_tensor((1, -1, -1, -1))
-    canonical_xyz = _rotate(inverse_rotation, world_xyz - frame_translation) / frame_scale
     transform_mask = selected_mask.bool()
     if model.mature_only:
         transform_mask = transform_mask & mature_mask.bool()
     if model.outside_identity:
-        transform_mask = transform_mask & model.grid.inside_mask(canonical_xyz)
+        transform_mask = transform_mask & model.grid.inside_mask(xyz_base)
     indices = torch.nonzero(transform_mask, as_tuple=False).flatten()
     if indices.numel() == 0:
         return None
-    canonical = canonical_xyz[indices]
-    delta_xyz, delta_log_scale, delta_rotation = model(canonical, float(ratio))
-    local_scale = frame_scale[indices]
-    local_rotation = frame_rotation[indices]
-    local_translation = frame_translation[indices]
-    xyz = world_xyz.clone()
-    xyz[indices] = local_scale * _rotate(local_rotation, canonical + delta_xyz) + local_translation
+    xyz = xyz_base.clone()
+    delta_xyz, delta_log_scale, delta_rotation = model(xyz_base[indices], float(ratio))
+    xyz[indices] = xyz_base[indices] + delta_xyz
     scaling = gaussians.get_scaling.detach().clone()
     scaling[indices] = scaling[indices] * torch.exp(delta_log_scale)
     rotation = gaussians.get_rotation.detach().clone()
-    canonical_rotation = _multiply_quaternion(
-        inverse_rotation[indices], rotation[indices]
-    )
     identity = torch.zeros_like(delta_rotation)
     identity[:, 0] = 1.0
     rotated = _multiply_quaternion(
         _normalize_quaternion(identity + delta_rotation),
-        _normalize_quaternion(canonical_rotation),
+        _normalize_quaternion(rotation[indices]),
     )
-    rotation[indices] = _normalize_quaternion(
-        _multiply_quaternion(local_rotation, _normalize_quaternion(rotated))
-    )
+    rotation[indices] = _normalize_quaternion(rotated)
     return {"xyz": xyz, "scaling": scaling, "rotation": rotation}

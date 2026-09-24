@@ -1057,12 +1057,12 @@ void GaussianMapper::initializeTransformFieldIfNeeded() {
       mapping_iter_ < static_cast<std::uint64_t>(
                            std::max(0, transform_field_config_.start_iter)))
     return;
-  const auto canonical_xyz = gaussians_->getCanonicalXYZ();
-  if (canonical_xyz.numel() == 0) return;
+  const auto xyz = gaussians_->getXYZ().detach();
+  if (xyz.numel() == 0) return;
 
   torch::NoGradGuard no_grad;
-  auto aabb_min = std::get<0>(canonical_xyz.min(/*dim=*/0));
-  auto aabb_max = std::get<0>(canonical_xyz.max(/*dim=*/0));
+  auto aabb_min = std::get<0>(xyz.min(/*dim=*/0));
+  auto aabb_max = std::get<0>(xyz.max(/*dim=*/0));
   auto center = (aabb_min + aabb_max) * 0.5;
   auto half_extent = (aabb_max - aabb_min) *
                      (0.5 * std::max(transform_field_config_.aabb_scale,
@@ -1085,7 +1085,8 @@ void GaussianMapper::initializeTransformFieldIfNeeded() {
       transform_field_config_.grid_lr_init);
   transform_step_ = 0;
   std::cout << "[Gaussian Mapper] Transform Field initialized at mapping_iter "
-            << mapping_iter_ << ", canonical AABB initialized" << std::endl;
+            << mapping_iter_ << ", current-position AABB initialized"
+            << std::endl;
 }
 
 void GaussianMapper::updateTransformLearningRate() {
@@ -1211,23 +1212,19 @@ bool GaussianMapper::trainSelectorUpdate(
   auto elastic_scaling = scaling;
   auto elastic_rotation = rotation;
   if (transform_field_) {
-    const auto canonical_xyz = gaussians_->getCanonicalXYZ();
     auto transform_mask = selector_hard_mask.detach() > 0.0f;
     if (transform_field_config_.mature_only)
       transform_mask = torch::logical_and(transform_mask, mature_mask);
     if (transform_field_config_.outside_identity)
       transform_mask = torch::logical_and(
-          transform_mask, transform_field_->insideMask(canonical_xyz));
+          transform_mask, transform_field_->insideMask(xyz));
     const auto transform_count = transform_mask.sum().item<int64_t>();
     if (transform_count > 0) {
       auto transform_indices = torch::nonzero(transform_mask).reshape({-1});
       auto transformed = transform_field_->applyResidual(
-          canonical_xyz.index_select(0, transform_indices),
+          xyz.index_select(0, transform_indices),
           scaling.index_select(0, transform_indices),
           rotation.index_select(0, transform_indices),
-          gaussians_->canonical_frame_scale_.index_select(0, transform_indices),
-          gaussians_->canonical_frame_rotation_.index_select(0, transform_indices),
-          gaussians_->canonical_frame_translation_.index_select(0, transform_indices),
           target_ratio);
       elastic_xyz = xyz.index_copy(0, transform_indices, transformed.xyz);
       elastic_scaling =
@@ -2095,7 +2092,6 @@ void GaussianMapper::savePly(std::filesystem::path result_dir) {
 
   gaussians_->savePly(ply_dir / "point_cloud.ply");
   gaussians_->saveSelectorMetadataPly(ply_dir / "selector_metadata.ply");
-  gaussians_->saveCanonicalFramesPly(ply_dir / "canonical_frames.ply");
   if (selector_network_) {
     // Avoid torch::save's generic operator<< path; LibTorch serializes the
     // registered module parameters through Module::save(OutputArchive&).
@@ -2438,10 +2434,6 @@ void GaussianMapper::loadPly(std::filesystem::path ply_path,
       ply_path.parent_path() / "selector_metadata.ply";
   if (std::filesystem::exists(selector_metadata_path))
     this->gaussians_->loadSelectorMetadataPly(selector_metadata_path);
-  const auto canonical_frames_path =
-      ply_path.parent_path() / "canonical_frames.ply";
-  if (std::filesystem::exists(canonical_frames_path))
-    this->gaussians_->loadCanonicalFramesPly(canonical_frames_path);
 
   // Camera
   if (!camera_path.empty() && std::filesystem::exists(camera_path)) {

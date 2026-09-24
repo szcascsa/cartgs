@@ -50,11 +50,10 @@ HexPlaneFieldImpl::HexPlaneFieldImpl(const torch::Tensor& aabb_min,
 }
 
 torch::Tensor HexPlaneFieldImpl::insideMask(
-    const torch::Tensor& canonical_xyz) const {
-  if (canonical_xyz.dim() != 2 || canonical_xyz.size(1) != 3)
-    throw std::invalid_argument("canonical_xyz must have shape [N,3]");
-  return torch::logical_and(canonical_xyz >= aabb_min_,
-                            canonical_xyz <= aabb_max_)
+    const torch::Tensor& xyz) const {
+  if (xyz.dim() != 2 || xyz.size(1) != 3)
+    throw std::invalid_argument("xyz must have shape [N,3]");
+  return torch::logical_and(xyz >= aabb_min_, xyz <= aabb_max_)
       .all(/*dim=*/1);
 }
 
@@ -79,24 +78,23 @@ torch::Tensor HexPlaneFieldImpl::samplePlane(
 }
 
 torch::Tensor HexPlaneFieldImpl::forward(
-    const torch::Tensor& canonical_xyz,
+    const torch::Tensor& xyz,
     const torch::Tensor& ratio) {
-  if (canonical_xyz.dim() != 2 || canonical_xyz.size(1) != 3)
-    throw std::invalid_argument("canonical_xyz must have shape [N,3]");
-  if (canonical_xyz.size(0) == 0)
-    return torch::empty({0, outputDim()}, canonical_xyz.options());
+  if (xyz.dim() != 2 || xyz.size(1) != 3)
+    throw std::invalid_argument("xyz must have shape [N,3]");
+  if (xyz.size(0) == 0)
+    return torch::empty({0, outputDim()}, xyz.options());
 
   torch::Tensor ratio_column = ratio;
   if (ratio_column.dim() == 0)
-    ratio_column = ratio_column.expand({canonical_xyz.size(0), 1});
+    ratio_column = ratio_column.expand({xyz.size(0), 1});
   else if (ratio_column.dim() == 1)
     ratio_column = ratio_column.unsqueeze(1);
   if (ratio_column.dim() != 2 || ratio_column.size(1) != 1 ||
-      ratio_column.size(0) != canonical_xyz.size(0))
+      ratio_column.size(0) != xyz.size(0))
     throw std::invalid_argument("ratio must have shape [N,1]");
 
-  auto normalized_xyz =
-      2.0 * (canonical_xyz - aabb_min_) / (aabb_max_ - aabb_min_) - 1.0;
+  auto normalized_xyz = 2.0 * (xyz - aabb_min_) / (aabb_max_ - aabb_min_) - 1.0;
   auto coordinates = torch::cat({normalized_xyz, ratio_column}, /*dim=*/1);
   std::vector<torch::Tensor> level_features;
   level_features.reserve(config_.multires.size());

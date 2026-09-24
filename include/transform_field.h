@@ -27,7 +27,7 @@ struct TransformFieldConfig {
 };
 
 struct TransformResidual {
-  torch::Tensor delta_xyz_canonical;
+  torch::Tensor delta_xyz;
   torch::Tensor delta_log_scale;
   torch::Tensor delta_rotation_raw;
 };
@@ -44,19 +44,16 @@ class TransformFieldImpl : public torch::nn::Module {
                      const torch::Tensor& aabb_max,
                      const TransformFieldConfig& config);
 
-  TransformResidual forward(const torch::Tensor& canonical_xyz,
+  TransformResidual forward(const torch::Tensor& xyz,
                             float ratio);
   ElasticGaussianAttributes applyResidual(
-      const torch::Tensor& canonical_xyz,
+      const torch::Tensor& xyz,
       const torch::Tensor& world_scaling,
       const torch::Tensor& world_rotation,
-      const torch::Tensor& frame_scale,
-      const torch::Tensor& frame_rotation,
-      const torch::Tensor& frame_translation,
       float ratio);
 
-  torch::Tensor insideMask(const torch::Tensor& canonical_xyz) const {
-    return grid_->insideMask(canonical_xyz);
+  torch::Tensor insideMask(const torch::Tensor& xyz) const {
+    return grid_->insideMask(xyz);
   }
   torch::Tensor regularizationLoss() const;
 

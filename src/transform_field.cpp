@@ -1,8 +1,7 @@
 #include "include/transform_field.h"
 
 #include <torch/nn/init.h>
-
-#include "include/canonical_frame.h"
+#include "include/quaternion_utils.h"
 
 TransformFieldImpl::TransformFieldImpl(
     const torch::Tensor& aabb_min,
@@ -49,11 +48,11 @@ void TransformFieldImpl::initializeLinear(const torch::nn::Linear& layer,
 }
 
 TransformResidual TransformFieldImpl::forward(
-    const torch::Tensor& canonical_xyz,
+    const torch::Tensor& xyz,
     float ratio) {
   auto ratio_tensor = torch::full(
-      {canonical_xyz.size(0), 1}, ratio, canonical_xyz.options());
-  auto feature = grid_->forward(canonical_xyz, ratio_tensor);
+      {xyz.size(0), 1}, ratio, xyz.options());
+  auto feature = grid_->forward(xyz, ratio_tensor);
   auto hidden = feature_out_->forward(feature);
   auto delta_xyz = position_out_->forward(
       torch::relu(position_hidden_->forward(torch::relu(hidden))));
@@ -65,32 +64,20 @@ TransformResidual TransformFieldImpl::forward(
 }
 
 ElasticGaussianAttributes TransformFieldImpl::applyResidual(
-    const torch::Tensor& canonical_xyz,
+    const torch::Tensor& xyz,
     const torch::Tensor& world_scaling,
     const torch::Tensor& world_rotation,
-    const torch::Tensor& frame_scale,
-    const torch::Tensor& frame_rotation,
-    const torch::Tensor& frame_translation,
     float ratio) {
-  auto residual = forward(canonical_xyz, ratio);
-  auto transformed_canonical_xyz =
-      canonical_xyz + residual.delta_xyz_canonical;
-  auto transformed_xyz = canonical_frame::canonicalToWorld(
-      transformed_canonical_xyz, frame_scale, frame_rotation,
-      frame_translation);
+  auto residual = forward(xyz, ratio);
+  auto transformed_xyz = xyz + residual.delta_xyz;
   auto transformed_scaling =
       world_scaling * torch::exp(residual.delta_log_scale);
   auto identity = torch::zeros_like(residual.delta_rotation_raw);
   identity.index_put_({torch::indexing::Slice(), 0}, 1.0f);
-  auto canonical_base_rotation = canonical_frame::worldToCanonicalRotation(
-      world_rotation, frame_rotation);
-  auto transformed_canonical_rotation =
-      canonical_frame::normalizeQuaternion(canonical_frame::multiplyQuaternion(
-          canonical_frame::normalizeQuaternion(identity +
-                                               residual.delta_rotation_raw),
-          canonical_base_rotation));
-  auto transformed_rotation = canonical_frame::canonicalToWorldRotation(
-      transformed_canonical_rotation, frame_rotation);
+  auto transformed_rotation = quaternion_utils::normalize(
+      quaternion_utils::multiply(
+          quaternion_utils::normalize(identity + residual.delta_rotation_raw),
+          world_rotation));
   return {transformed_xyz, transformed_scaling, transformed_rotation};
 }
 

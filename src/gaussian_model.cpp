@@ -22,31 +22,7 @@
 #include <stdexcept>
 
 #include "include/gaussian_rasterizer.h"
-
-namespace {
-
-std::tuple<torch::Tensor, torch::Tensor, torch::Tensor> sim3FromSophus(
-    const Sophus::SE3f& transform,
-    float scale,
-    const torch::TensorOptions& options,
-    std::int64_t count) {
-  const auto quaternion = transform.unit_quaternion();
-  const auto translation = transform.translation();
-  auto scale_tensor = torch::full({count, 1}, scale, options);
-  auto rotation_tensor =
-      torch::tensor({quaternion.w(), quaternion.x(), quaternion.y(),
-                     quaternion.z()}, options)
-          .view({1, 4})
-          .expand({count, 4});
-  auto translation_tensor =
-      torch::tensor({translation.x(), translation.y(), translation.z()},
-                    options)
-          .view({1, 3})
-          .expand({count, 3});
-  return {scale_tensor, rotation_tensor, translation_tensor};
-}
-
-}  // namespace
+#include "include/quaternion_utils.h"
 
 GaussianModel::GaussianModel(const int sh_degree)
     : active_sh_degree_(0),
@@ -99,31 +75,6 @@ torch::Tensor GaussianModel::getFeatures() {
 
 torch::Tensor GaussianModel::getOpacityActivation() {
   return torch::sigmoid(this->opacity_);
-}
-
-torch::Tensor GaussianModel::getCanonicalXYZ() const {
-  assertCanonicalFramesAligned();
-  return canonical_frame::worldToCanonical(
-      xyz_.detach(), canonical_frame_scale_, canonical_frame_rotation_,
-      canonical_frame_translation_);
-}
-
-void GaussianModel::assertCanonicalFramesAligned() const {
-  const auto count = xyz_.defined() && xyz_.dim() > 0 ? xyz_.size(0) : 0;
-  if (!canonical_frame_scale_.defined() ||
-      !canonical_frame_rotation_.defined() ||
-      !canonical_frame_translation_.defined() ||
-      canonical_frame_scale_.dim() != 2 ||
-      canonical_frame_scale_.size(0) != count ||
-      canonical_frame_scale_.size(1) != 1 ||
-      canonical_frame_rotation_.dim() != 2 ||
-      canonical_frame_rotation_.size(0) != count ||
-      canonical_frame_rotation_.size(1) != 4 ||
-      canonical_frame_translation_.dim() != 2 ||
-      canonical_frame_translation_.size(0) != count ||
-      canonical_frame_translation_.size(1) != 3)
-    throw std::runtime_error(
-        "Canonical frame state is not aligned with Gaussian topology");
 }
 
 torch::Tensor GaussianModel::getCovarianceActivation(int scaling_modifier) {
@@ -221,13 +172,6 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
   this->selector_seen_count_ = torch::zeros(
       {fused_point_cloud.size(0)},
       torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
-  this->canonical_frame_scale_ = canonical_frame::identityScale(
-      fused_point_cloud.size(0), fused_point_cloud.options());
-  this->canonical_frame_rotation_ = canonical_frame::identityRotation(
-      fused_point_cloud.size(0), fused_point_cloud.options());
-  this->canonical_frame_translation_ = canonical_frame::identityTranslation(
-      fused_point_cloud.size(0), fused_point_cloud.options());
-
   this->xyz_ = fused_point_cloud.requires_grad_();
   this->features_dc_ =
       features
@@ -253,7 +197,6 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
-  assertCanonicalFramesAligned();
   if (online_gi_reset_callback_)
     online_gi_reset_callback_(this->xyz_.size(0));
 }
@@ -335,13 +278,6 @@ void GaussianModel::increasePcd(std::vector<float> points,
   auto new_opacities = opacities;
   auto new_scaling = scales;
   auto new_rotation = rots;
-  auto new_canonical_frame_scale = canonical_frame::identityScale(
-      new_xyz.size(0), new_xyz.options());
-  auto new_canonical_frame_rotation = canonical_frame::identityRotation(
-      new_xyz.size(0), new_xyz.options());
-  auto new_canonical_frame_translation = canonical_frame::identityTranslation(
-      new_xyz.size(0), new_xyz.options());
-
   // auto time2 = std::chrono::steady_clock::now();
   // auto time =
   // std::chrono::duration_cast<std::chrono::milliseconds>(time2-time1).count();
@@ -351,9 +287,7 @@ void GaussianModel::increasePcd(std::vector<float> points,
   densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                        new_opacities, new_scaling, new_rotation,
                        new_exist_since_iter, new_selector_birth_iter,
-                       new_selector_seen_count, new_canonical_frame_scale,
-                       new_canonical_frame_rotation,
-                       new_canonical_frame_translation);
+                       new_selector_seen_count);
 
   c10::cuda::CUDACachingAllocator::emptyCache();
   // auto time3 = std::chrono::steady_clock::now();
@@ -427,13 +361,6 @@ void GaussianModel::increasePcd(torch::Tensor& new_point_cloud,
   auto new_opacities = opacities;
   auto new_scaling = scales;
   auto new_rotation = rots;
-  auto new_canonical_frame_scale = canonical_frame::identityScale(
-      new_xyz.size(0), new_xyz.options());
-  auto new_canonical_frame_rotation = canonical_frame::identityRotation(
-      new_xyz.size(0), new_xyz.options());
-  auto new_canonical_frame_translation = canonical_frame::identityTranslation(
-      new_xyz.size(0), new_xyz.options());
-
   // auto time2 = std::chrono::steady_clock::now();
   // auto time =
   // std::chrono::duration_cast<std::chrono::milliseconds>(time2-time1).count();
@@ -443,9 +370,7 @@ void GaussianModel::increasePcd(torch::Tensor& new_point_cloud,
   densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                        new_opacities, new_scaling, new_rotation,
                        new_exist_since_iter, new_selector_birth_iter,
-                       new_selector_seen_count, new_canonical_frame_scale,
-                       new_canonical_frame_rotation,
-                       new_canonical_frame_translation);
+                       new_selector_seen_count);
 
   c10::cuda::CUDACachingAllocator::emptyCache();
 
@@ -461,19 +386,6 @@ void GaussianModel::applyScaledTransformation(const float s,
   if (!std::isfinite(s) || s <= 0.0f)
     throw std::invalid_argument("Sim(3) scale must be positive and finite");
   torch::NoGradGuard no_grad;
-  assertCanonicalFramesAligned();
-  const auto count = xyz_.size(0);
-  auto [delta_scale, delta_rotation, delta_translation] =
-      sim3FromSophus(T, s, xyz_.options(), count);
-  std::tie(canonical_frame_scale_, canonical_frame_rotation_,
-           canonical_frame_translation_) =
-      canonical_frame::compose(
-          canonical_frame_scale_, canonical_frame_rotation_,
-          canonical_frame_translation_, delta_scale, delta_rotation,
-          delta_translation);
-  canonical_frame_scale_ = canonical_frame_scale_.detach();
-  canonical_frame_rotation_ = canonical_frame_rotation_.detach();
-  canonical_frame_translation_ = canonical_frame_translation_.detach();
   // pt <- (s * Ryw * pt + tyw)
   this->xyz_ *= s;
   torch::Tensor T_tensor =
@@ -488,9 +400,14 @@ void GaussianModel::applyScaledTransformation(const float s,
   // = scales.ndimension(); scales =
   // scales.unsqueeze(scales_ndimension).repeat({1, 3});
   this->scaling_ += std::log(s);
-  auto rotated = canonical_frame::normalizeQuaternion(
-      canonical_frame::multiplyQuaternion(delta_rotation,
-                                          getRotationActivation()));
+  const auto quaternion = T.unit_quaternion();
+  auto delta_rotation = torch::tensor(
+      {quaternion.w(), quaternion.x(), quaternion.y(), quaternion.z()},
+      xyz_.options())
+                           .view({1, 4})
+                           .expand({xyz_.size(0), 4});
+  auto rotated = quaternion_utils::normalize(
+      quaternion_utils::multiply(delta_rotation, getRotationActivation()));
   scaledTransformationPostfix(this->xyz_, this->scaling_);
   this->rotation_ = replaceTensorToOptimizer(rotated, 5);
   this->Tensor_vec_rotation_ = {this->rotation_};
@@ -523,7 +440,6 @@ void GaussianModel::scaledTransformVisiblePointsOfKeyframe(
   if (!std::isfinite(scale) || scale <= 0.0f)
     throw std::invalid_argument("Sim(3) scale must be positive and finite");
   torch::NoGradGuard no_grad;
-  assertCanonicalFramesAligned();
 
   torch::Tensor points = this->getXYZ();
   torch::Tensor rots = this->getRotationActivation();
@@ -544,19 +460,6 @@ void GaussianModel::scaledTransformVisiblePointsOfKeyframe(
 
   const auto transformed_count = transformed_mask.sum().item<std::int64_t>();
   if (transformed_count > 0) {
-    auto [delta_scale, delta_rotation, delta_translation] = sim3FromSophus(
-        diff_pose, scale, xyz_.options(), transformed_count);
-    auto [composed_scale, composed_rotation, composed_translation] =
-        canonical_frame::compose(
-            canonical_frame_scale_.index({transformed_mask}),
-            canonical_frame_rotation_.index({transformed_mask}),
-            canonical_frame_translation_.index({transformed_mask}),
-            delta_scale, delta_rotation, delta_translation);
-    canonical_frame_scale_.index_put_({transformed_mask}, composed_scale);
-    canonical_frame_rotation_.index_put_({transformed_mask},
-                                         composed_rotation);
-    canonical_frame_translation_.index_put_({transformed_mask},
-                                            composed_translation);
     scaling_.index_put_({transformed_mask},
                         scaling_.index({transformed_mask}) + std::log(scale));
   }
@@ -756,12 +659,6 @@ void GaussianModel::prunePoints(torch::Tensor& mask) {
       this->selector_birth_iter_.index({valid_points_mask});
   this->selector_seen_count_ =
       this->selector_seen_count_.index({valid_points_mask});
-  this->canonical_frame_scale_ =
-      this->canonical_frame_scale_.index({valid_points_mask});
-  this->canonical_frame_rotation_ =
-      this->canonical_frame_rotation_.index({valid_points_mask});
-  this->canonical_frame_translation_ =
-      this->canonical_frame_translation_.index({valid_points_mask});
 
   this->xyz_gradient_accum_ =
       this->xyz_gradient_accum_.index({valid_points_mask});
@@ -770,7 +667,6 @@ void GaussianModel::prunePoints(torch::Tensor& mask) {
   this->max_radii2D_ = this->max_radii2D_.index({valid_points_mask});
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
-  assertCanonicalFramesAligned();
   if (online_gi_prune_callback_)
     online_gi_prune_callback_(valid_points_mask);
 }
@@ -808,10 +704,7 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
                                          torch::Tensor& new_rotation,
                                          torch::Tensor& new_exist_since_iter,
                                          torch::Tensor& new_selector_birth_iter,
-                                         torch::Tensor& new_selector_seen_count,
-                                         torch::Tensor& new_canonical_frame_scale,
-                                         torch::Tensor& new_canonical_frame_rotation,
-                                         torch::Tensor& new_canonical_frame_translation) {
+                                         torch::Tensor& new_selector_seen_count) {
   // cat_tensors_to_optimizer
   std::vector<torch::Tensor> optimizable_tensors(6);
   std::vector<torch::Tensor> tensors_dict = {new_xyz,           new_features_dc,
@@ -874,14 +767,6 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
       {this->selector_birth_iter_, new_selector_birth_iter}, /*dim=*/0);
   this->selector_seen_count_ = torch::cat(
       {this->selector_seen_count_, new_selector_seen_count}, /*dim=*/0);
-  this->canonical_frame_scale_ = torch::cat(
-      {this->canonical_frame_scale_, new_canonical_frame_scale}, /*dim=*/0);
-  this->canonical_frame_rotation_ = torch::cat(
-      {this->canonical_frame_rotation_, new_canonical_frame_rotation},
-      /*dim=*/0);
-  this->canonical_frame_translation_ = torch::cat(
-      {this->canonical_frame_translation_, new_canonical_frame_translation},
-      /*dim=*/0);
 
   this->xyz_gradient_accum_ = torch::zeros(
       {this->getXYZ().size(0), 1}, torch::TensorOptions().device(device_type_));
@@ -891,7 +776,6 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
-  assertCanonicalFramesAligned();
   if (online_gi_append_callback_ && new_xyz.size(0) > 0)
     online_gi_append_callback_(new_xyz.size(0));
 }
@@ -949,19 +833,11 @@ void GaussianModel::densifyAndSplit(torch::Tensor& grads,
       this->selector_birth_iter_.options());
   auto new_selector_seen_count = torch::zeros(
       {new_xyz.size(0)}, this->selector_seen_count_.options());
-  auto new_canonical_frame_scale =
-      this->canonical_frame_scale_.index({selected_pts_mask}).repeat({N, 1});
-  auto new_canonical_frame_rotation =
-      this->canonical_frame_rotation_.index({selected_pts_mask}).repeat({N, 1});
-  auto new_canonical_frame_translation =
-      this->canonical_frame_translation_.index({selected_pts_mask}).repeat({N, 1});
 
   this->densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                              new_opacity, new_scaling, new_rotation,
                              new_exist_since_iter, new_selector_birth_iter,
-                             new_selector_seen_count, new_canonical_frame_scale,
-                             new_canonical_frame_rotation,
-                             new_canonical_frame_translation);
+                             new_selector_seen_count);
 
   auto prune_filter = torch::cat(
       {selected_pts_mask,
@@ -999,19 +875,11 @@ void GaussianModel::densifyAndClone(torch::Tensor& grads,
       this->selector_birth_iter_.options());
   auto new_selector_seen_count = torch::zeros(
       {new_xyz.size(0)}, this->selector_seen_count_.options());
-  auto new_canonical_frame_scale =
-      this->canonical_frame_scale_.index({selected_pts_mask});
-  auto new_canonical_frame_rotation =
-      this->canonical_frame_rotation_.index({selected_pts_mask});
-  auto new_canonical_frame_translation =
-      this->canonical_frame_translation_.index({selected_pts_mask});
 
   this->densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                              new_opacities, new_scaling, new_rotation,
                              new_exist_since_iter, new_selector_birth_iter,
-                             new_selector_seen_count, new_canonical_frame_scale,
-                             new_canonical_frame_rotation,
-                             new_canonical_frame_translation);
+                             new_selector_seen_count);
 }
 
 void GaussianModel::densifyAndPrune(float max_grad,
@@ -1215,19 +1083,12 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
   this->selector_seen_count_ = torch::zeros(
       {num_points},
       torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
-  this->canonical_frame_scale_ = canonical_frame::identityScale(
-      num_points, this->xyz_.options());
-  this->canonical_frame_rotation_ = canonical_frame::identityRotation(
-      num_points, this->xyz_.options());
-  this->canonical_frame_translation_ = canonical_frame::identityTranslation(
-      num_points, this->xyz_.options());
 
   GAUSSIAN_MODEL_TENSORS_TO_VEC
 
   this->active_sh_degree_ = this->max_sh_degree_;
   assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
   assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
-  assertCanonicalFramesAligned();
   if (online_gi_reset_callback_)
     online_gi_reset_callback_(this->xyz_.size(0));
 }
@@ -1305,103 +1166,6 @@ void GaussianModel::saveSelectorMetadataPly(
   result_file.add_properties_to_element(
       "vertex", {"selector_seen_count"}, tinyply::Type::INT32,
       seen.size(0), reinterpret_cast<uint8_t*>(seen.data_ptr<int32_t>()),
-      tinyply::Type::INVALID, 0);
-  result_file.write(outstream_binary, true);
-  fb_binary.close();
-}
-
-void GaussianModel::loadCanonicalFramesPly(
-    std::filesystem::path ply_path) {
-  std::ifstream instream_binary(ply_path, std::ios::binary);
-  if (!instream_binary.is_open() || instream_binary.fail())
-    throw std::runtime_error("Fail to open canonical frame PLY at " +
-                             ply_path.string());
-
-  tinyply::PlyFile ply_file;
-  ply_file.parse_header(instream_binary);
-  std::shared_ptr<tinyply::PlyData> scale, rotation, translation;
-  try {
-    scale = ply_file.request_properties_from_element(
-        "vertex", {"canonical_scale"});
-    rotation = ply_file.request_properties_from_element(
-        "vertex", {"canonical_rot_0", "canonical_rot_1",
-                   "canonical_rot_2", "canonical_rot_3"});
-    translation = ply_file.request_properties_from_element(
-        "vertex", {"canonical_trans_0", "canonical_trans_1",
-                   "canonical_trans_2"});
-  } catch (const std::exception& e) {
-    throw std::runtime_error("Invalid canonical frame PLY at " +
-                             ply_path.string() + ": " + e.what());
-  }
-  ply_file.read(instream_binary);
-
-  const auto num_points = this->xyz_.size(0);
-  if (scale->count != num_points || rotation->count != num_points ||
-      translation->count != num_points)
-    throw std::runtime_error(
-        "Canonical frame count does not match Gaussian count in " +
-        ply_path.string());
-
-  std::vector<float> scale_values(num_points);
-  std::vector<float> rotation_values(num_points * 4);
-  std::vector<float> translation_values(num_points * 3);
-  std::memcpy(scale_values.data(), scale->buffer.get(),
-              scale->buffer.size_bytes());
-  std::memcpy(rotation_values.data(), rotation->buffer.get(),
-              rotation->buffer.size_bytes());
-  std::memcpy(translation_values.data(), translation->buffer.get(),
-              translation->buffer.size_bytes());
-
-  this->canonical_frame_scale_ =
-      torch::from_blob(scale_values.data(), {num_points, 1},
-                       torch::TensorOptions().dtype(torch::kFloat32))
-          .clone()
-          .to(device_type_);
-  this->canonical_frame_rotation_ = canonical_frame::normalizeQuaternion(
-      torch::from_blob(rotation_values.data(), {num_points, 4},
-                       torch::TensorOptions().dtype(torch::kFloat32))
-          .clone()
-          .to(device_type_));
-  this->canonical_frame_translation_ =
-      torch::from_blob(translation_values.data(), {num_points, 3},
-                       torch::TensorOptions().dtype(torch::kFloat32))
-          .clone()
-          .to(device_type_);
-  assertCanonicalFramesAligned();
-}
-
-void GaussianModel::saveCanonicalFramesPly(
-    std::filesystem::path result_path) {
-  assertCanonicalFramesAligned();
-  auto scale = canonical_frame_scale_.detach().to(torch::kCPU).contiguous();
-  auto rotation =
-      canonical_frame_rotation_.detach().to(torch::kCPU).contiguous();
-  auto translation =
-      canonical_frame_translation_.detach().to(torch::kCPU).contiguous();
-
-  std::filebuf fb_binary;
-  fb_binary.open(result_path, std::ios::out | std::ios::binary);
-  std::ostream outstream_binary(&fb_binary);
-  if (outstream_binary.fail())
-    throw std::runtime_error("failed to open " + result_path.string());
-
-  tinyply::PlyFile result_file;
-  result_file.add_properties_to_element(
-      "vertex", {"canonical_scale"}, tinyply::Type::FLOAT32, scale.size(0),
-      reinterpret_cast<uint8_t*>(scale.data_ptr<float>()),
-      tinyply::Type::INVALID, 0);
-  result_file.add_properties_to_element(
-      "vertex",
-      {"canonical_rot_0", "canonical_rot_1", "canonical_rot_2",
-       "canonical_rot_3"},
-      tinyply::Type::FLOAT32, rotation.size(0),
-      reinterpret_cast<uint8_t*>(rotation.data_ptr<float>()),
-      tinyply::Type::INVALID, 0);
-  result_file.add_properties_to_element(
-      "vertex",
-      {"canonical_trans_0", "canonical_trans_1", "canonical_trans_2"},
-      tinyply::Type::FLOAT32, translation.size(0),
-      reinterpret_cast<uint8_t*>(translation.data_ptr<float>()),
       tinyply::Type::INVALID, 0);
   result_file.write(outstream_binary, true);
   fb_binary.close();
