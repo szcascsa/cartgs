@@ -29,6 +29,8 @@
 #include "viewer/imgui_viewer.h"
 
 int main(int argc, char** argv) {
+  const auto selector_config_path =
+      improvements::selector::extractSelectorConfigPath(argc, argv);
   const auto selector_enabled_override =
       improvements::selector::extractSelectorEnabledOverride(argc, argv);
   if (argc != 4) {
@@ -37,6 +39,7 @@ int main(int argc, char** argv) {
               << " path_to_gaussian_mapping_settings" /*1*/
               << " path_to_camera_parameters"         /*2*/
               << " path_to_result_ply_file"           /*3*/
+              << " [--selector-config path]"
               << " [--selector-enabled 0|1]"
               << std::endl;
     return 1;
@@ -56,10 +59,31 @@ int main(int argc, char** argv) {
   std::filesystem::path gaussian_cfg_path(argv[1]);
   std::filesystem::path camera_path(argv[2]);
   std::filesystem::path result_ply_path(argv[3]);
+  std::filesystem::path selector_config_file_path;
+  if (selector_config_path) {
+    selector_config_file_path = *selector_config_path;
+  } else {
+    for (auto directory = result_ply_path.parent_path(); !directory.empty();
+         directory = directory.parent_path()) {
+      const auto candidate = directory / "selector_config.yaml";
+      if (std::filesystem::is_regular_file(candidate)) {
+        selector_config_file_path = candidate;
+        break;
+      }
+      if (directory == directory.root_path()) break;
+    }
+    if (selector_config_file_path.empty()) {
+      std::cerr << "selector_config.yaml was not found near the result path; "
+                   "pass --selector-config explicitly."
+                << std::endl;
+      return 1;
+    }
+  }
   std::shared_ptr<GaussianMapper> pGausMapper =
       std::make_shared<GaussianMapper>(nullptr, gaussian_cfg_path,
                                        std::filesystem::path(), 0, device_type,
-                                       selector_enabled_override);
+                                       selector_enabled_override,
+                                       selector_config_file_path);
   pGausMapper->loadPly(result_ply_path, camera_path);
 
   // Create Gaussian Viewer

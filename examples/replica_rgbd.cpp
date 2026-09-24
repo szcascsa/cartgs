@@ -44,8 +44,14 @@ void saveTrackingTime(std::vector<float> &vTimesTrack,
 void saveGpuPeakMemoryUsage(std::filesystem::path pathSave);
 
 int main(int argc, char **argv) {
+  const auto selector_config_path =
+      improvements::selector::extractSelectorConfigPath(argc, argv);
   const auto selector_enabled_override =
       improvements::selector::extractSelectorEnabledOverride(argc, argv);
+  if (!selector_config_path) {
+    std::cerr << "--selector-config is required." << std::endl;
+    return 1;
+  }
   if (argc != 6 && argc != 7) {
     std::cerr << std::endl
               << "Usage: " << argv[0] << " path_to_vocabulary" /*1*/
@@ -54,6 +60,7 @@ int main(int argc, char **argv) {
               << " path_to_sequence"                           /*4*/
               << " path_to_trajectory_output_directory/"       /*5*/
               << " (optional)no_viewer"                        /*6*/
+              << " --selector-config path"
               << " [--selector-enabled 0|1]"
               << std::endl;
     return 1;
@@ -106,7 +113,8 @@ int main(int argc, char **argv) {
   std::filesystem::path gaussian_cfg_path(argv[3]);
   std::shared_ptr<GaussianMapper> pGausMapper =
       std::make_shared<GaussianMapper>(pSLAM, gaussian_cfg_path, output_dir, 0,
-                                       device_type, selector_enabled_override);
+                                       device_type, selector_enabled_override,
+                                       *selector_config_path);
   std::thread training_thd(&GaussianMapper::run, pGausMapper.get());
 
   // Create Gaussian Viewer

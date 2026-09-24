@@ -1,5 +1,6 @@
 #!/bin/bash
 exp=$1
+selector_config=${2:-cfg/selector/selector_config.yaml}
 
 if [ -d results/replica_rgbd/$exp ]; then
     rm -rf results/replica_rgbd/$exp
@@ -13,7 +14,7 @@ bin/replica_rgbd \
     cfg/gaussian_mapper/RGB-D/Replica/replica_rgbd.yaml \
     data/Replica/office0 \
     results/replica_rgbd/$exp/replica_rgbd_$i/office0 \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -24,7 +25,7 @@ bin/replica_rgbd \
     cfg/gaussian_mapper/RGB-D/Replica/replica_rgbd.yaml \
     data/Replica/office1 \
     results/replica_rgbd/$exp/replica_rgbd_$i/office1 \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -35,7 +36,7 @@ bin/replica_rgbd \
     cfg/gaussian_mapper/RGB-D/Replica/replica_rgbd.yaml \
     data/Replica/office2 \
     results/replica_rgbd/$exp/replica_rgbd_$i/office2 \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -46,7 +47,7 @@ bin/replica_rgbd \
     cfg/gaussian_mapper/RGB-D/Replica/replica_rgbd.yaml \
     data/Replica/office3 \
     results/replica_rgbd/$exp/replica_rgbd_$i/office3 \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -57,7 +58,7 @@ bin/replica_rgbd \
     cfg/gaussian_mapper/RGB-D/Replica/replica_rgbd.yaml \
     data/Replica/office4 \
     results/replica_rgbd/$exp/replica_rgbd_$i/office4 \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -68,7 +69,7 @@ bin/replica_rgbd \
     cfg/gaussian_mapper/RGB-D/Replica/replica_rgbd.yaml \
     data/Replica/room0 \
     results/replica_rgbd/$exp/replica_rgbd_$i/room0 \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -79,7 +80,7 @@ bin/replica_rgbd \
     cfg/gaussian_mapper/RGB-D/Replica/replica_rgbd.yaml \
     data/Replica/room1 \
     results/replica_rgbd/$exp/replica_rgbd_$i/room1 \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -90,5 +91,5 @@ bin/replica_rgbd \
     cfg/gaussian_mapper/RGB-D/Replica/replica_rgbd.yaml \
     data/Replica/room2 \
     results/replica_rgbd/$exp/replica_rgbd_$i/room2 \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done

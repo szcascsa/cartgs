@@ -1,0 +1,43 @@
+%YAML:1.0
+
+# Experiment parameters for Selector, Online GI, and Transform Field.
+
+Selector.enabled: 0
+Selector.target_ratios: [0.01, 0.05, 0.10, 0.15]
+Selector.min_age: 100
+Selector.min_seen: 80
+Selector.protection_enabled: 1
+Selector.temperature: 1.0
+Selector.learning_rate: 0.001
+Selector.render_loss_weight: 1.0
+Selector.gi_loss_weight: 1.0
+Selector.ratio_loss_weight: 0.01
+Selector.replay_enabled: 1
+Selector.replay_interval: 300
+Selector.replay_num_frames: 2
+Selector.replay_seed: 0
+
+OnlineGI.enable: 1
+OnlineGI.fast_ema_decay: 0.9
+OnlineGI.fast_weight: 0.7
+OnlineGI.eps: 1e-8
+
+TransformField.enable: 1
+TransformField.start_iter: 5000
+TransformField.aabb_scale: 1.3
+TransformField.spatial_resolution: 64
+TransformField.ratio_resolution: 150
+TransformField.feature_dim: 16
+TransformField.multires: [1, 2, 4]
+TransformField.hidden_dim: 64
+TransformField.grid_lr_init: 0.0016
+TransformField.grid_lr_final: 0.00016
+TransformField.mlp_lr_init: 0.00016
+TransformField.mlp_lr_final: 0.000016
+TransformField.lr_delay_mult: 0.01
+TransformField.lr_max_steps: 20000
+TransformField.spatial_smooth_weight: 0.0002
+TransformField.ratio_smooth_weight: 0.001
+TransformField.ratio_l1_weight: 0.0001
+TransformField.outside_identity: 1
+TransformField.mature_only: 1

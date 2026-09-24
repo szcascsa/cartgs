@@ -65,6 +65,35 @@ def find_selector_checkpoint(result_path, explicit_path):
     return candidates[-1]
 
 
+def find_selector_config(result_path, selector_path, explicit_path):
+    if explicit_path:
+        config_path = os.path.abspath(explicit_path)
+        if not os.path.isfile(config_path):
+            raise FileNotFoundError(
+                "selector experiment config not found: {}".format(config_path)
+            )
+        return config_path
+
+    directory = os.path.abspath(os.path.dirname(selector_path))
+    while True:
+        candidates = (
+            os.path.join(directory, "selector_config.yaml"),
+            os.path.join(directory, "ply", "selector_config.yaml"),
+        )
+        for candidate in candidates:
+            if os.path.isfile(candidate):
+                return candidate
+        parent = os.path.dirname(directory)
+        if parent == directory or not directory.startswith(result_path):
+            break
+        directory = parent
+    raise FileNotFoundError(
+        "selector_config.yaml was not found for selector checkpoint: {}".format(
+            selector_path
+        )
+    )
+
+
 def ratio_directory_name(ratio):
     return "ratio_{}".format(format(ratio, ".6f").rstrip("0").rstrip(".").replace(".", "p"))
 
@@ -90,9 +119,9 @@ def main():
     parser.add_argument("result_path", help="completed CaRtGS result directory")
     parser.add_argument("gt_path", help="dataset ground-truth directory")
     parser.add_argument(
-        "--config",
+        "--selector-config",
         default=None,
-        help="CaRtGS config; defaults to cfg/colmap/gaussian_splatting.yaml",
+        help="selector experiment config; defaults to the selected shutdown directory",
     )
     parser.add_argument("--selector", default=None, help="path to selector.pt")
     parser.add_argument("--output", default=None, help="LOD output directory")
@@ -102,17 +131,14 @@ def main():
     args = parser.parse_args()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    repo_dir = os.path.dirname(script_dir)
-    config_path = os.path.abspath(
-        args.config or os.path.join(repo_dir, "cfg", "colmap", "gaussian_splatting.yaml")
-    )
     run_script = os.path.abspath(args.run_script or os.path.join(script_dir, "run.py"))
     result_path = os.path.abspath(args.result_path)
     gt_path = os.path.abspath(args.gt_path)
     output_root = os.path.abspath(args.output or os.path.join(result_path, "lod_eval"))
+    selector_path = find_selector_checkpoint(result_path, args.selector)
+    config_path = find_selector_config(result_path, selector_path, args.selector_config)
     config = read_selector_config(config_path)
     ratios = args.ratios or config["ratios"]
-    selector_path = find_selector_checkpoint(result_path, args.selector)
     os.makedirs(output_root, exist_ok=True)
 
     summary = []
@@ -132,14 +158,8 @@ def main():
             selector_path,
             "--selector-ratio",
             str(ratio),
-            "--selector-min-age",
-            str(config["min_age"]),
-            "--selector-min-seen",
-            str(config["min_seen"]),
-            "--selector-protection-enabled",
-            str(int(config["protection_enabled"])),
-            "--selector-temperature",
-            str(config["temperature"]),
+            "--selector-config",
+            config_path,
         ]
         if args.correct_scale:
             command.append("--correct_scale")

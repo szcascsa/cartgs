@@ -1,5 +1,6 @@
 #!/bin/bash
 exp=$1
+selector_config=${2:-cfg/selector/selector_config.yaml}
 
 if [ -d results/tum_rgbd/$exp ]; then
     rm -rf results/tum_rgbd/$exp
@@ -14,7 +15,7 @@ bin/tum_rgbd \
     data/TUM_RGBD/rgbd_dataset_freiburg1_desk \
     cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt \
     results/tum_rgbd/$exp/tum_rgbd_$i/rgbd_dataset_freiburg1_desk \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -26,7 +27,7 @@ bin/tum_rgbd \
     data/TUM_RGBD/rgbd_dataset_freiburg2_xyz \
     cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg2_xyz.txt \
     results/tum_rgbd/$exp/tum_rgbd_$i/rgbd_dataset_freiburg2_xyz \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -38,5 +39,5 @@ bin/tum_rgbd \
     data/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household \
     cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt \
     results/tum_rgbd/$exp/tum_rgbd_$i/rgbd_dataset_freiburg3_long_office_household \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done

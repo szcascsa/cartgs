@@ -102,7 +102,8 @@ class GaussianMapper {
                  std::filesystem::path result_dir = "",
                  int seed = 0,
                  torch::DeviceType device_type = torch::kCUDA,
-                 std::optional<bool> selector_enabled_override = std::nullopt);
+                 std::optional<bool> selector_enabled_override = std::nullopt,
+                 std::filesystem::path selector_config_file_path = "");
 
   void readConfigFromFile(std::filesystem::path cfg_path);
 
@@ -199,6 +200,7 @@ class GaussianMapper {
                            bool step_optimizer);
   void initializeTransformFieldIfNeeded();
   void updateTransformLearningRate();
+  void readSelectorConfigFromFile(std::filesystem::path cfg_path);
   void increaseKeyframeTimesOfUse(std::shared_ptr<GaussianKeyframe> pkf,
                                   int times);
   void cullKeyframes();
@@ -228,6 +230,7 @@ class GaussianMapper {
   void renderAndRecordAllKeyframes(std::string name_suffix = "");
 
   void savePly(std::filesystem::path result_dir);
+  void saveSelectorConfig(std::filesystem::path result_dir);
   void keyframesToJson(std::filesystem::path result_dir);
   void saveModelParams(std::filesystem::path result_dir);
   void writeKeyframeUsedTimes(std::filesystem::path result_dir,
@@ -236,6 +239,7 @@ class GaussianMapper {
  public:
   // Parameters
   std::filesystem::path config_file_path_;
+  std::filesystem::path selector_config_file_path_;
 
   // Model
   std::shared_ptr<GaussianModel> gaussians_;

@@ -1,5 +1,6 @@
 #!/bin/bash
 exp=$1
+selector_config=${2:-cfg/selector/selector_config.yaml}
 
 if [ -d results/vector_stereo/$exp ]; then
     rm -rf results/vector_stereo/$exp
@@ -14,7 +15,7 @@ bin/vector_stereo \
     ~/data/VECtor/board-slow \
     ~/data/VECtor/board-slow/rgb/timestamp.txt \
     results/vector_stereo/$exp/vector_stereo_$i/board-slow \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 # 3 4
@@ -26,7 +27,7 @@ bin/vector_stereo \
     ~/data/VECtor/corner-slow \
     ~/data/VECtor/corner-slow/rgb/timestamp.txt \
     results/vector_stereo/$exp/vector_stereo_$i/corner-slow \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 # 3 4
@@ -38,7 +39,7 @@ bin/vector_stereo \
     ~/data/VECtor/corridors-dolly \
     ~/data/VECtor/corridors-dolly/rgb/timestamp.txt \
     results/vector_stereo/$exp/vector_stereo_$i/corridors-dolly \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 # 3 4
@@ -50,7 +51,7 @@ bin/vector_stereo \
     ~/data/VECtor/desk-normal \
     ~/data/VECtor/desk-normal/rgb/timestamp.txt \
     results/vector_stereo/$exp/vector_stereo_$i/desk-normal \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 # 3 4
@@ -62,7 +63,7 @@ bin/vector_stereo \
     ~/data/VECtor/mountain-normal \
     ~/data/VECtor/mountain-normal/rgb/timestamp.txt \
     results/vector_stereo/$exp/vector_stereo_$i/mountain-normal \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 # 3 4
@@ -74,7 +75,7 @@ bin/vector_stereo \
     ~/data/VECtor/robot-normal \
     ~/data/VECtor/robot-normal/rgb/timestamp.txt \
     results/vector_stereo/$exp/vector_stereo_$i/robot-normal \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 # 3 4
@@ -86,5 +87,5 @@ bin/vector_stereo \
     ~/data/VECtor/sofa-normal \
     ~/data/VECtor/sofa-normal/rgb/timestamp.txt \
     results/vector_stereo/$exp/vector_stereo_$i/sofa-normal \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done

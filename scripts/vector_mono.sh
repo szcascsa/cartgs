@@ -1,5 +1,6 @@
 #!/bin/bash
 exp=$1
+selector_config=${2:-cfg/selector/selector_config.yaml}
 
 if [ -d results/vector_mono/$exp ]; then
     rm -rf results/vector_mono/$exp
@@ -14,7 +15,7 @@ bin/vector_mono \
     ~/data/VECtor/corner-slow \
     ~/data/VECtor/corner-slow/rgb/timestamp.txt \
     results/vector_mono/$exp/vector_mono_$i/corner-slow \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -26,7 +27,7 @@ bin/vector_mono \
     ~/data/VECtor/robot-normal \
     ~/data/VECtor/robot-normal/rgb/timestamp.txt \
     results/vector_mono/$exp/vector_mono_$i/robot-normal \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -38,5 +39,5 @@ bin/vector_mono \
     ~/data/VECtor/corridors-dolly \
     ~/data/VECtor/corridors-dolly/rgb/timestamp.txt \
     results/vector_mono/$exp/vector_mono_$i/corridors-dolly \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done

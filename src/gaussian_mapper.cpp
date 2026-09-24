@@ -19,6 +19,7 @@
 #include "include/gaussian_mapper.h"
 
 #include <cmath>
+#include <stdexcept>
 
 #include "include/gaussian_renderer.h"
 #include "include/loss_utils.h"
@@ -45,7 +46,8 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
                                std::filesystem::path result_dir,
                                int seed,
                                torch::DeviceType device_type,
-                               std::optional<bool> selector_enabled_override)
+                               std::optional<bool> selector_enabled_override,
+                               std::filesystem::path selector_config_file_path)
     : pSLAM_(pSLAM),
       initial_mapped_(false),
       interrupt_training_(false),
@@ -77,7 +79,13 @@ GaussianMapper::GaussianMapper(std::shared_ptr<ORB_SLAM3::System> pSLAM,
   result_dir_ = result_dir;
   CHECK_DIRECTORY_AND_CREATE_IF_NOT_EXISTS(result_dir)
   config_file_path_ = gaussian_config_file_path;
+  selector_config_file_path_ = selector_config_file_path;
   readConfigFromFile(gaussian_config_file_path);
+  if (selector_config_file_path_.empty()) {
+    throw std::invalid_argument(
+        "GaussianMapper requires --selector-config for experiment parameters");
+  }
+  readSelectorConfigFromFile(selector_config_file_path_);
   selector_replay_frame_rng_.seed(
       static_cast<std::mt19937::result_type>(selector_replay_seed_));
   if (selector_enabled_override.has_value()) {
@@ -293,182 +301,6 @@ void GaussianMapper::readConfigFromFile(std::filesystem::path cfg_path) {
       (settings_file["Model.white_background"].operator int()) != 0;
   model_params_.eval_ = (settings_file["Model.eval"].operator int()) != 0;
 
-  const cv::FileNode selector_enabled_node = settings_file["Selector.enabled"];
-  selector_enabled_ = !selector_enabled_node.empty() &&
-                      selector_enabled_node.operator int() != 0;
-  const cv::FileNode selector_ratios_node =
-      settings_file["Selector.target_ratios"];
-  if (!selector_ratios_node.empty() && selector_ratios_node.isSeq()) {
-    std::vector<float> configured_ratios;
-    for (auto ratio_it = selector_ratios_node.begin();
-         ratio_it != selector_ratios_node.end(); ++ratio_it) {
-      const float ratio = (*ratio_it).operator float();
-      if (ratio > 0.0f && ratio <= 1.0f) configured_ratios.push_back(ratio);
-    }
-    if (!configured_ratios.empty()) selector_target_ratios_ = configured_ratios;
-  }
-  const cv::FileNode selector_protection_node =
-      settings_file["Selector.protection_enabled"];
-  if (!selector_protection_node.empty())
-    selector_protection_enabled_ = selector_protection_node.operator int() != 0;
-  const cv::FileNode selector_min_age_node = settings_file["Selector.min_age"];
-  if (!selector_min_age_node.empty())
-    selector_min_age_ = selector_min_age_node.operator int();
-  const cv::FileNode selector_min_seen_node = settings_file["Selector.min_seen"];
-  if (!selector_min_seen_node.empty())
-    selector_min_seen_ = selector_min_seen_node.operator int();
-  const cv::FileNode selector_temperature_node =
-      settings_file["Selector.temperature"];
-  if (!selector_temperature_node.empty())
-    selector_temperature_ = selector_temperature_node.operator float();
-  const cv::FileNode selector_lr_node = settings_file["Selector.learning_rate"];
-  if (!selector_lr_node.empty())
-    selector_learning_rate_ = selector_lr_node.operator float();
-  const cv::FileNode selector_render_weight_node =
-      settings_file["Selector.render_loss_weight"];
-  if (!selector_render_weight_node.empty())
-    selector_render_loss_weight_ = selector_render_weight_node.operator float();
-  const cv::FileNode selector_gi_weight_node =
-      settings_file["Selector.gi_loss_weight"];
-  if (!selector_gi_weight_node.empty())
-    selector_gi_loss_weight_ = selector_gi_weight_node.operator float();
-  const cv::FileNode selector_ratio_weight_node =
-      settings_file["Selector.ratio_loss_weight"];
-  if (!selector_ratio_weight_node.empty())
-    selector_ratio_loss_weight_ = selector_ratio_weight_node.operator float();
-  const cv::FileNode selector_replay_enabled_node =
-      settings_file["Selector.replay_enabled"];
-  if (!selector_replay_enabled_node.empty())
-    selector_replay_enabled_ =
-        selector_replay_enabled_node.operator int() != 0;
-  const cv::FileNode selector_replay_interval_node =
-      settings_file["Selector.replay_interval"];
-  if (!selector_replay_interval_node.empty()) {
-    const int replay_interval = selector_replay_interval_node.operator int();
-    if (replay_interval >= 0) selector_replay_interval_ = replay_interval;
-  }
-  const cv::FileNode selector_replay_num_frames_node =
-      settings_file["Selector.replay_num_frames"];
-  if (!selector_replay_num_frames_node.empty()) {
-    const int replay_num_frames =
-        selector_replay_num_frames_node.operator int();
-    if (replay_num_frames >= 0)
-      selector_replay_num_frames_ = replay_num_frames;
-  }
-  const cv::FileNode selector_replay_seed_node =
-      settings_file["Selector.replay_seed"];
-  if (!selector_replay_seed_node.empty()) {
-    const int replay_seed = selector_replay_seed_node.operator int();
-    if (replay_seed >= 0) selector_replay_seed_ = replay_seed;
-  }
-
-  const cv::FileNode transform_enabled_node =
-      settings_file["TransformField.enable"];
-  if (!transform_enabled_node.empty())
-    transform_field_config_.enabled = transform_enabled_node.operator int() != 0;
-  const cv::FileNode transform_start_node =
-      settings_file["TransformField.start_iter"];
-  if (!transform_start_node.empty())
-    transform_field_config_.start_iter = transform_start_node.operator int();
-  const cv::FileNode transform_aabb_scale_node =
-      settings_file["TransformField.aabb_scale"];
-  if (!transform_aabb_scale_node.empty())
-    transform_field_config_.aabb_scale =
-        transform_aabb_scale_node.operator float();
-  const cv::FileNode transform_spatial_res_node =
-      settings_file["TransformField.spatial_resolution"];
-  if (!transform_spatial_res_node.empty())
-    transform_field_config_.hexplane.spatial_resolution =
-        transform_spatial_res_node.operator int();
-  const cv::FileNode transform_ratio_res_node =
-      settings_file["TransformField.ratio_resolution"];
-  if (!transform_ratio_res_node.empty())
-    transform_field_config_.hexplane.ratio_resolution =
-        transform_ratio_res_node.operator int();
-  const cv::FileNode transform_feature_dim_node =
-      settings_file["TransformField.feature_dim"];
-  if (!transform_feature_dim_node.empty())
-    transform_field_config_.hexplane.feature_dim =
-        transform_feature_dim_node.operator int();
-  const cv::FileNode transform_multires_node =
-      settings_file["TransformField.multires"];
-  if (!transform_multires_node.empty() && transform_multires_node.isSeq()) {
-    std::vector<int> multires;
-    for (auto it = transform_multires_node.begin();
-         it != transform_multires_node.end(); ++it)
-      multires.push_back((*it).operator int());
-    if (!multires.empty()) transform_field_config_.hexplane.multires = multires;
-  }
-  const cv::FileNode transform_hidden_node =
-      settings_file["TransformField.hidden_dim"];
-  if (!transform_hidden_node.empty())
-    transform_field_config_.hidden_dim = transform_hidden_node.operator int();
-  const cv::FileNode transform_grid_lr_node =
-      settings_file["TransformField.grid_lr_init"];
-  if (!transform_grid_lr_node.empty())
-    transform_field_config_.grid_lr_init = transform_grid_lr_node.operator float();
-  const cv::FileNode transform_grid_final_node =
-      settings_file["TransformField.grid_lr_final"];
-  if (!transform_grid_final_node.empty())
-    transform_field_config_.grid_lr_final =
-        transform_grid_final_node.operator float();
-  const cv::FileNode transform_mlp_lr_node =
-      settings_file["TransformField.mlp_lr_init"];
-  if (!transform_mlp_lr_node.empty())
-    transform_field_config_.mlp_lr_init = transform_mlp_lr_node.operator float();
-  const cv::FileNode transform_mlp_final_node =
-      settings_file["TransformField.mlp_lr_final"];
-  if (!transform_mlp_final_node.empty())
-    transform_field_config_.mlp_lr_final = transform_mlp_final_node.operator float();
-  const cv::FileNode transform_lr_delay_node =
-      settings_file["TransformField.lr_delay_mult"];
-  if (!transform_lr_delay_node.empty())
-    transform_field_config_.lr_delay_mult =
-        transform_lr_delay_node.operator float();
-  const cv::FileNode transform_max_steps_node =
-      settings_file["TransformField.lr_max_steps"];
-  if (!transform_max_steps_node.empty())
-    transform_field_config_.lr_max_steps = transform_max_steps_node.operator int();
-  const cv::FileNode transform_spatial_weight_node =
-      settings_file["TransformField.spatial_smooth_weight"];
-  if (!transform_spatial_weight_node.empty())
-    transform_field_config_.spatial_smooth_weight =
-        transform_spatial_weight_node.operator float();
-  const cv::FileNode transform_ratio_weight_node =
-      settings_file["TransformField.ratio_smooth_weight"];
-  if (!transform_ratio_weight_node.empty())
-    transform_field_config_.ratio_smooth_weight =
-        transform_ratio_weight_node.operator float();
-  const cv::FileNode transform_l1_node =
-      settings_file["TransformField.ratio_l1_weight"];
-  if (!transform_l1_node.empty())
-    transform_field_config_.ratio_l1_weight = transform_l1_node.operator float();
-  const cv::FileNode transform_outside_identity_node =
-      settings_file["TransformField.outside_identity"];
-  if (!transform_outside_identity_node.empty())
-    transform_field_config_.outside_identity =
-        transform_outside_identity_node.operator int() != 0;
-  const cv::FileNode transform_mature_only_node =
-      settings_file["TransformField.mature_only"];
-  if (!transform_mature_only_node.empty())
-    transform_field_config_.mature_only =
-        transform_mature_only_node.operator int() != 0;
-
-  const cv::FileNode online_gi_enabled_node = settings_file["OnlineGI.enable"];
-  if (!online_gi_enabled_node.empty())
-    online_gi_config_.enabled = online_gi_enabled_node.operator int() != 0;
-  const cv::FileNode online_gi_decay_node =
-      settings_file["OnlineGI.fast_ema_decay"];
-  if (!online_gi_decay_node.empty())
-    online_gi_config_.fast_ema_decay = online_gi_decay_node.operator float();
-  const cv::FileNode online_gi_weight_node =
-      settings_file["OnlineGI.fast_weight"];
-  if (!online_gi_weight_node.empty())
-    online_gi_config_.fast_weight = online_gi_weight_node.operator float();
-  const cv::FileNode online_gi_eps_node = settings_file["OnlineGI.eps"];
-  if (!online_gi_eps_node.empty())
-    online_gi_config_.eps = online_gi_eps_node.operator float();
-
   // Pipeline Parameters
   z_near_ = settings_file["Camera.z_near"].operator float();
   z_far_ = settings_file["Camera.z_far"].operator float();
@@ -587,6 +419,111 @@ void GaussianMapper::readConfigFromFile(std::filesystem::path cfg_path) {
       settings_file["GaussianViewer.image_scale"].operator float();
   rendered_image_viewer_scale_main_ =
       settings_file["GaussianViewer.image_scale_main"].operator float();
+}
+
+void GaussianMapper::readSelectorConfigFromFile(
+    std::filesystem::path cfg_path) {
+  cv::FileStorage settings_file(cfg_path.string().c_str(),
+                                cv::FileStorage::READ);
+  if (!settings_file.isOpened()) {
+    throw std::runtime_error("[Gaussian Mapper]Failed to open selector config: " +
+                             cfg_path.string());
+  }
+
+  std::cout << "[Gaussian Mapper]Reading selector experiment parameters from "
+            << cfg_path << std::endl;
+  std::unique_lock<std::mutex> lock(mutex_settings_);
+
+  auto readInt = [&](const char* key, int& value) {
+    const cv::FileNode node = settings_file[key];
+    if (!node.empty()) value = node.operator int();
+  };
+  auto readFloat = [&](const char* key, float& value) {
+    const cv::FileNode node = settings_file[key];
+    if (!node.empty()) value = node.operator float();
+  };
+
+  int enabled = selector_enabled_ ? 1 : 0;
+  readInt("Selector.enabled", enabled);
+  selector_enabled_ = enabled != 0;
+  const cv::FileNode ratios_node = settings_file["Selector.target_ratios"];
+  if (!ratios_node.empty() && ratios_node.isSeq()) {
+    std::vector<float> configured_ratios;
+    for (auto it = ratios_node.begin(); it != ratios_node.end(); ++it) {
+      const float ratio = (*it).operator float();
+      if (ratio > 0.0f && ratio <= 1.0f) configured_ratios.push_back(ratio);
+    }
+    if (!configured_ratios.empty()) selector_target_ratios_ = configured_ratios;
+  }
+  int protection_enabled = selector_protection_enabled_ ? 1 : 0;
+  readInt("Selector.protection_enabled", protection_enabled);
+  selector_protection_enabled_ = protection_enabled != 0;
+  readInt("Selector.min_age", selector_min_age_);
+  readInt("Selector.min_seen", selector_min_seen_);
+  readFloat("Selector.temperature", selector_temperature_);
+  readFloat("Selector.learning_rate", selector_learning_rate_);
+  readFloat("Selector.render_loss_weight", selector_render_loss_weight_);
+  readFloat("Selector.gi_loss_weight", selector_gi_loss_weight_);
+  readFloat("Selector.ratio_loss_weight", selector_ratio_loss_weight_);
+  int replay_enabled = selector_replay_enabled_ ? 1 : 0;
+  readInt("Selector.replay_enabled", replay_enabled);
+  selector_replay_enabled_ = replay_enabled != 0;
+  int replay_interval = selector_replay_interval_;
+  readInt("Selector.replay_interval", replay_interval);
+  if (replay_interval >= 0) selector_replay_interval_ = replay_interval;
+  int replay_num_frames = selector_replay_num_frames_;
+  readInt("Selector.replay_num_frames", replay_num_frames);
+  if (replay_num_frames >= 0) selector_replay_num_frames_ = replay_num_frames;
+  int replay_seed = selector_replay_seed_;
+  readInt("Selector.replay_seed", replay_seed);
+  if (replay_seed >= 0) selector_replay_seed_ = replay_seed;
+
+  int transform_enabled = transform_field_config_.enabled ? 1 : 0;
+  readInt("TransformField.enable", transform_enabled);
+  transform_field_config_.enabled = transform_enabled != 0;
+  readInt("TransformField.start_iter", transform_field_config_.start_iter);
+  readFloat("TransformField.aabb_scale", transform_field_config_.aabb_scale);
+  readInt("TransformField.spatial_resolution",
+          transform_field_config_.hexplane.spatial_resolution);
+  readInt("TransformField.ratio_resolution",
+          transform_field_config_.hexplane.ratio_resolution);
+  readInt("TransformField.feature_dim",
+          transform_field_config_.hexplane.feature_dim);
+  const cv::FileNode multires_node = settings_file["TransformField.multires"];
+  if (!multires_node.empty() && multires_node.isSeq()) {
+    std::vector<int> multires;
+    for (auto it = multires_node.begin(); it != multires_node.end(); ++it)
+      multires.push_back((*it).operator int());
+    if (!multires.empty()) transform_field_config_.hexplane.multires = multires;
+  }
+  readInt("TransformField.hidden_dim", transform_field_config_.hidden_dim);
+  readFloat("TransformField.grid_lr_init", transform_field_config_.grid_lr_init);
+  readFloat("TransformField.grid_lr_final",
+            transform_field_config_.grid_lr_final);
+  readFloat("TransformField.mlp_lr_init", transform_field_config_.mlp_lr_init);
+  readFloat("TransformField.mlp_lr_final", transform_field_config_.mlp_lr_final);
+  readFloat("TransformField.lr_delay_mult",
+            transform_field_config_.lr_delay_mult);
+  readInt("TransformField.lr_max_steps", transform_field_config_.lr_max_steps);
+  readFloat("TransformField.spatial_smooth_weight",
+            transform_field_config_.spatial_smooth_weight);
+  readFloat("TransformField.ratio_smooth_weight",
+            transform_field_config_.ratio_smooth_weight);
+  readFloat("TransformField.ratio_l1_weight",
+            transform_field_config_.ratio_l1_weight);
+  int outside_identity = transform_field_config_.outside_identity ? 1 : 0;
+  readInt("TransformField.outside_identity", outside_identity);
+  transform_field_config_.outside_identity = outside_identity != 0;
+  int mature_only = transform_field_config_.mature_only ? 1 : 0;
+  readInt("TransformField.mature_only", mature_only);
+  transform_field_config_.mature_only = mature_only != 0;
+
+  int online_gi_enabled = online_gi_config_.enabled ? 1 : 0;
+  readInt("OnlineGI.enable", online_gi_enabled);
+  online_gi_config_.enabled = online_gi_enabled != 0;
+  readFloat("OnlineGI.fast_ema_decay", online_gi_config_.fast_ema_decay);
+  readFloat("OnlineGI.fast_weight", online_gi_config_.fast_weight);
+  readFloat("OnlineGI.eps", online_gi_config_.eps);
 }
 
 void GaussianMapper::run() {
@@ -2081,6 +2018,7 @@ void GaussianMapper::renderAndRecordAllKeyframes(std::string name_suffix) {
 
 void GaussianMapper::savePly(std::filesystem::path result_dir) {
   CHECK_DIRECTORY_AND_CREATE_IF_NOT_EXISTS(result_dir)
+  saveSelectorConfig(result_dir);
   keyframesToJson(result_dir);
   saveModelParams(result_dir);
 
@@ -2144,6 +2082,103 @@ void GaussianMapper::savePly(std::filesystem::path result_dir) {
     transform_state << Json::writeString(builder, state);
   }
   gaussians_->saveSparsePointsPly(result_dir / "input.ply");
+}
+
+void GaussianMapper::saveSelectorConfig(std::filesystem::path result_dir) {
+  CHECK_DIRECTORY_AND_CREATE_IF_NOT_EXISTS(result_dir)
+  const auto config_path = result_dir / "selector_config.yaml";
+  std::ofstream settings_file(config_path);
+  if (!settings_file.is_open()) {
+    throw std::runtime_error("Cannot write selector config: " +
+                             config_path.string());
+  }
+
+  settings_file << std::setprecision(9) << "%YAML:1.0\n\n";
+  settings_file << "Selector.enabled: " << static_cast<int>(selector_enabled_)
+                << '\n';
+  settings_file << "Selector.target_ratios: [";
+  for (std::size_t i = 0; i < selector_target_ratios_.size(); ++i) {
+    if (i != 0) settings_file << ", ";
+    settings_file << selector_target_ratios_[i];
+  }
+  settings_file << "]\n";
+  settings_file << "Selector.min_age: " << selector_min_age_ << '\n';
+  settings_file << "Selector.min_seen: " << selector_min_seen_ << '\n';
+  settings_file << "Selector.protection_enabled: "
+                << static_cast<int>(selector_protection_enabled_) << '\n';
+  settings_file << "Selector.temperature: " << selector_temperature_ << '\n';
+  settings_file << "Selector.learning_rate: " << selector_learning_rate_ << '\n';
+  settings_file << "Selector.render_loss_weight: "
+                << selector_render_loss_weight_ << '\n';
+  settings_file << "Selector.gi_loss_weight: " << selector_gi_loss_weight_
+                << '\n';
+  settings_file << "Selector.ratio_loss_weight: "
+                << selector_ratio_loss_weight_ << '\n';
+  settings_file << "Selector.replay_enabled: "
+                << static_cast<int>(selector_replay_enabled_) << '\n';
+  settings_file << "Selector.replay_interval: " << selector_replay_interval_
+                << '\n';
+  settings_file << "Selector.replay_num_frames: "
+                << selector_replay_num_frames_ << '\n';
+  settings_file << "Selector.replay_seed: " << selector_replay_seed_ << "\n\n";
+
+  settings_file << "OnlineGI.enable: "
+                << static_cast<int>(online_gi_config_.enabled) << '\n';
+  settings_file << "OnlineGI.fast_ema_decay: "
+                << online_gi_config_.fast_ema_decay << '\n';
+  settings_file << "OnlineGI.fast_weight: " << online_gi_config_.fast_weight
+                << '\n';
+  settings_file << "OnlineGI.eps: " << online_gi_config_.eps << "\n\n";
+
+  settings_file << "TransformField.enable: "
+                << static_cast<int>(transform_field_config_.enabled) << '\n';
+  settings_file << "TransformField.start_iter: "
+                << transform_field_config_.start_iter << '\n';
+  settings_file << "TransformField.aabb_scale: "
+                << transform_field_config_.aabb_scale << '\n';
+  settings_file << "TransformField.spatial_resolution: "
+                << transform_field_config_.hexplane.spatial_resolution << '\n';
+  settings_file << "TransformField.ratio_resolution: "
+                << transform_field_config_.hexplane.ratio_resolution << '\n';
+  settings_file << "TransformField.feature_dim: "
+                << transform_field_config_.hexplane.feature_dim << '\n';
+  settings_file << "TransformField.multires: [";
+  const auto& multires = transform_field_config_.hexplane.multires;
+  for (std::size_t i = 0; i < multires.size(); ++i) {
+    if (i != 0) settings_file << ", ";
+    settings_file << multires[i];
+  }
+  settings_file << "]\n";
+  settings_file << "TransformField.hidden_dim: "
+                << transform_field_config_.hidden_dim << '\n';
+  settings_file << "TransformField.grid_lr_init: "
+                << transform_field_config_.grid_lr_init << '\n';
+  settings_file << "TransformField.grid_lr_final: "
+                << transform_field_config_.grid_lr_final << '\n';
+  settings_file << "TransformField.mlp_lr_init: "
+                << transform_field_config_.mlp_lr_init << '\n';
+  settings_file << "TransformField.mlp_lr_final: "
+                << transform_field_config_.mlp_lr_final << '\n';
+  settings_file << "TransformField.lr_delay_mult: "
+                << transform_field_config_.lr_delay_mult << '\n';
+  settings_file << "TransformField.lr_max_steps: "
+                << transform_field_config_.lr_max_steps << '\n';
+  settings_file << "TransformField.spatial_smooth_weight: "
+                << transform_field_config_.spatial_smooth_weight << '\n';
+  settings_file << "TransformField.ratio_smooth_weight: "
+                << transform_field_config_.ratio_smooth_weight << '\n';
+  settings_file << "TransformField.ratio_l1_weight: "
+                << transform_field_config_.ratio_l1_weight << '\n';
+  settings_file << "TransformField.outside_identity: "
+                << static_cast<int>(transform_field_config_.outside_identity)
+                << '\n';
+  settings_file << "TransformField.mature_only: "
+                << static_cast<int>(transform_field_config_.mature_only) << '\n';
+  settings_file.flush();
+  if (!settings_file.good()) {
+    throw std::runtime_error("Failed while writing selector config: " +
+                             config_path.string());
+  }
 }
 
 void GaussianMapper::keyframesToJson(std::filesystem::path result_dir) {

@@ -1,5 +1,6 @@
 #!/bin/bash
 exp=$1
+selector_config=${2:-cfg/selector/selector_config.yaml}
 
 if [ -d results/tum_mono/$exp ]; then
     rm -rf results/tum_mono/$exp
@@ -13,7 +14,7 @@ bin/tum_mono \
     cfg/gaussian_mapper/Monocular/TUM/tum_mono.yaml \
     data/TUM_RGBD/rgbd_dataset_freiburg1_desk \
     results/tum_mono/$exp/tum_mono_$i/rgbd_dataset_freiburg1_desk \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -24,7 +25,7 @@ bin/tum_mono \
     cfg/gaussian_mapper/Monocular/TUM/tum_mono.yaml \
     data/TUM_RGBD/rgbd_dataset_freiburg2_xyz \
     results/tum_mono/$exp/tum_mono_$i/rgbd_dataset_freiburg2_xyz \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done
 
 for i in 0 1 2 3 4
@@ -35,5 +36,5 @@ bin/tum_mono \
     cfg/gaussian_mapper/Monocular/TUM/tum_mono.yaml \
     data/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household \
     results/tum_mono/$exp/tum_mono_$i/rgbd_dataset_freiburg3_long_office_household \
-    no_viewer
+    no_viewer --selector-config "$selector_config"
 done

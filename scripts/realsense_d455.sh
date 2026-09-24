@@ -1,7 +1,9 @@
 #!/bin/bash
+selector_config=${1:-cfg/selector/selector_config.yaml}
 
 bin/realsense_rgbd \
     third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt \
     cfg/ORB_SLAM3/RGB-D/RealCamera/realsense_d455_rgbd.yaml \
     cfg/gaussian_mapper/RGB-D/RealCamera/realsense_rgbd.yaml \
-    results/realsense_d455_rgbd
+    results/realsense_d455_rgbd \
+    --selector-config "$selector_config"

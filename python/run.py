@@ -92,6 +92,31 @@ def associate_frames(tstamp_image, tstamp_pose, max_dt=0.08):
     return associations
 
 
+def load_selector_config(config_path):
+    if not os.path.isfile(config_path):
+        raise FileNotFoundError(
+            "selector experiment config not found: {}".format(config_path)
+        )
+    storage = cv2.FileStorage(config_path, cv2.FILE_STORAGE_READ)
+    if not storage.isOpened():
+        raise RuntimeError("failed to open selector experiment config: {}".format(config_path))
+
+    def read_value(key, default):
+        node = storage.getNode(key)
+        if node.empty():
+            return default
+        return node.real() if isinstance(default, float) else int(node.real())
+
+    config = {
+        "min_age": read_value("Selector.min_age", 100),
+        "min_seen": read_value("Selector.min_seen", 80),
+        "protection_enabled": read_value("Selector.protection_enabled", 1),
+        "temperature": read_value("Selector.temperature", 1.0),
+    }
+    storage.release()
+    return config
+
+
 if __name__ == "__main__":
     # Set up command line argument parser
     parser = ArgumentParser(description="evaluation script parameters")
@@ -105,15 +130,16 @@ if __name__ == "__main__":
     )
     parser.add_argument("--selector", type=str, default=None)
     parser.add_argument("--selector-ratio", type=float, default=None)
-    parser.add_argument("--selector-min-age", type=int, default=100)
-    parser.add_argument("--selector-min-seen", type=int, default=80)
+    parser.add_argument("--selector-config", type=str, default=None)
+    parser.add_argument("--selector-min-age", type=int, default=None)
+    parser.add_argument("--selector-min-seen", type=int, default=None)
     parser.add_argument(
         "--selector-protection-enabled",
         type=int,
         choices=(0, 1),
-        default=1,
+        default=None,
     )
-    parser.add_argument("--selector-temperature", type=float, default=1.0)
+    parser.add_argument("--selector-temperature", type=float, default=None)
     parser.add_argument("--correct_scale", action="store_true")
     parser.add_argument("--show_plot", action="store_true")
     args = parser.parse_args()
@@ -160,6 +186,30 @@ if __name__ == "__main__":
     else:
         shutdown_dir = max(shutdown_dirs, key=lambda name: int(name.split("_", 1)[0]))
     shutdown_ply_dir = os.path.join(source_result_path, shutdown_dir, "ply")
+    selector_config_path = args.selector_config or os.path.join(
+        shutdown_ply_dir, "selector_config.yaml"
+    )
+    selector_config = load_selector_config(selector_config_path)
+    selector_min_age = (
+        args.selector_min_age
+        if args.selector_min_age is not None
+        else selector_config["min_age"]
+    )
+    selector_min_seen = (
+        args.selector_min_seen
+        if args.selector_min_seen is not None
+        else selector_config["min_seen"]
+    )
+    selector_protection_enabled = (
+        args.selector_protection_enabled
+        if args.selector_protection_enabled is not None
+        else selector_config["protection_enabled"]
+    )
+    selector_temperature = (
+        args.selector_temperature
+        if args.selector_temperature is not None
+        else selector_config["temperature"]
+    )
     transform_model = (
         load_transform_field(shutdown_ply_dir, "cuda")
         if selector_model is not None else None
@@ -208,7 +258,7 @@ if __name__ == "__main__":
             elastic_attributes = None
             if selector_model is not None:
                 birth_iter = seen_count = None
-                if args.selector_protection_enabled:
+                if selector_protection_enabled:
                     metadata_path = os.path.join(
                         source_result_path,
                         file_name,
@@ -227,16 +277,16 @@ if __name__ == "__main__":
                     seen_count,
                     int(iter),
                     args.selector_ratio,
-                    args.selector_min_age,
-                    args.selector_min_seen,
-                    args.selector_temperature,
-                    protection_enabled=bool(args.selector_protection_enabled),
+                    selector_min_age,
+                    selector_min_seen,
+                    selector_temperature,
+                    protection_enabled=bool(selector_protection_enabled),
                 )
                 if transform_model is not None:
                     mature_mask = (
-                        (int(iter) - birth_iter >= args.selector_min_age)
-                        & (seen_count >= args.selector_min_seen)
-                        if args.selector_protection_enabled else selector_mask.bool().new_ones(
+                        (int(iter) - birth_iter >= selector_min_age)
+                        & (seen_count >= selector_min_seen)
+                        if selector_protection_enabled else selector_mask.bool().new_ones(
                             selector_mask.shape, dtype=torch.bool
                         )
                     )
