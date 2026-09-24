@@ -41,8 +41,7 @@ inline torch::Tensor build_rotation(torch::Tensor &r) {
   auto y = q.index({torch::indexing::Slice(), 2});
   auto z = q.index({torch::indexing::Slice(), 3});
 
-  auto R = torch::zeros({q.size(0), 3, 3},
-                        torch::TensorOptions().device(torch::kCUDA));
+  auto R = torch::zeros({q.size(0), 3, 3}, q.options());
   R.select(1, 0).select(1, 0).copy_(1 - 2 * (y * y + z * z));
   R.select(1, 0).select(1, 1).copy_(2 * (x * y - r * z));
   R.select(1, 0).select(1, 2).copy_(2 * (x * z + r * y));

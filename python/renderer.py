@@ -25,6 +25,7 @@ def render(
     scaling_modifier=1.0,
     override_color=None,
     selector_mask=None,
+    elastic_attributes=None,
 ):
     """Render the scene.
 
@@ -68,9 +69,13 @@ def render(
 
     rasterizer = GaussianRasterizer(raster_settings=raster_settings)
 
-    means3D = pc.get_xyz
+    means3D = pc.get_xyz if elastic_attributes is None else elastic_attributes["xyz"]
     means2D = screenspace_points
     opacity = pc.get_opacity
+    scales = pc.get_scaling if elastic_attributes is None else elastic_attributes["scaling"]
+    rotations = pc.get_rotation if elastic_attributes is None else elastic_attributes["rotation"]
+    if any(attribute.shape[0] != pc.get_xyz.shape[0] for attribute in (means3D, scales, rotations)):
+        raise ValueError("elastic attributes must match Gaussian count")
     active_mask = None
     if selector_mask is not None:
         if selector_mask.ndim != 1 or selector_mask.shape[0] != opacity.shape[0]:
@@ -87,12 +92,8 @@ def render(
     # If precomputed 3d covariance is provided, use it.
     # If not, then it will be computed from
     # scaling / rotation by the rasterizer.
-    scales = None
-    rotations = None
     cov3D_precomp = None
 
-    scales = pc.get_scaling
-    rotations = pc.get_rotation
     if active_mask is not None:
         scales = scales[active_mask].contiguous()
         rotations = rotations[active_mask].contiguous()

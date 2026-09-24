@@ -47,6 +47,10 @@ void initializeSingleGaussian(GaussianModel& model, float activated_scale) {
   model.exist_since_iter_ = torch::tensor({5}, kIntOptions);
   model.selector_birth_iter_ = torch::tensor({1}, kIntOptions);
   model.selector_seen_count_ = torch::tensor({100}, kIntOptions);
+  model.canonical_frame_scale_ = torch::ones({1, 1}, kFloatOptions);
+  model.canonical_frame_rotation_ =
+      torch::tensor({{1.0f, 0.0f, 0.0f, 0.0f}}, kFloatOptions);
+  model.canonical_frame_translation_ = torch::zeros({1, 3}, kFloatOptions);
 
   model.Tensor_vec_xyz_ = {model.xyz_};
   model.Tensor_vec_feature_dc_ = {model.features_dc_};

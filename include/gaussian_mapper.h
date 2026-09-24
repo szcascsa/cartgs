@@ -55,6 +55,7 @@
 #include "online_gi.h"
 #include "stereo_vision.h"
 #include "tensor_utils.h"
+#include "transform_field.h"
 
 #define CHECK_DIRECTORY_AND_CREATE_IF_NOT_EXISTS(dir)                 \
   if (!dir.empty() && !std::filesystem::exists(dir))                  \
@@ -196,6 +197,8 @@ class GaussianMapper {
                            int image_width,
                            torch::Tensor& gt_image,
                            bool step_optimizer);
+  void initializeTransformFieldIfNeeded();
+  void updateTransformLearningRate();
   void increaseKeyframeTimesOfUse(std::shared_ptr<GaussianKeyframe> pkf,
                                   int times);
   void cullKeyframes();
@@ -287,6 +290,7 @@ class GaussianMapper {
   int default_sh_ = 0;
   std::uint64_t mapping_iter_ = 0;
   std::uint64_t selector_step_ = 0;
+  std::uint64_t transform_step_ = 0;
 
   // Settings
   SystemSensorType sensor_type_;
@@ -323,8 +327,8 @@ class GaussianMapper {
   bool selector_enabled_ = false;
   bool selector_protection_enabled_ = true;
   std::vector<float> selector_target_ratios_ = {0.01f, 0.05f, 0.1f, 0.15f};
-  int selector_min_age_ = 10000;
-  int selector_min_seen_ = 8000;
+  int selector_min_age_ = 100;
+  int selector_min_seen_ = 80;
   float selector_temperature_ = 1.0f;
   float selector_learning_rate_ = 0.001f;
   float selector_render_loss_weight_ = 1.0f;
@@ -342,6 +346,10 @@ class GaussianMapper {
   std::shared_ptr<torch::optim::Adam> selector_optimizer_;
   GITeacherBuilder gi_teacher_builder_;
   std::mt19937 selector_replay_frame_rng_;
+
+  TransformFieldConfig transform_field_config_;
+  TransformField transform_field_ = nullptr;
+  std::shared_ptr<torch::optim::Adam> transform_optimizer_;
 
   std::filesystem::path result_dir_;
   int keyframe_record_interval_;

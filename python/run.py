@@ -9,6 +9,11 @@ from renderer import render
 from argparse import ArgumentParser
 from gaussian_model import GaussianModel
 from selector import build_selector_mask, load_selector, load_selector_metadata
+from transform_field import (
+    load_canonical_frames,
+    load_transform_field,
+    transformed_attributes,
+)
 from scipy.spatial.transform import Rotation
 from utils import MiniCam, focal2fov
 
@@ -101,8 +106,8 @@ if __name__ == "__main__":
     )
     parser.add_argument("--selector", type=str, default=None)
     parser.add_argument("--selector-ratio", type=float, default=None)
-    parser.add_argument("--selector-min-age", type=int, default=10000)
-    parser.add_argument("--selector-min-seen", type=int, default=8000)
+    parser.add_argument("--selector-min-age", type=int, default=100)
+    parser.add_argument("--selector-min-seen", type=int, default=80)
     parser.add_argument(
         "--selector-protection-enabled",
         type=int,
@@ -125,13 +130,47 @@ if __name__ == "__main__":
     selector_model = (
         load_selector(args.selector, "cuda") if args.selector else None
     )
-    dirs = os.listdir(source_result_path)
+    shutdown_dirs = [
+        name for name in os.listdir(source_result_path)
+        if name.endswith("_shutdown") and name.split("_", 1)[0].isdigit()
+    ]
+    if not shutdown_dirs:
+        raise FileNotFoundError("no shutdown model found in {}".format(source_result_path))
+    if selector_model is not None:
+        checkpoint_dir = os.path.normcase(
+            os.path.abspath(os.path.dirname(args.selector))
+        )
+        matches = [
+            name for name in shutdown_dirs
+            if checkpoint_dir
+            in {
+                os.path.normcase(
+                    os.path.abspath(os.path.join(source_result_path, name))
+                ),
+                os.path.normcase(
+                    os.path.abspath(os.path.join(source_result_path, name, "ply"))
+                ),
+            }
+        ]
+        if len(matches) != 1:
+            raise ValueError(
+                "selector.pt must belong to a shutdown model or its ply directory "
+                "in result_path"
+            )
+        shutdown_dir = matches[0]
+    else:
+        shutdown_dir = max(shutdown_dirs, key=lambda name: int(name.split("_", 1)[0]))
+    shutdown_ply_dir = os.path.join(source_result_path, shutdown_dir, "ply")
+    transform_model = (
+        load_transform_field(shutdown_ply_dir, "cuda")
+        if selector_model is not None else None
+    )
     # load model
     width, height, fovx, fovy = 0, 0, 0, 0
     ts = []
     Rs = []
     render_time = 0
-    for file_name in dirs:
+    for file_name in (shutdown_dir,):
         if "shutdown" in file_name:
             iter = file_name.split("_")[0]
             ply_path = os.path.join(
@@ -167,6 +206,7 @@ if __name__ == "__main__":
 
             selector_mask = None
             selector_stats = None
+            elastic_attributes = None
             if selector_model is not None:
                 birth_iter = seen_count = None
                 if args.selector_protection_enabled:
@@ -193,6 +233,23 @@ if __name__ == "__main__":
                     args.selector_temperature,
                     protection_enabled=bool(args.selector_protection_enabled),
                 )
+                if transform_model is not None:
+                    canonical_frames = load_canonical_frames(
+                        os.path.join(os.path.dirname(ply_path), "canonical_frames.ply"),
+                        gaussians.get_xyz.shape[0], "cuda",
+                    )
+                    mature_mask = (
+                        (int(iter) - birth_iter >= args.selector_min_age)
+                        & (seen_count >= args.selector_min_seen)
+                        if args.selector_protection_enabled else selector_mask.bool().new_ones(
+                            selector_mask.shape, dtype=torch.bool
+                        )
+                    )
+                    elastic_attributes = transformed_attributes(
+                        transform_model, gaussians, canonical_frames,
+                        selector_mask, mature_mask, args.selector_ratio,
+                    )
+                    selector_stats["transform_applied"] = elastic_attributes is not None
 
     # load gt
     if "replica" in args.gt_path.lower():
@@ -331,7 +388,8 @@ if __name__ == "__main__":
         cam = MiniCam(width, height, fovx, fovy, w2c)
         t0 = time.time()
         render_image = render(
-            cam, gaussians, background, selector_mask=selector_mask
+            cam, gaussians, background, selector_mask=selector_mask,
+            elastic_attributes=elastic_attributes,
         )["render"]
         t1 = time.time() - t0
         render_image = render_image.permute(1, 2, 0)

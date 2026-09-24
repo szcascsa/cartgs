@@ -362,6 +362,98 @@ void GaussianMapper::readConfigFromFile(std::filesystem::path cfg_path) {
     if (replay_seed >= 0) selector_replay_seed_ = replay_seed;
   }
 
+  const cv::FileNode transform_enabled_node =
+      settings_file["TransformField.enable"];
+  if (!transform_enabled_node.empty())
+    transform_field_config_.enabled = transform_enabled_node.operator int() != 0;
+  const cv::FileNode transform_start_node =
+      settings_file["TransformField.start_iter"];
+  if (!transform_start_node.empty())
+    transform_field_config_.start_iter = transform_start_node.operator int();
+  const cv::FileNode transform_aabb_scale_node =
+      settings_file["TransformField.aabb_scale"];
+  if (!transform_aabb_scale_node.empty())
+    transform_field_config_.aabb_scale =
+        transform_aabb_scale_node.operator float();
+  const cv::FileNode transform_spatial_res_node =
+      settings_file["TransformField.spatial_resolution"];
+  if (!transform_spatial_res_node.empty())
+    transform_field_config_.hexplane.spatial_resolution =
+        transform_spatial_res_node.operator int();
+  const cv::FileNode transform_ratio_res_node =
+      settings_file["TransformField.ratio_resolution"];
+  if (!transform_ratio_res_node.empty())
+    transform_field_config_.hexplane.ratio_resolution =
+        transform_ratio_res_node.operator int();
+  const cv::FileNode transform_feature_dim_node =
+      settings_file["TransformField.feature_dim"];
+  if (!transform_feature_dim_node.empty())
+    transform_field_config_.hexplane.feature_dim =
+        transform_feature_dim_node.operator int();
+  const cv::FileNode transform_multires_node =
+      settings_file["TransformField.multires"];
+  if (!transform_multires_node.empty() && transform_multires_node.isSeq()) {
+    std::vector<int> multires;
+    for (auto it = transform_multires_node.begin();
+         it != transform_multires_node.end(); ++it)
+      multires.push_back((*it).operator int());
+    if (!multires.empty()) transform_field_config_.hexplane.multires = multires;
+  }
+  const cv::FileNode transform_hidden_node =
+      settings_file["TransformField.hidden_dim"];
+  if (!transform_hidden_node.empty())
+    transform_field_config_.hidden_dim = transform_hidden_node.operator int();
+  const cv::FileNode transform_grid_lr_node =
+      settings_file["TransformField.grid_lr_init"];
+  if (!transform_grid_lr_node.empty())
+    transform_field_config_.grid_lr_init = transform_grid_lr_node.operator float();
+  const cv::FileNode transform_grid_final_node =
+      settings_file["TransformField.grid_lr_final"];
+  if (!transform_grid_final_node.empty())
+    transform_field_config_.grid_lr_final =
+        transform_grid_final_node.operator float();
+  const cv::FileNode transform_mlp_lr_node =
+      settings_file["TransformField.mlp_lr_init"];
+  if (!transform_mlp_lr_node.empty())
+    transform_field_config_.mlp_lr_init = transform_mlp_lr_node.operator float();
+  const cv::FileNode transform_mlp_final_node =
+      settings_file["TransformField.mlp_lr_final"];
+  if (!transform_mlp_final_node.empty())
+    transform_field_config_.mlp_lr_final = transform_mlp_final_node.operator float();
+  const cv::FileNode transform_lr_delay_node =
+      settings_file["TransformField.lr_delay_mult"];
+  if (!transform_lr_delay_node.empty())
+    transform_field_config_.lr_delay_mult =
+        transform_lr_delay_node.operator float();
+  const cv::FileNode transform_max_steps_node =
+      settings_file["TransformField.lr_max_steps"];
+  if (!transform_max_steps_node.empty())
+    transform_field_config_.lr_max_steps = transform_max_steps_node.operator int();
+  const cv::FileNode transform_spatial_weight_node =
+      settings_file["TransformField.spatial_smooth_weight"];
+  if (!transform_spatial_weight_node.empty())
+    transform_field_config_.spatial_smooth_weight =
+        transform_spatial_weight_node.operator float();
+  const cv::FileNode transform_ratio_weight_node =
+      settings_file["TransformField.ratio_smooth_weight"];
+  if (!transform_ratio_weight_node.empty())
+    transform_field_config_.ratio_smooth_weight =
+        transform_ratio_weight_node.operator float();
+  const cv::FileNode transform_l1_node =
+      settings_file["TransformField.ratio_l1_weight"];
+  if (!transform_l1_node.empty())
+    transform_field_config_.ratio_l1_weight = transform_l1_node.operator float();
+  const cv::FileNode transform_outside_identity_node =
+      settings_file["TransformField.outside_identity"];
+  if (!transform_outside_identity_node.empty())
+    transform_field_config_.outside_identity =
+        transform_outside_identity_node.operator int() != 0;
+  const cv::FileNode transform_mature_only_node =
+      settings_file["TransformField.mature_only"];
+  if (!transform_mature_only_node.empty())
+    transform_field_config_.mature_only =
+        transform_mature_only_node.operator int() != 0;
+
   const cv::FileNode online_gi_enabled_node = settings_file["OnlineGI.enable"];
   if (!online_gi_enabled_node.empty())
     online_gi_config_.enabled = online_gi_enabled_node.operator int() != 0;
@@ -920,7 +1012,9 @@ void GaussianMapper::trainMappingIteration(
       gaussians_->optimizer_->step();
       if (has_selector_update) {
         selector_optimizer_->step();
+        if (transform_optimizer_) transform_optimizer_->step();
         ++selector_step_;
+        if (transform_optimizer_) ++transform_step_;
       }
       gaussians_->optimizer_->zero_grad(true);
     }
@@ -957,6 +1051,65 @@ GaussianMapper::sampleReplayKeyframes(
   return candidates;
 }
 
+void GaussianMapper::initializeTransformFieldIfNeeded() {
+  if (transform_field_ || !transform_field_config_.enabled ||
+      !selector_network_ ||
+      mapping_iter_ < static_cast<std::uint64_t>(
+                           std::max(0, transform_field_config_.start_iter)))
+    return;
+  const auto canonical_xyz = gaussians_->getCanonicalXYZ();
+  if (canonical_xyz.numel() == 0) return;
+
+  torch::NoGradGuard no_grad;
+  auto aabb_min = std::get<0>(canonical_xyz.min(/*dim=*/0));
+  auto aabb_max = std::get<0>(canonical_xyz.max(/*dim=*/0));
+  auto center = (aabb_min + aabb_max) * 0.5;
+  auto half_extent = (aabb_max - aabb_min) *
+                     (0.5 * std::max(transform_field_config_.aabb_scale,
+                                     1.0f));
+  half_extent = torch::clamp_min(half_extent, 1e-3);
+  aabb_min = (center - half_extent).detach();
+  aabb_max = (center + half_extent).detach();
+
+  transform_field_ = TransformField(aabb_min, aabb_max,
+                                    transform_field_config_);
+  transform_field_->to(torch::Device(device_type_));
+  torch::optim::AdamOptions mlp_options(
+      transform_field_config_.mlp_lr_init);
+  mlp_options.eps() = 1e-15;
+  transform_optimizer_ = std::make_shared<torch::optim::Adam>(
+      transform_field_->mlpParameters(), mlp_options);
+  transform_optimizer_->add_param_group(
+      transform_field_->gridParameters());
+  transform_optimizer_->param_groups()[1].options().set_lr(
+      transform_field_config_.grid_lr_init);
+  transform_step_ = 0;
+  std::cout << "[Gaussian Mapper] Transform Field initialized at mapping_iter "
+            << mapping_iter_ << ", canonical AABB initialized" << std::endl;
+}
+
+void GaussianMapper::updateTransformLearningRate() {
+  if (!transform_optimizer_) return;
+  const auto max_steps = std::max(transform_field_config_.lr_max_steps, 1);
+  const auto t = std::clamp(
+      static_cast<float>(transform_step_) / static_cast<float>(max_steps),
+      0.0f, 1.0f);
+  const auto delay_mult = std::clamp(transform_field_config_.lr_delay_mult,
+                                     0.0f, 1.0f);
+  const auto delay_rate =
+      delay_mult + (1.0f - delay_mult) * std::sin(1.5707963267948966f * t);
+  const auto interpolate = [t](float initial, float final) {
+    if (initial <= 0.0f || final <= 0.0f) return 0.0f;
+    return std::exp(std::log(initial) * (1.0f - t) + std::log(final) * t);
+  };
+  transform_optimizer_->param_groups()[0].options().set_lr(
+      delay_rate * interpolate(transform_field_config_.mlp_lr_init,
+                               transform_field_config_.mlp_lr_final));
+  transform_optimizer_->param_groups()[1].options().set_lr(
+      delay_rate * interpolate(transform_field_config_.grid_lr_init,
+                               transform_field_config_.grid_lr_final));
+}
+
 void GaussianMapper::trainSelectorReplay(
     std::shared_ptr<GaussianKeyframe> replay_kf) {
   if (!replay_kf || !selector_network_ || !selector_optimizer_) return;
@@ -966,7 +1119,7 @@ void GaussianMapper::trainSelectorReplay(
   // normal mapping path.
   const int image_height = replay_kf->image_height_;
   const int image_width = replay_kf->image_width_;
-  auto gt_image = replay_kf->original_image_.cuda();
+  auto gt_image = replay_kf->original_image_.to(torch::Device(device_type_));
 
   std::unique_lock<std::mutex> lock_render(mutex_render_);
   trainSelectorUpdate(replay_kf, image_height, image_width, gt_image,
@@ -991,18 +1144,28 @@ bool GaussianMapper::trainSelectorUpdate(
   if (online_gi_ && online_gi_->enabled())
     online_gi_->assertAligned(gaussians_->getXYZ());
 
+  initializeTransformFieldIfNeeded();
   selector_optimizer_->zero_grad();
+  if (transform_optimizer_) {
+    updateTransformLearningRate();
+    transform_optimizer_->zero_grad();
+  }
+
   const float target_ratio =
       selector_target_ratios_[selector_step_ % selector_target_ratios_.size()];
   auto target_ratio_tensor = torch::full(
       {num_gaussians, 1}, target_ratio,
       torch::TensorOptions().dtype(torch::kFloat32).device(device_type_));
+  auto xyz = gaussians_->getXYZ().detach();
+  auto scaling = gaussians_->getScalingActivation().detach();
+  auto rotation = gaussians_->getRotationActivation().detach();
+  auto opacity = gaussians_->getOpacityActivation().detach();
+  auto features_dc = gaussians_->features_dc_.detach();
+  auto features_rest = gaussians_->features_rest_.detach();
   auto selector_output = selector_network_->forward(
-      gaussians_->getXYZ().detach(), gaussians_->getRotationActivation().detach(),
-      gaussians_->getScalingActivation().detach(), target_ratio_tensor,
-      selector_temperature_);
+      xyz, rotation, scaling, target_ratio_tensor, selector_temperature_);
   // GumbelNetwork returns a hard=True straight-through mask as its second
-  // output.  Keep its binary forward values and soft backward path intact.
+  // output. Keep its binary forward values and soft backward path intact.
   auto selector_hard_mask = std::get<1>(selector_output);
   auto mature_mask = selector_protection_enabled_
                          ? gaussians_->getSelectorMatureMask(
@@ -1020,16 +1183,13 @@ bool GaussianMapper::trainSelectorUpdate(
   GITeacher gi_teacher;
   if (online_gi_ && online_gi_->enabled()) {
     auto combined_gi = online_gi_->getCombinedGI();
-    if (combined_gi.defined() &&
-        combined_gi.size(0) == num_gaussians) {
+    if (combined_gi.defined() && combined_gi.size(0) == num_gaussians)
       gi_teacher = gi_teacher_builder_.build(
           combined_gi, mature_mask, protected_mask, target_ratio,
           online_gi_->version(), online_gi_->topologyVersion());
-    }
   }
+
   const auto protected_f = protected_mask.to(torch::kFloat32);
-  // Protected Gaussians are forced active, while mature Gaussians retain the
-  // Gumbel hard straight-through mask for both rendering and supervision.
   auto selector_mask =
       protected_f + (1.0f - protected_f) * selector_hard_mask;
   auto hard_mature = selector_hard_mask.index({mature_mask});
@@ -1046,32 +1206,68 @@ bool GaussianMapper::trainSelectorUpdate(
         gi_teacher.label.index({gi_teacher.supervised_mask});
     gi_loss = l1_loss(selector_supervised, teacher_supervised, 1.0f);
   }
+
+  auto elastic_xyz = xyz;
+  auto elastic_scaling = scaling;
+  auto elastic_rotation = rotation;
+  if (transform_field_) {
+    const auto canonical_xyz = gaussians_->getCanonicalXYZ();
+    auto transform_mask = selector_hard_mask.detach() > 0.0f;
+    if (transform_field_config_.mature_only)
+      transform_mask = torch::logical_and(transform_mask, mature_mask);
+    if (transform_field_config_.outside_identity)
+      transform_mask = torch::logical_and(
+          transform_mask, transform_field_->insideMask(canonical_xyz));
+    const auto transform_count = transform_mask.sum().item<int64_t>();
+    if (transform_count > 0) {
+      auto transform_indices = torch::nonzero(transform_mask).reshape({-1});
+      auto transformed = transform_field_->applyResidual(
+          canonical_xyz.index_select(0, transform_indices),
+          scaling.index_select(0, transform_indices),
+          rotation.index_select(0, transform_indices),
+          gaussians_->canonical_frame_scale_.index_select(0, transform_indices),
+          gaussians_->canonical_frame_rotation_.index_select(0, transform_indices),
+          gaussians_->canonical_frame_translation_.index_select(0, transform_indices),
+          target_ratio);
+      elastic_xyz = xyz.index_copy(0, transform_indices, transformed.xyz);
+      elastic_scaling =
+          scaling.index_copy(0, transform_indices, transformed.scaling);
+      elastic_rotation =
+          rotation.index_copy(0, transform_indices, transformed.rotation);
+    }
+  }
+
   torch::Tensor selector_loss;
   const int64_t active_count = selector_mask.detach().sum().item<int64_t>();
   if (active_count > 0) {
+    GaussianRenderInput selected_input{
+        elastic_xyz, selector_mask.unsqueeze(1) * opacity, elastic_scaling,
+        elastic_rotation, features_dc, features_rest,
+        gaussians_->active_sh_degree_, gaussians_->max_sh_degree_};
     auto selected_render_pkg = GaussianRenderer::render(
-        viewpoint_cam, image_height, image_width, gaussians_, pipe_params_,
-        background_, override_color_, 1.0f, false, selector_mask, true);
-    auto selected_rendered_image = selected_render_pkg.image;
-    auto selected_l1 = l1_loss(selected_rendered_image, gt_image, 1.0f);
-    auto selected_ssim =
-        loss_utils::fast_ssim(selected_rendered_image, gt_image);
+        viewpoint_cam, image_height, image_width, selected_input,
+        pipe_params_, background_, override_color_, 1.0f, false, false);
+    auto selected_l1 = l1_loss(selected_render_pkg.image, gt_image, 1.0f);
+    auto selected_ssim = loss_utils::fast_ssim(selected_render_pkg.image, gt_image);
     const float lambda_dssim = lambdaDssim();
-    auto selected_photo =
-        (1.0 - lambda_dssim) * selected_l1 +
-        lambda_dssim * (1.0 - selected_ssim);
+    auto selected_photo = (1.0 - lambda_dssim) * selected_l1 +
+                          lambda_dssim * (1.0 - selected_ssim);
     selector_loss = selector_render_loss_weight_ * selected_photo +
                     selector_ratio_loss_weight_ * ratio_loss;
   } else {
     selector_loss = selector_ratio_loss_weight_ * ratio_loss;
   }
   if (gi_loss.defined()) selector_loss += selector_gi_loss_weight_ * gi_loss;
+  if (transform_field_)
+    selector_loss += transform_field_->regularizationLoss();
 
   selector_loss.backward();
   if (step_optimizer) {
     torch::NoGradGuard no_grad;
     selector_optimizer_->step();
+    if (transform_optimizer_) transform_optimizer_->step();
     ++selector_step_;
+    if (transform_optimizer_) ++transform_step_;
   }
   return true;
 }
@@ -1205,14 +1401,10 @@ void GaussianMapper::combineMappingOperations() {
                   loop_kf_scale;  // t = s * (R_new * t_old)
               diff_pose.translation() +=
                   inv_pose.translation();  // t = (s * R_new * t_old) + t_new
-              torch::Tensor diff_pose_tensor =
-                  tensor_utils::EigenMatrix2TorchTensor(diff_pose.matrix(),
-                                                        device_type_)
-                      .transpose(0, 1);
               {
                 std::unique_lock<std::mutex> lock_render(mutex_render_);
                 gaussians_->scaledTransformVisiblePointsOfKeyframe(
-                    point_not_transformed_flags, diff_pose_tensor,
+                    point_not_transformed_flags, diff_pose,
                     pkf->world_view_transform_, pkf->full_proj_transform_,
                     pkf->creation_iter_, stableNumIterExistence(),
                     num_transformed,
@@ -1903,12 +2095,57 @@ void GaussianMapper::savePly(std::filesystem::path result_dir) {
 
   gaussians_->savePly(ply_dir / "point_cloud.ply");
   gaussians_->saveSelectorMetadataPly(ply_dir / "selector_metadata.ply");
+  gaussians_->saveCanonicalFramesPly(ply_dir / "canonical_frames.ply");
   if (selector_network_) {
     // Avoid torch::save's generic operator<< path; LibTorch serializes the
     // registered module parameters through Module::save(OutputArchive&).
     torch::serialize::OutputArchive selector_archive;
     selector_network_->save(selector_archive);
     selector_archive.save_to((result_dir / "selector.pt").string());
+  }
+  if (transform_field_) {
+    torch::serialize::OutputArchive transform_archive;
+    transform_field_->save(transform_archive);
+    transform_archive.save_to((result_dir / "transform_field.pt").string());
+    if (transform_optimizer_)
+      torch::save(*transform_optimizer_,
+                  (result_dir / "transform_optimizer.pt").string());
+  }
+  if (transform_field_config_.enabled && selector_network_) {
+    Json::Value state;
+    state["initialized"] = static_cast<bool>(transform_field_);
+    state["start_iter"] = transform_field_config_.start_iter;
+    state["transform_step"] = Json::UInt64(transform_step_);
+    state["mapping_iter"] = Json::UInt64(mapping_iter_);
+    state["selector_step"] = Json::UInt64(selector_step_);
+    state["spatial_resolution"] =
+        transform_field_config_.hexplane.spatial_resolution;
+    state["ratio_resolution"] =
+        transform_field_config_.hexplane.ratio_resolution;
+    state["feature_dim"] = transform_field_config_.hexplane.feature_dim;
+    state["hidden_dim"] = transform_field_config_.hidden_dim;
+    state["lr_delay_mult"] = transform_field_config_.lr_delay_mult;
+    state["lr_max_steps"] = transform_field_config_.lr_max_steps;
+    state["multires"] = Json::arrayValue;
+    for (const auto resolution : transform_field_config_.hexplane.multires)
+      state["multires"].append(resolution);
+    state["outside_identity"] = transform_field_config_.outside_identity;
+    state["mature_only"] = transform_field_config_.mature_only;
+    state["aabb_min"] = Json::arrayValue;
+    state["aabb_max"] = Json::arrayValue;
+    if (transform_field_) {
+      auto aabb_min = transform_field_->aabbMin().detach().cpu();
+      auto aabb_max = transform_field_->aabbMax().detach().cpu();
+      for (int i = 0; i < 3; ++i) {
+        state["aabb_min"].append(aabb_min.index({i}).item<float>());
+        state["aabb_max"].append(aabb_max.index({i}).item<float>());
+      }
+    }
+    std::ofstream transform_state(result_dir / "transform_state.json");
+    if (!transform_state.is_open())
+      throw std::runtime_error("Cannot open Transform Field state file");
+    Json::StreamWriterBuilder builder;
+    transform_state << Json::writeString(builder, state);
   }
   gaussians_->saveSparsePointsPly(result_dir / "input.ply");
 }
@@ -2201,6 +2438,10 @@ void GaussianMapper::loadPly(std::filesystem::path ply_path,
       ply_path.parent_path() / "selector_metadata.ply";
   if (std::filesystem::exists(selector_metadata_path))
     this->gaussians_->loadSelectorMetadataPly(selector_metadata_path);
+  const auto canonical_frames_path =
+      ply_path.parent_path() / "canonical_frames.ply";
+  if (std::filesystem::exists(canonical_frames_path))
+    this->gaussians_->loadCanonicalFramesPly(canonical_frames_path);
 
   // Camera
   if (!camera_path.empty() && std::filesystem::exists(camera_path)) {

@@ -28,7 +28,7 @@
 
 void transformPoints(torch::Tensor& points, torch::Tensor& transformmatrix);
 
-void scaleAndTransformThenMarkVisiblePoints(
+torch::Tensor scaleAndTransformThenMarkVisiblePoints(
     torch::Tensor& points,
     torch::Tensor& rots,
     torch::Tensor& point_not_transformed_mask,

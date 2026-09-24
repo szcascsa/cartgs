@@ -45,8 +45,8 @@ def read_selector_config(config_path):
 
     return {
         "ratios": ratios,
-        "min_age": read_int("Selector.min_age", 10000),
-        "min_seen": read_int("Selector.min_seen", 8000),
+        "min_age": read_int("Selector.min_age", 100),
+        "min_seen": read_int("Selector.min_seen", 80),
         "protection_enabled": read_int("Selector.protection_enabled", 1) != 0,
         "temperature": read_float("Selector.temperature", 1.0),
     }

@@ -48,6 +48,12 @@ int main() {
   expectClose(manager.getCombinedGI(), torch::zeros({3}, float_options),
               "OnlineGI reset must initialize zero scores");
 
+  FrameGIScore zero_frame = manager.normalizeFrame(
+      torch::zeros({3}, float_options), torch::ones({3}, bool_options));
+  if (zero_frame.num_observed != 0 || zero_frame.observed_indices.numel() != 0)
+    throw std::runtime_error(
+        "Zero-importance frames must be skipped by OnlineGI");
+
   FrameGIScore frame;
   frame.score = torch::tensor({1.0f, 2.0f, 3.0f}, float_options);
   frame.observed_mask = torch::ones({3}, bool_options);

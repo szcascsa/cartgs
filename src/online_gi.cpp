@@ -31,6 +31,16 @@ FrameGIScore OnlineGIManager::normalizeFrame(
 
   auto observed_raw = raw_importance.index({result.observed_indices});
   auto total = observed_raw.sum();
+  // Do not amplify an empty frame into an Online GI update.
+  if (!torch::isfinite(total).item<bool>() ||
+      total.abs().item<float>() <= config_.eps) {
+    result.observed_mask.fill_(false);
+    result.observed_indices = torch::empty(
+        {0}, torch::TensorOptions().dtype(torch::kInt64).device(
+                 raw_importance.device()));
+    result.num_observed = 0;
+    return result;
+  }
   auto normalized = observed_raw * static_cast<float>(result.num_observed) /
                     (total + config_.eps);
   result.score.index_put_({result.observed_indices}, normalized);

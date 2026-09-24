@@ -38,6 +38,17 @@ struct RenderPackage {
   torch::Tensor contribution_count;
 };
 
+struct GaussianRenderInput {
+  torch::Tensor xyz;
+  torch::Tensor opacity;
+  torch::Tensor scaling;
+  torch::Tensor rotation;
+  torch::Tensor features_dc;
+  torch::Tensor features_rest;
+  int active_sh_degree = 0;
+  int max_sh_degree = 0;
+};
+
 class GaussianRenderer {
  public:
   static RenderPackage render(
@@ -52,5 +63,19 @@ class GaussianRenderer {
       bool has_override_color = false,
       torch::Tensor selector_mask = torch::Tensor(),
       bool detach_gaussian_parameters = false,
+      bool collect_importance = false);
+
+  // Tensor input keeps elastic rendering separate from the mutable master
+  // GaussianModel. Callers own the gradient boundary of every attribute.
+  static RenderPackage render(
+      std::shared_ptr<GaussianKeyframe> viewpoint_camera,
+      int image_height,
+      int image_width,
+      const GaussianRenderInput& input,
+      GaussianPipelineParams& pipe,
+      torch::Tensor& bg_color,
+      torch::Tensor& override_color,
+      float scaling_modifier = 1.0f,
+      bool has_override_color = false,
       bool collect_importance = false);
 };

@@ -158,6 +158,9 @@ add_library(
     include/gaussian_mapper.h
     include/gi_teacher.h
     include/online_gi.h
+    include/canonical_frame.h
+    include/hexplane_field.h
+    include/transform_field.h
     include/general_utils.h
     include/graphics_utils.h
     include/loss_utils.h
@@ -177,6 +180,8 @@ add_library(
     src/gaussian_mapper.cpp
     src/gi_teacher.cpp
     src/online_gi.cpp
+    src/hexplane_field.cpp
+    src/transform_field.cpp
 )
 target_link_libraries(
     gaussian_mapper
@@ -206,6 +211,30 @@ if(CARTGS_BUILD_TESTS)
     )
     target_link_libraries(gaussian_model_lifecycle_test gaussian_mapper)
     add_test(NAME gaussian_model_lifecycle COMMAND gaussian_model_lifecycle_test)
+
+    add_executable(
+        canonical_frame_test
+        tests/canonical_frame_test.cpp
+    )
+    target_link_libraries(canonical_frame_test ${TORCH_LIBRARIES})
+    add_test(NAME canonical_frame COMMAND canonical_frame_test)
+
+    add_executable(
+        transform_field_test
+        tests/transform_field_test.cpp
+        src/hexplane_field.cpp
+        src/transform_field.cpp
+    )
+    target_link_libraries(transform_field_test ${TORCH_LIBRARIES})
+    add_test(NAME transform_field COMMAND transform_field_test)
+
+    add_executable(
+        gi_teacher_test
+        tests/gi_teacher_test.cpp
+        src/gi_teacher.cpp
+    )
+    target_link_libraries(gi_teacher_test ${TORCH_LIBRARIES})
+    add_test(NAME gi_teacher COMMAND gi_teacher_test)
 endif()
 
 ##################################################################################

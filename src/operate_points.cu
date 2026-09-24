@@ -87,7 +87,7 @@ void transformPoints(torch::Tensor& points, torch::Tensor& transformmatrix) {
   }
 }
 
-void scaleAndTransformThenMarkVisiblePoints(
+torch::Tensor scaleAndTransformThenMarkVisiblePoints(
     torch::Tensor& points,
     torch::Tensor& rots,
     torch::Tensor& point_not_transformed_mask,
@@ -133,4 +133,5 @@ void scaleAndTransformThenMarkVisiblePoints(
         torch::full({P}, false, point_not_transformed_mask.options())
             .index({final_mask}));
   }
+  return final_mask;
 }

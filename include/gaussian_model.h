@@ -30,6 +30,7 @@
 #include <vector>
 
 #include "ORB-SLAM3/Thirdparty/Sophus/sophus/se3.hpp"
+#include "canonical_frame.h"
 #include "gaussian_parameters.h"
 #include "general_utils.h"
 #include "operate_points.h"
@@ -69,6 +70,12 @@
       0, torch::TensorOptions().dtype(torch::kInt32).device(device_type));   \
   this->selector_seen_count_ = torch::empty(                               \
       0, torch::TensorOptions().dtype(torch::kInt32).device(device_type));   \
+  this->canonical_frame_scale_ = torch::empty(                              \
+      {0, 1}, torch::TensorOptions().dtype(torch::kFloat32).device(device_type)); \
+  this->canonical_frame_rotation_ = torch::empty(                           \
+      {0, 4}, torch::TensorOptions().dtype(torch::kFloat32).device(device_type)); \
+  this->canonical_frame_translation_ = torch::empty(                        \
+      {0, 3}, torch::TensorOptions().dtype(torch::kFloat32).device(device_type)); \
   GAUSSIAN_MODEL_TENSORS_TO_VEC
 
 class GaussianModel {
@@ -87,6 +94,8 @@ class GaussianModel {
   torch::Tensor getFeatures();
   torch::Tensor getOpacityActivation();
   torch::Tensor getCovarianceActivation(int scaling_modifier = 1);
+  torch::Tensor getCanonicalXYZ() const;
+  void assertCanonicalFramesAligned() const;
 
   void oneUpShDegree();
   void setShDegree(const int sh);
@@ -110,7 +119,7 @@ class GaussianModel {
 
   void scaledTransformVisiblePointsOfKeyframe(
       torch::Tensor& point_not_transformed_flags,
-      torch::Tensor& diff_pose,
+      const Sophus::SE3f& diff_pose,
       torch::Tensor& kf_world_view_transform,
       torch::Tensor& kf_full_proj_transform,
       const int kf_creation_iter,
@@ -132,8 +141,8 @@ class GaussianModel {
   void prunePoints(torch::Tensor& mask);
 
   torch::Tensor getSelectorMatureMask(int current_iteration,
-                                      int min_age = 10000,
-                                      int min_seen = 8000) const;
+                                      int min_age = 100,
+                                      int min_seen = 80) const;
   void updateSelectorSeenCount(const torch::Tensor& visibility_filter);
 
   void densificationPostfix(torch::Tensor& new_xyz,
@@ -144,7 +153,10 @@ class GaussianModel {
                             torch::Tensor& new_rotation,
                             torch::Tensor& new_exist_since_iter,
                             torch::Tensor& new_selector_birth_iter,
-                            torch::Tensor& new_selector_seen_count);
+                            torch::Tensor& new_selector_seen_count,
+                            torch::Tensor& new_canonical_frame_scale,
+                            torch::Tensor& new_canonical_frame_rotation,
+                            torch::Tensor& new_canonical_frame_translation);
 
   void densifyAndSplit(torch::Tensor& grads,
                        float grad_threshold,
@@ -174,6 +186,8 @@ class GaussianModel {
   void savePly(std::filesystem::path result_path);
   void loadSelectorMetadataPly(std::filesystem::path ply_path);
   void saveSelectorMetadataPly(std::filesystem::path result_path);
+  void loadCanonicalFramesPly(std::filesystem::path ply_path);
+  void saveCanonicalFramesPly(std::filesystem::path result_path);
   void saveSparsePointsPly(std::filesystem::path result_path);
 
   void setOnlineGIStateCallbacks(OnlineGIAppendCallback on_append,
@@ -204,6 +218,11 @@ class GaussianModel {
   torch::Tensor exist_since_iter_;
   torch::Tensor selector_birth_iter_;
   torch::Tensor selector_seen_count_;
+  // Per-Gaussian canonical-to-world Sim(3): Xw = s * R(q) * Xc + t.
+  // These tensors are topology state, not trainable parameters.
+  torch::Tensor canonical_frame_scale_;
+  torch::Tensor canonical_frame_rotation_;
+  torch::Tensor canonical_frame_translation_;
 
   std::vector<torch::Tensor> Tensor_vec_xyz_, Tensor_vec_feature_dc_,
       Tensor_vec_feature_rest_, Tensor_vec_opacity_, Tensor_vec_scaling_,
