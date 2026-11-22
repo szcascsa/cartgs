@@ -1,0 +1,61 @@
+{
+  "scope": "evaluation metric batching only, not TF parity",
+  "first_probe_atol": 3e-06,
+  "first_probe_failed_lpips_max_abs": 1.2636184692382812e-05,
+  "results": [
+    {
+      "label": "full",
+      "metric": "psnr",
+      "frames": 64,
+      "max_abs": 1.9073486328125e-06,
+      "atol": 2e-05,
+      "rtol": 1e-06,
+      "passed": true
+    },
+    {
+      "label": "full",
+      "metric": "ssim",
+      "frames": 64,
+      "max_abs": 1.1920928955078125e-07,
+      "atol": 2e-05,
+      "rtol": 1e-06,
+      "passed": true
+    },
+    {
+      "label": "full",
+      "metric": "lpips",
+      "frames": 64,
+      "max_abs": 1.2636184692382812e-05,
+      "atol": 2e-05,
+      "rtol": 1e-06,
+      "passed": true
+    },
+    {
+      "label": "lod_01",
+      "metric": "psnr",
+      "frames": 64,
+      "max_abs": 1.9073486328125e-06,
+      "atol": 2e-05,
+      "rtol": 1e-06,
+      "passed": true
+    },
+    {
+      "label": "lod_01",
+      "metric": "ssim",
+      "frames": 64,
+      "max_abs": 1.1920928955078125e-07,
+      "atol": 2e-05,
+      "rtol": 1e-06,
+      "passed": true
+    },
+    {
+      "label": "lod_01",
+      "metric": "lpips",
+      "frames": 64,
+      "max_abs": 1.2546777725219727e-05,
+      "atol": 2e-05,
+      "rtol": 1e-06,
+      "passed": true
+    }
+  ]
+}

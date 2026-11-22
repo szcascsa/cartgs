@@ -1,0 +1,431 @@
+--- src/change_distill.cpp
++++ instrumented/src/change_distill.cpp
+@@ -1,3 +1,4 @@
++#include "perf_scope.h"
+ #include "include/change_management.h"
+ #include "include/frozen_teacher_target_cache.h"
+ #include "include/transform_field_cuda_optimizer.h"
+@@ -14,6 +15,7 @@
+ namespace {
+ std::unique_ptr<torch::optim::Adam> independentAdam(
+     torch::optim::Adam& source, const std::vector<double>& learning_rates) {
++  cdperf::Scope timer_adam_construction("adam_construction");
+   TORCH_CHECK(!learning_rates.empty() &&
+                   learning_rates.size() == source.param_groups().size(),
+               "CD learning-rate count must match optimizer parameter groups");
+@@ -30,6 +32,7 @@
+ 
+ torch::Tensor scopeIndices(DistillScope scope, const ChangeEvent& event,
+                            const ChangeCapture& capture) {
++  cdperf::Scope timer_scope_indices("scope_indices");
+   if (scope == DistillScope::ALL_SNAPSHOT_MATURE) return capture.mature_indices_before;
+   if (scope == DistillScope::CORRECTED_MATURE)
+     return torch::nonzero(capture.mature_mask_before & (event.correction_group_id >= 0)).reshape({-1});
+@@ -38,6 +41,7 @@
+ 
+ GaussianAttrState transportTarget(GaussianAttrState target, const torch::Tensor& indices,
+                                   const ChangeEvent& event) {
++  cdperf::Scope timer_geometry_transport("geometry_transport");
+   torch::NoGradGuard no_grad;
+   auto ids = event.correction_group_id.index_select(0, indices);
+   for (std::size_t g = 0; g < event.correction_groups.size(); ++g) {
+@@ -54,6 +58,7 @@
+ 
+ std::array<torch::Tensor, 3> tfErrors(const GaussianAttrState& student,
+     const GaussianAttrState& target, double diagonal) {
++  cdperf::Scope timer_loss_construction("loss_construction");
+   auto qs = quaternion_utils::normalize(student.rotation);
+   auto qt = quaternion_utils::normalize(target.rotation);
+   return {(student.xyz - target.xyz).abs().mean() / (diagonal + 1e-8),
+@@ -65,17 +70,21 @@
+     const ChangeCapture& capture, const GaussianAttrState& current,
+     const torch::Tensor& indices, float ratio, double temperature,
+     FrozenTeacherTargetCache& targets) {
+-  auto after = current.select(indices);
+-  auto ratios = torch::full({indices.numel(), 1}, ratio, after.xyz.options());
++  cdperf::Scope timer_selector_loss_call("selector_loss_call");
++  auto after = CD_OP("gaussian_gather", current.select(indices));
++  auto ratios = CD_OP("ratio_tensor", torch::full({indices.numel(), 1}, ratio, after.xyz.options()));
+   auto teacher = targets.get(indices, [&](const torch::Tensor& missing) {
+-    auto before = capture.old_state.select(missing);
+-    auto teacher_ratios = torch::full({missing.numel(), 1}, ratio, before.xyz.options());
+-    return capture.teacher_selector.ptr()->forwardProbability(
+-        before.xyz, before.rotation, before.log_scaling.exp(), teacher_ratios, temperature);
++    auto before = CD_OP("teacher_gaussian_gather", capture.old_state.select(missing));
++    auto teacher_ratios = CD_OP("teacher_ratio_tensor", torch::full({missing.numel(), 1}, ratio, before.xyz.options()));
++    return CD_OP("teacher_forward", capture.teacher_selector.ptr()->forwardProbability(
++        before.xyz, before.rotation, before.log_scaling.exp(), teacher_ratios, temperature));
+   });
+-  auto probability = student->forwardProbability(
+-      after.xyz, after.rotation, after.log_scaling.exp(), ratios, temperature);
+-  return (probability - teacher).abs().mean();
++  cdperf::tensor("selector/current_xyz", after.xyz);
++  cdperf::tensor("selector/teacher_probability", teacher);
++  auto probability = CD_OP("student_forward", student->forwardProbability(
++      after.xyz, after.rotation, after.log_scaling.exp(), ratios, temperature));
++  cdperf::tensor("selector/student_probability", probability);
++  return CD_OP("loss_construction", (probability - teacher).abs().mean());
+ }
+ 
+ // Stratified batches preserve separate population means. Tiny strata are reused
+@@ -114,16 +123,18 @@
+ }
+ 
+ torch::Tensor ChangeDistillManager::shuffle(const torch::Tensor& indices) {
++  cdperf::Scope timer_shuffle_cpu_h2d_gather("shuffle_cpu_h2d_gather");
+   std::vector<int64_t> order(indices.numel());
+   std::iota(order.begin(), order.end(), 0);
+   std::shuffle(order.begin(), order.end(), rng_);
+-  auto permutation = torch::tensor(order, torch::TensorOptions().dtype(torch::kLong))
+-                         .to(indices.device());
+-  return indices.index_select(0, permutation);
++  auto permutation = CD_OP("permutation_h2d", torch::tensor(order, torch::TensorOptions().dtype(torch::kLong))
++                         .to(indices.device()));
++  return CD_OP("shuffle_index_gather", indices.index_select(0, permutation));
+ }
+ 
+ torch::Tensor ChangeDistillManager::sampleAnchors(
+     const torch::Tensor& unaffected, int64_t corrected_count) {
++  cdperf::Scope timer_anchor_sampling("anchor_sampling");
+   if (!config_.enable_unaffected_anchors || corrected_count == 0)
+     return unaffected.slice(0, 0, 0);
+   const double wanted = std::floor(static_cast<double>(corrected_count) * config_.anchor_ratio_to_corrected);
+@@ -157,6 +168,7 @@
+             << " selector_scope=" << distillScopeName(event.selector_scope)
+             << " tf_scope=" << distillScopeName(event.tf_scope) << std::endl;
+ 
++  cdperf::branch = "selector";
+   if (selector_indices.numel() > 0 && config_.selector_weight > 0) {
+     TORCH_CHECK(context.selector && capture.teacher_selector && context.normal_selector_optimizer,
+                 "Selector CD requested without live model/teacher/optimizer");
+@@ -185,8 +197,8 @@
+       }
+       return total / (indices.numel() * ratio_count);
+     };
+-    report.selector_pre = evaluate(selector_indices);
+-    report.anchor_pre = evaluate(audit_anchors);
++    report.selector_pre = CD_OP("primary_evaluation", evaluate(selector_indices));
++    report.anchor_pre = CD_OP("anchor_evaluation", evaluate(audit_anchors));
+     const auto weighted_loss = [&](double primary, double anchor) {
+       return config_.selector_weight * (primary + config_.anchor_loss_weight * anchor);
+     };
+@@ -212,15 +224,18 @@
+         *context.normal_selector_optimizer,
+         {static_cast<double>(config_.selector_learning_rate)});
+     for (int64_t epoch = 0; epoch < config_.selectorEpochs(); ++epoch) {
++      cdperf::Scope epoch_scope("epoch_" + std::to_string(epoch));
+       const auto steps_before = report.selector_steps;
+       if (epoch > 0 && local) anchors = sampleAnchors(unaffected, selector_indices.numel());
+       report.anchor_count = anchors.numel();
+       auto corrected = shuffle(selector_indices);
+       const auto batches = (std::max(corrected.numel(), anchors.numel()) + batch_size - 1) / batch_size;
+       for (int64_t b = 0; b < batches; ++b) {
+-        optimizer->zero_grad();
+-        auto main = stratumBatch(corrected, b, batches);
+-        auto anchor = stratumBatch(anchors, b, batches);
++        cdperf::Scope batch_scope("training_batch");
++        CD_OP("zero_grad", optimizer->zero_grad());
++        auto main = CD_OP("primary_batch_view", stratumBatch(corrected, b, batches));
++        auto anchor = CD_OP("anchor_batch_view", stratumBatch(anchors, b, batches));
++        cdperf::Scope shape_scope("batch_shape_primary_"+std::to_string(main.first.numel())+"_anchor_"+std::to_string(anchor.first.numel()));
+         auto total = torch::zeros({}, current.xyz.options());
+         for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+           total = total + main.second * selectorLoss(context.selector, capture, current,
+@@ -231,23 +246,24 @@
+                              context.ratios[r], context.temperature, teacher_targets[r]);
+         }
+         total = total * (config_.selector_weight / ratio_count);
+-        TORCH_CHECK(torch::isfinite(total).item<bool>(), "Nonfinite Selector CD loss");
+-        if (total.item<double>() > 0.0) {
+-          total.backward();
++        TORCH_CHECK(CD_OP("finite_check_d2h", torch::isfinite(total).item<bool>()), "Nonfinite Selector CD loss");
++        if (CD_OP("positive_check_d2h", total.item<double>()) > 0.0) {
++          CD_OP("backward", total.backward());
+           if (context.selector->backend() == "cuda")
+-            tf_cuda::tfCudaAdamDirect(*optimizer, {0});
+-          else optimizer->step();
++            CD_OP("adam_step", tf_cuda::tfCudaAdamDirect(*optimizer, {0}));
++          else CD_OP("adam_step", optimizer->step());
+           ++report.selector_steps;
+         }
+       }
+-      report.selector_post = evaluate(selector_indices);
+-      report.anchor_post = evaluate(audit_anchors);
++      report.selector_post = CD_OP("primary_evaluation", evaluate(selector_indices));
++      report.anchor_post = CD_OP("anchor_evaluation", evaluate(audit_anchors));
+       const double loss = weighted_loss(report.selector_post, report.anchor_post);
+       log_epoch(epoch + 1, report.selector_post, report.anchor_post,
+                 loss - previous_loss, report.selector_steps - steps_before);
+       previous_loss = loss;
+     }
+-    optimizer->zero_grad();
++    CD_OP("zero_grad", optimizer->zero_grad());
++    cdperf::optimizer(*optimizer);
+     std::ostringstream summary;
+     summary << std::fixed << std::setprecision(4)
+               << "[SELECTOR CD] event=" << event.id << " count=" << report.selector_count
+@@ -264,19 +280,20 @@
+               << std::endl;
+   }
+ 
++  cdperf::branch = "tf";
+   if (tf_indices.numel() > 0 &&
+       config_.position_weight + config_.scale_weight + config_.rotation_weight > 0) {
+     TORCH_CHECK(context.tf && capture.teacher_tf && context.normal_tf_optimizer,
+                 "TF CD requested without live model/teacher/optimizer");
+     const auto start = std::chrono::steady_clock::now();
+     if (context.tf->config().outside_identity) {
+-      auto inside = context.tf->insideMask(current.xyz.index_select(0, tf_indices));
++      auto inside = CD_OP("outside_identity_filter", context.tf->insideMask(CD_OP("filter_gaussian_gather", current.xyz.index_select(0, tf_indices))));
+       const auto before = tf_indices.numel();
+-      tf_indices = tf_indices.index({inside});
++      tf_indices = CD_OP("filtered_indices", tf_indices.index({inside}));
+       report.skipped_outside = before - tf_indices.numel();
+     }
+     report.tf_count = tf_indices.numel();
+-    const double diagonal = capture.old_aabb.diagonal().item<double>();
++    const double diagonal = CD_OP("aabb_diagonal_d2h", capture.old_aabb.diagonal().item<double>());
+     const std::array<double, 3> weights = {config_.position_weight, config_.scale_weight, config_.rotation_weight};
+     std::vector<FrozenTeacherTargetCache> teacher_targets;
+     for (std::size_t r = 0; r < context.ratios.size(); ++r)
+@@ -284,13 +301,16 @@
+     auto errors = [&](const torch::Tensor& batch, std::size_t r) {
+       const auto ratio = context.ratios[r];
+       auto packed = teacher_targets[r].get(batch, [&](const torch::Tensor& missing) {
+-        auto target = transportTarget(capture.teacher_tf.ptr()->applyLogResidual(
+-            capture.old_state.select(missing), ratio), missing, event);
+-        return torch::cat({target.xyz, target.log_scaling, target.rotation}, 1);
++        auto target = transportTarget(CD_OP("teacher_forward", capture.teacher_tf.ptr()->applyLogResidual(
++            CD_OP("teacher_gaussian_gather", capture.old_state.select(missing)), ratio)), missing, event);
++        return CD_OP("target_pack", torch::cat({target.xyz, target.log_scaling, target.rotation}, 1));
+       });
+       GaussianAttrState target{packed.slice(1, 0, 3), packed.slice(1, 3, 6),
+                                packed.slice(1, 6, 10)};
+-      return tfErrors(context.tf->applyLogResidual(current.select(batch), ratio), target, diagonal);
++      cdperf::tensor("tf/target_xyz",target.xyz);
++      cdperf::tensor("tf/target_log_scale",target.log_scaling);
++      cdperf::tensor("tf/target_rotation",target.rotation);
++      return tfErrors(CD_OP("student_forward", context.tf->applyLogResidual(CD_OP("gaussian_gather", current.select(batch)), ratio)), target, diagonal);
+     };
+     auto evaluate = [&](const torch::Tensor& indices) {
+       torch::NoGradGuard no_grad;
+@@ -306,7 +326,7 @@
+       for (auto& sum : sums) sum /= indices.numel() * ratio_count;
+       return sums;
+     };
+-    const auto pre = evaluate(tf_indices);
++    const auto pre = CD_OP("primary_evaluation", evaluate(tf_indices));
+     const auto weighted_loss = [&](const std::array<double, 3>& loss) {
+       return weights[0] * loss[0] + weights[1] * loss[1] + weights[2] * loss[2];
+     };
+@@ -333,7 +353,7 @@
+     if (context.tf->config().outside_identity)
+       audit = audit.index({context.tf->insideMask(current.xyz.index_select(0, audit))});
+     audit = shuffle(audit).slice(0, 0, std::min(batch_size, audit.numel()));
+-    const auto audit_pre = evaluate(audit);
++    const auto audit_pre = CD_OP("untouched_evaluation", evaluate(audit));
+     if (tf_indices.numel() > 0) {
+       log_epoch(0, pre, 0.0, 0);
+       auto optimizer = independentAdam(
+@@ -341,38 +361,42 @@
+           {static_cast<double>(config_.tf_mlp_learning_rate),
+            static_cast<double>(config_.tf_grid_learning_rate)});
+       for (int64_t epoch = 0; epoch < config_.tfEpochs(); ++epoch) {
++        cdperf::Scope epoch_scope("epoch_" + std::to_string(epoch));
+         const auto steps_before = report.tf_steps;
+         auto indices = shuffle(tf_indices);
+         for (int64_t begin = 0; begin < indices.numel(); begin += batch_size) {
+-          optimizer->zero_grad();
++          cdperf::Scope batch_scope("training_batch");
++          CD_OP("zero_grad", optimizer->zero_grad());
+           auto batch = indices.slice(0, begin, std::min(begin + batch_size, indices.numel()));
++          cdperf::Scope shape_scope("batch_shape_"+std::to_string(batch.numel()));
+           auto total = torch::zeros({}, current.xyz.options());
+           for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+             auto loss = errors(batch, r);
+             for (int j = 0; j < 3; ++j) total = total + weights[j] * loss[j];
+           }
+           total = total / ratio_count;
+-          TORCH_CHECK(torch::isfinite(total).item<bool>(), "Nonfinite TF CD loss");
+-          if (total.item<double>() > 0.0) {
+-            total.backward();
++          TORCH_CHECK(CD_OP("finite_check_d2h", torch::isfinite(total).item<bool>()), "Nonfinite TF CD loss");
++          if (CD_OP("positive_check_d2h", total.item<double>()) > 0.0) {
++            CD_OP("backward", total.backward());
+             if (context.tf->config().backend == "cuda")
+-              tf_cuda::tfCudaAdamDirect(*optimizer, {0, 1});
+-            else optimizer->step();
++              CD_OP("adam_step", tf_cuda::tfCudaAdamDirect(*optimizer, {0, 1}));
++            else CD_OP("adam_step", optimizer->step());
+             ++report.tf_steps;
+           }
+         }
+-        post = evaluate(tf_indices);
++        post = CD_OP("primary_evaluation", evaluate(tf_indices));
+         const double loss = weighted_loss(post);
+         log_epoch(epoch + 1, post, loss - previous_loss, report.tf_steps - steps_before);
+         previous_loss = loss;
+       }
+-      optimizer->zero_grad();
++      CD_OP("zero_grad", optimizer->zero_grad());
++      cdperf::optimizer(*optimizer);
+     } else {
+       std::cout << "[TF CD SKIP] event=" << event.id << " type=" << event_type
+                 << " reason=no_in_domain_gaussians skipped_outside=" << report.skipped_outside
+                 << std::endl;
+     }
+-    const auto audit_post = evaluate(audit);
++    const auto audit_post = CD_OP("untouched_evaluation", evaluate(audit));
+     report.tf_pre = weighted_loss(pre);
+     report.tf_post = weighted_loss(post);
+     std::ostringstream summary;
+--- include/frozen_teacher_target_cache.h
++++ instrumented/include/frozen_teacher_target_cache.h
+@@ -1,3 +1,4 @@
++#include "perf_scope.h"
+ #pragma once
+ 
+ #include <torch/torch.h>
+@@ -12,19 +13,21 @@
+ 
+   template <typename Evaluate>
+   torch::Tensor get(const torch::Tensor& indices, Evaluate evaluate) {
++    cdperf::Scope cache_scope("target_cache");
+     torch::NoGradGuard no_grad;
+-    auto missing = indices.index({~ready_.index_select(0, indices)});
++    auto missing = CD_OP("cache_missing_indices", indices.index({~ready_.index_select(0, indices)}));
+     if (missing.numel() > 0) {
+-      auto target = evaluate(missing).detach();
++      auto target = CD_OP("cache_miss_evaluate", evaluate(missing).detach());
+       if (!values_.defined()) {
+         auto shape = target.sizes().vec();
+         shape[0] = ready_.size(0);
+-        values_ = torch::empty(shape, target.options().requires_grad(false));
++        values_ = CD_OP("cache_storage_allocate", torch::empty(shape, target.options().requires_grad(false)));
+       }
+-      values_.index_copy_(0, missing, target);
+-      ready_.index_fill_(0, missing, true);
++      CD_OP("cache_write", values_.index_copy_(0, missing, target));
++      CD_OP("cache_ready_update", ready_.index_fill_(0, missing, true));
+     }
+-    return values_.index_select(0, indices);
++    cdperf::tensor(cdperf::branch + "/cache_values", values_);
++    return CD_OP("cache_target_gather", values_.index_select(0, indices));
+   }
+ 
+  private:
+--- src/transform_field.cpp
++++ instrumented/src/transform_field.cpp
+@@ -1,3 +1,4 @@
++#include "perf_scope.h"
+ #include "include/transform_field.h"
+ 
+ #include <torch/nn/init.h>
+@@ -67,15 +68,17 @@
+   auto ratio_tensor = torch::full(
+       {xyz.size(0), 1}, ratio, xyz.options());
+   if (config_.backend == "cuda") {
+-    auto feature = tf_cuda::query(xyz, ratio_tensor, aabbMin(), aabbMax(), gridParameters());
++    auto feature = CD_OP("hexplane_query", tf_cuda::query(xyz, ratio_tensor, aabbMin(), aabbMax(), gridParameters()));
++    cdperf::tensor("tf/sampled_feature", feature);
+     // Same-machine complete training measurements favor Warp32 through 10k;
+     // cuBLAS wins at 20k/50k and serves all other architectures.
+     const auto mlp_backend = feature.size(1) == 16 && config_.hidden_dim == 32 && xyz.size(0) <= 10000
+         ? tf_cuda::MlpBackend::Warp32 : tf_cuda::MlpBackend::Cublas;
+-    auto residual = tf_cuda::neural(feature, mlpParameters(), mlp_backend);
++    auto residual = CD_OP("tf_mlp", tf_cuda::neural(feature, mlpParameters(), mlp_backend));
++    for (size_t i=0;i<residual.size();++i) cdperf::tensor("tf/residual_"+std::to_string(i), residual[i]);
+     return {residual[0], residual[1], residual[2]};
+   }
+-  auto feature = grid_->forward(xyz, ratio_tensor);
++  auto feature = CD_OP("hexplane_query_legacy", grid_->forward(xyz, ratio_tensor));
+   auto hidden = feature_out_->forward(feature);
+   auto delta_xyz = position_out_->forward(
+       torch::relu(position_hidden_->forward(torch::relu(hidden))));
+@@ -150,14 +153,14 @@
+ GaussianAttrState TransformFieldImpl::applyLogResidual(
+     const GaussianAttrState& state, float ratio) {
+   auto indices = config_.outside_identity
+-                     ? torch::nonzero(insideMask(state.xyz)).reshape({-1})
++                     ? CD_OP("network_inside_filter", torch::nonzero(insideMask(state.xyz)).reshape({-1}))
+                      : torch::arange(state.xyz.size(0), state.xyz.options().dtype(torch::kLong));
+   if (indices.numel() == 0) return state;
+-  auto selected = state.select(indices);
+-  auto residual = forward(selected.xyz, ratio);
++  auto selected = CD_OP("network_gaussian_gather", state.select(indices));
++  auto residual = CD_OP("network_residual_forward", forward(selected.xyz, ratio));
+   if (config_.backend == "cuda") {
+-    auto output = tf_cuda::output(selected.xyz, selected.log_scaling, selected.rotation,
+-        {residual.delta_xyz, residual.delta_log_scale, residual.delta_rotation_raw}, true);
++    auto output = CD_OP("output_transform", tf_cuda::output(selected.xyz, selected.log_scaling, selected.rotation,
++        {residual.delta_xyz, residual.delta_log_scale, residual.delta_rotation_raw}, true));
+     return {state.xyz.index_copy(0, indices, output[0]),
+             state.log_scaling.index_copy(0, indices, output[1]),
+             state.rotation.index_copy(0, indices, output[2])};
+--- src/selector_cuda.cpp
++++ instrumented/src/selector_cuda.cpp
+@@ -1,3 +1,4 @@
++#include "perf_scope.h"
+ #include "include/selector_cuda.h"
+ #include <torch/csrc/autograd/custom_function.h>
+ 
+@@ -7,10 +8,12 @@
+  public:
+   static torch::Tensor forward(torch::autograd::AutogradContext* ctx,
+                                at::TensorList tensors, int64_t candidate, int64_t strategy) {
++    cdperf::Scope scope("selector_network_forward");
+     auto in=tensors.vec();
+     TORCH_CHECK(in.size()==22,"Selector expects four inputs and eighteen parameters");
+     auto stages=selector_cuda::forward({in.begin(),in.begin()+4},
+         {in.begin()+4,in.end()},static_cast<Candidate>(candidate));
++    for(size_t i=0;i<stages.size();++i) cdperf::tensor("selector/stage_"+std::to_string(i), stages[i]);
+     ctx->saved_data["strategy"]=strategy;
+     for(int i=0;i<8;++i) {
+       // Second-layer activations are already present in the packed features.
+@@ -25,6 +28,7 @@
+   }
+   static torch::autograd::variable_list backward(torch::autograd::AutogradContext* ctx,
+                                                 torch::autograd::variable_list gradients) {
++    cdperf::Scope scope("selector_network_backward");
+     auto saved=ctx->get_saved_variables();
+     auto result=selector_cuda::backward({saved.begin(),saved.begin()+4},
+         {saved.begin()+4,saved.begin()+22},{saved.begin()+22,saved.end()},gradients[0].contiguous(),
+--- src/transform_field_cuda.cpp
++++ instrumented/src/transform_field_cuda.cpp
+@@ -1,3 +1,4 @@
++#include "perf_scope.h"
+ #include "include/transform_field_cuda.h"
+ #include <torch/csrc/autograd/custom_function.h>
+ 
+@@ -23,6 +24,7 @@
+       torch::autograd::variable_list gradients) {
+     // SavedVariable checks Tensor version counters, including AABB and planes.
+     ProtectionProfiler::Scope timing(capturedProfile(ctx), ProtectionProfiler::TFBackward, true);
++    cdperf::Scope scope("hexplane_backward");
+     return queryBackward(ctx->get_saved_variables(), gradients.at(0).contiguous());
+   }
+ };
+@@ -33,6 +35,7 @@
+     auto in=inputs.vec();
+     ctx->set_materialize_grads(false);
+     auto context=mlpForward(in[0],{in.begin()+1,in.end()},static_cast<MlpBackend>(backend));
++    for(size_t i=0;i<context.size();++i) cdperf::tensor("tf/mlp_stage_"+std::to_string(i),context[i]);
+     // Save feature/parameters and only four ReLU activations. Tensor version
+     // checks protect both the parameters and inputs until backward completes.
+     in.insert(in.end(),context.begin()+1,context.begin()+5);
+@@ -42,6 +45,7 @@
+   }
+   static torch::autograd::variable_list backward(torch::autograd::AutogradContext* ctx,
+                                                 torch::autograd::variable_list gradients) {
++    cdperf::Scope scope("tf_mlp_backward");
+     auto saved=ctx->get_saved_variables();
+     ProtectionProfiler::Scope timing(capturedProfile(ctx), ProtectionProfiler::TFBackward, true);
+     for(auto& g:gradients)if(g.defined())g=g.contiguous();
+@@ -65,6 +69,7 @@
+                                                 torch::autograd::variable_list gradients) {
+     for(auto& g:gradients)if(g.defined())g=g.contiguous();
+     ProtectionProfiler::Scope timing(capturedProfile(ctx), ProtectionProfiler::TFBackward, true);
++    cdperf::Scope scope("output_backward");
+     auto result=outputBackward(ctx->get_saved_variables(),gradients,ctx->saved_data["log_scale"].toBool());
+     result.push_back(torch::Tensor());
+     return result;

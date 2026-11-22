@@ -1,0 +1,21 @@
+QUALITY {"arm": "A_Raw", "ratio": 0.01, "K": 503, "views": 161, "photo": 0.21958906471914386, "psnr": 12.988267614234308, "ssim": 0.5524272422612824, "lpips": 0.7524446123135016}
+QUALITY {"arm": "A_Raw", "ratio": 0.05, "K": 2517, "views": 161, "photo": 0.1531117559867616, "psnr": 16.65314245520171, "ssim": 0.6168894573398258, "lpips": 0.6484763355729002}
+QUALITY {"arm": "A_Raw", "ratio": 0.1, "K": 5033, "views": 161, "photo": 0.13731177165086225, "psnr": 17.680353988031424, "ssim": 0.6403081805809684, "lpips": 0.5997214385811587}
+QUALITY {"arm": "A_Raw", "ratio": 0.15, "K": 7550, "views": 161, "photo": 0.1318722959630978, "psnr": 18.054709754375196, "ssim": 0.6498030313053487, "lpips": 0.5713172353202511}
+QUALITY {"arm": "B_FixedMarginal", "ratio": 0.01, "K": 503, "views": 161, "photo": 0.20346118699504723, "psnr": 13.882450784955706, "ssim": 0.5620855342897569, "lpips": 0.7363270254609007}
+QUALITY {"arm": "B_FixedMarginal", "ratio": 0.05, "K": 2517, "views": 161, "photo": 0.15069904034922582, "psnr": 16.980360149596788, "ssim": 0.6189741209056807, "lpips": 0.6307727044783764}
+QUALITY {"arm": "B_FixedMarginal", "ratio": 0.1, "K": 5033, "views": 161, "photo": 0.13824642907758677, "psnr": 17.80221222350316, "ssim": 0.6371353102026519, "lpips": 0.5766344866397218}
+QUALITY {"arm": "B_FixedMarginal", "ratio": 0.15, "K": 7550, "views": 161, "photo": 0.13194721266164544, "psnr": 18.22554456225093, "ssim": 0.6485837294448237, "lpips": 0.5422428607570459}
+BASELINE_REPRODUCTION_PASS {'A_Raw': {'psnr': 0.0, 'ssim': 0.0, 'lpips': 0.0, 'photo': 0.0}, 'B_FixedMarginal': {'psnr': 0.0, 'ssim': 0.0, 'lpips': 0.0, 'photo': 0.0}}
+QUALITY {"arm": "C_Hierarchical", "ratio": 0.01, "K": 503, "views": 161, "photo": 0.2043263191669624, "psnr": 13.834514558685493, "ssim": 0.5611183280530183, "lpips": 0.7389268490098277}
+QUALITY {"arm": "C_Hierarchical", "ratio": 0.05, "K": 2517, "views": 161, "photo": 0.15024096745511759, "psnr": 17.046942545020062, "ssim": 0.6194519109977699, "lpips": 0.6314984954291989}
+QUALITY {"arm": "C_Hierarchical", "ratio": 0.1, "K": 5033, "views": 161, "photo": 0.13830859339015084, "psnr": 17.760086326125247, "ssim": 0.6376315803261277, "lpips": 0.5763729705203394}
+QUALITY {"arm": "C_Hierarchical", "ratio": 0.15, "K": 7550, "views": 161, "photo": 0.1321788383474261, "psnr": 18.18012305668422, "ssim": 0.6485210979206962, "lpips": 0.544375430167832}
+QUALITY {"arm": "D_RepresentativeOnly", "ratio": 0.01, "K": 503, "views": 161, "photo": 0.20427125234226262, "psnr": 13.841405489429924, "ssim": 0.5611424851491584, "lpips": 0.7389826930087545}
+QUALITY {"arm": "D_RepresentativeOnly", "ratio": 0.05, "K": 2517, "views": 161, "photo": 0.15082392221467095, "psnr": 17.022405079432897, "ssim": 0.618944780982059, "lpips": 0.6311778944471608}
+QUALITY {"arm": "D_RepresentativeOnly", "ratio": 0.1, "K": 5033, "views": 161, "photo": 0.14053975203022454, "psnr": 17.653782720151156, "ssim": 0.634278296683886, "lpips": 0.5753425194980195}
+QUALITY {"arm": "D_RepresentativeOnly", "ratio": 0.15, "K": 7550, "views": 161, "photo": 0.13628156376736505, "psnr": 17.938483344842187, "ssim": 0.642223846838341, "lpips": 0.5437292430711829}
+QUALITY {"arm": "E_L1Only", "ratio": 0.01, "K": 503, "views": 161, "photo": 0.20409007324195055, "psnr": 13.933717384101442, "ssim": 0.5611948335763091, "lpips": 0.7400723508796336}
+QUALITY {"arm": "E_L1Only", "ratio": 0.05, "K": 2517, "views": 161, "photo": 0.15112227617953874, "psnr": 16.920159375445444, "ssim": 0.6186795417936692, "lpips": 0.6362689187437851}
+QUALITY {"arm": "E_L1Only", "ratio": 0.1, "K": 5033, "views": 161, "photo": 0.13793868733488995, "psnr": 17.723632101686846, "ssim": 0.6387779731187762, "lpips": 0.5883193434395405}
+QUALITY {"arm": "E_L1Only", "ratio": 0.15, "K": 7550, "views": 161, "photo": 0.13212737001432395, "psnr": 18.100419180733816, "ssim": 0.6490190288294917, "lpips": 0.5556068009471301}

@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/NZnIYe4PQ5une1q0qXzpM/L70v8</id>
+  <title>arXiv Query: search_query=ti:"Top-K" AND (all:GPU OR all:CUDA)&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-11-07T03:51:30Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Top-K%22+AND+(all:GPU+OR+all:CUDA)&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>22</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2409.00822v4</id>
+    <title>RTop-K: Ultra-Fast Row-Wise Top-K Selection for Neural Network Acceleration on GPUs</title>
+    <updated>2025-04-02T06:22:29Z</updated>
+    <link href="https://arxiv.org/abs/2409.00822v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2409.00822v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Top-k selection algorithms are fundamental in a wide range of applications, including high-performance computing, information retrieval, big data processing, and neural network model training. In this paper, we present RTop-K, a highly efficient parallel row-wise top-k selection algorithm specifically designed for GPUs. RTop-K leverages a binary search-based approach to optimize row-wise top-k selection, providing a scalable and accelerated solution. We conduct a detailed analysis of early stopping in our algorithm, showing that it effectively maintains the testing accuracy of neural network models while substantially improving performance. Our GPU implementation of RTop-K demonstrates superior performance over state-of-the-art row-wise top-k GPU implementations, achieving an average speed-up of up to 11.49$\times$ with early stopping and 7.29$\times$ without early stopping. Moreover, RTop-K accelerates the overall training workflow of MaxK-GNNs, delivering speed-ups ranging from 11.97% to 33.29% across different models and datasets.</summary>
+    <category term="cs.DC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-09-01T19:43:40Z</published>
+    <arxiv:comment>ICLR 2025 Conference</arxiv:comment>
+    <arxiv:primary_category term="cs.DC"/>
+    <author>
+      <name>Xi Xie</name>
+    </author>
+    <author>
+      <name>Yuebo Luo</name>
+    </author>
+    <author>
+      <name>Hongwu Peng</name>
+    </author>
+    <author>
+      <name>Caiwen Ding</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2501.14336v1</id>
+    <title>RadiK: Scalable and Optimized GPU-Parallel Radix Top-K Selection</title>
+    <updated>2025-01-24T09:00:51Z</updated>
+    <link href="https://arxiv.org/abs/2501.14336v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2501.14336v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Top-k selection, which identifies the largest or smallest k elements from a data set, is a fundamental operation in data-intensive domains such as databases and deep learning, so its scalability and efficiency are critical for these high-performance systems. However, previous studies on its efficient GPU implementation are mostly merge-based and rely heavily on the fast but size-limited on-chip memory, thereby limiting the scalability with a restricted upper bound on k. This work introduces a scalable and optimized GPU-parallel radix top-k selection that supports significantly larger k values than existing methods without compromising efficiency, regardless of input length and batch size. Our method incorporates a novel optimization framework tailored for high memory bandwidth and resource utilization, achieving up to 2.5x speedup over the prior art for non-batch queries and up to 4.8x speedup for batch queries. In addition, we propose an adaptive scaling technique that strengthens the robustness, which further provides up to 2.7x speedup on highly adversarial input distributions.</summary>
+    <category term="cs.DS" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-01-24T09:00:51Z</published>
+    <arxiv:comment>Published at the 38th ACM International Conference on Supercomputing (ICS '24)</arxiv:comment>
+    <arxiv:primary_category term="cs.DS"/>
+    <arxiv:journal_ref>ICS '24: Proceedings of the 38th ACM International Conference on Supercomputing, 2024, Pages 537-548</arxiv:journal_ref>
+    <author>
+      <name>Yifei Li</name>
+    </author>
+    <author>
+      <name>Bole Zhou</name>
+    </author>
+    <author>
+      <name>Jiejing Zhang</name>
+    </author>
+    <author>
+      <name>Xuechao Wei</name>
+    </author>
+    <author>
+      <name>Yinghan Li</name>
+    </author>
+    <author>
+      <name>Yingda Chen</name>
+    </author>
+    <arxiv:doi>10.1145/3650200.3656596</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1145/3650200.3656596" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2109.08219v1</id>
+    <title>Dr. Top-k: Delegate-Centric Top-k on GPUs</title>
+    <updated>2021-09-16T20:59:33Z</updated>
+    <link href="https://arxiv.org/abs/2109.08219v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2109.08219v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recent top-$k$ computation efforts explore the possibility of revising various sorting algorithms to answer top-$k$ queries on GPUs. These endeavors, unfortunately, perform significantly more work than needed. This paper introduces Dr. Top-k, a Delegate-centric top-$k$ system on GPUs that can reduce the top-$k$ workloads significantly. Particularly, it contains three major contributions: First, we introduce a comprehensive design of the delegate-centric concept, including maximum delegate, delegate-based filtering, and $β$ delegate mechanisms to help reduce the workload for top-$k$ up to more than 99%. Second, due to the difficulty and importance of deriving a proper subrange size, we perform a rigorous theoretical analysis, coupled with thorough experimental validations to identify the desirable subrange size. Third, we introduce four key system optimizations to enable fast multi-GPU top-$k$ computation. Taken together, this work constantly outperforms the state-of-the-art.</summary>
+    <category term="cs.IR" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DB" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-09-16T20:59:33Z</published>
+    <arxiv:comment>To be published in The International Conference for High Performance Computing, Networking, Storage and Analysis (SC 21)</arxiv:comment>
+    <arxiv:primary_category term="cs.IR"/>
+    <author>
+      <name>Anil Gaihre</name>
+    </author>
+    <author>
+      <name>Da Zheng</name>
+    </author>
+    <author>
+      <name>Scott Weitze</name>
+    </author>
+    <author>
+      <name>Lingda Li</name>
+    </author>
+    <author>
+      <name>Shuaiwen Leon Song</name>
+    </author>
+    <author>
+      <name>Caiwen Ding</name>
+    </author>
+    <author>
+      <name>Xiaoye S Li</name>
+    </author>
+    <author>
+      <name>Hang Liu</name>
+    </author>
+    <arxiv:doi>10.1145/3458817.3476141</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1145/3458817.3476141" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2008.02002v1</id>
+    <title>Fast top-K Cosine Similarity Search through XOR-Friendly Binary Quantization on GPUs</title>
+    <updated>2020-08-05T08:50:21Z</updated>
+    <link href="https://arxiv.org/abs/2008.02002v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2008.02002v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We explore the use of GPU for accelerating large scale nearest neighbor search and we propose a fast vector-quantization-based exhaustive nearest neighbor search algorithm that can achieve high accuracy without any indexing construction specifically designed for cosine similarity. This algorithm uses a novel XOR-friendly binary quantization method to encode floating-point numbers such that high-complexity multiplications can be optimized as low-complexity bitwise operations. Experiments show that, our quantization method takes short preprocessing time, and helps make the search speed of our exhaustive search method much more faster than that of popular approximate nearest neighbor algorithms when high accuracy is needed.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.IR" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2020-08-05T08:50:21Z</published>
+    <arxiv:comment>10 pages, 6 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Xiaozheng Jian</name>
+    </author>
+    <author>
+      <name>Jianqiu Lu</name>
+    </author>
+    <author>
+      <name>Zexi Yuan</name>
+    </author>
+    <author>
+      <name>Ao Li</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2201.07498v1</id>
+    <title>A Mixed Precision, Multi-GPU Design for Large-scale Top-K Sparse Eigenproblems</title>
+    <updated>2022-01-19T09:43:40Z</updated>
+    <link href="https://arxiv.org/abs/2201.07498v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2201.07498v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Graph analytics techniques based on spectral methods process extremely large sparse matrices with millions or even billions of non-zero values. Behind these algorithms lies the Top-K sparse eigenproblem, the computation of the largest eigenvalues and their associated eigenvectors. In this work, we leverage GPUs to scale the Top-K sparse eigenproblem to bigger matrices than previously achieved while also providing state-of-the-art execution times. We can transparently partition the computation across multiple GPUs, process out-of-core matrices, and tune precision and execution time using mixed-precision floating-point arithmetic. Overall, we are 67 times faster than the highly optimized ARPACK library running on a 104-thread CPU and 1.9 times than a recent FPGA hardware design. We also determine how mixed-precision floating-point arithmetic improves execution time by 50% over double-precision, and is 12 times more accurate than single-precision floating-point arithmetic.</summary>
+    <category term="cs.AR" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-01-19T09:43:40Z</published>
+    <arxiv:primary_category term="cs.AR"/>
+    <author>
+      <name>Francesco Sgherzi</name>
+    </author>
+    <author>
+      <name>Alberto Parravicini</name>
+    </author>
+    <author>
+      <name>Marco Domenico Santambrogio</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.01518v3</id>
+    <title>Qrita: High-performance Top-k and Top-p Algorithm for GPUs using Pivot-based Truncation and Selection</title>
+    <updated>2026-11-02T23:57:41Z</updated>
+    <link href="https://arxiv.org/abs/2602.01518v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.01518v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Despite their importance in model sampling, efficient implementation of Top-k and Top-p algorithms poses a significant challenge as model vocabularies grow with every new model release. Existing approaches often rely on sorting, which incurs significant computation and memory overhead on GPUs, or on stochastic approaches that alter the algorithm's output. In this work, we propose Qrita, an efficient Top-k and Top-p algorithm based on a pivot-based truncation and selection. Qrita leverages pivot-based search for both Top-k and Top-p with two key techniques: 1. Gaussian-based $σ$-truncation, which greatly reduces the search space of the vocabulary, and 2. Quaternary pivot search with duplication handling, which halves the number of pivot search iterations and guarantees deterministic output. We implement Qrita using Triton and evaluate its performance against the Top-k and Top-p kernels of high-performance LLM execution engines such as SGLang and FlashInfer, improving end-to-end serving throughput up to 1.4$\times$ with half the memory usage, while providing the same output of stable sort-based Top-k and Top-p algorithms. Qrita is now the default Triton Top-k and Top-p sampler of vLLM, and its implementation is available at https://github.com/vllm-project/vllm/blob/main/vllm/v1/sample/ops/topk_topp_triton.py.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-02T01:19:28Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Jongseok Park</name>
+    </author>
+    <author>
+      <name>Sunga Kim</name>
+    </author>
+    <author>
+      <name>Alvin Cheung</name>
+    </author>
+    <author>
+      <name>Ion Stoica</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2503.06242v2</id>
+    <title>LapSum -- One Method to Differentiate Them All: Ranking, Sorting and Top-k Selection</title>
+    <updated>2025-09-02T13:34:01Z</updated>
+    <link href="https://arxiv.org/abs/2503.06242v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.06242v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present a novel technique for constructing differentiable order-type operations, including soft ranking, soft top-k selection, and soft permutations. Our approach leverages an efficient closed-form formula for the inverse of the function LapSum, defined as the sum of Laplace distributions. This formulation ensures low computational and memory complexity in selecting the highest activations, enabling losses and gradients to be computed in $O(n\log{}n)$ time. Through extensive experiments, we demonstrate that our method outperforms state-of-the-art techniques for high-dimensional vectors and large $k$ values. Furthermore, we provide efficient implementations for both CPU and CUDA environments, underscoring the practicality and scalability of our method for large-scale ranking and differentiable ordering problems.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-08T14:53:36Z</published>
+    <arxiv:comment>Accepted at ICML 2025</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Łukasz Struski</name>
+    </author>
+    <author>
+      <name>Michał B. Bednarczyk</name>
+    </author>
+    <author>
+      <name>Igor T. Podolak</name>
+    </author>
+    <author>
+      <name>Jacek Tabor</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2402.12399v2</id>
+    <title>Turn Waste into Worth: Rectifying Top-$k$ Router of MoE</title>
+    <updated>2024-02-21T13:33:12Z</updated>
+    <link href="https://arxiv.org/abs/2402.12399v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2402.12399v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Sparse Mixture of Experts (MoE) models are popular for training large language models due to their computational efficiency. However, the commonly used top-$k$ routing mechanism suffers from redundancy computation and memory costs due to the unbalanced routing. Some experts are overflow, where the exceeding tokens are dropped. While some experts are vacant, which are padded with zeros, negatively impacting model performance. To address the dropped tokens and padding, we propose the Rectify-Router, comprising the Intra-GPU Rectification and the Fill-in Rectification. The Intra-GPU Rectification handles dropped tokens, efficiently routing them to experts within the GPU where they are located to avoid inter-GPU communication. The Fill-in Rectification addresses padding by replacing padding tokens with the tokens that have high routing scores. Our experimental results demonstrate that the Intra-GPU Rectification and the Fill-in Rectification effectively handle dropped tokens and padding, respectively. Furthermore, the combination of them achieves superior performance, surpassing the accuracy of the vanilla top-1 router by 4.7%.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-02-17T06:23:27Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Zhiyuan Zeng</name>
+    </author>
+    <author>
+      <name>Qipeng Guo</name>
+    </author>
+    <author>
+      <name>Zhaoye Fei</name>
+    </author>
+    <author>
+      <name>Zhangyue Yin</name>
+    </author>
+    <author>
+      <name>Yunhua Zhou</name>
+    </author>
+    <author>
+      <name>Linyang Li</name>
+    </author>
+    <author>
+      <name>Tianxiang Sun</name>
+    </author>
+    <author>
+      <name>Hang Yan</name>
+    </author>
+    <author>
+      <name>Dahua Lin</name>
+    </author>
+    <author>
+      <name>Xipeng Qiu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.03796v1</id>
+    <title>Efficient Knowledge Distillation for LLMs: Offline Top-K Logits and a Fused Chunked KL Loss</title>
+    <updated>2026-08-04T15:11:45Z</updated>
+    <link href="https://arxiv.org/abs/2608.03796v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.03796v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Small language models are often the only option for deployment under tight latency, cost, and on-premises constraints, but they are rarely trained from scratch: a compressed model is usually recovered through knowledge distillation (KD). This recovery step largely decides the final quality, yet it is expensive. We present a practitioner's study of how to make distillation training efficient, organised around two systems contributions. First, we show that offline KD (caching the teacher's top-$K$ logits once and training the student against the cache) matches online distillation at near-identical training loss while removing the teacher from memory, running about 29\% faster per iteration, and reaching up to 41\% higher throughput on a single H200 GPU. Second, we introduce a \emph{fused, chunked KL loss} that never materialises the full vocabulary-sized logit tensor, making peak memory linear in the sequence length. This removes the memory spike that otherwise caps context length and lets us train at four times the context (32{,}768 tokens) on a single GPU. A separate output-head-only toy benchmark isolates the loss kernel and confirms its memory and iteration-rate scaling from 4K to 256K tokens. Together these make large-scale healing and hundreds of ablations affordable. We also report supporting ablations on loss design and sequence packing. We release our chunked-loss implementation: https://github.com/CompactifAI/Full-Chunked-KL-Loss.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-04T15:11:45Z</published>
+    <arxiv:comment>Patent Application Pending. EP26382987.1</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Bakbergen Ryskulov</name>
+    </author>
+    <author>
+      <name>Iker García-Ferrero</name>
+    </author>
+    <author>
+      <name>David Montero</name>
+    </author>
+    <author>
+      <name>David Jansen</name>
+    </author>
+    <author>
+      <name>Ali Hashemi</name>
+    </author>
+    <author>
+      <name>Jezabel R. Garcia</name>
+    </author>
+    <author>
+      <name>Antonio Tiene</name>
+    </author>
+    <author>
+      <name>Román Orús</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2103.04808v1</id>
+    <title>Scaling up HBM Efficiency of Top-K SpMV for Approximate Embedding Similarity on FPGAs</title>
+    <updated>2021-03-08T15:09:40Z</updated>
+    <link href="https://arxiv.org/abs/2103.04808v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2103.04808v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Top-K SpMV is a key component of similarity-search on sparse embeddings. This sparse workload does not perform well on general-purpose NUMA systems that employ traditional caching strategies. Instead, modern FPGA accelerator cards have a few tricks up their sleeve. We introduce a Top-K SpMV FPGA design that leverages reduced precision and a novel packet-wise CSR matrix compression, enabling custom data layouts and delivering bandwidth efficiency often unreachable even in architectures with higher peak bandwidth. With HBM-based boards, we are 100x faster than a multi-threaded CPU implementation and 2x faster than a GPU with 20% higher bandwidth, with 14.2x higher power-efficiency.</summary>
+    <category term="cs.AR" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.IR" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-03-08T15:09:40Z</published>
+    <arxiv:comment>To appear in Proceedings of the 58th Design Automation Conference (DAC)</arxiv:comment>
+    <arxiv:primary_category term="cs.AR"/>
+    <author>
+      <name>Alberto Parravicini</name>
+    </author>
+    <author>
+      <name>Luca Giuseppe Cellamare</name>
+    </author>
+    <author>
+      <name>Marco Siracusa</name>
+    </author>
+    <author>
+      <name>Marco Domenico Santambrogio</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1901.04359v2</id>
+    <title>A Distributed Synchronous SGD Algorithm with Global Top-$k$ Sparsification for Low Bandwidth Networks</title>
+    <updated>2019-04-17T04:40:22Z</updated>
+    <link href="https://arxiv.org/abs/1901.04359v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1901.04359v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Distributed synchronous stochastic gradient descent (S-SGD) has been widely used in training large-scale deep neural networks (DNNs), but it typically requires very high communication bandwidth between computational workers (e.g., GPUs) to exchange gradients iteratively. Recently, Top-$k$ sparsification techniques have been proposed to reduce the volume of data to be exchanged among workers. Top-$k$ sparsification can zero-out a significant portion of gradients without impacting the model convergence. However, the sparse gradients should be transferred with their irregular indices, which makes the sparse gradients aggregation difficult. Current methods that use AllGather to accumulate the sparse gradients have a communication complexity of $O(kP)$, where $P$ is the number of workers, which is inefficient on low bandwidth networks with a large number of workers. We observe that not all top-$k$ gradients from $P$ workers are needed for the model update, and therefore we propose a novel global Top-$k$ (gTop-$k$) sparsification mechanism to address the problem. Specifically, we choose global top-$k$ largest absolute values of gradients from $P$ workers, instead of accumulating all local top-$k$ gradients to update the model in each iteration. The gradient aggregation method based on gTop-$k$ sparsification reduces the communication complexity from $O(kP)$ to $O(k\log P)$. Through extensive experiments on different DNNs, we verify that gTop-$k$ S-SGD has nearly consistent convergence performance with S-SGD, and it has only slight degradations on generalization performance. In terms of scaling efficiency, we evaluate gTop-$k$ on a cluster with 32 GPU machines which are interconnected with 1 Gbps Ethernet. The experimental results show that our method achieves $2.7-12\times$ higher scaling efficiency than S-SGD and $1.1-1.7\times$ improvement than the existing Top-$k$ S-SGD.</summary>
+    <category term="cs.DC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-01-14T15:14:04Z</published>
+    <arxiv:comment>10 pages. Add discussion with more experimental results. To appear at the ICDCS2019 workshop</arxiv:comment>
+    <arxiv:primary_category term="cs.DC"/>
+    <author>
+      <name>Shaohuai Shi</name>
+    </author>
+    <author>
+      <name>Qiang Wang</name>
+    </author>
+    <author>
+      <name>Kaiyong Zhao</name>
+    </author>
+    <author>
+      <name>Zhenheng Tang</name>
+    </author>
+    <author>
+      <name>Yuxin Wang</name>
+    </author>
+    <author>
+      <name>Xiang Huang</name>
+    </author>
+    <author>
+      <name>Xiaowen Chu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2610.17966v1</id>
+    <title>BELT : BEhavior-Aligned Low-Rank KV Cache Compression with Learned Top-k Rank Allocation</title>
+    <updated>2026-10-13T08:42:38Z</updated>
+    <link href="https://arxiv.org/abs/2610.17966v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2610.17966v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Long-context inference makes the key-value (KV) cache a major memory bottleneck for large language models. We propose BELT, a low-rank KV cache compression framework. Its key-side objective targets attention distributions rather than raw keys or pre-softmax logits, yielding a quadratic surrogate with a closed-form low-rank solution. A learned global rank allocator uses differentiable soft selection during training and hard selection at deployment to meet a user-specified component budget. Experiments demonstrate improved model quality under aggressive compression and increased decoding throughput at comparable accuracy. Evaluated across three LLMs and multiple benchmarks, BELT achieves up to 70% low-rank KV cache compression while outperforming the strongest baseline by up to 23.3 points on LongBench, and up to 17.8x overall KV cache reduction when combined with quantization. With Triton-based GPU kernels and a quantized cache, BELT delivers up to 2.7x speedup for the attention module and 3.3x end-to-end decoding throughput.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-10-13T08:42:38Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Yaoyang Liu</name>
+    </author>
+    <author>
+      <name>Shuwei Shen</name>
+    </author>
+    <author>
+      <name>Jincheng Tang</name>
+    </author>
+    <author>
+      <name>Jinguang Liu</name>
+    </author>
+    <author>
+      <name>Jinbao Xue</name>
+    </author>
+    <author>
+      <name>Hailong Yang</name>
+    </author>
+    <author>
+      <name>Ke Zhang</name>
+    </author>
+    <author>
+      <name>Yinjun Wu</name>
+    </author>
+  </entry>
+</feed>

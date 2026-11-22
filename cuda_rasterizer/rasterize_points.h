@@ -16,6 +16,8 @@
 #include <string>
 #include <tuple>
 
+enum class RasterizeMode { Training, Inference, Visibility };
+
 std::tuple<int,
            int,
            torch::Tensor,
@@ -47,7 +49,8 @@ RasterizeGaussiansCUDAWithImportance(
     const torch::Tensor& campos,
     const bool prefiltered,
     const bool debug,
-    const bool collect_importance);
+    const bool collect_importance,
+    RasterizeMode mode = RasterizeMode::Training);
 
 // Stable legacy interface used by the Python extension. It deliberately keeps
 // the original eight return values and never collects importance statistics.
@@ -79,6 +82,28 @@ RasterizeGaussiansCUDA(const torch::Tensor& background,
                        const torch::Tensor& campos,
                        const bool prefiltered,
                        const bool debug);
+
+std::tuple<torch::Tensor, torch::Tensor> RasterizeGaussiansInferenceCUDA(
+    const torch::Tensor& background,
+    const torch::Tensor& means3D,
+    const torch::Tensor& colors,
+    const torch::Tensor& opacity,
+    const torch::Tensor& scales,
+    const torch::Tensor& rotations,
+    const float scale_modifier,
+    const torch::Tensor& cov3D_precomp,
+    const torch::Tensor& viewmatrix,
+    const torch::Tensor& projmatrix,
+    const float tan_fovx,
+    const float tan_fovy,
+    const int image_height,
+    const int image_width,
+    const torch::Tensor& dc,
+    const torch::Tensor& sh,
+    const int degree,
+    const torch::Tensor& campos,
+    const bool prefiltered,
+    const bool debug);
 
 std::tuple<torch::Tensor,
            torch::Tensor,
@@ -134,6 +159,11 @@ torch::Tensor fusedssim(float C1,
                         float C2,
                         const torch::Tensor& img1,
                         const torch::Tensor& img2);
+
+std::vector<torch::Tensor> fusedssim_cached(float C1,float C2,
+    const torch::Tensor& img1,const torch::Tensor& img2);
+torch::Tensor fusedssim_cached_backward(float C1,float C2,const torch::Tensor& img1,
+    const torch::Tensor& img2,const torch::Tensor& gradient,const torch::Tensor& statistics);
 
 torch::Tensor fusedssim_backward(float C1,
                                  float C2,

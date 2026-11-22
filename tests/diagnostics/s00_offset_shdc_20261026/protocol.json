@@ -1,0 +1,61 @@
+{
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "configs": {
+    "offset": "GlobalXYZScaleOpacityOffsetE16Split4",
+    "shdc": "GlobalXYZScaleOpacitySHDCE16Split4"
+  },
+  "jobs": [
+    [
+      "offset",
+      3100
+    ],
+    [
+      "shdc",
+      3100
+    ],
+    [
+      "shdc",
+      3101
+    ],
+    [
+      "offset",
+      3101
+    ]
+  ],
+  "source_run_sha256": "1b6e994cf457f6202808f2260eaa3ad54ad6c9289e8a6ee1db468dbae0e0580c",
+  "runtime_sha256": "9ae25a86d702050c55db2255e6f6cc1f65b4cccd359341166f855f7bcb822025",
+  "renderer_binary": "/home/prmi/zwj/mycartgs/python/diff-gaussian-rasterization/diff_gaussian_rasterization/_C.cpython-311-x86_64-linux-gnu.so",
+  "renderer_sha256": "27b5b468cf385dd1c96aeabdd65426da38a938a38d52d8181b1b1da485090c86",
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "base": "raw worldXYZ3+activated Scale3+sigmoid Opacity1+logratio1=8,compensation raw8+latent16+h32=56",
+  "offset": "append only frozen Anchor-local normalized Offset3; retain worldXYZ and exclude SH/Rotation",
+  "shdc": "append only base SH DC3 coefficients, not RGB; retain worldXYZ and exclude local Offset/Rotation",
+  "interpretation": "separate additions on current globalXYZ+Scale+Opacity reference, not replacing worldXYZ; no both-added arm",
+  "dimensions": "both Encoder11->32 and four59->32->32->3/3/4/4 heads; equal146096 total parameters, original latent16+h32 retained",
+  "initialization": "copy common8/latent/h32 input weights and all remaining layers; new3 columns zero; Offset and SHDC initial state dicts exact same per seed",
+  "controls": "same N6838/M2066 frozen map/frame order/ratio exposure/Adam budget;2 seeds each arm final12000, new4 models; reuse prior base and originalBaseline2 seeds each",
+  "frozen": "Master all attributes,Gaussian identity,topology,Anchor ownership centers scales,cameras,eligibility,cached uniform",
+  "optimizer": "fresh fused Adam lr=.001 eps1e-15,12000 common steps and3000 per ratio latent table; no hparam search",
+  "loss": "original .8L1+.2(1-fast_ssim)+.01 relative expected-budget L1",
+  "selection": "cached Bernoulli training, deterministic same-K rank logit(p)-logit(cached uniform),floor(r*N),cached actualK separately",
+  "evaluation": "54 Bank train/13 heldout/45 historical nonBank; all4 metrics,training and unseen ratios; final12000 only, no nonBank step/LR selection",
+  "limitations": "Selector/Encoder still joint train so final selection identities may differ; equal capacity comparison supports feature information effect but not pure compensation cause; one frozen map",
+  "no_production_change": true,
+  "no_stage_commit_push": true
+}

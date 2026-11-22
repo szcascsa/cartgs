@@ -1,0 +1,5 @@
+joint fixed-map step=1 exact=1
+joint fixed-map step=10 exact=1
+joint fixed-map step=100 exact=1
+joint fixed-map step=1000 exact=1
+joint Gaussian/Selector/TF deterministic VJP replay complete

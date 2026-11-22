@@ -1,0 +1,1 @@
+不同局部预算ratio下，相对于Our Complete Map的有效Alpha合成次数。统计有效像素上非零T×alpha合成的Gaussian–像素对数，逐视角归一化后场景内平均，再在同数据集同模式内对场景等权平均。六条曲线分别对应Replica Mono/RGB-D、TUM Mono/RGB-D和VECtor Mono/Stereo。该指标描述有效合成次数，不包含被拒绝候选和其他渲染开销。

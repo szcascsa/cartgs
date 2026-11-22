@@ -1,0 +1,6 @@
+Source normalization parity, backup and production-linked runner PASS
+Traceback (most recent call last):
+  File "/home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/deployment_20261018/run_benchmark.py", line 20, in <module>
+    assert not processes(), processes()
+           ^^^^^^^^^^^^^^^
+AssertionError: 1108292, /home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/runtime/bin/tum_mono

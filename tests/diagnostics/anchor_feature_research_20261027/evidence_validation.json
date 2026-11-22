@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "production_sha_unchanged": {
+    "cfg/selector/selector_config.yaml": true,
+    "improvements/selector/gumbel_network.h": true,
+    "improvements/selector/spatial_compensation.h": true,
+    "improvements/selector/anchor_bank.h": true,
+    "improvements/selector/variable_anchor_blocks.h": true,
+    "src/gaussian_mapper.cpp": true,
+    "src/gaussian_model.cpp": true,
+    "src/spatial_compensation_live.cu": true,
+    "python/selector.py": true,
+    "python/spatial_compensation.py": true
+  },
+  "runs_by_tier": {
+    "scratch_confirm": 8,
+    "frozen_mechanism": 14,
+    "confirm_continue": 12,
+    "mechanism_continue": 8,
+    "same_seed_repeat": 2,
+    "frozen_same_seed_repeat": 2,
+    "screen": 7,
+    "optimizer_control": 4
+  },
+  "source_checkpoints": {
+    "fr2_xyz": "ab006ce873ce7e12f2641af33f28557e2cb22a9eb11ac0ebebe8c08a1a5af61f",
+    "fr1_xyz": "4a2f19e3a70fdf6a0b6bc9b3b58d6357c03ab4e2d8dafd712fdf97663bfb1d6d"
+  },
+  "frame_schedule_groups": 5,
+  "limits": "source/K/optimizer/exposure/file completeness check; not proof of online lifecycle or reconstruction generalization"
+}

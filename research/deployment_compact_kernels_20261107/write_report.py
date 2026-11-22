@@ -1,0 +1,222 @@
+from pathlib import Path
+import csv
+import json
+import statistics
+
+
+STUDY=Path(__file__).resolve().parent
+REPORTS=STUDY/'results/reports'
+
+
+def read(name):
+    return json.loads((REPORTS/name).read_text(encoding='utf-8'))
+
+
+def main():
+    identity=read('BINARY_IDENTITY.json');integrity=read('FINAL_INTEGRITY.json')
+    assert 'v27' in identity['binary']['path'] and integrity['passed']
+    by_condition={};rows=[]
+    for repeat in [1,2,3]:
+        for row in read(f'BENCHMARK_{repeat}.json')['results']:
+            by_condition.setdefault((row['group'],row['condition']),[]).append(row)
+            old,new=[row['summary'][n] for n in ['v21','optimized']]
+            item=dict(group=row['group'],condition=row['condition'],repeat=repeat,
+                N_min=min(x['N'] for x in row['actual']),N_max=max(x['N'] for x in row['actual']),
+                K_min=min(x['K'] for x in row['actual']),K_max=max(x['K'] for x in row['actual']),
+                original_prepare_ms=old['prepare_ms']['median'],optimized_prepare_ms=new['prepare_ms']['median'],
+                prepare_reduction_percent=100*(1-new['prepare_ms']['median']/old['prepare_ms']['median']),
+                original_total_ms=old['total_ms']['median'],optimized_total_ms=new['total_ms']['median'],
+                original_p90_ms=old['prepare_ms']['p90'],optimized_p90_ms=new['prepare_ms']['p90'],
+                original_p99_ms=old['prepare_ms']['p99'],optimized_p99_ms=new['prepare_ms']['p99'],
+                paired_prepare_saved_us=1000*statistics.median(a-b for a,b in zip(row['samples']['v21']['prepare_ms'],row['samples']['optimized']['prepare_ms'])),
+                optimized_faster_fraction=sum(a>b for a,b in zip(row['samples']['v21']['prepare_ms'],row['samples']['optimized']['prepare_ms']))/len(row['samples']['v21']['prepare_ms']),
+                gpu_before=row.get('gpu_before'),gpu_after=row.get('gpu_after'))
+            rows.append(item)
+    with (STUDY/'DEPLOYMENT_COMPACT_KERNELS_PERFORMANCE.csv').open('w',encoding='utf-8-sig',newline='') as f:
+        w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+    table=[];paired=[]
+    for (group,condition),values in by_condition.items():
+        assert len(values)==3
+        a,b=[statistics.median(x['summary'][n]['prepare_ms']['median'] for x in values) for n in ['v21','optimized']]
+        x,y=[statistics.median(z['summary'][n]['total_ms']['median'] for z in values) for n in ['v21','optimized']]
+        table.append(f'| {group} | {condition} | {a:.4f} | {b:.4f} | {100*(1-b/a):+.1f}% | {x:.4f} | {y:.4f} | {100*(1-y/x):+.1f}% |')
+        diffs=[a-b for row in values for a,b in zip(row['samples']['v21']['prepare_ms'],row['samples']['optimized']['prepare_ms'])]
+        paired.append(f'| {group} | {condition} | {1000*statistics.median(diffs):+.2f} | {100*sum(d>0 for d in diffs)/len(diffs):.1f}% |')
+    profiles={x['label']:x for x in read('PREPARE_PROFILE_ANALYSIS.json')['summary']}
+    profile_rows=[];components=[]
+    for group in ['tum','replica']:
+        for condition in ['1000','5000','70pct']:
+            a,b=[profiles[f'prepare/{tag}/{group}/{condition}'] for tag in ['v21','optimized']]
+            profile_rows.append(f"| {group}/{condition} | {a['kernel_nodes']:g}→{b['kernel_nodes']:g} | {a['cpu_launches']:g}→{b['cpu_launches']:g} | {a['kernel_us']:.1f}→{b['kernel_us']:.1f} | {a['syncs']:g}→{b['syncs']:g} | {a['dtoh_bytes']:g}→{b['dtoh_bytes']:g} |")
+            comp=lambda row:sum(x['gpu_us'] for x in row['top'] if 'compensation' in x['name'])
+            selection=lambda row:sum(x['gpu_us'] for x in row['top'] if any(n in x['name'] for n in ['shrinkingRadix','countThreshold','emitSelected']))
+            components.append(f'| {group}/{condition} | {comp(a):.2f} | {comp(b):.2f} | {selection(a):.2f} | {selection(b):.2f} |')
+    memory=[]
+    for group in ['tum','replica']:
+        a,b=[read(f'MEMORY_{group}_{tag}.json') for tag in ['v21','optimized']]
+        memory.append(f"| {group} | {a['final_extra_bytes']/2**20:.2f} | {b['final_extra_bytes']/2**20:.2f} | {(b['final_extra_bytes']-a['final_extra_bytes'])/2**20:+.2f} | {a['process_delta_mib']}→{b['process_delta_mib']} |")
+    v=read('VALIDATION.json');t=read('TRAJECTORY_VALIDATION_tum.json');r=read('TRAJECTORY_VALIDATION_replica.json')
+    select=read('SELECTION_FUSED_VALIDATION.json');boundaries=read('GRAPH_BOUNDARIES.json')
+    workspace=read('GRAPH_WORKSPACE.json')
+    validations=f'''| 验证 | 规模 | 结果 |
+|---|---|---|
+| 五类 checkpoint、视角模式与补偿开关 | {v['cases']} 组，{v['comparisons']} 项比较 | 逐位一致 |
+| fr1_xyz 全轨迹 | {t['frames']} 帧，{t['cases']} 组，{t['comparisons']} 项比较 | ID、属性、像素及 radii 逐位一致 |
+| Replica office3 保存视角 | {r['frames']} 视角，{r['cases']} 组，{r['comparisons']} 项比较 | ID、属性、像素及 radii 逐位一致 |
+| 精确选点随机与真实分布 | {select['comparisons']} 项 ID 比较 | 全部一致 |
+| 浮点输入边界 | 80 组、240 项比较 | 全部一致 |
+| 候选计数边界 | 32 组、96 项比较 | 全部一致 |
+| Graph 动态请求与独立优化开关 | {boundaries['comparisons']} 项比较 | 全部一致 |
+| 连续 ratio 与随机预算 | 两场景各 311 组 | ID、属性零差异 |
+| 大容量保留路径 | 98204 点，39 组 | 逐位一致 |
+| Compute Sanitizer | 两场景各 80 组 | 0 errors |'''
+    workspace_text=[]
+    for row in workspace['results']:
+        first,last=row['checkpoints'][0],row['checkpoints'][-1]
+        assert first['retained']==last['retained']
+        workspace_text.append(f"- {row['group']} 覆盖 {last['graph_count']} 个计划，四轮切换后当前分配稳定为 {last['retained']/2**20:.2f} MiB，缓存池保留量为 {last['reserved']/2**20:.2f} MiB。")
+    protection=[]
+    for name in ['PRODUCTION','INPUTS','LEGACY_INPUTS','LARGE_INPUTS']:
+        row=integrity[name]
+        protection.append(f"| {name} | {row['files']} | {len(row['changed'])} |")
+    doc='''# 部署网络与候选准备 CUDA 优化报告
+
+本轮日期为 2026-11-07，比较起点为已验收 v21，最终独立部署候选为 v27。实际实现并比较 Compensator 指定循环展开、精确选择发布融合和视锥计数融合，最终保留三个独立开关。
+
+## 实现范围
+
+| 方向 | 最终实现 | 启用范围 |
+|---|---|---|
+| Compensator | 对固定维度的点积循环指定 64 次展开，保持每个输出原 FMA 顺序 | 原 16 点批量路径；单 Gaussian CTA 及 4/8 点备用路径沿用原计算 |
+| 精确选点 | 在协作式 Radix 内完成阈值、块计数和稳定发布 | Device N/K 路径且全图容量至少 16384 |
+| 候选准备 | 视锥测试同时产生块级可见与资格计数，末级归约并入 ratio/control Kernel | Device N/K 路径 |
+
+数值保持 FP32。候选域、严格 K、固定 Gumbel 键、资格 Mask、同分优先级及最终 Gaussian 行序均按 v21 比较。正常训练与常规评价入口通过导入审计和完整性检查。Renderer 二进制与输入保持原有身份。
+
+服务器独立目录为 `/home/prmi/zwj/experiments/deployment_compact_kernels_20261107`，源码、构建、日志、评价与报告均保存在该目录。最终扩展名为 `mycartgs_deployment_fp32_v27`。
+
+## 真实数据与测量方法
+
+fr1_xyz 的 both_li checkpoint 有 13298 个 Gaussian、2790 个 Anchor，使用完整 792 帧轨迹。Replica office3 RGB-D checkpoint 有 49102 个 Gaussian、19936 个 Anchor，使用 checkpoint 保存的 137 个视角。
+
+测量使用 RTX 3090、驱动 535.230.02、CUDA 11.8 编译和分析工具，以及 zwj 中的 PyTorch 2.0.1+cu117。TF32 关闭。两个后端使用同一 checkpoint、相机、ratio、固定选择键和请求序列，按交替顺序配对执行。
+
+每个条件先预热 20 个请求，再测 120 个跳转视角，独立重复三轮。准备计时覆盖相机 Tensor 进入 API 后的候选准备、两网络、选择、属性发布和控制记录同步。完整推理继续使用相同 Rasterizer，包含其实际耗时。相机矩阵构建、Viewer 显示和图片编码另计。
+
+服务器存在共享 GPU 作业。实测阶段同时存在约 11.3 GiB 的 Python 作业和约 2.8 GiB 的 LoD 训练作业，GPU 多数为 96%–99% 利用率，频率约 1710–1860 MHz，温度约 85–86°C。每个条件保存 GPU 利用率、显存、频率、功耗、温度及 p90/p99。表中分别取三轮中位数的中位数，再计算相对变化，全部原始轮次与样本保留。正百分比表示耗时降低。
+
+## 代码与机制
+
+### Compensator
+
+固定 51/64 宽点积的循环控制、地址计算与依赖限制了吞吐。通过指定展开次数让编译器改变指令调度，保持单个输出的乘加顺序。主干、四个独立 Head、权重与属性解码语义保持配对一致。
+
+实测区分了指定展开与无参数完全展开。v25 的指定 64 次展开每线程使用 56 个寄存器，v26 的无参数完全展开使用 180 个寄存器，并出现明确速度退化。v26 被回退。最终 v27 恢复指定展开，并重新进行全部验证。寄存器数来自 cuobjdump，实际驻留率的计数器测量受服务器权限限制。
+
+独立的单 Gaussian CTA 完全展开候选增加了约 8–10 μs，最终保留其原实现。原批量调度条件继续决定使用何种 Kernel。
+
+### 精确选点
+
+v21 在协作式 Radix 找到精确阈值后，另发射 countThreshold 和 emitSelected 两个 Kernel。新实现让原协作 CTA 持有连续候选分段，完成整数块计数、全局依赖同步和稳定发布，减少两次 Kernel 发射和一次独立读取阶段。
+
+阈值细化期间的临时候选顺序只用于求阈值。最终发布重新扫描原始候选行序，同分值按原先后保留。全部资格候选均需保留时复用原饱和分支。每帧仍重新计算得分和选择集合。
+
+小地图测试中，额外协作同步抵消了收益，因此全图容量小于 16384 时沿用 v21。单 CTA 独立 Radix 候选虽正确，但真实场景明显变慢，已从最终代码移除。
+
+### 候选准备融合
+
+保留原 planes 与矩阵乘法，逐点复用相同显式 FP32 加法、乘法与比较。视锥 Kernel 同时输出 bool Mask 和每块两个 int64 计数。候选整理继续使用 CUB DeviceSelect，保持原点序。最终整数归约合并进 frameControls，随后按照原双精度控制运算计算 ratio 和残差编码。
+
+额外 Workspace 为每 256 个 Anchor 两个 int64，即约 16×ceil(A/256) 字节。每个请求覆盖写入，结果按当前 Stream 依赖使用。冻结地图实例重建时重建 Workspace。Graph 开关调整会清除执行计划。
+
+## 逐位验证
+
+{VALIDATIONS}
+
+随机选点包含均匀、正态、同分、全相等、饱和、正负零及有限极值。候选边界包含空 Anchor、空 Gaussian、255/256/257 边界、全可见/全隐藏、NaN 距离和大于 int32 的资格计数。补偿输入包含不同 K、正负零和大幅值，保留非有限值报错状态。
+
+上述轨迹的像素逐位一致，因此对应 PSNR、SSIM、LPIPS 的图像输入完全一致。质量结论限于已测 checkpoint 和视角。Replica 的完整轨迹超出此次保存视角的范围。
+
+## 三轮配对性能
+
+所有耗时单位为 ms。完整推理包含原 Rasterizer。
+
+| 场景 | 请求 | v21 准备 | v27 准备 | 准备降低 | v21 完整 | v27 完整 | 完整降低 |
+|---|---|---|---|---|---|---|---|
+{PERFORMANCE}
+
+mixed 在固定预算与连续 ratio 之间轮换，并持续跳转视角。实际 N/K、每轮数据、p90/p99 及 GPU 状态见 DEPLOYMENT_COMPACT_KERNELS_PERFORMANCE.csv 和 BENCHMARK_1/2/3.json。中位数汇总可能受不同轮次的共享负载影响，原始配对样本用于复核。
+
+同一视角请求的前后两版直接相减后，再对三轮共 360 对样本取中位数，结果如下。该统计减少了缓慢负载变化的影响，瞬时资源竞争仍会影响单次配对。正数表示优化版节省时间。
+
+| 场景 | 请求 | 配对节省中位数 μs | 优化版更快的样本占比 |
+|---|---|---|---|
+{PAIRED}
+
+低点数下的几微秒变化及完整推理的正负波动，尚不足以给出稳定的独占设备加速结论。高比例 Compensator 的三轮耗时减少与 Nsight Kernel 结果方向一致。完整渲染计时采用原 Rasterizer，资源争用对该阶段造成的差异应独立看待。
+
+## Nsight Systems
+
+每个条件采集 20 个预热后的 NVTX 范围，范围前完成同步，范围内含部署返回前的必要同步。Graph 子节点按实际执行时间归属范围。
+
+| 条件 | GPU 节点前→后 | CPU Launch 前→后 | GPU 累计 μs 前→后 | 同步前→后 | DtoH 字节前→后 |
+|---|---|---|---|---|---|
+{PROFILE}
+
+| 条件 | 原 Compensator μs | 新 Compensator μs | 原精确选择 μs | 新精确选择 μs |
+|---|---|---|---|---|
+{COMPONENTS}
+
+原始 nsys-rep、SQLite 和逐 Kernel 明细保存在服务器 reports。累计 GPU 时间与 Host 墙钟独立报告，Graph CPU 发射次数与内部 Kernel 节点数分别统计。
+
+Nsight Compute 已实际启动，但返回 ERR_NVGPUCTRPERM。详细日志保存在 logs/ncu_baseline.log。此次使用 Nsight Systems、CUDA Event、cuobjdump 与真实墙钟进行归因，计数器级缓存命中率和 Warp Stall 数据尚未获取。
+
+## 显存与状态生命周期
+
+下表为构造前至 400 次请求后的增量，Torch 列统计 Tensor/Workspace，进程列通过 nvidia-smi 读取当前 PID，包含驱动开销。
+
+| 场景 | v21 Torch MiB | v27 Torch MiB | 差值 MiB | 原→新进程增量 MiB |
+|---|---|---|---|---|
+{MEMORY}
+
+{WORKSPACE}
+
+输出保持独立存储。新的 Kernel 开关切换会清除 Graph，改变相机、ratio 或预算时正常重算。模型、Feature 或拓扑更新需要构建新冻结部署实例。
+
+## 失败候选与结论边界
+
+- 旋转归一化只由线程组内一个线程计算再广播的候选通过逐位检查，但耗时收益不稳定，已回退。
+- 8/16/32 点批量比较中，32 点方案较慢。8 点和不同展开因子的收益依赖预算，最终保留经完整流程验证的 16 点指定展开。
+- 单 CTA 精确选择在真实候选数下明显慢于原多 CTA，例如 TUM 首视角约 27–29 μs 增至 55–60 μs，Replica 中间视角约 30–40 μs 增至 147–163 μs，已回退。
+- 无参数完全展开的 v26 数值通过，但寄存器增加导致端到端退化，已拒绝，现场和源码保存在 stage_v26。
+- 单 Gaussian CTA 指定展开在完整准备中有额外开销，最终保留原路径。
+
+阶段源码与独立对照按 stage_v22–stage_v26 保留。低预算与高预算分别测量，收益基于 v21 之后新增改动。
+
+## 接口、回退和完整性
+
+独立 DeploymentRenderer 默认 unroll_compensation=True、fused_selection=True、fused_candidates=True。将三项设为 False 可复核保留路径。prepare_graph 和已有 v21 开关继续可用。生产目录通过哈希核验，正常训练入口通过源码审计。
+
+| 核验集合 | 文件数 | 变化数 |
+|---|---|---|
+{PROTECTION}
+
+PRODUCTION 覆盖 `/home/prmi/zwj/mycartgs` 与 `/home/prmi/zwj/realLOD` 的关键源码、配置、二进制和动态库。其余三组覆盖 84 个模型输入文件。Rasterizer 二进制前后 SHA256 为 `{RASTERIZER}`。
+
+本地 HEAD 为 26c355b32bf373a75877fc4605a4e41b8de9b47f。本轮源码与本地清单、远程编译输入清单逐项比较。原有未提交工作保留。最终二进制 SHA256 为 `{BINARY}`，v21 对照二进制为 `{BASELINE}`。
+
+## 后续空间
+
+后续应先依据最终 Nsight 明细确定 Compensator 与精确选择的剩余占比。可继续研究 Head 权重访问和有限展开因子，保持单输出累加顺序，并以编译寄存器数和真实组件时间共同筛选。小地图精确选择的同步开销仍有研究空间，需同时覆盖饱和概率与同分分布。
+
+当前主要限制是共享 GPU 等待与性能计数器权限，独占端侧设备上的绝对延迟、缓存命中率和 Warp Stall 仍需单独验证。
+'''
+    values=dict(VALIDATIONS=validations,PERFORMANCE='\n'.join(table),PROFILE='\n'.join(profile_rows),COMPONENTS='\n'.join(components),
+        MEMORY='\n'.join(memory),WORKSPACE='\n'.join(workspace_text),PROTECTION='\n'.join(protection),PAIRED='\n'.join(paired),
+        RASTERIZER=integrity['RASTERIZER']['sha256'],BINARY=identity['binary']['sha256'],BASELINE=identity['baseline']['sha256'])
+    for name,value in values.items():doc=doc.replace('{'+name+'}',value)
+    (STUDY/'DEPLOYMENT_COMPACT_KERNELS_OPTIMIZATION_REPORT.md').write_text(doc,encoding='utf-8')
+    print('REPORT_READY')
+
+
+if __name__=='__main__':main()

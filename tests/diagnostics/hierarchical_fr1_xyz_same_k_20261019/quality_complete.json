@@ -1,0 +1,9 @@
+{
+  "all_passed": true,
+  "cases": 16,
+  "views_per_case": 54,
+  "view_renders": 864,
+  "runtime_seconds": 9.309667870402336,
+  "optimizer_updates": 0,
+  "TF_frozen": true
+}

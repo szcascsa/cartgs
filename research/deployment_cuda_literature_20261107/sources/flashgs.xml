@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/+BQPbJ1nBZW7gwU1P1bWZ62xpTs</id>
+  <title>arXiv Query: search_query=ti:FlashGS&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-11-07T03:51:55Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:FlashGS&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2408.07967v2</id>
+    <title>FlashGS: Efficient 3D Gaussian Splatting for Large-scale and High-resolution Rendering</title>
+    <updated>2024-08-19T09:29:33Z</updated>
+    <link href="https://arxiv.org/abs/2408.07967v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2408.07967v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This work introduces FlashGS, an open-source CUDA Python library, designed to facilitate the efficient differentiable rasterization of 3D Gaussian Splatting through algorithmic and kernel-level optimizations. FlashGS is developed based on the observations from a comprehensive analysis of the rendering process to enhance computational efficiency and bring the technique to wide adoption. The paper includes a suite of optimization strategies, encompassing redundancy elimination, efficient pipelining, refined control and scheduling mechanisms, and memory access optimizations, all of which are meticulously integrated to amplify the performance of the rasterization process. An extensive evaluation of FlashGS' performance has been conducted across a diverse spectrum of synthetic and real-world large-scale scenes, encompassing a variety of image resolutions. The empirical findings demonstrate that FlashGS consistently achieves an average 4x acceleration over mobile consumer GPUs, coupled with reduced memory consumption. These results underscore the superior performance and resource optimization capabilities of FlashGS, positioning it as a formidable tool in the domain of 3D rendering.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-08-15T06:27:42Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Guofeng Feng</name>
+    </author>
+    <author>
+      <name>Siyan Chen</name>
+    </author>
+    <author>
+      <name>Rong Fu</name>
+    </author>
+    <author>
+      <name>Zimu Liao</name>
+    </author>
+    <author>
+      <name>Yi Wang</name>
+    </author>
+    <author>
+      <name>Tao Liu</name>
+    </author>
+    <author>
+      <name>Zhilin Pei</name>
+    </author>
+    <author>
+      <name>Hengjie Li</name>
+    </author>
+    <author>
+      <name>Xingcheng Zhang</name>
+    </author>
+    <author>
+      <name>Bo Dai</name>
+    </author>
+  </entry>
+</feed>

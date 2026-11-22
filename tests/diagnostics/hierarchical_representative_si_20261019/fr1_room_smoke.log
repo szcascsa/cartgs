@@ -1,0 +1,2 @@
+FROZEN_SMOKE_PASS N=52635 candidates=50330 mass_relative=0 ms=4158.04
+IMPLEMENTATION_TEST_PASS device=cuda

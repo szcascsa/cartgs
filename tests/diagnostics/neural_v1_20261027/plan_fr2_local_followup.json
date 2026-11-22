@@ -1,0 +1,17 @@
+{
+  "frozen_before_nonbank": true,
+  "registered_utc": "2026-10-27T02:44:51.976281+00:00",
+  "design": "all registered comparisons retained; final12000; Bank-only decisions",
+  "primary": "same_k",
+  "scene": "fr2_xyz",
+  "source_seed": 4100,
+  "source_family": "R3",
+  "models": [
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/fr2_local_followup/fr2_xyz/SpatialLocalXYZ/6100"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/fr2_local_followup/fr2_xyz/SpatialLocalXYZ/6101"
+    }
+  ]
+}

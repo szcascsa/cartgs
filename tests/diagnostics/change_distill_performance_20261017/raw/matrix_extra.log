@@ -1,0 +1,16 @@
+RUN selector_e5_b2048_r4_m1
+RUN selector_e5_b4096_r4_m1
+RUN selector_e5_b16384_r4_m1
+RUN selector_e5_b32768_r4_m1
+RUN selector_e1_b8192_r4_m1
+RUN selector_e20_b8192_r4_m1
+RUN selector_e5_b8192_r1_m1
+RUN selector_e5_b8192_r2_m1
+RUN tf_e5_b2048_r4_m1
+RUN tf_e5_b4096_r4_m1
+RUN tf_e5_b16384_r4_m1
+RUN tf_e5_b32768_r4_m1
+RUN tf_e1_b8192_r4_m1
+RUN tf_e20_b8192_r4_m1
+RUN tf_e5_b8192_r1_m1
+RUN tf_e5_b8192_r2_m1

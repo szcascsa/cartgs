@@ -1,0 +1,7 @@
+phase,module,implemented,compiled,independent_parity,fixed_replay,online_quality_gate,default_enabled,switch
+1,Multi-Tensor Dense Adam,True,True,PASS,PASS_WITH_RECORDED_ADAM_ATOMIC_BOUNDARY,NOT ACCEPTED,False,CUDA.fused_dense_adam
+2,Decode14 + VJP,True,True,PASS,PASS_WITH_RECORDED_ADAM_ATOMIC_BOUNDARY,NOT ACCEPTED,False,CUDA.fused_compensation_decode
+3,Anchor Input27 + VJP,True,True,PASS,PASS_WITH_RECORDED_ADAM_ATOMIC_BOUNDARY,NOT ACCEPTED,False,CUDA.fused_anchor_input_pack
+4,Anchor Full统计和校验,False,False,NOT IMPLEMENTED,NOT TESTED,NOT TESTED,False,
+5,Selector Sampling/Compaction,False,False,NOT IMPLEMENTED,NOT TESTED,NOT TESTED,False,
+6,Renderer workspace/SSIM,False,False,NOT IMPLEMENTED,NOT TESTED,NOT TESTED,False,

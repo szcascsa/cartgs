@@ -1,0 +1,58 @@
+{
+  "binary": "/home/prmi/zwj/mycartgs/bin/tum_rgbd_cuda_tf_online",
+  "binary_sha256": "deeddb6e1a0be04855fcf4c0bf00e27d78e77f166908b33b15afa8960e600af7",
+  "base_config_sha256": "16efe8b66d5e01f62f21505cd7651ad00e767f60fa6866fc1e92090cff79efcd",
+  "tail_training": false,
+  "tf_start": 1000,
+  "gradient_constraint": false,
+  "runs": [
+    {
+      "scene": "desk",
+      "backend": "legacy",
+      "dataset": "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+      "association": "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+      "frames": 592,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd_cuda_tf_online",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+        "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+        "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+        "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+        "/home/prmi/zwj/mycartgs/results/cuda_tf_online_guard_off_desk_start1000_20261014/desk/legacy",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/mycartgs/results/cuda_tf_online_guard_off_desk_start1000_20261014/desk/legacy/selector_config.yaml"
+      ],
+      "output": "/home/prmi/zwj/mycartgs/results/cuda_tf_online_guard_off_desk_start1000_20261014/desk/legacy",
+      "status": "complete",
+      "start": 1791908673.2499456,
+      "exit_code": 0,
+      "wall_seconds": 31.732841730117798
+    },
+    {
+      "scene": "desk",
+      "backend": "cuda",
+      "dataset": "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+      "association": "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+      "frames": 592,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd_cuda_tf_online",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+        "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+        "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+        "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+        "/home/prmi/zwj/mycartgs/results/cuda_tf_online_guard_off_desk_start1000_20261014/desk/cuda",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/mycartgs/results/cuda_tf_online_guard_off_desk_start1000_20261014/desk/cuda/selector_config.yaml"
+      ],
+      "output": "/home/prmi/zwj/mycartgs/results/cuda_tf_online_guard_off_desk_start1000_20261014/desk/cuda",
+      "status": "complete",
+      "start": 1791908704.9833262,
+      "exit_code": 0,
+      "wall_seconds": 32.543150901794434
+    }
+  ]
+}

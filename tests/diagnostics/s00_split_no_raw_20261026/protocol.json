@@ -1,0 +1,41 @@
+{
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "candidate": "SharedE16Split4NoRaw",
+  "reference": "/home/prmi/zwj/s00-split-wide-rotation-20261026/results/fr1_xyz/RawSharedE16Split4",
+  "parent_run_sha256": "5d02e33adcd4ff71af2c5940114d9d5662d0f8e5ea03dac975d5c14cb74aa336",
+  "changed": "four compensation heads input59(raw11+latent16+h32)->48(latent16+h32), hidden32->32 and output3/3/4/4 unchanged; no direct raw11 gathering in compensation",
+  "initialization": "retain original59 first-layer columns11:59 exactly and same bias; remaining hidden/output/encoder/Selector/latent initial values exact; initial p and zero compensation exact; removed raw features make nonzero hidden functions intrinsically different",
+  "head_parameters": {
+    "reference59": 12366,
+    "candidate48": 10958,
+    "reduction": 1408
+  },
+  "information_boundary": "Selector/Encoder still read offset3,scale3,SHDC3,opacity1,logratio1; these can reach compensation through h32. Tests raw skip connection, not removal of raw information from whole model.",
+  "frozen": "same Master/IDs/Anchor ownership centers scales/cameras/eligible/cached uniforms; N6838 M2066;54 Bank train13 internal validation45 historical nonBank",
+  "trainable": "Encoder/Selector, current ratio Anchor compensation latent16 and four private heads; same-K sets can differ",
+  "optimizer": "Adam fused lr=.001 eps1e-15,12000 shared parameter updates,3000 each ratio table, no LR search",
+  "loss": "unchanged0.8L1+.2(1-fast_ssim)+.01 relative expected-budget L1",
+  "training_selection": "unchanged cached Bernoulli and same deterministic frame/ratio schedules",
+  "evaluation": "final12000 only, four metrics Bank validation/nonBank, deterministic same-K logit(p)-logit(u) plus cached actualK",
+  "interpolation": "raw-ratio linear interpolation of same per-Anchor compensation latent16, no unseen fitting",
+  "scope": "two new initialization/frame-order seeds on same frozen fr1_xyz map; reuse two full59 references; no independent scene or online SLAM; known same-seed CUDA repeat variability retained",
+  "production_change": false,
+  "no_stage_commit_push": true
+}

@@ -1,0 +1,33 @@
+{
+  "common_k": {
+    "0.01": 271,
+    "0.05": 1358,
+    "0.1": 2716,
+    "0.15": 4074
+  },
+  "populations": [
+    27307,
+    27548,
+    27166,
+    27857
+  ],
+  "frames": 792,
+  "model_sha256": {
+    "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2026/10000_shutdown/ply/selector.pt": "2afad038de6d5bd21bf28be238e5f8eda4bc8619123fabb30348aa846748dc1a",
+    "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2026/10000_shutdown/ply/transform_field.pt": "967fdb5f420fa5260fd98d4489e86d4f1bb3995c781762ff9e8ea1ee907277e3",
+    "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2026/10000_shutdown/ply/point_cloud/iteration_10000/point_cloud.ply": "81f4f820a523eac170e10f33c61ebd037fc3a5ac70fb684924c6abc61600f1c7",
+    "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2026/10000_shutdown/ply/point_cloud/iteration_10000/selector_metadata.ply": "8e1b344dc383542404b297b1a247017d257958b699dfc6b4d26b7a3c01a11d0c",
+    "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2026/10000_shutdown/ply/selector.pt": "3bdc21d59113867fe441cc8ce951824d0c211db9fa6c91fe4877db822f7d8f45",
+    "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2026/10000_shutdown/ply/transform_field.pt": "38d657b42ad203cb60907dcf164351a7cf2ec8a07360050d7aa5578440c8a8b8",
+    "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2026/10000_shutdown/ply/point_cloud/iteration_10000/point_cloud.ply": "a985d81cc67bf7dc52c81cb0449b4246cba1f86432ec06638c076749f1af3309",
+    "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2026/10000_shutdown/ply/point_cloud/iteration_10000/selector_metadata.ply": "f41a587ba86bde4e296e1fd2305d26dc03be27768bad7a4a50604e7496845e46",
+    "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2027/10000_shutdown/ply/selector.pt": "d3838fa0b875090e154312db75ee42b2665e25c97f6e8389dd8b1daf05f3293a",
+    "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2027/10000_shutdown/ply/transform_field.pt": "d76006f76379ff6861bd67e55e121c6bc3cca2fdf87173c66a35fdd70bdbbe61",
+    "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2027/10000_shutdown/ply/point_cloud/iteration_10000/point_cloud.ply": "692b213c2dadde291881bbf17e74ac6784ee433a8d203270299bffd0cf398332",
+    "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2027/10000_shutdown/ply/point_cloud/iteration_10000/selector_metadata.ply": "16f294d14a1214d9b6ffaad7dbf41290b645ff3ed2ac78d944a58cd63c81c916",
+    "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2027/10000_shutdown/ply/selector.pt": "49954825a3d6178d881b05e72c1e58725fd7e3cd1e39ad08b9298ada858753a7",
+    "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2027/10000_shutdown/ply/transform_field.pt": "d2bdc3f0c4f7dbc6e03461095b8ce8deb9206ab35f9ea0153bc241e731e0fa84",
+    "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2027/10000_shutdown/ply/point_cloud/iteration_10000/point_cloud.ply": "0ca26960aef41d8891be07c1d2c64ba307e6d7b0f50fc53cc924bb7297089702",
+    "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2027/10000_shutdown/ply/point_cloud/iteration_10000/selector_metadata.ply": "f7fa32a56cb376edf11d1dc30c5984ad4da8c58cb6665cb570020c9933ce0836"
+  }
+}

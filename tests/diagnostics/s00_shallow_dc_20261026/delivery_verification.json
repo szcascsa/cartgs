@@ -1,0 +1,38 @@
+{
+  "archive_sha256": "6f97ee965b6aee8e936f096b723baf97fdf4f26b2cb89f3b61ca8f2ea2f68e9b",
+  "new_models": 2,
+  "reused_models": 4,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "source_scripts_exact": true,
+  "dc_input_and_real_photo_gradients_verified": true,
+  "quality_rows": 9408,
+  "quality_finite": true,
+  "adam_clocks_match_recorded_empty_steps": true,
+  "empty_records": [
+    {
+      "seed": 3100,
+      "empty_steps": {
+        "0.01": 0,
+        "0.05": 0,
+        "0.1": 0,
+        "0.15": 0
+      },
+      "compensation_updates": 12000
+    },
+    {
+      "seed": 3101,
+      "empty_steps": {
+        "0.01": 0,
+        "0.05": 0,
+        "0.1": 0,
+        "0.15": 0
+      },
+      "compensation_updates": 12000
+    }
+  ],
+  "tracked_and_staged_state_unchanged": true,
+  "production_change": false,
+  "online_slam": false,
+  "report_sha256": "b089360c27edf40f3311c1959bd305d11efe131b49c69b5a5cce3010f9d628d1"
+}

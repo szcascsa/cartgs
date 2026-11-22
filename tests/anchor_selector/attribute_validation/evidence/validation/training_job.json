@@ -1,0 +1,18 @@
+{
+  "seed": 2026,
+  "exit_code": 0,
+  "wall_seconds": 67.54634293541312,
+  "output": "/home/prmi/zwj/anchor-attributes-no-si-20261020/attribute_no_si_seed2026",
+  "command": [
+    "/home/prmi/zwj/anchor-attributes-no-si-20261020/source/bin/tum_rgbd",
+    "/home/prmi/zwj/anchor-attributes-no-si-20261020/source/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+    "/home/prmi/zwj/anchor-attributes-no-si-20261020/source/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_xyz.yaml",
+    "/home/prmi/zwj/anchor-attributes-no-si-20261020/source/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz",
+    "/home/prmi/zwj/anchor-attributes-no-si-20261020/source/cfg/ORB_SLAM3/RGB-D/TUM/associations/fr1_xyz.txt",
+    "/home/prmi/zwj/anchor-attributes-no-si-20261020/attribute_no_si_seed2026",
+    "no_viewer",
+    "--selector-config",
+    "/home/prmi/zwj/anchor-attributes-no-si-20261020/attribute_no_si_seed2026/input_selector.yaml"
+  ]
+}

@@ -1,0 +1,3 @@
+SYNTHETIC_PASS duplicate3 independent3 independent4 duplicate100 two_clusters four_clusters mass_no_one_two_split determinism max_depth parent_discard zero_empty tie topology_geometry_scale
+LEGACY_PARITY_PASS raw valid observed teacher_labels weights loss_gradients selector_forward ST ratio_loss
+IMPLEMENTATION_TEST_PASS device=cuda

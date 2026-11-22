@@ -1,0 +1,15 @@
+{
+  "all_passed": true,
+  "baseline_redundancy_exact": true,
+  "uniform_fixed_h8_geometry": true,
+  "boundary_metric_unchanged": true,
+  "quality_read": false,
+  "all_arms": [
+    "A_Raw",
+    "B_FixedMarginal",
+    "C_Hierarchical",
+    "F1_MarginalTail",
+    "F2_ProgressiveResidual",
+    "F3_ProgressiveMarginal"
+  ]
+}

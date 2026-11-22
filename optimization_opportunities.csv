@@ -1,0 +1,21 @@
+﻿id,priority,module,evidence,semantic_constraint,complexity,interface,verification,potential,implemented
+K1,P0,多Tensor dense Adam融合,112 launches/LoD；Full48,保留epsilon/bias correction/gradNone/每叶step及全人口moment,高,参数/m/v/step→原位更新,先固定梯度Adam fixture；再短程质量,减少elementwise launch和中间Tensor；无实测加速承诺,False
+K2,P0,选后属性变换Forward与VJP融合,34 launches Forward；Backward182的部分,保持两次normalize、raw quaternion、scale双路径及opacity ST,中,K行base+14D→紧凑属性及梯度,属性/梯度fixture；q符号和极小范数,减少临时Tensor与反向填零/加法,False
+K3,P0,Anchor validation与Full窗口统计归并,assert实测约0.5ms；每Full调用,所有检查仍执行；FP64 opacity统计不能改FP32,中,owner/levels/features/visible/opacity→状态与错误flag,分母/访问次数/owner容量与错误fixture,减少多次item同步及重复gather,False
+K4,P0,Anchor Feature+Offset+属性输入pack,lookup5+pack4 launches,XYZ与激活属性仍接收原梯度；Feature按owner求和,中,N行attrs+owner+A16→N27,非连续DC和重复owner梯度,减少9次launch和N行临时张量,False
+K5,P0,概率/ST/预算与稳定compaction,18 launches并有D2H,uniform<p；p-p.detach；Budget分母和abs零点；stable rows,中高,N概率/uniform→mask/Budget/indices/K,选集/K精确，临界值、K0、全选,减少扫描临时量；当前Renderer仍需CPU K,False
+F1,P1,Selected gather+R3+属性变换拼接,6+2+34 launches,R3训练单表；插值推理两表；dense语义不变,中高,Gaussian SoA/ids/残差→Renderer SoA,含Master/表梯度及插值fixture,可合并K行载入并降低临时分配,False
+F2,P1,Linear+bias+ReLU epilogue,Encoder2；Selector5；现有cuBLAS,容差与ReLU临界；不得丢bias/改维度,中,"N27,W→N32或N2",cuBLAS/Lt/custom按N比较,优先试现有GEMM epilogue，不能预设custom胜出,False
+F3,P1,冻结C使用NoGrad及版本化常零快路,4 launches；真实本checkpointC精确0,导入非零C不能跳过；保留原输出,低中,selected h→delta0,零C与非零C checkpoint,消除无用图；只有经确认常零时才能跳过GEMM,False
+R1,P0,Renderer workspace容量复用及计数路径,每LoD26 kernels；多次D2H,不得改排序/可见性/桶/透明度早停；必须stream正确,高,K属性+camera→render/context,Renderer原生重复与退化场景fixture,降低分配及同步；尚无候选实现收益,False
+R2,P1,SSIM backward本地profile与等价优化,5% native Nsight该单kernel约0.80ms,相同SSIM常数/窗口/边界/归一化,高,image/gt/dmap→dimage,图像/梯度fixture,已CUDA；需NCU后再判断带宽/占用限制,False
+T1,P1,Topology一次索引重排多Tensor搬运,事件densify均值33至35ms,同步迁移六组参数/R3四表/m/v/UID/Anchor和元数据,高,keep/parent maps→新状态,append/clone/split/prune/reorder生命周期,降低每事件多次全量cat/gather,False
+T2,P1,增量CPU空间桶与批量量化,noop prune rebuild约2ms,同层key桶/稳定UID/碰撞顺序与容量必须一致,中高,CPU keys/变更集→查询桶,迁移碰撞fixture,先避免无变化重建；GPU hash优先级更低,False
+T3,P1,按owner分段排序/容量分配,CPU stable_sort(N)及D2H,梯度tie按原row排序；split净增1；最大10,高,gradient/owner/counts→parent indices,边界NaN/tie及split父子fixture,需实际事件子段计时后再CUDA化,False
+A1,P1,Keyframe预取与Pinned H2D,源码存在CPU clone/blocking to和CV upload,保持入队/处理顺序、buffer寿命与相机版本,中,CPU图像→GPU图像及event,same-frame顺序与snapshot一致,重叠CPU解码/传输与当前Mapping,False
+A2,P1,CPU Anchor只读计划与GPU重放重叠,拓扑事件33至35ms；未分解CPU可重叠部分,版本化几何snapshot，应用前校验；禁止共享写并行,高,snapshot/version→待提交计划,stale-plan拒绝；相同拓扑结果,只有足够CPU计算量且snapshot成本低才获益,False
+A3,P1,固定snapshot多ratio推理批处理,N/owner/基础属性可复用,不能跨Master训练step缓存；共享头含log ratio,中,snapshot+ratios→各集合与渲染属性,每ratio同选集/K与属性,可缓存ratio无关input或first GEMM子项,False
+A4,P2,多ratio训练多Stream,没有安全生产重叠证据,Master/Feature/Encoder/Adam共享写；default-stream kernels,高,目前禁止直接并行step,先stream-aware Renderer与显式reduce,可能SM争用/显存增加；不是推荐首项,False
+G1,P1,固定N子图CUDA Graph,418 launch/LoD但当前动态K与D2H阻止整图,按拓扑epoch和容量bucket重新捕获；不改集合,高,固定地址和shape子图,图重放/拓扑失效/随机数fixture,先优化可捕获MLP或dense Adam子图,False
+S1,P2,R3改稀疏Adam,gather仅2 launch不是热点,改变未选中行moment衰减和参数动量，不等价,高,不作为本轮语义保持方案,必须另立算法实验,拒绝无论证直接替换SparseAdam,False
+S2,P2,全量Anchor GPU hash重写,每步Selector不查hash；只事件CPU lookup,保持量化floor/层级/碰撞桶,高,事件候选→空间桶,负坐标/边界/闭环碰撞,低频且更大热点已确认，暂不做,False

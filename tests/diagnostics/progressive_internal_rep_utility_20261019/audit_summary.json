@@ -1,0 +1,195 @@
+{
+  "hypothesis_verdict": "PARTIAL",
+  "answers": {
+    "Q1": "见按scene/ratio/depth的survival表",
+    "Q2": "MIXED",
+    "Q3": "NO",
+    "Q4": "MIXED",
+    "Q5": "BOTH：identity有局部证据，remaining region/unlock/ordering未被排除；尚不能确定主因",
+    "Q6": "KEEP C"
+  },
+  "interpretation": "定向同subtree替换恢复部分失败case，但损害两个成功1% case；全删internal在12/12 case退化。不能认定internal reps是Progressive跨scene不稳定的主要原因。",
+  "case_deltas": [
+    {
+      "scene": "fr1_room",
+      "ratio": 0.01,
+      "S_minus_P0": -1.891527054472741,
+      "L_minus_P0": -0.04501236743808512,
+      "G_minus_P0": -0.10388745136142497,
+      "P0_minus_C": 0.10388745136142497,
+      "L_minus_C": 0.058875083923339844
+    },
+    {
+      "scene": "fr1_room",
+      "ratio": 0.05,
+      "S_minus_P0": -1.59888391909392,
+      "L_minus_P0": -0.021628012568314148,
+      "G_minus_P0": -0.014626431909409376,
+      "P0_minus_C": 0.0016367006005708618,
+      "L_minus_C": -0.019991311967743286
+    },
+    {
+      "scene": "fr1_room",
+      "ratio": 0.1,
+      "S_minus_P0": -1.1288614746946735,
+      "L_minus_P0": -0.004561110312895522,
+      "G_minus_P0": 0.0007289329670960853,
+      "P0_minus_C": 0.020476915821525665,
+      "L_minus_C": 0.015915805508630143
+    },
+    {
+      "scene": "fr1_room",
+      "ratio": 0.15,
+      "S_minus_P0": -0.9389149268961852,
+      "L_minus_P0": -0.006477877220010697,
+      "G_minus_P0": -0.008119233646748825,
+      "P0_minus_C": 0.03905033917160594,
+      "L_minus_C": 0.032572461951595244
+    },
+    {
+      "scene": "fr1_xyz",
+      "ratio": 0.01,
+      "S_minus_P0": -0.7236681337709765,
+      "L_minus_P0": -0.15090504399052307,
+      "G_minus_P0": -0.2630891799926758,
+      "P0_minus_C": 0.250819700735585,
+      "L_minus_C": 0.09991465674506195
+    },
+    {
+      "scene": "fr1_xyz",
+      "ratio": 0.05,
+      "S_minus_P0": -1.8546020366527394,
+      "L_minus_P0": 0.09223150323938611,
+      "G_minus_P0": 0.11108477910359937,
+      "P0_minus_C": -0.11458529366387182,
+      "L_minus_C": -0.02235379042448571
+    },
+    {
+      "scene": "fr1_xyz",
+      "ratio": 0.1,
+      "S_minus_P0": -2.0555586991486727,
+      "L_minus_P0": 0.05216393647370765,
+      "G_minus_P0": 0.1138818175704408,
+      "P0_minus_C": -0.11967489454481495,
+      "L_minus_C": -0.0675109580711073
+    },
+    {
+      "scene": "fr1_xyz",
+      "ratio": 0.15,
+      "S_minus_P0": -1.9054934890181947,
+      "L_minus_P0": 0.012956195407440418,
+      "G_minus_P0": 0.03188355763753137,
+      "P0_minus_C": -0.04093247872811645,
+      "L_minus_C": -0.027976283320676032
+    },
+    {
+      "scene": "fr2_xyz",
+      "ratio": 0.01,
+      "S_minus_P0": -1.4096467433831634,
+      "L_minus_P0": 0.06359019646277986,
+      "G_minus_P0": 0.08883163256523119,
+      "P0_minus_C": -0.0904697760557518,
+      "L_minus_C": -0.026879579592971936
+    },
+    {
+      "scene": "fr2_xyz",
+      "ratio": 0.05,
+      "S_minus_P0": -1.8614122439653435,
+      "L_minus_P0": 0.0028696793776319396,
+      "G_minus_P0": 0.061699793888973176,
+      "P0_minus_C": -0.05778831090682601,
+      "L_minus_C": -0.05491863152919407
+    },
+    {
+      "scene": "fr2_xyz",
+      "ratio": 0.1,
+      "S_minus_P0": -1.7671795380421145,
+      "L_minus_P0": 0.014269657624076615,
+      "G_minus_P0": 0.01805589137933339,
+      "P0_minus_C": -0.04152865287585428,
+      "L_minus_C": -0.027258995251777662
+    },
+    {
+      "scene": "fr2_xyz",
+      "ratio": 0.15,
+      "S_minus_P0": -1.6654643523387413,
+      "L_minus_P0": -0.006311123187725087,
+      "G_minus_P0": 0.01210237160707095,
+      "P0_minus_C": 0.028432308099208825,
+      "L_minus_C": 0.022121184911483738
+    }
+  ],
+  "baseline_all_exact": true,
+  "independent_replay_exact": true,
+  "L_root_budget_exact": true,
+  "preregistration_sha256": "dc4354f3dec06b4e82ba0115d8d4e0a5c14e525da934e2dec08d97ba237c89b3",
+  "no_new_dB_gate": true,
+  "render_counts": {
+    "fr1_room": {
+      "all_passed": true,
+      "baseline_renders": 2576,
+      "new_diagnostic_renders": 4508,
+      "main_arms": [
+        "A",
+        "B",
+        "C",
+        "P0",
+        "S",
+        "L",
+        "G"
+      ],
+      "secondary_Q_probes": [
+        "L_Q0",
+        "L_Q1",
+        "L_Q2",
+        "L_Q3"
+      ]
+    },
+    "fr1_xyz": {
+      "all_passed": true,
+      "baseline_renders": 864,
+      "new_diagnostic_renders": 1512,
+      "main_arms": [
+        "A",
+        "B",
+        "C",
+        "P0",
+        "S",
+        "L",
+        "G"
+      ],
+      "secondary_Q_probes": [
+        "L_Q0",
+        "L_Q1",
+        "L_Q2",
+        "L_Q3"
+      ]
+    },
+    "fr2_xyz": {
+      "all_passed": true,
+      "baseline_renders": 624,
+      "new_diagnostic_renders": 1092,
+      "main_arms": [
+        "A",
+        "B",
+        "C",
+        "P0",
+        "S",
+        "L",
+        "G"
+      ],
+      "secondary_Q_probes": [
+        "L_Q0",
+        "L_Q1",
+        "L_Q2",
+        "L_Q3"
+      ]
+    }
+  },
+  "source_HEAD": "3cfccc4a92c8e1ec6c3d491dac1c9efbf151daeb",
+  "backend": "sparse_hash_target_2048",
+  "production_source_changed": false,
+  "commit": false,
+  "stage": false,
+  "push": false
+}

@@ -32,7 +32,8 @@ RenderPackage GaussianRenderer::render(
     bool use_override_color,
     torch::Tensor selector_mask,
     bool detach_gaussian_parameters,
-    bool collect_importance) {
+    bool collect_importance,
+    RasterizeMode mode) {
   GaussianRenderInput input{
       pc->getXYZ(),
       pc->getOpacityActivation(),
@@ -61,7 +62,7 @@ RenderPackage GaussianRenderer::render(
   }
   return render(viewpoint_camera, image_height, image_width, input, pipe,
                 bg_color, override_color, scaling_modifier,
-                use_override_color, collect_importance);
+                use_override_color, collect_importance, mode);
 }
 
 RenderPackage GaussianRenderer::render(
@@ -74,7 +75,8 @@ RenderPackage GaussianRenderer::render(
     torch::Tensor& override_color,
     float scaling_modifier,
     bool use_override_color,
-    bool collect_importance) {
+    bool collect_importance,
+    RasterizeMode mode) {
   if (!input.xyz.defined() || input.xyz.dim() != 2 || input.xyz.size(1) != 3)
     throw std::runtime_error("Render xyz must have shape [N,3]");
   const auto count = input.xyz.size(0);
@@ -88,11 +90,14 @@ RenderPackage GaussianRenderer::render(
       !input.features_rest.defined() || input.features_rest.size(0) != count)
     throw std::runtime_error("Render attributes must align with xyz");
 
-  auto screenspace_points = torch::zeros_like(
-      input.xyz, input.xyz.options().requires_grad(true));
-  try {
-    screenspace_points.retain_grad();
-  } catch (const std::exception&) {
+  torch::Tensor screenspace_points;
+  if (mode == RasterizeMode::Training) {
+    screenspace_points = torch::zeros_like(
+        input.xyz, input.xyz.options().requires_grad(true));
+    try {
+      screenspace_points.retain_grad();
+    } catch (const std::exception&) {
+    }
   }
 
   const float tanfovx = std::tan(viewpoint_camera->FoVx_ * 0.5f);
@@ -101,7 +106,7 @@ RenderPackage GaussianRenderer::render(
       image_height, image_width, tanfovx, tanfovy, bg_color, scaling_modifier,
       viewpoint_camera->world_view_transform_,
       viewpoint_camera->full_proj_transform_, input.active_sh_degree,
-      viewpoint_camera->camera_center_, false, false, collect_importance);
+      viewpoint_camera->camera_center_, false, false, collect_importance, mode);
   GaussianRasterizer rasterizer(raster_settings);
 
   auto means3D = input.xyz.contiguous();
@@ -171,7 +176,8 @@ RenderPackage GaussianRenderer::render(
    */
   return {rendered_image,
           screenspace_points,
-          (radii > 0).nonzero().reshape({-1}),
+          mode == RasterizeMode::Inference ? torch::Tensor()
+              : (radii > 0).nonzero().reshape({-1}),
           radii,
           rasterizer_result.frame_importance,
           rasterizer_result.contribution_count};

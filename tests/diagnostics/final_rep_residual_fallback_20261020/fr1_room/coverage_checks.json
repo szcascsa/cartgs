@@ -1,0 +1,9 @@
+{
+  "all_passed": true,
+  "original_selectCell_reused": true,
+  "all_final_scores_exact": true,
+  "final_rep_ID_Delta_exact": true,
+  "nonrep_residual_score_exact": true,
+  "NumPy_multiplication_matches": true,
+  "N_candidate": 50330
+}

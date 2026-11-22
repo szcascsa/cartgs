@@ -1,0 +1,55 @@
+{
+  "scenes": [
+    "fr1_room",
+    "fr1_xyz",
+    "fr2_xyz"
+  ],
+  "arms": [
+    "A",
+    "B",
+    "C",
+    "P0",
+    "F-Raw",
+    "F-C",
+    "M-Raw",
+    "M-C"
+  ],
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "backend": "sparse_hash_target_2048 ONLY",
+  "candidate": "valid AND observed",
+  "maturity": 1,
+  "K": "floor(ratio*N+.5)",
+  "pool_F": "union frozen STRUCTURAL final-leaf reps, source row unique",
+  "pool_M": "union ALL frozen STRUCTURAL node reps, source row unique; F subset M",
+  "global_scorer": "Raw SI or existing Current C score descending; source row ascending tie. No frontier/unlock/ancestor-conditioned greedy.",
+  "capacity": "if pool size<K: CAPACITY INSUFFICIENT, skip same-K render, NEVER refill",
+  "frozen": "Raw/Bank/Master/TF/AABB/target2048/origin/h search/3reps/Q=.80/maxL3/radius/kappa/maturity/renderer/views/metrics",
+  "baseline_gate": "ALL3 scene full A/B/C/P0 rankings, K, selected sets exact; C binary/tree exact; P0 priorities exact; rerender all per-view and aggregate metrics EXACT before new renders",
+  "verdict": "SUPPORTED if multi-level pool retains valuable candidates and M-C consistently restores primary P0 failures without systematic damage to successes; PARTIAL if scene/budget dependent recall or quality; NOT SUPPORTED if candidate-only cannot preserve quality. No new arbitrary dB threshold.",
+  "comparisons": [
+    "M-C minus P0",
+    "M-C minus C",
+    "M-C minus F-C",
+    "M-Raw minus F-Raw",
+    "M-C minus M-Raw"
+  ],
+  "diagnostics": "fixed historical h8 kappa; selected per-point redundancy=max kappa to another selected point in same fixed-h8 cell, singleton0; unordered pair thresholds .8/.9/.95",
+  "GT_for_evaluation_only": true,
+  "no_ratio_specific_pool": true,
+  "no_refill": true,
+  "no_new_Progressive": true,
+  "no_d50_backend": true,
+  "no_parameter_search": true,
+  "raw_contribution_renders": 0,
+  "optimizer_updates": 0,
+  "performance_claim": false,
+  "production_changed": false,
+  "commit": false,
+  "stage": false,
+  "push": false
+}

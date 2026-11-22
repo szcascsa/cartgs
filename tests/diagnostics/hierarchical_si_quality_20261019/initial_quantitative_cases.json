@@ -1,0 +1,54 @@
+{
+  "primary_decision": "QUALITY GO",
+  "Strong_GO": true,
+  "primary_gates": {
+    "A": true,
+    "B": true,
+    "C": true,
+    "mixed_metric_downgrade": false
+  },
+  "strong_gates": {
+    "all_PSNR_nonnegative_or_equivalent": true,
+    "low_ratio_gain": true,
+    "LPIPS_majority_improved": true,
+    "paired_low_bias_positive": true,
+    "redundancy_reduced": true,
+    "near_or_above_FixedMarginal": true
+  },
+  "cases": {
+    "A": true,
+    "B": false,
+    "C": false,
+    "D": false,
+    "E": false,
+    "F": false
+  },
+  "case_label": "Case A",
+  "Q1": "YES",
+  "Q2": "YES",
+  "Q3": "MATCHES",
+  "Q4": "YES",
+  "Q5": "YES",
+  "Q6": "Case A",
+  "Q7": "QUALITY GO",
+  "low_mean_delta_PSNR": 0.6200235171347686,
+  "mean_C_minus_B_PSNR": -0.017225308447891052,
+  "diagnostic_D_minus_C_PSNR": [
+    0.006890930744431145,
+    -0.02453746558716574,
+    -0.10630360597409094,
+    -0.24163971184203348
+  ],
+  "diagnostic_C_minus_E_PSNR": [
+    -0.09920282541594894,
+    0.12678316957461888,
+    0.036454224438401184,
+    0.07970387595040407
+  ],
+  "interpretation_limits": [
+    "Q3 MATCHES means predefined PSNR proximity, not exact selected-set or all-metric equivalence",
+    "Q5 YES is ratio-dependent observed value; report 1% regression explicitly",
+    "Single frozen scene; archived views participated in original SLAM; no online or production claim",
+    "Case E is not supported by these data; do not change residual"
+  ]
+}

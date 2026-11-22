@@ -1,0 +1,119 @@
+{
+  "tier": "controls",
+  "jobs": [
+    {
+      "config": {
+        "id": "SpatialNoFiLM",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": false
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialNoFiLMCapacity",
+        "kind": "self",
+        "width": 96,
+        "bands": 6,
+        "film": false
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialCapacityControl",
+        "kind": "self",
+        "width": 96,
+        "bands": 6,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialLocalXYZ",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "output": "local"
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialKnotsBands10",
+        "kind": "self",
+        "width": 64,
+        "bands": 10,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialNoFiLM",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": false
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialNoFiLMCapacity",
+        "kind": "self",
+        "width": 96,
+        "bands": 6,
+        "film": false
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialCapacityControl",
+        "kind": "self",
+        "width": 96,
+        "bands": 6,
+        "film": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialLocalXYZ",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "output": "local"
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialKnotsBands10",
+        "kind": "self",
+        "width": 64,
+        "bands": 10,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    }
+  ]
+}

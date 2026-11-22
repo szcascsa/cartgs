@@ -1,0 +1,17 @@
+[  7%] Building CXX object CMakeFiles/hierarchy.dir/source/src/hierarchical_representative_si.cpp.o
+[ 15%] Building CXX object CMakeFiles/hierarchy.dir/source/src/sparse_hash_root_grid.cpp.o
+[ 23%] Linking CXX static library libhierarchy.a
+[ 23%] Built target hierarchy
+[ 30%] Building CXX object CMakeFiles/hierarchy_test.dir/source/tests/hierarchical_representative_si_test.cpp.o
+[ 38%] Building CXX object CMakeFiles/hierarchy_test.dir/source/src/global_gi.cpp.o
+[ 46%] Building CXX object CMakeFiles/hierarchy_test.dir/source/src/gi_teacher.cpp.o
+[ 53%] Linking CXX executable hierarchy_test
+[ 53%] Built target hierarchy_test
+[ 61%] Building CXX object CMakeFiles/sparse_root_test.dir/source/tests/sparse_hash_root_grid_test.cpp.o
+[ 69%] Linking CXX executable sparse_root_test
+[ 69%] Built target sparse_root_test
+[ 76%] Building CXX object CMakeFiles/global_gi_regression.dir/source/tests/global_gi_test.cpp.o
+[ 84%] Building CXX object CMakeFiles/global_gi_regression.dir/source/src/global_gi.cpp.o
+[ 92%] Building CXX object CMakeFiles/global_gi_regression.dir/source/src/gi_teacher.cpp.o
+[100%] Linking CXX executable global_gi_regression
+[100%] Built target global_gi_regression

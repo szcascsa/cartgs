@@ -1,0 +1,112 @@
+--- before/include/sparse_hash_root_grid.h
++++ after/include/sparse_hash_root_grid.h
+@@ -30,4 +30,7 @@
+ // This API deliberately accepts no importance, coverage, GT or quality information.
+ SparseRootGrid makeSparseRootGrid(const std::vector<Position>& candidate_xyz,
+     const std::vector<double>& candidate_radius, const std::vector<int64_t>& source_rows);
++// Fixed scale experiment: no target count, search, Raw SI or quality inputs.
++SparseRootGrid makeD50NormalizedRootGrid(const std::vector<Position>& candidate_xyz,
++    const std::vector<double>& candidate_radius, const std::vector<int64_t>& source_rows);
+ }  // namespace hierarchical_si
+--- before/src/sparse_hash_root_grid.cpp
++++ after/src/sparse_hash_root_grid.cpp
+@@ -121,4 +121,29 @@
+   require(static_cast<int64_t>(result.roots.size()) == evaluated.at(best_h), "Sparse occupied count/grouping mismatch");
+   return result;
+ }
++
++SparseRootGrid makeD50NormalizedRootGrid(const std::vector<Position>& xyz,
++    const std::vector<double>& radius, const std::vector<int64_t>& rows) {
++  require(xyz.size() == radius.size() && xyz.size() == rows.size(), "D50 root arrays mismatch");
++  SparseRootGrid result;
++  if (xyz.empty()) return result;
++  const auto start = Clock::now();
++  auto sorted_radius = radius;
++  for (size_t i = 0; i < xyz.size(); ++i) {
++    require(radius[i] > 0 && std::isfinite(radius[i]), "D50 radius must be finite and positive");
++    for (double value : xyz[i]) require(std::isfinite(value), "D50 xyz must be finite");
++  }
++  std::sort(sorted_radius.begin(), sorted_radius.end());
++  const size_t middle = sorted_radius.size() / 2;
++  const double median = sorted_radius.size() % 2 ? sorted_radius[middle] :
++      sorted_radius[middle - 1] * .5 + sorted_radius[middle] * .5;
++  result.d50 = 2 * median;
++  result.h = 32 * result.d50;
++  require(result.h > 0 && std::isfinite(result.h), "32*d50 outside finite positive range");
++  for (size_t i = 0; i < xyz.size(); ++i)
++    result.roots[sparseRootKey(xyz[i], result.h)].push_back(rows[i]);
++  for (auto& item : result.roots) std::sort(item.second.begin(), item.second.end());
++  result.grouping_ms = milliseconds(start);
++  return result;
++}
+ }  // namespace hierarchical_si
+--- before/include/hierarchical_representative_si.h
++++ after/include/hierarchical_representative_si.h
+@@ -14,7 +14,7 @@
+ constexpr int kMaxLevel = 3;
+ constexpr double kSplitCoverage = 0.80;
+ constexpr double kEpsilon = 1e-12;
+-enum class RootBackend { LegacyAabb2048, SparseHashTarget2048 };
++enum class RootBackend { LegacyAabb2048, SparseHashTarget2048, SparseHashD50x32 };
+ 
+ struct CellSelection {
+   std::vector<int64_t> representatives;  // Local indices, in greedy order.
+--- before/src/hierarchical_representative_si.cpp
++++ after/src/hierarchical_representative_si.cpp
+@@ -104,7 +104,7 @@
+     TORCH_CHECK(tensor.device() == raw.device(), "Hierarchical SI device mismatch");
+   sync(raw); auto start = Clock::now();
+   Result result; result.backend = backend; result.population = raw.numel();
+-  if (backend == RootBackend::SparseHashTarget2048) result.dimensions = {0,0,0};
++  if (backend != RootBackend::LegacyAabb2048) result.dimensions = {0,0,0};
+   result.importance = torch::zeros_like(raw);
+   result.leaf_assignment = torch::full({raw.numel()}, -1, raw.options().dtype(torch::kLong).device(torch::kCPU));
+   auto x = xyz.detach().to(torch::kFloat64);
+@@ -158,14 +158,16 @@
+   auto positions = cpu_x.accessor<double, 2>(); auto rows = cpu_rows.accessor<int64_t, 1>();
+   std::map<RootKey, std::vector<int64_t>> roots;
+   auto grouping_start = Clock::now();
+-  if (backend == RootBackend::SparseHashTarget2048) {
++  if (backend != RootBackend::LegacyAabb2048) {
+     std::vector<Position> candidate_xyz; std::vector<double> candidate_radius; std::vector<int64_t> source_rows;
+     auto cpu_radius = radius.to(torch::kCPU).contiguous(); auto radii = cpu_radius.accessor<double,1>();
+     for (int64_t k = 0; k < result.candidates; ++k) {
+       auto row = rows[k]; candidate_xyz.push_back({positions[row][0],positions[row][1],positions[row][2]});
+       candidate_radius.push_back(radii[row]); source_rows.push_back(row);
+     }
+-    auto sparse = makeSparseRootGrid(candidate_xyz, candidate_radius, source_rows);
++    auto sparse = backend == RootBackend::SparseHashD50x32 ?
++        makeD50NormalizedRootGrid(candidate_xyz, candidate_radius, source_rows) :
++        makeSparseRootGrid(candidate_xyz, candidate_radius, source_rows);
+     result.h_search_ms = sparse.search_ms; result.root_grouping_ms = sparse.grouping_ms;
+     result.h_root = sparse.h; result.d50 = sparse.d50; result.h_seed = sparse.h_seed;
+     result.bracket_low = sparse.bracket_low; result.bracket_high = sparse.bracket_high;
+@@ -300,15 +302,22 @@
+   }
+   TORCH_CHECK(bool(csv), "Hierarchy tree diagnostic write failed");
+   std::ofstream json(directory / (stem + "_telemetry.json")); json << std::setprecision(17);
+-  json << "{\"population\":" << result.population << ",\"candidates\":" << result.candidates << ",\"initial_cells\":" << kInitialCells << ",\"dimensions\":";
++  json << "{\"population\":" << result.population << ",\"candidates\":" << result.candidates << ",\"dimensions\":";
+   array(json, result.dimensions); json << ",\"AABB_min\":"; array(json, result.lower); json << ",\"AABB_max\":"; array(json, result.upper);
+-  json << ",\"root_backend\":\"" << (result.backend == RootBackend::LegacyAabb2048 ? "legacy_aabb_2048" : "sparse_hash_target_2048") << '"';
++  json << ",\"root_backend\":\"" << (result.backend == RootBackend::LegacyAabb2048 ? "legacy_aabb_2048" :
++      result.backend == RootBackend::SparseHashD50x32 ? "sparse_hash_d50x32" : "sparse_hash_target_2048") << '"';
+   json << ",\"origin\":";
+   array(json, result.backend == RootBackend::LegacyAabb2048 ? result.lower : std::array<double,3>{0,0,0});
+-  json << ",\"target_occupied_roots\":" << kTargetOccupiedRoots << ",\"achieved_occupied_roots\":" << counts[0];
+-  json << ",\"h_root\":" << result.h_root << ",\"d50\":" << result.d50 << ",\"h_seed\":" << result.h_seed
+-       << ",\"bracket_low\":" << result.bracket_low << ",\"bracket_high\":" << result.bracket_high
+-       << ",\"crossing_bracketed\":" << result.crossing_bracketed << ",\"search_evaluations\":" << result.search_samples.size();
++  if (result.backend != RootBackend::SparseHashD50x32)
++    json << ",\"target_occupied_roots\":" << kTargetOccupiedRoots;
++  else json << ",\"root_scale_rule\":\"32*d50\"";
++  json << ",\"achieved_occupied_roots\":" << counts[0];
++  json << ",\"h_root\":" << result.h_root << ",\"d50\":" << result.d50;
++  if (result.backend == RootBackend::SparseHashD50x32)
++    json << ",\"h_L1\":" << result.h_root << ",\"h_L2\":" << result.h_root/2 << ",\"h_L3\":" << result.h_root/4;
++  else json << ",\"h_seed\":" << result.h_seed << ",\"bracket_low\":" << result.bracket_low
++       << ",\"bracket_high\":" << result.bracket_high << ",\"crossing_bracketed\":" << result.crossing_bracketed
++       << ",\"search_evaluations\":" << result.search_samples.size();
+   json << ",\"cell_size\":"; array(json, result.cell_size); json << ",\"cells_by_level\":"; array(json, counts);
+   json << ",\"splits_by_level\":"; array(json, splits); json << ",\"leaves_by_level\":"; array(json, leaves);
+   json << ",\"representatives_by_level\":"; array(json, representatives);

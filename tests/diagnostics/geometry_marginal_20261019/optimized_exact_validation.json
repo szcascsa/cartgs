@@ -1,0 +1,8 @@
+{
+  "all_passed": true,
+  "repeats": 5,
+  "full_order_exact": true,
+  "prefix_1_5_10_15_exact": true,
+  "quality_identical_by_exact_rows_and_frozen_renderer": true,
+  "approximation": false
+}

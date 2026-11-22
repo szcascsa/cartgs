@@ -1,0 +1,3 @@
+backend,mean_wall_ms,p50_wall_ms,p95_wall_ms
+legacy,0.638349,0.634631,0.693539
+fused_candidate,0.0242125,0.023465,0.024487

@@ -1,0 +1,8 @@
+PASS configure
+PASS build
+PASS hierarchy_cpu
+PASS hierarchy_cuda
+PASS sparse_synthetic
+PASS global_gi_regression
+PASS mapper_compile
+PASS structural_fixture

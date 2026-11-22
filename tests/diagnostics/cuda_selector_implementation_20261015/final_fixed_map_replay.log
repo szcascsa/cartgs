@@ -1,0 +1,5 @@
+fixed-map step=1 exact=1
+fixed-map step=10 exact=1
+fixed-map step=100 exact=1
+fixed-map step=1000 exact=1
+fixed-map selector-only replay complete; frozen Gaussian/TF, shared real renderer VJP

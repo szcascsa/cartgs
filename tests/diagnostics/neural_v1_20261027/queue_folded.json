@@ -1,0 +1,31 @@
+{
+  "tier": "folded",
+  "jobs": [
+    {
+      "config": {
+        "id": "SpatialKnotsFolded",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "knots": true,
+        "fold_constant": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialKnotsFolded",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "knots": true,
+        "fold_constant": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    }
+  ]
+}

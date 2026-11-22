@@ -1,0 +1,51 @@
+{
+  "tier": "optimizer_control",
+  "scene": "fr1_xyz",
+  "jobs": [
+    {
+      "config": {
+        "id": "FreshAdamBaseline",
+        "feature": "none",
+        "fresh_base_adam": true
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FreshAdamHead8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8,
+        "fresh_base_adam": true
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FreshAdamBaseline",
+        "feature": "none",
+        "fresh_base_adam": true
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FreshAdamHead8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8,
+        "fresh_base_adam": true
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    }
+  ],
+  "decision": "Bank-only GlobalHead8 vs localHead discovery; reset old Adam as separate optimizer diagnostic, not architecture gain"
+}

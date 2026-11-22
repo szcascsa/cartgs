@@ -1,0 +1,89 @@
+-- The CXX compiler identification is GNU 9.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++-9 - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found CUDA: /usr/local/cuda-11.8 (found version "11.8") 
+-- The CUDA compiler identification is NVIDIA 11.8.89
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/local/cuda-11.8/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Found CUDAToolkit: /usr/local/cuda-11.8/include (found version "11.8.89") 
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+-- Autodetected CUDA architecture(s):  8.6
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+-- Found Torch: /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libtorch.so  
+-- Configuring done (2.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/build-phase1
+[ 50%] Building CXX object CMakeFiles/selector_parity.dir/selector_parity.cpp.o
+/home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/selector_parity.cpp: In function ‘void {anonymous}::training(improvements::selector::GumbelNetwork&, const std::vector<at::Tensor>&, int)’:
+/home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/selector_parity.cpp:165:44: error: ambiguous overload for ‘operator=’ (operand types are ‘at::Tensor’ and ‘<brace-enclosed initializer list>’)
+  165 |     if (step%7==0) { pa[0].mutable_grad()={};pb[0].mutable_grad()={}; }
+      |                                            ^
+In file included from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/Tensor.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/Tensor.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/function_hook.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/cpp_hook.h:2,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/variable.h:6,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/autograd.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/autograd.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/all.h:7,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/torch.h:3,
+                 from /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/selector_parity.cpp:1:
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:198:11: note: candidate: ‘at::Tensor& at::Tensor::operator=(const at::TensorBase&) &’
+  198 |   Tensor& operator=(const TensorBase& x) & {
+      |           ^~~~~~~~
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:202:11: note: candidate: ‘at::Tensor& at::Tensor::operator=(at::TensorBase&&) &’
+  202 |   Tensor& operator=(TensorBase&& x) & noexcept {
+      |           ^~~~~~~~
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:207:11: note: candidate: ‘at::Tensor& at::Tensor::operator=(const at::Tensor&) &’
+  207 |   Tensor& operator=(const Tensor &x) & {
+      |           ^~~~~~~~
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:210:11: note: candidate: ‘at::Tensor& at::Tensor::operator=(at::Tensor&&) &’
+  210 |   Tensor& operator=(Tensor &&x) & noexcept {
+      |           ^~~~~~~~
+/home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/selector_parity.cpp:165:68: error: ambiguous overload for ‘operator=’ (operand types are ‘at::Tensor’ and ‘<brace-enclosed initializer list>’)
+  165 |     if (step%7==0) { pa[0].mutable_grad()={};pb[0].mutable_grad()={}; }
+      |                                                                    ^
+In file included from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/Tensor.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/Tensor.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/function_hook.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/cpp_hook.h:2,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/variable.h:6,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/autograd.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/autograd.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/all.h:7,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/torch.h:3,
+                 from /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/selector_parity.cpp:1:
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:198:11: note: candidate: ‘at::Tensor& at::Tensor::operator=(const at::TensorBase&) &’
+  198 |   Tensor& operator=(const TensorBase& x) & {
+      |           ^~~~~~~~
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:202:11: note: candidate: ‘at::Tensor& at::Tensor::operator=(at::TensorBase&&) &’
+  202 |   Tensor& operator=(TensorBase&& x) & noexcept {
+      |           ^~~~~~~~
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:207:11: note: candidate: ‘at::Tensor& at::Tensor::operator=(const at::Tensor&) &’
+  207 |   Tensor& operator=(const Tensor &x) & {
+      |           ^~~~~~~~
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:210:11: note: candidate: ‘at::Tensor& at::Tensor::operator=(at::Tensor&&) &’
+  210 |   Tensor& operator=(Tensor &&x) & noexcept {
+      |           ^~~~~~~~
+make[2]: *** [CMakeFiles/selector_parity.dir/build.make:76：CMakeFiles/selector_parity.dir/selector_parity.cpp.o] 错误 1
+make[1]: *** [CMakeFiles/Makefile2:83：CMakeFiles/selector_parity.dir/all] 错误 2
+make: *** [Makefile:91：all] 错误 2

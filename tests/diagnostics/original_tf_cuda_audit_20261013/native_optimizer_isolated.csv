@@ -1,0 +1,7 @@
+mode,N,stage,mean_ms,p50_ms,p95_ms
+adam,0,cuda_event,0.965308,0.951296,1.05779
+adam,0,wall,0.972553,0.95836,1.06461
+preview,0,cuda_event,2.1139,2.10534,2.20365
+preview,0,wall,2.12116,2.11258,2.21116
+zero_grad,0,cuda_event,0.00206029,0.002048,0.002048
+zero_grad,0,wall,0.0148781,0.014895,0.0154

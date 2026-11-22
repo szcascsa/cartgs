@@ -1,0 +1,7 @@
+backend,M,stage,metric,mean_ms,p50_ms,p95_ms
+strategy6,219969,network_forward,event,2.1131,2.11251,2.12992
+strategy6,219969,network_forward,wall,2.12023,2.11904,2.13734
+strategy6,219969,network_backward,event,2.01094,2.01114,2.02752
+strategy6,219969,network_backward,wall,2.01887,2.01887,2.03519
+strategy6,219969,network_forward_backward,event,4.32804,4.25472,4.74624
+strategy6,219969,network_forward_backward,wall,4.33633,4.26219,4.7552

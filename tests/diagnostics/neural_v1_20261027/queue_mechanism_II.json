@@ -1,0 +1,51 @@
+{
+  "tier": "mechanism_II",
+  "jobs": [
+    {
+      "config": {
+        "id": "SpatialOutputKnots",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "PhysicalOutputKnots",
+        "kind": "self",
+        "width": 64,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialLocalXYZ",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "output": "local"
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialCapacityControl",
+        "kind": "self",
+        "width": 96,
+        "bands": 6,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

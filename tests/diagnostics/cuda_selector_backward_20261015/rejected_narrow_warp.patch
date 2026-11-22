@@ -1,0 +1,71 @@
+diff --git a/include/selector_cuda.h b/include/selector_cuda.h
+index 0720e46..4622715 100644
+--- a/include/selector_cuda.h
++++ b/include/selector_cuda.h
+@@ -9,7 +9,7 @@ namespace selector_cuda {
+ enum class Candidate : int64_t { Cublas = 0, Warp = 1, CublasStrict = 2 };
+ enum class BackwardStrategy : int64_t {
+   Current = 0, FusedActivation = 1, BatchedWeight = 2, FusedBias = 3, GroupedBranch = 4,
+-  DirectFinal = 5, DirectFinalRelu = 6
++  DirectFinal = 5, DirectFinalRelu = 6, NarrowWarp = 7
+ };
+ 
+ // Input order: XYZ, activated quaternion, activated scale, ratio ([1,1] or [M,1]).
+diff --git a/src/selector_cuda.cu b/src/selector_cuda.cu
+index 44a738f..bdf6f2f 100644
+--- a/src/selector_cuda.cu
++++ b/src/selector_cuda.cu
+@@ -220,12 +220,24 @@ torch::Tensor biasGradient(const torch::Tensor& dy,bool legacy_reduction=false)
+   C10_CUDA_KERNEL_LAUNCH_CHECK();return db;
+ }
+ // Row-major DX=DY*W and DW=DY^T*X. Weight gradients use GEMM, never per-point atomics.
++__global__ void narrowWarp(const float* dy,const float* w,float* dx,int rows,int dim) {
++  int lane=threadIdx.x%32,row=(blockIdx.x*blockDim.x+threadIdx.x)/32;
++  if(row>=rows)return;
++  float grad=dy[row*32+lane];
++  for(int c=0;c<dim;++c) {
++    float sum=grad*w[lane*dim+c];
++    for(int delta=16;delta;delta/=2)sum+=__shfl_down_sync(0xffffffff,sum,delta);
++    if(!lane)dx[row*dim+c]=sum;
++  }
++}
+ torch::Tensor linearVjp(const torch::Tensor& x,const torch::Tensor& w,const torch::Tensor& dy,
+-                        torch::Tensor& dw,torch::Tensor& db,bool legacy_reduction,const torch::Tensor& precomputed_db={}) {
++                        torch::Tensor& dw,torch::Tensor& db,bool legacy_reduction,const torch::Tensor& precomputed_db={},bool narrow=false) {
+   int rows=x.size(0),in=x.size(1),out=dy.size(1);
+   auto dx=torch::empty_like(x);dw=torch::empty_like(w);db=precomputed_db.defined()?precomputed_db:biasGradient(dy,legacy_reduction);
+   if(rows) {
+-    gemm('n','n',in,rows,out,1.f,w.data_ptr<float>(),in,
++    if(narrow && (in==3 || in==4) && out==32)
++      narrowWarp<<<(rows+7)/8,256,0,stream()>>>(dy.data_ptr<float>(),w.data_ptr<float>(),dx.data_ptr<float>(),rows,in);
++    else gemm('n','n',in,rows,out,1.f,w.data_ptr<float>(),in,
+         dy.data_ptr<float>(),out,0.f,dx.data_ptr<float>(),in);
+     gemm('n','t',in,out,rows,1.f,x.data_ptr<float>(),in,
+         dy.data_ptr<float>(),out,0.f,dw.data_ptr<float>(),in);
+@@ -290,7 +302,7 @@ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+   std::vector<torch::Tensor> result(22);
+   auto dw=torch::empty_like(p[16]);result[20]=dw;result[21]=biasGradient(dy,strict);
+   torch::Tensor full_dx;
+-  const bool routed=strategy==BackwardStrategy::DirectFinal || strategy==BackwardStrategy::DirectFinalRelu;
++  const bool routed=strategy==BackwardStrategy::DirectFinal || strategy==BackwardStrategy::DirectFinalRelu || strategy==BackwardStrategy::NarrowWarp;
+   if(strict) {
+     if(!routed)full_dx=torch::empty({n,128},dy.options());
+     if(n) {
+@@ -333,7 +345,7 @@ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     const bool fused=strict && strategy!=BackwardStrategy::Current && strategy!=BackwardStrategy::DirectFinal;
+     if(strict) {
+       if(routed) {
+-        if(n && strategy==BackwardStrategy::DirectFinalRelu)
++        if(n && strategy!=BackwardStrategy::DirectFinal)
+           directFinal<true><<<(n*32+255)/256,256,0,stream()>>>(dy.data_ptr<float>(),p[16].data_ptr<float>(),dx.data_ptr<float>(),h[b*2+1].data_ptr<float>(),n,b*32,h[b*2+1].size(0)==1?0:h[b*2+1].stride(0));
+         else if(n)directFinal<false><<<(n*32+255)/256,256,0,stream()>>>(dy.data_ptr<float>(),p[16].data_ptr<float>(),dx.data_ptr<float>(),nullptr,n,b*32,0);
+       } else if(strategy==BackwardStrategy::FusedBias && !(b==3 && inputs[3].size(0)==1 && n!=1))
+@@ -352,7 +364,7 @@ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     auto dh=linearVjp(h[b*2],p[b*4+2],dx,result[4+b*4+2],result[4+b*4+3],strict,db2);
+     if(strategy==BackwardStrategy::FusedBias)db1=maskedBias(dh,dh,h[b*2],0);
+     else if(rows)reluVjp<<<(rows*32+255)/256,256,0,stream()>>>(dh.data_ptr<float>(),h[b*2].data_ptr<float>(),rows*32);
+-    result[b]=linearVjp(x[b],p[b*4],dh,result[4+b*4],result[4+b*4+1],strict,db1);
++    result[b]=linearVjp(x[b],p[b*4],dh,result[4+b*4],result[4+b*4+1],strict,db1,strategy==BackwardStrategy::NarrowWarp);
+   }
+   C10_CUDA_KERNEL_LAUNCH_CHECK();return result;
+ }

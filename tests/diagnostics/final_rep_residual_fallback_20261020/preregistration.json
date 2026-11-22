@@ -1,0 +1,55 @@
+{
+  "scenes": [
+    "fr1_room",
+    "fr1_xyz",
+    "fr2_xyz"
+  ],
+  "baseline": [
+    "A",
+    "B",
+    "C",
+    "F"
+  ],
+  "new_arms": [
+    "RF-C",
+    "RF-Raw",
+    "RF-Gap"
+  ],
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "max_existing_test_ratio": 0.15,
+  "backend": "target-2048 ONLY",
+  "candidate": "valid AND observed",
+  "maturity": 1,
+  "F": "exact frozen final leaf structural representative mask; no pure internal-only union",
+  "U": "candidate minus F",
+  "residual": "R=Raw*(1-final_leaf_cover); export exact original LibTorch CUDA selectCell and residual arithmetic",
+  "demand": "D_r=C TopK intersect U; D_r must equal R-desc/source-row-asc residual prefix of length m_r and be nested",
+  "RF_C": "F union D15 = F union top_m15(U,R)",
+  "RF_Raw": "F union top_m15(U,Raw)",
+  "RF_Gap": "F union top_m15(U,1-cover)",
+  "scorer": "ALL fallback arms existing Current C score descending; source row ascending tie",
+  "static_pool": "one fixed m15-size fallback pool per proxy for all ratios; no count tuning, no ratio-specific generation",
+  "baseline_gate": "all3 scene A/B/C/F complete ranking, same-K selected sets, frozen tree exact; aggregate and per-view metrics EXACT before new rendering",
+  "exact_gate": "R equals C nonrep score row-by-row EXACT; D15_RES equals D15; RF-C selected sets equal C at all4 ratios; RF-C real rendered metrics EXACT",
+  "hypotheses": "compact fallback SUPPORTED if C can be exactly preserved with retained fraction well below100%; Raw/Gap supported only if stable across3scenes4ratios. No new arbitrary dB gate. R required only relative to tested equal-size proxies, not universal necessity.",
+  "metrics": [
+    "psnr",
+    "ssim",
+    "lpips",
+    "photo"
+  ],
+  "same_K": "floor(ratio*N+.5) over full candidates",
+  "freeze": "Master/TF/AABB/contributions/Raw/Bank/masks/tree/finalleaves/target2048/hsearch/origin/3reps/Q=.80/L3/scalar kappa/renderer/cameras/GT/metrics",
+  "forbidden": "new proxies/count tuning/ratio tuning/multilevel/progressive/d50x32/Selector training/online",
+  "raw_contribution_renders": 0,
+  "training_updates": 0,
+  "performance_claim": false,
+  "stage": false,
+  "commit": false,
+  "push": false
+}

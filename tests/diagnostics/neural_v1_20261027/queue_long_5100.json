@@ -1,0 +1,46 @@
+{
+  "tier": "long36k",
+  "jobs": [
+    {
+      "config": {
+        "id": "Reference59TrainEncoderLong",
+        "kind": "reference59",
+        "train_encoder": true,
+        "initial_checkpoint": "/home/prmi/zwj/neural-v1-20261027/results/reference_control/fr1_xyz/Reference59TrainEncoder/5100/step_12000.pt",
+        "resume_optimizer": true,
+        "schedule_cycle_offset": 3000
+      },
+      "seed": 5100,
+      "steps": 24000
+    },
+    {
+      "config": {
+        "id": "SpatialFiLMLong",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "initial_checkpoint": "/home/prmi/zwj/neural-v1-20261027/results/confirm/fr1_xyz/SpatialFiLM/5100/step_12000.pt",
+        "resume_optimizer": true,
+        "schedule_cycle_offset": 3000
+      },
+      "seed": 5100,
+      "steps": 24000
+    },
+    {
+      "config": {
+        "id": "SpatialOutputKnotsLong",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "knots": true,
+        "film": true,
+        "initial_checkpoint": "/home/prmi/zwj/neural-v1-20261027/results/confirm/fr1_xyz/SpatialOutputKnots/5100/step_12000.pt",
+        "resume_optimizer": true,
+        "schedule_cycle_offset": 3000
+      },
+      "seed": 5100,
+      "steps": 24000
+    }
+  ]
+}

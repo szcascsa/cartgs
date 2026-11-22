@@ -1,0 +1,37 @@
+[
+  {
+    "time": 1792247994.9569287,
+    "own_pid": 910881,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247995.2545466,
+    "own_pid": 910881,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247995.5444708,
+    "own_pid": 910881,
+    "compute_processes": "910881, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 582"
+  },
+  {
+    "time": 1792247995.8075318,
+    "own_pid": 910881,
+    "compute_processes": "910881, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 942"
+  },
+  {
+    "time": 1792247996.069317,
+    "own_pid": 910881,
+    "compute_processes": "910881, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 980"
+  },
+  {
+    "time": 1792247996.3305655,
+    "own_pid": 910881,
+    "compute_processes": "910881, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 980"
+  },
+  {
+    "time": 1792247996.591836,
+    "own_pid": 910881,
+    "compute_processes": ""
+  }
+]

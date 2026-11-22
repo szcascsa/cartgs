@@ -1,0 +1,8 @@
+{
+  "selector" : 
+  {
+    "parameter_tensors" : 18,
+    "parameters" : 4962,
+    "state_entries" : 18
+  }
+}

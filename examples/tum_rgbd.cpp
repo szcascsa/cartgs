@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <chrono>
 #include <ctime>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -104,6 +105,14 @@ int main(int argc, char **argv) {
     device_type = torch::kCPU;
   }
 
+  // Optional audit seed; ordinary invocations retain seed 0.
+  int audit_seed = 0;
+  if (const char* value = std::getenv("CARTGS_AUDIT_SEED")) {
+    audit_seed = std::stoi(value);
+    cv::setRNGSeed(audit_seed);
+    std::srand(audit_seed);
+    torch::manual_seed(audit_seed);
+  }
   // Create SLAM system. It initializes all system threads and gets ready to
   // process frames.
   std::shared_ptr<ORB_SLAM3::System> pSLAM =
@@ -115,7 +124,7 @@ int main(int argc, char **argv) {
   // Create GaussianMapper
   std::filesystem::path gaussian_cfg_path(argv[3]);
   std::shared_ptr<GaussianMapper> pGausMapper =
-      std::make_shared<GaussianMapper>(pSLAM, gaussian_cfg_path, output_dir, 0,
+      std::make_shared<GaussianMapper>(pSLAM, gaussian_cfg_path, output_dir, audit_seed,
                                        device_type, selector_enabled_override,
                                        *selector_config_path);
   std::thread training_thd(&GaussianMapper::run, pGausMapper.get());
@@ -183,6 +192,8 @@ int main(int argc, char **argv) {
             .count();
 
     vTimesTrack[ni] = ttrack;
+    if ((ni + 1) % 100 == 0 || ni + 1 == nImages)
+      std::cout << "[Experiment PROGRESS] frames=" << ni + 1 << "/" << nImages << std::endl;
 
     // Wait to load the next frame
     double T = 0;

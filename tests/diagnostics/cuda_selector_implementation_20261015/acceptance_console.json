@@ -1,0 +1,128 @@
+{
+  "final_strict_1000.csv": {
+    "checks": 94576,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 1000,
+    "max_abs": 0.0
+  },
+  "final_strict_219969.csv": {
+    "checks": 1576,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 0,
+    "max_abs": 0.0
+  },
+  "phase1_checkpoint_1000.csv": {
+    "checks": 94000,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 1000,
+    "max_abs": 0.0
+  },
+  "phase1_final_legacy_1000.csv": {
+    "checks": 94094,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 1000,
+    "max_abs": 0.0
+  },
+  "phase1_final_real_219969.csv": {
+    "checks": 1094,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 0,
+    "max_abs": 0.0
+  },
+  "phase1_legacy.csv": {
+    "checks": 10300,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 100,
+    "max_abs": 0.0
+  },
+  "phase1_real_219969.csv": {
+    "checks": 1000,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 0,
+    "max_abs": 0.0
+  },
+  "phase1_verified_legacy_1000.csv": {
+    "checks": 94564,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 1000,
+    "max_abs": 0.0
+  },
+  "phase1_verified_real_219969.csv": {
+    "checks": 1564,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 0,
+    "max_abs": 0.0
+  },
+  "phase2_cublas_1000.csv": {
+    "checks": 94094,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 1000,
+    "max_abs": 9.15527e-05
+  },
+  "phase2_verified_cublas_1000.csv": {
+    "checks": 94564,
+    "failures": 6,
+    "hard_or_compact_failures": 6,
+    "last_recorded_step": 1000,
+    "max_abs": 1.0
+  },
+  "phase2_verified_cublas_real_219969.csv": {
+    "checks": 1564,
+    "failures": 6,
+    "hard_or_compact_failures": 6,
+    "last_recorded_step": 0,
+    "max_abs": 1.0
+  },
+  "phase3_verified_warp_1000.csv": {
+    "checks": 94564,
+    "failures": 6,
+    "hard_or_compact_failures": 6,
+    "last_recorded_step": 1000,
+    "max_abs": 1.0
+  },
+  "phase3_verified_warp_real_219969.csv": {
+    "checks": 1564,
+    "failures": 4,
+    "hard_or_compact_failures": 4,
+    "last_recorded_step": 0,
+    "max_abs": 1.0
+  },
+  "random_cublas.csv": {
+    "checks": 94094,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 1000,
+    "max_abs": 3.05176e-05
+  },
+  "strict_checkpoint_1000.csv": {
+    "checks": 94576,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 1000,
+    "max_abs": 0.0
+  },
+  "strict_random_1000.csv": {
+    "checks": 94576,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 1000,
+    "max_abs": 0.0
+  },
+  "strict_real_219969.csv": {
+    "checks": 1576,
+    "failures": 0,
+    "hard_or_compact_failures": 0,
+    "last_recorded_step": 0,
+    "max_abs": 0.0
+  }
+}

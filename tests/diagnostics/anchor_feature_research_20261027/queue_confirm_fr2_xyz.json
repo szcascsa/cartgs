@@ -1,0 +1,69 @@
+{
+  "tier": "confirm_continue",
+  "scene": "fr2_xyz",
+  "jobs": [
+    {
+      "config": {
+        "id": "Baseline",
+        "feature": "none"
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "Head8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "AnchorFiLM8",
+        "feature": "learned",
+        "fusion": "film",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "Baseline",
+        "feature": "none"
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "Head8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "AnchorFiLM8",
+        "feature": "learned",
+        "fusion": "film",
+        "dim": 8
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    }
+  ],
+  "decision": "two equal-capacity feature fusions passed Bank-only screen; matched original12000 checkpoint+base Adam, extra12000 exposure, no nonBank read yet"
+}

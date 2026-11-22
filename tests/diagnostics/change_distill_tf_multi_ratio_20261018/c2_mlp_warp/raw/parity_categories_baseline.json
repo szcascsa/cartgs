@@ -1,0 +1,249 @@
+{
+  "tf": {
+    "target": {
+      "tensors": 40,
+      "elements": 3030000,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "pre": {
+      "tensors": 2,
+      "elements": 6,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "audit_pre": {
+      "tensors": 2,
+      "elements": 6,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "feature": {
+      "tensors": 4,
+      "elements": 524288,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "feature_gradient": {
+      "tensors": 4,
+      "elements": 524288,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "tf_loss": {
+      "tensors": 40,
+      "elements": 40,
+      "max_abs": 2.9103830456733704e-10,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 1.4527468010783195e-05,
+      "mean_abs": 5.20230969414115e-11
+    },
+    "plane_gradient": {
+      "tensors": 12,
+      "elements": 1182720,
+      "max_abs": 4.656612873077393e-10,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 2.318993938388303e-05,
+      "mean_abs": 1.515245404422872e-14
+    },
+    "mlp_gradient": {
+      "tensors": 14,
+      "elements": 4042,
+      "max_abs": 7.450580596923828e-09,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 0.00024826981825754046,
+      "mean_abs": 2.7835513232286467e-11
+    },
+    "tf_updated": {
+      "tensors": 26,
+      "elements": 1186762,
+      "max_abs": 2.9103830456733704e-11,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 1.4482461665465962e-06,
+      "mean_abs": 9.6562185529524e-17
+    },
+    "post": {
+      "tensors": 10,
+      "elements": 30,
+      "max_abs": 2.2201512373323795e-10,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 1.1082345233969855e-05,
+      "mean_abs": 2.4458789021133173e-11
+    },
+    "audit_post": {
+      "tensors": 2,
+      "elements": 6,
+      "max_abs": 8.931237971410155e-10,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 4.460011606882303e-05,
+      "mean_abs": 2.368052420820277e-10
+    },
+    "backward": {
+      "tensors": 1,
+      "elements": 4,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    }
+  },
+  "both": {
+    "selector_loss": {
+      "tensors": 40,
+      "elements": 40,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "selector_gradient": {
+      "tensors": 18,
+      "elements": 4962,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "selector_updated": {
+      "tensors": 18,
+      "elements": 4962,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "target": {
+      "tensors": 40,
+      "elements": 3030000,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "pre": {
+      "tensors": 2,
+      "elements": 6,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "audit_pre": {
+      "tensors": 2,
+      "elements": 6,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "feature": {
+      "tensors": 4,
+      "elements": 524288,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "feature_gradient": {
+      "tensors": 4,
+      "elements": 524288,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    },
+    "tf_loss": {
+      "tensors": 40,
+      "elements": 40,
+      "max_abs": 3.346940502524376e-10,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 1.6706022506696172e-05,
+      "mean_abs": 4.18367562815547e-11
+    },
+    "plane_gradient": {
+      "tensors": 12,
+      "elements": 1182720,
+      "max_abs": 3.4924596548080444e-10,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 1.7324273358099163e-05,
+      "mean_abs": 1.3715572335944978e-14
+    },
+    "mlp_gradient": {
+      "tensors": 14,
+      "elements": 4042,
+      "max_abs": 1.4901161193847656e-08,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 0.0004205840523354709,
+      "mean_abs": 3.0368120789685286e-11
+    },
+    "tf_updated": {
+      "tensors": 26,
+      "elements": 1186762,
+      "max_abs": 5.820766091346741e-11,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 2.8931247015862027e-06,
+      "mean_abs": 1.854607055408318e-16
+    },
+    "post": {
+      "tensors": 10,
+      "elements": 30,
+      "max_abs": 3.8286151226901884e-10,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 1.9111384420569047e-05,
+      "mean_abs": 2.201495119948077e-11
+    },
+    "audit_post": {
+      "tensors": 2,
+      "elements": 6,
+      "max_abs": 3.1886884244158864e-09,
+      "bitwise": false,
+      "allclose": true,
+      "max_gate_ratio": 0.00015923483279030285,
+      "mean_abs": 5.674580805248297e-10
+    },
+    "backward": {
+      "tensors": 1,
+      "elements": 4,
+      "max_abs": 0,
+      "bitwise": true,
+      "allclose": true,
+      "max_gate_ratio": 0,
+      "mean_abs": 0.0
+    }
+  }
+}

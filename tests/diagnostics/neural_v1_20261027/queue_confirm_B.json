@@ -1,0 +1,68 @@
+{
+  "tier": "confirm",
+  "jobs": [
+    {
+      "config": {
+        "id": "Reference59",
+        "kind": "reference59"
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "RawPure",
+        "kind": "self",
+        "raw_only": true,
+        "width": 64,
+        "film": false
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "PhysicalFiLM",
+        "kind": "self",
+        "width": 64,
+        "film": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialFiLM",
+        "kind": "self",
+        "width": 64,
+        "film": true,
+        "bands": 6
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "CrossAttentionFiLM",
+        "kind": "self",
+        "width": 64,
+        "film": true,
+        "context": "attention"
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialOutputKnots",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    }
+  ]
+}

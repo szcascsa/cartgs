@@ -1,0 +1,16 @@
+/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household/rgb/1341847980.722988.png
+Scanning dependencies of target gradient_paths
+[ 50%] Building CXX object CMakeFiles/gradient_paths.dir/gradient_paths.cpp.o
+[100%] Linking CXX executable gradient_paths
+[100%] Built target gradient_paths
+ratio complete
+gi complete
+photo complete
+photo_tf complete
+combined complete
+full_photo complete
+photo_detach complete
+guard_uniform complete
+cd_probability complete
+dsd_bce complete
+tf_regularization complete

@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/online_checkpoint_parity.py", line 72, in <module>
+    b = model(xyz,rotation,scale,target,tau=config['temperature'])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/prmi/zwj/selector-cuda-20261015/python/selector.py", line 39, in forward
+    logits = network((position, rotation, scale, target_ratio), self.parameters())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/prmi/zwj/selector-cuda-20261015/python/selector_cuda_backend.py", line 24, in network
+    return extension().network(list(inputs), list(parameters))
+           ^^^^^^^^^^^
+  File "/home/prmi/zwj/selector-cuda-20261015/python/selector_cuda_backend.py", line 13, in extension
+    return load(
+           ^^^^^
+  File "/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/utils/cpp_extension.py", line 1309, in load
+    return _jit_compile(
+           ^^^^^^^^^^^^^
+  File "/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/utils/cpp_extension.py", line 1719, in _jit_compile
+    _write_ninja_file_and_build_library(
+  File "/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/utils/cpp_extension.py", line 1802, in _write_ninja_file_and_build_library
+    verify_ninja_availability()
+  File "/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/utils/cpp_extension.py", line 1851, in verify_ninja_availability
+    raise RuntimeError("Ninja is required to load C++ extensions")
+RuntimeError: Ninja is required to load C++ extensions

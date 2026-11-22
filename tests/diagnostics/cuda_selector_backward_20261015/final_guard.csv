@@ -1,0 +1,7 @@
+case,status,reason,committed,all_parameters_gradients_states_exact
+accept,ACCEPT,raw_validated,1,1
+shrink,SHRINK,raw_shrunk_validated,1,1
+projection,ACCEPT,projected_validated,1,1
+reject,CANCEL,historical_regression,0,1
+fallback,FALLBACK,historical_regression,1,1
+nonfinite,CANCEL,nonfinite_baseline,0,1

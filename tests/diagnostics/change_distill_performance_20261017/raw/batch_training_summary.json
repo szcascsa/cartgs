@@ -1,0 +1,82 @@
+[
+  {
+    "branch": "selector",
+    "batch": 2048,
+    "native_cpu_median_ms": 641.8442769999999,
+    "training_cpu_ms_instrumented": 502.15808999999996,
+    "training_ratio_samples_per_second_instrumented": 1787843.3463055429,
+    "all_student_forward_cpu_ms_instrumented": 190.089192
+  },
+  {
+    "branch": "selector",
+    "batch": 4096,
+    "native_cpu_median_ms": 376.86307,
+    "training_cpu_ms_instrumented": 288.01489000000004,
+    "training_ratio_samples_per_second_instrumented": 3117130.5066901227,
+    "all_student_forward_cpu_ms_instrumented": 95.795631
+  },
+  {
+    "branch": "selector",
+    "batch": 8192,
+    "native_cpu_median_ms": 225.97004950000002,
+    "training_cpu_ms_instrumented": 164.60438,
+    "training_ratio_samples_per_second_instrumented": 5454168.352020767,
+    "all_student_forward_cpu_ms_instrumented": 49.355951
+  },
+  {
+    "branch": "selector",
+    "batch": 16384,
+    "native_cpu_median_ms": 122.874924,
+    "training_cpu_ms_instrumented": 74.62664,
+    "training_ratio_samples_per_second_instrumented": 12030288.379592061,
+    "all_student_forward_cpu_ms_instrumented": 25.388932
+  },
+  {
+    "branch": "selector",
+    "batch": 32768,
+    "native_cpu_median_ms": 81.96627699999999,
+    "training_cpu_ms_instrumented": 38.108230000000006,
+    "training_ratio_samples_per_second_instrumented": 23558690.603053458,
+    "all_student_forward_cpu_ms_instrumented": 14.356869999999999
+  },
+  {
+    "branch": "tf",
+    "batch": 2048,
+    "native_cpu_median_ms": 1386.959419,
+    "training_cpu_ms_instrumented": 447.64775,
+    "training_ratio_samples_per_second_instrumented": 1326176.6645761093,
+    "all_student_forward_cpu_ms_instrumented": 167.813649
+  },
+  {
+    "branch": "tf",
+    "batch": 4096,
+    "native_cpu_median_ms": 946.8933675000001,
+    "training_cpu_ms_instrumented": 238.61736000000002,
+    "training_ratio_samples_per_second_instrumented": 2487916.2186690858,
+    "all_student_forward_cpu_ms_instrumented": 89.631458
+  },
+  {
+    "branch": "tf",
+    "batch": 8192,
+    "native_cpu_median_ms": 556.4742365,
+    "training_cpu_ms_instrumented": 123.69181,
+    "training_ratio_samples_per_second_instrumented": 4799509.36120993,
+    "all_student_forward_cpu_ms_instrumented": 46.643511
+  },
+  {
+    "branch": "tf",
+    "batch": 16384,
+    "native_cpu_median_ms": 338.250018,
+    "training_cpu_ms_instrumented": 63.251580000000004,
+    "training_ratio_samples_per_second_instrumented": 9385694.39688305,
+    "all_student_forward_cpu_ms_instrumented": 29.000512999999998
+  },
+  {
+    "branch": "tf",
+    "batch": 32768,
+    "native_cpu_median_ms": 221.5200605,
+    "training_cpu_ms_instrumented": 31.2993,
+    "training_ratio_samples_per_second_instrumented": 18967197.34946149,
+    "all_student_forward_cpu_ms_instrumented": 15.356698
+  }
+]

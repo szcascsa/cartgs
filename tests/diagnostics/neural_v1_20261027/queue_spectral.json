@@ -1,0 +1,42 @@
+{
+  "tier": "spectral_screen",
+  "jobs": [
+    {
+      "config": {
+        "id": "SpatialKnotsBands8",
+        "kind": "self",
+        "width": 64,
+        "bands": 8,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialKnotsBands10",
+        "kind": "self",
+        "width": 64,
+        "bands": 10,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialAttentionKnots",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "knots": true,
+        "context": "attention",
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

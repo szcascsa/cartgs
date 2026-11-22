@@ -27,14 +27,7 @@
 #include "cuda_rasterizer/rasterize_points.h"
 
 void transformPoints(torch::Tensor& points, torch::Tensor& transformmatrix);
-
-torch::Tensor scaleAndTransformThenMarkVisiblePoints(
-    torch::Tensor& points,
-    torch::Tensor& rots,
-    torch::Tensor& point_not_transformed_mask,
-    torch::Tensor& point_unstable_mask,
-    torch::Tensor& transformmatrix,
-    torch::Tensor& viewmatrix,
-    torch::Tensor& projmatrix,
-    int& num_transformed,
-    const float scale = 1.0f);
+torch::Tensor markVisibleUntransformedPoints(
+    const torch::Tensor& points, const torch::Tensor& remaining,
+    const torch::Tensor& unstable, const torch::Tensor& viewmatrix,
+    const torch::Tensor& projmatrix);

@@ -1,0 +1,9 @@
+arm,ratio,K,unlocked_internal_nodes,unlocked_L1_nodes,unlocked_L2_nodes,newly_visible_children,emitted_priority_increases_in_prefix
+F2_ProgressiveResidual,0.01,503,41,38,3,233,0
+F2_ProgressiveResidual,0.05,2517,277,184,93,1473,0
+F2_ProgressiveResidual,0.1,5033,530,316,214,2664,0
+F2_ProgressiveResidual,0.15,7550,699,378,321,3395,0
+F3_ProgressiveMarginal,0.01,503,41,38,3,233,0
+F3_ProgressiveMarginal,0.05,2517,277,184,93,1473,0
+F3_ProgressiveMarginal,0.1,5033,524,312,212,2641,0
+F3_ProgressiveMarginal,0.15,7550,688,374,314,3348,0

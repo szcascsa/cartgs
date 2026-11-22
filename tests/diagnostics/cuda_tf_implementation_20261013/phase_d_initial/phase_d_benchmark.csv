@@ -1,0 +1,7 @@
+backend,stage,mean_ms,p50_ms,p95_ms
+legacy,regularization_forward,0.869197,0.867328,0.90112
+legacy,regularization_backward,5.41942,5.41594,5.53984
+legacy,regularization_forward_backward,6.66835,6.65498,6.76659
+cuda,regularization_forward,0.0611838,0.06144,0.06144
+cuda,regularization_backward,9.30141,9.29894,9.32147
+cuda,regularization_forward_backward,9.30911,9.30816,9.33171

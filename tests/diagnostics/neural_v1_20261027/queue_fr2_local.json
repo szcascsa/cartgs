@@ -1,0 +1,32 @@
+{
+  "tier": "fr2_local_followup",
+  "scene": "fr2_xyz",
+  "source_seed": 4100,
+  "selection_reason": "Bank-only pairedfr1 controls17.815mean; preregistered localoutput .1 scaling; no architecture chosen from test",
+  "jobs": [
+    {
+      "config": {
+        "id": "SpatialLocalXYZ",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "output": "local"
+      },
+      "seed": 6100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialLocalXYZ",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "output": "local"
+      },
+      "seed": 6101,
+      "steps": 12000
+    }
+  ]
+}

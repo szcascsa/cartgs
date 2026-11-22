@@ -1,0 +1,6 @@
+[TF DIAGNOSTIC] stage=forward calls=2 transformed_N_sum=2142 host_mean_ms=0.547790 cuda_samples=0 cuda_elapsed_mean_ms=0.000000
+[TF DIAGNOSTIC] stage=backward calls=2 transformed_N_sum=0 host_mean_ms=1.702290 cuda_samples=0 cuda_elapsed_mean_ms=0.000000
+[TF DIAGNOSTIC] stage=regularization_forward calls=2 transformed_N_sum=0 host_mean_ms=0.792572 cuda_samples=0 cuda_elapsed_mean_ms=0.000000
+[TF DIAGNOSTIC] stage=regularization_backward calls=2 transformed_N_sum=0 host_mean_ms=2.839023 cuda_samples=0 cuda_elapsed_mean_ms=0.000000
+[TF DIAGNOSTIC] stage=optimizer calls=20 transformed_N_sum=0 host_mean_ms=0.549032 cuda_samples=1 cuda_elapsed_mean_ms=0.055296
+[TF DIAGNOSTIC] pending_samples=0 explicit_synchronize=0 diagnostic_graph_brackets=1

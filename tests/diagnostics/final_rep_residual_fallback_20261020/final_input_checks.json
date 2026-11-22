@@ -1,0 +1,45 @@
+{
+  "all_passed": true,
+  "scenes": [
+    {
+      "scene": "fr1_room",
+      "original_sources": 236,
+      "previous_artifacts": 15,
+      "camera_archive_unchanged": true,
+      "runtime_sha_unchanged": true,
+      "tensors": {
+        "N": 52635,
+        "maturity_all_one": true,
+        "ok": true
+      },
+      "RF_C_spatial_redundancy_exact": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "original_sources": 89,
+      "previous_artifacts": 15,
+      "camera_archive_unchanged": true,
+      "runtime_sha_unchanged": true,
+      "tensors": {
+        "N": 23733,
+        "maturity_all_one": true,
+        "ok": true
+      },
+      "RF_C_spatial_redundancy_exact": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "original_sources": 70,
+      "previous_artifacts": 15,
+      "camera_archive_unchanged": true,
+      "runtime_sha_unchanged": true,
+      "tensors": {
+        "N": 44142,
+        "maturity_all_one": true,
+        "ok": true
+      },
+      "RF_C_spatial_redundancy_exact": true
+    }
+  ],
+  "frozen_static_hierarchy_library_sha256": "d50cae98896c7c11f0192639d74e3e7fba914c96e7a7f6ba8664ebba50207a38"
+}

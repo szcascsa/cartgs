@@ -1,0 +1,41 @@
+{
+  "archive_sha256": "a64997e770a2bcebe8e1cb76843d2c2435ef3fe5b28efa167d6cc707c1748c09",
+  "new_models": 7,
+  "reused_models": 1,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "finite_quality_rows": 6496,
+  "production": {
+    "files_verified": 6296,
+    "staged_files": [],
+    "production_mismatches": []
+  },
+  "online_slam": false,
+  "report_sha256": "b9eee532a730f6e2fb14930ea6d05c75eb7cf75beeec5baca7914fdba94b862c",
+  "repeatability": {
+    "state_dict_exact": false,
+    "maximum_parameter_error": 2.331587076187134,
+    "maximum_metric_error": {
+      "psnr": 2.4670143127441406,
+      "ssim": 0.08700105547904968,
+      "lpips": 0.038129329681396484,
+      "photo": 0.030991852283477783
+    },
+    "same_k_mean_metric_change": {
+      "psnr": 0.2679990223475865,
+      "ssim": 0.004189104314834353,
+      "lpips": 0.0007313754823472765,
+      "photo": -0.00241027684911849
+    },
+    "same_seed": 3100,
+    "note": "repeatability is not an independent optimization-order seed"
+  },
+  "initial_weights_and_schedule_exact": true,
+  "final_production_check_passed": true,
+  "render_examples_inspected": true
+}

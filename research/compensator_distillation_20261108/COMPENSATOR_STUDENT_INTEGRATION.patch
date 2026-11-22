@@ -1,0 +1,272 @@
+--- teacher_v30/python/deployment_infer.py
++++ student_v31/python/deployment_infer.py
+@@ -19,6 +19,7 @@
+     request.add_argument('--budget',type=int)
+     request.add_argument('--ratio',type=float)
+     parser.add_argument('--seed',type=int,default=0)
++    parser.add_argument('--student',type=Path,help='绑定当前教师地图的独立蒸馏 checkpoint')
+     parser.add_argument('--frames',type=int,default=0,help='0为全部轨迹帧')
+     parser.add_argument('--output',type=Path,required=True)
+     args=parser.parse_args()
+@@ -30,7 +31,7 @@
+     checkpoint=args.checkpoint.resolve()
+     if (checkpoint/'ply').is_dir():checkpoint=checkpoint/'ply'
+     calibration,views=load_views(checkpoint,args.dataset)
+-    runtime=DeploymentRenderer.from_checkpoint(checkpoint,args.seed)
++    runtime=DeploymentRenderer.from_checkpoint(checkpoint,args.seed,student_checkpoint=args.student)
+     request=dict(budget=args.budget) if args.budget is not None else dict(ratio_budget=args.ratio)
+     args.output.parent.mkdir(parents=True,exist_ok=True)
+     with args.output.open('x',newline='',encoding='utf-8') as f,torch.inference_mode():
+--- teacher_v30/python/deployment_prepare.cpp
++++ student_v31/python/deployment_prepare.cpp
+@@ -281,7 +281,7 @@
+     auto checked=deployment_selector(state_[6],check_rows,state_[3],empty_,state_[9],selector_,knots[0],false,schema_);
+     deployment_compensate_checked(state_[7],check_rows,state_[3],state_[8],tables_,compensator_,master_,empty_,
+         view_weight_,std::vector<double>(knots.size(),0.),{0.,0.,1.},false,schema_,softplus_,checked[2]);
+-    TORCH_CHECK(!schema_ || view_weight_.sizes()==at::IntArrayRef({8,64}),"View projection layout");
++    TORCH_CHECK(!schema_ || view_weight_.sizes()==at::IntArrayRef({8,compensator_.size()==13?32:64}),"View projection layout");
+     for(int j=0;j<6;++j)shapes_.push_back(base_[j].sizes().vec());
+     shapes_.push_back({total_,3});
+   }
+--- teacher_v30/python/deployment_runtime.py
++++ student_v31/python/deployment_runtime.py
+@@ -12,7 +12,7 @@
+ def deployment_extension():
+     from torch.utils.cpp_extension import load
+     root = Path(__file__).resolve().parent
+-    return load(name='mycartgs_deployment_fp32_v30',
++    return load(name='mycartgs_deployment_fp32_v31',
+         sources=[str(root/'deployment_runtime_bindings.cpp'), str(root/'deployment_runtime_kernels.cu'),
+                  str(root/'deployment_prepare.cpp'), str(root/'deployment_selection.cu'),str(root/'deployment_radix.cu'),str(root/'deployment_candidates.cu'),
+                  str(root/'frozen_inference_kernels.cu')],
+@@ -29,7 +29,7 @@
+     @torch.no_grad()
+     def __init__(self, model, gaussians, config, seed=0, *, shrinking_radix=True, compensation_tile=16, selector_tiled=True,
+                  saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True,
+-                 selector_static_prefix=True,visible_view=True,small_compensation_tile=True):
++                 selector_static_prefix=True,visible_view=True,small_compensation_tile=True,student=None):
+         from anchor_budget import FixedBudgetRenderer
+         if (not isinstance(shrinking_radix,bool) or not isinstance(selector_tiled,bool) or
+                 isinstance(compensation_tile,bool) or compensation_tile not in (0,4,8,16)):
+@@ -41,6 +41,18 @@
+         model.eval().requires_grad_(False)
+         for name in ('_xyz', '_scaling', '_rotation', '_opacity', '_features_dc', '_features_rest'):
+             getattr(gaussians, name).requires_grad_(False)
++        self.student = None
++        if student is not None:
++            from compensation_student import StudentCompensator, teacher_fingerprint
++            if not isinstance(student, StudentCompensator):
++                raise ValueError('Deployment student must be a StudentCompensator')
++            if student.teacher_fingerprint != teacher_fingerprint(model, gaussians):
++                raise ValueError('Student belongs to a different frozen teacher or Gaussian map')
++            joint = bool(int(getattr(model, 'joint_view_conditioning_schema', 0)))
++            if hasattr(student, 'view_projection') != joint:
++                raise ValueError('Student and teacher view schemas must match')
++            self.student = copy.deepcopy(student).to(device=gaussians.get_xyz.device, dtype=torch.float32)
++            self.student.eval().requires_grad_(False)
+         self._reference = FixedBudgetRenderer(model, gaussians, copy.deepcopy(config), seed, 'cuda')
+         self._base = self._reference.inference
+         self._ext = deployment_extension()
+@@ -50,6 +62,11 @@
+                              for p in self._base.compensation_parameters]
+         self._view_weight = (self._base.view_weight.t().contiguous()
+                              if self._base.view_weight is not None else self._base.empty)
++        if self.student is not None:
++            self._compensator = [p.t().contiguous() if p.dim()==2 else p.contiguous()
++                                 for p in self.student.deployment_parameters()]
++            self._view_weight = (self.student.view_projection.weight.t().contiguous()
++                                 if hasattr(self.student, 'view_projection') else self._base.empty)
+         snapshot = (self._base.base_master + self._base.tables + self._selector + self._compensator +
+                     [self._view_weight, self._base.selector_static, self._base.offset])
+         if any(not torch.isfinite(value).all() for value in snapshot):
+@@ -80,7 +97,7 @@
+     @torch.no_grad()
+     def from_checkpoint(cls, checkpoint, seed=0, *, shrinking_radix=True, compensation_tile=16, selector_tiled=True,
+                         saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True,
+-                        selector_static_prefix=True,visible_view=True,small_compensation_tile=True):
++                        selector_static_prefix=True,visible_view=True,small_compensation_tile=True,student_checkpoint=None):
+         from budget_viewer import read_config
+         from gaussian_model import GaussianModel
+         from selector import load_selector
+@@ -95,11 +112,16 @@
+         gaussians.load_ply(str(candidates[0]))
+         config = read_config(checkpoint/'selector_config.yaml')
+         model.set_backend(config['backend'])
++        student = None
++        if student_checkpoint is not None:
++            from compensation_student import load_student
++            student, _ = load_student(student_checkpoint)
+         return cls(model,gaussians,config,seed,shrinking_radix=shrinking_radix,
+             compensation_tile=compensation_tile,selector_tiled=selector_tiled,
+             saturated_selection=saturated_selection,prepare_graph=prepare_graph,unroll_compensation=unroll_compensation,
+             fused_selection=fused_selection,fused_candidates=fused_candidates,
+-            selector_static_prefix=selector_static_prefix,visible_view=visible_view,small_compensation_tile=small_compensation_tile)
++            selector_static_prefix=selector_static_prefix,visible_view=visible_view,small_compensation_tile=small_compensation_tile,
++            student=student)
+ 
+     def _packet(self, flat, n):
+         pc = self._base.pc
+--- teacher_v30/python/deployment_runtime_kernels.cu
++++ student_v31/python/deployment_runtime_kernels.cu
+@@ -461,7 +461,87 @@
+   if(begin+row<n)publishPoint<Direct>(begin+row,n,ids[row],delta[row],master,softplus,output,status,tid%(64/Accum),64/Accum,request);
+ }
+ 
+-
++// Distilled 32/32 trunk with four independent linear output Heads.
++// The frozen input packing and physical publication are shared with the teacher.
++template<int Points,bool Direct=false> __global__ void compensationStudent(int64_t n,const float* offset,
++    const int64_t* rows,const int64_t* owners,const float* reference,Tables tables,Controls controls,
++    Weights w,const float* view,const float* view_weight,bool local,bool real_view,
++    Master master,bool softplus,float* output,float* residual,int* status,const DeploymentFrame* frame,
++    const DeploymentRequest* request=nullptr) {
++  if(status[0]==1)return;
++  if(frame) {
++    n=frame->k;
++    if(int64_t(blockIdx.x)*Points>=n)return;
++    for(int j=0;j<6;++j)controls.weights[j]=frame->weights[j];
++    for(int j=0;j<3;++j)controls.ratio[j]=frame->ratio_code[j];
++  }
++  constexpr int Accum=Points/4;
++  const int tid=threadIdx.x,col=tid%32,point=(tid/32)*Accum;
++  const int64_t begin=int64_t(blockIdx.x)*Points;
++  __shared__ float input[Points][51],h0[Points][32],h1[Points][32],delta[Points][14];
++  __shared__ int64_t ids[Points],anchors[Points];
++  if(tid<Points){ids[tid]=begin+tid<n?rows[begin+tid]:0;anchors[tid]=begin+tid<n?owners[ids[tid]]:0;}
++  __syncthreads();
++  for(int i=tid;i<Points*51;i+=128) {
++    const int p=i/51,c=i%51;float value=0.f;
++    if(begin+p<n) {
++      if(c<3)value=offset[ids[p]*3+c];
++      else {
++        const auto a=anchors[p]*48+c-3;value=tables.p[0][a];
++        for(int j=1;j<tables.count;++j) {
++          if(controls.weights[j]<0.f)break;
++          value=__fadd_rn(value,__fmul_rn(controls.weights[j],tables.p[j][a]));
++        }
++      }
++    }
++    input[p][c]=value;
++  }
++  __syncthreads();
++  float accum[Accum]={};
++  #pragma unroll 64
++  for(int j=0;j<51;++j) {
++    const float weight=w.p[0][j*32+col];
++    #pragma unroll
++    for(int q=0;q<Accum;++q)accum[q]=fmaf(input[point+q][j],weight,accum[q]);
++  }
++  float rp=0.f;for(int j=0;j<3;++j)rp=fmaf(controls.ratio[j],w.p[4][j*32+col],rp);
++  #pragma unroll
++  for(int q=0;q<Accum;++q) {
++    float value=accum[q]+w.p[1][col];value+=rp;
++    if(local) {
++      float vp=0.f;
++      for(int j=0;j<7;++j)vp=fmaf(real_view?view[anchors[point+q]*7+j]:0.f,view_weight[j*32+col],vp);
++      vp+=view_weight[7*32+col];value+=vp;
++    }
++    h0[point+q][col]=relu(value);accum[q]=0.f;
++  }
++  __syncthreads();
++  #pragma unroll 32
++  for(int j=0;j<32;++j) {
++    const float weight=w.p[2][j*32+col];
++    #pragma unroll
++    for(int q=0;q<Accum;++q)accum[q]=fmaf(h0[point+q][j],weight,accum[q]);
++  }
++  #pragma unroll
++  for(int q=0;q<Accum;++q)h1[point+q][col]=relu(accum[q]+w.p[3][col]);
++  __syncthreads();
++  for(int i=tid;i<Points*14;i+=128) {
++    const int p=i/14,c=i%14;
++    const int head=c<3?0:c<6?1:c<10?2:3;
++    const int first=head==0?0:head==1?3:head==2?6:10;
++    const int width=head<2?3:4;float value=0.f;
++    #pragma unroll 32
++    for(int j=0;j<32;++j)value=fmaf(h1[p][j],w.p[5+2*head][j*width+c-first],value);
++    value+=w.p[6+2*head][c-first];
++    if(!head && begin+p<n)value*=reference[ids[p]];
++    delta[p][c]=value;
++    if(begin+p<n){if(residual)residual[(begin+p)*14+c]=value;if(!isfinite(value))atomicExch(status,2);}
++  }
++  __syncthreads();
++  const int row=tid/(128/Points);
++  if(begin+row<n)publishPoint<Direct>(begin+row,n,ids[row],delta[row],master,softplus,output,status,
++      tid%(128/Points),128/Points,request);
++}
+ 
+ }
+ 
+@@ -551,34 +631,44 @@
+     const std::vector<torch::Tensor>& weights,const std::vector<torch::Tensor>& attributes,
+     const torch::Tensor& view,const torch::Tensor& view_weight,const std::vector<double>& residual_weights,
+     const std::vector<double>& ratio,bool local,int64_t schema,bool softplus,const torch::Tensor& shared_status,int64_t tile) {
+-  TORCH_CHECK(!torch::GradMode::is_enabled() && weights.size()==21 && attributes.size()==6 &&
++  const bool student=weights.size()==13;const int hidden=student?32:64;
++  TORCH_CHECK(!torch::GradMode::is_enabled() && (student || weights.size()==21) && attributes.size()==6 &&
+       tables.size()>=2 && tables.size()<=6 && residual_weights.size()==tables.size() && ratio.size()==3,"Frozen Compensator inputs");
+   check(offset,offset);check(rows,offset,at::kLong);check(owners,offset,at::kLong);check(reference,offset);check(view,offset);
+   c10::cuda::CUDAGuard guard(offset.device());Weights w{};Tables t{};Controls c{};Master m{};
+-  for(int j=0;j<21;++j){check(weights[j],offset);w.p[j]=weights[j].data_ptr<float>();}
++  for(size_t j=0;j<weights.size();++j){check(weights[j],offset);w.p[j]=weights[j].data_ptr<float>();}
+   t.count=tables.size();for(int j=0;j<t.count;++j){check(tables[j],offset);t.p[j]=tables[j].data_ptr<float>();c.weights[j]=residual_weights[j];}
+   for(int j=0;j<3;++j)c.ratio[j]=ratio[j];for(int j=0;j<6;++j){check(attributes[j],offset);m.p[j]=attributes[j].data_ptr<float>();}
+   m.rest=1;for(int d=1;d<attributes[5].dim();++d)m.rest*=attributes[5].size(d);
+   TORCH_CHECK(offset.sizes()==at::IntArrayRef({owners.numel(),3}) && reference.numel()==owners.numel() &&
+-      weights[0].sizes()==at::IntArrayRef({51,64}) && weights[2].sizes()==at::IntArrayRef({64,64}) &&
+-      weights[4].sizes()==at::IntArrayRef({3,64}) && attributes[0].sizes()==offset.sizes() &&
++      weights[0].sizes()==at::IntArrayRef({51,hidden}) && weights[2].sizes()==at::IntArrayRef({hidden,hidden}) &&
++      weights[1].numel()==hidden && weights[3].numel()==hidden &&
++      weights[4].sizes()==at::IntArrayRef({3,hidden}) && attributes[0].sizes()==offset.sizes() &&
+       attributes[1].numel()==owners.numel() && attributes[2].sizes()==offset.sizes() &&
+       attributes[3].sizes()==at::IntArrayRef({owners.numel(),4}) && attributes[4].numel()==owners.numel()*3,
+       "Compensation snapshot layout");
+   for(int j=0;j<t.count;++j)TORCH_CHECK(tables[j].dim()==2 && tables[j].size(1)==48,"Residual48 table layout");
+   for(int head=0;head<4;++head) {
+-    int k=5+head*4,width=head<2?3:4;
+-    TORCH_CHECK(weights[k].sizes()==at::IntArrayRef({64,64}) && weights[k+1].numel()==64 &&
+-        weights[k+2].sizes()==at::IntArrayRef({64,width}) && weights[k+3].numel()==width,"Independent Head layout");
+-  }
+-  if(local){check(view_weight,offset);TORCH_CHECK(view_weight.sizes()==at::IntArrayRef({8,64}),"View projection layout");}
++    const int k=5+head*(student?2:4),width=head<2?3:4;
++    if(student) {
++      TORCH_CHECK(weights[k].sizes()==at::IntArrayRef({hidden,width}) && weights[k+1].numel()==width,"Student output Head layout");
++    } else {
++      TORCH_CHECK(weights[k].sizes()==at::IntArrayRef({64,64}) && weights[k+1].numel()==64 &&
++          weights[k+2].sizes()==at::IntArrayRef({64,width}) && weights[k+3].numel()==width,"Independent Head layout");
++    }
++  }
++  if(local){check(view_weight,offset);TORCH_CHECK(view_weight.sizes()==at::IntArrayRef({8,hidden}),"View projection layout");}
+   const auto n=rows.numel();auto out=torch::empty({n*(17+m.rest)},offset.options()),delta=torch::empty({n,14},offset.options());
+   auto status=shared_status.defined()?shared_status:torch::zeros({1},rows.options().dtype(at::kInt));
+   check(status,offset,at::kInt);TORCH_CHECK(status.numel()==1,"Deployment finite status");
+   TORCH_CHECK(tile==0 || tile==4 || tile==8 || tile==16 || tile==6416 || tile==8208,"Compensation tile width");
+   if(n) {
+     const auto stream=c10::cuda::getCurrentCUDAStream();
+-    if(tile==8208)compensationRegisterUnrolled<8,false,2><<<(n+7)/8,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
++    if(student) {
++      if(tile==16 || tile==6416)compensationStudent<16><<<(n+15)/16,128,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
++      else if(tile==8208 || tile==8)compensationStudent<8><<<(n+7)/8,128,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
++      else compensationStudent<4><<<(n+3)/4,128,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
++    } else if(tile==8208)compensationRegisterUnrolled<8,false,2><<<(n+7)/8,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+     else if(tile==6416)compensationRegisterUnrolled<16><<<(n+15)/16,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+     else if(tile==16)compensationRegisterTile<16><<<(n+15)/16,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+     else if(tile==8)compensationTile<8><<<(n+7)/8,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+@@ -798,11 +888,15 @@
+   if(radix)deployment_radix_device(buffers[3],buffers[1],state[5],buffers[5],buffers[0],radix_workspace,saturated_selection,fused_selection && n>=16384);
+   else deployment_select_device(buffers[3],buffers[1],state[5],buffers[5],buffers[0],buffers[7]);
+   if(compensate) {
+-    for(int j=0;j<21;++j)cw.p[j]=compensation[j].data_ptr<float>();
++    for(size_t j=0;j<compensation.size();++j)cw.p[j]=compensation[j].data_ptr<float>();
+     t.count=tables.size();for(int j=0;j<t.count;++j)t.p[j]=tables[j].data_ptr<float>();
+     auto launch_compensation=[&](auto direct) {
+       constexpr bool Direct=decltype(direct)::value;
+-      if(tile==8208)compensationRegisterUnrolled<8,Direct,2><<<(capacity+7)/8,256,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),
++      if(compensation.size()==13) {
++        if(tile==16)compensationStudent<16,Direct><<<(capacity+15)/16,128,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,buffers[6].data_ptr<float>(),nullptr,status,frame,destination);
++        else if(tile==8208 || tile==8)compensationStudent<8,Direct><<<(capacity+7)/8,128,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,buffers[6].data_ptr<float>(),nullptr,status,frame,destination);
++        else compensationStudent<4,Direct><<<(capacity+3)/4,128,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,buffers[6].data_ptr<float>(),nullptr,status,frame,destination);
++      } else if(tile==8208)compensationRegisterUnrolled<8,Direct,2><<<(capacity+7)/8,256,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),
+           state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),
+           local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,
+           buffers[6].data_ptr<float>(),nullptr,status,frame,destination);

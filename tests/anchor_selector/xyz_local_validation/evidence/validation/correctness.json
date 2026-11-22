@@ -1,0 +1,42 @@
+{
+  "xyz_local_cpu": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "xyz_local_python_cpu": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "xyz_fixed_cpu": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "legacy27_cpu": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "xyz_local_cuda": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "xyz_local_python_cuda": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "xyz_fixed_cuda": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "legacy27_cuda": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "xyz_local_mapping": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "xyz_local_change_distill": {
+    "passed": true,
+    "exit_code": 0
+  }
+}

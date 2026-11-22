@@ -1,0 +1,115 @@
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=20 snapshot_count=6 corrected_groups=1 selector_scope=CORRECTED_MATURE tf_scope=NONE ratios=2 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=20 epochs=2 selector_epochs=2 tf_epochs=2 batch_size=1 ratios=2 selector_scope=CORRECTED_MATURE tf_scope=NONE
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/2 loss=0.0046 primary_loss=0.0046 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=2 audit_anchors=2
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/2 loss=0.0046 primary_loss=0.0022 anchor_loss=0.0024 delta_prev=-0.0001 trend=DOWN steps=2 count=2 audit_anchors=2
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/2 loss=0.0045 primary_loss=0.0008 anchor_loss=0.0037 delta_prev=-0.0001 trend=DOWN steps=2 count=2 audit_anchors=2
+[SELECTOR CD] event=1 count=2 anchors=2 pre=0.0046 post=0.0008 anchor_pre=0.0000 anchor_post=0.0037 steps=4 epochs=2 lr_micro=100.0000 time_ms=13.0832
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=4 tf_steps=0 skipped_outside=0
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE ratios=2 aabb_changed=1
+[CD BEGIN] event=1 type=FIELD_DOMAIN mapping_iter=1000 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=2 ratios=2 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=0/1 loss=0.0036 position_loss=0.0036 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=4 skipped_outside=1
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=1/1 loss=0.0036 position_loss=0.0036 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=UP steps=2 count=4 skipped_outside=1
+[TF CD] event=1 count=4 skipped_outside=1 pre_xyz/log_scale/rotation=0.0036,0.0000,0.0000 post_xyz/log_scale/rotation=0.0036,0.0000,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0000,0.0000 steps=2 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=10.9407
+[CD END] event=1 type=FIELD_DOMAIN selector_steps=0 tf_steps=2 skipped_outside=1
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[ChangeCoordinator] event=1 type=GLOBAL_GEOMETRY|FIELD_DOMAIN flags=6 mapping_iter=1000 snapshot_count=6 corrected_groups=1 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0236 primary_loss=0.0236 anchor_loss=0.0000 delta_prev=-0.0014 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0236 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=88.3287
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=3.7790
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0236 primary_loss=0.0236 anchor_loss=0.0000 delta_prev=-0.0014 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0236 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=75.8952
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=3.7451
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0222 primary_loss=0.0222 anchor_loss=0.0000 delta_prev=-0.0028 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0222 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=200.0000 time_ms=96.1098
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=3.7604
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0236 primary_loss=0.0236 anchor_loss=0.0000 delta_prev=-0.0014 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0236 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=89.2509
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=32.0000 grid_lr_micro=160.0000 time_ms=3.6954
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0236 primary_loss=0.0236 anchor_loss=0.0000 delta_prev=-0.0014 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0236 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.4675
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=320.0000 time_ms=3.4724
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+cpu lifecycle PASS
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=20 snapshot_count=6 corrected_groups=1 selector_scope=CORRECTED_MATURE tf_scope=NONE ratios=2 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=20 epochs=2 selector_epochs=2 tf_epochs=2 batch_size=1 ratios=2 selector_scope=CORRECTED_MATURE tf_scope=NONE
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/2 loss=0.0046 primary_loss=0.0046 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=2 audit_anchors=2
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/2 loss=0.0046 primary_loss=0.0022 anchor_loss=0.0024 delta_prev=-0.0001 trend=DOWN steps=2 count=2 audit_anchors=2
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/2 loss=0.0045 primary_loss=0.0008 anchor_loss=0.0037 delta_prev=-0.0001 trend=DOWN steps=2 count=2 audit_anchors=2
+[SELECTOR CD] event=1 count=2 anchors=2 pre=0.0046 post=0.0008 anchor_pre=0.0000 anchor_post=0.0037 steps=4 epochs=2 lr_micro=100.0000 time_ms=36.0490
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=4 tf_steps=0 skipped_outside=0
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE ratios=2 aabb_changed=1
+[CD BEGIN] event=1 type=FIELD_DOMAIN mapping_iter=1000 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=2 ratios=2 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=0/1 loss=0.0036 position_loss=0.0036 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=4 skipped_outside=1
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=1/1 loss=0.0036 position_loss=0.0036 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=UP steps=2 count=4 skipped_outside=1
+[TF CD] event=1 count=4 skipped_outside=1 pre_xyz/log_scale/rotation=0.0036,0.0000,0.0000 post_xyz/log_scale/rotation=0.0036,0.0000,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0000,0.0000 steps=2 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=36.7717
+[CD END] event=1 type=FIELD_DOMAIN selector_steps=0 tf_steps=2 skipped_outside=1
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[ChangeCoordinator] event=1 type=GLOBAL_GEOMETRY|FIELD_DOMAIN flags=6 mapping_iter=1000 snapshot_count=6 corrected_groups=1 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0239 primary_loss=0.0239 anchor_loss=0.0000 delta_prev=-0.0010 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0239 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.9189
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=4.3798
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0239 primary_loss=0.0239 anchor_loss=0.0000 delta_prev=-0.0010 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0239 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.7924
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=4.3149
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0229 primary_loss=0.0229 anchor_loss=0.0000 delta_prev=-0.0020 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0229 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=200.0000 time_ms=1.7731
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=4.3083
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0239 primary_loss=0.0239 anchor_loss=0.0000 delta_prev=-0.0010 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0239 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.8015
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=32.0000 grid_lr_micro=160.0000 time_ms=4.3483
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0239 primary_loss=0.0239 anchor_loss=0.0000 delta_prev=-0.0010 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0239 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.8226
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=320.0000 time_ms=4.3316
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+cuda lifecycle PASS
+cache PASS

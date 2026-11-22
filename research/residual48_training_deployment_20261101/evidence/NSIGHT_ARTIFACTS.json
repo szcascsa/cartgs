@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/home/prmi/zwj/deployments/residual48_training_20261101/online_smoke.nsys-rep",
+    "bytes": 18971524,
+    "sha256": "6c60c5ad9b73785c29d2cb2dfd9f3e69c08c4bb78729bd13f1d00c686b447b4f"
+  },
+  {
+    "path": "/home/prmi/zwj/deployments/residual48_training_20261101/online_smoke.sqlite",
+    "bytes": 46538752,
+    "sha256": "42b72032c3277294ef0fcf8a8127562bee5177b654c5896b68ad6d640ccbee96"
+  }
+]

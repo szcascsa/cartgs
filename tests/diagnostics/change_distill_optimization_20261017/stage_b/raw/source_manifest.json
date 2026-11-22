@@ -1,0 +1,130 @@
+{
+  "CMakeLists.txt": {
+    "sha256": "2809f9c2da2ab258aea644e706f2b3f51ebcf9f8d42c4d98715a550b13fbfdfb",
+    "bytes": 28647
+  },
+  "include/aabb.h": {
+    "sha256": "6ebe55549983af71488751f71bee5648a7f80d5712492e30c819e75bffcbe1bd",
+    "bytes": 1173
+  },
+  "include/change_management.h": {
+    "sha256": "de0b0acc9a9af8da72e5d17dde72b9842cc1bb65fa0e8cef825c6c30f1e0be5e",
+    "bytes": 6956
+  },
+  "include/elastic_entry.h": {
+    "sha256": "70b15e27a57d74d207c2663106659ed86d4da26db15de0cbcf200ea2911b4d17",
+    "bytes": 1548
+  },
+  "include/frozen_teacher_target_cache.h": {
+    "sha256": "1c9ff0f9b8d2851556230c5f5535b204ceebcf064cb869d84121df9fac0aead4",
+    "bytes": 1635
+  },
+  "include/gaussian_transform_ops.h": {
+    "sha256": "ae0936a268c673e07f28d6f38796128b93901e60c9f863b3eaa8febce21b9608",
+    "bytes": 2474
+  },
+  "include/hexplane_field.h": {
+    "sha256": "594066b9b3b058157227ca48166304e9fbbd5fae5d6b68f6c987c2055ce0bab0",
+    "bytes": 2328
+  },
+  "include/model_snapshot.h": {
+    "sha256": "2dd013765d0cb164d6b95d23f226cd917ecfe5af494468ce7b52dfb051f9faf9",
+    "bytes": 1504
+  },
+  "include/protection_profiler.h": {
+    "sha256": "d523d837efca147e0c69cbe99cf283223373d7d5b504431e88203479c3f01d39",
+    "bytes": 938
+  },
+  "include/quaternion_utils.h": {
+    "sha256": "a99a15321bb9059f1093e344299b2b0d5650e9792a2ace274cc121bb701dd6fc",
+    "bytes": 870
+  },
+  "include/selector_cuda.h": {
+    "sha256": "ca7a36065b0a15b1a9d6036e516713868947a86c445c337fed480a9b8675d722",
+    "bytes": 1331
+  },
+  "include/selector_handoff.h": {
+    "sha256": "540581b23db96d6935c9b8b1e7023519ee04defc067ff762037bdebd13a6524d",
+    "bytes": 1352
+  },
+  "include/transform_field.h": {
+    "sha256": "0f35390f1c13315e3faec1f5e6d6a023ca2d73b2e98a0ea991c6dccb720fd1a8",
+    "bytes": 4076
+  },
+  "include/transform_field_cuda.h": {
+    "sha256": "b892e2c47dcf19a3f956b76ec13c6ed6c0f37a61a86806619c22aecb1ad84a6e",
+    "bytes": 2845
+  },
+  "include/transform_field_cuda_optimizer.h": {
+    "sha256": "b57dd881fb9626d732231d898f52f7c657af473626fdade257691b0ef34dbc3c",
+    "bytes": 1979
+  },
+  "src/change_distill.cpp": {
+    "sha256": "db479ce489e1f15c3577d5edc93a547aaae9dde0abcf4c2b7d267f5f6e519628",
+    "bytes": 23884
+  },
+  "src/change_management.cpp": {
+    "sha256": "7f7b6348a0752c1bcc6e60996ce474c2b94c2ccdce3aa6b752b54673f6868b46",
+    "bytes": 16897
+  },
+  "src/gaussian_mapper.cpp": {
+    "sha256": "ec63b904b2ab6c9fb9a4d940417bb72374e027fd9607d5fe3c5000e5cc7dceb1",
+    "bytes": 254619
+  },
+  "src/hexplane_field.cpp": {
+    "sha256": "28ac7922cd36d25bbfb64748cff8613f5ac1d65ac0880821e249b8ca4e795534",
+    "bytes": 10586
+  },
+  "src/protection_profiler.cpp": {
+    "sha256": "be33ebc516f9832f97c62e8dadf99e9a64e5e32cda7d9d1464a6498b8da0236f",
+    "bytes": 6597
+  },
+  "src/selector_cuda.cpp": {
+    "sha256": "cf8f6bb407335a8ee5821c1d32a1ca2bb09055b8363eeb19763bdeda0ad4ad39",
+    "bytes": 2323
+  },
+  "src/selector_cuda.cu": {
+    "sha256": "20251cccb7ac4c4614d9e159e2404033a1c6eaa063eaf6ce1652775ff80982c7",
+    "bytes": 21240
+  },
+  "src/transform_field.cpp": {
+    "sha256": "7c8e58501299ebda4027699b2eec362c30b114ea944b109d3caf39bf17508f47",
+    "bytes": 9357
+  },
+  "src/transform_field_cuda.cpp": {
+    "sha256": "08da80ae16f8aaab3493e1f711904b624337054ab7e7539af2e4da65cc99cb74",
+    "bytes": 6320
+  },
+  "src/transform_field_cuda.cu": {
+    "sha256": "e00a632a6a648d0b0f29bb02142224cef5f60394df92417138ff13e65a5b4e83",
+    "bytes": 7934
+  },
+  "src/transform_field_cuda_neural.cu": {
+    "sha256": "86113a8f941b9d1baaae1df74527c3c8696b73414e3b8407818cd04f5df48372",
+    "bytes": 14796
+  },
+  "src/transform_field_cuda_optimizer.cpp": {
+    "sha256": "3234187fb7ec264010a19078f280056d0618bc91717b6b1e6114acfc291bcf65",
+    "bytes": 8129
+  },
+  "src/transform_field_cuda_optimizer.cu": {
+    "sha256": "843185c951020bd4ecf8342c412a9300fa7728f0d8e4752a4becd643f47d31d7",
+    "bytes": 5633
+  },
+  "src/transform_field_cuda_regularization.cu": {
+    "sha256": "04eb822a7078b00633eb5e06b91e4313e311ca81b09abecc1b0a59c872e2ebcb",
+    "bytes": 6210
+  },
+  "improvements/selector/gumbel_network.h": {
+    "sha256": "e3dc465e163ff35bbd471606bd509808ca245de4ee36cdc44d2a3a2ae87b096b",
+    "bytes": 7685
+  },
+  "cfg/selector/fast.yaml": {
+    "sha256": "9ff314b4298a0afdd308af28914f59a3fd7f2ae787f367cca93219141ad69408",
+    "bytes": 5592
+  },
+  "cfg/selector/selector_config.yaml": {
+    "sha256": "efc88234ed7a7f489805fad8014951a4e85ba127eafe2b8b908d16c02bdf3ebc",
+    "bytes": 5552
+  }
+}

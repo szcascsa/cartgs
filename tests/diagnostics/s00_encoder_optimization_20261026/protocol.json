@@ -1,0 +1,70 @@
+{
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "source_run_sha256": "e63fd90be0f98a54618f789b6db6153ed03e2ef5ccdfcf6a075e8f6684c96d7b",
+  "runtime_sha256": "9ae25a86d702050c55db2255e6f6cc1f65b4cccd359341166f855f7bcb822025",
+  "renderer_binary": "/home/prmi/zwj/mycartgs/python/diff-gaussian-rasterization/diff_gaussian_rasterization/_C.cpython-311-x86_64-linux-gnu.so",
+  "renderer_sha256": "27b5b468cf385dd1c96aeabdd65426da38a938a38d52d8181b1b1da485090c86",
+  "configs": {
+    "shallow32": "OffsetInputShallow32Split4",
+    "deep32": "OffsetInputDeep32Split4",
+    "residual32": "OffsetInputResidual32Split4"
+  },
+  "jobs": [
+    [
+      "shallow32",
+      3100
+    ],
+    [
+      "deep32",
+      3100
+    ],
+    [
+      "residual32",
+      3100
+    ],
+    [
+      "residual32",
+      3101
+    ],
+    [
+      "deep32",
+      3101
+    ],
+    [
+      "shallow32",
+      3101
+    ]
+  ],
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "fixed_input": "raw globalXYZ3,activated Scale3,sigmoid Opacity1,Anchor-local Offset3,logratio1=11; no SHDC/Rotation/new normalization",
+  "reference": "current11->16ReLU->32ReLU->32ReLU output32, two locked final12000 checkpoints; original olderraw11/localOffset+SHDC baseline is system reference only, not Encoder-isolated comparison",
+  "shallow32": "11->32 ReLU, removes16 bottleneck and later depth;384 Encoder parameters",
+  "deep32": "11->32 ReLU->32 ReLU->32 ReLU,32 wide at every hidden layer;2496 Encoder parameters",
+  "residual32": "h=ReLU(Linear11->32(u)); output=ReLU(h+Linear32->32(ReLU(Linear32->32(h)))); final residual Linear weight/bias0;2496 Encoder parameters, initial hidden function exactshallow",
+  "initialization": "same common32 first-layer weights from previous8->32 Encoder extended with0 Offset columns; same Selector/Compensation/latent weights; deep hidden seeds+110/+120; residualinner seed+110 andoutput0; all initial p anddelta exact; current16 bottleneck hidden function not matched",
+  "unchanged": "Master,topology,Anchor association,cameras,eligibility,cacheduniform,ratio latent16 and interpolation,raw11 direct compensation,4Heads59->32->32->3/3/4/4,original14D transformations,Loss,Adam,frame/ratio schedule",
+  "loss": "original .8L1+.2(1-fast_ssim)+.01 relative expected-budget L1",
+  "optimizer": "fresh fused Adam lr=.001 eps1e-15,12000 common steps and3000 per ratio table, inactive table gradNone",
+  "selection": "original cached Bernoulli training; primary same-K rank logit(p)-logit(cacheduniform) floor(r*N) with eligibility cap; cached actualK reported separately",
+  "source": "frozen fr1xyz N6838/M2066,54 Bank train320x240,13 Bankholdout and45 reusednonBank640x480",
+  "evaluation": "preregistered3 variants x2 seeds, final12000 andall7 ratios,4 metrics, no nonBank-drivenLR/step/checkpoint selection or extraarchitecture search",
+  "limitations": "all six are explorations on previously reused evaluation trajectory,not newblindholdout; two initialization/frameorder seeds on one map; changes may alter sets,not fixed-selection Compensation causality; no equal-parameter claimvs16bottleneck",
+  "no_production_change": true,
+  "no_stage_commit_push": true
+}

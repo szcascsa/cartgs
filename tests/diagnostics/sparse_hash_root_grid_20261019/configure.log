@@ -1,0 +1,34 @@
+-- The CXX compiler identification is GNU 9.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++-9 - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found CUDA: /usr/local/cuda-11.8 (found version "11.8") 
+-- The CUDA compiler identification is NVIDIA 11.8.89
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/local/cuda-11.8/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Found CUDAToolkit: /usr/local/cuda-11.8/include (found version "11.8.89") 
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+-- Autodetected CUDA architecture(s):  8.6
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+-- Found Torch: /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libtorch.so  
+-- Configuring done (2.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/prmi/zwj/sparse-hash-root-grid-20261019/build

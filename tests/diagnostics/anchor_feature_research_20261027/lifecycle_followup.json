@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "scope": "isolated stable UID helper + post-remap Adam + checkpoint parameter/state restore; no production event integration",
+  "uid_order": [
+    27,
+    102,
+    91
+  ],
+  "clock_after_remap_step": 2,
+  "clock_after_restore_step": 3
+}

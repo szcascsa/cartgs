@@ -1,0 +1,13 @@
+{
+  "all_passed": true,
+  "frozen_sources_unchanged": true,
+  "reused_math_unchanged": true,
+  "preregistration_sha256": "09d4fc88476394a64e24cd4bd161a311299106bef6ee21bd824e0e1f07ae5a6a",
+  "optimizer_updates": 0,
+  "same_K": true,
+  "nested": true,
+  "deterministic": true,
+  "unique_rows": true,
+  "quality_cases": 16,
+  "view_renders": 624
+}

@@ -1,0 +1,30 @@
+{
+  "include/frozen_teacher_target_cache.h": {
+    "sha256": "cfe6fa7aeab11780c909835ab9493d73e596c5fd6f6314ba519f691fff51fc2d",
+    "normalized_sha256": "cfe6fa7aeab11780c909835ab9493d73e596c5fd6f6314ba519f691fff51fc2d"
+  },
+  "include/selector_cuda.h": {
+    "sha256": "4c711b9645582a480c0744f39134fe6bd35b9cdfca411c93d023b580fb73e790",
+    "normalized_sha256": "4c711b9645582a480c0744f39134fe6bd35b9cdfca411c93d023b580fb73e790"
+  },
+  "src/change_distill.cpp": {
+    "sha256": "e848e5722614fa6ce6acdf8aaaca14a3c3b448586df305c5e40fc56cdfbae87c",
+    "normalized_sha256": "e848e5722614fa6ce6acdf8aaaca14a3c3b448586df305c5e40fc56cdfbae87c"
+  },
+  "src/selector_cuda.cpp": {
+    "sha256": "1890228a4161c78c5140b46409a4082d2d04828e510f2391d6a12708caee57a0",
+    "normalized_sha256": "1890228a4161c78c5140b46409a4082d2d04828e510f2391d6a12708caee57a0"
+  },
+  "src/selector_cuda.cu": {
+    "sha256": "999c67b9a3103ed849b11f13e9168ac095e109917ef71233bd554e1f6efd1bd8",
+    "normalized_sha256": "999c67b9a3103ed849b11f13e9168ac095e109917ef71233bd554e1f6efd1bd8"
+  },
+  "improvements/selector/gumbel_network.h": {
+    "sha256": "7c2b67a1a21d8b6a2f695f21898c32e2575a30aef7796212a7887cd2dc871453",
+    "normalized_sha256": "7c2b67a1a21d8b6a2f695f21898c32e2575a30aef7796212a7887cd2dc871453"
+  },
+  "tests/frozen_teacher_target_cache_test.cpp": {
+    "sha256": "73be9465bb333e5d18777dc848bcf228ff2bbb3346c58d49adb3485a75e53ea7",
+    "normalized_sha256": "73be9465bb333e5d18777dc848bcf228ff2bbb3346c58d49adb3485a75e53ea7"
+  }
+}

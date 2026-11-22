@@ -1,0 +1,6 @@
+{
+  "field": "source",
+  "issue": "Copied descriptive text says four reference models; actual analysis uses two original Baseline references, seeds3100/3101.",
+  "actual_reference_models": 2,
+  "algorithm_or_training_changed": false
+}

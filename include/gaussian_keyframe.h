@@ -33,6 +33,7 @@
 #include "general_utils.h"
 #include "graphics_utils.h"
 #include "point2d.h"
+#include "resized_image_cache.h"
 #include "tensor_utils.h"
 #include "types.h"
 
@@ -53,8 +54,8 @@ class GaussianKeyframe {
 
   void setPose(const Eigen::Quaterniond& q, const Eigen::Vector3d& t);
 
-  Sophus::SE3d getPose();
-  Sophus::SE3f getPosef();
+  Sophus::SE3d getPose() const;
+  Sophus::SE3f getPosef() const;
 
   void setCameraParams(const Camera& camera);
 
@@ -91,6 +92,7 @@ class GaussianKeyframe {
   std::string img_filename_;
   cv::Mat img_undist_, img_auxiliary_undist_;
   torch::Tensor original_image_;  ///< image
+  ResizedImageCache resized_image_cache_;
   int image_width_;               ///< image
   int image_height_;              ///< image
 

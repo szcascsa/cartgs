@@ -1,0 +1,1259 @@
+Start testing: Oct 13 23:38 CST
+----------------------------------------------------------
+1/41 Testing: constrained_adam
+1/41 Test: constrained_adam
+Command: "/home/prmi/zwj/mycartgs/bin/constrained_adam_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"constrained_adam" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"constrained_adam" end time: Oct 13 23:38 CST
+"constrained_adam" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/41 Testing: gradient_constraint_solver
+2/41 Test: gradient_constraint_solver
+Command: "/home/prmi/zwj/mycartgs/bin/gradient_constraint_solver_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"gradient_constraint_solver" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"gradient_constraint_solver" end time: Oct 13 23:38 CST
+"gradient_constraint_solver" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/41 Testing: gradient_constraint_clock
+3/41 Test: gradient_constraint_clock
+Command: "/home/prmi/zwj/mycartgs/bin/gradient_constraint_clock_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"gradient_constraint_clock" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"gradient_constraint_clock" end time: Oct 13 23:38 CST
+"gradient_constraint_clock" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/41 Testing: conflict_replay
+4/41 Test: conflict_replay
+Command: "/home/prmi/zwj/mycartgs/bin/conflict_replay_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"conflict_replay" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"conflict_replay" end time: Oct 13 23:38 CST
+"conflict_replay" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/41 Testing: joint_replay_cuda
+5/41 Test: joint_replay_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/joint_replay_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"joint_replay_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+[Gaussian Mapper]CUDA available! Training on GPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/home/prmi/zwj/mycartgs/cfg/selector/fast.yaml"
+[UltrafastRotation CONFIG] ultra_light=0 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 16400
+[Gaussian Mapper]TransformField.backend = legacy
+[GlobalGI CONFIG] mode=streaming view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=1 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=1 fallback=1 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Gaussian Mapper] Transform Field initialized at mapping_iter 6000, current-position AABB initialized
+[Gaussian Mapper] Normal LOD Selector parameters attached to the shared Gaussian optimizer (group 6)
+[Gaussian Mapper] Normal LOD Transform Field parameters attached to the shared Gaussian optimizer (groups 7, 8)
+[ConflictReplay UPDATE] iter=6000 window=1 KF=7 ratio=0.0100 committed=1 loss(full/lod)=0.2762/0.3048 changed(GS/Selector/TF)=1/1/1 replay_full(MSE_x1e6 before/committed)=10013.9482/9987.3003 replay_lod(MSE_x1e6 before/committed)=10013.9482/9987.3003 counts(attempt/commit/skip)=1/1/0 pending=0 quality_renders=4 stage_host_ms(training/preview/quality)=10.7944/17.1170/5.3078 ms=36.4810
+[ConflictReplay SKIP] iter=6000 window=2 KF=7 committed=0 reason=nonfinite_full_loss ms=0.4292
+<end of output>
+Test time =   0.77 sec
+----------------------------------------------------------
+Test Passed.
+"joint_replay_cuda" end time: Oct 13 23:38 CST
+"joint_replay_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/41 Testing: joint_replay_tf_cuda
+6/41 Test: joint_replay_tf_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/joint_replay_test" "cuda"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"joint_replay_tf_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+[Gaussian Mapper]CUDA available! Training on GPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/home/prmi/zwj/mycartgs/cfg/selector/fast.yaml"
+[UltrafastRotation CONFIG] ultra_light=0 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 16400
+[Gaussian Mapper]TransformField.backend = legacy
+[GlobalGI CONFIG] mode=streaming view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=1 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=1 fallback=1 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Gaussian Mapper] Transform Field initialized at mapping_iter 6000, current-position AABB initialized
+[Gaussian Mapper] Normal LOD Selector parameters attached to the shared Gaussian optimizer (group 6)
+[Gaussian Mapper] Normal LOD Transform Field parameters attached to the shared Gaussian optimizer (groups 7, 8)
+[ConflictReplay UPDATE] iter=6000 window=1 KF=7 ratio=0.0100 committed=1 loss(full/lod)=0.2762/0.3048 changed(GS/Selector/TF)=1/1/1 replay_full(MSE_x1e6 before/committed)=10013.9482/9987.3003 replay_lod(MSE_x1e6 before/committed)=10013.9482/9987.3003 counts(attempt/commit/skip)=1/1/0 pending=0 quality_renders=4 stage_host_ms(training/preview/quality)=5.3149/16.9626/15.3691 ms=40.7042
+[ConflictReplay SKIP] iter=6000 window=2 KF=7 committed=0 reason=nonfinite_full_loss ms=0.4155
+<end of output>
+Test time =   0.71 sec
+----------------------------------------------------------
+Test Passed.
+"joint_replay_tf_cuda" end time: Oct 13 23:38 CST
+"joint_replay_tf_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/41 Testing: gradient_constraint
+7/41 Test: gradient_constraint
+Command: "/home/prmi/zwj/mycartgs/bin/gradient_constraint_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"gradient_constraint" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"gradient_constraint" end time: Oct 13 23:38 CST
+"gradient_constraint" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/41 Testing: historical_gradient_render
+8/41 Test: historical_gradient_render
+Command: "/home/prmi/zwj/mycartgs/bin/historical_gradient_render_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"historical_gradient_render" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.42 sec
+----------------------------------------------------------
+Test Passed.
+"historical_gradient_render" end time: Oct 13 23:38 CST
+"historical_gradient_render" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/41 Testing: historical_gradient_render_cuda
+9/41 Test: historical_gradient_render_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/historical_gradient_render_test" "--cuda"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"historical_gradient_render_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+[GradientCUDA] status=ACCEPT reason=raw_validated alpha=1.0000 ms=31.7271
+<end of output>
+Test time =   0.65 sec
+----------------------------------------------------------
+Test Passed.
+"historical_gradient_render_cuda" end time: Oct 13 23:38 CST
+"historical_gradient_render_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/41 Testing: online_gi_lifecycle
+10/41 Test: online_gi_lifecycle
+Command: "/home/prmi/zwj/mycartgs/bin/online_gi_lifecycle_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"online_gi_lifecycle" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.34 sec
+----------------------------------------------------------
+Test Passed.
+"online_gi_lifecycle" end time: Oct 13 23:38 CST
+"online_gi_lifecycle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/41 Testing: recent_window_importance
+11/41 Test: recent_window_importance
+Command: "/home/prmi/zwj/mycartgs/bin/recent_window_importance_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"recent_window_importance" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   2.13 sec
+----------------------------------------------------------
+Test Passed.
+"recent_window_importance" end time: Oct 13 23:38 CST
+"recent_window_importance" time elapsed: 00:00:02
+----------------------------------------------------------
+
+12/41 Testing: global_gi_bank
+12/41 Test: global_gi_bank
+Command: "/home/prmi/zwj/mycartgs/bin/global_gi_bank_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"global_gi_bank" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+Differential policy: 2000 changed/empty snapshots and 2000 unchanged snapshots passed
+GlobalGI bank: quota, greedy, strict replacement, Bottom-K, history and coverage tests passed
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"global_gi_bank" end time: Oct 13 23:38 CST
+"global_gi_bank" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/41 Testing: global_gi_snapshot_cache
+13/41 Test: global_gi_snapshot_cache
+Command: "/home/prmi/zwj/mycartgs/bin/global_gi_snapshot_cache_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"global_gi_snapshot_cache" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+PASS: initial/no-change/new/changed/bad/replaced/removed/batched/reset bank state
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"global_gi_snapshot_cache" end time: Oct 13 23:38 CST
+"global_gi_snapshot_cache" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/41 Testing: gi_association_state
+14/41 Test: gi_association_state
+Command: "/home/prmi/zwj/mycartgs/bin/gi_association_state_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"gi_association_state" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+First KF:0; Map init KF:0
+Creation of new map with id: 1
+Creation of new map with last KF id: 0
+Creation of new map with id: 2
+Creation of new map with last KF id: 0
+Creation of new map with id: 3
+Stored map with ID: 2
+Creation of new map with last KF id: 0
+Change to map with id: 2
+PASS: ORB mutations, bad/replace, culling/reset, nested transaction exclusion
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"gi_association_state" end time: Oct 13 23:38 CST
+"gi_association_state" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/41 Testing: global_gi
+15/41 Test: global_gi
+Command: "/home/prmi/zwj/mycartgs/bin/global_gi_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"global_gi" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"global_gi" end time: Oct 13 23:38 CST
+"global_gi" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/41 Testing: ultra_light_schedule
+16/41 Test: ultra_light_schedule
+Command: "/home/prmi/zwj/mycartgs/bin/ultra_light_schedule_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"ultra_light_schedule" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"ultra_light_schedule" end time: Oct 13 23:38 CST
+"ultra_light_schedule" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/41 Testing: tail_optimization_schedule
+17/41 Test: tail_optimization_schedule
+Command: "/home/prmi/zwj/mycartgs/bin/tail_optimization_schedule_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"tail_optimization_schedule" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"tail_optimization_schedule" end time: Oct 13 23:38 CST
+"tail_optimization_schedule" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/41 Testing: ultrafast_rotation
+18/41 Test: ultrafast_rotation
+Command: "/home/prmi/zwj/mycartgs/bin/ultrafast_rotation_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"ultrafast_rotation" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+PASS: ratio 0..11, counters, render counts, P95, online stop, cap, topology deadline
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ultrafast_rotation" end time: Oct 13 23:38 CST
+"ultrafast_rotation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/41 Testing: ultrafast_mapping_cuda
+19/41 Test: ultrafast_mapping_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/ultrafast_mapping_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"ultrafast_mapping_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+[Gaussian Mapper]CUDA available! Training on GPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-ultrafast-test-20935684249157347/selector_config.yaml"
+[UltrafastRotation CONFIG] ultra_light=1 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[UltrafastRotation CONFIG] ratios=0.01,0.05,0.10,0.15,Full stop_at_online_end=1 topology_full_only=1 tail_disabled=1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 16400
+[Gaussian Mapper]TransformField.backend = legacy
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=1 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=1 fallback=1 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[UltrafastRotation TF] event=first_initialized mapping_iteration=6000
+[Gaussian Mapper] Transform Field initialized at mapping_iter 6000, current-position AABB initialized
+[Gaussian Mapper] Normal LOD Selector parameters attached to the shared Gaussian optimizer (group 6)
+[Gaussian Mapper] Normal LOD Transform Field parameters attached to the shared Gaussian optimizer (groups 7, 8)
+[UltrafastRotation TF] event=first_applied_lod mapping_iteration=6001 normal_training_step=0
+[UltrafastRotation] normal_training_step=0 mapping_iteration=6001 phase=LOD_001 ratio=0.0100 keyframe_id=1 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=1 tf_optimizer_step=1 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=3 total_gaussians=3 post_topology_gaussians=3 loss=0.3048 training_ms=148.7043 render_ms=0.7700 cuda_elapsed_ms=148.7022
+[UltrafastRotation] normal_training_step=1 mapping_iteration=6002 phase=LOD_005 ratio=0.0500 keyframe_id=8 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=1 tf_optimizer_step=1 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.3035 training_ms=7.9841 render_ms=0.2130 cuda_elapsed_ms=7.9831
+[UltrafastRotation] normal_training_step=2 mapping_iteration=6003 phase=LOD_010 ratio=0.1000 keyframe_id=3 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=1 tf_optimizer_step=1 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.3019 training_ms=7.6932 render_ms=0.1935 cuda_elapsed_ms=7.6913
+[UltrafastRotation] normal_training_step=3 mapping_iteration=6004 phase=LOD_015 ratio=0.1500 keyframe_id=11 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=1 tf_optimizer_step=1 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.3002 training_ms=7.6544 render_ms=0.1956 cuda_elapsed_ms=7.6534
+[UltrafastRotation] normal_training_step=4 mapping_iteration=6005 phase=FULL ratio=1.0000 keyframe_id=2 is_lod_step=0 is_full_step=1 gaussian_optimizer_step=1 selector_optimizer_step=0 tf_optimizer_step=0 kfs_loss_updated=1 densify_stats_updated=1 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.2757 training_ms=20.5358 render_ms=0.2652 cuda_elapsed_ms=20.5343
+[UltrafastRotation] normal_training_step=5 mapping_iteration=6006 phase=LOD_001 ratio=0.0100 keyframe_id=2 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=1 tf_optimizer_step=1 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.3042 training_ms=8.0558 render_ms=0.2161 cuda_elapsed_ms=8.0538
+[UltrafastRotation] normal_training_step=6 mapping_iteration=6007 phase=LOD_005 ratio=0.0500 keyframe_id=1 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=1 tf_optimizer_step=1 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.3029 training_ms=7.7212 render_ms=0.2058 cuda_elapsed_ms=7.7210
+[UltrafastRotation] normal_training_step=7 mapping_iteration=6008 phase=LOD_010 ratio=0.1000 keyframe_id=8 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=1 tf_optimizer_step=1 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.3012 training_ms=7.6972 render_ms=0.2099 cuda_elapsed_ms=7.6964
+[UltrafastRotation] normal_training_step=8 mapping_iteration=6009 phase=LOD_015 ratio=0.1500 keyframe_id=3 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=1 tf_optimizer_step=1 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.2996 training_ms=7.7180 render_ms=0.2089 cuda_elapsed_ms=7.7169
+[UltrafastRotation] normal_training_step=9 mapping_iteration=6010 phase=FULL ratio=1.0000 keyframe_id=11 is_lod_step=0 is_full_step=1 gaussian_optimizer_step=1 selector_optimizer_step=0 tf_optimizer_step=0 kfs_loss_updated=1 densify_stats_updated=1 densify_triggered=1 prune_triggered=1 active_gaussians=3 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.2751 training_ms=8.1383 render_ms=0.2765 cuda_elapsed_ms=8.1377
+[UltrafastRotation] normal_training_step=10 mapping_iteration=6011 phase=LOD_001 ratio=0.0100 keyframe_id=2 is_lod_step=1 is_full_step=0 gaussian_optimizer_step=1 selector_optimizer_step=0 tf_optimizer_step=0 kfs_loss_updated=0 densify_stats_updated=0 densify_triggered=0 prune_triggered=0 active_gaussians=0 tf_transformed_gaussians=0 total_gaussians=3 post_topology_gaussians=3 loss=0.2782 training_ms=1.8605 render_ms=0.1014 cuda_elapsed_ms=1.8596
+[UltrafastRotation ONLINE_END] online_end_mapping_iteration=6011 online_end_rotation_step=11 tail_training_steps=0
+PASS: production KF independence, one branch, KF loss/EMA, topology statistics/decisions, G/S/TF updates, Full Adam freeze, TF readiness, empty LOD, no tail
+<end of output>
+Test time =   0.78 sec
+----------------------------------------------------------
+Test Passed.
+"ultrafast_mapping_cuda" end time: Oct 13 23:38 CST
+"ultrafast_mapping_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/41 Testing: ultrafast_eval
+20/41 Test: ultrafast_eval
+Command: "/home/prmi/anaconda3/envs/zwj/bin/python3.11" "/home/prmi/zwj/mycartgs/tests/ultrafast_eval_test.py"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"ultrafast_eval" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.010s
+
+OK
+LOD summary: /tmp/tmpmntejog2/evaluation/summary.json
+LOD summary CSV: /tmp/tmpmntejog2/evaluation/summary.csv
+LOD summary: /tmp/tmp9flrzhqb/evaluation/summary.json
+LOD summary CSV: /tmp/tmp9flrzhqb/evaluation/summary.csv
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"ultrafast_eval" end time: Oct 13 23:38 CST
+"ultrafast_eval" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/41 Testing: historical_outlier_selector
+21/41 Test: historical_outlier_selector
+Command: "/home/prmi/zwj/mycartgs/bin/historical_outlier_selector_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"historical_outlier_selector" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.35 sec
+----------------------------------------------------------
+Test Passed.
+"historical_outlier_selector" end time: Oct 13 23:38 CST
+"historical_outlier_selector" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/41 Testing: gaussian_model_lifecycle
+22/41 Test: gaussian_model_lifecycle
+Command: "/home/prmi/zwj/mycartgs/bin/gaussian_model_lifecycle_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"gaussian_model_lifecycle" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.64 sec
+----------------------------------------------------------
+Test Passed.
+"gaussian_model_lifecycle" end time: Oct 13 23:38 CST
+"gaussian_model_lifecycle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/41 Testing: transform_field
+23/41 Test: transform_field
+Command: "/home/prmi/zwj/mycartgs/bin/transform_field_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"transform_field" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"transform_field" end time: Oct 13 23:38 CST
+"transform_field" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/41 Testing: hexplane_resample
+24/41 Test: hexplane_resample
+Command: "/home/prmi/zwj/mycartgs/bin/hexplane_resample_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"hexplane_resample" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"hexplane_resample" end time: Oct 13 23:38 CST
+"hexplane_resample" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/41 Testing: change_distill
+25/41 Test: change_distill
+Command: "/home/prmi/zwj/mycartgs/bin/change_distill_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"change_distill" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=20 snapshot_count=6 corrected_groups=1 selector_scope=CORRECTED_MATURE tf_scope=NONE ratios=2 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=20 epochs=2 batch_size=1 ratios=2 selector_scope=CORRECTED_MATURE tf_scope=NONE
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/2 loss=0.0046 primary_loss=0.0046 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=2 audit_anchors=2
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/2 loss=0.0046 primary_loss=0.0022 anchor_loss=0.0024 delta_prev=-0.0001 trend=DOWN steps=2 count=2 audit_anchors=2
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/2 loss=0.0045 primary_loss=0.0008 anchor_loss=0.0037 delta_prev=-0.0001 trend=DOWN steps=2 count=2 audit_anchors=2
+[SELECTOR CD] event=1 count=2 anchors=2 pre=0.0046 post=0.0008 anchor_pre=0.0000 anchor_post=0.0037 steps=4 epochs=2 lr_micro=100.0000 time_ms=13.4602
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=4 tf_steps=0 skipped_outside=0
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE ratios=2 aabb_changed=1
+[CD BEGIN] event=1 type=FIELD_DOMAIN mapping_iter=1000 epochs=1 batch_size=2 ratios=2 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=0/1 loss=0.0036 position_loss=0.0036 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=4 skipped_outside=1
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=1/1 loss=0.0036 position_loss=0.0036 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=UP steps=2 count=4 skipped_outside=1
+[TF CD] event=1 count=4 skipped_outside=1 pre_xyz/log_scale/rotation=0.0036,0.0000,0.0000 post_xyz/log_scale/rotation=0.0036,0.0000,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0000,0.0000 steps=2 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=11.8593
+[CD END] event=1 type=FIELD_DOMAIN selector_steps=0 tf_steps=2 skipped_outside=1
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[ChangeCoordinator] event=1 type=GLOBAL_GEOMETRY|FIELD_DOMAIN flags=6 mapping_iter=1000 snapshot_count=6 corrected_groups=1 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0236 primary_loss=0.0236 anchor_loss=0.0000 delta_prev=-0.0014 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0236 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.5887
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=3.5622
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0236 primary_loss=0.0236 anchor_loss=0.0000 delta_prev=-0.0014 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0236 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.5219
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=3.5480
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0222 primary_loss=0.0222 anchor_loss=0.0000 delta_prev=-0.0028 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0222 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=200.0000 time_ms=1.5253
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=3.5375
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0236 primary_loss=0.0236 anchor_loss=0.0000 delta_prev=-0.0014 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0236 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.6572
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=32.0000 grid_lr_micro=160.0000 time_ms=3.5599
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0236 primary_loss=0.0236 anchor_loss=0.0000 delta_prev=-0.0014 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0236 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=1.5198
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=320.0000 time_ms=3.5465
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+<end of output>
+Test time =   0.48 sec
+----------------------------------------------------------
+Test Passed.
+"change_distill" end time: Oct 13 23:38 CST
+"change_distill" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/41 Testing: drift_stability
+26/41 Test: drift_stability
+Command: "/home/prmi/zwj/mycartgs/bin/drift_stability_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"drift_stability" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=0 reason=structural_change
+[HistoricalDistill HARD_RESET] iter=1 change_version=0 selector=0 tf=1 reason=initialized
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/0 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=2 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=2 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=2 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=2 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=2 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=2 module=SELECTOR outcome=IMPROVED psnr_gain=0.0964 worst_new_drop=0.0000 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=0
+[HistoricalDistill END] iter=2 gaussian_count=8 outcome(S/TF)=IMPROVED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=4.0000/40.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=14.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.0000/5.0000 bad_views(S/TF)=0/1 qualified(S/TF)=0/1 hits(S/TF)=1/1 action=TF reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=4.0000/40.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=14.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.0000/5.0000 bad_views(S/TF)=0/1 qualified(S/TF)=0/1 hits(S/TF)=1/1 action=TF reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill RESULT] iter=1 module=TF outcome=IMPROVED psnr_gain=0.0200 worst_new_drop=0.0000 worst_remaining_drop=4.9800 drift=0.0722->0.0719 rollback=0
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=SKIP/IMPROVED
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=IMPROVED psnr_gain=0.0964 worst_new_drop=0.0000 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=0
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=IMPROVED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=nan/nan mature_target=nan mature_actual(current/reference)=0/0
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=nan/nan mature_target=nan mature_actual(current/reference)=0/0
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/1 action=SKIP reason=budget_or_invalid_quality
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=nan/nan mature_target=nan mature_actual(current/reference)=0/0
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=nan/nan mature_target=nan mature_actual(current/reference)=0/0
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/1 action=SKIP reason=budget_or_invalid_quality
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=18.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=2.0000/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=18.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=2.0000/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=NO_PROGRESS psnr_gain=0.0000 worst_new_drop=0.0000 worst_remaining_drop=2.0000 drift=0.0987->0.0890 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=NO_PROGRESS/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=2 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=REJECTED psnr_gain=0.0964 worst_new_drop=3.9968 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=REJECTED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=20.0000/-20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SKIP reason=module_quality_gate
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7111 loss_type=soft_BCE delta_prev=-0.0019 steps=1 probability_l1=0.0939
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=REJECTED psnr_gain=0.0481 worst_new_drop=2.0000 worst_remaining_drop=0.9387 drift=0.0987->0.0939 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=REJECTED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=REJECTED psnr_gain=0.0964 worst_new_drop=0.0000 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=REJECTED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=15.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0000/0.0722 regression(S/TF)=0.0000/5.0000 bad_views(S/TF)=0/1 qualified(S/TF)=0/1 hits(S/TF)=0/1 action=TF reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=15.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0000/0.0722 regression(S/TF)=0.0000/5.0000 bad_views(S/TF)=0/1 qualified(S/TF)=0/1 hits(S/TF)=0/1 action=TF reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill RESULT] iter=1 module=TF outcome=IMPROVED psnr_gain=0.0200 worst_new_drop=0.0000 worst_remaining_drop=4.9800 drift=0.0722->0.0719 rollback=0
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=SKIP/IMPROVED
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/2 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0000/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=0/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0000/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=0/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=18.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=18.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=1.9869/1.0000 bad_views(S/TF)=1/1 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR+TF reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=18.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=18.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=1.9869/1.0000 bad_views(S/TF)=1/1 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR+TF reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=IMPROVED psnr_gain=1.0964 worst_new_drop=0.0000 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=0
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=19.1095/19.1095 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalDistill RECHECK] iter=1 ratio=0.1000 module=TF action=SKIP reason=quality_after_selector_update
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=19.1095/19.1095 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalDistill RECHECK] iter=1 ratio=0.1500 module=TF action=SKIP reason=quality_after_selector_update
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=IMPROVED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=2 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=14.0131/15.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=14.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.9869/5.0000 bad_views(S/TF)=1/1 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR+TF reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=14.0131/15.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=14.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.9869/5.0000 bad_views(S/TF)=1/1 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR+TF reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=IMPROVED psnr_gain=0.0964 worst_new_drop=0.0600 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=0
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=14.1095/19.1095 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=14.1095/19.1095 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill RESULT] iter=1 module=TF outcome=REJECTED psnr_gain=0.0200 worst_new_drop=0.0600 worst_remaining_drop=4.9800 drift=0.0722->0.0719 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=IMPROVED/REJECTED
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalDistill KEEP] iter=1 module=SELECTOR confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalDistill KEEP] iter=1 module=TF confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/2 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SKIP reason=module_quality_gate
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SKIP reason=module_quality_gate
+[HistoricalDistill EMA_UPDATE] iter=2 module=SELECTOR reason=budget_and_quality_validated
+[HistoricalDistill EMA_UPDATE] iter=2 module=TF reason=budget_and_quality_validated
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalDistill KEEP] iter=1 module=SELECTOR confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalDistill KEEP] iter=1 module=TF confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/2 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SKIP reason=module_quality_gate
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SKIP reason=module_quality_gate
+[HistoricalDistill KEEP] iter=2 module=SELECTOR reason=ema_candidate_quality_or_budget_failed
+[HistoricalDistill EMA_UPDATE] iter=2 module=TF reason=budget_and_quality_validated
+[HistoricalProbe BEGIN] iter=3 total_gaussians=8 views=1 ref_age(S/TF)=3/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=3 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=3/0 action=SKIP reason=module_quality_gate
+[HistoricalProbe QUALITY] iter=3 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=3/0 action=SKIP reason=module_quality_gate
+[HistoricalDistill EMA_UPDATE] iter=3 module=SELECTOR reason=budget_and_quality_validated
+[HistoricalDistill KEEP] iter=3 module=TF confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalDistill KEEP] iter=1 module=SELECTOR confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalDistill KEEP] iter=1 module=TF confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/2 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1000 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=4.0000/40.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=2/0 action=SKIP reason=budget_or_invalid_quality
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1500 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=4.0000/40.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=2/0 action=SKIP reason=budget_or_invalid_quality
+[HistoricalDistill REBASE_PENDING] iter=2 module=SELECTOR reason=budget_and_quality_validated
+[HistoricalDistill EMA_UPDATE] iter=2 module=TF reason=budget_and_quality_validated
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalDistill HARD_RESET] iter=2 change_version=1 selector=0 tf=1 reason=aabb_change
+[HistoricalProbe SKIP] iter=3 reason=structural_change_same_iteration
+[HistoricalDistill HARD_RESET] iter=4 change_version=2 selector=1 tf=1 reason=geometry_change
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalDistill HARD_RESET] iter=1001 change_version=0 selector=1 tf=1 reason=expired_pending_qualification
+[HistoricalProbe SKIP] iter=1001 reason=no_historical_visible_mature
+[HistoricalDistill HARD_RESET] iter=1001 change_version=1 selector=1 tf=1 reason=structural_change
+[HistoricalProbe SKIP] iter=1002 reason=structural_change_same_iteration
+<end of output>
+Test time =   0.74 sec
+----------------------------------------------------------
+Test Passed.
+"drift_stability" end time: Oct 13 23:38 CST
+"drift_stability" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/41 Testing: change_distill_tf_cuda
+27/41 Test: change_distill_tf_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/change_distill_tf_cuda_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"change_distill_tf_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=20 snapshot_count=6 corrected_groups=1 selector_scope=CORRECTED_MATURE tf_scope=NONE ratios=2 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=20 epochs=2 batch_size=1 ratios=2 selector_scope=CORRECTED_MATURE tf_scope=NONE
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/2 loss=0.0046 primary_loss=0.0046 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=2 audit_anchors=2
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/2 loss=0.0046 primary_loss=0.0022 anchor_loss=0.0024 delta_prev=-0.0001 trend=DOWN steps=2 count=2 audit_anchors=2
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/2 loss=0.0045 primary_loss=0.0008 anchor_loss=0.0037 delta_prev=-0.0001 trend=DOWN steps=2 count=2 audit_anchors=2
+[SELECTOR CD] event=1 count=2 anchors=2 pre=0.0046 post=0.0008 anchor_pre=0.0000 anchor_post=0.0037 steps=4 epochs=2 lr_micro=100.0000 time_ms=55.2393
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=4 tf_steps=0 skipped_outside=0
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE ratios=2 aabb_changed=1
+[CD BEGIN] event=1 type=FIELD_DOMAIN mapping_iter=1000 epochs=1 batch_size=2 ratios=2 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=0/1 loss=0.0036 position_loss=0.0036 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=4 skipped_outside=1
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=1/1 loss=0.0036 position_loss=0.0036 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=UP steps=2 count=4 skipped_outside=1
+[TF CD] event=1 count=4 skipped_outside=1 pre_xyz/log_scale/rotation=0.0036,0.0000,0.0000 post_xyz/log_scale/rotation=0.0036,0.0000,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0000,0.0000 steps=2 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=36.6071
+[CD END] event=1 type=FIELD_DOMAIN selector_steps=0 tf_steps=2 skipped_outside=1
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[ChangeCoordinator] event=1 type=GLOBAL_GEOMETRY|FIELD_DOMAIN flags=6 mapping_iter=1000 snapshot_count=6 corrected_groups=1 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=1000 snapshot_count=6 corrected_groups=0 selector_scope=NONE tf_scope=NONE ratios=0 aabb_changed=1
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0239 primary_loss=0.0239 anchor_loss=0.0000 delta_prev=-0.0010 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0239 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=3.5926
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=4.2998
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0239 primary_loss=0.0239 anchor_loss=0.0000 delta_prev=-0.0010 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0239 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=3.5653
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=4.2522
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0229 primary_loss=0.0229 anchor_loss=0.0000 delta_prev=-0.0020 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0229 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=200.0000 time_ms=3.5714
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=4.2974
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0239 primary_loss=0.0239 anchor_loss=0.0000 delta_prev=-0.0010 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0239 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=3.5738
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=32.0000 grid_lr_micro=160.0000 time_ms=4.2548
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+[CD BEGIN] event=0 type=NONE mapping_iter=0 epochs=1 batch_size=8192 ratios=1 selector_scope=ALL_SNAPSHOT_MATURE tf_scope=ALL_SNAPSHOT_MATURE
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0250 primary_loss=0.0250 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 audit_anchors=0
+[SELECTOR CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0239 primary_loss=0.0239 anchor_loss=0.0000 delta_prev=-0.0010 trend=DOWN steps=1 count=6 audit_anchors=0
+[SELECTOR CD] event=0 count=6 anchors=0 pre=0.0250 post=0.0239 anchor_pre=0.0000 anchor_post=0.0000 steps=1 epochs=1 lr_micro=100.0000 time_ms=3.5715
+[TF CD EPOCH] event=0 type=NONE epoch=0/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=6 skipped_outside=0
+[TF CD EPOCH] event=0 type=NONE epoch=1/1 loss=0.0144 position_loss=0.0144 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=1 count=6 skipped_outside=0
+[TF CD] event=0 count=6 skipped_outside=0 pre_xyz/log_scale/rotation=0.0144,0.0000,0.0000 post_xyz/log_scale/rotation=0.0144,0.0000,0.0000 untouched_pre=0.0144,0.0000,0.0000 untouched_post=0.0144,0.0000,0.0000 steps=1 mlp_lr_micro=16.0000 grid_lr_micro=320.0000 time_ms=4.3008
+[CD END] event=0 type=NONE selector_steps=1 tf_steps=1 skipped_outside=0
+<end of output>
+Test time =   0.89 sec
+----------------------------------------------------------
+Test Passed.
+"change_distill_tf_cuda" end time: Oct 13 23:38 CST
+"change_distill_tf_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/41 Testing: drift_stability_tf_cuda
+28/41 Test: drift_stability_tf_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/drift_stability_tf_cuda_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"drift_stability_tf_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=0 reason=structural_change
+[HistoricalDistill HARD_RESET] iter=1 change_version=0 selector=0 tf=1 reason=initialized
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/0 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=2 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=2 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=2 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=2 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=2 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=2 module=SELECTOR outcome=IMPROVED psnr_gain=0.0964 worst_new_drop=0.0000 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=0
+[HistoricalDistill END] iter=2 gaussian_count=8 outcome(S/TF)=IMPROVED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=4.0000/40.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=14.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.0000/5.0000 bad_views(S/TF)=0/1 qualified(S/TF)=0/1 hits(S/TF)=1/1 action=TF reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=4.0000/40.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=14.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.0000/5.0000 bad_views(S/TF)=0/1 qualified(S/TF)=0/1 hits(S/TF)=1/1 action=TF reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill RESULT] iter=1 module=TF outcome=IMPROVED psnr_gain=0.0200 worst_new_drop=0.0000 worst_remaining_drop=4.9800 drift=0.0722->0.0719 rollback=0
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=SKIP/IMPROVED
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=IMPROVED psnr_gain=0.0964 worst_new_drop=0.0000 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=0
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=IMPROVED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=nan/nan mature_target=nan mature_actual(current/reference)=0/0
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=nan/nan mature_target=nan mature_actual(current/reference)=0/0
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/1 action=SKIP reason=budget_or_invalid_quality
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=nan/nan mature_target=nan mature_actual(current/reference)=0/0
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=nan/nan mature_target=nan mature_actual(current/reference)=0/0
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/1 action=SKIP reason=budget_or_invalid_quality
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=18.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=2.0000/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=18.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=2.0000/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=NO_PROGRESS psnr_gain=0.0000 worst_new_drop=0.0000 worst_remaining_drop=2.0000 drift=0.0987->0.0890 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=NO_PROGRESS/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=2 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=REJECTED psnr_gain=0.0964 worst_new_drop=3.9968 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=REJECTED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=20.0000/-20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SKIP reason=module_quality_gate
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7111 loss_type=soft_BCE delta_prev=-0.0019 steps=1 probability_l1=0.0939
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=REJECTED psnr_gain=0.0481 worst_new_drop=2.0000 worst_remaining_drop=0.9387 drift=0.0987->0.0939 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=REJECTED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=19.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.9869/0.0000 bad_views(S/TF)=1/0 qualified(S/TF)=1/0 hits(S/TF)=1/0 action=SELECTOR reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=REJECTED psnr_gain=0.0964 worst_new_drop=0.0000 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=REJECTED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=15.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0000/0.0722 regression(S/TF)=0.0000/5.0000 bad_views(S/TF)=0/1 qualified(S/TF)=0/1 hits(S/TF)=0/1 action=TF reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=15.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0000/0.0722 regression(S/TF)=0.0000/5.0000 bad_views(S/TF)=0/1 qualified(S/TF)=0/1 hits(S/TF)=0/1 action=TF reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill RESULT] iter=1 module=TF outcome=IMPROVED psnr_gain=0.0200 worst_new_drop=0.0000 worst_remaining_drop=4.9800 drift=0.0722->0.0719 rollback=0
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=SKIP/IMPROVED
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/2 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0000/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=0/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0000/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=0/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=18.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=18.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=1.9869/1.0000 bad_views(S/TF)=1/1 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR+TF reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=18.0131/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=18.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=1.9869/1.0000 bad_views(S/TF)=1/1 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR+TF reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=IMPROVED psnr_gain=1.0964 worst_new_drop=0.0000 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=0
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=19.1095/19.1095 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalDistill RECHECK] iter=1 ratio=0.1000 module=TF action=SKIP reason=quality_after_selector_update
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=19.1095/19.1095 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalDistill RECHECK] iter=1 ratio=0.1500 module=TF action=SKIP reason=quality_after_selector_update
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=IMPROVED/SKIP
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=2 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=14.0131/15.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=14.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.9869/5.0000 bad_views(S/TF)=1/1 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR+TF reason=module_quality_advantage
+[HistoricalProbe QUALITY] iter=1 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=14.0131/15.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=14.0131/19.0131 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0722 regression(S/TF)=0.9869/5.0000 bad_views(S/TF)=1/1 qualified(S/TF)=1/1 hits(S/TF)=1/1 action=SELECTOR+TF reason=module_quality_advantage
+[HistoricalDistill BEGIN] iter=1 epochs=1 batch_size=8
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.7130 loss_type=soft_BCE delta_prev=0.0000 steps=0 probability_l1=0.0987
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill SELECTOR] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.7093 loss_type=soft_BCE delta_prev=-0.0038 steps=1 probability_l1=0.0890
+[HistoricalDistill RESULT] iter=1 module=SELECTOR outcome=IMPROVED psnr_gain=0.0964 worst_new_drop=0.0600 worst_remaining_drop=0.8905 drift=0.0987->0.0890 rollback=0
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1000 qualified=1 psnr(current/reference)=14.1095/19.1095 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe QUALITY] iter=1 module=TF ratio=0.1500 qualified=1 psnr(current/reference)=14.1095/19.1095 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=0/1 count=8 loss=0.0722 loss_type=TF delta_prev=0.0000 steps=0 xyz/scale/rotation=0.0722/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1000 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill TF] iter=1 ratio=0.1500 epoch=1/1 count=8 loss=0.0719 loss_type=TF delta_prev=-0.0003 steps=1 xyz/scale/rotation=0.0719/0.0000/0.0000
+[HistoricalDistill RESULT] iter=1 module=TF outcome=REJECTED psnr_gain=0.0200 worst_new_drop=0.0600 worst_remaining_drop=4.9800 drift=0.0722->0.0719 rollback=1
+[HistoricalDistill END] iter=1 gaussian_count=8 outcome(S/TF)=IMPROVED/REJECTED
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalDistill KEEP] iter=1 module=SELECTOR confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalDistill KEEP] iter=1 module=TF confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/2 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SKIP reason=module_quality_gate
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SKIP reason=module_quality_gate
+[HistoricalDistill EMA_UPDATE] iter=2 module=SELECTOR reason=budget_and_quality_validated
+[HistoricalDistill EMA_UPDATE] iter=2 module=TF reason=budget_and_quality_validated
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalDistill KEEP] iter=1 module=SELECTOR confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalDistill KEEP] iter=1 module=TF confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/2 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SKIP reason=module_quality_gate
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=2/0 action=SKIP reason=module_quality_gate
+[HistoricalDistill KEEP] iter=2 module=SELECTOR reason=ema_candidate_quality_or_budget_failed
+[HistoricalDistill EMA_UPDATE] iter=2 module=TF reason=budget_and_quality_validated
+[HistoricalProbe BEGIN] iter=3 total_gaussians=8 views=1 ref_age(S/TF)=3/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=3 module=SELECTOR ratio=0.1000 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=3/0 action=SKIP reason=module_quality_gate
+[HistoricalProbe QUALITY] iter=3 module=SELECTOR ratio=0.1500 qualified=1 psnr(current/reference)=20.0000/20.0000 mature_expected(current/reference)=4.0000/4.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=1/0 hits(S/TF)=3/0 action=SKIP reason=module_quality_gate
+[HistoricalDistill EMA_UPDATE] iter=3 module=SELECTOR reason=budget_and_quality_validated
+[HistoricalDistill KEEP] iter=3 module=TF confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalProbe BEGIN] iter=1 total_gaussians=8 views=1 ref_age(S/TF)=1/1 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=1/0 action=SKIP reason=function_or_consecutive_gate
+[HistoricalDistill KEEP] iter=1 module=SELECTOR confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalDistill KEEP] iter=1 module=TF confirmations=1 reason=quality_or_budget_confirmation
+[HistoricalProbe BEGIN] iter=2 total_gaussians=8 views=1 ref_age(S/TF)=2/2 quality_rule=shared_uniform_hard_selection
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1000 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=4.0000/40.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1000 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=2/0 action=SKIP reason=budget_or_invalid_quality
+[HistoricalProbe QUALITY] iter=2 module=SELECTOR ratio=0.1500 qualified=0 psnr(current/reference)=UNQUALIFIED mature_expected(current/reference)=4.0000/40.0000 mature_target=4.0000 mature_actual(current/reference)=4/4
+[HistoricalProbe] ratio=0.1500 drift(S/TF)=0.0987/0.0000 regression(S/TF)=0.0000/0.0000 bad_views(S/TF)=0/0 qualified(S/TF)=0/0 hits(S/TF)=2/0 action=SKIP reason=budget_or_invalid_quality
+[HistoricalDistill REBASE_PENDING] iter=2 module=SELECTOR reason=budget_and_quality_validated
+[HistoricalDistill EMA_UPDATE] iter=2 module=TF reason=budget_and_quality_validated
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalDistill HARD_RESET] iter=2 change_version=1 selector=0 tf=1 reason=aabb_change
+[HistoricalProbe SKIP] iter=3 reason=structural_change_same_iteration
+[HistoricalDistill HARD_RESET] iter=4 change_version=2 selector=1 tf=1 reason=geometry_change
+[HistoricalDistill HARD_RESET] iter=0 change_version=0 selector=1 tf=1 reason=structural_change
+[HistoricalDistill HARD_RESET] iter=1001 change_version=0 selector=1 tf=1 reason=expired_pending_qualification
+[HistoricalProbe SKIP] iter=1001 reason=no_historical_visible_mature
+[HistoricalDistill HARD_RESET] iter=1001 change_version=1 selector=1 tf=1 reason=structural_change
+[HistoricalProbe SKIP] iter=1002 reason=structural_change_same_iteration
+<end of output>
+Test time =   1.36 sec
+----------------------------------------------------------
+Test Passed.
+"drift_stability_tf_cuda" end time: Oct 13 23:38 CST
+"drift_stability_tf_cuda" time elapsed: 00:00:01
+----------------------------------------------------------
+
+29/41 Testing: gi_teacher
+29/41 Test: gi_teacher
+Command: "/home/prmi/zwj/mycartgs/bin/gi_teacher_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"gi_teacher" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"gi_teacher" end time: Oct 13 23:38 CST
+"gi_teacher" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/41 Testing: performance_primitives
+30/41 Test: performance_primitives
+Command: "/home/prmi/zwj/mycartgs/bin/performance_primitives_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"performance_primitives" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"performance_primitives" end time: Oct 13 23:38 CST
+"performance_primitives" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/41 Testing: mapping_profiler
+31/41 Test: mapping_profiler
+Command: "/home/prmi/zwj/mycartgs/bin/mapping_profiler_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"mapping_profiler" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.34 sec
+----------------------------------------------------------
+Test Passed.
+"mapping_profiler" end time: Oct 13 23:38 CST
+"mapping_profiler" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/41 Testing: renderer_readonly_cuda
+32/41 Test: renderer_readonly_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/renderer_readonly_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"renderer_readonly_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.60 sec
+----------------------------------------------------------
+Test Passed.
+"renderer_readonly_cuda" end time: Oct 13 23:38 CST
+"renderer_readonly_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/41 Testing: frozen_teacher_target_cache
+33/41 Test: frozen_teacher_target_cache
+Command: "/home/prmi/zwj/mycartgs/bin/frozen_teacher_target_cache_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"frozen_teacher_target_cache" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"frozen_teacher_target_cache" end time: Oct 13 23:38 CST
+"frozen_teacher_target_cache" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/41 Testing: historical_probe_cache
+34/41 Test: historical_probe_cache
+Command: "/home/prmi/zwj/mycartgs/bin/historical_probe_cache_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"historical_probe_cache" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.35 sec
+----------------------------------------------------------
+Test Passed.
+"historical_probe_cache" end time: Oct 13 23:38 CST
+"historical_probe_cache" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/41 Testing: elastic_budget_allocation
+35/41 Test: elastic_budget_allocation
+Command: "/home/prmi/zwj/mycartgs/bin/elastic_budget_allocation_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"elastic_budget_allocation" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"elastic_budget_allocation" end time: Oct 13 23:38 CST
+"elastic_budget_allocation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/41 Testing: elastic_budget_cuda
+36/41 Test: elastic_budget_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/elastic_budget_test" "--cuda"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"elastic_budget_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+PASS dynamic-demand/weighted/nesting/actual-quota/low-ratio/gradient/edges/topology
+<end of output>
+Test time =   0.58 sec
+----------------------------------------------------------
+Test Passed.
+"elastic_budget_cuda" end time: Oct 13 23:38 CST
+"elastic_budget_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/41 Testing: gaussian_protection
+37/41 Test: gaussian_protection
+Command: "/home/prmi/zwj/mycartgs/bin/gaussian_protection_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"gaussian_protection" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+PASS repeat/distinct/maturity/stale/recovery/GI/topology/inheritance/cancel/int64
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"gaussian_protection" end time: Oct 13 23:38 CST
+"gaussian_protection" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/41 Testing: gaussian_protection_cuda
+38/41 Test: gaussian_protection_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/gaussian_protection_test" "--cuda"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"gaussian_protection_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+PASS repeat/distinct/maturity/stale/recovery/GI/topology/inheritance/cancel/int64
+<end of output>
+Test time =   0.54 sec
+----------------------------------------------------------
+Test Passed.
+"gaussian_protection_cuda" end time: Oct 13 23:38 CST
+"gaussian_protection_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/41 Testing: elastic_budget
+39/41 Test: elastic_budget
+Command: "/home/prmi/zwj/mycartgs/bin/elastic_budget_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"elastic_budget" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+PASS dynamic-demand/weighted/nesting/actual-quota/low-ratio/gradient/edges/topology
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"elastic_budget" end time: Oct 13 23:38 CST
+"elastic_budget" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/41 Testing: compact_lod
+40/41 Test: compact_lod
+Command: "/home/prmi/zwj/mycartgs/bin/compact_lod_test"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"compact_lod" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"compact_lod" end time: Oct 13 23:38 CST
+"compact_lod" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/41 Testing: compact_lod_cuda
+41/41 Test: compact_lod_cuda
+Command: "/home/prmi/zwj/mycartgs/bin/compact_lod_test" "--cuda"
+Directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+"compact_lod_cuda" start time: Oct 13 23:38 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.92 sec
+----------------------------------------------------------
+Test Passed.
+"compact_lod_cuda" end time: Oct 13 23:38 CST
+"compact_lod_cuda" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 13 23:38 CST

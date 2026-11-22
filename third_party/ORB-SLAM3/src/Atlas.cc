@@ -36,6 +36,7 @@ Atlas::Atlas(int initKFid) : mnLastInitKFidMap(initKFid), mHasViewer(false) {
 }
 
 Atlas::~Atlas() {
+  GIAssociationState::Write gi_write;
   for (std::set<Map*>::iterator it = mspMaps.begin(), end = mspMaps.end();
        it != end;) {
     Map* pMi = *it;
@@ -50,8 +51,10 @@ Atlas::~Atlas() {
   }
 }
 
-void Atlas::CreateNewMap() {
+void Atlas::CreateNewMap(bool only_if_missing) {
+  GIAssociationState::Write gi_write;
   unique_lock<mutex> lock(mMutexAtlas);
+  if (only_if_missing && mpCurrentMap) return;
   cout << "Creation of new map with id: " << Map::nNextId << endl;
   if (mpCurrentMap) {
     if (!mspMaps.empty() && mnLastInitKFidMap < mpCurrentMap->GetMaxKFid())
@@ -69,6 +72,7 @@ void Atlas::CreateNewMap() {
 }
 
 void Atlas::ChangeMap(Map* pMap) {
+  GIAssociationState::Write gi_write;
   unique_lock<mutex> lock(mMutexAtlas);
   cout << "Change to map with id: " << pMap->GetId() << endl;
   if (mpCurrentMap) {
@@ -200,11 +204,13 @@ int Atlas::CountMaps() {
 }
 
 void Atlas::clearMap() {
+  GIAssociationState::Write gi_write;
   unique_lock<mutex> lock(mMutexAtlas);
   mpCurrentMap->clear();
 }
 
 void Atlas::clearAtlas() {
+  GIAssociationState::Write gi_write;
   unique_lock<mutex> lock(mMutexAtlas);
   /*for(std::set<Map*>::iterator it=mspMaps.begin(), send=mspMaps.end();
   it!=send; it++)
@@ -218,14 +224,25 @@ void Atlas::clearAtlas() {
 }
 
 Map* Atlas::GetCurrentMap() {
-  unique_lock<mutex> lock(mMutexAtlas);
-  if (!mpCurrentMap) CreateNewMap();
-  while (mpCurrentMap->IsBad()) usleep(3000);
+  for (;;) {
+    unique_lock<mutex> lock(mMutexAtlas);
+    if (mpCurrentMap && !mpCurrentMap->IsBad()) return mpCurrentMap;
+    const bool missing = !mpCurrentMap;
+    lock.unlock();
+    // Never call a writer or wait for ChangeMap while holding the Atlas lock.
+    if (missing) CreateNewMap(true);
+    else usleep(3000);
+  }
+}
 
-  return mpCurrentMap;
+Map* Atlas::GetCurrentMapForGI() {
+  GIAssociationState::assertReading();
+  unique_lock<mutex> lock(mMutexAtlas);
+  return mpCurrentMap && !mpCurrentMap->IsBad() ? mpCurrentMap : nullptr;
 }
 
 void Atlas::SetMapBad(Map* pMap) {
+  GIAssociationState::Write gi_write;
   mspMaps.erase(pMap);
   pMap->SetBad();
 
@@ -262,6 +279,7 @@ bool Atlas::isImuInitialized() {
 }
 
 void Atlas::PreSave() {
+  GIAssociationState::Write gi_write;
   if (mpCurrentMap) {
     if (!mspMaps.empty() && mnLastInitKFidMap < mpCurrentMap->GetMaxKFid())
       mnLastInitKFidMap = mpCurrentMap->GetMaxKFid() +
@@ -291,6 +309,7 @@ void Atlas::PreSave() {
 }
 
 void Atlas::PostLoad() {
+  GIAssociationState::Write gi_write;
   map<unsigned int, GeometricCamera*> mpCams;
   for (GeometricCamera* pCam : mvpCameras) {
     mpCams[pCam->GetId()] = pCam;

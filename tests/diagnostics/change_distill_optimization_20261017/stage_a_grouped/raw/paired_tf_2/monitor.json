@@ -1,0 +1,92 @@
+[
+  {
+    "time": 1792260272.5602376,
+    "own_pid": 1094973,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792260272.8265474,
+    "own_pid": 1094973,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792260273.0879529,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260273.3501956,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260273.6123028,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260273.8903308,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260274.1515641,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260274.4128346,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260274.6741564,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260274.954694,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260275.2580462,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260275.5193398,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260275.7809153,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260276.0420957,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260276.30371,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260276.564916,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260276.846309,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_native"
+  },
+  {
+    "time": 1792260277.10785,
+    "own_pid": 1094973,
+    "gpu_processes": "1094973, [No data]"
+  }
+]

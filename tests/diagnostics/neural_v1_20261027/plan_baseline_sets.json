@@ -1,0 +1,29 @@
+{
+  "frozen_before_nonbank": true,
+  "registered_utc": "2026-10-27T02:15:25.115985+00:00",
+  "design": "all registered comparisons retained; final12000; Bank-only decisions",
+  "primary": "same_k",
+  "scene": "fr1_xyz",
+  "source_seed": 3100,
+  "source_family": "Baseline59",
+  "models": [
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/baseline_sets/fr1_xyz/Reference59TrainEncoder/5100"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/baseline_sets/fr1_xyz/SpatialFiLM/5100"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/baseline_sets/fr1_xyz/SpatialOutputKnots/5100"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/baseline_sets/fr1_xyz/Reference59TrainEncoder/5101"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/baseline_sets/fr1_xyz/SpatialFiLM/5101"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/baseline_sets/fr1_xyz/SpatialOutputKnots/5101"
+    }
+  ]
+}

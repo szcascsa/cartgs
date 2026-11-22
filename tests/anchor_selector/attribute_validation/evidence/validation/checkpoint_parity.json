@@ -1,0 +1,26 @@
+[
+  {
+    "ratio": 0.01,
+    "max_probability_error": 6.984919309616089e-09,
+    "mask_exact": true,
+    "active": 245
+  },
+  {
+    "ratio": 0.05,
+    "max_probability_error": 1.1920928955078125e-07,
+    "mask_exact": true,
+    "active": 1256
+  },
+  {
+    "ratio": 0.1,
+    "max_probability_error": 1.1920928955078125e-07,
+    "mask_exact": true,
+    "active": 2527
+  },
+  {
+    "ratio": 0.15,
+    "max_probability_error": 1.7881393432617188e-07,
+    "mask_exact": true,
+    "active": 3683
+  }
+]

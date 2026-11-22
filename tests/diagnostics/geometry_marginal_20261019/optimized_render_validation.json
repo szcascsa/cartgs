@@ -1,0 +1,11 @@
+{
+  "all_passed": true,
+  "per_view_cases": 644,
+  "max_abs_difference": {
+    "photo": 0.0,
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0
+  },
+  "original_renderer_libraries": true
+}

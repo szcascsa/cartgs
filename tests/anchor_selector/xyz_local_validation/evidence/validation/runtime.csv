@@ -1,0 +1,9 @@
+arm,seed,wall_seconds,gpu_peak_file,full_renders,lod_renders,online_end_mapping,tail_steps,native_forward_ms,python_forward_ms,feature_count,feature_bytes,feature_plus_one_adam_moments_bytes,layout_buffer_bytes,forward_temporary_peak_bytes,refinement_calls,split_count,refinement_host_total_ms,refinement_host_p95_ms
+fixed,2026,68.93199535831809,"Peak reserved (MB): 706
+Peak allocated (MB): 539.816",4739,8685,6576,3424,0.214487695,0.35007999420166014,1321,84544,253632,254832,18587648,0,0,0,0
+adaptive,2026,70.47088948637247,"Peak reserved (MB): 736
+Peak allocated (MB): 560.628",4844,8711,6445,3555,0.25549414,0.3629158401489258,2914,186496,559488,363082,19671040,82,156,224.83864600000007,4.5457715
+fixed,2027,68.72874074801803,"Peak reserved (MB): 686
+Peak allocated (MB): 536.52",4752,8688,6560,3440,0.22824282,0.3420159912109375,1223,78272,234816,245456,17362944,0,0,0,0
+adaptive,2027,69.51677406579256,"Peak reserved (MB): 702
+Peak allocated (MB): 554.28",4806,8702,6492,3508,0.22061291,0.34206207275390627,2964,189696,569088,332132,16564224,80,139,198.87704300000001,3.9985949999999995

@@ -1,0 +1,9 @@
+{
+  "source": "/home/prmi/zwj/autonomous-compensation-20261027/results/B_fr2/fr2_xyz/R3/4100/formal_raw",
+  "source_seed": 4100,
+  "source_family": "R3",
+  "set_sha256": "c9afdf57b414a091aff85a99e05f07d09b2250b703f6b9abed7682cc0863b478",
+  "compensation_sha256": "c428d16308a78989545629e6bdb043dcf6090ae1382f2e966d123be2a9db38eb",
+  "frozen": "Master/Anchor/Encoder/Selector/selection identities/poses/eligibility/uniform",
+  "teacher_usage": "reference only unless explicit teacher config; never a candidate parameter"
+}

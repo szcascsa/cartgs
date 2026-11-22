@@ -1,0 +1,108 @@
+diff --git a/include/selector_cuda.h b/include/selector_cuda.h
+index 0720e46..a3faaa8 100644
+--- a/include/selector_cuda.h
++++ b/include/selector_cuda.h
+@@ -9,7 +9,7 @@ namespace selector_cuda {
+ enum class Candidate : int64_t { Cublas = 0, Warp = 1, CublasStrict = 2 };
+ enum class BackwardStrategy : int64_t {
+   Current = 0, FusedActivation = 1, BatchedWeight = 2, FusedBias = 3, GroupedBranch = 4,
+-  DirectFinal = 5, DirectFinalRelu = 6
++  DirectFinal = 5, DirectFinalRelu = 6, SpatialInput = 9
+ };
+ 
+ // Input order: XYZ, activated quaternion, activated scale, ratio ([1,1] or [M,1]).
+diff --git a/src/selector_cuda.cu b/src/selector_cuda.cu
+index 44a738f..43910a9 100644
+--- a/src/selector_cuda.cu
++++ b/src/selector_cuda.cu
+@@ -232,6 +232,53 @@ torch::Tensor linearVjp(const torch::Tensor& x,const torch::Tensor& w,const torc
+   } else dw.zero_();
+   return dx;
+ }
++struct SpatialArgs {
++  float *grad[3],*output[3];
++  const float *activation[3],*weight[3];
++};
++__global__ void spatialInputVjp(SpatialArgs a,int n) {
++  // 24 points x 10 output components occupy 240/256 lanes. Transposed,
++  // padded shared storage avoids bank conflicts during ordered dot products.
++  constexpr int points=24,stride=points*3+1;
++  __shared__ float tile[32*stride];
++  int base=blockIdx.x*points;
++  for(int i=threadIdx.x;i<points*32;i+=blockDim.x) {
++    int point=i/32,k=i%32,row=base+point;
++    if(row<n)for(int b=0;b<3;++b) {
++      float value=a.activation[b][row*32+k]<=0?0:a.grad[b][row*32+k];
++      a.grad[b][row*32+k]=value;tile[k*stride+point*3+b]=value;
++    }
++  }
++  __syncthreads();
++  int point=threadIdx.x/10,component=threadIdx.x%10,row=base+point;
++  if(point<points && row<n) {
++    int branch=component<3?0:(component<7?1:2),dim=branch==1?4:3;
++    int column=component-(branch==0?0:branch==1?3:7);
++    const float* weight=a.weight[branch]+column;
++    float sum=0;
++    #pragma unroll
++    for(int k=0;k<32;++k)sum=fmaf(tile[k*stride+point*3+branch],weight[k*dim],sum);
++    a.output[branch][row*dim+column]=sum;
++  }
++}
++void combinedSpatial(const std::vector<torch::Tensor>& x,const std::vector<torch::Tensor>& p,
++    const std::vector<torch::Tensor>& h,std::vector<torch::Tensor>& grads,
++    std::vector<torch::Tensor>& result,bool strict) {
++  int n=x[0].size(0);SpatialArgs args{};
++  for(int b=0;b<3;++b) {
++    result[b]=torch::empty_like(x[b]);args.grad[b]=grads[b].data_ptr<float>();
++    args.output[b]=result[b].data_ptr<float>();args.activation[b]=h[b*2].data_ptr<float>();
++    args.weight[b]=p[b*4].data_ptr<float>();
++  }
++  if(n)spatialInputVjp<<<(n+23)/24,256,0,stream()>>>(args,n);
++  for(int b=0;b<3;++b) {
++    result[4+b*4+1]=biasGradient(grads[b],strict);result[4+b*4]=torch::empty_like(p[b*4]);
++    if(n)gemm('n','t',x[b].size(1),32,n,1.f,x[b].data_ptr<float>(),x[b].size(1),
++        grads[b].data_ptr<float>(),32,0.f,result[4+b*4].data_ptr<float>(),x[b].size(1));
++    else result[4+b*4].zero_();
++  }
++  grads.clear();
++}
+ }  // namespace
+ 
+ std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,
+@@ -290,7 +337,7 @@ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+   std::vector<torch::Tensor> result(22);
+   auto dw=torch::empty_like(p[16]);result[20]=dw;result[21]=biasGradient(dy,strict);
+   torch::Tensor full_dx;
+-  const bool routed=strategy==BackwardStrategy::DirectFinal || strategy==BackwardStrategy::DirectFinalRelu;
++  const bool routed=strategy==BackwardStrategy::DirectFinal || strategy==BackwardStrategy::DirectFinalRelu || strategy==BackwardStrategy::SpatialInput;
+   if(strict) {
+     if(!routed)full_dx=torch::empty({n,128},dy.options());
+     if(n) {
+@@ -321,8 +368,10 @@ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     batchedGemm('n','t',3,32,n,xx,3,dd,32,ww,3);
+     gemm('n','t',4,32,n,1.f,x[1].data_ptr<float>(),4,d1[1].data_ptr<float>(),32,0.f,dw1[1].data_ptr<float>(),4);
+   }
++  std::vector<torch::Tensor> pending;
+   for(int b=0;b<4;++b) {
+     if(grouped && b<3)continue;
++    if(b==3 && strategy==BackwardStrategy::SpatialInput)combinedSpatial(x,p,h,pending,result,strict);
+     auto feature=h[b*2+1],dx=torch::empty({n,32},dy.options());
+     if(!strict && feature.size(0)==1 && n!=1) {
+       auto expanded=torch::empty({n,32},dy.options());
+@@ -333,7 +382,7 @@ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     const bool fused=strict && strategy!=BackwardStrategy::Current && strategy!=BackwardStrategy::DirectFinal;
+     if(strict) {
+       if(routed) {
+-        if(n && strategy==BackwardStrategy::DirectFinalRelu)
++        if(n && strategy!=BackwardStrategy::DirectFinal)
+           directFinal<true><<<(n*32+255)/256,256,0,stream()>>>(dy.data_ptr<float>(),p[16].data_ptr<float>(),dx.data_ptr<float>(),h[b*2+1].data_ptr<float>(),n,b*32,h[b*2+1].size(0)==1?0:h[b*2+1].stride(0));
+         else if(n)directFinal<false><<<(n*32+255)/256,256,0,stream()>>>(dy.data_ptr<float>(),p[16].data_ptr<float>(),dx.data_ptr<float>(),nullptr,n,b*32,0);
+       } else if(strategy==BackwardStrategy::FusedBias && !(b==3 && inputs[3].size(0)==1 && n!=1))
+@@ -350,6 +399,7 @@ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     int rows=dx.size(0);
+     if(rows && !fused)reluVjp<<<(rows*32+255)/256,256,0,stream()>>>(dx.data_ptr<float>(),h[b*2+1].data_ptr<float>(),rows*32,h[b*2+1].stride(0));
+     auto dh=linearVjp(h[b*2],p[b*4+2],dx,result[4+b*4+2],result[4+b*4+3],strict,db2);
++    if(strategy==BackwardStrategy::SpatialInput && b<3){pending.push_back(dh);continue;}
+     if(strategy==BackwardStrategy::FusedBias)db1=maskedBias(dh,dh,h[b*2],0);
+     else if(rows)reluVjp<<<(rows*32+255)/256,256,0,stream()>>>(dh.data_ptr<float>(),h[b*2].data_ptr<float>(),rows*32);
+     result[b]=linearVjp(x[b],p[b*4],dh,result[4+b*4],result[4+b*4+1],strict,db1);

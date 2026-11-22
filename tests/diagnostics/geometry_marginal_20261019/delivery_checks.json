@@ -1,0 +1,10 @@
+{
+  "all_passed": true,
+  "source_sync_exact": true,
+  "offline_exact": true,
+  "shadow_exact": true,
+  "models": 8,
+  "quality_cases": 40,
+  "all_required_reports": true,
+  "default_raw_preserved": true
+}

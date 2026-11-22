@@ -1,0 +1,65 @@
+
+member build/libtf_cuda.a:transform_field_cuda.cpp.o:
+
+member build/libtf_cuda.a:transform_field_cuda.cu.o:
+
+Fatbin elf code:
+================
+arch = sm_86
+code version = [1,7]
+host = linux
+compile_size = 64bit
+
+Resource usage:
+ Common:
+  GLOBAL:1
+ Function _ZN7tf_cuda56_GLOBAL__N__f1d7432d_23_transform_field_cuda_cu_8ff8ffa215queryGradKernelENS0_6InputsENS0_6PlanesEPKfPfS5_i:
+  REG:183 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1604 CONSTANT[2]:8 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda56_GLOBAL__N__f1d7432d_23_transform_field_cuda_cu_8ff8ffa211queryKernelENS0_6InputsENS0_6PlanesEPfi:
+  REG:40 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1588 CONSTANT[2]:8 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+member build/libtf_cuda.a:transform_field_cuda_neural.cu.o:
+
+Fatbin elf code:
+================
+arch = sm_86
+code version = [1,7]
+host = linux
+compile_size = 64bit
+
+Resource usage:
+ Common:
+  GLOBAL:1
+ Function _ZN7tf_cuda63_GLOBAL__N__5ace868c_30_transform_field_cuda_neural_cu_dfc25c7316outputGradKernelENS0_4AttrENS0_8UpstreamENS0_10OutputGradEib:
+  REG:41 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:525 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda63_GLOBAL__N__5ace868c_30_transform_field_cuda_neural_cu_dfc25c7314biasGradKernelEPKfPfii:
+  REG:40 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:376 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda63_GLOBAL__N__5ace868c_30_transform_field_cuda_neural_cu_dfc25c7316sharedGradKernelEPfPKfS3_S3_S3_i:
+  REG:16 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:396 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda63_GLOBAL__N__5ace868c_30_transform_field_cuda_neural_cu_dfc25c7314reluGradKernelEPfPKfi:
+  REG:6 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:372 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda63_GLOBAL__N__5ace868c_30_transform_field_cuda_neural_cu_dfc25c7312outputKernelENS0_4AttrEPfS2_S2_ib:
+  REG:34 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:477 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda63_GLOBAL__N__5ace868c_30_transform_field_cuda_neural_cu_dfc25c7313warpMlpKernelEPKfNS0_6NeuralEi:
+  REG:48 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:532 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda63_GLOBAL__N__5ace868c_30_transform_field_cuda_neural_cu_dfc25c7310biasKernelEPfPKfiib:
+  REG:10 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:377 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+member build/libtf_cuda.a:transform_field_cuda_regularization.cu.o:
+
+Fatbin elf code:
+================
+arch = sm_86
+code version = [1,7]
+host = linux
+compile_size = 64bit
+
+Resource usage:
+ Common:
+  GLOBAL:1
+ Function _ZN7tf_cuda71_GLOBAL__N__0c8780dd_38_transform_field_cuda_regularization_cu_860880c924regularizationGradKernelENS0_11RegularizerEPKffff:
+  REG:34 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:1916 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda71_GLOBAL__N__0c8780dd_38_transform_field_cuda_regularization_cu_860880c926regularizationReduceKernelENS0_11RegularizerEPKfPffff:
+  REG:40 STACK:0 SHARED:384 LOCAL:0 CONSTANT[0]:1924 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _ZN7tf_cuda71_GLOBAL__N__0c8780dd_38_transform_field_cuda_regularization_cu_860880c927regularizationPartialKernelENS0_11RegularizerEPf:
+  REG:24 STACK:0 SHARED:2048 LOCAL:0 CONSTANT[0]:1904 TEXTURE:0 SURFACE:0 SAMPLER:0

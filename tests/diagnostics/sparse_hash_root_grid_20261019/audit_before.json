@@ -1,0 +1,35 @@
+{
+  "HEAD": "40751d07e194aaaa997d06bdea14d90f813b1222",
+  "branch": "redundancy-aware-si",
+  "initial_status": " M CMakeLists.txt\n M cfg/selector/fast.yaml\n M cfg/selector/selector_config.yaml\n M include/gaussian_mapper.h\n M include/global_gi_bank.h\n M src/gaussian_mapper.cpp\n?? HIERARCHICAL_REPRESENTATIVE_SI_IMPLEMENTATION_REPORT.md\n?? STREAMING_GI_CURRENT_REPORT.md\n?? include/hierarchical_representative_si.h\n?? src/hierarchical_representative_si.cpp\n?? tests/__pycache__/\n?? tests/diagnostics/change_distill_optimization_20261017/__pycache__/\n?? tests/diagnostics/change_distill_optimization_20261017/deployment_20261018/__pycache__/\n?? tests/diagnostics/change_distill_performance_20261017/__pycache__/\n?? tests/diagnostics/change_distill_tf_multi_ratio_20261018/__pycache__/\n?? tests/diagnostics/cuda_selector_backward_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_direct_parity_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_implementation_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_revised_20261015/__pycache__/\n?? tests/diagnostics/hierarchical_representative_si_20261019/\n?? tests/diagnostics/original_tf_cuda_audit_20261013/__pycache__/\n?? tests/diagnostics/ultralight_mode2_20261014/__pycache__/\n?? tests/hierarchical_representative_si_test.cpp\n",
+  "source_before": {
+    "include/hierarchical_representative_si.h": "de50cbf0f88caf5ce3d52bf952a26f78e1233dff4da8b0dfe7f619a68ba5f1bd",
+    "src/hierarchical_representative_si.cpp": "9df81d2df71871b35af9ca0f282104e967cb3e1ddf5f4789e43983054c1f4789",
+    "tests/hierarchical_representative_si_test.cpp": "b8f9ab30d9951997d57fa7013c591ed4660c273b6112697502672ea4dc4be79c",
+    "src/gaussian_mapper.cpp": "abb65744a772230083b273d89f968c7a2862d811e4ce77d58e64580c6df3cdcc",
+    "include/global_gi_bank.h": "dcc9f2b6c3c42fbbc9ea26c12835782cbf387a79b114e00499e27ad715b49e3b",
+    "src/global_gi.cpp": "93a22b400142381d3390d820aa989b3cbe9013898218f0c5a4e6a27ee6a5bd8d",
+    "src/gi_teacher.cpp": "71ec10c0a1a36d514ce7ca1ff57ab2d57fb868ff7074d87433c02060bcf41921",
+    "cuda_rasterizer/forward.cu": "7d7b3888b784502ddec23c86cac3de504ab566f75d32e244a72e9ec91e5a1e96",
+    "improvements/selector/gumbel_network.h": "666f20bba9d4e563668249ea7ccca5ddbb5bb266b193071e6c24bfbacffda3e6",
+    "include/selector_handoff.h": "540581b23db96d6935c9b8b1e7023519ee04defc067ff762037bdebd13a6524d"
+  },
+  "old_fixture_sha256": "e54e055fd9be3a211ba87cf6997fd088960659ff3f415d2affeebc7636d09a55",
+  "constants": {
+    "target_occupied_roots": 2048,
+    "origin": [
+      0,
+      0,
+      0
+    ],
+    "coarse_log_samples": 128,
+    "refine_log_samples": 128,
+    "max_bracket_iterations": 256,
+    "representatives": 3,
+    "split_Q": 0.8,
+    "max_level": 3,
+    "maturity": 1
+  },
+  "optimizer_updates": 0,
+  "quality_evaluation": false
+}

@@ -1,0 +1,40 @@
+{
+  "torch": "2.3.1+cu118",
+  "python_torch_abi": false,
+  "cuda": "11.8",
+  "device": "NVIDIA GeForce RTX 3090",
+  "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2022 NVIDIA Corporation\nBuilt on Wed_Sep_21_10:33:58_PDT_2022\nCuda compilation tools, release 11.8, V11.8.89\nBuild cuda_11.8.r11.8/compiler.31833905_0\n",
+  "gpu": "NVIDIA GeForce RTX 3090, 535.230.02, GPU-4980f5f4-5672-44de-c684-1e897673077f\n",
+  "sources": {
+    "src/selector_cuda.cpp": "1890228a4161c78c5140b46409a4082d2d04828e510f2391d6a12708caee57a0",
+    "src/selector_cuda.cu": "127037d009d9ba091e4b0ae8657a4cfd35ed9d27df99f4a3b7b68ac7b418db75",
+    "include/selector_cuda.h": "9b9b02c2f56b9a37777070b49125ad366a82f6d5bf0124247606ddaf0bb4da8c",
+    "improvements/selector/gumbel_network.h": "9bc7f1d204d408c03601aad4d2d8c2d43aab9cb6e87c6e749691e8d67cdfd432",
+    "src/transform_field_cuda_optimizer.cpp": "44ee815fc884b63bb00e8d39b487031dcf35fed859c62c4521a271cd296fed44",
+    "src/transform_field_cuda_optimizer.cu": "22cd8376d356a7aaf2b92ab626545319310049a562f7c451289d3f3c01c3ece0",
+    "src/constrained_adam.cpp": "b1498901dc6bf328c58ee71724a0f0b7ea41127db1082429eaf16fa4c8c46dba",
+    "src/gi_teacher.cpp": "d29ed23de7c2ee7d62e49addb8baf7118fde22a4ed77cb0741616938ff40394d"
+  },
+  "production_sources": {
+    "src/selector_cuda.cpp": "1890228a4161c78c5140b46409a4082d2d04828e510f2391d6a12708caee57a0",
+    "src/selector_cuda.cu": "127037d009d9ba091e4b0ae8657a4cfd35ed9d27df99f4a3b7b68ac7b418db75",
+    "include/selector_cuda.h": "9b9b02c2f56b9a37777070b49125ad366a82f6d5bf0124247606ddaf0bb4da8c",
+    "improvements/selector/gumbel_network.h": "011e8e78549ed493dcfccd695dc0e9ce2a03b4c77c61c727f7d42a435bb4e674",
+    "src/transform_field_cuda_optimizer.cpp": "44ee815fc884b63bb00e8d39b487031dcf35fed859c62c4521a271cd296fed44",
+    "src/transform_field_cuda_optimizer.cu": "22cd8376d356a7aaf2b92ab626545319310049a562f7c451289d3f3c01c3ece0",
+    "src/constrained_adam.cpp": "b1498901dc6bf328c58ee71724a0f0b7ea41127db1082429eaf16fa4c8c46dba",
+    "src/gi_teacher.cpp": "d29ed23de7c2ee7d62e49addb8baf7118fde22a4ed77cb0741616938ff40394d"
+  },
+  "binary_sha256": {
+    "tests/diagnostics/cuda_selector_revised_20261015/build/network_benchmark": "6f084d311c9232e1ff2bbaa0739b03920b1ab316277acc915f543774adbf1110",
+    "tests/diagnostics/cuda_selector_revised_20261015/build/caller_replay": "77f5effbc971c0c743d4b173f4373464e9b8d7edc9e4384ef6f76a66feb7cd48",
+    "tests/diagnostics/cuda_selector_revised_20261015/build/selector_parity": "2321921eb665b6842b9a8fa019848b6092e0d8de7abc7ad94f74e06bb9db5432",
+    "tests/diagnostics/cuda_selector_revised_20261015/build/guard_transaction": "1de0ab4b9ccd298aa47c76929eb5e5b9189813382164a037d280af23eeeb7adb",
+    "lib/libgaussian_mapper.so": "53bed3ffff78c0abbe9b75482e5f74a037d33f12f27b9218192f2b74bacaa4c9"
+  },
+  "cuda_enabled_header_sha256": {
+    "isolated": "399eb41302ec33acf1e24eeb56761c816dfe0f0f007b3234a9b9bc5ef34aca67",
+    "production": "399eb41302ec33acf1e24eeb56761c816dfe0f0f007b3234a9b9bc5ef34aca67"
+  },
+  "header_note": "Raw header differs only in comments and the disabled-CUDA-build error message; CUDA-enabled effective definitions are identical."
+}

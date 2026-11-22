@@ -1,0 +1,31 @@
+{
+  "scene": "fr1_xyz",
+  "seed": 3100,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "training_ratios": [0.01, 0.05, 0.1, 0.15],
+  "unseen_ratios": [0.025, 0.075, 0.125],
+  "candidates": [
+    {"id":"DirectOffsetE08", "shared":0, "ratio":0, "extra":8, "selector_depth":1, "compensation_depth":2, "compensation_input":"offset"},
+    {"id":"DirectRawE08", "shared":0, "ratio":0, "extra":8, "selector_depth":1, "compensation_depth":2, "compensation_input":"raw11"},
+    {"id":"DirectOffsetE16", "shared":0, "ratio":0, "extra":16, "selector_depth":1, "compensation_depth":2, "compensation_input":"offset"},
+    {"id":"DirectRawE16", "shared":0, "ratio":0, "extra":16, "selector_depth":1, "compensation_depth":2, "compensation_input":"raw11"}
+  ],
+  "baseline_root": "/home/prmi/zwj/selector-capacity-matrix-20261026/results/fr1_xyz/confirm",
+  "baseline_config": "S00R00E08D12",
+  "reference_config": "R3",
+  "frozen": "Master, Gaussian IDs, Anchor owners/centers/scales, cameras, eligibility and cached uniforms",
+  "trainable": "original Selector and encoder plus compensation head and four independent per-Anchor ratio latent tables; direct compensation does not consume h or send gradient through encoder",
+  "initialization": "same seed and initial output p=.5/delta=0; encoder/Selector/compensation second layer and output exact equal; first3 raw columns and first8 latent projection columns match across direct variants",
+  "optimizer": "unchanged Adam fused lr=.001 eps1e-15",
+  "loss": "unchanged photo 0.8L1+0.2(1-fast_ssim), plus original .01 relative expected-budget L1",
+  "selection": "unchanged cached Bernoulli training; evaluate same-K logit(p)-logit(cached uniform) and original cached policy separately",
+  "unseen": "raw-ratio linear interpolation of Anchor compensation latent, then same head; no fitting at unseen ratios",
+  "evaluation": "final12000 only, 13 internal-Bank holdout and historical45 nonBank, all4 metrics, per-view and per-ratio",
+  "scope": "quick single-seed frozen-map diagnostic, not stable improvement or pure compression causal proof; encoder gradient routing and effective depth also differ",
+  "production_change": false,
+  "no_early_stop": true,
+  "no_hparam_search": true,
+  "no_stage_commit_push": true,
+  "execution_workers": 1
+}

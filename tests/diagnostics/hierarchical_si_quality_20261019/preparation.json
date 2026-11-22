@@ -1,0 +1,11 @@
+{
+  "all_passed": true,
+  "data_SHA_exact": true,
+  "historical_runtime_SHA_exact": true,
+  "bank_views": 69,
+  "evaluation_views": 161,
+  "evaluation_label": "fixed non-Bank archived evaluation views",
+  "production_unchanged": true,
+  "quality_started": false,
+  "preregistration_sha256": "ebb36b8fdb16b0583e59ffd27c92b78127c7565127e24d3d23c3a2e374bfc6cb"
+}

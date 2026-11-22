@@ -1,0 +1,25 @@
+{
+  "started_utc": "2026-10-27T08:01:54+00:00",
+  "budget_minutes": 180,
+  "audit_utc": "2026-10-27T08:10:07.601383+00:00",
+  "torch": "2.3.1+cu118",
+  "cuda": "11.8",
+  "device": "NVIDIA GeForce RTX 3090",
+  "production_sha256": {
+    "cfg/selector/selector_config.yaml": "01be603c7381bacc642c7182d2bea559ff94d943075f852153e710921d9df233",
+    "improvements/selector/gumbel_network.h": "22473c84a00092660331085457f9a1a057a13ba56f0195717a2c9090f9e47750",
+    "improvements/selector/spatial_compensation.h": "a173dd8cb2f14c99bd2e51a7a4c818e65e08ebfdf9f78fd98438496dac8525f7",
+    "improvements/selector/anchor_bank.h": "5859d6f88a51812679cffc7dd8af1121d8bf70b2c8fa77f25189848d5c4e847d",
+    "improvements/selector/variable_anchor_blocks.h": "4fc39737e037ec4141857da6c906fe28d3b01a51dc08a736c8a70e76885a8ea3",
+    "src/gaussian_mapper.cpp": "2387b74dafbcecb5436ac5f079ce6406876bba707fffe3c9aebcc00b43a1a137",
+    "src/gaussian_model.cpp": "53d81cb23372d9587a8738e4b7cd17e5bcaac8f222ee991bae87a8fe75e76c60",
+    "src/spatial_compensation_live.cu": "aa43da02905bd1ef4af3f285f9fc3e8b71a12e2c47edd3bca15a4ff23849c880",
+    "python/selector.py": "cae4778494978e1f4b4926d9e188d4f0bf8341a463a5a3cccef1e86eefbd5f35",
+    "python/spatial_compensation.py": "4584c51be14f38bfcf6e78092fa0072dc577a1394b0701e49098cf2baaa734a1"
+  },
+  "production_modified": false,
+  "gpu_processes": "426369, 3304 MiB\n",
+  "constraint": "Anchor abstract embeddings allowed; no Gaussian-private physical compensation",
+  "architecture": "current production SpatialLocalXYZ and independent Selector11",
+  "start_basis": "first measured UTC clock; initial setup excluded"
+}

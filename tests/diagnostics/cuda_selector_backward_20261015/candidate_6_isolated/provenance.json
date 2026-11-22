@@ -1,0 +1,6 @@
+{
+  "strategy": 6,
+  "mode": "isolated",
+  "oracle_sha256": "5818bb57d5ddc6f510a9d4e83cbc1fca958e3561f22c0475ef65596b927a39f3",
+  "adaptation": "只改变 backward strategy、独立输出目录、isolated/training 调度；计算/容差不变"
+}

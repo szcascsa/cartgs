@@ -1,0 +1,106 @@
+{
+  "pass_": true,
+  "rows": [
+    {
+      "test": "original_output",
+      "ratio": 0.01,
+      "max_abs": 0.0
+    },
+    {
+      "test": "original_output",
+      "ratio": 0.025,
+      "max_abs": 0.0
+    },
+    {
+      "test": "original_output",
+      "ratio": 0.05,
+      "max_abs": 0.0
+    },
+    {
+      "test": "original_output",
+      "ratio": 0.075,
+      "max_abs": 0.0
+    },
+    {
+      "test": "original_output",
+      "ratio": 0.1,
+      "max_abs": 0.0
+    },
+    {
+      "test": "original_output",
+      "ratio": 0.125,
+      "max_abs": 0.0
+    },
+    {
+      "test": "original_output",
+      "ratio": 0.15,
+      "max_abs": 0.0
+    },
+    {
+      "test": "Early8",
+      "ratio": 0.05,
+      "max_abs": 0.0,
+      "gradient_norms": {
+        "embedding": 0.000211693492019549,
+        "inject.weight": 0.0
+      }
+    },
+    {
+      "test": "Mid8",
+      "ratio": 0.05,
+      "max_abs": 0.0,
+      "gradient_norms": {
+        "embedding": 0.00041282581514678895,
+        "inject.weight": 0.0
+      }
+    },
+    {
+      "test": "AnchorFiLM8",
+      "ratio": 0.05,
+      "max_abs": 0.0,
+      "gradient_norms": {
+        "embedding": 0.00026756650186143816,
+        "inject.weight": 0.0
+      }
+    },
+    {
+      "test": "Head8",
+      "ratio": 0.05,
+      "max_abs": 0.0,
+      "gradient_norms": {
+        "embedding": 0.0004036672180518508,
+        "inject.xyz.weight": 0.0,
+        "inject.scale.weight": 0.0,
+        "inject.rotation.weight": 0.0,
+        "inject.other.weight": 0.0
+      }
+    },
+    {
+      "test": "ContextFiLM8",
+      "ratio": 0.05,
+      "max_abs": 0.0,
+      "gradient_norms": {
+        "context.0.weight": 0.0007095171022228897,
+        "context.0.bias": 7.877599273342639e-05,
+        "context.2.weight": 0.0005962792783975601,
+        "context.2.bias": 0.00025176178314723074,
+        "inject.weight": 0.0
+      }
+    },
+    {
+      "test": "HybridFiLM8",
+      "ratio": 0.05,
+      "max_abs": 0.0,
+      "gradient_norms": {
+        "embedding": 0.0002688222157303244,
+        "context.0.weight": 0.0011919660028070211,
+        "context.0.bias": 0.00018289181753061712,
+        "context.2.weight": 0.0008527510799467564,
+        "context.2.bias": 0.00047159771202132106,
+        "inject.weight": 0.0
+      }
+    }
+  ],
+  "lifecycle": "stable UID reorder/prune/append preserves values and moments; new rows zero; existing tensor Adam clock retained",
+  "map_frozen": true
+}

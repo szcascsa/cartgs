@@ -1,0 +1,40 @@
+{
+  "all_passed": true,
+  "N_candidate": 43059,
+  "internal_total": 2780,
+  "S_remaining": 40279,
+  "S_stable_filter_exact": true,
+  "S_nested": true,
+  "L_G_ratio_specific": true,
+  "all_same_K_unique_candidates": true,
+  "deterministic_repeat_exact": true,
+  "L_same_subtree": true,
+  "L_root_budget_parity": [
+    {
+      "ratio": 0.01,
+      "root_budget_distribution_exact": true,
+      "replacement_count": 44,
+      "replacement_failed": 0
+    },
+    {
+      "ratio": 0.05,
+      "root_budget_distribution_exact": true,
+      "replacement_count": 78,
+      "replacement_failed": 0
+    },
+    {
+      "ratio": 0.1,
+      "root_budget_distribution_exact": true,
+      "replacement_count": 78,
+      "replacement_failed": 0
+    },
+    {
+      "ratio": 0.15,
+      "root_budget_distribution_exact": true,
+      "replacement_count": 83,
+      "replacement_failed": 0
+    }
+  ],
+  "G_exact_C_refill": true,
+  "no_GT_or_quality_read": true
+}

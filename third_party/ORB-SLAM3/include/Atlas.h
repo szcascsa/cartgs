@@ -195,7 +195,7 @@ class Atlas {
   Atlas(int initKFid);  // When its initialization the first map is created
   ~Atlas();
 
-  void CreateNewMap();
+  void CreateNewMap(bool only_if_missing = false);
   void ChangeMap(Map* pMap);
 
   unsigned long int GetLastInitKFid();
@@ -234,6 +234,8 @@ class Atlas {
   void clearAtlas();
 
   Map* GetCurrentMap();
+  // Nonblocking: caller holds the GI read barrier, never waits for ChangeMap.
+  Map* GetCurrentMapForGI();
 
   void SetMapBad(Map* pMap);
   void RemoveBadMaps();

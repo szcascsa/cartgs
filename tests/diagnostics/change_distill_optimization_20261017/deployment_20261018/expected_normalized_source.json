@@ -1,0 +1,9 @@
+{
+  "include/frozen_teacher_target_cache.h": "68fa251756094141a13f63707fedb9bd7c4151e8fae5d4600f344631d7ebf05b",
+  "include/selector_cuda.h": "9ec184070f36dbc5c719f037e54a76fee25bb2d83856b9929d5024436ea2a7d9",
+  "src/change_distill.cpp": "31b6a308784ee797b6b57f1a31c8d5820b488f1fdcde137b47c9934ffe7a237a",
+  "src/selector_cuda.cpp": "5c8942dc26272769f4a48551d3eecf126a1a027d231d2ec339fbcfd80ace0b37",
+  "src/selector_cuda.cu": "ecf7dd9e36553c0db95be70952c4befa9781b7ad22107b1cfb2bea452953df48",
+  "improvements/selector/gumbel_network.h": "27de26edb430a34572fa6bfb70e2d24d731a9da7cc620c80689d6e1d15b68af4",
+  "tests/frozen_teacher_target_cache_test.cpp": "a509f42c7be92a2d769fa1e714bf0df93c575932122ea608e3a964ade8135054"
+}

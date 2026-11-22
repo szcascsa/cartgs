@@ -1,0 +1,27 @@
+{
+  "progressive_ranker.py": {
+    "previous_sha256": "27853a411ec41ce6d65439f20004dd77384000504aaeedf0157aeb3f87c52236",
+    "current_sha256": "27853a411ec41ce6d65439f20004dd77384000504aaeedf0157aeb3f87c52236",
+    "exact": true
+  },
+  "fixed_marginal_reference.py": {
+    "previous_sha256": "c67b72a95b1aaef8f107c7c9ca997ea025fd291473a6969478ae3b66647f0f4a",
+    "current_sha256": "c67b72a95b1aaef8f107c7c9ca997ea025fd291473a6969478ae3b66647f0f4a",
+    "exact": true
+  },
+  "common.py": {
+    "previous_sha256": "e698db03769cd1d8157a061800c267d07dd4b75539be2499ea912328c58fc6ca",
+    "current_sha256": "e698db03769cd1d8157a061800c267d07dd4b75539be2499ea912328c58fc6ca",
+    "exact": true
+  },
+  "evaluate.py": {
+    "previous_sha256": "b36e26d52c0f66038055735ef3003a54936237abaa0c458cbc1cae3c5155b9ca",
+    "current_sha256": "b36e26d52c0f66038055735ef3003a54936237abaa0c458cbc1cae3c5155b9ca",
+    "exact": true
+  },
+  "audit_worker": {
+    "previous_sha256": "cf47b087a4b09a2e34a595580485896669f1247f0d9a2aa52edda79ac85259a2",
+    "current_sha256": "cf47b087a4b09a2e34a595580485896669f1247f0d9a2aa52edda79ac85259a2",
+    "exact": true
+  }
+}

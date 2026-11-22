@@ -1,0 +1,11 @@
+{
+  "all_passed": true,
+  "HEAD": "40751d07e194aaaa997d06bdea14d90f813b1222",
+  "evidence_files": 72,
+  "download_verified": true,
+  "source_matches_tested_server": true,
+  "staged_files": 0,
+  "math_unchanged": true,
+  "new_text_whitespace": true,
+  "report_sha256": "a2378bd52453d692dd89ca7502d7a8c1473ee62407f79a92c5bab236414ddb70"
+}

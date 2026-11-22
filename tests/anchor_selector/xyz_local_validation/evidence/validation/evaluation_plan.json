@@ -1,0 +1,39 @@
+{
+  "common_k": {
+    "0.01": 233,
+    "0.05": 1168,
+    "0.1": 2336,
+    "0.15": 3504
+  },
+  "populations": [
+    25248,
+    27536,
+    24566,
+    23361
+  ],
+  "historical_populations": [
+    27307,
+    27548,
+    27166,
+    27857
+  ],
+  "frames": 792,
+  "model_sha256": {
+    "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2026/10000_shutdown/ply/selector.pt": "268bbf489960745bb17cb183a6566b0954212ebb997e98da8b22e6b82da57095",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2026/10000_shutdown/ply/transform_field.pt": "608f9c21be79d52c8f85594321f19d5eb094a626b72faa7e6f2e9316d6fe7cc4",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2026/10000_shutdown/ply/point_cloud/iteration_10000/point_cloud.ply": "938de4bac52b54a0a054c5921b7ce13670f6a04a95622dd20a8a6ba0d1a198c1",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2026/10000_shutdown/ply/point_cloud/iteration_10000/selector_metadata.ply": "60417cb85624218ceaac0ff9ecf638b95820ee6400f8a5017544c31b633e34d0",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2026/10000_shutdown/ply/selector.pt": "825118726207e998ed7162e92d4fc6c3380174199b34ec586ed7930a3fb1dff3",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2026/10000_shutdown/ply/transform_field.pt": "55ab05bdc5ecfc9bbe087409b418a114a2251e0baba671523e67d8971034c832",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2026/10000_shutdown/ply/point_cloud/iteration_10000/point_cloud.ply": "75480bc656344bd693530b329420164b1bd78088ad8d72706cc1c3a146567cc3",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2026/10000_shutdown/ply/point_cloud/iteration_10000/selector_metadata.ply": "ea2c4608743f2867b4a7ca0b5db87173d82679a414e46bb3e06b692c60202966",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2027/10000_shutdown/ply/selector.pt": "a2a7eddb4f2ec2f0de05ef40d0d0dcd07ce352b8370ca026c6eb8852ae577893",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2027/10000_shutdown/ply/transform_field.pt": "acc9f8ec61c10385c3b5880ac0cef4493ccdf3886ea9447a913e1fafe2f19b21",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2027/10000_shutdown/ply/point_cloud/iteration_10000/point_cloud.ply": "6639f759540e4f8b3496d5b8c7e4b719cf1d978b65e844606ca2849ccbea4d7f",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2027/10000_shutdown/ply/point_cloud/iteration_10000/selector_metadata.ply": "e250e78bfdab235578f30c3b3d718e95d4733479f2188f433a5a8eeb09e7c17b",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2027/10000_shutdown/ply/selector.pt": "30657d8ccaa04bba0f30933ba710403d2cb866bff868cb07c58a7db80f468fb7",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2027/10000_shutdown/ply/transform_field.pt": "41b6f0abce707319df9a1b805b3ef3657dfeaa844e73e7f522108b908f44ec41",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2027/10000_shutdown/ply/point_cloud/iteration_10000/point_cloud.ply": "1743483b71808d497fee1fd9787c18259e24ad473afbc5f566ef73d588042f67",
+    "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2027/10000_shutdown/ply/point_cloud/iteration_10000/selector_metadata.ply": "23082b0f7770c3c88c5dd808812221c6281c4504d289074a3d1b67788cb20513"
+  }
+}

@@ -1,0 +1,234 @@
+--- previous/improvements/selector/gumbel_network.h
++++ current/improvements/selector/gumbel_network.h
+@@ -235,18 +235,24 @@
+   const torch::Tensor& selectorViewSceneScale() const { return view_scene_scale_; }
+   int64_t jointViewConditioning() const { return joint_view_conditioning_; }
+   void enableJointViewConditioning(int64_t mode) {
+-    TORCH_CHECK(mode==1||mode==2,"Joint view mode must be 1 (mode only) or 2 (real view)");
++    TORCH_CHECK(mode>=1&&mode<=4,"Joint view mode must be mode, view, selector_view or compensator_view");
+     if(joint_view_conditioning_) {TORCH_CHECK(joint_view_conditioning_==mode,"Joint view mode mismatch");return;}
+     TORCH_CHECK(spatial_compensation_&&anchors_->compensationResidualMode()==1,"Joint conditioning requires Residual48");
+     enableSelectorViewInput();spatial_compensation_->enableViewInput();
+     joint_view_conditioning_=mode;
+     register_buffer("joint_view_conditioning_schema",torch::tensor(mode,anchors_->rows().options()));
+   }
++  torch::Tensor packCompensationViewInput(const torch::Tensor& code) const {
++    TORCH_CHECK(joint_view_conditioning_&&code.dim()==2&&code.size(1)==7,"Joint Compensation expects a seven-channel view code");
++    auto view=(joint_view_conditioning_==1||joint_view_conditioning_==3)?torch::zeros_like(code):code.detach();
++    return torch::cat({view,torch::ones({code.size(0),1},code.options())},1);
++  }
+   torch::Tensor packSelectorViewInput(const torch::Tensor& original,const torch::Tensor& code={}) const {
+     if(!selector_view_input_) {TORCH_CHECK(!code.defined(),"View input supplied to a global-only Selector");return original;}
+     if(!code.defined())return torch::cat({original,torch::zeros({original.size(0),8},original.options())},1);
+     TORCH_CHECK(code.sizes()==torch::IntArrayRef({original.size(0),7}),"Shared Selector expects a seven-channel view code");
+-    return torch::cat({original,code.detach(),torch::ones({original.size(0),1},original.options())},1);
++    auto view=(joint_view_conditioning_==1||joint_view_conditioning_==4)?torch::zeros_like(code):code.detach();
++    return torch::cat({original,view,torch::ones({original.size(0),1},original.options())},1);
+   }
+   void enableSelectorViewResidual(int64_t schema=1) {
+     TORCH_CHECK(anchors_&&anchors_->features().size(1)==0&&!anchors_->ratioFeatures()&&
+--- previous/include/gaussian_mapper.h
++++ current/include/gaussian_mapper.h
+@@ -606,7 +606,7 @@
+   std::vector<double> selector_view_budget_ratio_values_;
+   bool view_budget_enabled_ = false, view_budget_global_control_ = false;
+   bool view_budget_view_residual_ = false;
+-  int view_budget_conditioning_ = 0;
++  int view_budget_conditioning_ = 0; // 0 off, 1 mode, 2 both view, 3 Selector view, 4 Compensator view
+   std::string view_budget_residual_input_ = "hidden32";
+   float view_budget_loss_weight_ = 1.f;
+   int view_budget_seed_ = 0;
+--- previous/src/gaussian_mapper.cpp
++++ current/src/gaussian_mapper.cpp
+@@ -899,8 +899,9 @@
+   view_budget_view_residual_=view_budget_residual!=0;
+   std::string conditioning="off";
+   if(!settings_file["ViewBudget.conditioning"].empty())settings_file["ViewBudget.conditioning"]>>conditioning;
+-  TORCH_CHECK(conditioning=="off"||conditioning=="mode"||conditioning=="view","ViewBudget.conditioning must be off, mode or view");
+-  view_budget_conditioning_=conditioning=="mode"?1:(conditioning=="view"?2:0);
++  TORCH_CHECK(conditioning=="off"||conditioning=="mode"||conditioning=="view"||conditioning=="selector_view"||conditioning=="compensator_view",
++      "ViewBudget.conditioning must be off, mode, view, selector_view or compensator_view");
++  view_budget_conditioning_=conditioning=="mode"?1:(conditioning=="view"?2:(conditioning=="selector_view"?3:(conditioning=="compensator_view"?4:0)));
+   if(!settings_file["ViewBudget.view_residual_input"].empty())
+     settings_file["ViewBudget.view_residual_input"]>>view_budget_residual_input_;
+   TORCH_CHECK(view_budget_residual_input_=="hidden32"||view_budget_residual_input_=="physical11",
+@@ -5686,7 +5687,8 @@
+   settings_file << "RealLoD.full_loss_weight: " << real_lod_full_loss_weight_ << '\n';
+   settings_file << "ViewBudget.enabled: " << int(view_budget_enabled_) << '\n';
+   settings_file << "ViewBudget.view_residual: " << int(view_budget_view_residual_) << '\n';
+-  settings_file << "ViewBudget.conditioning: \"" << (view_budget_conditioning_==1?"mode":(view_budget_conditioning_==2?"view":"off")) << "\"\n";
++  settings_file << "ViewBudget.conditioning: \"" << (view_budget_conditioning_==1?"mode":(view_budget_conditioning_==2?"view":
++      (view_budget_conditioning_==3?"selector_view":(view_budget_conditioning_==4?"compensator_view":"off")))) << "\"\n";
+   settings_file << "ViewBudget.view_residual_input: \"" << view_budget_residual_input_ << "\"\n";
+   settings_file << "ViewBudget.loss_weight: " << view_budget_loss_weight_ << '\n';
+   settings_file << "ViewBudget.li_weight: " << view_budget_li_weight_ << '\n';
+--- previous/src/view_budget_training.cpp
++++ current/src/view_budget_training.cpp
+@@ -49,6 +49,8 @@
+   trace["li_weight"]=view_budget_li_weight_;trace["li_loss"]=0.;trace["li_supervised"]=false;
+   trace["view_residual"]=view_budget_view_residual_;
+   trace["conditioning"]=view_budget_conditioning_;
++  trace["selector_real_view"]=view_budget_conditioning_==2||view_budget_conditioning_==3;
++  trace["compensator_real_view"]=view_budget_conditioning_==2||view_budget_conditioning_==4;
+   trace["li_gradient_scope"]=view_budget_view_residual_?"selector_view_residual":"local_emd_and_soft_net";
+   trace["sampler"]="gumbel_st";trace["strict_topk"]=false;
+   trace["budget_normalize_target"]=selector_gumbel_budget_normalize_;
+@@ -129,7 +131,7 @@
+     auto residual=spatial->forward(selected.xyz,gaussians_->scaling_.index_select(0,ids),selected.rotation,
+         selected.features_dc,gaussians_->opacity_.index_select(0,ids),centers,reference,ratio,true,
+         packed.defined()?torch::Tensor{}:anchors->compensationInput(ids,ratio),packed,
+-        view_budget_conditioning_?torch::cat({anchor_view.index_select(0,owners),torch::ones({ids.numel(),1},xyz.options())},1):torch::Tensor{});
++        view_budget_conditioning_?selector_network_->packCompensationViewInput(anchor_view.index_select(0,owners)):torch::Tensor{});
+     // Keep all four Heads, scale decoding and Master/Feature gradients intact.
+     if(fused_compensation_decode_&&xyz.is_cuda()) {
+       auto output=(spatial->softplusScale()?mapping_cuda::decode14SoftplusScale:
+--- previous/python/selector.py
++++ current/python/selector.py
+@@ -258,11 +258,16 @@
+     def joint_view_code(self,camera):
+         from view_residual import anchor_view_code
+         mode=int(getattr(self,'joint_view_conditioning_schema',0))
+-        if mode not in (1,2):raise ValueError('Checkpoint has no joint view conditioning')
++        if mode not in (1,2,3,4):raise ValueError('Checkpoint has no joint view conditioning')
+         if mode==1:return self.anchors.centers.new_zeros((len(self.anchors.centers),7))
+         return anchor_view_code(self.anchors.centers,self.anchors.offset_scales,camera.camera_center,
+             camera.world_view_transform,camera.full_proj_transform,camera.image_height,camera.image_width,
+             camera.znear,self.selector_view_scene_scale)
++
++    def joint_branch_view_code(self,code,compensation=False):
++        mode=int(getattr(self,'joint_view_conditioning_schema',0))
++        if mode not in (1,2,3,4):raise ValueError('Checkpoint has no joint view conditioning')
++        return torch.zeros_like(code) if mode in ((1,3) if compensation else (1,4)) else code.detach()
+ 
+     def forward_view_selection_features(self,position,scale,dc,opacity,ratio,camera,tau=1.,source_rows=None,return_logits=False,anchor_code=None):
+         from view_residual import anchor_view_code
+@@ -338,6 +343,7 @@
+             if view_code is None:value=torch.cat((value,value.new_zeros((len(value),8))),1)
+             else:
+                 if view_code.shape!=(len(value),7):raise ValueError('Shared Selector expects view7')
++                if hasattr(self,'joint_view_conditioning_schema'):view_code=self.joint_branch_view_code(view_code)
+                 value=torch.cat((value,view_code.detach(),value.new_ones((len(value),1))),1)
+         elif view_code is not None:raise ValueError('View input supplied to a global-only Selector')
+         encoded=self.local_emd[0](value)
+@@ -473,7 +479,7 @@
+             model.register_buffer('compensation_schema',torch.zeros_like(state['compensation_schema']))
+         if 'joint_view_conditioning_schema' in state:
+             joint=int(state['joint_view_conditioning_schema'])
+-            if joint not in (1,2) or not view_input or 'spatial_compensation.view_input_schema' not in state:
++            if joint not in (1,2,3,4) or not view_input or 'spatial_compensation.view_input_schema' not in state:
+                 raise RuntimeError('Invalid joint view conditioning schema')
+             if int(state['spatial_compensation.view_input_schema'])!=1:
+                 raise RuntimeError('Invalid Compensation view schema')
+@@ -757,6 +763,7 @@
+         condition=None
+         if camera is not None and hasattr(model,'joint_view_conditioning_schema'):
+             code=model.joint_view_code(camera) if anchor_code is None else anchor_code
++            code=model.joint_branch_view_code(code,compensation=True)
+             condition=torch.cat((code[owners],code.new_ones((len(ids),1))),1)
+         local_offset=(gaussians.get_xyz[ids]-model.anchors.centers[owners])/model.anchors.offset_scales[owners] if getattr(model.anchors,'compensation_residual_mode',0)==2 else None
+         residual=spatial(gaussians.get_xyz[ids],gaussians._scaling[ids],gaussians.get_rotation[ids],
+--- previous/tests/anchor_selector/joint_view_conditioning_test.cpp
++++ current/tests/anchor_selector/joint_view_conditioning_test.cpp
+@@ -4,7 +4,7 @@
+ 
+ using namespace improvements::selector;
+ 
+-void unit(torch::Device device,const std::filesystem::path& out) {
++void unit(torch::Device device,const std::filesystem::path& out,int64_t mode=2) {
+   auto o=torch::TensorOptions().dtype(torch::kFloat32).device(device);
+   auto net=GumbelNetwork(.1,true,false,true,std::vector<double>{},0);net->to(device);
+   net->anchors()->enableVariableMembers();
+@@ -13,7 +13,7 @@
+   std::map<std::string,torch::Tensor> before;int64_t original=0;
+   for(auto p:net->named_parameters()){before[p.key()]=p.value().detach().clone();original+=p.value().numel();}
+   auto rng=at::globalContext().defaultGenerator(torch::Device(torch::kCPU)).get_state().clone();
+-  net->enableJointViewConditioning(2);
++  net->enableJointViewConditioning(mode);
+   TORCH_CHECK(rng.equal(at::globalContext().defaultGenerator(torch::Device(torch::kCPU)).get_state()),"Conditioning consumed initialization RNG");
+   int64_t count=0;auto parameters=net->named_parameters();
+   for(auto p:parameters) {
+@@ -35,7 +35,10 @@
+   auto forward=[&](double ratio,const torch::Tensor& condition) {
+     return spatial->forward(x,scale,rotation,dc,opacity,center,reference,ratio,true,feature,{},condition);
+   };
+-  auto code=torch::randn({17,7},o).requires_grad_(true),condition=torch::cat({code,torch::ones({17,1},o)},1);
++  auto code=torch::randn({17,7},o).requires_grad_(true),condition=net->packCompensationViewInput(code);
++  auto selector_code=net->packSelectorViewInput(torch::zeros({17,11},o),code).slice(1,11,18);
++  TORCH_CHECK(selector_code.equal(mode==4?torch::zeros_like(code):code.detach()),"Selector cross condition misrouted");
++  TORCH_CHECK(condition.slice(1,0,7).equal(mode==3?torch::zeros_like(code):code.detach()),"Compensation cross condition misrouted");
+   for(double r:{.01,.03,.05,.08,.1,.2,.3,.4,.5,.6,.7})
+     TORCH_CHECK(forward(r,{}).equal(forward(r,condition)),"Zero view projection changed Compensation");
+   auto input=torch::randn({17,11},o).requires_grad_(true);
+@@ -54,6 +57,10 @@
+   TORCH_CHECK(!code.grad().defined()&&x.grad().defined()&&feature.grad().defined()&&input.grad().defined(),"View detach or original gradient paths broken");
+   TORCH_CHECK(spatial->view_projection->weight.grad().abs().sum().item<double>()>0&&
+       parameters["local_emd.0.weight"].grad().slice(1,11,19).abs().sum().item<double>()>0,"New conditions cannot train");
++  if(mode==3)TORCH_CHECK(spatial->view_projection->weight.grad().slice(1,0,7).count_nonzero().item<int64_t>()==0,
++      "Mode-only Compensation received a camera gradient");
++  if(mode==4)TORCH_CHECK(parameters["local_emd.0.weight"].grad().slice(1,11,18).count_nonzero().item<int64_t>()==0,
++      "Mode-only Selector received a camera gradient");
+   for(int n:{0,1,31,2048}) {
+     auto packed=net->packSelectorViewInput(torch::randn({n,11},o),torch::randn({n,7},o));
+     TORCH_CHECK(select(packed).sizes()==torch::IntArrayRef({n,2}),"Dynamic/empty Selector shape");
+@@ -66,7 +73,7 @@
+   std::filesystem::create_directories(out);torch::save(net,(out/"selector.pt").string());
+   auto restored=GumbelNetwork(.1,true,false,true,std::vector<double>{},0);restored->to(device);
+   torch::serialize::InputArchive archive;archive.load_from((out/"selector.pt").string(),device);restored->load(archive);
+-  TORCH_CHECK(restored->jointViewConditioning()==2&&restored->spatialCompensation()->viewInput(),"Conditioning schema restore");
++  TORCH_CHECK(restored->jointViewConditioning()==mode&&restored->spatialCompensation()->viewInput(),"Conditioning schema restore");
+   auto frozen=restored->cloneFrozen();
+   for(auto p:net->named_parameters())TORCH_CHECK(restored->named_parameters()[p.key()].equal(p.value())&&
+       frozen->named_parameters()[p.key()].equal(p.value())&&!frozen->named_parameters()[p.key()].requires_grad(),"Reload/frozen weight mismatch");
+@@ -74,18 +81,18 @@
+   TORCH_CHECK(rejected,"Schema mismatch silently accepted");
+   torch::serialize::OutputArchive fixture;
+   for(auto item:std::vector<std::pair<std::string,torch::Tensor>>{{"xyz",x},{"scale",scale},{"rotation",rotation},{"dc",dc},{"opacity",opacity},
+-      {"center",center},{"reference",reference},{"feature",feature},{"condition",condition},{"input11",input},
++      {"center",center},{"reference",reference},{"feature",feature},{"condition",condition},{"view_code",code},{"input11",input},
+       {"comp_global",forward(.05,{})},{"comp_local",forward(.05,condition)},{"selector_global",select(net->packSelectorViewInput(input))},
+       {"selector_local",select(net->packSelectorViewInput(input,code))}})fixture.write(item.first,item.second.detach(),true);
+   fixture.save_to((out/"fixture.pt").string());
+-  std::cout<<"PASS joint conditioning "<<device<<": 768 parameters, RNG, initial identity, view detach, original VJP, dynamic K, ratio interpolation, checkpoint/frozen\n";
++  std::cout<<"PASS joint conditioning "<<device<<" mode="<<mode<<": 768 parameters, RNG, initial identity, view detach, original VJP, dynamic K, ratio interpolation, checkpoint/frozen\n";
+ }
+ 
+ class JointViewMapperTest:public GaussianMapper {
+  public:
+-  JointViewMapperTest(const std::filesystem::path& out,bool real):GaussianMapper(nullptr,
++  JointViewMapperTest(const std::filesystem::path& out,const std::string& mode):GaussianMapper(nullptr,
+       std::filesystem::path(CARTGS_TEST_SOURCE_DIR)/"cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",out,7,torch::kCUDA,true,
+-      std::filesystem::path(CARTGS_TEST_SOURCE_DIR)/("cfg/selector/spatial_offset3_residual48_joint_"+std::string(real?"view":"mode")+".yaml")){}
++      std::filesystem::path(CARTGS_TEST_SOURCE_DIR)/("cfg/selector/spatial_offset3_residual48_joint_"+mode+".yaml")){}
+   void verify(bool empty) {
+     auto o=torch::TensorOptions().device(torch::kCUDA).dtype(torch::kFloat32);
+     TORCH_CHECK(view_budget_conditioning_>0&&!selector_view_input_enabled_&&!view_budget_view_residual_&&view_budget_li_weight_==0,"Wrong joint controls");
+@@ -109,7 +116,15 @@
+     TORCH_CHECK(it!=gaussians_->optimizer_->state().end()&&
+         static_cast<const torch::optim::AdamParamState&>(*it->second).step()==12,"Conditional Adam clock mismatch");
+     if(!empty)TORCH_CHECK(projection.abs().sum().item<float>()>0,"Compensation condition did not learn");
+-    if(view_budget_conditioning_==1)TORCH_CHECK(projection.slice(1,0,7).abs().sum().item<float>()==0,"Mode-only condition learned view columns");
++    if(view_budget_conditioning_==1||view_budget_conditioning_==3)
++      TORCH_CHECK(projection.slice(1,0,7).abs().sum().item<float>()==0,"Mode-only Compensation learned view columns");
++    auto selector_columns=selector_network_->named_parameters()["local_emd.0.weight"].slice(1,11,18);
++    if(view_budget_conditioning_==1||view_budget_conditioning_==4)
++      TORCH_CHECK(selector_columns.count_nonzero().item<int64_t>()==0,"Mode-only Selector learned view columns");
++    if(!empty&&(view_budget_conditioning_==2||view_budget_conditioning_==3))
++      TORCH_CHECK(selector_columns.count_nonzero().item<int64_t>()>0,"Real-view Selector did not learn");
++    if(!empty&&(view_budget_conditioning_==2||view_budget_conditioning_==4))
++      TORCH_CHECK(projection.slice(1,0,7).count_nonzero().item<int64_t>()>0,"Real-view Compensation did not learn");
+     savePly(result_dir_/"checkpoint");saveRealLodState(result_dir_);
+     std::cout<<"PASS joint Mapping mode="<<view_budget_conditioning_<<" empty="<<empty<<": three branches, one Adam, unchanged topology, LI off, learned condition\n";
+   }
+@@ -119,6 +134,11 @@
+   torch::set_num_threads(2);torch::manual_seed(7);at::globalContext().setAllowTF32CuBLAS(false);
+   std::string mode=argc>1?argv[1]:"unit";std::filesystem::path out=argc>2?argv[2]:"/tmp/cartgs_joint_view";
+   if(mode=="unit") {unit(torch::kCPU,out/"cpu");if(torch::cuda::is_available())unit(torch::kCUDA,out/"cuda");return 0;}
++  if(mode=="cross_unit") {for(int64_t schema:{3,4}) {
++    unit(torch::kCPU,out/std::to_string(schema)/"cpu",schema);
++    if(torch::cuda::is_available())unit(torch::kCUDA,out/std::to_string(schema)/"cuda",schema);
++  }return 0;}
+   if(!torch::cuda::is_available())return 77;
+-  JointViewMapperTest mapper(out,mode!="mode"&&mode!="mode_empty");mapper.verify(mode.find("empty")!=std::string::npos);
++  const bool empty=mode.size()>6&&mode.substr(mode.size()-6)=="_empty";
++  JointViewMapperTest mapper(out,empty?mode.substr(0,mode.size()-6):mode);mapper.verify(empty);
+ }

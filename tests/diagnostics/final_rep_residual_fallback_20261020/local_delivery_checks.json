@@ -1,0 +1,14 @@
+{
+  "all_passed": true,
+  "files_SHA_verified": 276,
+  "independent_local_replay_exact": true,
+  "archive_sha256": "fb89a99c1fa41921ad52cfe227ca1e57aa11d47d72624acfd99a389a4708e48b",
+  "HEAD": "3cfccc4a92c8e1ec6c3d491dac1c9efbf151daeb",
+  "tracked_diff_empty": true,
+  "index_diff_empty": true,
+  "no_stage": true,
+  "no_commit": true,
+  "no_push": true,
+  "report": "H:\\AIProjects\\cartgs优化更细致版\\mycartgs\\FINAL_REP_RESIDUAL_FALLBACK_AUDIT.md",
+  "diagnostics": "H:\\AIProjects\\cartgs优化更细致版\\mycartgs\\tests\\diagnostics\\final_rep_residual_fallback_20261020"
+}

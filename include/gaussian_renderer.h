@@ -47,6 +47,16 @@ struct GaussianRenderInput {
   torch::Tensor features_rest;
   int active_sh_degree = 0;
   int max_sh_degree = 0;
+
+  // Gather every attribute with the same local-to-master map. Autograd keeps
+  // the source-row gradient routing; callers decide whether sources detach.
+  GaussianRenderInput indexSelect(const torch::Tensor& indices) const {
+    return {xyz.index_select(0, indices), opacity.index_select(0, indices),
+            scaling.index_select(0, indices), rotation.index_select(0, indices),
+            features_dc.index_select(0, indices),
+            features_rest.index_select(0, indices), active_sh_degree,
+            max_sh_degree};
+  }
 };
 
 class GaussianRenderer {
@@ -63,7 +73,8 @@ class GaussianRenderer {
       bool has_override_color = false,
       torch::Tensor selector_mask = torch::Tensor(),
       bool detach_gaussian_parameters = false,
-      bool collect_importance = false);
+      bool collect_importance = false,
+      RasterizeMode mode = RasterizeMode::Training);
 
   // Tensor input keeps elastic rendering separate from the mutable master
   // GaussianModel. Callers own the gradient boundary of every attribute.
@@ -77,5 +88,6 @@ class GaussianRenderer {
       torch::Tensor& override_color,
       float scaling_modifier = 1.0f,
       bool has_override_color = false,
-      bool collect_importance = false);
+      bool collect_importance = false,
+      RasterizeMode mode = RasterizeMode::Training);
 };

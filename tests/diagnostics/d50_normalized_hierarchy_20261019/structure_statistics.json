@@ -1,0 +1,200 @@
+{
+  "fr1_room": {
+    "old": {
+      "N_candidate": 50330,
+      "d50": 0.01346104661721726,
+      "h_L1": 0.29986755746366806,
+      "h_L2": 0.14993377873183403,
+      "h_L3": 0.07496688936591701,
+      "h_over_d50": 22.276689620859383,
+      "occupied_roots": 2048,
+      "root_occupancy": {
+        "count": 2048,
+        "min": 1.0,
+        "mean": 24.5751953125,
+        "median": 5.0,
+        "p10": 1.0,
+        "p90": 57.0,
+        "p95": 105.0,
+        "p99": 307.7799999999993,
+        "max": 1188.0
+      },
+      "largest_root_candidate_fraction": 0.02360421219948341,
+      "largest_N_root_Raw_fraction": 0.0065389752857505845,
+      "largest_root_Raw_fraction": 0.015396595643061702,
+      "total_final_leaves": 5601,
+      "total_final_representatives": 13715,
+      "L3_unresolved_count": 481,
+      "L3_unresolved_Raw_fraction": 0.16046069829372683,
+      "global_leaf_weighted_Q": 0.8837622487608384,
+      "runtime": {
+        "grid_ms": 4.467606,
+        "hierarchy_ms": 8908.077118
+      }
+    },
+    "new": {
+      "N_candidate": 50330,
+      "d50": 0.01346104661721726,
+      "h_L1": 0.43075349175095234,
+      "h_L2": 0.21537674587547617,
+      "h_L3": 0.10768837293773809,
+      "h_over_d50": 32.0,
+      "occupied_roots": 1221,
+      "root_occupancy": {
+        "count": 1221,
+        "min": 1.0,
+        "mean": 41.22031122031122,
+        "median": 5.0,
+        "p10": 1.0,
+        "p90": 104.0,
+        "p95": 182.0,
+        "p99": 531.9999999999995,
+        "max": 1960.0
+      },
+      "largest_root_candidate_fraction": 0.03894297635605007,
+      "largest_N_root_Raw_fraction": 0.016828719762032665,
+      "largest_root_Raw_fraction": 0.02395647817549136,
+      "total_final_leaves": 4579,
+      "total_final_representatives": 11441,
+      "L3_unresolved_count": 532,
+      "L3_unresolved_Raw_fraction": 0.26438986063258735,
+      "global_leaf_weighted_Q": 0.847742124505577,
+      "runtime": {
+        "grid_ms": 6.208219,
+        "hierarchy_ms": 6689.915134
+      }
+    }
+  },
+  "fr1_xyz": {
+    "old": {
+      "N_candidate": 23643,
+      "d50": 0.007198099916696466,
+      "h_L1": 0.07246712689026927,
+      "h_L2": 0.036233563445134634,
+      "h_L3": 0.018116781722567317,
+      "h_over_d50": 10.067535562013665,
+      "occupied_roots": 2048,
+      "root_occupancy": {
+        "count": 2048,
+        "min": 1.0,
+        "mean": 11.54443359375,
+        "median": 3.0,
+        "p10": 1.0,
+        "p90": 30.0,
+        "p95": 53.0,
+        "p99": 128.58999999999992,
+        "max": 401.0
+      },
+      "largest_root_candidate_fraction": 0.01696062259442541,
+      "largest_N_root_Raw_fraction": 0.0027403147693893137,
+      "largest_root_Raw_fraction": 0.015974241964189277,
+      "total_final_leaves": 4889,
+      "total_final_representatives": 10889,
+      "L3_unresolved_count": 181,
+      "L3_unresolved_Raw_fraction": 0.033141189354321435,
+      "global_leaf_weighted_Q": 0.9403273217713178,
+      "runtime": {
+        "grid_ms": 2.296714,
+        "hierarchy_ms": 7057.882087
+      }
+    },
+    "new": {
+      "N_candidate": 23643,
+      "d50": 0.007198099916696466,
+      "h_L1": 0.2303391973342869,
+      "h_L2": 0.11516959866714345,
+      "h_L3": 0.057584799333571725,
+      "h_over_d50": 32.0,
+      "occupied_roots": 440,
+      "root_occupancy": {
+        "count": 440,
+        "min": 1.0,
+        "mean": 53.73409090909091,
+        "median": 5.0,
+        "p10": 1.0,
+        "p90": 91.50000000000011,
+        "p95": 294.04999999999995,
+        "p99": 853.3700000000043,
+        "max": 1594.0
+      },
+      "largest_root_candidate_fraction": 0.0674195322082646,
+      "largest_N_root_Raw_fraction": 0.04016451557971014,
+      "largest_root_Raw_fraction": 0.051922314380303654,
+      "total_final_leaves": 1726,
+      "total_final_representatives": 4395,
+      "L3_unresolved_count": 355,
+      "L3_unresolved_Raw_fraction": 0.263615836031453,
+      "global_leaf_weighted_Q": 0.8350807541235166,
+      "runtime": {
+        "grid_ms": 2.421548,
+        "hierarchy_ms": 2634.80807
+      }
+    }
+  },
+  "fr2_xyz": {
+    "old": {
+      "N_candidate": 43059,
+      "d50": 0.0020202845749039845,
+      "h_L1": 0.1251487810923318,
+      "h_L2": 0.0625743905461659,
+      "h_L3": 0.03128719527308295,
+      "h_over_d50": 61.94611523887895,
+      "occupied_roots": 2048,
+      "root_occupancy": {
+        "count": 2048,
+        "min": 1.0,
+        "mean": 21.02490234375,
+        "median": 2.0,
+        "p10": 1.0,
+        "p90": 40.299999999999955,
+        "p95": 115.0,
+        "p99": 356.2999999999997,
+        "max": 1076.0
+      },
+      "largest_root_candidate_fraction": 0.024988968624445527,
+      "largest_N_root_Raw_fraction": 0.008199813966687678,
+      "largest_root_Raw_fraction": 0.03358369478251824,
+      "total_final_leaves": 5090,
+      "total_final_representatives": 11448,
+      "L3_unresolved_count": 676,
+      "L3_unresolved_Raw_fraction": 0.12355883405485717,
+      "global_leaf_weighted_Q": 0.9008886653003791,
+      "runtime": {
+        "grid_ms": 3.584149,
+        "hierarchy_ms": 7904.14293
+      }
+    },
+    "new": {
+      "N_candidate": 43059,
+      "d50": 0.0020202845749039845,
+      "h_L1": 0.0646491063969275,
+      "h_L2": 0.03232455319846375,
+      "h_L3": 0.016162276599231876,
+      "h_over_d50": 32.0,
+      "occupied_roots": 4110,
+      "root_occupancy": {
+        "count": 4110,
+        "min": 1.0,
+        "mean": 10.476642335766423,
+        "median": 2.0,
+        "p10": 1.0,
+        "p90": 22.09999999999991,
+        "p95": 48.0,
+        "p99": 139.90999999999985,
+        "max": 527.0
+      },
+      "largest_root_candidate_fraction": 0.012239020878329733,
+      "largest_N_root_Raw_fraction": 0.001135526650312373,
+      "largest_root_Raw_fraction": 0.019362995235550712,
+      "total_final_leaves": 8033,
+      "total_final_representatives": 17015,
+      "L3_unresolved_count": 576,
+      "L3_unresolved_Raw_fraction": 0.05570838835813357,
+      "global_leaf_weighted_Q": 0.9406556902829704,
+      "runtime": {
+        "grid_ms": 7.001616,
+        "hierarchy_ms": 10164.395658
+      }
+    }
+  }
+}

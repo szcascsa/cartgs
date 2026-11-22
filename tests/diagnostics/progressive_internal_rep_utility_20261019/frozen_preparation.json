@@ -1,0 +1,47 @@
+{
+  "all_passed": true,
+  "scenes": {
+    "fr1_room": {
+      "N_candidate": 50330,
+      "Bank": 69,
+      "evaluation": 161,
+      "old_progressive_delta_PSNR": [
+        0.10388745136142497,
+        0.0016367006005708618,
+        0.020476915821525665,
+        0.03905033917160594
+      ],
+      "old_C_sha": "3932204fee4fc4fe5c893a0f28c6e3d4bd55fb2434507a85b5c67ce4d2ff8f88",
+      "input_sha": "e54e055fd9be3a211ba87cf6997fd088960659ff3f415d2affeebc7636d09a55",
+      "source": "/home/prmi/zwj/hierarchical-progressive-marginal-20261019"
+    },
+    "fr1_xyz": {
+      "N_candidate": 23643,
+      "Bank": 18,
+      "evaluation": 54,
+      "old_progressive_delta_PSNR": [
+        0.250819700735585,
+        -0.11458529366387182,
+        -0.11967489454481495,
+        -0.04093247872811645
+      ],
+      "old_C_sha": "0105008300806e505cba922a8f90f9fce8a9df4e6eff3320e4ea4d822298dfda",
+      "input_sha": "9518c1b79e2bd00f499fcbb81244c7a82be9cc10c3f0610ed745695a99a67fac",
+      "source": "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz"
+    },
+    "fr2_xyz": {
+      "N_candidate": 43059,
+      "Bank": 14,
+      "evaluation": 39,
+      "old_progressive_delta_PSNR": [
+        -0.0904697760557518,
+        -0.05778831090682601,
+        -0.04152865287585428,
+        0.028432308099208825
+      ],
+      "old_C_sha": "d5f93b4fda0f1db01bed91f03eaddd9165fd8144deccc887b9e0c5907a43926a",
+      "input_sha": "e782809b8e6395ef2357ee58745ffc1763f76f3cf540d875daca5b5bd78bbada",
+      "source": "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr2_xyz"
+    }
+  }
+}

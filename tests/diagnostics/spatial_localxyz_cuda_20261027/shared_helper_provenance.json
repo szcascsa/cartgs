@@ -1,0 +1,6 @@
+{
+  "torch": "2.3.1+cu118",
+  "original_sha256": "27b03c847231295b1bd4200fb966739c4a57fc121ce1b698a9a481a25669a046",
+  "modified_sha256": "9c555011743cdcac97b5267c119a944e18bf83b7c12a1a0e596bf90197f64174",
+  "change": "one line: reuse caller-owned warmup stream; unchanged three warmups, forward/backward capture and autograd"
+}

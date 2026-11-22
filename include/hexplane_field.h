@@ -1,6 +1,7 @@
 #pragma once
 
 #include <torch/torch.h>
+#include "aabb.h"
 
 #include <array>
 #include <cstdint>
@@ -23,6 +24,11 @@ class HexPlaneFieldImpl : public torch::nn::Module {
   torch::Tensor forward(const torch::Tensor& xyz,
                         const torch::Tensor& ratio);
   torch::Tensor insideMask(const torch::Tensor& xyz) const;
+  void resampleDomain(const AABB3D& old_aabb, const AABB3D& new_aabb,
+                      const PlaneChangeMask& affected_planes);
+  void setAABB(const AABB3D& aabb);
+  std::vector<torch::Tensor> affectedParameters(
+      const PlaneChangeMask& affected_planes) const;
 
   torch::Tensor spatialSmoothness() const;
   torch::Tensor ratioSmoothness() const;
@@ -36,6 +42,7 @@ class HexPlaneFieldImpl : public torch::nn::Module {
   std::vector<torch::Tensor> gridParameters() const { return planes_; }
 
  private:
+  static void initializePlane(torch::Tensor plane, bool ratio_plane);
   static constexpr std::array<std::array<int, 2>, 6> kCoordinatePairs = {{
       {{0, 1}}, {{0, 2}}, {{0, 3}}, {{1, 2}}, {{1, 3}}, {{2, 3}},
   }};

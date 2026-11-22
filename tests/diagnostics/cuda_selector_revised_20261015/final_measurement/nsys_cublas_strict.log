@@ -1,0 +1,7 @@
+Capture range started in the application.
+Generating '/tmp/nsys-report-e792.qdstrm'
+Capture range ended in the application.
+[1/1] [0%                          ] mlp_cublas_strict.nsys-rep[1/1] [0%                          ] mlp_cublas_strict.nsys-rep[1/1] [=15%                        ] mlp_cublas_strict.nsys-rep[1/1] [=====30%                    ] mlp_cublas_strict.nsys-rep[1/1] [===================81%      ] mlp_cublas_strict.nsys-rep[1/1] [===================82%      ] mlp_cublas_strict.nsys-rep[1/1] [========================100%] mlp_cublas_strict.nsys-rep[1/1] [========================100%] mlp_cublas_strict.nsys-rep
+cublas_strict M=219969 network_forward_backward complete
+Generated:
+    /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_revised_20261015/final_measurement/mlp_cublas_strict.nsys-rep

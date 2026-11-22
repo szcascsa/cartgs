@@ -1,0 +1,24 @@
+{
+  "new_models": 16,
+  "reused_models": 32,
+  "steps": 12000,
+  "ratio_exposures": 3000,
+  "native_e8_e50_r3_passed": true,
+  "python_seven_ratio_parity_passed": true,
+  "cpp_mapping_cuda_build": false,
+  "online_slam_quality_run": false,
+  "local_default": "s00r00e50d12",
+  "server_run": "isolated frozen-map prototype",
+  "source_sha256": {
+    "cfg/selector/selector_config.yaml": "c589d3149bec03cfc7cabe54562f9d790b9fe13b1d7a34cdf3c204defb113d1f",
+    "cfg/selector/s00_e08_reference.yaml": "6982a847f8e1a3ad18457f2bc6ed1ac93a7400cab0d112d731b57210376b98fb",
+    "cfg/selector/r3_reference.yaml": "bd39ee01edcfaf010a6e256bbfc03860439bbc635797cabf767e30f6fef1cabf",
+    "improvements/selector/anchor_bank.h": "5859d6f88a51812679cffc7dd8af1121d8bf70b2c8fa77f25189848d5c4e847d",
+    "improvements/selector/gumbel_network.h": "4627c8284786e92b143e95923ed5ebebcf1f7f42d264d637cbf04cc83f9de9d2",
+    "src/gaussian_mapper.cpp": "02c219918d0b37e981c26c54eea4feb7976322bb99ef5fb4772c2352dc33c3bb",
+    "python/selector.py": "07c6fd35e221068ef65784f3ec5831c1ffc2c55dc83cba4a6a0904a32e42caec",
+    "tests/anchor_selector/s00_compensation_test.cpp": "5a808d07122adae98b2a711b1f551f04869de76596d6715383fecc85231629c3",
+    "tests/anchor_selector/s00_compensation_python_test.py": "07b927219466e44d74c49d0ae0812ce29ed32930bb7b21a7c82c60fe1d1f508d",
+    "S00_E50_COMPENSATION_AUDIT.md": "ed74d61f274ef8149df78f5fd31a5c36be2a032e25b18f546694890a81bd761b"
+  }
+}

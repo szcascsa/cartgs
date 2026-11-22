@@ -1,0 +1,20 @@
+{
+  "all_passed": true,
+  "complete_ranking_exact": true,
+  "selected_sets_exact": true,
+  "per_view_max_abs": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "photo": 0.0
+  },
+  "aggregate_max_abs": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "photo": 0.0
+  },
+  "views": 161,
+  "candidates": 50330,
+  "TF_frozen": true
+}

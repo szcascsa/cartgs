@@ -381,25 +381,49 @@ int KeyFrame::GetNumberMPs() {
 }
 
 void KeyFrame::AddMapPoint(MapPoint *pMP, const size_t &idx) {
+  GIAssociationState::Write gi_write;
   unique_lock<mutex> lock(mMutexFeatures);
   mvpMapPoints[idx] = pMP;
+  ++gi_association_revision_;
 }
 
 void KeyFrame::EraseMapPointMatch(const int &idx) {
+  GIAssociationState::Write gi_write;
   unique_lock<mutex> lock(mMutexFeatures);
   mvpMapPoints[idx] = static_cast<MapPoint *>(NULL);
+  ++gi_association_revision_;
 }
 
 void KeyFrame::EraseMapPointMatch(MapPoint *pMP) {
+  GIAssociationState::Write gi_write;
   tuple<size_t, size_t> indexes = pMP->GetIndexInKeyFrame(this);
+  unique_lock<mutex> lock(mMutexFeatures);
   size_t leftIndex = get<0>(indexes), rightIndex = get<1>(indexes);
   if (leftIndex != -1) mvpMapPoints[leftIndex] = static_cast<MapPoint *>(NULL);
   if (rightIndex != -1)
     mvpMapPoints[rightIndex] = static_cast<MapPoint *>(NULL);
+  ++gi_association_revision_;
 }
 
 void KeyFrame::ReplaceMapPointMatch(const int &idx, MapPoint *pMP) {
+  GIAssociationState::Write gi_write;
+  unique_lock<mutex> lock(mMutexFeatures);
   mvpMapPoints[idx] = pMP;
+  ++gi_association_revision_;
+}
+
+bool KeyFrame::GIBad() const {
+  GIAssociationState::assertReading();
+  return mbBad;
+}
+
+std::vector<uint64_t> KeyFrame::GIPointIds() const {
+  GIAssociationState::assertReading();
+  std::vector<uint64_t> ids;
+  ids.reserve(mvpMapPoints.size());
+  for (auto point : mvpMapPoints)
+    if (point && !point->GIBad()) ids.push_back(point->mnId);
+  return ids;
 }
 
 set<MapPoint *> KeyFrame::GetMapPoints() {
@@ -615,6 +639,7 @@ void KeyFrame::SetErase() {
 }
 
 void KeyFrame::SetBadFlag() {
+  GIAssociationState::Write gi_write;
   {
     unique_lock<mutex> lock(mMutexConnections);
     if (mnId == mpMap->GetInitKFid()) {
@@ -946,6 +971,8 @@ void KeyFrame::PreSave(set<KeyFrame *> &spKF,
 void KeyFrame::PostLoad(map<long unsigned int, KeyFrame *> &mpKFid,
                         map<long unsigned int, MapPoint *> &mpMPid,
                         map<unsigned int, GeometricCamera *> &mpCamId) {
+  GIAssociationState::Write gi_write;
+  ++gi_association_revision_;
   // Rebuild the empty variables
 
   // Pose

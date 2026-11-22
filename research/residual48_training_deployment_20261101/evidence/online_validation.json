@@ -1,0 +1,187 @@
+{
+  "passed": true,
+  "checkpoint": "/home/prmi/zwj/deployments/residual48_training_20261101/runs/ONLINE_NSYS/1500_shutdown/ply",
+  "stage": {
+    "normal_lod_branch_count": 0,
+    "online": {
+      "full_backwards": 1071,
+      "full_renders": 1071,
+      "gaussian_step_calls": 1500,
+      "gaussian_updates": 1500,
+      "lod_attempts": 429,
+      "lod_nonfinite": 0,
+      "lod_renders": 429,
+      "mappings": 1500,
+      "opacity_resets": 0,
+      "ratio_counts": [
+        72,
+        72,
+        72,
+        71,
+        71,
+        71
+      ],
+      "selector_commits": 429,
+      "stats": 1071,
+      "tf_commits": 0,
+      "topology": 1
+    },
+    "selector_step": 429,
+    "serial_full_lod": false,
+    "serial_lod_detach_master": false,
+    "tail": {
+      "full_backwards": 0,
+      "full_renders": 0,
+      "gaussian_step_calls": 0,
+      "gaussian_updates": 0,
+      "lod_attempts": 0,
+      "lod_nonfinite": 0,
+      "lod_renders": 0,
+      "mappings": 0,
+      "opacity_resets": 0,
+      "ratio_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "selector_commits": 0,
+      "stats": 0,
+      "tf_commits": 0,
+      "topology": 0
+    },
+    "tf_updates": 0,
+    "ultra_light_mode": 1
+  },
+  "anchor_state": {
+    "adaptive": false,
+    "anchor_count": 6793,
+    "anchor_only_pruning": false,
+    "anchor_pruned_members": 0,
+    "anchor_refine_requires_full": false,
+    "cd_compensation_steps": 0,
+    "compensation_active_fourier_dim": 0,
+    "compensation_decoded_rows": 486141,
+    "compensation_feature_dim": 48,
+    "compensation_feature_interpolation": "raw-ratio partial next residual; prefix receives all higher-ratio gradients; base random and residuals zero at creation",
+    "compensation_feature_state": [
+      {
+        "adam_step": 429,
+        "finite": true,
+        "rms": 0.028695054352283478,
+        "rows": 6793,
+        "width": 48
+      },
+      {
+        "adam_step": 357,
+        "finite": true,
+        "rms": 0.024051418527960777,
+        "rows": 6793,
+        "width": 48
+      },
+      {
+        "adam_step": 285,
+        "finite": true,
+        "rms": 0.020423151552677155,
+        "rows": 6793,
+        "width": 48
+      },
+      {
+        "adam_step": 213,
+        "finite": true,
+        "rms": 0.01669176109135151,
+        "rows": 6793,
+        "width": 48
+      },
+      {
+        "adam_step": 142,
+        "finite": true,
+        "rms": 0.012753328308463097,
+        "rows": 6793,
+        "width": 48
+      },
+      {
+        "adam_step": 71,
+        "finite": true,
+        "rms": 0.008295672945678234,
+        "rows": 6793,
+        "width": 48
+      }
+    ],
+    "compensation_feature_tables": 6,
+    "compensation_forwards": 429,
+    "compensation_fourier_bands": 0,
+    "compensation_hidden_layers": 0,
+    "compensation_input_dim": 54,
+    "compensation_layout": "Selector11; offset3 + base48 and cumulative ratio residual48 + ratio3; 64/64 four heads",
+    "compensation_method": "spatial_offset3_residual48",
+    "compensation_output_dim": 14,
+    "compensation_parameters": 25230,
+    "compensation_ratio_code_dim": 3,
+    "compensation_ratio_encoding_max": 0.4000000059604645,
+    "compensation_ratio_encoding_min": 0.009999999776482582,
+    "compensation_ratio_scalar_input": false,
+    "compensation_residual_mode": 1,
+    "compensation_start_iter": 0,
+    "contribution_weight": 0.4000000059604645,
+    "explicit_blocks": true,
+    "feature_dim": 0,
+    "gaussian_attributes": true,
+    "gaussian_count": 9877,
+    "gaussian_pruned_members": 6403,
+    "geometry_head_variant": 0,
+    "global_xyz": false,
+    "growth": "Full-gradient q90 first-window tau0; alpha=2; stable UID collision buckets",
+    "growth_alpha": 2.0,
+    "growth_tau0": 0.0,
+    "inactive_slots": 0,
+    "input_dim": 11,
+    "iteration": 1500,
+    "leaf_capacity": 0,
+    "local_anchor_dropped_full": 0,
+    "local_anchor_migrated_members": 0,
+    "local_anchor_migration": "same-level destination; capacity=10; accepted-member-weighted Feature; compact after CD",
+    "lod_start_iteration": 1000,
+    "maturity_mode": "reliability_v2_rendering_contribution",
+    "max_gaussians_per_anchor": 10,
+    "max_level": 2,
+    "offset_reference": "current_cell_center_and_size",
+    "physical_scale_additive": true,
+    "private_compensation_tables": 0,
+    "prune_check_interval": 500,
+    "prune_min_opacity": 0.005,
+    "prune_success_threshold": 0.8,
+    "pruning": "Octree-GS anchor opacity sum / Full visible visits; sufficient visits only",
+    "ratio_encoding": "log_r_joint_input",
+    "ratio_feature_dim": 0,
+    "ratio_scalar_input": "none",
+    "schema": "explicit_anchor_selector_v10_s00r00",
+    "selection": "flexgs_gumbel_st_quantile",
+    "selector_compensation": true,
+    "slot_deactivation": true,
+    "spatial_normalization": "fixed at first compensation from full current map; live selected Gaussian attributes and Master gradients",
+    "spatial_normalization_ready": true,
+    "topology_round": 1,
+    "total_feature_dim_per_anchor": 288,
+    "voxel_size": 0.10000000149011612
+  },
+  "effective_settings": [
+    "/home/prmi/zwj/deployments/residual48_training_20261101/runs/ONLINE_NSYS/1500_shutdown/ply/selector_config.yaml"
+  ],
+  "training_forward_and_backward": [
+    [
+      "mapping_cuda::<unnamed>::trainingPack(long, const float *, const float *, const float *, const float *, const float *, mapping_cuda::<unnamed>::Features, float *, float *)",
+      429,
+      5006493
+    ],
+    [
+      "mapping_cuda::<unnamed>::trainingXYZVjp(long, const float *, const float *, const float *, const float *, long, long, float *)",
+      429,
+      1495778
+    ]
+  ],
+  "full_quality_regression": false,
+  "end_to_end_speedup_claimed": false
+}

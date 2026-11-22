@@ -1,0 +1,359 @@
+[
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.07568
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/backward",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.042047
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/cache_missing_indices",
+    "kernel_calls": 144,
+    "kernel_gpu_ms": 0.480032
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/selector_network_backward",
+    "kernel_calls": 6080,
+    "kernel_gpu_ms": 104.765364
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/student_forward",
+    "kernel_calls": 4028,
+    "kernel_gpu_ms": 23.290116
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/target_cache",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 5.069693
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/teacher_forward",
+    "kernel_calls": 528,
+    "kernel_gpu_ms": 3.080109
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.950183
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/backward",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.044032
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/cache_missing_indices",
+    "kernel_calls": 940,
+    "kernel_gpu_ms": 2.876374
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/geometry_transport",
+    "kernel_calls": 30024,
+    "kernel_gpu_ms": 90.172912
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/hexplane_backward",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 10.614445
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/output_backward",
+    "kernel_calls": 80,
+    "kernel_gpu_ms": 0.53936
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/student_forward",
+    "kernel_calls": 3680,
+    "kernel_gpu_ms": 49.120906
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/target_cache",
+    "kernel_calls": 31608,
+    "kernel_gpu_ms": 99.54024
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/teacher_forward",
+    "kernel_calls": 400,
+    "kernel_gpu_ms": 5.455774
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/tf_mlp_backward",
+    "kernel_calls": 2560,
+    "kernel_gpu_ms": 14.351471
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.948452
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/backward",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.041087
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/cache_missing_indices",
+    "kernel_calls": 120,
+    "kernel_gpu_ms": 0.393341
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/geometry_transport",
+    "kernel_calls": 30024,
+    "kernel_gpu_ms": 86.311657
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/hexplane_backward",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 9.499009
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/output_backward",
+    "kernel_calls": 80,
+    "kernel_gpu_ms": 0.526115
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/student_forward",
+    "kernel_calls": 3680,
+    "kernel_gpu_ms": 48.534188
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/target_cache",
+    "kernel_calls": 30788,
+    "kernel_gpu_ms": 93.022658
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/teacher_forward",
+    "kernel_calls": 400,
+    "kernel_gpu_ms": 5.321908
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/tf_mlp_backward",
+    "kernel_calls": 2560,
+    "kernel_gpu_ms": 13.848707
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.075553
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/backward",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.043231
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/cache_missing_indices",
+    "kernel_calls": 144,
+    "kernel_gpu_ms": 0.480352
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/selector_network_backward",
+    "kernel_calls": 6080,
+    "kernel_gpu_ms": 105.698723
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/student_forward",
+    "kernel_calls": 6688,
+    "kernel_gpu_ms": 36.908641
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/target_cache",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 5.120977
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/teacher_forward",
+    "kernel_calls": 528,
+    "kernel_gpu_ms": 3.079508
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.95901
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/backward",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.043907
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/cache_missing_indices",
+    "kernel_calls": 940,
+    "kernel_gpu_ms": 2.935113
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/geometry_transport",
+    "kernel_calls": 41564,
+    "kernel_gpu_ms": 118.143935
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/hexplane_backward",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 10.366488
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/output_backward",
+    "kernel_calls": 80,
+    "kernel_gpu_ms": 0.571074
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/student_forward",
+    "kernel_calls": 3680,
+    "kernel_gpu_ms": 52.832165
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/target_cache",
+    "kernel_calls": 43148,
+    "kernel_gpu_ms": 127.603601
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/teacher_forward",
+    "kernel_calls": 400,
+    "kernel_gpu_ms": 5.48902
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/tf_mlp_backward",
+    "kernel_calls": 2560,
+    "kernel_gpu_ms": 15.048835
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.08733
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/backward",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.042689
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/cache_missing_indices",
+    "kernel_calls": 1544,
+    "kernel_gpu_ms": 4.592174
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/selector_network_backward",
+    "kernel_calls": 6080,
+    "kernel_gpu_ms": 105.332448
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/student_forward",
+    "kernel_calls": 6688,
+    "kernel_gpu_ms": 36.705406
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/target_cache",
+    "kernel_calls": 2520,
+    "kernel_gpu_ms": 9.23982
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/teacher_forward",
+    "kernel_calls": 528,
+    "kernel_gpu_ms": 3.07481
+  }
+]

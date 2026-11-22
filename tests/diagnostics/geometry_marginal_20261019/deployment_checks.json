@@ -1,0 +1,29 @@
+{
+  "before": {
+    "CMakeLists.txt": "5076fb3ce69f6272178d137a67bc5295dd197ad0be1872e48d893e118e0ce2a1",
+    "examples/tum_rgbd.cpp": "dda7048cb9f48763b755494193d5f133a601641772a38bd1cf8b44f2fcb8b898",
+    "include/gaussian_mapper.h": "c1b97f3e7a12a4fb17b46b3f705689bdc8a581f68f29a973cd841977be755e4f",
+    "include/global_gi_bank.h": "b275fb9ab3a4182777cef1ff43b3806390efaa94e6e84572a643247fe07a52c3",
+    "include/mapping_profiler.h": "575244a62f47f1e2673dfb47ecb9bea98f69a19088905bdab32045ed95c1af0a",
+    "src/gaussian_mapper.cpp": "fe9d8a67a220d49e41a98f9487ff9d35be0a36459a5855187f21040cf83d99b8"
+  },
+  "after": {
+    "CMakeLists.txt": "4d88061f477604a9b905435ac7771645827b136d100b6be808c1f382bc090eb0",
+    "examples/tum_rgbd.cpp": "1c6e5f318e5c808346fc232b798311a105663c7fff727f53c6a3a893394ce5a8",
+    "include/gaussian_mapper.h": "91d2f59d3a5ef247e7f4133052bb7d5d3a8f0cae32e35a5660ea4cfbf3c465be",
+    "include/geometry_marginal_importance.h": "e314d93f9ea1c97f7c45c8788ea7d0cbfea37b1b64eb8c1bc4bac0582060e3b9",
+    "include/geometry_marginal_ranker.h": "4c4b45a184c4ae15809b46223990cf2b909598a4c8ac9a9ec529cb7ff458b0f8",
+    "include/global_gi_bank.h": "ad4814d70ad06ae1803186264933efa0a00d5484e525b7339ac97f0704dfe28f",
+    "include/mapping_profiler.h": "09f129e5678657da7c777dae5e475f41a9679957d4fbbe8d36d907a2933bb563",
+    "src/gaussian_mapper.cpp": "b28e6ba728ac2af0e005fc38508e5f45b92ccf136e5940af4842f4cceb596f88",
+    "src/geometry_marginal_importance.cpp": "e9926cd40875eb4dfefcd85501c8d4c20c5169722c3314b81985363cdedb3ce3",
+    "tests/geometry_marginal_test.cpp": "a33ef7356d52e04e1baf489cb11bc2a68fbfcb4604c5d8f6833db46e18b2e66f"
+  },
+  "prior_libraries": {
+    "libsimple_knn.so": "a090acbf61786a56ee2397db00f7526306462bcaeae5f5f9c04662cebceab88b",
+    "libcuda_rasterizer.so": "019cbd9fb052c8fa01dd03a977ec0f0c262cb01c963c03e2bb87c4e383f5e6a7",
+    "libimgui.so": "01930f981b7bd387f5dff5f7f923ef7a411d53de11802eebff46e4256fe8002f",
+    "libgaussian_viewer.so": "c7a2468e94bf5dd206cc2141fc0650029aab4ae7fb158cba01886907ed657cc1",
+    "libgaussian_mapper.so": "523bba9fea150989e07f93eb4977e95bbd91cafb4c58cc0ed3fcdb2964345b1c"
+  }
+}

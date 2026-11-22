@@ -1,0 +1,170 @@
+{
+  "aabb_only_no_groups" : 
+  [
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    }
+  ],
+  "all_points_all_groups" : 
+  [
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    }
+  ],
+  "empty_batch" : 
+  [
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    }
+  ],
+  "mixed_flags_empty_group_identity" : 
+  [
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    }
+  ],
+  "teacher_ratio_0" : 
+  [
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    }
+  ],
+  "teacher_ratio_1" : 
+  [
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    }
+  ],
+  "teacher_ratio_2" : 
+  [
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    }
+  ],
+  "teacher_ratio_3" : 
+  [
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    },
+    {
+      "allclose" : true,
+      "bitwise_equal" : true,
+      "max_abs" : 0.0,
+      "mean_abs" : 0.0
+    }
+  ]
+}

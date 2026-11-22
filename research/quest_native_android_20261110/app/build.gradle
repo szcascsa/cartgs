@@ -1,0 +1,54 @@
+plugins { id 'com.android.application' }
+
+def rootDirPath = rootProject.projectDir.absolutePath.replace('\\', '/')
+
+android {
+    namespace 'ai.mycartgs.quest'
+    compileSdk 34
+    ndkVersion '23.2.8568313'
+    buildToolsVersion '34.0.0'
+
+    defaultConfig {
+        applicationId 'ai.mycartgs.quest'
+        minSdk 29
+        targetSdk 34
+        versionCode 6
+        versionName '0.4.1-point-benchmark'
+        ndk { abiFilters 'arm64-v8a' }
+        externalNativeBuild {
+            cmake {
+                cppFlags '-O3'
+                arguments '-DBUILD_API_LAYERS=OFF', '-DBUILD_TESTS=ON', '-DBUILD_LOADER=ON',
+                          '-DBUILD_CONFORMANCE_TESTS=OFF', '-DBUILD_ALL_EXTENSIONS=ON',
+                          '-DHELLOXR_DEFAULT_GRAPHICS_PLUGIN=Vulkan',
+                          "-DMYCARTGS_SOURCE_DIR=${rootDirPath}/app/src/main/cpp"
+                targets 'openxr_loader', 'hello_xr'
+            }
+        }
+    }
+    buildTypes {
+        debug { debuggable true; jniDebuggable true }
+        release { minifyEnabled false; signingConfig signingConfigs.debug }
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            assets.srcDirs = ['src/main/assets']
+            res.srcDirs = ['src/main/res',
+                           '../third_party/OpenXR-SDK-Source/src/tests/hello_xr/android_resources',
+                           '../third_party/OpenXR-SDK-Source/src/tests/hello_xr/android_resources/vulkan']
+        }
+    }
+    aaptOptions { noCompress 'mcgs', 'bin' }
+    externalNativeBuild {
+        cmake {
+            path '../third_party/OpenXR-SDK-Source/CMakeLists.txt'
+            version '3.22.1'
+        }
+    }
+    packagingOptions {
+        jniLibs { useLegacyPackaging true }
+        exclude 'lib/arm64-v8a/libQnn*.so'
+        resources { excludes += ['META-INF/**'] }
+    }
+}

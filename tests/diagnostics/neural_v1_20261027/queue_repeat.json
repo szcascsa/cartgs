@@ -1,0 +1,37 @@
+{
+  "tier": "repeat",
+  "jobs": [
+    {
+      "config": {
+        "id": "Reference59TrainEncoder",
+        "kind": "reference59",
+        "train_encoder": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialFiLM",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "SpatialOutputKnots",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "knots": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    }
+  ]
+}

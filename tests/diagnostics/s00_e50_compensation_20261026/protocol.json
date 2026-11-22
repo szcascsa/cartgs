@@ -1,0 +1,72 @@
+{
+  "declared_utc": "2026-10-26T09:10:00.195688+00:00",
+  "research": "S00R00E08D12 vs S00R00E50D12: only per-Anchor per-ratio compensation latent width changes",
+  "candidate": {
+    "shared": 0,
+    "ratio": 0,
+    "extra": 50,
+    "selector_depth": 1,
+    "compensation_depth": 2,
+    "id": "S00R00E50D12"
+  },
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "learning_rate": 0.001,
+  "optimizer": "Adam fused, eps1e-15, beta=.9/.999",
+  "loss": "0.8L1+0.2(1-fast_ssim)+0.01 relative expected budget L1",
+  "checkpoints": [
+    4000,
+    8000,
+    12000
+  ],
+  "seeds": {
+    "fr1_xyz": [
+      3100,
+      3101,
+      3102,
+      3103,
+      3104,
+      3105,
+      3106,
+      3107
+    ],
+    "fr2_xyz": [
+      4100,
+      4101,
+      4102,
+      4103,
+      4104,
+      4105,
+      4106,
+      4107
+    ]
+  },
+  "baseline_root": "/home/prmi/zwj/selector-capacity-matrix-20261026",
+  "baseline_config": "S00R00E08D12",
+  "baseline_phases": {
+    "fr1_xyz": "confirm",
+    "fr2_xyz": "external"
+  },
+  "frozen": "same Master all attributes, Gaussian IDs, Anchor owners/centers/scales, cameras, eligibility and cached uniform",
+  "changed": "extra latent width8->50; head input40->82; hidden32->32 and output14 unchanged",
+  "initialization": "same initial p=.5 and delta=0; common encoder/Selector and compensation hidden/output blocks exact; first8 extra projection columns reproduce old32x28 reservoir; extra22 columns independently initialized with same scale. No LR or projection normalization change.",
+  "evaluation": "cached actualK + exact sameK logit(p)-logit(u); final12000 only, all4 metrics",
+  "test_reuse": "same historical45 fr1 and64 fr2 nonBank; neither is a fresh untouched architecture test set now",
+  "statistics": "paired eight seed plus common contiguous camera-block bootstrap95%; exact seed sign permutation, Holm across two-scene seven-ratio primary; other group/metric comparisons descriptive",
+  "execution_workers": 2,
+  "no_early_stop": true,
+  "no_hparam_search": true,
+  "no_stage_commit_push": true,
+  "production_default": "s00r00e50d12; retain E8 reference; no other default setting change"
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "file": "include/change_management.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": false
+  },
+  {
+    "file": "include/frozen_teacher_target_cache.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/gaussian_transform_ops.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/quaternion_utils.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/model_snapshot.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/transform_field.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/hexplane_field.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/aabb.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/selector_cuda.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/transform_field_cuda.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/transform_field_cuda_optimizer.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/protection_profiler.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/elastic_entry.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "improvements/selector/gumbel_network.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/change_distill.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": false
+  },
+  {
+    "file": "src/change_management.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/transform_field.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/hexplane_field.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/selector_cuda.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/selector_cuda.cu",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/transform_field_cuda.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/transform_field_cuda.cu",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/transform_field_cuda_neural.cu",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/transform_field_cuda_regularization.cu",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/transform_field_cuda_optimizer.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/transform_field_cuda_optimizer.cu",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/gaussian_mapper.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": false
+  },
+  {
+    "file": "cfg/selector/fast.yaml",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "cfg/selector/selector_config.yaml",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "CMakeLists.txt",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "src/protection_profiler.cpp",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  },
+  {
+    "file": "include/selector_handoff.h",
+    "same_bytes": false,
+    "same_text_after_newline_normalization": true
+  }
+]

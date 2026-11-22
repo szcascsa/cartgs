@@ -1,0 +1,13 @@
+{
+  "archive": "metrics_supplement.tar.gz",
+  "sha256": "915ac36cff3db3ab03ae14ff211b056fda15b03d2db9916fcbad1ccd127cc819",
+  "bytes": 14278,
+  "parent_archive_sha256": "10807f6780541e24315ad4030d05a05777b8a8dbd92f142443dc19b7aba4129d",
+  "files": [
+    "production_metrics.json",
+    "metrics_check.py",
+    "report.py",
+    "CHANGE_DISTILL_TF_CUDA_OPTIMIZATION_REPORT.md",
+    "integrity.json"
+  ]
+}

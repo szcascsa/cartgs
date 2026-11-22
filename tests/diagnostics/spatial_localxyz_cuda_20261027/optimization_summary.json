@@ -1,0 +1,42 @@
+{
+  "best_render_backend": "decoded_graph",
+  "best_compensation_only_backend": "graph_cached55_fused",
+  "baseline_commit": "74fc1524d8d6345eda8e732a1da2efa9a4934951",
+  "performance": [
+    {
+      "scene": "fr1_xyz",
+      "forward_reference": 1.1537066925139656,
+      "forward_optimized": 0.17564038293702258,
+      "forward_speedup": 6.56857308793068,
+      "backward_reference": 1.9287771383921304,
+      "backward_optimized": 0.4788906716165089,
+      "fb_reference": 3.3796388535272506,
+      "fb_optimized": 0.6819839988436017,
+      "fb_speedup": 4.955598458699758,
+      "e2e_reference": 4.428897471654983,
+      "e2e_optimized": 1.6636099077406385,
+      "e2e_speedup": 2.662221143939869
+    },
+    {
+      "scene": "fr2_xyz",
+      "forward_reference": 1.1479039873395647,
+      "forward_optimized": 0.17349486052989957,
+      "forward_speedup": 6.6163573020754605,
+      "backward_reference": 1.9560594473566328,
+      "backward_optimized": 0.4951771433864321,
+      "fb_reference": 3.40136228288923,
+      "fb_optimized": 0.6799360002790179,
+      "fb_speedup": 5.002474176236366,
+      "e2e_reference": 4.429312024797712,
+      "e2e_optimized": 1.6565394401550293,
+      "e2e_speedup": 2.673834330429941
+    }
+  ],
+  "direct_tensors": 842,
+  "direct_pass": true,
+  "step_tensors": 2304,
+  "step_max_abs": 0.0,
+  "estimated_amortization_steps": 421.8095698564105,
+  "production_changed": false,
+  "optimization_committed": false
+}

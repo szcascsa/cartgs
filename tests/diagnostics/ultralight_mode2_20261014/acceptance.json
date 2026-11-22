@@ -1,0 +1,122 @@
+{
+  "commit": "1772546",
+  "torch": "2.3.1+cu118",
+  "cuda": "11.8",
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "complete": true,
+  "commands": [
+    {
+      "command": [
+        "/home/prmi/.local/lib/python3.13/site-packages/cmake/data/bin/cmake",
+        "--build",
+        "/home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9",
+        "-j2"
+      ],
+      "exit": 0,
+      "seconds": 24.013494040817022,
+      "log": "/home/prmi/zwj/mycartgs/tests/diagnostics/ultralight_mode2_20261014/build_gates.log"
+    },
+    {
+      "command": [
+        "/home/prmi/.local/lib/python3.13/site-packages/cmake/data/bin/ctest",
+        "--test-dir",
+        "/home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9",
+        "-R",
+        "^ultralight_mode2_(config|full_parity)$",
+        "--output-on-failure",
+        "--timeout",
+        "120"
+      ],
+      "exit": 0,
+      "seconds": 1.1667398549616337,
+      "log": "/home/prmi/zwj/mycartgs/tests/diagnostics/ultralight_mode2_20261014/gate_A.log"
+    },
+    {
+      "command": [
+        "/home/prmi/.local/lib/python3.13/site-packages/cmake/data/bin/ctest",
+        "--test-dir",
+        "/home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9",
+        "-R",
+        "^ultralight_mode2_(stages|clocks|special)$",
+        "--output-on-failure",
+        "--timeout",
+        "120"
+      ],
+      "exit": 0,
+      "seconds": 2.368946820497513,
+      "log": "/home/prmi/zwj/mycartgs/tests/diagnostics/ultralight_mode2_20261014/gate_B.log"
+    },
+    {
+      "command": [
+        "/home/prmi/.local/lib/python3.13/site-packages/cmake/data/bin/ctest",
+        "--test-dir",
+        "/home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9",
+        "--output-on-failure",
+        "--timeout",
+        "120",
+        "-j1"
+      ],
+      "exit": 0,
+      "seconds": 22.36032059043646,
+      "log": "/home/prmi/zwj/mycartgs/tests/diagnostics/ultralight_mode2_20261014/gate_C.log"
+    },
+    {
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/ultralight_mode2_mapping_test",
+        "benchmark"
+      ],
+      "exit": 0,
+      "seconds": 2.31838795915246,
+      "log": "/home/prmi/zwj/mycartgs/tests/diagnostics/ultralight_mode2_20261014/gate_D.log"
+    }
+  ],
+  "microbenchmark": [
+    {
+      "label": "original_full_only",
+      "gaussians": "2048",
+      "measured_cycles": "50",
+      "warmup_cycles": "15",
+      "complete_mean_ms": 2.51941,
+      "host_p95_ms": 2.69778
+    },
+    {
+      "label": "mode1",
+      "gaussians": "2048",
+      "measured_cycles": "50",
+      "warmup_cycles": "15",
+      "complete_mean_ms": 4.6476,
+      "host_p95_ms": 5.2766
+    },
+    {
+      "label": "mode2_full_only",
+      "gaussians": "2048",
+      "measured_cycles": "50",
+      "warmup_cycles": "15",
+      "complete_mean_ms": 2.3376,
+      "host_p95_ms": 2.4324
+    },
+    {
+      "label": "mode2_half_lod",
+      "gaussians": "2048",
+      "measured_cycles": "50",
+      "warmup_cycles": "15",
+      "complete_mean_ms": 7.7757,
+      "host_p95_ms": 8.0679
+    },
+    {
+      "label": "mode2_native_lod",
+      "gaussians": "2048",
+      "measured_cycles": "50",
+      "warmup_cycles": "15",
+      "complete_mean_ms": 7.9171,
+      "host_p95_ms": 8.0588
+    }
+  ],
+  "source_sha256": {
+    "src/gaussian_mapper.cpp": "70a3a2184bab210c24f4bb65dcfe91dad7e8125616b657925bc60d710dba14d2",
+    "include/gaussian_mapper.h": "bdeeae000ec22b3812ed953b55291f9ef2399a0d9d384b15f90e1fda4359b652",
+    "include/mapping_profiler.h": "4ca2ca7cbc2bbcbe7708b8f1750c2cb553e3cdb8ec5b36f5ae2fdc0e2af6cd2a",
+    "tests/ultralight_mode2_mapping_test.cpp": "b9ed91cf194c0d832176df5cbca9042cf2e3c5840be38ad0c01270e96f3d6158",
+    "CMakeLists.txt": "2e2cfdff55a1578c41c49eb21f0368d09aad55fb1ad33e5aac8b95335e9533ad"
+  }
+}

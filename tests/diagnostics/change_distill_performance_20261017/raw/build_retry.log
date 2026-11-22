@@ -1,0 +1,17 @@
+/usr/bin/g++ -O3 -std=c++17 -fPIC -D_GLIBCXX_USE_CXX11_ABI=0 -DCARTGS_EXPERIMENTAL_SELECTOR_CUDA -I/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/include -I/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda-11.8/include -I/home/prmi/zwj/mycartgs/third_party/install/jsoncpp-1.9.5/include -I/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017 -I/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/source -c /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/combined_native.cpp -o /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/objects/native.o
+In file included from /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/source/include/transform_field.h:11,
+                 from /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/source/include/change_management.h:13,
+                 from /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/source/src/change_management.cpp:1,
+                 from /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/combined_native.cpp:2:
+/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/source/include/elastic_entry.h:2:10: fatal error: selector_handoff.h: 没有那个文件或目录
+    2 | #include "selector_handoff.h"
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+Traceback (most recent call last):
+  File "/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/build_native.py", line 55, in <module>
+    execute(['/usr/bin/g++', *common, *includes, '-I' + str(D / folder),
+  File "/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/build_native.py", line 26, in execute
+    subprocess.run(args, check=True, cwd=D)
+  File "/home/prmi/anaconda3/envs/zwj/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/usr/bin/g++', '-O3', '-std=c++17', '-fPIC', '-D_GLIBCXX_USE_CXX11_ABI=0', '-DCARTGS_EXPERIMENTAL_SELECTOR_CUDA', '-I/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/include', '-I/home/prmi/anaconda3/envs/zwj/lib/python3.11/site-packages/torch/include/torch/csrc/api/include', '-I/usr/local/cuda-11.8/include', '-I/home/prmi/zwj/mycartgs/third_party/install/jsoncpp-1.9.5/include', '-I/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017', '-I/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/source', '-c', '/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/combined_native.cpp', '-o', '/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/objects/native.o']' returned non-zero exit status 1.

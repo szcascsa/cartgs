@@ -1,0 +1,2534 @@
+{
+  "paths": [
+    "/home/prmi/zwj/mycartgs/results/protection_recheck_20261012/fr3_long_office_household/runtime.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_3/run.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_2/run.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_1/run.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_3/run.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_2/run.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_1/run.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline/run_1/run.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/profile_baseline/run_1/run.log",
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/validate_snapshot/run_1/run.log",
+    "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+    "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr1_desk/train.log",
+    "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr3_long_office_household/train.log"
+  ],
+  "rows": 36228,
+  "ratios": {
+    "0.01": {
+      "total_gaussians": {
+        "samples": 9062,
+        "min": 1894.0,
+        "median": 52181.0,
+        "p90": 184652.0,
+        "p95": 209765.0,
+        "max": 292496.0
+      },
+      "N_network": {
+        "samples": 4,
+        "min": 150.0,
+        "median": 180877.5,
+        "p90": 264250.9,
+        "p95": 266647.45,
+        "max": 269044.0
+      },
+      "active_gaussians": {
+        "samples": 9062,
+        "min": 7.0,
+        "median": 309.0,
+        "p90": 2349.0,
+        "p95": 2598.0,
+        "max": 6641.0
+      },
+      "protected_population": {
+        "samples": 4,
+        "min": 240.0,
+        "median": 24029.5,
+        "p90": 178623.80000000005,
+        "p95": 211627.3999999999,
+        "max": 244631.0
+      },
+      "protection_actual": {
+        "samples": 3,
+        "min": 97.0,
+        "median": 465.0,
+        "p90": 915.4,
+        "p95": 971.6999999999999,
+        "max": 1028.0
+      },
+      "mature_actual": {
+        "samples": 3,
+        "min": 843.0,
+        "median": 2815.0,
+        "p90": 3263.0,
+        "p95": 3319.0,
+        "max": 3375.0
+      },
+      "mature_budget_target": {
+        "samples": 3,
+        "min": 867.95,
+        "median": 1896.9599,
+        "p90": 2328.2479,
+        "p95": 2382.1589,
+        "max": 2436.0699
+      },
+      "tf": {
+        "samples": 9062,
+        "min": 0.0,
+        "median": 137.0,
+        "p90": 1684.0,
+        "p95": 1928.949999999999,
+        "max": 6467.0
+      },
+      "training_ms": {
+        "samples": 9059,
+        "min": 2.0652,
+        "median": 18.1835,
+        "p90": 28.2304,
+        "p95": 33.86625000000001,
+        "max": 255.9375
+      },
+      "render_ms": {
+        "samples": 9059,
+        "min": 0.1976,
+        "median": 0.3052,
+        "p90": 0.3809,
+        "p95": 0.4137,
+        "max": 1.8678
+      }
+    },
+    "0.05": {
+      "total_gaussians": {
+        "samples": 9057,
+        "min": 2616.0,
+        "median": 52181.0,
+        "p90": 184652.0,
+        "p95": 209765.0,
+        "max": 252088.0
+      },
+      "N_network": {
+        "samples": 2,
+        "min": 3172.0,
+        "median": 3890.0,
+        "p90": 4464.4,
+        "p95": 4536.2,
+        "max": 4608.0
+      },
+      "active_gaussians": {
+        "samples": 9057,
+        "min": 43.0,
+        "median": 1369.0,
+        "p90": 5035.0,
+        "p95": 7324.9999999999945,
+        "max": 12607.0
+      },
+      "protected_population": {
+        "samples": 2,
+        "min": 170363.0,
+        "median": 176469.0,
+        "p90": 181353.8,
+        "p95": 181964.4,
+        "max": 182575.0
+      },
+      "tf": {
+        "samples": 9057,
+        "min": 0.0,
+        "median": 144.0,
+        "p90": 2536.4000000000005,
+        "p95": 4475.399999999998,
+        "max": 8253.0
+      },
+      "training_ms": {
+        "samples": 9057,
+        "min": 2.0643,
+        "median": 17.9248,
+        "p90": 28.61032,
+        "p95": 34.87829999999999,
+        "max": 264.0924
+      },
+      "render_ms": {
+        "samples": 9057,
+        "min": 0.1935,
+        "median": 0.3185,
+        "p90": 0.4506,
+        "p95": 0.4854,
+        "max": 4.6285
+      }
+    },
+    "0.1": {
+      "total_gaussians": {
+        "samples": 9055,
+        "min": 2616.0,
+        "median": 52237.0,
+        "p90": 184652.0,
+        "p95": 209789.59999999995,
+        "max": 252088.0
+      },
+      "N_network": {
+        "samples": 1,
+        "min": 1654.0,
+        "median": 1654.0,
+        "p90": 1654.0,
+        "p95": 1654.0,
+        "max": 1654.0
+      },
+      "active_gaussians": {
+        "samples": 9055,
+        "min": 97.0,
+        "median": 2661.0,
+        "p90": 8402.400000000001,
+        "p95": 16297.0,
+        "max": 26291.0
+      },
+      "protected_population": {
+        "samples": 1,
+        "min": 235199.0,
+        "median": 235199.0,
+        "p90": 235199.0,
+        "p95": 235199.0,
+        "max": 235199.0
+      },
+      "tf": {
+        "samples": 9055,
+        "min": 0.0,
+        "median": 144.0,
+        "p90": 2990.6000000000004,
+        "p95": 10472.099999999995,
+        "max": 18363.0
+      },
+      "training_ms": {
+        "samples": 9055,
+        "min": 2.0455,
+        "median": 18.0043,
+        "p90": 28.69168,
+        "p95": 35.034049999999986,
+        "max": 152.2788
+      },
+      "render_ms": {
+        "samples": 9055,
+        "min": 0.1905,
+        "median": 0.3256,
+        "p90": 0.4608,
+        "p95": 0.5048,
+        "max": 1.6927
+      }
+    },
+    "0.15": {
+      "total_gaussians": {
+        "samples": 9054,
+        "min": 2635.0,
+        "median": 52237.0,
+        "p90": 184652.0,
+        "p95": 210050.1,
+        "max": 252088.0
+      },
+      "N_network": {
+        "samples": 5,
+        "min": 140.0,
+        "median": 26650.0,
+        "p90": 130879.80000000002,
+        "p95": 156812.39999999997,
+        "max": 182745.0
+      },
+      "active_gaussians": {
+        "samples": 9054,
+        "min": 152.0,
+        "median": 3775.5,
+        "p90": 11815.0,
+        "p95": 24708.750000000007,
+        "max": 39787.0
+      },
+      "protected_population": {
+        "samples": 5,
+        "min": 1942.0,
+        "median": 30527.0,
+        "p90": 215093.4,
+        "p95": 230577.19999999998,
+        "max": 246061.0
+      },
+      "tf": {
+        "samples": 9054,
+        "min": 0.0,
+        "median": 145.0,
+        "p90": 3299.0999999999995,
+        "p95": 16031.150000000003,
+        "max": 27969.0
+      },
+      "training_ms": {
+        "samples": 9054,
+        "min": 2.0489,
+        "median": 18.15855,
+        "p90": 29.068649999999998,
+        "p95": 36.15922000000001,
+        "max": 220.0292
+      },
+      "render_ms": {
+        "samples": 9054,
+        "min": 0.1905,
+        "median": 0.3338,
+        "p90": 0.4721,
+        "p95": 0.5345,
+        "max": 4.7155
+      }
+    }
+  },
+  "network_quantiles_note": "Only same-iteration Protection STATE is accepted as exact Mature/network population; absent values stay missing. Normal and UltrafastRotation are separated in paths and per_source.",
+  "per_source": {
+    "/home/prmi/zwj/mycartgs/results/protection_recheck_20261012/fr3_long_office_household/runtime.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 3,
+          "min": 133295.0,
+          "median": 253307.0,
+          "p90": 284658.2,
+          "p95": 288577.1,
+          "max": 292496.0
+        },
+        "N_network": {
+          "samples": 3,
+          "min": 108688.0,
+          "median": 253067.0,
+          "p90": 265848.6,
+          "p95": 267446.3,
+          "max": 269044.0
+        },
+        "active_gaussians": {
+          "samples": 3,
+          "min": 1308.0,
+          "median": 2912.0,
+          "p90": 4104.8,
+          "p95": 4253.9,
+          "max": 4403.0
+        },
+        "protected_population": {
+          "samples": 3,
+          "min": 240.0,
+          "median": 23452.0,
+          "p90": 24376.0,
+          "p95": 24491.5,
+          "max": 24607.0
+        },
+        "protection_actual": {
+          "samples": 3,
+          "min": 97.0,
+          "median": 465.0,
+          "p90": 915.4,
+          "p95": 971.6999999999999,
+          "max": 1028.0
+        },
+        "mature_actual": {
+          "samples": 3,
+          "min": 843.0,
+          "median": 2815.0,
+          "p90": 3263.0,
+          "p95": 3319.0,
+          "max": 3375.0
+        },
+        "mature_budget_target": {
+          "samples": 3,
+          "min": 867.95,
+          "median": 1896.9599,
+          "p90": 2328.2479,
+          "p95": 2382.1589,
+          "max": 2436.0699
+        },
+        "tf": {
+          "samples": 3,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "0.05": {},
+      "0.1": {},
+      "0.15": {}
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_3/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 873,
+          "min": 1999.0,
+          "median": 53261.0,
+          "p90": 153863.0,
+          "p95": 164094.0,
+          "max": 173535.0
+        },
+        "active_gaussians": {
+          "samples": 873,
+          "min": 7.0,
+          "median": 1123.0,
+          "p90": 1967.6000000000001,
+          "p95": 2044.8,
+          "max": 2273.0
+        },
+        "tf": {
+          "samples": 873,
+          "min": 0.0,
+          "median": 900.0,
+          "p90": 1414.8000000000002,
+          "p95": 1455.0,
+          "max": 1649.0
+        },
+        "training_ms": {
+          "samples": 873,
+          "min": 2.0842,
+          "median": 17.2037,
+          "p90": 20.964100000000006,
+          "p95": 24.22016,
+          "max": 114.7374
+        },
+        "render_ms": {
+          "samples": 873,
+          "min": 0.2007,
+          "median": 0.2703,
+          "p90": 0.3625,
+          "p95": 0.39054,
+          "max": 0.9114
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 873,
+          "min": 2675.0,
+          "median": 53261.0,
+          "p90": 153863.0,
+          "p95": 164270.8,
+          "max": 173535.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 3172.0,
+          "median": 3172.0,
+          "p90": 3172.0,
+          "p95": 3172.0,
+          "max": 3172.0
+        },
+        "active_gaussians": {
+          "samples": 873,
+          "min": 46.0,
+          "median": 1849.0,
+          "p90": 4487.200000000002,
+          "p95": 4729.799999999999,
+          "max": 5473.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 170363.0,
+          "median": 170363.0,
+          "p90": 170363.0,
+          "p95": 170363.0,
+          "max": 170363.0
+        },
+        "tf": {
+          "samples": 873,
+          "min": 0.0,
+          "median": 902.0,
+          "p90": 1710.8000000000002,
+          "p95": 1860.5999999999995,
+          "max": 2350.0
+        },
+        "training_ms": {
+          "samples": 873,
+          "min": 2.0732,
+          "median": 17.2924,
+          "p90": 23.470040000000008,
+          "p95": 26.13086,
+          "max": 37.9495
+        },
+        "render_ms": {
+          "samples": 873,
+          "min": 0.1946,
+          "median": 0.2939,
+          "p90": 0.3809,
+          "p95": 0.4251399999999999,
+          "max": 4.6285
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 872,
+          "min": 2675.0,
+          "median": 53261.0,
+          "p90": 153863.0,
+          "p95": 164094.0,
+          "max": 176454.0
+        },
+        "active_gaussians": {
+          "samples": 872,
+          "min": 98.0,
+          "median": 2720.0,
+          "p90": 7380.2,
+          "p95": 7840.549999999996,
+          "max": 8789.0
+        },
+        "tf": {
+          "samples": 872,
+          "min": 0.0,
+          "median": 890.5,
+          "p90": 1913.3999999999999,
+          "p95": 2156.0499999999993,
+          "max": 2789.0
+        },
+        "training_ms": {
+          "samples": 872,
+          "min": 2.0809,
+          "median": 17.303150000000002,
+          "p90": 23.15485,
+          "p95": 26.217299999999987,
+          "max": 38.791
+        },
+        "render_ms": {
+          "samples": 872,
+          "min": 0.1956,
+          "median": 0.2975,
+          "p90": 0.38278999999999996,
+          "p95": 0.41869999999999985,
+          "max": 0.9236
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 872,
+          "min": 2675.0,
+          "median": 53410.5,
+          "p90": 153863.0,
+          "p95": 164292.89999999997,
+          "max": 176454.0
+        },
+        "active_gaussians": {
+          "samples": 872,
+          "min": 152.0,
+          "median": 3618.5,
+          "p90": 10021.8,
+          "p95": 10756.65,
+          "max": 11906.0
+        },
+        "tf": {
+          "samples": 872,
+          "min": 0.0,
+          "median": 886.0,
+          "p90": 1977.8,
+          "p95": 2232.45,
+          "max": 2874.0
+        },
+        "training_ms": {
+          "samples": 872,
+          "min": 2.0866,
+          "median": 17.314500000000002,
+          "p90": 23.84332,
+          "p95": 26.971054999999996,
+          "max": 40.4243
+        },
+        "render_ms": {
+          "samples": 872,
+          "min": 0.1956,
+          "median": 0.3092,
+          "p90": 0.40029999999999993,
+          "p95": 0.4403,
+          "max": 4.5885
+        }
+      }
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_2/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 866,
+          "min": 2016.0,
+          "median": 61365.5,
+          "p90": 160409.0,
+          "p95": 164891.0,
+          "max": 187183.0
+        },
+        "active_gaussians": {
+          "samples": 866,
+          "min": 7.0,
+          "median": 824.0,
+          "p90": 2033.0,
+          "p95": 2113.5,
+          "max": 2408.0
+        },
+        "tf": {
+          "samples": 866,
+          "min": 0.0,
+          "median": 599.0,
+          "p90": 1474.0,
+          "p95": 1501.5,
+          "max": 1754.0
+        },
+        "training_ms": {
+          "samples": 866,
+          "min": 2.1015,
+          "median": 17.176949999999998,
+          "p90": 21.70215,
+          "p95": 23.703025,
+          "max": 117.1789
+        },
+        "render_ms": {
+          "samples": 866,
+          "min": 0.2007,
+          "median": 0.2744,
+          "p90": 0.3594,
+          "p95": 0.382475,
+          "max": 1.1121
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 866,
+          "min": 2752.0,
+          "median": 64951.0,
+          "p90": 160684.5,
+          "p95": 172062.5,
+          "max": 187183.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 4608.0,
+          "median": 4608.0,
+          "p90": 4608.0,
+          "p95": 4608.0,
+          "max": 4608.0
+        },
+        "active_gaussians": {
+          "samples": 866,
+          "min": 47.0,
+          "median": 1748.5,
+          "p90": 5057.5,
+          "p95": 5567.25,
+          "max": 6299.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 182575.0,
+          "median": 182575.0,
+          "p90": 182575.0,
+          "p95": 182575.0,
+          "max": 182575.0
+        },
+        "tf": {
+          "samples": 866,
+          "min": 0.0,
+          "median": 592.0,
+          "p90": 2258.5,
+          "p95": 2512.75,
+          "max": 2881.0
+        },
+        "training_ms": {
+          "samples": 866,
+          "min": 2.1004,
+          "median": 17.212249999999997,
+          "p90": 24.2534,
+          "p95": 27.139675,
+          "max": 45.168
+        },
+        "render_ms": {
+          "samples": 866,
+          "min": 0.1966,
+          "median": 0.2816,
+          "p90": 0.38655,
+          "p95": 0.432925,
+          "max": 1.5053
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 865,
+          "min": 2752.0,
+          "median": 65270.0,
+          "p90": 160739.6,
+          "p95": 164891.0,
+          "max": 187183.0
+        },
+        "active_gaussians": {
+          "samples": 865,
+          "min": 104.0,
+          "median": 2958.0,
+          "p90": 8324.0,
+          "p95": 8895.599999999999,
+          "max": 9993.0
+        },
+        "tf": {
+          "samples": 865,
+          "min": 0.0,
+          "median": 592.0,
+          "p90": 2702.2000000000003,
+          "p95": 2997.8,
+          "max": 3272.0
+        },
+        "training_ms": {
+          "samples": 865,
+          "min": 2.1053,
+          "median": 17.2912,
+          "p90": 24.892480000000003,
+          "p95": 28.71791999999999,
+          "max": 49.8248
+        },
+        "render_ms": {
+          "samples": 865,
+          "min": 0.1935,
+          "median": 0.2959,
+          "p90": 0.39690000000000003,
+          "p95": 0.4475,
+          "max": 1.3834
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 865,
+          "min": 2752.0,
+          "median": 65270.0,
+          "p90": 160739.6,
+          "p95": 164891.0,
+          "max": 187183.0
+        },
+        "active_gaussians": {
+          "samples": 865,
+          "min": 159.0,
+          "median": 4118.0,
+          "p90": 11153.800000000001,
+          "p95": 11897.599999999999,
+          "max": 13322.0
+        },
+        "tf": {
+          "samples": 865,
+          "min": 0.0,
+          "median": 590.0,
+          "p90": 2805.6,
+          "p95": 3095.3999999999996,
+          "max": 3313.0
+        },
+        "training_ms": {
+          "samples": 865,
+          "min": 2.1,
+          "median": 17.301,
+          "p90": 23.940920000000002,
+          "p95": 26.874039999999997,
+          "max": 41.0699
+        },
+        "render_ms": {
+          "samples": 865,
+          "min": 0.1935,
+          "median": 0.3123,
+          "p90": 0.39486,
+          "p95": 0.43499999999999994,
+          "max": 1.6916
+        }
+      }
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_1/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 859,
+          "min": 1953.0,
+          "median": 68471.0,
+          "p90": 166519.0,
+          "p95": 171127.0,
+          "max": 181235.0
+        },
+        "active_gaussians": {
+          "samples": 859,
+          "min": 7.0,
+          "median": 955.0,
+          "p90": 2432.0,
+          "p95": 2475.0,
+          "max": 2590.0
+        },
+        "tf": {
+          "samples": 859,
+          "min": 0.0,
+          "median": 703.0,
+          "p90": 1844.2,
+          "p95": 1874.0,
+          "max": 2038.0
+        },
+        "training_ms": {
+          "samples": 859,
+          "min": 2.0786,
+          "median": 16.9808,
+          "p90": 21.7944,
+          "p95": 25.21553999999999,
+          "max": 114.0629
+        },
+        "render_ms": {
+          "samples": 859,
+          "min": 0.1997,
+          "median": 0.2703,
+          "p90": 0.36472000000000004,
+          "p95": 0.3932999999999999,
+          "max": 1.8678
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 859,
+          "min": 2773.0,
+          "median": 68471.0,
+          "p90": 166519.0,
+          "p95": 171127.0,
+          "max": 181235.0
+        },
+        "active_gaussians": {
+          "samples": 859,
+          "min": 46.0,
+          "median": 1925.0,
+          "p90": 4984.8,
+          "p95": 5425.199999999999,
+          "max": 5787.0
+        },
+        "tf": {
+          "samples": 859,
+          "min": 0.0,
+          "median": 704.0,
+          "p90": 2095.2000000000003,
+          "p95": 2359.6999999999994,
+          "max": 2715.0
+        },
+        "training_ms": {
+          "samples": 859,
+          "min": 2.0788,
+          "median": 17.2496,
+          "p90": 23.616460000000004,
+          "p95": 26.920619999999985,
+          "max": 39.0821
+        },
+        "render_ms": {
+          "samples": 859,
+          "min": 0.2007,
+          "median": 0.2847,
+          "p90": 0.3789,
+          "p95": 0.4157,
+          "max": 1.6097
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 859,
+          "min": 2773.0,
+          "median": 68886.0,
+          "p90": 166519.0,
+          "p95": 171153.19999999998,
+          "max": 181235.0
+        },
+        "active_gaussians": {
+          "samples": 859,
+          "min": 104.0,
+          "median": 3134.0,
+          "p90": 8088.6,
+          "p95": 8904.8,
+          "max": 9450.0
+        },
+        "tf": {
+          "samples": 859,
+          "min": 0.0,
+          "median": 705.0,
+          "p90": 2317.0,
+          "p95": 2794.2999999999997,
+          "max": 3350.0
+        },
+        "training_ms": {
+          "samples": 859,
+          "min": 2.05,
+          "median": 17.2033,
+          "p90": 24.10986,
+          "p95": 26.95507999999997,
+          "max": 44.8676
+        },
+        "render_ms": {
+          "samples": 859,
+          "min": 0.1935,
+          "median": 0.3031,
+          "p90": 0.3901,
+          "p95": 0.427,
+          "max": 1.3435
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 859,
+          "min": 2773.0,
+          "median": 68886.0,
+          "p90": 166519.0,
+          "p95": 171389.0,
+          "max": 181235.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 4195.0,
+          "median": 4195.0,
+          "p90": 4195.0,
+          "p95": 4195.0,
+          "max": 4195.0
+        },
+        "active_gaussians": {
+          "samples": 859,
+          "min": 162.0,
+          "median": 4333.0,
+          "p90": 11169.6,
+          "p95": 12251.099999999999,
+          "max": 12557.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 168642.0,
+          "median": 168642.0,
+          "p90": 168642.0,
+          "p95": 168642.0,
+          "max": 168642.0
+        },
+        "tf": {
+          "samples": 859,
+          "min": 0.0,
+          "median": 706.0,
+          "p90": 2463.4,
+          "p95": 3005.7999999999984,
+          "max": 3479.0
+        },
+        "training_ms": {
+          "samples": 859,
+          "min": 2.0747,
+          "median": 17.2621,
+          "p90": 23.643700000000003,
+          "p95": 26.646259999999998,
+          "max": 46.0791
+        },
+        "render_ms": {
+          "samples": 859,
+          "min": 0.1925,
+          "median": 0.3052,
+          "p90": 0.40262000000000003,
+          "p95": 0.4393,
+          "max": 4.7155
+        }
+      }
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_3/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 533,
+          "min": 1894.0,
+          "median": 87131.0,
+          "p90": 222359.2,
+          "p95": 233845.0,
+          "max": 246201.0
+        },
+        "active_gaussians": {
+          "samples": 533,
+          "min": 7.0,
+          "median": 308.0,
+          "p90": 773.4000000000001,
+          "p95": 855.4,
+          "max": 1025.0
+        },
+        "tf": {
+          "samples": 533,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 533,
+          "min": 4.02,
+          "median": 13.9504,
+          "p90": 37.13986,
+          "p95": 45.68587999999998,
+          "max": 118.846
+        },
+        "render_ms": {
+          "samples": 533,
+          "min": 0.2109,
+          "median": 0.2632,
+          "p90": 0.36948,
+          "p95": 0.40879999999999994,
+          "max": 0.8325
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 533,
+          "min": 2647.0,
+          "median": 87131.0,
+          "p90": 222359.2,
+          "p95": 233845.0,
+          "max": 246201.0
+        },
+        "active_gaussians": {
+          "samples": 533,
+          "min": 43.0,
+          "median": 1558.0,
+          "p90": 3831.8,
+          "p95": 4113.0,
+          "max": 4466.0
+        },
+        "tf": {
+          "samples": 533,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 533,
+          "min": 3.9084,
+          "median": 14.011,
+          "p90": 37.07004,
+          "p95": 42.32982,
+          "max": 84.3321
+        },
+        "render_ms": {
+          "samples": 533,
+          "min": 0.2007,
+          "median": 0.2611,
+          "p90": 0.3594,
+          "p95": 0.39359999999999995,
+          "max": 1.0271
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 533,
+          "min": 2647.0,
+          "median": 87131.0,
+          "p90": 222418.0,
+          "p95": 233845.0,
+          "max": 246201.0
+        },
+        "active_gaussians": {
+          "samples": 533,
+          "min": 98.0,
+          "median": 3089.0,
+          "p90": 7743.400000000001,
+          "p95": 8174.4,
+          "max": 8738.0
+        },
+        "tf": {
+          "samples": 533,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 533,
+          "min": 3.8915,
+          "median": 14.2819,
+          "p90": 37.84426,
+          "p95": 42.545039999999986,
+          "max": 114.6269
+        },
+        "render_ms": {
+          "samples": 533,
+          "min": 0.1997,
+          "median": 0.2826,
+          "p90": 0.3727,
+          "p95": 0.41023999999999994,
+          "max": 0.5693
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 533,
+          "min": 2647.0,
+          "median": 87131.0,
+          "p90": 222418.0,
+          "p95": 234397.0,
+          "max": 246201.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 140.0,
+          "median": 140.0,
+          "p90": 140.0,
+          "p95": 140.0,
+          "max": 140.0
+        },
+        "active_gaussians": {
+          "samples": 533,
+          "min": 154.0,
+          "median": 4623.0,
+          "p90": 11675.2,
+          "p95": 12404.6,
+          "max": 13104.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 246061.0,
+          "median": 246061.0,
+          "p90": 246061.0,
+          "p95": 246061.0,
+          "max": 246061.0
+        },
+        "tf": {
+          "samples": 533,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 533,
+          "min": 3.6961,
+          "median": 13.9409,
+          "p90": 39.48294,
+          "p95": 43.765879999999996,
+          "max": 132.8854
+        },
+        "render_ms": {
+          "samples": 533,
+          "min": 0.2007,
+          "median": 0.297,
+          "p90": 0.4002,
+          "p95": 0.4517999999999999,
+          "max": 0.9708
+        }
+      }
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_2/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 591,
+          "min": 1912.0,
+          "median": 70186.0,
+          "p90": 176633.0,
+          "p95": 200442.0,
+          "max": 236853.0
+        },
+        "active_gaussians": {
+          "samples": 591,
+          "min": 7.0,
+          "median": 257.0,
+          "p90": 1583.0,
+          "p95": 2007.5,
+          "max": 2339.0
+        },
+        "tf": {
+          "samples": 591,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 976.0,
+          "p95": 1267.5,
+          "max": 1429.0
+        },
+        "training_ms": {
+          "samples": 591,
+          "min": 3.4913,
+          "median": 12.0205,
+          "p90": 35.5839,
+          "p95": 43.052800000000005,
+          "max": 125.4292
+        },
+        "render_ms": {
+          "samples": 591,
+          "min": 0.2028,
+          "median": 0.254,
+          "p90": 0.3625,
+          "p95": 0.4004,
+          "max": 0.6728
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 591,
+          "min": 2616.0,
+          "median": 70633.0,
+          "p90": 184652.0,
+          "p95": 200442.0,
+          "max": 236853.0
+        },
+        "active_gaussians": {
+          "samples": 591,
+          "min": 44.0,
+          "median": 1242.0,
+          "p90": 4097.0,
+          "p95": 4812.0,
+          "max": 5634.0
+        },
+        "tf": {
+          "samples": 591,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 975.0,
+          "p95": 1270.0,
+          "max": 1434.0
+        },
+        "training_ms": {
+          "samples": 591,
+          "min": 3.4761,
+          "median": 12.1029,
+          "p90": 36.0964,
+          "p95": 42.8254,
+          "max": 88.1227
+        },
+        "render_ms": {
+          "samples": 591,
+          "min": 0.2017,
+          "median": 0.2591,
+          "p90": 0.3625,
+          "p95": 0.3942,
+          "max": 1.2349
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 591,
+          "min": 2616.0,
+          "median": 70633.0,
+          "p90": 184652.0,
+          "p95": 200627.0,
+          "max": 236853.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 1654.0,
+          "median": 1654.0,
+          "p90": 1654.0,
+          "p95": 1654.0,
+          "max": 1654.0
+        },
+        "active_gaussians": {
+          "samples": 591,
+          "min": 97.0,
+          "median": 2467.0,
+          "p90": 7175.0,
+          "p95": 8328.0,
+          "max": 9885.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 235199.0,
+          "median": 235199.0,
+          "p90": 235199.0,
+          "p95": 235199.0,
+          "max": 235199.0
+        },
+        "tf": {
+          "samples": 591,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 971.0,
+          "p95": 1268.0,
+          "max": 1432.0
+        },
+        "training_ms": {
+          "samples": 591,
+          "min": 3.4596,
+          "median": 12.208,
+          "p90": 35.7413,
+          "p95": 39.6907,
+          "max": 103.7173
+        },
+        "render_ms": {
+          "samples": 591,
+          "min": 0.1976,
+          "median": 0.2806,
+          "p90": 0.3809,
+          "p95": 0.426,
+          "max": 1.492
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 590,
+          "min": 2995.0,
+          "median": 70409.5,
+          "p90": 184652.0,
+          "p95": 200460.49999999997,
+          "max": 236853.0
+        },
+        "active_gaussians": {
+          "samples": 590,
+          "min": 159.0,
+          "median": 3655.5,
+          "p90": 10231.4,
+          "p95": 11784.899999999996,
+          "max": 13976.0
+        },
+        "tf": {
+          "samples": 590,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 961.5000000000003,
+          "p95": 1262.9499999999996,
+          "max": 1423.0
+        },
+        "training_ms": {
+          "samples": 590,
+          "min": 3.4349,
+          "median": 11.830200000000001,
+          "p90": 36.79795,
+          "p95": 40.68326,
+          "max": 220.0292
+        },
+        "render_ms": {
+          "samples": 590,
+          "min": 0.1946,
+          "median": 0.298,
+          "p90": 0.39441000000000004,
+          "p95": 0.43939999999999996,
+          "max": 1.1715
+        }
+      }
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_1/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 560,
+          "min": 1944.0,
+          "median": 76689.0,
+          "p90": 207977.1,
+          "p95": 220868.55,
+          "max": 244781.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 150.0,
+          "median": 150.0,
+          "p90": 150.0,
+          "p95": 150.0,
+          "max": 150.0
+        },
+        "active_gaussians": {
+          "samples": 560,
+          "min": 7.0,
+          "median": 267.0,
+          "p90": 737.0,
+          "p95": 816.7499999999993,
+          "max": 1021.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 244631.0,
+          "median": 244631.0,
+          "p90": 244631.0,
+          "p95": 244631.0,
+          "max": 244631.0
+        },
+        "tf": {
+          "samples": 560,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 560,
+          "min": 3.4643,
+          "median": 14.2562,
+          "p90": 34.427820000000004,
+          "p95": 41.528915,
+          "max": 129.9074
+        },
+        "render_ms": {
+          "samples": 560,
+          "min": 0.2068,
+          "median": 0.2637,
+          "p90": 0.3617,
+          "p95": 0.4387599999999996,
+          "max": 1.364
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 559,
+          "min": 2774.0,
+          "median": 76689.0,
+          "p90": 207934.0,
+          "p95": 220708.9,
+          "max": 244781.0
+        },
+        "active_gaussians": {
+          "samples": 559,
+          "min": 46.0,
+          "median": 1339.0,
+          "p90": 3529.2,
+          "p95": 3890.6000000000013,
+          "max": 4504.0
+        },
+        "tf": {
+          "samples": 559,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 559,
+          "min": 3.4772,
+          "median": 12.8971,
+          "p90": 33.68174,
+          "p95": 38.27227000000001,
+          "max": 264.0924
+        },
+        "render_ms": {
+          "samples": 559,
+          "min": 0.2058,
+          "median": 0.2591,
+          "p90": 0.3574,
+          "p95": 0.39021,
+          "max": 1.409
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 559,
+          "min": 2774.0,
+          "median": 76689.0,
+          "p90": 207934.0,
+          "p95": 220708.9,
+          "max": 244781.0
+        },
+        "active_gaussians": {
+          "samples": 559,
+          "min": 103.0,
+          "median": 2629.0,
+          "p90": 7188.599999999999,
+          "p95": 7772.8,
+          "max": 8807.0
+        },
+        "tf": {
+          "samples": 559,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 559,
+          "min": 3.5226,
+          "median": 14.0207,
+          "p90": 35.596560000000004,
+          "p95": 39.50368,
+          "max": 152.2788
+        },
+        "render_ms": {
+          "samples": 559,
+          "min": 0.1987,
+          "median": 0.2857,
+          "p90": 0.37292,
+          "p95": 0.4096,
+          "max": 1.6927
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 559,
+          "min": 2774.0,
+          "median": 76689.0,
+          "p90": 208029.6,
+          "p95": 220708.9,
+          "max": 244781.0
+        },
+        "active_gaussians": {
+          "samples": 559,
+          "min": 161.0,
+          "median": 4008.0,
+          "p90": 10847.8,
+          "p95": 11667.000000000002,
+          "max": 13146.0
+        },
+        "tf": {
+          "samples": 559,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 559,
+          "min": 3.4969,
+          "median": 12.8613,
+          "p90": 38.70016,
+          "p95": 44.11457,
+          "max": 140.354
+        },
+        "render_ms": {
+          "samples": 559,
+          "min": 0.1966,
+          "median": 0.3,
+          "p90": 0.3994,
+          "p95": 0.44551,
+          "max": 1.4715
+        }
+      }
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline/run_1/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 399,
+          "min": 1994.0,
+          "median": 54021.0,
+          "p90": 122812.99999999999,
+          "p95": 138939.8,
+          "max": 154046.0
+        },
+        "active_gaussians": {
+          "samples": 399,
+          "min": 7.0,
+          "median": 192.0,
+          "p90": 410.2,
+          "p95": 491.0,
+          "max": 597.0
+        },
+        "tf": {
+          "samples": 399,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 399,
+          "min": 3.4966,
+          "median": 10.673,
+          "p90": 25.590279999999996,
+          "p95": 28.447259999999996,
+          "max": 123.2418
+        },
+        "render_ms": {
+          "samples": 399,
+          "min": 0.2058,
+          "median": 0.2529,
+          "p90": 0.33609999999999995,
+          "p95": 0.38860999999999984,
+          "max": 0.8274
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 398,
+          "min": 2658.0,
+          "median": 54021.0,
+          "p90": 122418.90000000001,
+          "p95": 138400.8,
+          "max": 153692.0
+        },
+        "active_gaussians": {
+          "samples": 398,
+          "min": 46.0,
+          "median": 950.5,
+          "p90": 2093.4,
+          "p95": 2451.15,
+          "max": 2737.0
+        },
+        "tf": {
+          "samples": 398,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 398,
+          "min": 3.4746,
+          "median": 10.922,
+          "p90": 25.933130000000002,
+          "p95": 29.803205000000002,
+          "max": 55.5814
+        },
+        "render_ms": {
+          "samples": 398,
+          "min": 0.2068,
+          "median": 0.2519,
+          "p90": 0.33063000000000003,
+          "p95": 0.36984999999999996,
+          "max": 0.6011
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 398,
+          "min": 2658.0,
+          "median": 54317.0,
+          "p90": 122418.90000000001,
+          "p95": 138400.8,
+          "max": 153692.0
+        },
+        "active_gaussians": {
+          "samples": 398,
+          "min": 98.0,
+          "median": 1879.5,
+          "p90": 4278.400000000001,
+          "p95": 4892.15,
+          "max": 5407.0
+        },
+        "tf": {
+          "samples": 398,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 398,
+          "min": 3.5872,
+          "median": 10.8031,
+          "p90": 25.476930000000003,
+          "p95": 29.138389999999998,
+          "max": 48.8454
+        },
+        "render_ms": {
+          "samples": 398,
+          "min": 0.1987,
+          "median": 0.2652,
+          "p90": 0.343,
+          "p95": 0.381065,
+          "max": 0.812
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 398,
+          "min": 3051.0,
+          "median": 54317.0,
+          "p90": 122554.80000000002,
+          "p95": 138400.8,
+          "max": 153692.0
+        },
+        "active_gaussians": {
+          "samples": 398,
+          "min": 159.0,
+          "median": 2892.5,
+          "p90": 6358.000000000002,
+          "p95": 7308.5,
+          "max": 8036.0
+        },
+        "tf": {
+          "samples": 398,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 1.0
+        },
+        "training_ms": {
+          "samples": 398,
+          "min": 3.4863,
+          "median": 10.74305,
+          "p90": 26.11839,
+          "p95": 29.121639999999992,
+          "max": 58.6564
+        },
+        "render_ms": {
+          "samples": 398,
+          "min": 0.1976,
+          "median": 0.2847,
+          "p90": 0.3672,
+          "p95": 0.40377999999999975,
+          "max": 1.0906
+        }
+      }
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/profile_baseline/run_1/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 560,
+          "min": 1995.0,
+          "median": 77240.0,
+          "p90": 197274.0,
+          "p95": 213231.99999999997,
+          "max": 239790.0
+        },
+        "active_gaussians": {
+          "samples": 560,
+          "min": 7.0,
+          "median": 273.0,
+          "p90": 1017.5000000000001,
+          "p95": 1382.1999999999998,
+          "max": 2058.0
+        },
+        "tf": {
+          "samples": 560,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 307.1000000000007,
+          "p95": 624.1999999999998,
+          "max": 1154.0
+        },
+        "training_ms": {
+          "samples": 560,
+          "min": 4.0521,
+          "median": 12.2728,
+          "p90": 38.1364,
+          "p95": 47.218744999999984,
+          "max": 255.9375
+        },
+        "render_ms": {
+          "samples": 560,
+          "min": 0.2058,
+          "median": 0.26265,
+          "p90": 0.3758,
+          "p95": 0.4066549999999998,
+          "max": 0.9789
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 560,
+          "min": 2635.0,
+          "median": 77240.0,
+          "p90": 197274.0,
+          "p95": 213231.99999999997,
+          "max": 239790.0
+        },
+        "active_gaussians": {
+          "samples": 560,
+          "min": 46.0,
+          "median": 1362.5,
+          "p90": 3782.6000000000004,
+          "p95": 4442.2,
+          "max": 5435.0
+        },
+        "tf": {
+          "samples": 560,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 305.5000000000008,
+          "p95": 626.0,
+          "max": 1157.0
+        },
+        "training_ms": {
+          "samples": 560,
+          "min": 3.9735,
+          "median": 13.36825,
+          "p90": 38.38342,
+          "p95": 42.78685999999999,
+          "max": 128.4685
+        },
+        "render_ms": {
+          "samples": 560,
+          "min": 0.2048,
+          "median": 0.255,
+          "p90": 0.37900000000000006,
+          "p95": 0.41279999999999994,
+          "max": 0.6492
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 560,
+          "min": 2635.0,
+          "median": 77240.0,
+          "p90": 197320.80000000002,
+          "p95": 213574.0,
+          "max": 239790.0
+        },
+        "active_gaussians": {
+          "samples": 560,
+          "min": 99.0,
+          "median": 2679.0,
+          "p90": 7172.700000000001,
+          "p95": 8227.1,
+          "max": 9648.0
+        },
+        "tf": {
+          "samples": 560,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 306.5000000000008,
+          "p95": 625.0,
+          "max": 1152.0
+        },
+        "training_ms": {
+          "samples": 560,
+          "min": 3.947,
+          "median": 12.53115,
+          "p90": 38.03421,
+          "p95": 41.848814999999995,
+          "max": 127.0329
+        },
+        "render_ms": {
+          "samples": 560,
+          "min": 0.1987,
+          "median": 0.2739,
+          "p90": 0.384,
+          "p95": 0.4137,
+          "max": 0.7946
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 560,
+          "min": 2635.0,
+          "median": 77240.0,
+          "p90": 197320.80000000002,
+          "p95": 213615.34999999998,
+          "max": 239790.0
+        },
+        "active_gaussians": {
+          "samples": 560,
+          "min": 152.0,
+          "median": 4055.0,
+          "p90": 10589.1,
+          "p95": 11914.049999999996,
+          "max": 13878.0
+        },
+        "tf": {
+          "samples": 560,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 305.30000000000075,
+          "p95": 620.1499999999999,
+          "max": 1149.0
+        },
+        "training_ms": {
+          "samples": 560,
+          "min": 3.8003,
+          "median": 13.20735,
+          "p90": 39.39746,
+          "p95": 44.011655,
+          "max": 116.7924
+        },
+        "render_ms": {
+          "samples": 560,
+          "min": 0.1946,
+          "median": 0.2949,
+          "p90": 0.4004,
+          "p95": 0.445455,
+          "max": 1.623
+        }
+      }
+    },
+    "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/validate_snapshot/run_1/run.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 603,
+          "min": 2033.0,
+          "median": 72966.0,
+          "p90": 202023.60000000003,
+          "p95": 215941.0,
+          "max": 251133.0
+        },
+        "active_gaussians": {
+          "samples": 603,
+          "min": 7.0,
+          "median": 256.0,
+          "p90": 1036.8000000000002,
+          "p95": 1410.6999999999994,
+          "max": 1805.0
+        },
+        "tf": {
+          "samples": 603,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 340.0,
+          "p95": 587.8,
+          "max": 928.0
+        },
+        "training_ms": {
+          "samples": 603,
+          "min": 4.0571,
+          "median": 10.456,
+          "p90": 36.66386000000001,
+          "p95": 39.84398999999999,
+          "max": 126.8862
+        },
+        "render_ms": {
+          "samples": 603,
+          "min": 0.2058,
+          "median": 0.2601,
+          "p90": 0.3449000000000001,
+          "p95": 0.3922799999999998,
+          "max": 0.6001
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 603,
+          "min": 3098.0,
+          "median": 72966.0,
+          "p90": 202023.60000000003,
+          "p95": 215941.0,
+          "max": 251133.0
+        },
+        "active_gaussians": {
+          "samples": 603,
+          "min": 58.0,
+          "median": 1292.0,
+          "p90": 3914.800000000003,
+          "p95": 4609.499999999998,
+          "max": 5456.0
+        },
+        "tf": {
+          "samples": 603,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 342.0,
+          "p95": 587.0,
+          "max": 931.0
+        },
+        "training_ms": {
+          "samples": 603,
+          "min": 3.7116,
+          "median": 10.262,
+          "p90": 37.699540000000006,
+          "p95": 41.55733,
+          "max": 55.375
+        },
+        "render_ms": {
+          "samples": 603,
+          "min": 0.2038,
+          "median": 0.254,
+          "p90": 0.3418000000000001,
+          "p95": 0.37249999999999994,
+          "max": 0.6984
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 603,
+          "min": 3098.0,
+          "median": 72966.0,
+          "p90": 202023.60000000003,
+          "p95": 215941.0,
+          "max": 251133.0
+        },
+        "active_gaussians": {
+          "samples": 603,
+          "min": 108.0,
+          "median": 2555.0,
+          "p90": 7438.000000000001,
+          "p95": 8496.8,
+          "max": 9968.0
+        },
+        "tf": {
+          "samples": 603,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 340.80000000000007,
+          "p95": 588.9,
+          "max": 929.0
+        },
+        "training_ms": {
+          "samples": 603,
+          "min": 3.8533,
+          "median": 10.3426,
+          "p90": 38.17832000000001,
+          "p95": 43.43448999999999,
+          "max": 69.579
+        },
+        "render_ms": {
+          "samples": 603,
+          "min": 0.1966,
+          "median": 0.2703,
+          "p90": 0.3531000000000001,
+          "p95": 0.38688999999999996,
+          "max": 1.408
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 603,
+          "min": 3098.0,
+          "median": 73838.0,
+          "p90": 202023.60000000003,
+          "p95": 224792.49999999977,
+          "max": 251133.0
+        },
+        "active_gaussians": {
+          "samples": 603,
+          "min": 163.0,
+          "median": 3872.0,
+          "p90": 10921.4,
+          "p95": 12325.8,
+          "max": 14388.0
+        },
+        "tf": {
+          "samples": 603,
+          "min": 0.0,
+          "median": 0.0,
+          "p90": 340.80000000000007,
+          "p95": 587.8,
+          "max": 932.0
+        },
+        "training_ms": {
+          "samples": 603,
+          "min": 3.679,
+          "median": 10.3061,
+          "p90": 37.61412,
+          "p95": 40.56198,
+          "max": 54.1772
+        },
+        "render_ms": {
+          "samples": 603,
+          "min": 0.1976,
+          "median": 0.2877,
+          "p90": 0.3758,
+          "p95": 0.4035,
+          "max": 0.8673
+        }
+      }
+    },
+    "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 1858,
+          "min": 2856.0,
+          "median": 23192.0,
+          "p90": 30970.0,
+          "p95": 31229.0,
+          "max": 39732.0
+        },
+        "active_gaussians": {
+          "samples": 1858,
+          "min": 9.0,
+          "median": 288.0,
+          "p90": 391.29999999999995,
+          "p95": 560.2999999999997,
+          "max": 1617.0
+        },
+        "tf": {
+          "samples": 1858,
+          "min": 0.0,
+          "median": 181.0,
+          "p90": 300.0,
+          "p95": 470.1999999999989,
+          "max": 1519.0
+        },
+        "training_ms": {
+          "samples": 1858,
+          "min": 2.0652,
+          "median": 18.8572,
+          "p90": 20.408160000000002,
+          "p95": 21.411559999999998,
+          "max": 118.9384
+        },
+        "render_ms": {
+          "samples": 1858,
+          "min": 0.1976,
+          "median": 0.3482,
+          "p90": 0.3901,
+          "p95": 0.4158649999999999,
+          "max": 0.9073
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 1858,
+          "min": 3416.0,
+          "median": 23192.0,
+          "p90": 30970.0,
+          "p95": 31229.0,
+          "max": 39732.0
+        },
+        "active_gaussians": {
+          "samples": 1858,
+          "min": 52.0,
+          "median": 1230.0,
+          "p90": 1513.3,
+          "p95": 1600.4499999999996,
+          "max": 2125.0
+        },
+        "tf": {
+          "samples": 1858,
+          "min": 0.0,
+          "median": 753.0,
+          "p90": 955.0,
+          "p95": 1081.2999999999997,
+          "max": 1656.0
+        },
+        "training_ms": {
+          "samples": 1858,
+          "min": 2.0643,
+          "median": 18.12375,
+          "p90": 19.98121,
+          "p95": 20.928275,
+          "max": 29.6773
+        },
+        "render_ms": {
+          "samples": 1858,
+          "min": 0.1935,
+          "median": 0.425,
+          "p90": 0.4884,
+          "p95": 0.5357499999999998,
+          "max": 1.2616
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 1858,
+          "min": 3416.0,
+          "median": 23192.0,
+          "p90": 30970.0,
+          "p95": 31229.0,
+          "max": 39732.0
+        },
+        "active_gaussians": {
+          "samples": 1858,
+          "min": 107.0,
+          "median": 2348.0,
+          "p90": 3070.3,
+          "p95": 3195.1499999999996,
+          "max": 3941.0
+        },
+        "tf": {
+          "samples": 1858,
+          "min": 0.0,
+          "median": 1498.0,
+          "p90": 2059.3,
+          "p95": 2296.6499999999933,
+          "max": 2706.0
+        },
+        "training_ms": {
+          "samples": 1858,
+          "min": 2.0455,
+          "median": 18.30035,
+          "p90": 20.14904,
+          "p95": 21.045545,
+          "max": 28.5066
+        },
+        "render_ms": {
+          "samples": 1858,
+          "min": 0.1905,
+          "median": 0.427,
+          "p90": 0.49282999999999993,
+          "p95": 0.5839999999999997,
+          "max": 1.0854
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 1858,
+          "min": 3416.0,
+          "median": 23192.0,
+          "p90": 30970.0,
+          "p95": 31229.0,
+          "max": 39732.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 26650.0,
+          "median": 26650.0,
+          "p90": 26650.0,
+          "p95": 26650.0,
+          "max": 26650.0
+        },
+        "active_gaussians": {
+          "samples": 1858,
+          "min": 163.0,
+          "median": 3317.0,
+          "p90": 4166.2,
+          "p95": 4669.799999999998,
+          "max": 5523.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 1942.0,
+          "median": 1942.0,
+          "p90": 1942.0,
+          "p95": 1942.0,
+          "max": 1942.0
+        },
+        "tf": {
+          "samples": 1858,
+          "min": 0.0,
+          "median": 2159.0,
+          "p90": 2859.6,
+          "p95": 3106.749999999999,
+          "max": 4235.0
+        },
+        "training_ms": {
+          "samples": 1858,
+          "min": 2.0489,
+          "median": 18.761000000000003,
+          "p90": 20.28703,
+          "p95": 21.464014999999996,
+          "max": 30.8359
+        },
+        "render_ms": {
+          "samples": 1858,
+          "min": 0.1905,
+          "median": 0.4291,
+          "p90": 0.4813,
+          "p95": 0.5389149999999997,
+          "max": 1.9323
+        }
+      }
+    },
+    "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr1_desk/train.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 321,
+          "min": 1932.0,
+          "median": 57042.0,
+          "p90": 87318.0,
+          "p95": 98481.0,
+          "max": 100474.0
+        },
+        "active_gaussians": {
+          "samples": 321,
+          "min": 7.0,
+          "median": 2330.0,
+          "p90": 3398.0,
+          "p95": 3663.0,
+          "max": 3886.0
+        },
+        "tf": {
+          "samples": 321,
+          "min": 0.0,
+          "median": 1113.0,
+          "p90": 2976.0,
+          "p95": 3367.0,
+          "max": 3641.0
+        },
+        "training_ms": {
+          "samples": 321,
+          "min": 2.1265,
+          "median": 18.7411,
+          "p90": 21.9921,
+          "p95": 23.342,
+          "max": 124.7224
+        },
+        "render_ms": {
+          "samples": 321,
+          "min": 0.2007,
+          "median": 0.3236,
+          "p90": 0.4024,
+          "p95": 0.4618,
+          "max": 1.4316
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 321,
+          "min": 3158.0,
+          "median": 57042.0,
+          "p90": 87318.0,
+          "p95": 98481.0,
+          "max": 100474.0
+        },
+        "active_gaussians": {
+          "samples": 321,
+          "min": 58.0,
+          "median": 3309.0,
+          "p90": 4883.0,
+          "p95": 5008.0,
+          "max": 5217.0
+        },
+        "tf": {
+          "samples": 321,
+          "min": 0.0,
+          "median": 1130.0,
+          "p90": 3355.0,
+          "p95": 3536.0,
+          "max": 3934.0
+        },
+        "training_ms": {
+          "samples": 321,
+          "min": 2.1377,
+          "median": 19.1914,
+          "p90": 22.3634,
+          "p95": 24.4533,
+          "max": 32.446
+        },
+        "render_ms": {
+          "samples": 321,
+          "min": 0.2058,
+          "median": 0.341,
+          "p90": 0.4618,
+          "p95": 0.4946,
+          "max": 0.6861
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 321,
+          "min": 3158.0,
+          "median": 57042.0,
+          "p90": 87318.0,
+          "p95": 98481.0,
+          "max": 100474.0
+        },
+        "active_gaussians": {
+          "samples": 321,
+          "min": 108.0,
+          "median": 4342.0,
+          "p90": 6963.0,
+          "p95": 7560.0,
+          "max": 7858.0
+        },
+        "tf": {
+          "samples": 321,
+          "min": 0.0,
+          "median": 1134.0,
+          "p90": 3980.0,
+          "p95": 4169.0,
+          "max": 4370.0
+        },
+        "training_ms": {
+          "samples": 321,
+          "min": 2.1161,
+          "median": 19.2117,
+          "p90": 22.8391,
+          "p95": 25.4914,
+          "max": 32.0528
+        },
+        "render_ms": {
+          "samples": 321,
+          "min": 0.1997,
+          "median": 0.3451,
+          "p90": 0.4915,
+          "p95": 0.555,
+          "max": 0.8407
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 321,
+          "min": 3158.0,
+          "median": 57042.0,
+          "p90": 87318.0,
+          "p95": 98481.0,
+          "max": 100474.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 53082.0,
+          "median": 53082.0,
+          "p90": 53082.0,
+          "p95": 53082.0,
+          "max": 53082.0
+        },
+        "active_gaussians": {
+          "samples": 321,
+          "min": 163.0,
+          "median": 5371.0,
+          "p90": 9452.0,
+          "p95": 10328.0,
+          "max": 10798.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 30527.0,
+          "median": 30527.0,
+          "p90": 30527.0,
+          "p95": 30527.0,
+          "max": 30527.0
+        },
+        "tf": {
+          "samples": 321,
+          "min": 0.0,
+          "median": 1163.0,
+          "p90": 5009.0,
+          "p95": 5217.0,
+          "max": 5551.0
+        },
+        "training_ms": {
+          "samples": 321,
+          "min": 2.1198,
+          "median": 19.1469,
+          "p90": 23.2997,
+          "p95": 25.2264,
+          "max": 31.3455
+        },
+        "render_ms": {
+          "samples": 321,
+          "min": 0.1987,
+          "median": 0.3502,
+          "p90": 0.4854,
+          "p95": 0.5796,
+          "max": 1.6241
+        }
+      }
+    },
+    "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr3_long_office_household/train.log": {
+      "0.01": {
+        "total_gaussians": {
+          "samples": 1036,
+          "min": 2893.0,
+          "median": 148817.0,
+          "p90": 229274.0,
+          "p95": 237575.0,
+          "max": 252088.0
+        },
+        "active_gaussians": {
+          "samples": 1036,
+          "min": 9.0,
+          "median": 2419.0,
+          "p90": 2865.5,
+          "p95": 2997.75,
+          "max": 6641.0
+        },
+        "tf": {
+          "samples": 1036,
+          "min": 0.0,
+          "median": 1727.5,
+          "p90": 2421.0,
+          "p95": 2629.75,
+          "max": 6467.0
+        },
+        "training_ms": {
+          "samples": 1036,
+          "min": 2.1446,
+          "median": 24.127650000000003,
+          "p90": 28.96455,
+          "p95": 33.3731,
+          "max": 113.2041
+        },
+        "render_ms": {
+          "samples": 1036,
+          "min": 0.2017,
+          "median": 0.3523,
+          "p90": 0.4168,
+          "p95": 0.46614999999999995,
+          "max": 1.5974
+        }
+      },
+      "0.05": {
+        "total_gaussians": {
+          "samples": 1036,
+          "min": 3312.0,
+          "median": 148817.0,
+          "p90": 229274.0,
+          "p95": 237575.0,
+          "max": 252088.0
+        },
+        "active_gaussians": {
+          "samples": 1036,
+          "min": 53.0,
+          "median": 6957.5,
+          "p90": 10704.5,
+          "p95": 10904.5,
+          "max": 12607.0
+        },
+        "tf": {
+          "samples": 1036,
+          "min": 0.0,
+          "median": 4273.5,
+          "p90": 6671.0,
+          "p95": 6901.5,
+          "max": 8253.0
+        },
+        "training_ms": {
+          "samples": 1036,
+          "min": 2.1587,
+          "median": 24.1375,
+          "p90": 30.1324,
+          "p95": 36.509925,
+          "max": 47.7538
+        },
+        "render_ms": {
+          "samples": 1036,
+          "min": 0.2017,
+          "median": 0.3901,
+          "p90": 0.49,
+          "p95": 0.5494,
+          "max": 1.4336
+        }
+      },
+      "0.1": {
+        "total_gaussians": {
+          "samples": 1036,
+          "min": 3312.0,
+          "median": 148817.0,
+          "p90": 229274.0,
+          "p95": 237575.0,
+          "max": 252088.0
+        },
+        "active_gaussians": {
+          "samples": 1036,
+          "min": 105.0,
+          "median": 14119.5,
+          "p90": 22933.0,
+          "p95": 23437.5,
+          "max": 26291.0
+        },
+        "tf": {
+          "samples": 1036,
+          "min": 0.0,
+          "median": 9070.0,
+          "p90": 15070.5,
+          "p95": 15491.25,
+          "max": 18363.0
+        },
+        "training_ms": {
+          "samples": 1036,
+          "min": 2.1528,
+          "median": 24.3106,
+          "p90": 29.4875,
+          "p95": 34.66725,
+          "max": 50.9362
+        },
+        "render_ms": {
+          "samples": 1036,
+          "min": 0.1987,
+          "median": 0.4275,
+          "p90": 0.5407,
+          "p95": 0.59675,
+          "max": 1.4449
+        }
+      },
+      "0.15": {
+        "total_gaussians": {
+          "samples": 1036,
+          "min": 3312.0,
+          "median": 148817.0,
+          "p90": 229274.0,
+          "p95": 237575.0,
+          "max": 252088.0
+        },
+        "N_network": {
+          "samples": 1,
+          "min": 182745.0,
+          "median": 182745.0,
+          "p90": 182745.0,
+          "p95": 182745.0,
+          "max": 182745.0
+        },
+        "active_gaussians": {
+          "samples": 1036,
+          "min": 165.0,
+          "median": 21448.5,
+          "p90": 33607.0,
+          "p95": 34363.25,
+          "max": 39787.0
+        },
+        "protected_population": {
+          "samples": 1,
+          "min": 16717.0,
+          "median": 16717.0,
+          "p90": 16717.0,
+          "p95": 16717.0,
+          "max": 16717.0
+        },
+        "tf": {
+          "samples": 1036,
+          "min": 0.0,
+          "median": 13941.5,
+          "p90": 21873.0,
+          "p95": 22873.25,
+          "max": 27969.0
+        },
+        "training_ms": {
+          "samples": 1036,
+          "min": 2.1395,
+          "median": 24.5008,
+          "p90": 31.010350000000003,
+          "p95": 36.9585,
+          "max": 51.1299
+        },
+        "render_ms": {
+          "samples": 1036,
+          "min": 0.1997,
+          "median": 0.4588,
+          "p90": 0.5944,
+          "p95": 0.63415,
+          "max": 1.2268
+        }
+      }
+    }
+  }
+}

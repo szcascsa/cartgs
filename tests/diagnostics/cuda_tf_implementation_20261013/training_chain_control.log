@@ -1,0 +1,11 @@
+[ 63%] Built target tf_cuda
+[ 72%] Building CXX object CMakeFiles/training_chain_parity.dir/training_chain_parity.cpp.o
+[ 81%] Linking CXX executable training_chain_parity
+[100%] Built target training_chain_parity
+plane6_first_step mode=teacher_forced name=grid.L1_xy index=10118 old_p=0.36889 other_p=0.368759 old_grad=1.11022e-16 other_grad=2.22045e-16
+plane6_first_step mode=free_rollout name=grid.L1_xy index=10118 old_p=0.36889 other_p=0.368759 old_grad=1.11022e-16 other_grad=2.22045e-16
+plane6_first_step mode=native_teacher_forced name=grid.L1_xy index=0 old_p=0.47939 other_p=0.47939 old_grad=1.77457e-10 other_grad=1.77457e-10
+plane6_first_step mode=native_free_rollout name=grid.L1_xy index=0 old_p=0.47939 other_p=0.47939 old_grad=1.77457e-10 other_grad=1.77457e-10
+plane6_first_step mode=cublas_teacher_forced name=grid.L1_xy index=10118 old_p=0.36889 other_p=0.368759 old_grad=1.11022e-16 other_grad=2.22045e-16
+plane6_first_step mode=cublas_free_rollout name=grid.L1_xy index=10118 old_p=0.36889 other_p=0.368759 old_grad=1.11022e-16 other_grad=2.22045e-16
+fixed_input_training_chain starting_tolerance_failures=15

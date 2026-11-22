@@ -1,0 +1,11 @@
+{
+  "all_passed": true,
+  "ranking_exact": true,
+  "quality_max_abs": {
+    "photo": 0.0,
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0
+  },
+  "candidates": 50330
+}

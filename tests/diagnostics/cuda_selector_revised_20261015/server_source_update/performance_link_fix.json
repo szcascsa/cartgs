@@ -1,0 +1,7 @@
+{
+  "file": "CMakeLists.txt",
+  "before_sha256": "d95e03b3759df1d044e6048ba5540e54b1e6aaeb4f721f3e70033e5de67215dc",
+  "after_sha256": "30885bf5eb90e92583778e29b8b24bf2cb5c35fbf0ce6f0ed17a9476b0381791",
+  "backup": "/home/prmi/zwj/selector-source-update-20261015/CMakeLists.before-performance-link-fix.txt",
+  "change": "Link performance_primitives_test to selector_cuda only when the CUDA backend is compiled"
+}

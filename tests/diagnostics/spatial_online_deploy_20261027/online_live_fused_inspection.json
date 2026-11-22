@@ -1,0 +1,38 @@
+{
+  "all_mapping_steps": 8400,
+  "actual_compensation_steps": 4320,
+  "first_compensation_step": 3001,
+  "post_compensation_host_ms": {
+    "total": 4.7552002430555556,
+    "selector_forward": 0.24746238703703702,
+    "compensation": 0.5235478351851851,
+    "lod_render": 0.3296971803240741,
+    "lod_loss": 0.1465394576388889,
+    "lod_backward": 2.509193962962963,
+    "optimizer": 0.11378489976851854,
+    "full_render": 0.0,
+    "full_backward": 0.0,
+    "operations": 0.18718082314814816,
+    "densify": 0.0
+  },
+  "all_mapping_host_ms": {
+    "total": 3.8510664904761907,
+    "selector_forward": 0.19635617285714285,
+    "compensation": 0.26925317238095237,
+    "lod_render": 0.2533006446428571,
+    "lod_loss": 0.1166555025,
+    "lod_backward": 1.666974285714286,
+    "optimizer": 0.08231476773809525,
+    "full_render": 0.10955302428571428,
+    "full_backward": 0.13734912666666668,
+    "operations": 0.16190975714285716,
+    "densify": 0.11613593333333334
+  },
+  "normalization_ready": true,
+  "private_tables": false,
+  "compensation_parameters": 33806,
+  "N": 8345,
+  "anchors": 2281,
+  "checkpoint": "/home/prmi/zwj/spatial-online-deploy-20261027/online_live_fused/8400_shutdown/ply",
+  "python_loaded_attributes_finite": true
+}

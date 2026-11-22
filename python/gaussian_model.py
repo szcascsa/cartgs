@@ -12,7 +12,7 @@
 import numpy as np
 import torch
 from torch import nn
-from plyfile import PlyData
+from plyfile import PlyData, PlyElement
 
 
 class GaussianModel:
@@ -107,7 +107,49 @@ class GaussianModel:
             self.get_scaling, scaling_modifier, self._rotation
         )
 
-    def load_ply(self, path):
+    @torch.no_grad()
+    def save_ply(self, path, selector_mask=None, elastic_attributes=None):
+        """Write selected, compensated Gaussians in the standard binary 3DGS format."""
+        xyz = self._xyz if elastic_attributes is None else elastic_attributes["xyz"]
+        scaling = self._scaling if elastic_attributes is None else torch.log(elastic_attributes["scaling"])
+        rotation = self._rotation if elastic_attributes is None else elastic_attributes["rotation"]
+        appearance = elastic_attributes or {}
+        dc = appearance.get("features_dc", self._features_dc)
+        attributes = {
+            "": xyz,
+            "n": torch.zeros_like(xyz),
+            "f_dc_": dc.transpose(1, 2).flatten(1),
+            "f_rest_": self._features_rest.transpose(1, 2).flatten(1),
+            "opacity": appearance.get("opacity_logits", self._opacity),
+            "scale_": scaling,
+            "rot_": rotation,
+        }
+        total = self._xyz.shape[0]
+        if any(value.shape[0] != total for value in attributes.values()):
+            raise ValueError("export attributes must match Gaussian count")
+        active_mask = None
+        if selector_mask is not None:
+            if selector_mask.ndim != 1 or selector_mask.shape[0] != total:
+                raise ValueError("selector mask must have one value per Gaussian")
+            active_mask = selector_mask.to(device=xyz.device, dtype=torch.bool)
+        columns = {}
+        for prefix, value in attributes.items():
+            if active_mask is not None:
+                value = value[active_mask]
+            array = value.detach().cpu().numpy()
+            for index in range(array.shape[1]):
+                name = prefix + "xyz"[index] if prefix in ("", "n") else prefix + str(index)
+                if prefix == "opacity":
+                    name = "opacity"
+                columns[name] = array[:, index]
+        count = len(columns["x"])
+        vertices = np.empty(count, dtype=[(name, "<f4") for name in columns])
+        for name, values in columns.items():
+            vertices[name] = values
+        PlyData([PlyElement.describe(vertices, "vertex")], text=False, byte_order="<").write(str(path))
+        return count
+
+    def load_ply(self, path, device="cuda"):
         plydata = PlyData.read(path)
 
         xyz = np.stack(
@@ -163,35 +205,35 @@ class GaussianModel:
             rots[:, idx] = np.asarray(plydata.elements[0][attr_name])
 
         self._xyz = nn.Parameter(
-            torch.tensor(xyz, dtype=torch.float, device="cuda").requires_grad_(
+            torch.tensor(xyz, dtype=torch.float, device=device).requires_grad_(
                 True
             )
         )
         self._features_dc = nn.Parameter(
-            torch.tensor(features_dc, dtype=torch.float, device="cuda")
+            torch.tensor(features_dc, dtype=torch.float, device=device)
             .transpose(1, 2)
             .contiguous()
             .requires_grad_(True)
         )
         self._features_rest = nn.Parameter(
-            torch.tensor(features_extra, dtype=torch.float, device="cuda")
+            torch.tensor(features_extra, dtype=torch.float, device=device)
             .transpose(1, 2)
             .contiguous()
             .requires_grad_(True)
         )
         self._opacity = nn.Parameter(
             torch.tensor(
-                opacities, dtype=torch.float, device="cuda"
+                opacities, dtype=torch.float, device=device
             ).requires_grad_(True)
         )
         self._scaling = nn.Parameter(
             torch.tensor(
-                scales, dtype=torch.float, device="cuda"
+                scales, dtype=torch.float, device=device
             ).requires_grad_(True)
         )
         self._rotation = nn.Parameter(
             torch.tensor(
-                rots, dtype=torch.float, device="cuda"
+                rots, dtype=torch.float, device=device
             ).requires_grad_(True)
         )
 

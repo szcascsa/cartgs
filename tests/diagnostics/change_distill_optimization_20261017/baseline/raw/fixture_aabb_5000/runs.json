@@ -1,0 +1,33 @@
+[
+  {
+    "additional_allocated_bytes" : 75269632,
+    "allow_tf32_cublas" : false,
+    "anchor_count" : 0,
+    "batch_size" : 8192,
+    "branch" : "tf",
+    "cpu_wall_ms" : 288.76850999999999,
+    "cuda_elapsed_ms" : 288.76132202148438,
+    "cxx11_abi" : 1,
+    "epochs" : 5,
+    "event_preparation_ms" : 6.8331039999999996,
+    "gaussian_unchanged" : true,
+    "identical_initial_parameters" : true,
+    "instrumentation_mode" : 0,
+    "label" : "cold",
+    "libtorch_version" : "2.3.1",
+    "normal_optimizer_fresh_and_unchanged" : true,
+    "peak_allocated_bytes" : 101878272,
+    "peak_reserved_bytes" : 163577856,
+    "ratio_count" : 4,
+    "sampler_seed" : 6072645945853039173,
+    "selector_count" : 0,
+    "selector_post" : 0.0,
+    "selector_pre" : 0.0,
+    "selector_steps" : 0,
+    "skipped_outside" : 5,
+    "tf_count" : 31859,
+    "tf_post" : 4.4871335560003915e-05,
+    "tf_pre" : 5.6516976595007457e-05,
+    "tf_steps" : 20
+  }
+]

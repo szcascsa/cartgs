@@ -1,0 +1,466 @@
+--- v27/deployment_prepare.cpp
++++ v29/deployment_prepare.cpp
+@@ -21,7 +21,8 @@
+     const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,
+     const std::vector<torch::Tensor>&,const torch::Tensor&,const std::vector<torch::Tensor>&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,double,double,int64_t,bool,bool,bool,int64_t,
+-    bool,const std::vector<torch::Tensor>&,bool,bool,const torch::Tensor&,bool,bool);
++    bool,const std::vector<torch::Tensor>&,bool,bool,const torch::Tensor&,bool,bool,
++    const torch::Tensor&,const torch::Tensor&);
+ std::vector<torch::Tensor> deployment_fused_candidates(const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
+@@ -48,11 +49,15 @@
+ std::vector<torch::Tensor> deployment_selector(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,double,bool,int64_t);
+ std::vector<torch::Tensor> deployment_selector_impl(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+-    const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,double,bool,int64_t,bool);
++    const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,double,bool,int64_t,bool,const torch::Tensor& = torch::Tensor());
+ std::vector<torch::Tensor> deployment_compensate_checked(const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,
+     const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,const torch::Tensor&,
+     const torch::Tensor&,const std::vector<double>&,const std::vector<double>&,bool,int64_t,bool,const torch::Tensor&);
++
++torch::Tensor deployment_selector_prefix(const torch::Tensor&,const torch::Tensor&);
++torch::Tensor deployment_view_masked(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
++    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,double,double,const torch::Tensor&);
+ 
+ namespace {
+ // Preparation uses fixed Gumbel keys and has no RNG nodes. Keep LibTorch's
+@@ -95,10 +100,13 @@
+   bool graph_enabled_=false;
+   bool unroll_compensation_=false;
+   bool fused_selection_=false,fused_candidates_=false;
+-  torch::Tensor anchor_partials_;
++  torch::Tensor anchor_partials_,selector_prefix_;
++  bool selector_prefix_enabled_=false,visible_view_=false;
++  bool small_compensation_tile_=false;
+   struct GraphPlan {
+     int64_t capacity;
+     bool local,compensation;
++    int64_t tile;
+     torch::Tensor camera,request,planes,distance,visible;
+     std::vector<torch::Tensor> buffers;
+     std::unique_ptr<FrozenPreparationGraph> execution;
+@@ -130,8 +138,9 @@
+     }
+     deployment_device_forward(state_,selector_,compensator_,tables_,master_,base_,view_weight_,plan.buffers,
+         vm,pm,center,1.,1.,schema_,softplus_,plan.local,plan.compensation,
+-        plan.capacity>1024?compensation_tile_:0,shrinking_radix_ && total_>=4096,radix_,selector_tiled_,
+-        saturated_selection_,plan.request,unroll_compensation_,fused_selection_);
++        plan.tile,shrinking_radix_ && total_>=4096,radix_,selector_tiled_,
++        saturated_selection_,plan.request,unroll_compensation_,fused_selection_,selector_prefix_,
++        visible_view_?plan.visible:torch::Tensor());
+   }
+ 
+   Prepared prepare_graph(const torch::Tensor& vm,const torch::Tensor& pm,const torch::Tensor& center,
+@@ -152,9 +161,10 @@
+       if(capacity>bucket)bucket=std::min(total_,limit);
+     }
+     if(capacity>bucket)bucket=total_;
++    const int64_t tile=compensation && (bucket>1024 || (small_compensation_tile_ && capacity>=512))?compensation_tile_:0;
+     GraphPlan* plan=nullptr;
+     for(auto& candidate:graphs_) {
+-      if(candidate->capacity==bucket && candidate->local==local && candidate->compensation==compensation) {
++      if(candidate->capacity==bucket && candidate->local==local && candidate->compensation==compensation && candidate->tile==tile) {
+         plan=candidate.get();
+         break;
+       }
+@@ -166,6 +176,7 @@
+       created->capacity=bucket;
+       created->local=local;
+       created->compensation=compensation;
++      created->tile=tile;
+       created->camera=torch::empty({35},state_[0].options());
+       created->request=torch::empty({sizeof(DeploymentRequest)},state_[0].options().dtype(at::kByte));
+       created->buffers=buffers_;
+@@ -208,7 +219,7 @@
+     output.budget=frame.budget;output.k=frame.k;output.ratio=frame.ratio;output.has_ratio=frame.has_ratio;
+     output.shrinking_radix=frame.k && shrinking_radix_ && total_>=4096;
+     output.selector_tiled=frame.k && selector_tiled_;
+-    output.compensation_tile=compensation && bucket>1024?compensation_tile_:0;
++    output.compensation_tile=compensation?tile:0;
+     output.ids=selected.slice(0,0,frame.k);
+     int64_t offset=0;
+     for(auto shape:shapes_) {
+@@ -280,12 +291,13 @@
+     const auto start=std::chrono::steady_clock::now();
+     auto planes=frustum_planes(pm);
+     auto distance=at::matmul(state_[0],planes.slice(1,0,3).t());
++    torch::Tensor visible;
+     if(fused_candidates_) {
+       auto candidates=deployment_fused_candidates(distance,planes,state_[1],state_[2],state_[3],state_[4],
+           rows_,counts_,candidate_workspace_,anchor_partials_);
+-      candidate_workspace_=candidates[1];
++      candidate_workspace_=candidates[1];visible=candidates[0];
+     } else {
+-      auto visible=frustum_test(distance,planes,state_[1],state_[2]);
++      visible=frustum_test(distance,planes,state_[1],state_[2]);
+       auto candidates=visible_candidates(visible,state_[3],state_[4],rows_,counts_,candidate_workspace_);
+       candidate_workspace_=candidates[2];
+     }
+@@ -302,8 +314,9 @@
+           vm.sizes()==at::IntArrayRef({4,4})),"Frozen camera layout");
+       deployment_device_forward(state_,selector_,compensator_,tables_,master_,base_,view_weight_,buffers_,
+           vm,pm,center,double(width)/height,near,schema_,softplus_,local,compensation,
+-          capacity>=1024?compensation_tile_:0,shrinking_radix_ && total_>=4096,radix_,selector_tiled_,
+-          saturated_selection_,torch::Tensor(),unroll_compensation_,fused_selection_);
++          (capacity>=1024 || (small_compensation_tile_ && capacity>=512))?compensation_tile_:0,shrinking_radix_ && total_>=4096,radix_,selector_tiled_,
++          saturated_selection_,torch::Tensor(),unroll_compensation_,fused_selection_,selector_prefix_,
++          visible_view_?visible:torch::Tensor());
+     }
+     readback(buffers_[0],host_control_);
+     const auto& frame=*reinterpret_cast<const DeploymentFrame*>(host_control_.data_ptr<uint8_t>());
+@@ -312,7 +325,7 @@
+     Prepared output;output.device_counts=true;output.n=frame.n;output.visible=frame.visible;output.available=frame.available;
+     output.graph_count=graphs_.size();
+     output.shrinking_radix=frame.k && shrinking_radix_ && total_>=4096;
+-    output.compensation_tile=compensation && capacity>=1024?compensation_tile_:0;
++    output.compensation_tile=compensation && (capacity>=1024 || (small_compensation_tile_ && capacity>=512))?compensation_tile_:0;
+     output.selector_tiled=selector_tiled_ && frame.k;
+     output.budget=frame.budget;output.k=frame.k;output.ratio=frame.ratio;output.has_ratio=frame.has_ratio;
+     TORCH_CHECK(output.k<=capacity,"Deployment output capacity");
+@@ -349,9 +362,13 @@
+     auto rows=rows_.slice(0,0,output.n);torch::Tensor flat;
+     if(output.k) {
+       auto code=empty_;
+-      if(local && schema_!=1)code=deployment_view(state_[0],state_[10],state_[11],camera.contiguous(),vm,pm,
+-          state_[12],double(width)/height,near);
+-      auto scores=deployment_selector_impl(state_[6],rows,state_[3],code,state_[9],selector_,output.ratio,local,schema_,selector_tiled_);
++      if(local && schema_!=1) {
++        if(visible_view_)code=deployment_view_masked(state_[0],state_[10],state_[11],camera.contiguous(),vm,pm,
++            state_[12],double(width)/height,near,visible);
++        else code=deployment_view(state_[0],state_[10],state_[11],camera.contiguous(),vm,pm,
++            state_[12],double(width)/height,near);
++      }
++      auto scores=deployment_selector_impl(state_[6],rows,state_[3],code,state_[9],selector_,output.ratio,local,schema_,selector_tiled_,selector_prefix_);
+       output.selector_tiled=selector_tiled_;
+       if(!compensation) {
+         readback(scores[2],host_status_);
+@@ -369,7 +386,7 @@
+         }
+         const double t=2*(std::log(output.ratio)-std::log(bounds_[0]))/(std::log(bounds_[1])-std::log(bounds_[0]))-1;
+         std::vector<double> ratio={t,std::sin(M_PI*t/2),std::cos(M_PI*t/2)};
+-        output.compensation_tile=output.k>=1024?compensation_tile_:0;
++        output.compensation_tile=(output.k>=1024 || (small_compensation_tile_ && output.k>=512))?compensation_tile_:0;
+         auto result=deployment_compensate_impl(state_[7],output.ids,state_[3],state_[8],tables_,compensator_,master_,code,
+             view_weight_,weights,ratio,local&&schema_,schema_,softplus_,scores[2],output.compensation_tile);
+         readback(result[2],host_status_);
+@@ -421,6 +438,14 @@
+   void kernel_options(bool unroll_compensation,bool fused_selection,bool fused_candidates) {
+     graphs_.clear();unroll_compensation_=unroll_compensation;
+     fused_selection_=fused_selection;fused_candidates_=fused_candidates;
++  }
++
++  void static_options(bool prefix,bool visible_view,bool small_tile) {
++    c10::cuda::CUDAGuard guard(state_[0].device());
++    graphs_.clear();
++    if(prefix && !selector_prefix_.defined())selector_prefix_=deployment_selector_prefix(state_[6],selector_[0]);
++    if(!prefix)selector_prefix_=torch::Tensor();
++    selector_prefix_enabled_=prefix;visible_view_=visible_view;small_compensation_tile_=small_tile;
+   }
+ 
+   pybind11::tuple prepare(const torch::Tensor& vm,const torch::Tensor& pm,const torch::Tensor& camera,
+@@ -446,6 +471,10 @@
+     stats["unroll_compensation"]=result.device_counts && unroll_compensation_ && result.compensation_tile==16;
+     stats["fused_selection"]=result.device_counts && fused_selection_ && result.shrinking_radix && total_>=16384;
+     stats["fused_candidates"]=result.device_counts && fused_candidates_;
++    stats["selector_static_prefix"]=selector_prefix_enabled_;
++    stats["selector_prefix_bytes"]=selector_prefix_.defined()?selector_prefix_.nbytes():0;
++    stats["visible_view"]=visible_view_;
++    stats["small_compensation_tile"]=small_compensation_tile_;
+     return py::make_tuple(packet,result.ids,stats);
+   }
+ };
+@@ -461,5 +490,6 @@
+     .def("_optimization_controls",&DeploymentPipeline::optimization_controls)
+     .def("_graph_enabled",&DeploymentPipeline::graph_enabled)
+     .def("_kernel_options",&DeploymentPipeline::kernel_options)
++    .def("_static_options",&DeploymentPipeline::static_options)
+     .def("_control",&DeploymentPipeline::debug_control);
+ }
+--- v27/deployment_runtime.py
++++ v29/deployment_runtime.py
+@@ -12,7 +12,7 @@
+ def deployment_extension():
+     from torch.utils.cpp_extension import load
+     root = Path(__file__).resolve().parent
+-    return load(name='mycartgs_deployment_fp32_v27',
++    return load(name='mycartgs_deployment_fp32_v29',
+         sources=[str(root/'deployment_runtime_bindings.cpp'), str(root/'deployment_runtime_kernels.cu'),
+                  str(root/'deployment_prepare.cpp'), str(root/'deployment_selection.cu'),str(root/'deployment_radix.cu'),str(root/'deployment_candidates.cu'),
+                  str(root/'frozen_inference_kernels.cu')],
+@@ -28,12 +28,13 @@
+     @torch.inference_mode(False)
+     @torch.no_grad()
+     def __init__(self, model, gaussians, config, seed=0, *, shrinking_radix=True, compensation_tile=16, selector_tiled=True,
+-                 saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True):
++                 saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True,
++                 selector_static_prefix=True,visible_view=True,small_compensation_tile=True):
+         from anchor_budget import FixedBudgetRenderer
+         if (not isinstance(shrinking_radix,bool) or not isinstance(selector_tiled,bool) or
+                 isinstance(compensation_tile,bool) or compensation_tile not in (0,4,8,16)):
+             raise ValueError('Use bool Radix/Selector switches and Compensation tile 0, 4, 8 or 16')
+-        if any(not isinstance(value,bool) for value in [saturated_selection,prepare_graph,unroll_compensation,fused_selection,fused_candidates]):
++        if any(not isinstance(value,bool) for value in [saturated_selection,prepare_graph,unroll_compensation,fused_selection,fused_candidates,selector_static_prefix,visible_view,small_compensation_tile]):
+             raise ValueError('Deployment optimization switches require bool values')
+         # A private frozen snapshot prevents a training update from invalidating deployment data.
+         model, gaussians = copy.deepcopy(model), copy.deepcopy(gaussians)
+@@ -72,12 +73,14 @@
+         self._pipeline._optimization_controls(saturated_selection)
+         self._pipeline._graph_enabled(prepare_graph)
+         self._pipeline._kernel_options(unroll_compensation,fused_selection,fused_candidates)
++        self._pipeline._static_options(selector_static_prefix,visible_view,small_compensation_tile)
+ 
+     @classmethod
+     @torch.inference_mode(False)
+     @torch.no_grad()
+     def from_checkpoint(cls, checkpoint, seed=0, *, shrinking_radix=True, compensation_tile=16, selector_tiled=True,
+-                        saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True):
++                        saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True,
++                        selector_static_prefix=True,visible_view=True,small_compensation_tile=True):
+         from budget_viewer import read_config
+         from gaussian_model import GaussianModel
+         from selector import load_selector
+@@ -95,7 +98,8 @@
+         return cls(model,gaussians,config,seed,shrinking_radix=shrinking_radix,
+             compensation_tile=compensation_tile,selector_tiled=selector_tiled,
+             saturated_selection=saturated_selection,prepare_graph=prepare_graph,unroll_compensation=unroll_compensation,
+-            fused_selection=fused_selection,fused_candidates=fused_candidates)
++            fused_selection=fused_selection,fused_candidates=fused_candidates,
++            selector_static_prefix=selector_static_prefix,visible_view=visible_view,small_compensation_tile=small_compensation_tile)
+ 
+     def _packet(self, flat, n):
+         pc = self._base.pc
+--- v27/deployment_runtime_bindings.cpp
++++ v29/deployment_runtime_bindings.cpp
+@@ -37,8 +37,18 @@
+     const torch::Tensor&,const torch::Tensor&,const std::vector<double>&,
+     const std::vector<double>&,bool,int64_t,bool,int64_t);
+ 
++torch::Tensor deployment_selector_prefix(const torch::Tensor&,const torch::Tensor&);
++std::vector<torch::Tensor> deployment_selector_impl(const torch::Tensor&,const torch::Tensor&,
++    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,
++    double,bool,int64_t,bool,const torch::Tensor&);
++torch::Tensor deployment_view_masked(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
++    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,double,double,const torch::Tensor&);
++
+ PYBIND11_MODULE(TORCH_EXTENSION_NAME, module) {
+   bind_deployment_prepare(module);
++  module.def("_selector_prefix", &deployment_selector_prefix);
++  module.def("_selector_prefixed", &deployment_selector_impl);
++  module.def("_view_masked", &deployment_view_masked);
+   module.def("view", &deployment_view);
+   module.def("selector", &deployment_selector);
+   module.def("_selector_tiled", &deployment_selector_tiled);
+--- v27/deployment_runtime_kernels.cu
++++ v29/deployment_runtime_kernels.cu
+@@ -36,11 +36,11 @@
+ __global__ void viewKernel(int64_t n,const float* centers,const float* centers4,
+     const float* corners,const float* camera,const float* vm,int64_t v0,int64_t v1,
+     const float* pm,int64_t p0,int64_t p1,const float* scale,float aspect,float near,float* out,
+-    const DeploymentFrame* frame,const DeploymentRequest* request=nullptr) {
++    const DeploymentFrame* frame,const DeploymentRequest* request=nullptr,const bool* visible=nullptr) {
+   if(frame && !frame->k)return;
+   if(request){aspect=request->aspect;near=request->near;}
+   const auto a=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
+-  if(a>=n)return;
++  if(a>=n || (visible && !visible[a]))return;
+   float v[3];for(int j=0;j<3;++j)v[j]=camera[j]-centers[3*a+j];
+   const float norm=fmaxf(sqrtf((v[0]*v[0]+v[2]*v[2])+v[1]*v[1]),1e-6f);
+   for(int j=0;j<3;++j)out[7*a+j]=v[j]/norm;
+@@ -61,10 +61,20 @@
+   out[7*a+6]=log1pf(longest);
+ }
+ 
+-template<int Width> __global__ void selectorKernel(int64_t n,const float* physical,
++__global__ void selectorPrefix(int64_t n,const float* physical,const float* weights,float* out) {
++  const int64_t row=int64_t(blockIdx.x)*4+threadIdx.x/32;
++  const int col=threadIdx.x%32;
++  if(row>=n)return;
++  float sum=0.f;
++  #pragma unroll
++  for(int j=0;j<10;++j)sum=fmaf(physical[row*10+j],weights[j*32+col],sum);
++  out[row*32+col]=sum;
++}
++
++template<int Width,bool Prefix=false> __global__ void selectorKernel(int64_t n,const float* physical,
+     const int64_t* rows,const int64_t* owners,const float* view,const float* noise,
+     Weights w,float log_ratio,bool local,bool real_view,float* scores,float* logits,int* status,
+-    const DeploymentFrame* frame) {
++    const DeploymentFrame* frame,const float* prefix=nullptr) {
+   if(frame){if(!frame->k)return;n=frame->n;log_ratio=frame->log_ratio;}
+   const int warp=threadIdx.x/32,lane=threadIdx.x%32;
+   const int64_t row=int64_t(blockIdx.x)*4+warp;
+@@ -72,13 +82,13 @@
+   const auto id=rows[row];
+   __shared__ float h0[4][32],h1[4][32];
+   float x=0.f;
+-  if(lane<10)x=physical[id*10+lane];
++  if(lane<10){if(!Prefix)x=physical[id*10+lane];}
+   else if(lane==10)x=log_ratio;
+   else if(Width==19 && lane<18)x=local&&real_view?view[owners[id]*7+lane-11]:0.f;
+   else if(Width==19 && lane==18)x=local?1.f:0.f;
+-  float sum=0.f;
+-  #pragma unroll
+-  for(int j=0;j<Width;++j)sum=fmaf(__shfl_sync(0xffffffff,x,j),w.p[0][j*32+lane],sum);
++  float sum=Prefix?prefix[id*32+lane]:0.f;
++  #pragma unroll
++  for(int j=Prefix?10:0;j<Width;++j)sum=fmaf(__shfl_sync(0xffffffff,x,j),w.p[0][j*32+lane],sum);
+   h0[warp][lane]=relu(sum+w.p[1][lane]);__syncwarp();
+   sum=0.f;
+   #pragma unroll
+@@ -101,33 +111,38 @@
+   }
+ }
+ 
+-template<int Width> __global__ void selectorRegisterTile(int64_t n,const float* physical,
++template<int Width,bool Prefix=false> __global__ void selectorRegisterTile(int64_t n,const float* physical,
+     const int64_t* rows,const int64_t* owners,const float* view,const float* noise,
+     Weights w,float log_ratio,bool local,bool real_view,float* scores,float* logits,int* status,
+-    const DeploymentFrame* frame) {
++    const DeploymentFrame* frame,const float* prefix=nullptr) {
+   if(frame){if(!frame->k)return;n=frame->n;log_ratio=frame->log_ratio;}
+   const int tid=threadIdx.x,point=(tid/32)*4,col=tid%32;
+   const int64_t begin=int64_t(blockIdx.x)*16;
+   if(begin>=n)return;
+-  __shared__ float input[16][Width],h0[16][32],h1[16][32],result[16][2];
+-  for(int i=tid;i<16*Width;i+=128) {
+-    const int p=i/Width,c=i%Width;float value=0.f;
++  constexpr int Start=Prefix?10:0,InputWidth=Width-Start;
++  __shared__ float input[16][InputWidth],h0[16][32],h1[16][32],result[16][2];
++  for(int i=tid;i<16*InputWidth;i+=128) {
++    const int p=i/InputWidth,c=i%InputWidth+Start;float value=0.f;
+     if(begin+p<n) {
+       const auto id=rows[begin+p];
+-      if(c<10)value=physical[id*10+c];
++      if(c<10){if(!Prefix)value=physical[id*10+c];}
+       else if(c==10)value=log_ratio;
+       else if(c<18)value=local&&real_view?view[owners[id]*7+c-11]:0.f;
+       else value=local?1.f:0.f;
+     }
+-    input[p][c]=value;
++    input[p][c-Start]=value;
+   }
+   __syncthreads();
+   float acc[4]={0.f,0.f,0.f,0.f};
+-  #pragma unroll
+-  for(int j=0;j<Width;++j) {
++  if(Prefix) {
++    #pragma unroll
++    for(int q=0;q<4;++q)if(begin+point+q<n)acc[q]=prefix[rows[begin+point+q]*32+col];
++  }
++  #pragma unroll
++  for(int j=Prefix?10:0;j<Width;++j) {
+     const float weight=w.p[0][j*32+col];
+     #pragma unroll
+-    for(int q=0;q<4;++q)acc[q]=fmaf(input[point+q][j],weight,acc[q]);
++    for(int q=0;q<4;++q)acc[q]=fmaf(input[point+q][j-Start],weight,acc[q]);
+   }
+   #pragma unroll
+   for(int q=0;q<4;++q){h0[point+q][col]=relu(acc[q]+w.p[1][col]);acc[q]=0.f;}
+@@ -460,7 +475,8 @@
+ }
+ std::vector<torch::Tensor> deployment_selector_impl(const torch::Tensor& physical,const torch::Tensor& rows,
+     const torch::Tensor& owners,const torch::Tensor& view,const torch::Tensor& noise,
+-    const std::vector<torch::Tensor>& weights,double ratio,bool local,int64_t schema,bool tiled) {
++    const std::vector<torch::Tensor>& weights,double ratio,bool local,int64_t schema,bool tiled,
++    const torch::Tensor& prefix=torch::Tensor()) {
+   TORCH_CHECK(!torch::GradMode::is_enabled() && weights.size()==6 && ratio>0 && ratio<=1,"Frozen Selector inputs");
+   check(physical,physical);check(rows,physical,at::kLong);check(owners,physical,at::kLong);check(view,physical);check(noise,physical);
+   c10::cuda::CUDAGuard guard(physical.device());Weights w{};for(int j=0;j<6;++j){check(weights[j],physical);w.p[j]=weights[j].data_ptr<float>();}
+@@ -471,12 +487,46 @@
+       weights[3].numel()==32 && weights[4].sizes()==at::IntArrayRef({32,2}) && weights[5].numel()==2 &&
+       (!local || !(schema==2||schema==3) || (view.dim()==2 && view.size(1)==7)),"Selector snapshot layout");
+   const float lr=logf(float(ratio));const auto stream=c10::cuda::getCurrentCUDAStream();
+-  if(n && tiled) {
++  if(prefix.defined()) {
++    check(prefix,physical);TORCH_CHECK(prefix.sizes()==at::IntArrayRef({owners.numel(),32}),"Selector prefix layout");
++    if(n && tiled) {
++      if(width==19)selectorRegisterTile<19,true><<<(n+15)/16,128,0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,lr,local,schema==2||schema==3,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr,prefix.data_ptr<float>());
++      else selectorRegisterTile<11,true><<<(n+15)/16,128,0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,lr,local,false,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr,prefix.data_ptr<float>());
++    } else if(n) {
++      if(width==19)selectorKernel<19,true><<<(n+3)/4,128,0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,lr,local,schema==2||schema==3,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr,prefix.data_ptr<float>());
++      else selectorKernel<11,true><<<(n+3)/4,128,0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,lr,local,false,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr,prefix.data_ptr<float>());
++    }
++  } else if(n && tiled) {
+     if(width==19)selectorRegisterTile<19><<<(n+15)/16,128,0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,lr,local,schema==2||schema==3,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+     else selectorRegisterTile<11><<<(n+15)/16,128,0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,lr,local,false,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+   } else if(n){if(width==19)selectorKernel<19><<<(n+3)/4,128,0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,lr,local,schema==2||schema==3,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+     else selectorKernel<11><<<(n+3)/4,128,0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,lr,local,false,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr);}
+   C10_CUDA_KERNEL_LAUNCH_CHECK();return {scores,logits,status};
++}
++
++torch::Tensor deployment_selector_prefix(const torch::Tensor& physical,const torch::Tensor& weights) {
++  check(physical,physical);check(weights,physical);
++  TORCH_CHECK(!torch::GradMode::is_enabled() && physical.dim()==2 && physical.size(1)==10 &&
++      weights.dim()==2 && weights.size(0)>=10 && weights.size(1)==32,"Frozen prefix layout");
++  c10::cuda::CUDAGuard guard(physical.device());
++  auto out=torch::empty({physical.size(0),32},physical.options());
++  if(physical.size(0))selectorPrefix<<<(physical.size(0)+3)/4,128,0,c10::cuda::getCurrentCUDAStream()>>>(
++      physical.size(0),physical.data_ptr<float>(),weights.data_ptr<float>(),out.data_ptr<float>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
++}
++
++torch::Tensor deployment_view_masked(const torch::Tensor& centers,const torch::Tensor& centers4,
++    const torch::Tensor& corners,const torch::Tensor& camera,const torch::Tensor& vm,
++    const torch::Tensor& pm,const torch::Tensor& scale,double aspect,double near,const torch::Tensor& visible) {
++  check(visible,centers,at::kBool);
++  TORCH_CHECK(visible.numel()==centers.size(0),"Anchor visibility layout");
++  c10::cuda::CUDAGuard guard(centers.device());
++  auto out=torch::empty({centers.size(0),7},centers.options());
++  if(centers.size(0))viewKernel<<<(centers.size(0)+127)/128,128,0,c10::cuda::getCurrentCUDAStream()>>>(
++      centers.size(0),centers.data_ptr<float>(),centers4.data_ptr<float>(),corners.data_ptr<float>(),camera.data_ptr<float>(),
++      vm.data_ptr<float>(),vm.stride(0),vm.stride(1),pm.data_ptr<float>(),pm.stride(0),pm.stride(1),
++      scale.data_ptr<float>(),aspect,near,out.data_ptr<float>(),nullptr,nullptr,visible.data_ptr<bool>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
+ }
+ 
+ std::vector<torch::Tensor> deployment_selector(const torch::Tensor& physical,const torch::Tensor& rows,
+@@ -689,7 +739,8 @@
+     double aspect,double near,int64_t schema,bool softplus,bool local,bool compensate,int64_t tile,
+     bool radix,const std::vector<torch::Tensor>& radix_workspace,bool selector_tiled,
+     bool saturated_selection,
+-    const torch::Tensor& request,bool unroll_compensation,bool fused_selection) {
++    const torch::Tensor& request,bool unroll_compensation,bool fused_selection,
++    const torch::Tensor& prefix,const torch::Tensor& visible) {
+   // buffers: frame, candidate rows, view, scores, logits, selected IDs, attributes,
+   // selection counts. Large maps retain the original C++ path.
+   const auto n=state[3].numel(),capacity=buffers[5].numel(),anchors=state[0].size(0);
+@@ -702,11 +753,27 @@
+       state[0].data_ptr<float>(),state[10].data_ptr<float>(),state[11].data_ptr<float>(),camera.data_ptr<float>(),
+       vm.data_ptr<float>(),vm.stride(0),vm.stride(1),pm.data_ptr<float>(),pm.stride(0),pm.stride(1),
+       state[12].data_ptr<float>(),aspect,near,buffers[2].data_ptr<float>(),frame,
+-      request.defined()?reinterpret_cast<const DeploymentRequest*>(request.data_ptr<uint8_t>()):nullptr);
++      request.defined()?reinterpret_cast<const DeploymentRequest*>(request.data_ptr<uint8_t>()):nullptr,
++      visible.defined()?visible.data_ptr<bool>():nullptr);
+   Weights sw{},cw{};Tables t{};Controls c{};Master m{},b{};
+   for(int j=0;j<6;++j){sw.p[j]=selector[j].data_ptr<float>();m.p[j]=master[j].data_ptr<float>();b.p[j]=base[j].data_ptr<float>();}
+   m.rest=b.rest=base[5].numel()/std::max(int64_t(1),n);
+   const auto rows=buffers[1].data_ptr<int64_t>();
++  if(prefix.defined()) {
++  if(selector_tiled) {
++    if(selector[0].size(0)==19)selectorRegisterTile<19,true><<<(n+15)/16,128,0,stream>>>(n,state[6].data_ptr<float>(),rows,
++        state[3].data_ptr<int64_t>(),buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,
++        schema==2||schema==3,buffers[3].data_ptr<float>(),buffers[4].data_ptr<float>(),status,frame,prefix.data_ptr<float>());
++    else selectorRegisterTile<11,true><<<(n+15)/16,128,0,stream>>>(n,state[6].data_ptr<float>(),rows,
++        state[3].data_ptr<int64_t>(),buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,
++        false,buffers[3].data_ptr<float>(),buffers[4].data_ptr<float>(),status,frame,prefix.data_ptr<float>());
++  } else if(selector[0].size(0)==19)selectorKernel<19,true><<<(n+3)/4,128,0,stream>>>(n,state[6].data_ptr<float>(),rows,
++      state[3].data_ptr<int64_t>(),buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,
++      schema==2||schema==3,buffers[3].data_ptr<float>(),buffers[4].data_ptr<float>(),status,frame,prefix.data_ptr<float>());
++  else selectorKernel<11,true><<<(n+3)/4,128,0,stream>>>(n,state[6].data_ptr<float>(),rows,state[3].data_ptr<int64_t>(),
++      buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,false,
++      buffers[3].data_ptr<float>(),buffers[4].data_ptr<float>(),status,frame,prefix.data_ptr<float>());
++  } else {
+   if(selector_tiled) {
+     if(selector[0].size(0)==19)selectorRegisterTile<19><<<(n+15)/16,128,0,stream>>>(n,state[6].data_ptr<float>(),rows,
+         state[3].data_ptr<int64_t>(),buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,
+@@ -720,6 +787,7 @@
+   else selectorKernel<11><<<(n+3)/4,128,0,stream>>>(n,state[6].data_ptr<float>(),rows,state[3].data_ptr<int64_t>(),
+       buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,false,
+       buffers[3].data_ptr<float>(),buffers[4].data_ptr<float>(),status,frame);
++  }
+   if(radix)deployment_radix_device(buffers[3],buffers[1],state[5],buffers[5],buffers[0],radix_workspace,saturated_selection,fused_selection && n>=16384);
+   else deployment_select_device(buffers[3],buffers[1],state[5],buffers[5],buffers[0],buffers[7]);
+   if(compensate) {

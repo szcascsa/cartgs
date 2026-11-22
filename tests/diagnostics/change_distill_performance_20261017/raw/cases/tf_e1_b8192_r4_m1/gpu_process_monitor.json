@@ -1,0 +1,57 @@
+[
+  {
+    "time": 1792247967.749376,
+    "own_pid": 910411,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247968.0317106,
+    "own_pid": 910411,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247968.2926211,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 462"
+  },
+  {
+    "time": 1792247968.555328,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 862"
+  },
+  {
+    "time": 1792247968.8182704,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 958"
+  },
+  {
+    "time": 1792247969.0799618,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 998"
+  },
+  {
+    "time": 1792247969.378429,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 998"
+  },
+  {
+    "time": 1792247969.658372,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 998"
+  },
+  {
+    "time": 1792247969.9199615,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 998"
+  },
+  {
+    "time": 1792247970.1815283,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 998"
+  },
+  {
+    "time": 1792247970.462779,
+    "own_pid": 910411,
+    "compute_processes": "910411, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 998"
+  }
+]

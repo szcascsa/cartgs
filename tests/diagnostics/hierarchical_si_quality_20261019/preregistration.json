@@ -1,0 +1,80 @@
+{
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "K_rule": "floor(ratio*N_candidate+0.5)",
+  "candidate": "valid AND observed",
+  "maturity": 1,
+  "primary": [
+    "A_Raw",
+    "B_FixedMarginal",
+    "C_Hierarchical"
+  ],
+  "diagnostic": [
+    "D_RepresentativeOnly",
+    "E_L1Only"
+  ],
+  "hierarchy": {
+    "target": 2048,
+    "origin": [
+      0,
+      0,
+      0
+    ],
+    "reps": 3,
+    "split_Q": 0.8,
+    "max_level": 3,
+    "search": "Unchanged current deterministic search"
+  },
+  "no_tuning": true,
+  "no_training": true,
+  "no_GI_recompute": true,
+  "TF": "same frozen requested-ratio consumer, all-one maturity, original AABB",
+  "evaluation": "161 fixed non-Bank archived evaluation views; 69 Bank views only determine Raw SI",
+  "ranking_ties": "descending score, source row ascending; B frozen predecessor-preserving global merge",
+  "diagnostic_geometry": "geometry-only scalar radius; within frozen Fixed-h8 cells for every arm, redundancy=max off-diagonal selected kappa, singleton=0; same metric/partition for every arm",
+  "dense_regions": {
+    "dense": "top ceil(10% occupied fixed-h8 cells), occupancy desc then key asc",
+    "important": "minimal prefix of fixed-h8 cells covering >=80% Raw SI, mass desc then key asc",
+    "root_views": "also report same rules over Sparse roots, defined before quality"
+  },
+  "pair_thresholds": [
+    0.8,
+    0.9,
+    0.95
+  ],
+  "primary_gate": {
+    "A": "at least 3/4 ratios have C-Raw PSNR >= -0.02 dB",
+    "B": "low-ratio mean C-Raw PSNR >0.10 OR (one >0.20 and other >=-0.02)",
+    "C": "no systematic tradeoff; substantive PSNR/SSIM/LPIPS direction mix downgrades GO to INCONCLUSIVE"
+  },
+  "metric_interpretation_fixed_before_render": {
+    "substantive_SSIM_drop": 0.002,
+    "substantive_LPIPS_worsening": 0.005,
+    "systematic_tradeoff": "at least 2 ratios jointly have SSIM<-0.002 and LPIPS>0.005 while PSNR increases",
+    "mixed_downgrade": "substantive SSIM or LPIPS worsening in a low ratio with positive PSNR, or in at least two ratios with positive PSNR",
+    "photo": "reported fully; not separately tuned or used to replace PSNR/SSIM/LPIPS gate"
+  },
+  "strong_gate": {
+    "PSNR_all": ">=-0.02",
+    "low": "primary low-ratio gate",
+    "LPIPS": ">=3/4 ratios improve",
+    "paired_low": "both low ratios PSNR positive-view fraction >=0.60 and median delta >0",
+    "redundancy": "both low ratios mean geometry redundancy reduced >=10% and >0.9 pairs decrease",
+    "near_fixed": "mean(C-B PSNR)>=-0.05 OR both low C-B>=-0.10 with no systematic other-metric worsening"
+  },
+  "case_rules": {
+    "A": "primary GO and near FixedMarginal",
+    "B": "primary GO and below FixedMarginal",
+    "C": "all four abs(C-Raw PSNR)<=0.02",
+    "D": "low mean<-0.02 OR (mean all<-0.02 and >=3 ratios<-0.02); mixed cases explicitly INCONCLUSIVE",
+    "E": "D-C low quality satisfies same +0.10 mean or +0.20/-0.02 gain test with no metric tradeoff",
+    "F": "all ratios abs(C-E PSNR)<=0.02, abs SSIM<=0.002, abs LPIPS<=0.005"
+  },
+  "runtime_gate": false,
+  "commit": false,
+  "push": false
+}

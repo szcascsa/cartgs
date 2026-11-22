@@ -1,0 +1,13 @@
+{
+  "selector": {
+    "nsys": "completed",
+    "ncu_selected_hotspot": "ampere_sgemm_32x32_sliced1x4_nt",
+    "ncu_error": "255: /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/raw/ncu_selector.log",
+    "ncu": "permission_denied_ERR_NVGPUCTRPERM"
+  },
+  "tf": {
+    "nsys": "completed",
+    "ncu_selected_hotspot": "tf_cuda::(anonymous namespace)::queryGradKernel(tf_cuda::(anonymous namespace)::Inputs, tf_cuda::(anonymous namespace)::Planes, float const*, float*, float*, int)",
+    "ncu": "no_kernel_captured"
+  }
+}

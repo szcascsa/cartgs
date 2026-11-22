@@ -1,0 +1,1610 @@
+tier,scene,model,seed,name,shape,numel,trainable,scope
+scratch_confirm,fr2_xyz,Head8,7201,embedding,"[2724, 8]",21792,True,Anchor abstraction
+scratch_confirm,fr2_xyz,Head8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.encode.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.body.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,embedding,"[2724, 8]",21792,True,Anchor abstraction
+scratch_confirm,fr2_xyz,Head8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.encode.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.body.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr2_xyz,Head8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.encode.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.body.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.ratio.0.bias,[32],32,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.ratio.2.bias,[256],256,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.encode.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.body.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.ratio.0.bias,[32],32,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.ratio.2.bias,[256],256,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr2_xyz,Baseline,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,embedding,"[2066, 8]",16528,True,Anchor abstraction
+scratch_confirm,fr1_xyz,Head8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.encode.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.body.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+scratch_confirm,fr1_xyz,Head8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.encode.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.body.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr1_xyz,Head8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.encode.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.body.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.ratio.0.bias,[32],32,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.ratio.2.bias,[256],256,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.encode.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.body.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.ratio.0.bias,[32],32,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.ratio.2.bias,[256],256,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+scratch_confirm,fr1_xyz,Baseline,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,context.0.weight,"[32, 58]",1856,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,context.0.bias,[32],32,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,context.2.weight,"[8, 32]",256,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,context.2.bias,[8],8,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,context_initial.0.weight,"[32, 58]",1856,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,context_initial.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,context_initial.2.weight,"[8, 32]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,context_initial.2.bias,[8],8,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,context.0.weight,"[32, 58]",1856,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,context.0.bias,[32],32,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,context.2.weight,"[8, 32]",256,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,context.2.bias,[8],8,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,context_initial.0.weight,"[32, 58]",1856,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,context_initial.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,context_initial.2.weight,"[8, 32]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,context_initial.2.bias,[8],8,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseContextHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,embedding,"[2724, 8]",21792,True,Anchor abstraction
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,embedding,"[2724, 8]",21792,True,Anchor abstraction
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,embedding,"[2724, 8]",21792,True,Anchor abstraction
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,embedding,"[2724, 8]",21792,True,Anchor abstraction
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseFakeHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,embedding,"[1, 8]",8,True,Anchor abstraction
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,embedding,"[1, 8]",8,True,Anchor abstraction
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr2_xyz,FrozenBaseGlobalHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,context.0.weight,"[32, 58]",1856,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,context.0.bias,[32],32,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,context.2.weight,"[8, 32]",256,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,context.2.bias,[8],8,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,context_initial.0.weight,"[32, 58]",1856,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,context_initial.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,context_initial.2.weight,"[8, 32]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,context_initial.2.bias,[8],8,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,context.0.weight,"[32, 58]",1856,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,context.0.bias,[32],32,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,context.2.weight,"[8, 32]",256,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,context.2.bias,[8],8,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,context_initial.0.weight,"[32, 58]",1856,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,context_initial.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,context_initial.2.weight,"[8, 32]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,context_initial.2.bias,[8],8,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseContextHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,embedding,"[2066, 8]",16528,True,Anchor abstraction
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseFakeHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,embedding,"[1, 8]",8,True,Anchor abstraction
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,embedding,"[1, 8]",8,True,Anchor abstraction
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_mechanism,fr1_xyz,FrozenBaseGlobalHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,embedding,"[2724, 8]",21792,True,Anchor abstraction
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7201,inject.weight,"[128, 16]",2048,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,embedding,"[2724, 8]",21792,True,Anchor abstraction
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,AnchorFiLM8,7200,inject.weight,"[128, 16]",2048,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,embedding,"[2724, 8]",21792,True,Anchor abstraction
+confirm_continue,fr2_xyz,Head8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,embedding,"[2724, 8]",21792,True,Anchor abstraction
+confirm_continue,fr2_xyz,Head8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,Head8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr2_xyz,Baseline,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,embedding,"[2066, 8]",16528,True,Anchor abstraction
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7201,inject.weight,"[128, 16]",2048,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,AnchorFiLM8,7200,inject.weight,"[128, 16]",2048,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,embedding,"[2066, 8]",16528,True,Anchor abstraction
+confirm_continue,fr1_xyz,Head8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+confirm_continue,fr1_xyz,Head8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr1_xyz,Head8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.encode.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.body.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.ratio.0.bias,[32],32,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.ratio.2.bias,[256],256,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+confirm_continue,fr1_xyz,Baseline,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,embedding,"[2066, 8]",16528,True,Anchor abstraction
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.encode.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.body.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.encode.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.body.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,MultiOnlyHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,embedding,"[2066, 8]",16528,True,Anchor abstraction
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.encode.weight,"[64, 55]",3520,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.encode.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.body.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.body.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.ratio.0.bias,[32],32,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.ratio.2.bias,[256],256,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.xyz.0.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.xyz.2.bias,[3],3,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.scale.0.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.scale.2.bias,[3],3,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.rotation.0.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.rotation.2.bias,[4],4,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.other.0.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,base.heads.other.2.bias,[4],4,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.encode.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.body.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FrozenBaseHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,embedding,"[2066, 8]",16528,True,Anchor abstraction
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.encode.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.body.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.encode.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.body.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,FakeMatchedHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,embedding,"[1, 8]",8,True,Anchor abstraction
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.encode.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.body.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,embedding,"[1, 8]",8,True,Anchor abstraction
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.encode.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.body.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+mechanism_continue,fr1_xyz,GlobalHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+same_seed_repeat,fr1_xyz,Head8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.encode.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.body.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+same_seed_repeat,fr1_xyz,Head8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.encode.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.body.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.ratio.0.bias,[32],32,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.ratio.2.bias,[256],256,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+same_seed_repeat,fr1_xyz,Baseline,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,embedding,"[1, 8]",8,True,Anchor abstraction
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.encode.weight,"[64, 55]",3520,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.encode.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.body.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.body.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.ratio.0.weight,"[32, 1]",32,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.ratio.0.bias,[32],32,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.ratio.2.weight,"[256, 32]",8192,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.ratio.2.bias,[256],256,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.0.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.xyz.2.bias,[3],3,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.0.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.scale.2.bias,[3],3,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.0.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.rotation.2.bias,[4],4,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.0.bias,[64],64,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.2.weight,"[4, 64]",256,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,base.heads.other.2.bias,[4],4,False,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+frozen_same_seed_repeat,fr1_xyz,FrozenBaseGlobalHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.encode.bias,[64],64,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.body.bias,[64],64,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,context.0.weight,"[32, 58]",1856,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,context.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,context.2.weight,"[8, 32]",256,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,context.2.bias,[8],8,True,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,context_initial.0.weight,"[32, 58]",1856,False,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,context_initial.0.bias,[32],32,False,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,context_initial.2.weight,"[8, 32]",256,False,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,context_initial.2.bias,[8],8,False,shared neural function
+screen,fr1_xyz,ContextFiLM8,7200,inject.weight,"[128, 16]",2048,True,shared neural function
+screen,fr1_xyz,Mid8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+screen,fr1_xyz,Mid8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.encode.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.body.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,Mid8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,Mid8,7200,inject.weight,"[64, 8]",512,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+screen,fr1_xyz,AnchorFiLM8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.encode.bias,[64],64,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.body.bias,[64],64,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,AnchorFiLM8,7200,inject.weight,"[128, 16]",2048,True,shared neural function
+screen,fr1_xyz,Head8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+screen,fr1_xyz,Head8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.encode.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.body.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,Head8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,Head8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+screen,fr1_xyz,Head8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+screen,fr1_xyz,Head8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+screen,fr1_xyz,Head8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+screen,fr1_xyz,Early8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+screen,fr1_xyz,Early8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.encode.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.body.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,Early8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,Early8,7200,inject.weight,"[64, 8]",512,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.encode.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.body.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.ratio.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.ratio.2.bias,[256],256,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,Baseline,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+screen,fr1_xyz,HybridFiLM8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.encode.bias,[64],64,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.body.bias,[64],64,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,context.0.weight,"[32, 58]",1856,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,context.0.bias,[32],32,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,context.2.weight,"[8, 32]",256,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,context.2.bias,[8],8,True,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,context_initial.0.weight,"[32, 58]",1856,False,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,context_initial.0.bias,[32],32,False,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,context_initial.2.weight,"[8, 32]",256,False,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,context_initial.2.bias,[8],8,False,shared neural function
+screen,fr1_xyz,HybridFiLM8,7200,inject.weight,"[128, 32]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,embedding,"[2066, 8]",16528,True,Anchor abstraction
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.encode.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.body.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.ratio.0.bias,[32],32,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.ratio.2.bias,[256],256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,inject.scale.weight,"[64, 8]",512,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7201,inject.other.weight,"[64, 8]",512,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,embedding,"[2066, 8]",16528,True,Anchor abstraction
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.encode.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.body.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.ratio.0.bias,[32],32,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.ratio.2.bias,[256],256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,base.heads.other.2.bias,[4],4,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,inject.xyz.weight,"[64, 8]",512,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,inject.scale.weight,"[64, 8]",512,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,inject.rotation.weight,"[64, 8]",512,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamHead8,7200,inject.other.weight,"[64, 8]",512,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.encode.weight,"[64, 55]",3520,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.encode.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.body.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.body.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.ratio.0.bias,[32],32,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.ratio.2.bias,[256],256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.xyz.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.xyz.2.bias,[3],3,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.scale.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.scale.2.bias,[3],3,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.rotation.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.rotation.2.bias,[4],4,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.other.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7201,base.heads.other.2.bias,[4],4,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.encode.weight,"[64, 55]",3520,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.encode.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.body.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.body.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.ratio.0.weight,"[32, 1]",32,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.ratio.0.bias,[32],32,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.ratio.2.weight,"[256, 32]",8192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.ratio.2.bias,[256],256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.xyz.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.xyz.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.xyz.2.weight,"[3, 64]",192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.xyz.2.bias,[3],3,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.scale.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.scale.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.scale.2.weight,"[3, 64]",192,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.scale.2.bias,[3],3,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.rotation.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.rotation.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.rotation.2.weight,"[4, 64]",256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.rotation.2.bias,[4],4,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.other.0.weight,"[64, 64]",4096,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.other.0.bias,[64],64,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.other.2.weight,"[4, 64]",256,True,shared neural function
+optimizer_control,fr1_xyz,FreshAdamBaseline,7200,base.heads.other.2.bias,[4],4,True,shared neural function

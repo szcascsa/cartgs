@@ -1,0 +1,12 @@
+{
+  "fr1_desk": {
+    "reference_N": 24049,
+    "frames": 128,
+    "available_common": 488
+  },
+  "fr1_room": {
+    "reference_N": 50739,
+    "frames": 128,
+    "available_common": 1352
+  }
+}

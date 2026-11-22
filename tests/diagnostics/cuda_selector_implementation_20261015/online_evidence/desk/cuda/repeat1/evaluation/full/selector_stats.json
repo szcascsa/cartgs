@@ -1,0 +1,7 @@
+{
+  "active_gaussians": 53600,
+  "total_gaussians": 53600,
+  "target_total_gaussians": 53600,
+  "actual_vs_target": 1.0,
+  "transform_applied": false
+}

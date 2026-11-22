@@ -1,0 +1,10 @@
+[ 14%] Building CXX object CMakeFiles/selector_candidates.dir/home/prmi/zwj/selector-cuda-20261015/src/selector_cuda.cpp.o
+[ 28%] Building CUDA object CMakeFiles/selector_candidates.dir/home/prmi/zwj/selector-cuda-20261015/src/selector_cuda.cu.o
+[ 42%] Linking CXX static library libselector_candidates.a
+[ 42%] Built target selector_candidates
+[ 57%] Building CXX object CMakeFiles/selector_parity.dir/selector_parity.cpp.o
+[ 71%] Building CXX object CMakeFiles/network_benchmark.dir/network_benchmark.cpp.o
+[ 85%] Linking CXX executable network_benchmark
+[ 85%] Built target network_benchmark
+[100%] Linking CXX executable selector_parity
+[100%] Built target selector_parity

@@ -1,0 +1,22 @@
+{
+  "archive_sha256": "ea0f7cc0b9b314a98728ea3982150df2b47b56295fe9596e867facf887634b5c",
+  "new_models": 2,
+  "reused_models": 2,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "finite_quality_rows": 3248,
+  "production": {
+    "files_verified": 6296,
+    "staged_files": [],
+    "production_mismatches": []
+  },
+  "online_slam": false,
+  "report_sha256": "be7bfb5ec0d24b9a8613eaa9c3a7c44de1170602f38e0dfdf414b2b16ba53219",
+  "final_production_check_passed": true,
+  "render_examples_inspected": true
+}

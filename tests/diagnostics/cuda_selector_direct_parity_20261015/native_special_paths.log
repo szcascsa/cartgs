@@ -1,0 +1,14 @@
+Internal ctest changing into directory: /home/prmi/zwj/selector-cuda-20261015/build-integration
+Test project /home/prmi/zwj/selector-cuda-20261015/build-integration
+    Start  1: change_distill_selector_cuda
+1/4 Test  #1: change_distill_selector_cuda .....   Passed    0.88 sec
+    Start  2: drift_stability_selector_cuda
+2/4 Test  #2: drift_stability_selector_cuda ....   Passed    1.08 sec
+    Start  3: joint_replay_selector_cuda
+3/4 Test  #3: joint_replay_selector_cuda .......   Passed    0.73 sec
+    Start 11: gradient_constraint
+4/4 Test #11: gradient_constraint ..............   Passed    0.36 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   3.05 sec

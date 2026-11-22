@@ -1,0 +1,67 @@
+[
+  {
+    "time": 1792259982.4647045,
+    "own_pid": 1089588,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792259982.7440276,
+    "own_pid": 1089588,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792259983.042832,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259983.305222,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259983.5672636,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259983.8285813,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259984.08982,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259984.3510728,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259984.6123922,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259984.873682,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259985.1552348,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259985.416597,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  },
+  {
+    "time": 1792259985.677829,
+    "own_pid": 1089588,
+    "gpu_processes": "1089588, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_c/benchmark_native"
+  }
+]

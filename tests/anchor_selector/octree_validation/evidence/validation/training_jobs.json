@@ -1,0 +1,30 @@
+[
+  {
+    "seed": 2026,
+    "arm": "fixed",
+    "output": "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2026",
+    "exit_code": 0,
+    "wall_seconds": 67.79093534499407
+  },
+  {
+    "seed": 2026,
+    "arm": "adaptive",
+    "output": "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2026",
+    "exit_code": 0,
+    "wall_seconds": 68.42123833298683
+  },
+  {
+    "seed": 2027,
+    "arm": "fixed",
+    "output": "/home/prmi/zwj/anchor-octree-20261020/fixed_seed2027",
+    "exit_code": 0,
+    "wall_seconds": 68.1434116140008
+  },
+  {
+    "seed": 2027,
+    "arm": "adaptive",
+    "output": "/home/prmi/zwj/anchor-octree-20261020/adaptive_seed2027",
+    "exit_code": 0,
+    "wall_seconds": 69.72330356389284
+  }
+]

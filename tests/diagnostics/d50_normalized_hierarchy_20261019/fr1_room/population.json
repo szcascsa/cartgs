@@ -1,0 +1,15 @@
+{
+  "N_total": 52635,
+  "N_candidate": 50330,
+  "valid_count": 52635,
+  "observed_count": 50330,
+  "d50": 0.013461046617217247,
+  "h": 0.10768837293773798,
+  "cell_count": 7490,
+  "occupancy_min": 1,
+  "occupancy_median": 2.0,
+  "occupancy_max": 250,
+  "cell_size_fixed_before_quality": true,
+  "bank_count": 69,
+  "raw_grid_control_equal": true
+}

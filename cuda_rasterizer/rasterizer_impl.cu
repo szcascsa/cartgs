@@ -372,11 +372,14 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
     float* out_color,
     int* radii,
     bool debug,
-    bool collect_importance,
+    int collect_importance,
     float* frame_importance,
-    int* contribution_count) {
+    int* contribution_count,
+    bool inference_only,
+    bool visibility_only,
+    float* alpha_contribution,int contribution_stride,int contribution_x,int contribution_y) {
   if (collect_importance &&
-      (frame_importance == nullptr || contribution_count == nullptr)) {
+      (frame_importance == nullptr || (collect_importance == 1 && contribution_count == nullptr))) {
     throw std::runtime_error(
         "Importance collection requires non-null output buffers.");
   }
@@ -396,11 +399,6 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
                  (height + BLOCK_Y - 1) / BLOCK_Y, 1);
   dim3 block(BLOCK_X, BLOCK_Y, 1);
 
-  // Dynamically resize image-based auxiliary buffers during training
-  size_t img_chunk_size = required<ImageState>(width * height);
-  char* img_chunkptr = imageBuffer(img_chunk_size);
-  ImageState imgState = ImageState::fromChunk(img_chunkptr, width * height);
-
   if (NUM_CHAFFELS != 3 && colors_precomp == nullptr) {
     throw std::runtime_error(
         "For non-RGB, provide precomputed Gaussian colors!");
@@ -418,6 +416,19 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
                  tile_grid, geomState.tiles_touched, prefiltered),
              debug)
 
+  // Keep exactly the original preprocess visibility criterion, including
+  // covariance/color validity. No image, binning or sample buffers are needed.
+  if (visibility_only) return std::make_tuple(0, 0);
+
+  const int num_tiles = tile_grid.x * tile_grid.y;
+  ImageState imgState{};
+  if (inference_only) {
+    imgState.ranges = reinterpret_cast<uint2*>(imageBuffer(num_tiles * sizeof(uint2)));
+  } else {
+    size_t img_chunk_size = required<ImageState>(width * height);
+    char* img_chunkptr = imageBuffer(img_chunk_size);
+    imgState = ImageState::fromChunk(img_chunkptr, width * height);
+  }
   // Compute prefix sum over full list of touched tile counts by Gaussians
   // E.g., [2, 3, 0, 2, 1] -> [2, 5, 5, 7, 8]
   CHECK_CUDA(cub::DeviceScan::InclusiveSum(
@@ -445,7 +456,6 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
   char* binning_chunkptr = binningBuffer(binning_chunk_size);
   BinningState binningState =
       BinningState::fromChunk(binning_chunkptr, num_rendered);
-  const int num_tiles = tile_grid.x * tile_grid.y;
 
   // For each instance to be rendered, produce adequate [ tile | depth ] key
   // and corresponding dublicated Gaussian indices to be sorted
@@ -490,6 +500,17 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
         static_cast<uint32_t>(num_tiles));
   CHECK_CUDA(, debug)
 
+  if (inference_only) {
+    const float* feature_ptr = colors_precomp != nullptr ? colors_precomp : geomState.rgb;
+    CHECK_CUDA(FORWARD::render(tile_grid, block, imgState.ranges,
+                             binningState.point_list, nullptr, nullptr,
+                             nullptr, nullptr, width, height, geomState.means2D,
+                             feature_ptr, geomState.conic_opacity, nullptr,
+                             nullptr, nullptr, background, out_color, collect_importance,
+                             frame_importance, contribution_count, true, alpha_contribution, contribution_stride, contribution_x, contribution_y), debug)
+    return std::make_tuple(num_rendered, 0);
+  }
+
   // bucket count
   perTileBucketCount<<<(num_tiles + 255) / 256, 256>>>(
       num_tiles, num_rendered, imgState.ranges, imgState.bucket_count);
@@ -525,7 +546,7 @@ std::tuple<int, int> CudaRasterizer::Rasterizer::forward(
                              imgState.accum_alpha, imgState.n_contrib,
                              imgState.max_contrib, background, out_color,
                              collect_importance, frame_importance,
-                             contribution_count),
+                             contribution_count, false, alpha_contribution, contribution_stride, contribution_x, contribution_y),
              debug)
 
   CHECK_CUDA(cudaMemcpy(imgState.pixel_colors, out_color,

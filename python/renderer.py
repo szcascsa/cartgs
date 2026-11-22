@@ -11,11 +11,89 @@
 
 import torch
 import math
+import time
 from diff_gaussian_rasterization import (
     GaussianRasterizationSettings,
     GaussianRasterizer,
 )
 from gaussian_model import GaussianModel
+
+
+def _make_rasterizer(viewpoint_camera, sh_degree, bg_color, scaling_modifier, inference_only=False):
+    raster_settings = GaussianRasterizationSettings(
+        image_height=int(viewpoint_camera.image_height),
+        image_width=int(viewpoint_camera.image_width),
+        tanfovx=math.tan(viewpoint_camera.FoVx * 0.5),
+        tanfovy=math.tan(viewpoint_camera.FoVy * 0.5),
+        bg=bg_color,
+        scale_modifier=scaling_modifier,
+        viewmatrix=viewpoint_camera.world_view_transform,
+        projmatrix=viewpoint_camera.full_proj_transform,
+        sh_degree=sh_degree,
+        campos=viewpoint_camera.camera_center,
+        prefiltered=False,
+        debug=False,
+    )
+    return GaussianRasterizer(raster_settings=raster_settings, inference_only=inference_only)
+
+
+@torch.no_grad()
+def prepare_render_data(pc: GaussianModel, selector_mask=None, elastic_attributes=None):
+    """Cache view-independent, compact inference inputs after Selector/Transform."""
+    appearance = elastic_attributes or {}
+    attributes = {
+        "means3D": pc.get_xyz if elastic_attributes is None else elastic_attributes["xyz"],
+        "opacities": appearance["opacity_logits"].sigmoid() if "opacity_logits" in appearance else pc.get_opacity,
+        "scales": pc.get_scaling if elastic_attributes is None else elastic_attributes["scaling"],
+        "rotations": pc.get_rotation if elastic_attributes is None else elastic_attributes["rotation"],
+        "dc": appearance.get("features_dc", pc.get_features_dc),
+        "shs": pc.get_features_rest,
+    }
+    total = pc.get_xyz.shape[0]
+    if any(attribute.shape[0] != total for attribute in attributes.values()):
+        raise ValueError("render attributes must match Gaussian count")
+    active_mask = None
+    if selector_mask is not None:
+        if selector_mask.ndim != 1 or selector_mask.shape[0] != total:
+            raise ValueError("selector mask must have one value per Gaussian")
+        active_mask = selector_mask.to(device=attributes["means3D"].device, dtype=torch.bool)
+    for name, attribute in attributes.items():
+        if active_mask is not None:
+            attribute = attribute[active_mask]
+        attributes[name] = attribute.detach().contiguous()
+    attributes["means2D"] = torch.zeros_like(attributes["means3D"])
+    attributes["colors_precomp"] = None
+    attributes["cov3D_precomp"] = None
+    return {"sh_degree": pc.active_sh_degree, "inputs": attributes}
+
+
+@torch.no_grad()
+def render_prepared(viewpoint_camera, render_data, bg_color, scaling_modifier=1.0,
+                    measure_time=False, return_radii=False):
+    """Render cached inputs; optionally time only the synchronized rasterizer call."""
+    rasterizer = _make_rasterizer(
+        viewpoint_camera, render_data["sh_degree"], bg_color, scaling_modifier, inference_only=True
+    )
+    inputs = render_data["inputs"]
+    device = inputs["means3D"].device
+    if measure_time:
+        torch.cuda.synchronize(device)
+        start = time.perf_counter()
+    if inputs["means3D"].shape[0] == 0:
+        rendered_image = bg_color[:, None, None].expand(
+            -1, int(viewpoint_camera.image_height), int(viewpoint_camera.image_width)
+        ).clone()
+        radii = torch.zeros(0, device=device, dtype=torch.int32)
+    else:
+        rendered_image, radii = rasterizer(**inputs)
+    elapsed_ms = None
+    if measure_time:
+        torch.cuda.synchronize(device)
+        elapsed_ms = (time.perf_counter() - start) * 1000.0
+    result = {"render": rendered_image, "rendering_ms": elapsed_ms}
+    if return_radii:
+        result['radii'] = radii
+    return result
 
 
 def render(
@@ -49,29 +127,14 @@ def render(
         pass
 
     # Set up rasterization configuration
-    tanfovx = math.tan(viewpoint_camera.FoVx * 0.5)
-    tanfovy = math.tan(viewpoint_camera.FoVy * 0.5)
-
-    raster_settings = GaussianRasterizationSettings(
-        image_height=int(viewpoint_camera.image_height),
-        image_width=int(viewpoint_camera.image_width),
-        tanfovx=tanfovx,
-        tanfovy=tanfovy,
-        bg=bg_color,
-        scale_modifier=scaling_modifier,
-        viewmatrix=viewpoint_camera.world_view_transform,
-        projmatrix=viewpoint_camera.full_proj_transform,
-        sh_degree=pc.active_sh_degree,
-        campos=viewpoint_camera.camera_center,
-        prefiltered=False,
-        debug=False,
+    rasterizer = _make_rasterizer(
+        viewpoint_camera, pc.active_sh_degree, bg_color, scaling_modifier
     )
-
-    rasterizer = GaussianRasterizer(raster_settings=raster_settings)
 
     means3D = pc.get_xyz if elastic_attributes is None else elastic_attributes["xyz"]
     means2D = screenspace_points
-    opacity = pc.get_opacity
+    appearance = elastic_attributes or {}
+    opacity = appearance["opacity_logits"].sigmoid() if "opacity_logits" in appearance else pc.get_opacity
     scales = pc.get_scaling if elastic_attributes is None else elastic_attributes["scaling"]
     rotations = pc.get_rotation if elastic_attributes is None else elastic_attributes["rotation"]
     if any(attribute.shape[0] != pc.get_xyz.shape[0] for attribute in (means3D, scales, rotations)):
@@ -105,7 +168,7 @@ def render(
     shs = None
     colors_precomp = None
     if override_color is None:
-        dc, shs = pc.get_features_dc, pc.get_features_rest
+        dc, shs = appearance.get("features_dc", pc.get_features_dc), pc.get_features_rest
         if active_mask is not None:
             dc = dc[active_mask].contiguous()
             shs = shs[active_mask].contiguous()

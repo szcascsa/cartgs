@@ -1,0 +1,41 @@
+{
+  "tier": "screen_II",
+  "scene": "fr1_xyz",
+  "source_seed": 3100,
+  "jobs": [
+    {
+      "config": {
+        "id": "DeepSetFiLM",
+        "kind": "self",
+        "width": 64,
+        "film": true,
+        "context": "set"
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "CrossAttentionFiLM",
+        "kind": "self",
+        "width": 64,
+        "film": true,
+        "context": "attention"
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialCrossAttention",
+        "kind": "self",
+        "width": 64,
+        "film": true,
+        "bands": 6,
+        "context": "attention"
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

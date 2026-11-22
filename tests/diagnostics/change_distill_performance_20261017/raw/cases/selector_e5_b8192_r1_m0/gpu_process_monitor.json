@@ -1,0 +1,42 @@
+[
+  {
+    "time": 1792247266.1205044,
+    "own_pid": 898529,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247266.4028862,
+    "own_pid": 898529,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247266.6828654,
+    "own_pid": 898529,
+    "compute_processes": "898529, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 522"
+  },
+  {
+    "time": 1792247266.9455018,
+    "own_pid": 898529,
+    "compute_processes": "898529, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 936"
+  },
+  {
+    "time": 1792247267.207504,
+    "own_pid": 898529,
+    "compute_processes": "898529, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 974"
+  },
+  {
+    "time": 1792247267.469102,
+    "own_pid": 898529,
+    "compute_processes": "898529, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 974"
+  },
+  {
+    "time": 1792247267.7307181,
+    "own_pid": 898529,
+    "compute_processes": "898529, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 974"
+  },
+  {
+    "time": 1792247267.992305,
+    "own_pid": 898529,
+    "compute_processes": "898529, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 974"
+  }
+]

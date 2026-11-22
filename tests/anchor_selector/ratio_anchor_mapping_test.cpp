@@ -1,0 +1,2 @@
+#define CARTGS_TEST_RATIO_ANCHOR_FEATURES
+#include "selector_compensation_mapping_test.cpp"

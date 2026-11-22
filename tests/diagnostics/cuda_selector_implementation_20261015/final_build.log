@@ -1,0 +1,5 @@
+[ 42%] Built target selector_candidates
+[ 57%] Building CXX object CMakeFiles/network_benchmark.dir/network_benchmark.cpp.o
+[ 85%] Built target selector_parity
+[100%] Linking CXX executable network_benchmark
+[100%] Built target network_benchmark

@@ -1,0 +1,100 @@
+{
+  "primary_supported": false,
+  "strong_supported": false,
+  "gates": {
+    "A_fr2_1percent_recovery": true,
+    "B_fr1_5_10_recovery": true,
+    "C_fr1_1percent_preserved": false,
+    "D_room_preserved": true
+  },
+  "strong_checks": {
+    "each_scene_mean_nonnegative": false,
+    "positive_1percent_at_least2": false,
+    "no_ratio_below_minus005": false
+  },
+  "gate_values": {
+    "A_recovery_dB": 0.06407348926250833,
+    "B_recovery_dB": 0.07960508487842866,
+    "C_new_delta_dB": -0.16581731372409436,
+    "D_mean_change_dB": 0.006367366506447869
+  },
+  "old_progressive_delta_PSNR": {
+    "fr1_room": [
+      0.10388745136142497,
+      0.0016367006005708618,
+      0.020476915821525665,
+      0.03905033917160594
+    ],
+    "fr1_xyz": [
+      0.250819700735585,
+      -0.11458529366387182,
+      -0.11967489454481495,
+      -0.04093247872811645
+    ],
+    "fr2_xyz": [
+      -0.0904697760557518,
+      -0.05778831090682601,
+      -0.04152865287585428,
+      0.028432308099208825
+    ]
+  },
+  "new_progressive_delta_PSNR": {
+    "fr1_room": [
+      0.14137823093011548,
+      0.010755681103063353,
+      -0.0002510414360443747,
+      0.03863800238378445
+    ],
+    "fr1_xyz": [
+      -0.16581731372409436,
+      -0.04718241868195605,
+      -0.027867599769873408,
+      0.002827962239585702
+    ],
+    "fr2_xyz": [
+      -0.026396286793243462,
+      -0.051453712659004225,
+      -0.00026306739220416375,
+      -0.002381495940380063
+    ]
+  },
+  "C32_minus_C0_PSNR": {
+    "fr1_room": [
+      0.04411361528479496,
+      -0.03503486088344232,
+      -0.014448876706712355,
+      -0.017333948834341584
+    ],
+    "fr1_xyz": [
+      0.5719041471128108,
+      -0.11186356014675525,
+      -0.11224810282389441,
+      -0.164966336003058
+    ],
+    "fr2_xyz": [
+      -0.4894817547920418,
+      0.01824936499962604,
+      -0.059069071060573464,
+      -0.04562148069724259
+    ]
+  },
+  "old_negative_outside_equivalence": 6,
+  "new_negative_outside_equivalence": 5,
+  "old_std": 0.09949834341339144,
+  "new_std": 0.06713604783853908,
+  "old_worst": -0.11967489454481495,
+  "new_worst": -0.16581731372409436,
+  "Q1": "YES",
+  "Q2": "MIXED",
+  "Q3": "YES",
+  "Q4": "YES",
+  "Q5": "NO",
+  "Q6": "MIXED",
+  "Q7": "SCALE DRIFT HYPOTHESIS NOT SUPPORTED",
+  "Q8": "KEEP TARGET-2048",
+  "no_lambda_sweep": true,
+  "only_lambda": 32,
+  "no_new_F1_F3_renders": true,
+  "production_changed": false,
+  "optimizer_updates": 0
+}

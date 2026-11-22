@@ -17,6 +17,7 @@
  */
 
 #include "imgui_viewer.h"
+#include "budget_viewer_client.h"
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -144,6 +145,10 @@ void ImGuiViewer::readConfigFromFile(std::filesystem::path cfg_path)
 
 void ImGuiViewer::run()
 {
+    if (budget_client_) {
+        runBudget();
+        return;
+    }
     // Initialize glfw
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())

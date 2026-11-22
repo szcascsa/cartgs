@@ -1,0 +1,5 @@
+{
+  "reason": "用户更正增加中间ReLU",
+  "corrected_experiment": "H:\\AIProjects\\cartgs优化更细致版\\mycartgs\\tests\\diagnostics\\s00_offset_encoder16_relu_20261026",
+  "exclude_from_corrected_results": true
+}

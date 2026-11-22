@@ -1,0 +1,22 @@
+{
+  "tier": "siren_screen",
+  "jobs": [
+    {
+      "config": {
+        "id": "SirenContinuous",
+        "kind": "siren"
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SirenOutputKnots",
+        "kind": "siren",
+        "knots": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

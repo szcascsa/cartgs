@@ -1,0 +1,17 @@
+comparison,ratio,K,intersection,added,removed,Jaccard
+C_Hierarchical_vs_F1_MarginalTail,0.01,503,503,0,0,1.0
+C_Hierarchical_vs_F2_ProgressiveResidual,0.01,503,446,57,57,0.7964285714285714
+C_Hierarchical_vs_F3_ProgressiveMarginal,0.01,503,446,57,57,0.7964285714285714
+B_FixedMarginal_vs_F3_ProgressiveMarginal,0.01,503,375,128,128,0.5942947702060222
+C_Hierarchical_vs_F1_MarginalTail,0.05,2517,2473,44,44,0.9656384224912143
+C_Hierarchical_vs_F2_ProgressiveResidual,0.05,2517,2346,171,171,0.8727678571428571
+C_Hierarchical_vs_F3_ProgressiveMarginal,0.05,2517,2343,174,174,0.8706800445930881
+B_FixedMarginal_vs_F3_ProgressiveMarginal,0.05,2517,2110,407,407,0.7216142270861833
+C_Hierarchical_vs_F1_MarginalTail,0.1,5033,4832,201,201,0.9231944975162399
+C_Hierarchical_vs_F2_ProgressiveResidual,0.1,5033,4774,259,259,0.9021164021164021
+C_Hierarchical_vs_F3_ProgressiveMarginal,0.1,5033,4720,313,313,0.8829031051253273
+B_FixedMarginal_vs_F3_ProgressiveMarginal,0.1,5033,4409,624,624,0.7793883683931413
+C_Hierarchical_vs_F1_MarginalTail,0.15,7550,7181,369,369,0.9068064149513827
+C_Hierarchical_vs_F2_ProgressiveResidual,0.15,7550,7175,375,375,0.9053627760252366
+C_Hierarchical_vs_F3_ProgressiveMarginal,0.15,7550,7042,508,508,0.8739141226110697
+B_FixedMarginal_vs_F3_ProgressiveMarginal,0.15,7550,6814,736,736,0.8223509534153994

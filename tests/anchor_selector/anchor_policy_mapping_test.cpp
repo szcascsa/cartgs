@@ -1,0 +1,2 @@
+#define CARTGS_TEST_ANCHOR_TOPOLOGY_POLICY
+#include "selector_compensation_mapping_test.cpp"

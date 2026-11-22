@@ -1,0 +1,93 @@
+/*
+ * Copyright (C) 2023, Inria
+ * GRAPHDECO research group, https://team.inria.fr/graphdeco
+ * All rights reserved.
+ *
+ * This software is free for non-commercial, research and evaluation use
+ * under the terms of the LICENSE.md file.
+ *
+ * For inquiries contact  george.drettakis@inria.fr
+ *
+ * This file is Derivative Works of Gaussian Splatting,
+ * created by Longwei Li, Huajian Huang, Hui Cheng and Sai-Kit Yeung in 2023,
+ * as part of Photo-SLAM.
+ */
+
+#pragma once
+
+#include <torch/torch.h>
+
+#include <memory>
+#include <tuple>
+
+#include "gaussian_keyframe.h"
+#include "gaussian_model.h"
+#include "gaussian_parameters.h"
+#include "gaussian_rasterizer.h"
+#include "sh_utils.h"
+
+struct RenderPackage {
+  torch::Tensor image;
+  torch::Tensor viewspace_points;
+  torch::Tensor visibility_indices;
+  torch::Tensor radii;
+
+  // Raw non-differentiable per-Gaussian statistics. They are empty unless the
+  // caller enables collection.
+  torch::Tensor frame_importance;
+  torch::Tensor contribution_count;
+};
+
+struct GaussianRenderInput {
+  torch::Tensor xyz;
+  torch::Tensor opacity;
+  torch::Tensor scaling;
+  torch::Tensor rotation;
+  torch::Tensor features_dc;
+  torch::Tensor features_rest;
+  int active_sh_degree = 0;
+  int max_sh_degree = 0;
+
+  // Gather every attribute with the same local-to-master map. Autograd keeps
+  // the source-row gradient routing; callers decide whether sources detach.
+  GaussianRenderInput indexSelect(const torch::Tensor& indices) const {
+    return {xyz.index_select(0, indices), opacity.index_select(0, indices),
+            scaling.index_select(0, indices), rotation.index_select(0, indices),
+            features_dc.index_select(0, indices),
+            features_rest.index_select(0, indices), active_sh_degree,
+            max_sh_degree};
+  }
+};
+
+class GaussianRenderer {
+ public:
+  static RenderPackage render(
+      std::shared_ptr<GaussianKeyframe> viewpoint_camera,
+      int image_height,
+      int image_width,
+      std::shared_ptr<GaussianModel> gaussians,
+      GaussianPipelineParams& pipe,
+      torch::Tensor& bg_color,
+      torch::Tensor& override_color,
+      float scaling_modifier = 1.0f,
+      bool has_override_color = false,
+      torch::Tensor selector_mask = torch::Tensor(),
+      bool detach_gaussian_parameters = false,
+      bool collect_importance = false,
+      RasterizeMode mode = RasterizeMode::Training);
+
+  // Tensor input keeps elastic rendering separate from the mutable master
+  // GaussianModel. Callers own the gradient boundary of every attribute.
+  static RenderPackage render(
+      std::shared_ptr<GaussianKeyframe> viewpoint_camera,
+      int image_height,
+      int image_width,
+      const GaussianRenderInput& input,
+      GaussianPipelineParams& pipe,
+      torch::Tensor& bg_color,
+      torch::Tensor& override_color,
+      float scaling_modifier = 1.0f,
+      bool has_override_color = false,
+      bool collect_importance = false,
+      RasterizeMode mode = RasterizeMode::Training);
+};

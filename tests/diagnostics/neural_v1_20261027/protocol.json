@@ -1,0 +1,55 @@
+{
+  "selection": "allneural arms share frozenR3source3100 sets and K; fixedGaussianMap",
+  "init": "all zero output, freshAdam .001 eps1e-15",
+  "teacher": "read-only originalR3reference, no supervised loss yet",
+  "screen": "Bank train54 andholdout13; no testusedin architectureselection",
+  "candidate_rule": "pure sharedLinear/attention; no identitykeyed parameters; deterministic scene attrs permitted",
+  "configs": [
+    {
+      "id": "Reference59",
+      "kind": "reference59"
+    },
+    {
+      "id": "RawPure",
+      "kind": "self",
+      "raw_only": true,
+      "width": 64,
+      "film": false
+    },
+    {
+      "id": "PhysicalFiLM",
+      "kind": "self",
+      "width": 64,
+      "film": true
+    },
+    {
+      "id": "SpatialFiLM",
+      "kind": "self",
+      "width": 64,
+      "film": true,
+      "bands": 6
+    },
+    {
+      "id": "DeepSetFiLM",
+      "kind": "self",
+      "width": 64,
+      "film": true,
+      "context": "set"
+    },
+    {
+      "id": "CrossAttentionFiLM",
+      "kind": "self",
+      "width": 64,
+      "film": true,
+      "context": "attention"
+    },
+    {
+      "id": "SpatialCrossAttention",
+      "kind": "self",
+      "width": 64,
+      "film": true,
+      "bands": 6,
+      "context": "attention"
+    }
+  ]
+}

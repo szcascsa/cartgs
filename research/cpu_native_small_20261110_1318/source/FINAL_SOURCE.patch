@@ -1,0 +1,285 @@
+--- previous/source/cpu_deep.cpp
++++ current/source/cpu_small.cpp
+@@ -58,7 +58,7 @@
+ 
+ // 权重以8个输出神经元为连续块；同一权重向量供4条独立点链复用。
+ struct Dense {
+-  int in=0,out=0,padded=0;int fast=0;T packed,bias;const float* weights_ptr=nullptr;const float* bias_ptr=nullptr;
++  int in=0,out=0,padded=0;int fast=0;bool small=false;T packed,bias;const float* weights_ptr=nullptr;const float* bias_ptr=nullptr;
+   Dense()=default;
+   Dense(const T& w,const T& b){
+     auto v=own(w);auto q=own(b);TORCH_CHECK(v.dim()==2&&q.numel()==v.size(0),"Linear weight shape");
+@@ -116,7 +116,39 @@
+   else apply_pair<Rows,0>(x,xs,y,ys,activation);
+ }
+ 
++// 专用2/3/4输出：保留原输入顺序和FMA链，去掉无消费者的上半AVX通道。
++template<int Rows,int Inputs,int Outputs>
++inline void apply_small(const float* x,int xs,float* y,int ys,bool activation)const{
++  __m128 a0=_mm_setzero_ps(),a1=a0,a2=a0,a3=a0;
++  #pragma GCC unroll 4
++  for(int j=0;j<Inputs;++j){
++    __m128 w=_mm_loadu_ps(weights_ptr+j*8);
++    a0=_mm_fmadd_ps(_mm_set1_ps(x[j]),w,a0);
++    if constexpr(Rows>1)a1=_mm_fmadd_ps(_mm_set1_ps(x[xs+j]),w,a1);
++    if constexpr(Rows>2)a2=_mm_fmadd_ps(_mm_set1_ps(x[xs*2+j]),w,a2);
++    if constexpr(Rows>3)a3=_mm_fmadd_ps(_mm_set1_ps(x[xs*3+j]),w,a3);
++  }
++  __m128 values[4]={a0,a1,a2,a3},bias=_mm_loadu_ps(bias_ptr);
++  #pragma GCC unroll 4
++  for(int r=0;r<Rows;++r){__m128 v=_mm_add_ps(values[r],bias);
++    if(activation)v=_mm_max_ps(_mm_setzero_ps(),v);
++    alignas(16) float t[4];_mm_store_ps(t,v);std::memcpy(y+r*ys,t,Outputs*sizeof(float));
++  }
++}
++template<int Rows,int Inputs>inline void small_outputs(const float* x,int xs,float* y,int ys,bool activation)const{
++  if(out==2)apply_small<Rows,Inputs,2>(x,xs,y,ys,activation);
++  else if(out==3)apply_small<Rows,Inputs,3>(x,xs,y,ys,activation);
++  else apply_small<Rows,Inputs,4>(x,xs,y,ys,activation);
++}
++template<int Rows>inline void small_rows(const float* x,int xs,float* y,int ys,bool activation)const{
++  if(in==32)small_outputs<Rows,32>(x,xs,y,ys,activation);else small_outputs<Rows,64>(x,xs,y,ys,activation);
++}
++
+   inline void apply(const float* x,int rows,int xs,float* y,int ys,bool activation=false)const{
++    if(small&&out>=2&&out<=4&&(in==32||in==64)){
++      if(rows==4)small_rows<4>(x,xs,y,ys,activation);else if(rows==3)small_rows<3>(x,xs,y,ys,activation);
++      else if(rows==2)small_rows<2>(x,xs,y,ys,activation);else small_rows<1>(x,xs,y,ys,activation);return;
++    }
+     if(fast==1&&out%16==0){
+       if(rows==4)fast_rows<4>(x,xs,y,ys,activation);else if(rows==3)fast_rows<3>(x,xs,y,ys,activation);
+       else if(rows==2)fast_rows<2>(x,xs,y,ys,activation);else fast_rows<1>(x,xs,y,ys,activation);return;
+@@ -130,8 +162,8 @@
+ struct Key {float score;uint32_t id;};
+ struct Better {bool operator()(const Key& a,const Key& b)const{return a.score>b.score||(a.score==b.score&&a.id<b.id);}};
+ 
+-class CpuPipelineDeep {
+-  bool fused_schedule_;int kernel_mode_;
++class CpuPipelineSmall {
++  bool fused_schedule_;int kernel_mode_,ordered_mode_;
+   Pool pool_;std::mutex call_;std::vector<T> s_,tables_;std::vector<double> knots_,bounds_;
+   Dense sel0_,sel1_,sel2_,comp0_,comp1_,ratio_,view_;
+   std::vector<Dense> hh_,ho_;Dense combined_head_;std::vector<float> activated_scale_,activated_opacity_;bool student_,softplus_,selector_prefix_,factored_,diagnose_;
+@@ -223,6 +255,16 @@
+       }
+     });
+   }
++  void ordered_compact(const Key& cutoff,bool global,float threshold,int expected){
++    selected_.resize(M_);auto keep=[&](int i){int id=rows_[i];return eligible()[id]&&(global?scores_[i]>=threshold:Better{}(Key{scores_[i],uint32_t(id)},cutoff));};
++    int count=0;
++    if(ordered_mode_==1){for(int i=0;i<M_;++i)if(keep(i))selected_[count++]=rows_[i];}
++    else{
++      pool_.run(M_,0,[&](int begin,int end,int thread){int n=0;for(int i=begin;i<end;++i)if(keep(i))selected_[begin+n++]=rows_[i];counts_[thread]=n;});
++      for(int thread=0;thread<pool_.count();++thread){int begin=int(int64_t(M_)*thread/pool_.count()),n=counts_[thread];std::memmove(selected_.data()+count,selected_.data()+begin,n*sizeof(int64_t));count+=n;}
++    }
++    TORCH_CHECK(global||count==expected,"Ordered compaction violated strict K");K_=count;selected_.resize(count);
++  }
+   void controls(double ratio,int& full,int& partial,float& weight,float* code){
+     full=0;partial=-1;weight=0;
+     for(int j=1;j<int(knots_.size());++j){if(ratio<=knots_[j-1]+1e-8)break;double t=std::min(1.,(ratio-knots_[j-1])/(knots_[j]-knots_[j-1]));if(t==1.)full=j;else{partial=j;weight=float(t);break;}}
+@@ -289,10 +331,10 @@
+     });
+   }
+ public:
+-  CpuPipelineDeep(std::vector<T> state,std::vector<T> selector,std::vector<T> comp,std::vector<T> tables,T view_weight,
++  CpuPipelineSmall(std::vector<T> state,std::vector<T> selector,std::vector<T> comp,std::vector<T> tables,T view_weight,
+       std::vector<double> knots,std::vector<double> bounds,int schema,float scene_scale,bool softplus,int threads,
+-      bool selector_prefix=true,bool factored=true,bool diagnose=false,bool fused_schedule=false,int kernel_mode=0)
+-      :fused_schedule_(fused_schedule),kernel_mode_(kernel_mode),pool_(threads),knots_(knots),bounds_(bounds),student_(comp.size()==13),softplus_(softplus),selector_prefix_(selector_prefix),factored_(factored),diagnose_(diagnose),schema_(schema),scene_scale_(scene_scale){
++      bool selector_prefix=true,bool factored=true,bool diagnose=false,bool fused_schedule=false,int kernel_mode=0,bool small_kernel=false,int ordered_mode=0)
++      :fused_schedule_(fused_schedule),kernel_mode_(kernel_mode),ordered_mode_(ordered_mode),pool_(threads),knots_(knots),bounds_(bounds),student_(comp.size()==13),softplus_(softplus),selector_prefix_(selector_prefix),factored_(factored),diagnose_(diagnose),schema_(schema),scene_scale_(scene_scale){
+     TORCH_CHECK(state.size()==13&&selector.size()==6&&(comp.size()==21||student_),"Unsupported CPU snapshot layout");
+     TORCH_CHECK(schema>=0&&schema<=4&&std::isfinite(scene_scale)&&scene_scale>0,"Joint view schema/scale");
+     for(int i=0;i<13;++i)s_.push_back(own(state[i],i==2?at::kLong:i==3?at::kBool:at::kFloat));
+@@ -309,7 +351,8 @@
+     if(!student_){std::vector<T> ws,bs;for(int head=0;head<4;++head){ws.push_back(comp[5+head*4]);bs.push_back(comp[6+head*4]);}combined_head_=Dense(at::cat(ws,0),at::cat(bs,0));}
+     TORCH_CHECK(kernel_mode>=0&&kernel_mode<=1,"Unknown AVX2 kernel mode");
+     sel0_.fast=sel1_.fast=sel2_.fast=comp0_.fast=comp1_.fast=ratio_.fast=combined_head_.fast=kernel_mode;
+-    for(auto& h:ho_)h.fast=kernel_mode;
++    for(auto& h:ho_){h.fast=kernel_mode;h.small=small_kernel;}sel2_.small=small_kernel;
++    TORCH_CHECK(ordered_mode>=0&&ordered_mode<=3,"Small kernel/ordered mode");
+     activated_scale_.resize(N_*3);activated_opacity_.resize(N_);
+     pool_.run(N_,128,[&](int begin,int end,int){for(int id=begin;id<end;++id){for(int j=0;j<3;++j)activated_scale_[id*3+j]=std::exp(f(5)[id*3+j]);activated_opacity_[id]=1.f/(1.f+std::exp(-f(7)[id]));}});
+     if(schema_){view_=Dense(view_weight,at::zeros({H_},view_weight.options()));view_.fast=kernel_mode;}
+@@ -365,9 +408,15 @@
+       if(!fused_schedule_)pool_.run(M_,1024,[&](int begin,int end,int){for(int i=begin;i<end;++i)keys_[i]={eligible()[rows_[i]]?scores_[i]:-INFINITY,uint32_t(rows_[i])};});
+       if(kind==2){int rank=int((1-ratio)*(M_-1));float threshold=-INFINITY;
+         if(rank>=0){std::nth_element(keys_.begin(),keys_.begin()+rank,keys_.end(),[](const Key& a,const Key& b){return a.score<b.score;});threshold=keys_[rank].score;}
+-        for(auto& k:keys_)if(eligible()[k.id]&&k.score>=threshold)selected_.push_back(k.id);K_=selected_.size();
+-      }else{if(K_<int(keys_.size()))std::nth_element(keys_.begin(),keys_.begin()+K_,keys_.end(),Better{});for(int i=0;i<K_;++i)selected_.push_back(keys_[i].id);}
+-      std::sort(selected_.begin(),selected_.end());checkpoint();
++        if(ordered_mode_)ordered_compact(Key{},true,threshold,-1);
++        else{for(auto& k:keys_)if(eligible()[k.id]&&k.score>=threshold)selected_.push_back(k.id);K_=selected_.size();}
++      }else{
++        if(K_<int(keys_.size()))std::nth_element(keys_.begin(),keys_.begin()+K_,keys_.end(),Better{});
++        bool compact=ordered_mode_&&(ordered_mode_!=3||double(K_)*std::log2(std::max(2,K_))>M_+4096);
++        if(compact)ordered_compact(K_<M_?keys_[K_]:Key{-INFINITY,uint32_t(-1)},false,0,K_);
++        else{for(int i=0;i<K_;++i)selected_.push_back(keys_[i].id);if(ordered_mode_)std::sort(selected_.begin(),selected_.end());}
++      }
++      if(!ordered_mode_)std::sort(selected_.begin(),selected_.end());checkpoint();
+     }else{checkpoint();checkpoint();checkpoint();}
+     int64_t size=int64_t(K_)*width_;auto options=s_[4].options();T flat,ids;
+     if(output.defined()){TORCH_CHECK(output.device().is_cpu()&&output.scalar_type()==at::kFloat&&output.is_contiguous()&&output.numel()>=size,"CPU output capacity/type");flat=output.flatten().narrow(0,0,size);}else flat=at::empty({size},options);
+@@ -392,11 +441,11 @@
+ #include "native_handoff.h"
+ 
+ PYBIND11_MODULE(TORCH_EXTENSION_NAME,m){
+-  pybind11::class_<CpuPipelineDeep,std::shared_ptr<CpuPipelineDeep>>(m,"CpuPipeline")
+-    .def(pybind11::init<std::vector<T>,std::vector<T>,std::vector<T>,std::vector<T>,T,std::vector<double>,std::vector<double>,int,float,bool,int,bool,bool,bool,bool,int>(),
+-      pybind11::arg("state"),pybind11::arg("selector"),pybind11::arg("compensator"),pybind11::arg("tables"),pybind11::arg("view_weight"),pybind11::arg("knots"),pybind11::arg("bounds"),pybind11::arg("schema"),pybind11::arg("scene_scale"),pybind11::arg("softplus"),pybind11::arg("threads"),pybind11::arg("selector_prefix")=true,pybind11::arg("factored")=true,pybind11::arg("diagnose")=false,pybind11::arg("fused_schedule")=false,pybind11::arg("kernel_mode")=0)
+-    .def("prepare",&CpuPipelineDeep::prepare,pybind11::call_guard<pybind11::gil_scoped_release>(),pybind11::arg("view"),pybind11::arg("projection"),pybind11::arg("camera"),pybind11::arg("width"),pybind11::arg("height"),pybind11::arg("near"),pybind11::arg("kind"),pybind11::arg("ratio"),pybind11::arg("budget"),pybind11::arg("local")=true,pybind11::arg("compensation")=true,pybind11::arg("timing")=false,pybind11::arg("output")=pybind11::none(),pybind11::arg("id_output")=pybind11::none())
++  pybind11::class_<CpuPipelineSmall,std::shared_ptr<CpuPipelineSmall>>(m,"CpuPipeline")
++    .def(pybind11::init<std::vector<T>,std::vector<T>,std::vector<T>,std::vector<T>,T,std::vector<double>,std::vector<double>,int,float,bool,int,bool,bool,bool,bool,int,bool,int>(),
++      pybind11::arg("state"),pybind11::arg("selector"),pybind11::arg("compensator"),pybind11::arg("tables"),pybind11::arg("view_weight"),pybind11::arg("knots"),pybind11::arg("bounds"),pybind11::arg("schema"),pybind11::arg("scene_scale"),pybind11::arg("softplus"),pybind11::arg("threads"),pybind11::arg("selector_prefix")=true,pybind11::arg("factored")=true,pybind11::arg("diagnose")=false,pybind11::arg("fused_schedule")=false,pybind11::arg("kernel_mode")=0,pybind11::arg("small_kernel")=false,pybind11::arg("ordered_mode")=0)
++    .def("prepare",&CpuPipelineSmall::prepare,pybind11::call_guard<pybind11::gil_scoped_release>(),pybind11::arg("view"),pybind11::arg("projection"),pybind11::arg("camera"),pybind11::arg("width"),pybind11::arg("height"),pybind11::arg("near"),pybind11::arg("kind"),pybind11::arg("ratio"),pybind11::arg("budget"),pybind11::arg("local")=true,pybind11::arg("compensation")=true,pybind11::arg("timing")=false,pybind11::arg("output")=pybind11::none(),pybind11::arg("id_output")=pybind11::none())
+     .def("prepare_packet",&prepare_cpu,pybind11::arg("camera"),pybind11::arg("kind"),pybind11::arg("ratio"),pybind11::arg("budget"),pybind11::arg("local"),pybind11::arg("compensation"),pybind11::arg("timing"),pybind11::arg("output"),pybind11::arg("id_output"),pybind11::arg("sh_degree"))
+-    .def("packet_views",&CpuPipelineDeep::packet_views).def("diagnostics",&CpuPipelineDeep::diagnostics).def("workspace_bytes",&CpuPipelineDeep::bytes);
++    .def("packet_views",&CpuPipelineSmall::packet_views).def("diagnostics",&CpuPipelineSmall::diagnostics).def("workspace_bytes",&CpuPipelineSmall::bytes);
+   bind_handoff(m);
+ }
+--- previous/source/native_handoff.h
++++ current/source/native_handoff.h
+@@ -14,7 +14,7 @@
+   for(int i=0;i<7;++i)inputs[names[i]]=v[i];inputs["colors_precomp"]=py::none();inputs["cov3D_precomp"]=py::none();
+   py::dict packet;packet["sh_degree"]=degree;packet["inputs"]=inputs;return packet;
+ }
+-static py::tuple prepare_cpu(std::shared_ptr<CpuPipelineDeep> pipeline,py::object camera,int kind,double ratio,int budget,bool local,bool compensation,bool timing,std::optional<T> output,std::optional<T> ids,int degree){
++static py::tuple prepare_cpu(std::shared_ptr<CpuPipelineSmall> pipeline,py::object camera,int kind,double ratio,int budget,bool local,bool compensation,bool timing,std::optional<T> output,std::optional<T> ids,int degree){
+   T vm=camera.attr("world_view_transform").cast<T>().contiguous(),pm=camera.attr("full_proj_transform").cast<T>().contiguous(),center=camera.attr("camera_center").cast<T>().contiguous();
+   int width=camera.attr("image_width").cast<int>(),height=camera.attr("image_height").cast<int>();float near=camera.attr("znear").cast<float>();
+   std::tuple<T,T,std::vector<double>,std::vector<double>> result;
+@@ -22,17 +22,17 @@
+   auto selected=std::get<1>(result);auto stats=stats_dict(std::get<2>(result));if(timing)stats["stage_ms"]=std::get<3>(result);
+   return py::make_tuple(packet_dict(pipeline->packet_views(std::get<0>(result),selected.numel()),degree),selected,stats);
+ }
+-class NativeHandoff;
+-struct NativeTicket {
+-  std::shared_ptr<NativeHandoff> owner;int slot;uint64_t generation;py::dict packet,stats;py::object camera;T ids;bool released=false;
++class NativeHandoffSmall;
++struct NativeTicketSmall {
++  std::shared_ptr<NativeHandoffSmall> owner;int slot;uint64_t generation;py::dict packet,stats;py::object camera;T ids;bool released=false;
+   py::dict wait();void finish();
+ };
+-class NativeHandoff:public std::enable_shared_from_this<NativeHandoff>{
++class NativeHandoffSmall:public std::enable_shared_from_this<NativeHandoffSmall>{
+   struct Slot {T host,gpu,ids;cudaEvent_t ready=nullptr,done=nullptr;uint64_t generation=0;bool busy=false,has_done=false;};
+-  std::shared_ptr<CpuPipelineDeep> pipeline_;std::vector<Slot> slots_;cudaStream_t copy_=nullptr;
++  std::shared_ptr<CpuPipelineSmall> pipeline_;std::vector<Slot> slots_;cudaStream_t copy_=nullptr;
+   int device_,degree_,cursor_=0;int64_t capacity_;std::atomic<bool> submitting_{false};py::object namespace_type_;
+ public:
+-  NativeHandoff(std::shared_ptr<CpuPipelineDeep> pipeline,int degree,int slots=3,int device=0)
++  NativeHandoffSmall(std::shared_ptr<CpuPipelineSmall> pipeline,int degree,int slots=3,int device=0)
+       :pipeline_(pipeline),device_(device),degree_(degree),capacity_(pipeline->total()*pipeline->width()),namespace_type_(py::module_::import("types").attr("SimpleNamespace")){
+     TORCH_CHECK(slots==2||slots==3,"Use two or three bounded handoff slots");
+     c10::cuda::CUDAGuard guard(device_);cuda_ok(cudaStreamCreateWithFlags(&copy_,cudaStreamNonBlocking));slots_.resize(slots);
+@@ -43,14 +43,14 @@
+       cuda_ok(cudaEventCreateWithFlags(&s.ready,cudaEventDisableTiming));cuda_ok(cudaEventCreateWithFlags(&s.done,cudaEventDisableTiming));
+     }}catch(...){release_cuda();throw;}
+   }
+-  ~NativeHandoff(){release_cuda();}
++  ~NativeHandoffSmall(){release_cuda();}
+   void release_cuda()noexcept{
+     int old=0;cudaGetDevice(&old);cudaSetDevice(device_);
+     if(copy_)cudaStreamSynchronize(copy_);
+     for(auto& s:slots_){if(s.has_done&&s.done)cudaEventSynchronize(s.done);if(s.ready)cudaEventDestroy(s.ready);if(s.done)cudaEventDestroy(s.done);s.ready=nullptr;s.done=nullptr;}
+     if(copy_)cudaStreamDestroy(copy_);copy_=nullptr;cudaSetDevice(old);
+   }
+-  std::shared_ptr<NativeTicket> prepare(py::object camera,std::optional<int64_t> budget,std::optional<double> ratio_budget,std::optional<double> global_ratio,bool local=true,bool compensation=true){
++  std::shared_ptr<NativeTicketSmall> prepare(py::object camera,std::optional<int64_t> budget,std::optional<double> ratio_budget,std::optional<double> global_ratio,bool local=true,bool compensation=true){
+     TORCH_CHECK(int(budget.has_value())+int(ratio_budget.has_value())+int(global_ratio.has_value())==1,"Use one CPU budget request");
+     TORCH_CHECK(!submitting_.exchange(true),"Native handoff requires one submitting thread");
+     struct Reset{std::atomic<bool>& value;~Reset(){value=false;}}reset{submitting_};
+@@ -74,7 +74,7 @@
+       cuda_ok(cudaMemcpyAsync(s.gpu.data_ptr<float>(),s.host.data_ptr<float>(),(n+51)*sizeof(float),cudaMemcpyHostToDevice,copy_));cuda_ok(cudaEventRecord(s.ready,copy_));
+       ++s.generation;s.busy=true;cursor_=(cursor_+1)%slots_.size();
+     }
+-    auto ticket=std::make_shared<NativeTicket>();ticket->owner=shared_from_this();ticket->slot=index;ticket->generation=s.generation;
++    auto ticket=std::make_shared<NativeTicketSmall>();ticket->owner=shared_from_this();ticket->slot=index;ticket->generation=s.generation;
+     ticket->ids=std::get<1>(result);ticket->stats=stats_dict(std::get<2>(result));
+     ticket->packet=packet_dict(pipeline_->packet_views(s.gpu.narrow(0,0,n),ticket->ids.numel()),degree_);
+     ticket->camera=namespace_type_();
+@@ -95,15 +95,15 @@
+   void synchronize(){py::gil_scoped_release release;c10::cuda::CUDAGuard guard(device_);cuda_ok(cudaStreamSynchronize(copy_));for(auto& s:slots_)if(s.has_done)cuda_ok(cudaEventSynchronize(s.done));}
+   py::dict bytes()const{py::dict d;d["host"]=slots_.size()*((capacity_+51)*4+pipeline_->total()*8);d["device"]=slots_.size()*(capacity_+51)*4;d["slots"]=slots_.size();return d;}
+ };
+-py::dict NativeTicket::wait(){TORCH_CHECK(!released,"CPU preparation ticket already released");owner->wait(slot,generation);return packet;}
+-void NativeTicket::finish(){TORCH_CHECK(!released,"CPU preparation ticket released twice");owner->finish(slot,generation);released=true;}
++py::dict NativeTicketSmall::wait(){TORCH_CHECK(!released,"CPU preparation ticket already released");owner->wait(slot,generation);return packet;}
++void NativeTicketSmall::finish(){TORCH_CHECK(!released,"CPU preparation ticket released twice");owner->finish(slot,generation);released=true;}
+ static void bind_handoff(py::module_& m){
+-  py::class_<NativeTicket,std::shared_ptr<NativeTicket>>(m,"PreparedTicket")
+-    .def("wait",&NativeTicket::wait).def("finish",&NativeTicket::finish)
+-    .def_readonly("packet",&NativeTicket::packet).def_readonly("camera",&NativeTicket::camera).def_readonly("ids",&NativeTicket::ids)
+-    .def_readonly("stats",&NativeTicket::stats).def_readonly("released",&NativeTicket::released);
+-  py::class_<NativeHandoff,std::shared_ptr<NativeHandoff>>(m,"NativeHandoff")
+-    .def(py::init<std::shared_ptr<CpuPipelineDeep>,int,int,int>(),py::arg("pipeline"),py::arg("sh_degree"),py::arg("slots")=3,py::arg("device")=0)
+-    .def("prepare",&NativeHandoff::prepare,py::arg("camera"),py::arg("budget")=py::none(),py::arg("ratio_budget")=py::none(),py::arg("global_ratio")=py::none(),py::arg("view_conditioned")=true,py::arg("compensation")=true)
+-    .def("synchronize",&NativeHandoff::synchronize).def("bytes",&NativeHandoff::bytes);
++  py::class_<NativeTicketSmall,std::shared_ptr<NativeTicketSmall>>(m,"PreparedTicket")
++    .def("wait",&NativeTicketSmall::wait).def("finish",&NativeTicketSmall::finish)
++    .def_readonly("packet",&NativeTicketSmall::packet).def_readonly("camera",&NativeTicketSmall::camera).def_readonly("ids",&NativeTicketSmall::ids)
++    .def_readonly("stats",&NativeTicketSmall::stats).def_readonly("released",&NativeTicketSmall::released);
++  py::class_<NativeHandoffSmall,std::shared_ptr<NativeHandoffSmall>>(m,"NativeHandoff")
++    .def(py::init<std::shared_ptr<CpuPipelineSmall>,int,int,int>(),py::arg("pipeline"),py::arg("sh_degree"),py::arg("slots")=3,py::arg("device")=0)
++    .def("prepare",&NativeHandoffSmall::prepare,py::arg("camera"),py::arg("budget")=py::none(),py::arg("ratio_budget")=py::none(),py::arg("global_ratio")=py::none(),py::arg("view_conditioned")=true,py::arg("compensation")=true)
++    .def("synchronize",&NativeHandoffSmall::synchronize).def("bytes",&NativeHandoffSmall::bytes);
+ }
+--- previous/deep_runtime.py
++++ current/small_runtime.py
+@@ -11,7 +11,7 @@
+     os.environ['PATH']='/home/prmi/anaconda3/envs/zwj/bin:'+os.environ.get('PATH','')
+     os.environ.setdefault('MAX_JOBS','1')
+     (HERE/'build').mkdir(exist_ok=True)
+-    return load(name='mycartgs_cpu_deep',sources=[str(HERE/'source/cpu_deep.cpp')],
++    return load(name='mycartgs_cpu_small',sources=[str(HERE/'source/cpu_small.cpp')],
+         extra_cflags=['-O3','-mavx2','-mfma','-fno-math-errno','-pthread','-I/usr/local/cuda/include'],
+         extra_ldflags=['-pthread','-L/usr/local/cuda/lib64','-lcudart','-lc10_cuda','-ltorch_cuda'],
+         build_directory=str(HERE/'build'),verbose=True)
+@@ -45,7 +45,7 @@
+ 
+     @torch.no_grad()
+     def __init__(self,model,pc,noise,threads=6,student=None,selector_prefix=True,factored=True,diagnose=False,
+-                 fused_schedule=True,kernel_mode=1,native_wrapper=True):
++                 fused_schedule=True,kernel_mode=1,native_wrapper=True,small_kernel=True,ordered_mode=3):
+         from selector import slot_eligibility
+         if pc.get_xyz.device.type!='cpu' or next(model.parameters()).device.type!='cpu':raise ValueError('Load map/network directly on CPU')
+         a=model.anchors;s=model.spatial_compensation;schema=int(getattr(model,'joint_view_conditioning_schema',0))
+@@ -67,7 +67,7 @@
+         vw=comp.view_projection.weight if schema else pc.get_xyz.new_empty(0)
+         self.native=extension().CpuPipeline(state,selector,params,tables,vw,list(a.compensation_values),list(s.ratio_encoding_values),
+             schema,float(model.selector_view_scene_scale) if schema else 1.,hasattr(s,'softplus_scale_schema'),threads,
+-            selector_prefix,factored,diagnose,fused_schedule,kernel_mode)
++            selector_prefix,factored,diagnose,fused_schedule,kernel_mode,small_kernel,ordered_mode)
+         self.native_wrapper=native_wrapper
+         self.rest=pc.get_features_rest.shape[1:];self.sh_degree=pc.active_sh_degree;self.total=len(pc.get_xyz)
+         self.width=17+pc.get_features_rest[0].numel()
+--- /dev/null
++++ current/source/dense_small.h
+@@ -0,0 +1,27 @@
++// 专用2/3/4输出：保留原输入顺序和FMA链，去掉无消费者的上半AVX通道。
++template<int Rows,int Inputs,int Outputs>
++inline void apply_small(const float* x,int xs,float* y,int ys,bool activation)const{
++  __m128 a0=_mm_setzero_ps(),a1=a0,a2=a0,a3=a0;
++  #pragma GCC unroll 4
++  for(int j=0;j<Inputs;++j){
++    __m128 w=_mm_loadu_ps(weights_ptr+j*8);
++    a0=_mm_fmadd_ps(_mm_set1_ps(x[j]),w,a0);
++    if constexpr(Rows>1)a1=_mm_fmadd_ps(_mm_set1_ps(x[xs+j]),w,a1);
++    if constexpr(Rows>2)a2=_mm_fmadd_ps(_mm_set1_ps(x[xs*2+j]),w,a2);
++    if constexpr(Rows>3)a3=_mm_fmadd_ps(_mm_set1_ps(x[xs*3+j]),w,a3);
++  }
++  __m128 values[4]={a0,a1,a2,a3},bias=_mm_loadu_ps(bias_ptr);
++  #pragma GCC unroll 4
++  for(int r=0;r<Rows;++r){__m128 v=_mm_add_ps(values[r],bias);
++    if(activation)v=_mm_max_ps(_mm_setzero_ps(),v);
++    alignas(16) float t[4];_mm_store_ps(t,v);std::memcpy(y+r*ys,t,Outputs*sizeof(float));
++  }
++}
++template<int Rows,int Inputs>inline void small_outputs(const float* x,int xs,float* y,int ys,bool activation)const{
++  if(out==2)apply_small<Rows,Inputs,2>(x,xs,y,ys,activation);
++  else if(out==3)apply_small<Rows,Inputs,3>(x,xs,y,ys,activation);
++  else apply_small<Rows,Inputs,4>(x,xs,y,ys,activation);
++}
++template<int Rows>inline void small_rows(const float* x,int xs,float* y,int ys,bool activation)const{
++  if(in==32)small_outputs<Rows,32>(x,xs,y,ys,activation);else small_outputs<Rows,64>(x,xs,y,ys,activation);
++}

@@ -1,0 +1,25 @@
+room/legacy/repeat1 numerical complete; gate failures=0
+room/legacy/repeat2 numerical complete; gate failures=0
+room/legacy/repeat3 numerical complete; gate failures=0
+room/cuda/repeat1 numerical complete; gate failures=0
+room/cuda/repeat2 numerical complete; gate failures=0
+room/cuda/repeat3 numerical complete; gate failures=0
+desk/legacy/repeat1 numerical complete; gate failures=0
+desk/legacy/repeat2 numerical complete; gate failures=0
+desk/legacy/repeat3 numerical complete; gate failures=0
+desk/cuda/repeat1 numerical complete; gate failures=0
+desk/cuda/repeat2 numerical complete; gate failures=0
+desk/cuda/repeat3 numerical complete; gate failures=0
+xyz/legacy/repeat1 numerical complete; gate failures=0
+xyz/legacy/repeat2 numerical complete; gate failures=0
+xyz/legacy/repeat3 numerical complete; gate failures=0
+xyz/cuda/repeat1 numerical complete; gate failures=0
+xyz/cuda/repeat2 numerical complete; gate failures=0
+xyz/cuda/repeat3 numerical complete; gate failures=0
+long/legacy/repeat1 numerical complete; gate failures=0
+long/legacy/repeat2 numerical complete; gate failures=0
+long/legacy/repeat3 numerical complete; gate failures=0
+long/cuda/repeat1 numerical complete; gate failures=0
+long/cuda/repeat2 numerical complete; gate failures=0
+long/cuda/repeat3 numerical complete; gate failures=0
+{"mode": "numerical", "cases": 192, "records": 8064, "failures": 0, "strategy": 1, "source_sha256": "127037d009d9ba091e4b0ae8657a4cfd35ed9d27df99f4a3b7b68ac7b418db75", "tf32": false}

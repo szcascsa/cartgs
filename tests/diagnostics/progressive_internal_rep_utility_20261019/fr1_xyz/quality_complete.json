@@ -1,0 +1,20 @@
+{
+  "all_passed": true,
+  "baseline_renders": 864,
+  "new_diagnostic_renders": 1512,
+  "main_arms": [
+    "A",
+    "B",
+    "C",
+    "P0",
+    "S",
+    "L",
+    "G"
+  ],
+  "secondary_Q_probes": [
+    "L_Q0",
+    "L_Q1",
+    "L_Q2",
+    "L_Q3"
+  ]
+}

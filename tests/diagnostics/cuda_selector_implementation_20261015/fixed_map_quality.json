@@ -1,0 +1,173 @@
+{
+  "rows": [
+    {
+      "case": "fixed_map_ratio0.010000_frame0",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 15.68776798248291,
+        "SSIM": 0.5144492983818054,
+        "LPIPS": 0.5634115934371948
+      },
+      "cuda": {
+        "PSNR": 15.68776798248291,
+        "SSIM": 0.5144492983818054,
+        "LPIPS": 0.5634115934371948
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.010000_frame1",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 15.843514442443848,
+        "SSIM": 0.5232880711555481,
+        "LPIPS": 0.555035412311554
+      },
+      "cuda": {
+        "PSNR": 15.843514442443848,
+        "SSIM": 0.5232880711555481,
+        "LPIPS": 0.555035412311554
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.010000_frame2",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 15.718663215637207,
+        "SSIM": 0.5195474028587341,
+        "LPIPS": 0.5684506297111511
+      },
+      "cuda": {
+        "PSNR": 15.718663215637207,
+        "SSIM": 0.5195474028587341,
+        "LPIPS": 0.5684506297111511
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.050000_frame0",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 18.408544540405273,
+        "SSIM": 0.6259138584136963,
+        "LPIPS": 0.4357084035873413
+      },
+      "cuda": {
+        "PSNR": 18.408544540405273,
+        "SSIM": 0.6259138584136963,
+        "LPIPS": 0.4357084035873413
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.050000_frame1",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 18.735353469848633,
+        "SSIM": 0.6390061378479004,
+        "LPIPS": 0.4297863841056824
+      },
+      "cuda": {
+        "PSNR": 18.735353469848633,
+        "SSIM": 0.6390061378479004,
+        "LPIPS": 0.4297863841056824
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.050000_frame2",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 18.69270896911621,
+        "SSIM": 0.6355428099632263,
+        "LPIPS": 0.4389514625072479
+      },
+      "cuda": {
+        "PSNR": 18.69270896911621,
+        "SSIM": 0.6355428099632263,
+        "LPIPS": 0.4389514625072479
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.100000_frame0",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 19.396677017211914,
+        "SSIM": 0.6676957607269287,
+        "LPIPS": 0.36283791065216064
+      },
+      "cuda": {
+        "PSNR": 19.396677017211914,
+        "SSIM": 0.6676957607269287,
+        "LPIPS": 0.36283791065216064
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.100000_frame1",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 19.859275817871094,
+        "SSIM": 0.6857349276542664,
+        "LPIPS": 0.3452546000480652
+      },
+      "cuda": {
+        "PSNR": 19.859275817871094,
+        "SSIM": 0.6857349276542664,
+        "LPIPS": 0.3452546000480652
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.100000_frame2",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 19.884204864501953,
+        "SSIM": 0.6831634044647217,
+        "LPIPS": 0.3605715334415436
+      },
+      "cuda": {
+        "PSNR": 19.884204864501953,
+        "SSIM": 0.6831634044647217,
+        "LPIPS": 0.3605715334415436
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.150000_frame0",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 19.5472469329834,
+        "SSIM": 0.6755242347717285,
+        "LPIPS": 0.34820181131362915
+      },
+      "cuda": {
+        "PSNR": 19.5472469329834,
+        "SSIM": 0.6755242347717285,
+        "LPIPS": 0.34820181131362915
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.150000_frame1",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 20.137371063232422,
+        "SSIM": 0.6964071989059448,
+        "LPIPS": 0.32949626445770264
+      },
+      "cuda": {
+        "PSNR": 20.137371063232422,
+        "SSIM": 0.6964071989059448,
+        "LPIPS": 0.32949626445770264
+      }
+    },
+    {
+      "case": "fixed_map_ratio0.150000_frame2",
+      "image_exact": true,
+      "legacy": {
+        "PSNR": 20.182804107666016,
+        "SSIM": 0.6945351362228394,
+        "LPIPS": 0.33803582191467285
+      },
+      "cuda": {
+        "PSNR": 20.182804107666016,
+        "SSIM": 0.6945351362228394,
+        "LPIPS": 0.33803582191467285
+      }
+    }
+  ],
+  "limit": "Three fixed frames, four ratios, frozen map/TF and shared real renderer VJP; not full online SLAM or joint Gaussian/TF training"
+}

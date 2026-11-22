@@ -1,0 +1,146 @@
+%YAML:1.0
+# Offset128：仅Anchor局部offset3 + 共享Anchor128及原ratio门控/ratio3；无其余物理输入。
+
+Training.ultra_light_mode: 1
+Mapping.iteration_logging: 0
+CUDA.fused_dense_adam: 1
+CUDA.fused_compensation_decode: 1
+CUDA.fused_anchor_input_pack: 1
+CUDA.fused_spatial_compensation: 1
+CUDA.fused_anchor_full_stats: 1
+CUDA.fused_selector_compaction: 1
+CUDA.fused_flexgs_selector: 1
+CUDA.reuse_renderer_workspace: 1
+CUDA.optimized_ssim_backward: 1
+
+Training.force_tail_optimization_enabled: 0
+Training.tail_optimization_steps: -1
+
+Selector.enabled: 1
+Selector.architecture: "anchor"
+Selector.anchor_voxel_size: 0.1
+Selector.anchor_gaussian_attributes: 1
+Selector.anchor_adaptive: 0
+Selector.anchor_global_xyz: 0
+Selector.anchor_ratio_features: 0
+Selector.anchor_feature_dim: 0
+Selector.explicit_anchor_blocks: 1
+Selector.variable_anchor_members: 1
+Selector.anchor_only_pruning: 0
+Selector.anchor_refine_requires_full: 0
+Selector.backend: "legacy"
+Selector.target_ratios: [0.01, 0.05, 0.1, 0.2, 0.3, 0.4]
+Selector.protection_enabled: 0
+Protection.drift_temperature: 0.10
+Protection.beta_fast: 0.60
+Protection.beta_slow: 0.15
+Protection.maturity_rise_rate: 0.05
+Protection.maturity_fall_rate: 0.50
+Protection.maturity_diagnostics: 0
+Protection.compatibility_mature_threshold: 0.80
+Protection.performance_logging: 0
+Selector.temperature: 1.0
+Selector.selection_mode: "flexgs"
+Selector.gumbel_budget_normalize: 1
+Selector.learning_rate: 0.001
+Selector.render_loss_weight: 1.0
+Selector.gi_loss_weight: 0.0
+AnchorSI.enabled: 0
+AnchorSI.loss_weight: 0.01
+AnchorSI.ema_decay: 0.9
+AnchorSI.temperature: 1.0
+AnchorSI.collect_every_full: 4
+AnchorSI.minimum_visits: 4
+AnchorSI.maximum_age_full: 128
+Selector.ratio_loss_weight: 0.01
+Selector.lod_render_scale: 1.0
+Selector.detach_gaussian_parameters: 0
+Selector.replay_enabled: 0
+Selector.replay_interval: 300
+Selector.replay_num_frames: 2
+ConflictReplay.trigger_cancel_count: 1000
+ConflictReplay.source_view_count: 2
+ConflictReplay.views_per_source: 4
+ConflictReplay.remote_candidate_count: 32
+ConflictReplay.queue_capacity: 16
+Selector.max_mapping_iterations: 13400
+
+Mapping.record_keyframe_used_times: 0
+
+GlobalGI.mode: "disabled"
+GlobalGI.HierarchicalRepresentative.enable: 0
+GlobalGI.HierarchicalRepresentative.diagnostics: 0
+GlobalGI.view_ratio: 0.30
+GlobalGI.coverage_anchor_fraction: 0.80
+GlobalGI.sampling_seed: 0
+GlobalGI.refresh_interval: 1000
+GlobalGI.max_views: 0
+GlobalGI.performance_logging: 1
+GlobalGI.verbose_logging: 0
+GlobalGI.marginal_shadow: 0
+GlobalGI.marginal_diagnostics: 0
+Importance.ratio_aware_weight: 0
+Importance.ratio_weights: [1.0, 1.0, 1.0, 1.0]
+
+TransformField.enable: 0
+TransformField.backend: "cuda"
+TransformField.start_iter: 3000
+TransformField.aabb_scale: 1.0
+TransformField.spatial_resolution: 64
+TransformField.ratio_resolution: 150
+TransformField.feature_dim: 8
+TransformField.multires: [1, 2]
+TransformField.hidden_dim: 32
+TransformField.grid_lr_init: 0.0016
+TransformField.grid_lr_final: 0.00016
+TransformField.mlp_lr_init: 0.00016
+TransformField.mlp_lr_final: 0.000016
+TransformField.lr_delay_mult: 0.01
+TransformField.lr_max_steps: 20000
+TransformField.spatial_smooth_weight: 0.0002
+TransformField.ratio_smooth_weight: 0.001
+TransformField.ratio_l1_weight: 0.0001
+TransformField.outside_identity: 1
+Elastic.entry_maturity: 0
+TransformField.ready_maturity: 0.30
+TransformField.min_ready_gaussians: 500
+TransformField.start_mode: fixed_iteration
+TransformField.maturity_compute_epsilon: 0
+TransformField.dynamic_aabb: 1
+TransformField.aabb_check_interval: 1000
+TransformField.outside_count_threshold: 100
+TransformField.expand_margin_ratio: 0.2
+TransformField.bound_quantile_low: 0.001
+TransformField.bound_quantile_high: 0.999
+TransformField.fixed_resolution: 1
+
+ChangeDistill.enable: 0
+ChangeDistill.distill_selector_on_geometry_change: 1
+ChangeDistill.distill_tf_on_geometry_change: 1
+ChangeDistill.distill_tf_on_aabb_change: 1
+ChangeDistill.position_weight: 1.0
+ChangeDistill.scale_weight: 1.0
+ChangeDistill.rotation_weight: 1.0
+ChangeDistill.selector_weight: 1.0
+ChangeDistill.selector_learning_rate: 0.0001
+ChangeDistill.tf_grid_learning_rate: 0.00016
+ChangeDistill.tf_mlp_learning_rate: 0.000016
+ChangeDistill.batch_size: 8192
+ChangeDistill.epochs: 5
+ChangeDistill.seed: 0
+ChangeDistill.enable_unaffected_anchors: 1
+ChangeDistill.anchor_ratio_to_corrected: 1.0
+ChangeDistill.anchor_max_count: 32768
+ChangeDistill.anchor_loss_weight: 1.0
+ChangeDistill.post_change_replay: 0
+
+Selector.compensation: 1
+Selector.compensation_method: "spatial_anchor128_offset_gate"
+Selector.compensation_start_iter: 3000
+Selector.slot_deactivation: 1
+Training.serial_full_lod: 0
+Training.tail_ratio_rotation: 0
+Training.serial_lod_detach_master: 0
+Training.post_topology_full_steps: 0
+
+Selector.compensation_fourier_bands: 0

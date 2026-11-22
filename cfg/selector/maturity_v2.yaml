@@ -1,0 +1,22 @@
+%YAML:1.0
+# 参数片段：与当前贡献修正40%生产默认一致；可合并进完整Selector配置。
+# MaturityV2.enabled=0且Loss/Gate关闭：保留原路径。
+# 旧Legacy路径仍由Selector.protection_enabled等原配置控制。
+MaturityV2.enabled: 1
+# 真实alpha*T贡献，低频复用Full渲染，不开启SGI。
+MaturityV2.contribution_enabled: 1
+MaturityV2.contribution_decay: 0.9
+MaturityV2.tau_r: 0.00001
+MaturityV2.contribution_weight: 0.4
+MaturityV2.contribution_every_full: 8
+MaturityV2.contribution_pixel_stride: 1
+MaturityV2.tau_o: 20.0
+MaturityV2.tau_v: 3.0
+MaturityV2.xyz_scale_floor: 0.0001
+MaturityV2.inherit_fraction: 0.5
+MaturityV2.selector_loss_weight: 0.1
+MaturityV2.selector_delta: 0.05
+MaturityV2.compensation_gate: 0
+MaturityV2.gate_appearance: 1
+MaturityV2.gate_low: 0.4
+MaturityV2.gate_high: 0.8

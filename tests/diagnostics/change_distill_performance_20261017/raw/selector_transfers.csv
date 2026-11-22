@@ -1,0 +1,6 @@
+operation,calls,gpu_us,bytes
+Memcpy DtoD (Device -> Device),431,912.0,4854312
+Memcpy DtoH (Device -> Pinned),344,358.0,500
+Memcpy HtoD (Pageable -> Device),146,267.0,360264
+Memset (Device),180,182.0,55360
+Memcpy DtoH (Device -> Pageable),82,82.0,328

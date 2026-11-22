@@ -1,0 +1,22 @@
+{
+  "scope": "isolated_compensation_research",
+  "default_model": "SpatialLocalXYZ",
+  "config": {
+    "id": "SpatialLocalXYZ",
+    "kind": "self",
+    "width": 64,
+    "bands": 6,
+    "film": true,
+    "output": "local"
+  },
+  "reference_implementation": "neural.py:SharedNeural",
+  "dtype": "float32",
+  "tf32": false,
+  "train_ratios": [0.01, 0.05, 0.1, 0.15],
+  "evaluation_ratios": [0.01, 0.025, 0.05, 0.075, 0.1, 0.125, 0.15],
+  "checkpoints": {
+    "fr1_xyz": "/home/prmi/zwj/neural-v1-20261027/results/controls/fr1_xyz/SpatialLocalXYZ/5100/step_12000.pt",
+    "fr2_xyz": "/home/prmi/zwj/neural-v1-20261027/results/fr2_local_followup/fr2_xyz/SpatialLocalXYZ/6100/step_12000.pt"
+  },
+  "production_integrated": false
+}

@@ -1,0 +1,142 @@
+{
+  "decision": "IMPLEMENTATION PASS",
+  "quality_GO": null,
+  "online_GO": null,
+  "production_GO": false,
+  "protocol": {
+    "initial_cell_total": 2048,
+    "grid_policy": "deterministic power-of-two factorization with product 2048; minimize log cell-size variance",
+    "representatives_per_leaf": 3,
+    "split_coverage_threshold": 0.8,
+    "max_level": 3,
+    "effective_maturity": 1,
+    "optimizer_updates": 0,
+    "parameter_change_authorization": "user explicitly changed initial total from 256 to 2048, confirmed total-cell interpretation",
+    "unchanged": [
+      "raw contribution",
+      "Bank",
+      "candidate masks",
+      "geometry kernel",
+      "greedy formula",
+      "teacher percentile",
+      "Selector architecture",
+      "TF architecture"
+    ],
+    "prior_256_result": "before_grid2048/; engineering history only, not a quality-selected parameter"
+  },
+  "telemetry": {
+    "population": 52635,
+    "candidates": 50330,
+    "initial_cells": 2048,
+    "dimensions": [
+      16,
+      8,
+      16
+    ],
+    "AABB_min": [
+      -67.14266983305264,
+      -79.83248916899014,
+      -97.58124557768154
+    ],
+    "AABB_max": [
+      74.28296676908779,
+      61.3341790798788,
+      57.7370111111288
+    ],
+    "cell_size": [
+      8.839102287633777,
+      17.645833531108618,
+      9.707391043050647
+    ],
+    "cells_by_level": [
+      36,
+      26,
+      48
+    ],
+    "splits_by_level": [
+      5,
+      13,
+      0
+    ],
+    "leaves_by_level": [
+      31,
+      13,
+      48
+    ],
+    "representatives_by_level": [
+      47,
+      25,
+      130
+    ],
+    "Q_mean": 0.793535716651332,
+    "Q_median": 0.9999950458886433,
+    "Q_p10": 0.14861177961869573,
+    "Q_p90": 0.9999999999999982,
+    "unresolved_L3": 28,
+    "occupancy_by_level": [
+      {
+        "mean": 1398.0555555555557,
+        "median": 1,
+        "max": 39334
+      },
+      {
+        "mean": 1933.076923076923,
+        "median": 17.5,
+        "max": 24083
+      },
+      {
+        "mean": 1046.1458333333333,
+        "median": 23,
+        "max": 16613
+      }
+    ],
+    "raw_sum": 2905230.312282568,
+    "hierarchical_sum": 2905230.312282568,
+    "conservation_absolute": 0,
+    "conservation_relative": 0,
+    "build_ms": 4158.040285,
+    "similarity_ms": 3300.2856000000015,
+    "selection_ms": 729.63363
+  },
+  "independent_verification": {
+    "all_passed": true,
+    "population": 52635,
+    "candidate_N": 50330,
+    "nodes": 110,
+    "leaves": 92,
+    "representatives": 202,
+    "mass_error_max_leaf": 1.1641532182693481e-10,
+    "independent_gain_max_abs": 7.275957614183426e-12,
+    "independent_Q_max_abs": 3.3306690738754696e-16,
+    "reconstructed_output_max_abs": 6.821210263296962e-13,
+    "sampled_alternative_gain_checks": 2605,
+    "parent_scores_discarded": true,
+    "invalid_rows_not_promoted": true,
+    "leaf_output_reconstruction": true,
+    "unresolved_L3_count": 28,
+    "unresolved_L3_fraction": 0.5833333333333334,
+    "unresolved_L3_raw_mass_fraction": 0.9770477255803753,
+    "raw_mass_weighted_leaf_Q": 0.1184372551948944
+  },
+  "validation": {
+    "all_passed": true,
+    "initial_cell_total": 2048,
+    "representatives_per_leaf": 3,
+    "split_threshold": 0.8,
+    "max_level": 3,
+    "maturity": 1,
+    "updates": 0,
+    "server_production_unchanged": true,
+    "source_sha256": {
+      "include/hierarchical_representative_si.h": "de50cbf0f88caf5ce3d52bf952a26f78e1233dff4da8b0dfe7f619a68ba5f1bd",
+      "src/hierarchical_representative_si.cpp": "9df81d2df71871b35af9ca0f282104e967cb3e1ddf5f4789e43983054c1f4789",
+      "tests/hierarchical_representative_si_test.cpp": "b8f9ab30d9951997d57fa7013c591ed4660c273b6112697502672ea4dc4be79c",
+      "include/global_gi_bank.h": "dcc9f2b6c3c42fbbc9ea26c12835782cbf387a79b114e00499e27ad715b49e3b",
+      "include/gaussian_mapper.h": "a84b6ba669a5e0ad3cf12cc22f8302764fcb33279f7ea03096e9379422d892bb",
+      "src/gaussian_mapper.cpp": "abb65744a772230083b273d89f968c7a2862d811e4ce77d58e64580c6df3cdcc",
+      "CMakeLists.txt": "03cdb0e50c10496ec4a6810f2105197a69b71e6c39cc664f343c07e4da9b7052",
+      "cfg/selector/fast.yaml": "6f11c7abe90c23ac39d11b5e2ec758b4fc267b59ff242c89821373d4e07fc4f6",
+      "cfg/selector/selector_config.yaml": "5bf019dbd0f2ec59fe138002f0d652ad904d63083aa88e7871b819b778ba4d1b"
+    }
+  }
+}

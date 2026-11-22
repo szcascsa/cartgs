@@ -1,0 +1,36 @@
+VJP norm=0x1.4cf81p-2 z=-0x1.3596bap-2,-0x1.3ee616p-5,0x1.b4bf1ep-4,0x1.371deap-5 gz=-0x1.1702ccp-1,-0x1.ee4364p+0,-0x1.9bcba4p+1,0x1.5b9086p+1 ga=-0x1.37bfe4p+3,-0x1p-21,-0x1.2c3f86p+2,-0x1.5434p+3
+VJP norm=0x1.30b008p-3 z=0x1.07f07ap-4,-0x1.268ae6p-6,-0x1.0d0614p-3,-0x1.48cd7ep-6 gz=-0x1.ec2eb8p-1,0x1.793fcp+2,-0x1.d75adcp+0,0x1.d7aa3cp+1 ga=0x1.959d44p+0,-0x1.cp-21,0x1.482d84p+3,0x1.7c1f26p+1
+output/log=1/gradient_5 mismatch indices  7  1
+[ CPULongType{1,2} ]
+CUDA first rows         nan         nan         nan         nan
+ 1.9146e-03 -1.1541e-02  3.7511e-03 -6.7577e-03
+-1.3406e-01  5.5827e-01  1.4383e+00  3.2194e-02
+ 1.4667e-01 -1.3371e-01 -1.3689e-01 -2.1956e-01
+ 9.1332e-03  1.6123e+00 -7.9319e-01 -1.3300e+00
+ 7.7539e-02 -1.0793e+00  3.4468e-01  1.1201e+00
+        nan         nan         nan         nan
+ 1.5844e+12 -8.3446e+05  1.0256e+13  2.9697e+12
+ 1.3779e-01  3.9452e-03  6.9431e-02 -2.7432e-01
+-2.5352e-01 -2.2698e-01  9.3704e-02 -3.0370e-01
+[ CPUFloatType{10,4} ]
+legacy first rows         nan         nan         nan         nan
+ 1.9146e-03 -1.1541e-02  3.7511e-03 -6.7577e-03
+-1.3406e-01  5.5827e-01  1.4383e+00  3.2194e-02
+ 1.4667e-01 -1.3371e-01 -1.3689e-01 -2.1956e-01
+ 9.1332e-03  1.6123e+00 -7.9319e-01 -1.3300e+00
+ 7.7539e-02 -1.0793e+00  3.4468e-01  1.1201e+00
+        nan         nan         nan         nan
+ 1.5844e+12 -7.1526e+05  1.0256e+13  2.9697e+12
+ 1.3779e-01  3.9452e-03  6.9431e-02 -2.7432e-01
+-2.5352e-01 -2.2698e-01  9.3704e-02 -3.0370e-01
+[ CPUFloatType{10,4} ]
+terminate called after throwing an instance of 'c10::Error'
+  what():  output/log=1/gradient_5 max_abs=nan
+Exception raised from compare at /home/prmi/zwj/mycartgs/tests/cuda_tf_backward_test.cpp:27 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7feb956242ac in /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0xfa (0x7feb955cdcbc in /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libc10.so)
+frame #2: <unknown function> + 0x18475 (0x55a6eb130475 in build/cuda_tf_backward_test)
+frame #3: <unknown function> + 0x15431 (0x55a6eb12d431 in build/cuda_tf_backward_test)
+frame #4: __libc_start_main + 0xf3 (0x7feb8f09d083 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #5: <unknown function> + 0x1757e (0x55a6eb12f57e in build/cuda_tf_backward_test)
+

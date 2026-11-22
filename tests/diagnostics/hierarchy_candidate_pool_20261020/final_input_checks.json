@@ -1,0 +1,41 @@
+{
+  "all_passed": true,
+  "scenes": [
+    {
+      "scene": "fr1_room",
+      "original_source_count": 236,
+      "original_artifacts": 10,
+      "camera_archive_unchanged": true,
+      "Master_TF_tensor_verify": {
+        "N": 52635,
+        "maturity_all_one": true,
+        "ok": true
+      },
+      "all_passed": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "original_source_count": 89,
+      "original_artifacts": 10,
+      "camera_archive_unchanged": true,
+      "Master_TF_tensor_verify": {
+        "N": 23733,
+        "maturity_all_one": true,
+        "ok": true
+      },
+      "all_passed": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "original_source_count": 70,
+      "original_artifacts": 10,
+      "camera_archive_unchanged": true,
+      "Master_TF_tensor_verify": {
+        "N": 44142,
+        "maturity_all_one": true,
+        "ok": true
+      },
+      "all_passed": true
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "head": "6294748c3ca292d73084665b7e7f74aa3438f117+timers",
+  "hashes": {
+    "src/gaussian_mapper.cpp": "f34869974ed5e812423777d390e54636890ceb9744990c759ae024f4e84ba304",
+    "src/global_gi.cpp": "ab9fb7e3bac6e50906ade6eb3b5589b95d7eea5ddecbd1c6baefbc9d630100d1",
+    "include/global_gi.h": "8b4ee0c8c80b61f2eb891e26db97474ff703ea352d2bec9f85273b4e4d8ea2d1",
+    "include/global_gi_bank.h": "8bb2ea51527675c0de6a4147a7d8261ccc11eb760eda255eed1428a0343caecb",
+    "src/gi_teacher.cpp": "7ce77331db7c75e30d1192a4247b8ad83b1fd5a0dc198e02304c6a49e7cfb675",
+    "include/gi_teacher.h": "b0448c23b036cf97e7c87ee4acf2b3823c4a09acac70d34af2fd4750628772c6",
+    "include/ultrafast_training_timer.h": "f6dffeccb608c7e10f54f65e0740ce54c91aa47f2005720e70cc6e97a074ff6e",
+    "src/gaussian_renderer.cpp": "199b57ca97f5c063b1cf8bbbe95bdac9dfd6e5473de9f513c8f64fc9f2d18337",
+    "third_party/ORB-SLAM3/src/KeyFrame.cc": "466f0653882afc3b9876fa4359367cf6e1a2f810f97dc033a61d0de00b64c861",
+    "third_party/ORB-SLAM3/src/MapPoint.cc": "1165d80f7ffcbce2048bc28d066c632394e0f3845d6b0e9c03a6dcf3aa577f88",
+    "third_party/ORB-SLAM3/src/Map.cc": "996c0a456240062872fc1296abc0689ad8c4c976aad68a4ceeb1529d144df59b",
+    "third_party/ORB-SLAM3/src/Tracking.cc": "7968a9bc01bdac46e808c795bca1c536e794c86372840e7bd8961d459a153db8",
+    "cfg/selector/fast.yaml": "1f66ab767f64106427f88f5453793b9808789f9503da6ec54906919c0e72ac71",
+    "cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml": "4b4a812edcf5e1ffc4357625800e447971d3b954b3172705ce901b1eacebbfeb",
+    "cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_room.yaml": "9002890cd1537cbc7e4a5a4117e22fd3a351aca7b7204fc42101acaca72f4f17",
+    "bin/tum_rgbd": "70177df2a5a216e9866232fb30e70ca9037e849643761b9ae8e3bf0c54113b4a",
+    "lib/libgaussian_mapper.so": "930be3c22c1fd34b75695353fdf2f5fe94e37b18192114ea90f25994aa4f9b7c",
+    "third_party/ORB-SLAM3/lib/libORB_SLAM3.so": "4d8ab6e792f501ec801d285c2ef05b927d976de14149b9eb2f398751e6b3c8a0"
+  },
+  "dataset": "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room"
+}

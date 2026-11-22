@@ -1,0 +1,73 @@
+{
+  "all_passed": true,
+  "files": {
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/input_manifest.json": {
+      "sha256": "c8b4c51a0b36dc53035263fe1e3c7f6c5abdc6cd868c68cc9f9826f578bd499a",
+      "bytes": 1698
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/population.json": {
+      "sha256": "a005c0f9e9644c1a12d53b3ad18cfe4065a2a35a9026e1069550e2afc321e5ac",
+      "bytes": 348
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/ranking_inputs.npz": {
+      "sha256": "c8dc3c1bb52afe73fecebf56e70a8e8e723efddbb21ae12af63f4352d268e96c",
+      "bytes": 3807068
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/frozen_input_arrays.npz": {
+      "sha256": "c004e42ca7c56b49fa39caa08ab17534dfcfe98200fd68d55cee1641a53cbb0a",
+      "bytes": 1419630
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/hierarchy_input.bin": {
+      "sha256": "e782809b8e6395ef2357ee58745ffc1763f76f3cf540d875daca5b5bd78bbada",
+      "bytes": 2560244
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/contributions.pt": {
+      "sha256": "fac1d4b74e4b41dd18fadb50db3facd591e70193e68275261842d384a305484d",
+      "bytes": 4417135
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/arm_rankings.npz": {
+      "sha256": "a8634327ee91dfe02a8f399cf6ea9abdf0297b932424b255f5fe0c61c48b8c86",
+      "bytes": 1950520
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/frozen_sources.json": {
+      "sha256": "bbdc3dadccef97f714107c7e31ed102bab0f56474a5f1e03cceffcade0c25c8f",
+      "bytes": 14031
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/camera_checks.json": {
+      "sha256": "7fd709e6ff91f9454905f4652cfd0b318e3123c2d1a6380eb6015dc2388a0a47",
+      "bytes": 8811
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/region_definition.json": {
+      "sha256": "3fe4b224f2c8519c028f299b1d8ef189a8a53dedf053689f8216d3341afd95ee",
+      "bytes": 4098
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/structure_run1/sparse_hash_target_2048.bin": {
+      "sha256": "d5f93b4fda0f1db01bed91f03eaddd9165fd8144deccc887b9e0c5907a43926a",
+      "bytes": 706280
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/structure_run1/sparse_hash_target_2048_tree.csv": {
+      "sha256": "af4cd411a4bc42a38bd59392c8b33743c01632cd641f694e3c0d21582f3107c7",
+      "bytes": 1965481
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/structure_run1/sparse_hash_target_2048_telemetry.json": {
+      "sha256": "da45cb563b083665f24e77433fd4a0fabed69fdeb9b296c19d09558ec3235e90",
+      "bytes": 1372
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/quality_summary.csv": {
+      "sha256": "8aa78b4327089d7fd2ef59365ed082c22dd8e85cc730064a25dbc60504c75d9d",
+      "bytes": 1726
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/quality_per_view.csv": {
+      "sha256": "1430f86d835545f2f07e4018604c730011dc23f87064f19d75a52abc44a8b881",
+      "bytes": 67216
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/selected_redundancy.csv": {
+      "sha256": "5046211f3118811c5673c9b392f0c9e9b04c5d5d9a2d7fa6d4dc6e0fc1ea1792",
+      "bytes": 1329
+    },
+    "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/new_arm_rankings.npz": {
+      "sha256": "08ea425590674d67b118fc9ad69611c2c39a64bf83448f24ee1865c5bce697f4",
+      "bytes": 448616
+    }
+  }
+}

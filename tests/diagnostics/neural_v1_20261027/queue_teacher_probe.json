@@ -1,0 +1,40 @@
+{
+  "tier": "teacher_probe",
+  "jobs": [
+    {
+      "config": {
+        "id": "TeacherSpatialKnots6",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "TeacherSpatialKnots10",
+        "kind": "self",
+        "width": 64,
+        "bands": 10,
+        "knots": true,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "TeacherSpatialFilm6",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

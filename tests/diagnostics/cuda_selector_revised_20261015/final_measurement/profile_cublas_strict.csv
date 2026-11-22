@@ -1,0 +1,3 @@
+backend,M,stage,metric,mean_ms,p50_ms,p95_ms
+cublas_strict,219969,network_forward_backward,event,4.44514,4.43552,4.46077
+cublas_strict,219969,network_forward_backward,wall,4.45776,4.44605,4.47072

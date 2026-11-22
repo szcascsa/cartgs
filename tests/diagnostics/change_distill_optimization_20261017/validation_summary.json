@@ -1,0 +1,1499 @@
+{
+  "run_contracts": [
+    {
+      "case": "stage_c/raw/verify_both/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/verify_selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/selector/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/final_verify_selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/nsys_selector_case/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/nsys_selector_case/runs.json",
+      "label": "profile",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/profile_selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/profile_selector/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_both_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_selector_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/tf/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/paired_tf_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_c/raw/both/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/verify_tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/nsys_tf_case/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/nsys_tf_case/runs.json",
+      "label": "profile",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/profile_tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/profile_tf/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_both_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/tf/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/paired_tf_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_a_grouped/raw/both/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/verify_selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/verify_tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/selector/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/nsys_selector_case/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/nsys_selector_case/runs.json",
+      "label": "profile",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/nsys_tf_case/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/nsys_tf_case/runs.json",
+      "label": "profile",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/profile_selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/profile_selector/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/profile_tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/profile_tf/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_both_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_selector_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/tf/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/paired_tf_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_b/raw/both/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/verify_both/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/verify_selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/verify_tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/selector/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/nsys_selector_case/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/nsys_selector_case/runs.json",
+      "label": "profile",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/nsys_tf_case/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/nsys_tf_case/runs.json",
+      "label": "profile",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/profile_selector/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/profile_selector/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/profile_tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/profile_tf/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_2/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_2/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_2/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_2/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_2/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_both_2/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_selector_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/tf/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_1/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_1/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_1/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_1/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_1/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/paired_tf_1/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "baseline/raw/both/runs.json",
+      "label": "warm_9",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/verify_tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "cold",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_0",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_1",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_2",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_3",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_4",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_5",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_6",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_7",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_8",
+      "passed": true
+    },
+    {
+      "case": "stage_a/raw/tf/runs.json",
+      "label": "warm_9",
+      "passed": true
+    }
+  ],
+  "monitored_cases": 35,
+  "lifecycle_suites": 6,
+  "cache_suites": 3,
+  "expected_failed_bmm_preserved": true,
+  "all_accepted_correctness_comparisons_pass": true
+}

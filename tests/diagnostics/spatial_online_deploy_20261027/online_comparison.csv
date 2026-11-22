@@ -1,0 +1,5 @@
+name,steps,compensation_steps,N,anchors,wall_seconds,mapping_host_ms,mapping_cuda_ms,compensated_lod_host_ms,compensation_host_ms,lod_backward_host_ms,peak_gpu_memory_raw
+online_spatial,6900,3120,7596,2426,43.1151384152472,4.8090630927536235,4.8758,7.083832067307692,1.2016316849358974,4.077536490384616,"Peak reserved (MB): 572
+Peak allocated (MB): 487.697"
+online_live_fused,8400,4320,8345,2281,42.2367747426033,3.8510664904761907,3.9141,4.7552002430555556,0.5235478351851851,2.509193962962963,"Peak reserved (MB): 614
+Peak allocated (MB): 518.329"

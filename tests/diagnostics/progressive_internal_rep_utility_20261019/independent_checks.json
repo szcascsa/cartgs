@@ -1,0 +1,126 @@
+{
+  "all_passed": true,
+  "checks": [
+    {
+      "scene": "fr1_room",
+      "ratio": 0.01,
+      "K": 503,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 57,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr1_room",
+      "ratio": 0.05,
+      "K": 2517,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 107,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr1_room",
+      "ratio": 0.1,
+      "K": 5033,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 109,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr1_room",
+      "ratio": 0.15,
+      "K": 7550,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 115,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "ratio": 0.01,
+      "K": 236,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 13,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "ratio": 0.05,
+      "K": 1182,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 71,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "ratio": 0.1,
+      "K": 2364,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 90,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "ratio": 0.15,
+      "K": 3546,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 115,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "ratio": 0.01,
+      "K": 431,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 44,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "ratio": 0.05,
+      "K": 2153,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 78,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "ratio": 0.1,
+      "K": 4306,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 78,
+      "G_rank_refill": true,
+      "all_same_K": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "ratio": 0.15,
+      "K": 6459,
+      "S_stable_filter": true,
+      "L_independent_path_prefix_replay": true,
+      "L_trace_rows": 83,
+      "G_rank_refill": true,
+      "all_same_K": true
+    }
+  ],
+  "quality_or_GT_read": false
+}

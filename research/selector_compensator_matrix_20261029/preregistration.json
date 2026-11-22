@@ -1,0 +1,50 @@
+{
+  "baseline_id": 25,
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.4
+  ],
+  "unseen": [
+    0.025,
+    0.075,
+    0.15,
+    0.25,
+    0.35
+  ],
+  "scene": "Replica office2 RGB-D",
+  "mapping_target": 13400,
+  "online_cap": false,
+  "forced_tail": false,
+  "lod_resolution": [
+    1200,
+    680
+  ],
+  "tail": "full_then_joint_lod",
+  "seeds": [
+    0,
+    1
+  ],
+  "qualification": {
+    "psnr_noninferiority_margin_db": 0.2,
+    "required_tiers": [
+      "train6_mean",
+      "unseen5_mean",
+      "1%",
+      "5%",
+      "Full"
+    ],
+    "paired_seed_rule": "both optimization seeds pass each tier; paired-view bootstrap lower95% >= -.20; not independent-map inference",
+    "ssim_margin": 0.005,
+    "lpips_margin": 0.01,
+    "baseline_noise_rule": "if baseline seed variation>.20dB or budget imbalance>10% Master or>15% Full, mark unresolved, do not relax margins",
+    "geometry_rule": "1% and5% displacement p90<=.60baseline, p99<=baseline; effective visible opacity>=1/255 Scale p99<=1.25baseline",
+    "compute_rule": "matched N/K Selector+Compensation forward/backward median<=1.25baseline; online wall and update-normalized cost both reported; shared GPU timing limitations explicit"
+  },
+  "calibration": "baseline25 retains original first-compensation normalization; fixed buffers from its final checkpoint reused as training-only calibration by other seed0 variants, including before3000 for E/global; seed1 candidates use seed1 baseline buffers",
+  "evaluation": "common covered RGB identities; uniform up to64 outside all Bank union for primary nonBank; ownBank uniform up to32 per model separately; same-K=floor(r*N25), insufficient eligible is unreachable, never lower K globally",
+  "preservation": "server main read only; independent source/build/bin/lib/runs/evaluation/reports; dependencies read only; no push/default switch"
+}

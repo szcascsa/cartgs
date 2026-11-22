@@ -1,0 +1,990 @@
+{
+  "protocol": {
+    "warmup": 100,
+    "measurements": 500,
+    "precision": "FP32",
+    "ratio": 0.05,
+    "input_sampling": "cycle representative checkpoint rows",
+    "optimizer": {
+      "mlp_lr": 0.00016,
+      "grid_lr": 0.0016,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-15,
+      "schedule": "fixed diagnostic init LR; fresh state for each mode/N"
+    },
+    "checkpoint": "/home/prmi/zwj/mycartgs/results/protection_recheck_20261012/fr3_long_office_household/3400_shutdown/ply",
+    "local_head": "99a9bb1f05e458617f50fabb30a910f14aaf7c9c"
+  },
+  "native": [
+    {
+      "mode": "core_adam",
+      "N": "1000",
+      "stage": "forward",
+      "mean_ms": "0.915331",
+      "p50_ms": "0.910336",
+      "p95_ms": "0.950272"
+    },
+    {
+      "mode": "core_adam",
+      "N": "1000",
+      "stage": "loss_regularization",
+      "mean_ms": "0.0618086",
+      "p50_ms": "0.06144",
+      "p95_ms": "0.062464"
+    },
+    {
+      "mode": "core_adam",
+      "N": "1000",
+      "stage": "backward",
+      "mean_ms": "2.85059",
+      "p50_ms": "2.86925",
+      "p95_ms": "2.93274"
+    },
+    {
+      "mode": "core_adam",
+      "N": "1000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0212767",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "core_adam",
+      "N": "1000",
+      "stage": "optimizer",
+      "mean_ms": "1.03362",
+      "p50_ms": "1.02912",
+      "p95_ms": "1.07008"
+    },
+    {
+      "mode": "core_adam",
+      "N": "1000",
+      "stage": "total",
+      "mean_ms": "4.88263",
+      "p50_ms": "4.8937",
+      "p95_ms": "4.9705"
+    },
+    {
+      "mode": "core_adam",
+      "N": "1000",
+      "stage": "wall",
+      "mean_ms": "4.89381",
+      "p50_ms": "4.90529",
+      "p95_ms": "4.9854"
+    },
+    {
+      "mode": "core_adam",
+      "N": "5000",
+      "stage": "forward",
+      "mean_ms": "0.924035",
+      "p50_ms": "0.91648",
+      "p95_ms": "0.959488"
+    },
+    {
+      "mode": "core_adam",
+      "N": "5000",
+      "stage": "loss_regularization",
+      "mean_ms": "0.0611594",
+      "p50_ms": "0.060416",
+      "p95_ms": "0.062464"
+    },
+    {
+      "mode": "core_adam",
+      "N": "5000",
+      "stage": "backward",
+      "mean_ms": "2.91012",
+      "p50_ms": "2.89075",
+      "p95_ms": "2.99008"
+    },
+    {
+      "mode": "core_adam",
+      "N": "5000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0211497",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "core_adam",
+      "N": "5000",
+      "stage": "optimizer",
+      "mean_ms": "1.01908",
+      "p50_ms": "1.01274",
+      "p95_ms": "1.05267"
+    },
+    {
+      "mode": "core_adam",
+      "N": "5000",
+      "stage": "total",
+      "mean_ms": "4.93554",
+      "p50_ms": "4.90598",
+      "p95_ms": "5.04422"
+    },
+    {
+      "mode": "core_adam",
+      "N": "5000",
+      "stage": "wall",
+      "mean_ms": "4.9466",
+      "p50_ms": "4.91698",
+      "p95_ms": "5.05506"
+    },
+    {
+      "mode": "core_adam",
+      "N": "10000",
+      "stage": "forward",
+      "mean_ms": "0.936886",
+      "p50_ms": "0.93696",
+      "p95_ms": "0.96768"
+    },
+    {
+      "mode": "core_adam",
+      "N": "10000",
+      "stage": "loss_regularization",
+      "mean_ms": "0.061954",
+      "p50_ms": "0.06144",
+      "p95_ms": "0.064512"
+    },
+    {
+      "mode": "core_adam",
+      "N": "10000",
+      "stage": "backward",
+      "mean_ms": "2.95137",
+      "p50_ms": "2.95526",
+      "p95_ms": "3.03309"
+    },
+    {
+      "mode": "core_adam",
+      "N": "10000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0210842",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "core_adam",
+      "N": "10000",
+      "stage": "optimizer",
+      "mean_ms": "1.03428",
+      "p50_ms": "1.03424",
+      "p95_ms": "1.06496"
+    },
+    {
+      "mode": "core_adam",
+      "N": "10000",
+      "stage": "total",
+      "mean_ms": "5.00558",
+      "p50_ms": "5.01453",
+      "p95_ms": "5.14048"
+    },
+    {
+      "mode": "core_adam",
+      "N": "10000",
+      "stage": "wall",
+      "mean_ms": "5.01659",
+      "p50_ms": "5.02541",
+      "p95_ms": "5.15197"
+    },
+    {
+      "mode": "core_adam",
+      "N": "20000",
+      "stage": "forward",
+      "mean_ms": "0.968094",
+      "p50_ms": "0.975872",
+      "p95_ms": "1.00659"
+    },
+    {
+      "mode": "core_adam",
+      "N": "20000",
+      "stage": "loss_regularization",
+      "mean_ms": "0.0649299",
+      "p50_ms": "0.065536",
+      "p95_ms": "0.067584"
+    },
+    {
+      "mode": "core_adam",
+      "N": "20000",
+      "stage": "backward",
+      "mean_ms": "2.92802",
+      "p50_ms": "2.91328",
+      "p95_ms": "3.02592"
+    },
+    {
+      "mode": "core_adam",
+      "N": "20000",
+      "stage": "zero_grad",
+      "mean_ms": "0.021205",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "core_adam",
+      "N": "20000",
+      "stage": "optimizer",
+      "mean_ms": "1.05793",
+      "p50_ms": "1.06598",
+      "p95_ms": "1.09466"
+    },
+    {
+      "mode": "core_adam",
+      "N": "20000",
+      "stage": "total",
+      "mean_ms": "5.04018",
+      "p50_ms": "5.05344",
+      "p95_ms": "5.16813"
+    },
+    {
+      "mode": "core_adam",
+      "N": "20000",
+      "stage": "wall",
+      "mean_ms": "5.05131",
+      "p50_ms": "5.06463",
+      "p95_ms": "5.17912"
+    },
+    {
+      "mode": "core_adam",
+      "N": "50000",
+      "stage": "forward",
+      "mean_ms": "1.28007",
+      "p50_ms": "1.27795",
+      "p95_ms": "1.29741"
+    },
+    {
+      "mode": "core_adam",
+      "N": "50000",
+      "stage": "loss_regularization",
+      "mean_ms": "0.0330793",
+      "p50_ms": "0.032768",
+      "p95_ms": "0.034816"
+    },
+    {
+      "mode": "core_adam",
+      "N": "50000",
+      "stage": "backward",
+      "mean_ms": "3.94604",
+      "p50_ms": "3.93933",
+      "p95_ms": "3.98848"
+    },
+    {
+      "mode": "core_adam",
+      "N": "50000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0213299",
+      "p50_ms": "0.02048",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "core_adam",
+      "N": "50000",
+      "stage": "optimizer",
+      "mean_ms": "0.417718",
+      "p50_ms": "0.416768",
+      "p95_ms": "0.41984"
+    },
+    {
+      "mode": "core_adam",
+      "N": "50000",
+      "stage": "total",
+      "mean_ms": "5.69823",
+      "p50_ms": "5.68934",
+      "p95_ms": "5.74976"
+    },
+    {
+      "mode": "core_adam",
+      "N": "50000",
+      "stage": "wall",
+      "mean_ms": "5.70973",
+      "p50_ms": "5.70106",
+      "p95_ms": "5.76055"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "1000",
+      "stage": "forward",
+      "mean_ms": "0.938715",
+      "p50_ms": "0.948224",
+      "p95_ms": "0.9984"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "1000",
+      "stage": "loss_regularization",
+      "mean_ms": "1.20339",
+      "p50_ms": "1.21139",
+      "p95_ms": "1.26054"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "1000",
+      "stage": "backward",
+      "mean_ms": "7.91544",
+      "p50_ms": "7.91347",
+      "p95_ms": "8.02816"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "1000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0218358",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.0256"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "1000",
+      "stage": "optimizer",
+      "mean_ms": "1.04475",
+      "p50_ms": "1.05472",
+      "p95_ms": "1.0967"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "1000",
+      "stage": "total",
+      "mean_ms": "11.1241",
+      "p50_ms": "11.1493",
+      "p95_ms": "11.3398"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "1000",
+      "stage": "wall",
+      "mean_ms": "11.1355",
+      "p50_ms": "11.1609",
+      "p95_ms": "11.3521"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "5000",
+      "stage": "forward",
+      "mean_ms": "0.95725",
+      "p50_ms": "0.964608",
+      "p95_ms": "1.00864"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "5000",
+      "stage": "loss_regularization",
+      "mean_ms": "1.21153",
+      "p50_ms": "1.21958",
+      "p95_ms": "1.26669"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "5000",
+      "stage": "backward",
+      "mean_ms": "8.00694",
+      "p50_ms": "7.98515",
+      "p95_ms": "8.10291"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "5000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0212357",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "5000",
+      "stage": "optimizer",
+      "mean_ms": "1.05235",
+      "p50_ms": "1.05984",
+      "p95_ms": "1.10592"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "5000",
+      "stage": "total",
+      "mean_ms": "11.2493",
+      "p50_ms": "11.2497",
+      "p95_ms": "11.4381"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "5000",
+      "stage": "wall",
+      "mean_ms": "11.2606",
+      "p50_ms": "11.2608",
+      "p95_ms": "11.4493"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "10000",
+      "stage": "forward",
+      "mean_ms": "0.950383",
+      "p50_ms": "0.963584",
+      "p95_ms": "0.986112"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "10000",
+      "stage": "loss_regularization",
+      "mean_ms": "1.20296",
+      "p50_ms": "1.21549",
+      "p95_ms": "1.24006"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "10000",
+      "stage": "backward",
+      "mean_ms": "7.98111",
+      "p50_ms": "7.97594",
+      "p95_ms": "8.09267"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "10000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0212603",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.022528"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "10000",
+      "stage": "optimizer",
+      "mean_ms": "1.04644",
+      "p50_ms": "1.05677",
+      "p95_ms": "1.10182"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "10000",
+      "stage": "total",
+      "mean_ms": "11.2022",
+      "p50_ms": "11.1657",
+      "p95_ms": "11.3981"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "10000",
+      "stage": "wall",
+      "mean_ms": "11.2136",
+      "p50_ms": "11.1767",
+      "p95_ms": "11.4092"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "20000",
+      "stage": "forward",
+      "mean_ms": "0.947565",
+      "p50_ms": "0.932864",
+      "p95_ms": "0.987136"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "20000",
+      "stage": "loss_regularization",
+      "mean_ms": "1.195",
+      "p50_ms": "1.1817",
+      "p95_ms": "1.23802"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "20000",
+      "stage": "backward",
+      "mean_ms": "7.94612",
+      "p50_ms": "7.9657",
+      "p95_ms": "8.08755"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "20000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0212787",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "20000",
+      "stage": "optimizer",
+      "mean_ms": "1.03476",
+      "p50_ms": "1.02298",
+      "p95_ms": "1.0793"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "20000",
+      "stage": "total",
+      "mean_ms": "11.1447",
+      "p50_ms": "11.134",
+      "p95_ms": "11.3234"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "20000",
+      "stage": "wall",
+      "mean_ms": "11.156",
+      "p50_ms": "11.1447",
+      "p95_ms": "11.3351"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "50000",
+      "stage": "forward",
+      "mean_ms": "1.28978",
+      "p50_ms": "1.29126",
+      "p95_ms": "1.30765"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "50000",
+      "stage": "loss_regularization",
+      "mean_ms": "0.914262",
+      "p50_ms": "0.9216",
+      "p95_ms": "0.966656"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "50000",
+      "stage": "backward",
+      "mean_ms": "9.23375",
+      "p50_ms": "9.19654",
+      "p95_ms": "9.3696"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "50000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0221511",
+      "p50_ms": "0.02048",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "50000",
+      "stage": "optimizer",
+      "mean_ms": "0.414648",
+      "p50_ms": "0.413696",
+      "p95_ms": "0.418816"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "50000",
+      "stage": "total",
+      "mean_ms": "11.8746",
+      "p50_ms": "11.8405",
+      "p95_ms": "12.074"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "50000",
+      "stage": "wall",
+      "mean_ms": "11.8863",
+      "p50_ms": "11.8519",
+      "p95_ms": "12.0877"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "1000",
+      "stage": "forward",
+      "mean_ms": "0.907198",
+      "p50_ms": "0.905216",
+      "p95_ms": "0.955392"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "1000",
+      "stage": "loss_regularization",
+      "mean_ms": "1.17684",
+      "p50_ms": "1.17248",
+      "p95_ms": "1.2585"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "1000",
+      "stage": "backward",
+      "mean_ms": "8.22052",
+      "p50_ms": "8.20019",
+      "p95_ms": "8.32614"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "1000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0212746",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.021504"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "1000",
+      "stage": "optimizer",
+      "mean_ms": "2.19456",
+      "p50_ms": "2.18829",
+      "p95_ms": "2.29171"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "1000",
+      "stage": "total",
+      "mean_ms": "12.5204",
+      "p50_ms": "12.4918",
+      "p95_ms": "12.6884"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "1000",
+      "stage": "wall",
+      "mean_ms": "12.5318",
+      "p50_ms": "12.5041",
+      "p95_ms": "12.6988"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "5000",
+      "stage": "forward",
+      "mean_ms": "0.943641",
+      "p50_ms": "0.930816",
+      "p95_ms": "1.01171"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "5000",
+      "stage": "loss_regularization",
+      "mean_ms": "1.18651",
+      "p50_ms": "1.17555",
+      "p95_ms": "1.24006"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "5000",
+      "stage": "backward",
+      "mean_ms": "8.04079",
+      "p50_ms": "8.00154",
+      "p95_ms": "8.27597"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "5000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0229028",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.022528"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "5000",
+      "stage": "optimizer",
+      "mean_ms": "2.21792",
+      "p50_ms": "2.1975",
+      "p95_ms": "2.32141"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "5000",
+      "stage": "total",
+      "mean_ms": "12.4118",
+      "p50_ms": "12.3566",
+      "p95_ms": "12.6597"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "5000",
+      "stage": "wall",
+      "mean_ms": "12.4232",
+      "p50_ms": "12.3687",
+      "p95_ms": "12.6711"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "10000",
+      "stage": "forward",
+      "mean_ms": "0.947636",
+      "p50_ms": "0.933888",
+      "p95_ms": "1.0025"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "10000",
+      "stage": "loss_regularization",
+      "mean_ms": "1.19131",
+      "p50_ms": "1.17965",
+      "p95_ms": "1.23904"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "10000",
+      "stage": "backward",
+      "mean_ms": "8.0198",
+      "p50_ms": "8.00461",
+      "p95_ms": "8.12749"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "10000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0217436",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.022528"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "10000",
+      "stage": "optimizer",
+      "mean_ms": "2.22729",
+      "p50_ms": "2.20262",
+      "p95_ms": "2.32448"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "10000",
+      "stage": "total",
+      "mean_ms": "12.4078",
+      "p50_ms": "12.3474",
+      "p95_ms": "12.6321"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "10000",
+      "stage": "wall",
+      "mean_ms": "12.4191",
+      "p50_ms": "12.3584",
+      "p95_ms": "12.6438"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "20000",
+      "stage": "forward",
+      "mean_ms": "0.953457",
+      "p50_ms": "0.940032",
+      "p95_ms": "0.997376"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "20000",
+      "stage": "loss_regularization",
+      "mean_ms": "1.19168",
+      "p50_ms": "1.17965",
+      "p95_ms": "1.23699"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "20000",
+      "stage": "backward",
+      "mean_ms": "8.2265",
+      "p50_ms": "8.25242",
+      "p95_ms": "8.38246"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "20000",
+      "stage": "zero_grad",
+      "mean_ms": "0.0214221",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.022528"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "20000",
+      "stage": "optimizer",
+      "mean_ms": "2.22423",
+      "p50_ms": "2.20058",
+      "p95_ms": "2.30605"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "20000",
+      "stage": "total",
+      "mean_ms": "12.6173",
+      "p50_ms": "12.5901",
+      "p95_ms": "12.8113"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "20000",
+      "stage": "wall",
+      "mean_ms": "12.6287",
+      "p50_ms": "12.6018",
+      "p95_ms": "12.8226"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "50000",
+      "stage": "forward",
+      "mean_ms": "1.28656",
+      "p50_ms": "1.28",
+      "p95_ms": "1.32096"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "50000",
+      "stage": "loss_regularization",
+      "mean_ms": "0.874594",
+      "p50_ms": "0.856064",
+      "p95_ms": "0.934912"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "50000",
+      "stage": "backward",
+      "mean_ms": "9.29997",
+      "p50_ms": "9.29485",
+      "p95_ms": "9.51194"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "50000",
+      "stage": "zero_grad",
+      "mean_ms": "0.021332",
+      "p50_ms": "0.021504",
+      "p95_ms": "0.022528"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "50000",
+      "stage": "optimizer",
+      "mean_ms": "0.935197",
+      "p50_ms": "0.913408",
+      "p95_ms": "1.2032"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "50000",
+      "stage": "total",
+      "mean_ms": "12.4176",
+      "p50_ms": "12.3587",
+      "p95_ms": "12.6515"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "50000",
+      "stage": "wall",
+      "mean_ms": "12.4289",
+      "p50_ms": "12.37",
+      "p95_ms": "12.6616"
+    }
+  ],
+  "optimizer_isolated": [
+    {
+      "mode": "adam",
+      "N": "0",
+      "stage": "cuda_event",
+      "mean_ms": "0.965308",
+      "p50_ms": "0.951296",
+      "p95_ms": "1.05779"
+    },
+    {
+      "mode": "adam",
+      "N": "0",
+      "stage": "wall",
+      "mean_ms": "0.972553",
+      "p50_ms": "0.95836",
+      "p95_ms": "1.06461"
+    },
+    {
+      "mode": "preview",
+      "N": "0",
+      "stage": "cuda_event",
+      "mean_ms": "2.1139",
+      "p50_ms": "2.10534",
+      "p95_ms": "2.20365"
+    },
+    {
+      "mode": "preview",
+      "N": "0",
+      "stage": "wall",
+      "mean_ms": "2.12116",
+      "p50_ms": "2.11258",
+      "p95_ms": "2.21116"
+    },
+    {
+      "mode": "zero_grad",
+      "N": "0",
+      "stage": "cuda_event",
+      "mean_ms": "0.00206029",
+      "p50_ms": "0.002048",
+      "p95_ms": "0.002048"
+    },
+    {
+      "mode": "zero_grad",
+      "N": "0",
+      "stage": "wall",
+      "mean_ms": "0.0148781",
+      "p50_ms": "0.014895",
+      "p95_ms": "0.0154"
+    }
+  ],
+  "finite_checks": [
+    {
+      "mode": "core_adam",
+      "N": "1000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "core_adam",
+      "N": "5000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "core_adam",
+      "N": "10000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "core_adam",
+      "N": "20000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "core_adam",
+      "N": "50000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "1000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "5000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "10000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "20000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_adam",
+      "N": "50000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "1000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "5000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "10000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "20000",
+      "parameters_outputs_gradients_states_finite": "1"
+    },
+    {
+      "mode": "regularized_preview",
+      "N": "50000",
+      "parameters_outputs_gradients_states_finite": "1"
+    }
+  ]
+}

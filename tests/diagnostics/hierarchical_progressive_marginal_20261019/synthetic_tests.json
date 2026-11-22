@@ -1,0 +1,16 @@
+{
+  "all_passed": true,
+  "tests": {
+    "1_first3_and_full_tail": true,
+    "6_duplicate_residual_marginal_drop": true,
+    "2_unlock_after_capacity": true,
+    "3_ancestor_row_exclusion": true,
+    "4_high_similarity_inherited_gain_suppression": true,
+    "5_independent_ancestor_no_suppression": true,
+    "7_each_row_once_repeated_path": true,
+    "8_repeat_exact": true,
+    "9_nested_prefixes": true,
+    "10_tree_structure_no_mutation": true,
+    "empty_remaining_child": true
+  }
+}

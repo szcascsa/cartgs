@@ -1,0 +1,1066 @@
+{
+  "runs": [
+    {
+      "name": "room/legacy/repeat1",
+      "scene": "room",
+      "backend": "legacy",
+      "repeat": 1,
+      "train": {
+        "exit": 0,
+        "seconds": 65.20228849723935,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/fr1_room.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat1",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 171.96687975525856,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat1",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat1/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 14.497404170459545\nssim: 0.553616616676545\nlpips: 0.6983301267468718\ntracking s: 0.021488064900040627\ntracking FPS: 46.53746032714844\nrendering ms: 0.6190691590309143\nrendering FPS: 1615.328369140625\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 15.836639249818566\nssim: 0.5858141029551185\nlpips: 0.6325887283365402\ntracking s: 0.021488064900040627\ntracking FPS: 46.53746032714844\nrendering ms: 0.6190691590309143\nrendering FPS: 1615.328369140625\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 16.09936523508038\nssim: 0.5921541577171997\nlpips: 0.6060379072582933\ntracking s: 0.021488064900040627\ntracking FPS: 46.53746032714844\nrendering ms: 0.6190691590309143\nrendering FPS: 1615.328369140625\n",
+        "evaluation/full/eval.txt": "psnr: 16.200371910129075\nssim: 0.5947437823127361\nlpips: 0.5764866498844511\ntracking s: 0.021488064900040627\ntracking FPS: 46.53746032714844\nrendering ms: 0.6190691590309143\nrendering FPS: 1615.328369140625\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 16.13235001874393\nssim: 0.5929520345739359\nlpips: 0.5987518250986317\ntracking s: 0.021488064900040627\ntracking FPS: 46.53746032714844\nrendering ms: 0.6190691590309143\nrendering FPS: 1615.328369140625\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "room/legacy/repeat2",
+      "scene": "room",
+      "backend": "legacy",
+      "repeat": 2,
+      "train": {
+        "exit": 0,
+        "seconds": 65.40452186390758,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/fr1_room.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat2",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 173.22337725013494,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat2",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat2/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 14.186533247225384\nssim: 0.5532274881058191\nlpips: 0.7160655500356262\ntracking s: 0.021863602101802826\ntracking FPS: 45.73811721801758\nrendering ms: 0.6079778671264648\nrendering FPS: 1644.7967529296875\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 15.445249970495349\nssim: 0.5825491952076114\nlpips: 0.6468359982738128\ntracking s: 0.021863602101802826\ntracking FPS: 45.73811721801758\nrendering ms: 0.6079778671264648\nrendering FPS: 1644.7967529296875\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 15.70392879438118\nssim: 0.5893433482645178\nlpips: 0.6174832371300494\ntracking s: 0.021863602101802826\ntracking FPS: 45.73811721801758\nrendering ms: 0.6079778671264648\nrendering FPS: 1644.7967529296875\n",
+        "evaluation/full/eval.txt": "psnr: 15.741409199477653\nssim: 0.5904630809890096\nlpips: 0.587148893602501\ntracking s: 0.021863602101802826\ntracking FPS: 45.73811721801758\nrendering ms: 0.6079778671264648\nrendering FPS: 1644.7967529296875\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 15.723250603182075\nssim: 0.5899745850388468\nlpips: 0.6075437847943701\ntracking s: 0.021863602101802826\ntracking FPS: 45.73811721801758\nrendering ms: 0.6079778671264648\nrendering FPS: 1644.7967529296875\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "room/legacy/repeat3",
+      "scene": "room",
+      "backend": "legacy",
+      "repeat": 3,
+      "train": {
+        "exit": 0,
+        "seconds": 64.90213168412447,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/fr1_room.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat3",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 176.65158610790968,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat3",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/legacy/repeat3/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 14.608441824743734\nssim: 0.5591646041390459\nlpips: 0.6992726675372505\ntracking s: 0.021283619105815887\ntracking FPS: 46.98448944091797\nrendering ms: 0.6092290878295898\nrendering FPS: 1641.418701171875\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 15.80943557672952\nssim: 0.5870648171069354\nlpips: 0.6342546607439334\ntracking s: 0.021283619105815887\ntracking FPS: 46.98448944091797\nrendering ms: 0.6092290878295898\nrendering FPS: 1641.418701171875\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 16.10884306451978\nssim: 0.594692016869078\nlpips: 0.605289774445387\ntracking s: 0.021283619105815887\ntracking FPS: 46.98448944091797\nrendering ms: 0.6092290878295898\nrendering FPS: 1641.418701171875\n",
+        "evaluation/full/eval.txt": "psnr: 16.20175766627464\nssim: 0.5973746733596692\nlpips: 0.5722535711288805\ntracking s: 0.021283619105815887\ntracking FPS: 46.98448944091797\nrendering ms: 0.6092290878295898\nrendering FPS: 1641.418701171875\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 16.137883192688754\nssim: 0.595307631825907\nlpips: 0.5961302526780135\ntracking s: 0.021283619105815887\ntracking FPS: 46.98448944091797\nrendering ms: 0.6092290878295898\nrendering FPS: 1641.418701171875\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "room/cuda/repeat1",
+      "scene": "room",
+      "backend": "cuda",
+      "repeat": 1,
+      "train": {
+        "exit": 0,
+        "seconds": 90.15096063539386,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/fr1_room.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat1",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 219.31590220332146,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat1",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat1/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 14.430131861444055\nssim: 0.5579258181683763\nlpips: 0.7039217734213411\ntracking s: 0.022431503981351852\ntracking FPS: 44.58015823364258\nrendering ms: 0.6160171627998352\nrendering FPS: 1623.3314208984375\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 15.336203713388837\nssim: 0.576916825863913\nlpips: 0.6460832685628939\ntracking s: 0.022431503981351852\ntracking FPS: 44.58015823364258\nrendering ms: 0.6160171627998352\nrendering FPS: 1623.3314208984375\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 15.534589403479762\nssim: 0.5807268674424767\nlpips: 0.623519771704836\ntracking s: 0.022431503981351852\ntracking FPS: 44.58015823364258\nrendering ms: 0.6160171627998352\nrendering FPS: 1623.3314208984375\n",
+        "evaluation/full/eval.txt": "psnr: 15.625942235867653\nssim: 0.5813448653947673\nlpips: 0.5917049610667681\ntracking s: 0.022431503981351852\ntracking FPS: 44.58015823364258\nrendering ms: 0.6160171627998352\nrendering FPS: 1623.3314208984375\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 15.567653986829272\nssim: 0.5810440669618767\nlpips: 0.6144063143202891\ntracking s: 0.022431503981351852\ntracking FPS: 44.58015823364258\nrendering ms: 0.6160171627998352\nrendering FPS: 1623.3314208984375\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "room/cuda/repeat2",
+      "scene": "room",
+      "backend": "cuda",
+      "repeat": 2,
+      "train": {
+        "exit": 0,
+        "seconds": 65.30317068099976,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/fr1_room.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat2",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 174.61877348646522,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat2",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat2/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 14.87021486857939\nssim: 0.5632688962143554\nlpips: 0.698230433349426\ntracking s: 0.02156597562134266\ntracking FPS: 46.36933898925781\nrendering ms: 0.6114511489868164\nrendering FPS: 1635.45361328125\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 16.296670020684687\nssim: 0.5943847209347423\nlpips: 0.6260694168596226\ntracking s: 0.02156597562134266\ntracking FPS: 46.36933898925781\nrendering ms: 0.6114511489868164\nrendering FPS: 1635.45361328125\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 16.61276134019773\nssim: 0.6025436684577423\nlpips: 0.5927942773470511\ntracking s: 0.02156597562134266\ntracking FPS: 46.36933898925781\nrendering ms: 0.6114511489868164\nrendering FPS: 1635.45361328125\n",
+        "evaluation/full/eval.txt": "psnr: 16.719363256319035\nssim: 0.6043762028570006\nlpips: 0.556814406552082\ntracking s: 0.02156597562134266\ntracking FPS: 46.36933898925781\nrendering ms: 0.6114511489868164\nrendering FPS: 1635.45361328125\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 16.65992939119508\nssim: 0.6036459566617506\nlpips: 0.5831986371008955\ntracking s: 0.02156597562134266\ntracking FPS: 46.36933898925781\nrendering ms: 0.6114511489868164\nrendering FPS: 1635.45361328125\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "room/cuda/repeat3",
+      "scene": "room",
+      "backend": "cuda",
+      "repeat": 3,
+      "train": {
+        "exit": 0,
+        "seconds": 65.10483200103045,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/fr1_room.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat3",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 235.69801100343466,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat3",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/room/cuda/repeat3/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 14.407405260046557\nssim: 0.5555903605852254\nlpips: 0.7043528680485733\ntracking s: 0.021565010771155357\ntracking FPS: 46.37141036987305\nrendering ms: 0.6052459478378296\nrendering FPS: 1652.220947265625\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 15.710109292402775\nssim: 0.5881718583184586\nlpips: 0.6393695963469482\ntracking s: 0.021565010771155357\ntracking FPS: 46.37141036987305\nrendering ms: 0.6052459478378296\nrendering FPS: 1652.220947265625\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 15.906956138695486\nssim: 0.5936570695695087\nlpips: 0.6102006608212488\ntracking s: 0.021565010771155357\ntracking FPS: 46.37141036987305\nrendering ms: 0.6052459478378296\nrendering FPS: 1652.220947265625\n",
+        "evaluation/full/eval.txt": "psnr: 15.928882167889522\nssim: 0.5931405748885411\nlpips: 0.5799455630135607\ntracking s: 0.021565010771155357\ntracking FPS: 46.37141036987305\nrendering ms: 0.6052459478378296\nrendering FPS: 1652.220947265625\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 15.954881485397294\nssim: 0.5941740228359164\nlpips: 0.6009612192769023\ntracking s: 0.021565010771155357\ntracking FPS: 46.37141036987305\nrendering ms: 0.6052459478378296\nrendering FPS: 1652.220947265625\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "desk/legacy/repeat1",
+      "scene": "desk",
+      "backend": "legacy",
+      "repeat": 1,
+      "train": {
+        "exit": 0,
+        "seconds": 33.23550484701991,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat1",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 75.62058603391051,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat1",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat1/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 16.097148515082694\nssim: 0.5980714040028082\nlpips: 0.616569999655759\ntracking s: 0.0265609510242939\ntracking FPS: 37.649253845214844\nrendering ms: 0.659365177154541\nrendering FPS: 1516.6102294921875\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 17.39107362805186\nssim: 0.630560148205306\nlpips: 0.5388569470394302\ntracking s: 0.0265609510242939\ntracking FPS: 37.649253845214844\nrendering ms: 0.659365177154541\nrendering FPS: 1516.6102294921875\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 17.91389774309622\nssim: 0.6474232571954662\nlpips: 0.49775487159353654\ntracking s: 0.0265609510242939\ntracking FPS: 37.649253845214844\nrendering ms: 0.659365177154541\nrendering FPS: 1516.6102294921875\n",
+        "evaluation/full/eval.txt": "psnr: 18.203358542274785\nssim: 0.6580810006204489\nlpips: 0.4539517374658907\ntracking s: 0.0265609510242939\ntracking FPS: 37.649253845214844\nrendering ms: 0.659365177154541\nrendering FPS: 1516.6102294921875\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 18.08223311160062\nssim: 0.6515858150213152\nlpips: 0.4802423231303692\ntracking s: 0.0265609510242939\ntracking FPS: 37.649253845214844\nrendering ms: 0.659365177154541\nrendering FPS: 1516.6102294921875\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "desk/legacy/repeat2",
+      "scene": "desk",
+      "backend": "legacy",
+      "repeat": 2,
+      "train": {
+        "exit": 0,
+        "seconds": 32.38390730321407,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat2",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 75.66664185002446,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat2",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat2/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 16.40883739896723\nssim: 0.5986294302384596\nlpips: 0.5993946639166491\ntracking s: 0.02531375177204609\ntracking FPS: 39.50421905517578\nrendering ms: 0.67289137840271\nrendering FPS: 1486.1239013671875\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 17.629426277972556\nssim: 0.6290747560057286\nlpips: 0.526904465529967\ntracking s: 0.02531375177204609\ntracking FPS: 39.50421905517578\nrendering ms: 0.67289137840271\nrendering FPS: 1486.1239013671875\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 18.054603911734915\nssim: 0.6413972869112685\nlpips: 0.4929951010020198\ntracking s: 0.02531375177204609\ntracking FPS: 39.50421905517578\nrendering ms: 0.67289137840271\nrendering FPS: 1486.1239013671875\n",
+        "evaluation/full/eval.txt": "psnr: 18.213212581905157\nssim: 0.64783919501949\nlpips: 0.45791150080795223\ntracking s: 0.02531375177204609\ntracking FPS: 39.50421905517578\nrendering ms: 0.67289137840271\nrendering FPS: 1486.1239013671875\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 18.114932917259836\nssim: 0.643920329374236\nlpips: 0.481291641002974\ntracking s: 0.02531375177204609\ntracking FPS: 39.50421905517578\nrendering ms: 0.67289137840271\nrendering FPS: 1486.1239013671875\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "desk/legacy/repeat3",
+      "scene": "desk",
+      "backend": "legacy",
+      "repeat": 3,
+      "train": {
+        "exit": 0,
+        "seconds": 33.08556893095374,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat3",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 75.51664239913225,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat3",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/legacy/repeat3/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 15.68823504931218\nssim: 0.5880137262614192\nlpips: 0.6240156472132012\ntracking s: 0.026493718847632408\ntracking FPS: 37.74479675292969\nrendering ms: 0.6731066107749939\nrendering FPS: 1485.6488037109375\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 17.43559952684351\nssim: 0.6298130069028687\nlpips: 0.538734744831517\ntracking s: 0.026493718847632408\ntracking FPS: 37.74479675292969\nrendering ms: 0.6731066107749939\nrendering FPS: 1485.6488037109375\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 17.975624036144566\nssim: 0.6448851936572307\nlpips: 0.49803757435969404\ntracking s: 0.026493718847632408\ntracking FPS: 37.74479675292969\nrendering ms: 0.6731066107749939\nrendering FPS: 1485.6488037109375\n",
+        "evaluation/full/eval.txt": "psnr: 18.15477628804542\nssim: 0.6526729774636191\nlpips: 0.4605439830370046\ntracking s: 0.026493718847632408\ntracking FPS: 37.74479675292969\nrendering ms: 0.6731066107749939\nrendering FPS: 1485.6488037109375\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 18.07764980921874\nssim: 0.6489581383160643\nlpips: 0.4834325908607728\ntracking s: 0.026493718847632408\ntracking FPS: 37.74479675292969\nrendering ms: 0.6731066107749939\nrendering FPS: 1485.6488037109375\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "desk/cuda/repeat1",
+      "scene": "desk",
+      "backend": "cuda",
+      "repeat": 1,
+      "train": {
+        "exit": 0,
+        "seconds": 32.78379451483488,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat1",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 76.52218445017934,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat1",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat1/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 16.030937810201902\nssim: 0.5963828016475246\nlpips: 0.6139052959310042\ntracking s: 0.026063838973641396\ntracking FPS: 38.367332458496094\nrendering ms: 0.6555073261260986\nrendering FPS: 1525.5360107421875\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 17.71033769523775\nssim: 0.6359190648874721\nlpips: 0.5275840115406223\ntracking s: 0.026063838973641396\ntracking FPS: 38.367332458496094\nrendering ms: 0.6555073261260986\nrendering FPS: 1525.5360107421875\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 18.273736581609057\nssim: 0.6536144164164324\nlpips: 0.486095217987895\ntracking s: 0.026063838973641396\ntracking FPS: 38.367332458496094\nrendering ms: 0.6555073261260986\nrendering FPS: 1525.5360107421875\n",
+        "evaluation/full/eval.txt": "psnr: 18.466671713300652\nssim: 0.6635976202181868\nlpips: 0.44418107511828075\ntracking s: 0.026063838973641396\ntracking FPS: 38.367332458496094\nrendering ms: 0.6555073261260986\nrendering FPS: 1525.5360107421875\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 18.37381751150698\nssim: 0.6574967563957781\nlpips: 0.4700294021718405\ntracking s: 0.026063838973641396\ntracking FPS: 38.367332458496094\nrendering ms: 0.6555073261260986\nrendering FPS: 1525.5360107421875\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "desk/cuda/repeat2",
+      "scene": "desk",
+      "backend": "cuda",
+      "repeat": 2,
+      "train": {
+        "exit": 0,
+        "seconds": 32.33327428996563,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat2",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 77.22439346089959,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat2",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat2/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 16.057433806561136\nssim: 0.5945573990308756\nlpips: 0.617355867867937\ntracking s: 0.025356195867061615\ntracking FPS: 39.43809127807617\nrendering ms: 0.6739012002944946\nrendering FPS: 1483.8970947265625\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 17.399310838531804\nssim: 0.6306938668964682\nlpips: 0.5364080735960522\ntracking s: 0.025356195867061615\ntracking FPS: 39.43809127807617\nrendering ms: 0.6739012002944946\nrendering FPS: 1483.8970947265625\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 18.06769078808862\nssim: 0.6496034690455811\nlpips: 0.48941568602379915\ntracking s: 0.025356195867061615\ntracking FPS: 39.43809127807617\nrendering ms: 0.6739012002944946\nrendering FPS: 1483.8970947265625\n",
+        "evaluation/full/eval.txt": "psnr: 18.41590794679281\nssim: 0.6610189267509693\nlpips: 0.4409372350956137\ntracking s: 0.025356195867061615\ntracking FPS: 39.43809127807617\nrendering ms: 0.6739012002944946\nrendering FPS: 1483.8970947265625\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 18.277370565646404\nssim: 0.6554680822064748\nlpips: 0.469212457134917\ntracking s: 0.025356195867061615\ntracking FPS: 39.43809127807617\nrendering ms: 0.6739012002944946\nrendering FPS: 1483.8970947265625\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "desk/cuda/repeat3",
+      "scene": "desk",
+      "backend": "cuda",
+      "repeat": 3,
+      "train": {
+        "exit": 0,
+        "seconds": 111.60921233892441,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg1_desk.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg1_desk.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat3",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 77.58238935470581,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat3",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/desk/cuda/repeat3/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 15.446344779955375\nssim: 0.5788591324880317\nlpips: 0.6280232872310523\ntracking s: 0.025889134034514427\ntracking FPS: 38.626243591308594\nrendering ms: 0.6622077822685242\nrendering FPS: 1510.10009765625\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 17.010833187683208\nssim: 0.6195232521843266\nlpips: 0.5397496443946619\ntracking s: 0.025889134034514427\ntracking FPS: 38.626243591308594\nrendering ms: 0.6622077822685242\nrendering FPS: 1510.10009765625\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 17.76600078956501\nssim: 0.6403852321610257\nlpips: 0.49621478402735414\ntracking s: 0.025889134034514427\ntracking FPS: 38.626243591308594\nrendering ms: 0.6622077822685242\nrendering FPS: 1510.10009765625\n",
+        "evaluation/full/eval.txt": "psnr: 18.117900859665227\nssim: 0.653671666073638\nlpips: 0.4500947978750274\ntracking s: 0.025889134034514427\ntracking FPS: 38.626243591308594\nrendering ms: 0.6622077822685242\nrendering FPS: 1510.10009765625\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 18.028417521231884\nssim: 0.6474960538986567\nlpips: 0.4740045136092482\ntracking s: 0.025889134034514427\ntracking FPS: 38.626243591308594\nrendering ms: 0.6622077822685242\nrendering FPS: 1510.10009765625\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "xyz/legacy/repeat1",
+      "scene": "xyz",
+      "backend": "legacy",
+      "repeat": 1,
+      "train": {
+        "exit": 0,
+        "seconds": 162.17996959015727,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg2_xyz.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg2_xyz.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat1",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 590.0242710486054,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat1",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat1/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.64852078100636\nssim: 0.6007834938139575\nlpips: 0.6269878257293016\ntracking s: 0.031017767265439034\ntracking FPS: 32.239585876464844\nrendering ms: 0.9021563529968262\nrendering FPS: 1108.455322265625\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 19.411044126684118\nssim: 0.645309644690113\nlpips: 0.49073855732867816\ntracking s: 0.031017767265439034\ntracking FPS: 32.239585876464844\nrendering ms: 0.9021563529968262\nrendering FPS: 1108.455322265625\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 20.304098631516602\nssim: 0.6694718909010945\nlpips: 0.4214343288153945\ntracking s: 0.031017767265439034\ntracking FPS: 32.239585876464844\nrendering ms: 0.9021563529968262\nrendering FPS: 1108.455322265625\n",
+        "evaluation/full/eval.txt": "psnr: 21.445897384499816\nssim: 0.7134805446096403\nlpips: 0.30302968582652196\ntracking s: 0.031017767265439034\ntracking FPS: 32.239585876464844\nrendering ms: 0.9021563529968262\nrendering FPS: 1108.455322265625\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 20.481505340922045\nssim: 0.6754272091132527\nlpips: 0.4039938713667636\ntracking s: 0.031017767265439034\ntracking FPS: 32.239585876464844\nrendering ms: 0.9021563529968262\nrendering FPS: 1108.455322265625\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "xyz/legacy/repeat2",
+      "scene": "xyz",
+      "backend": "legacy",
+      "repeat": 2,
+      "train": {
+        "exit": 0,
+        "seconds": 158.0516579374671,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg2_xyz.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg2_xyz.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat2",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 588.5058427266777,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat2",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat2/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.759592352455282\nssim: 0.6025589918928845\nlpips: 0.629596322432735\ntracking s: 0.030664820224046707\ntracking FPS: 32.610660552978516\nrendering ms: 0.8783468008041382\nrendering FPS: 1138.50244140625\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 19.42930507126506\nssim: 0.6433456229538927\nlpips: 0.48705866052046715\ntracking s: 0.030664820224046707\ntracking FPS: 32.610660552978516\nrendering ms: 0.8783468008041382\nrendering FPS: 1138.50244140625\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 20.512326264402464\nssim: 0.6752732862505381\nlpips: 0.409397603713101\ntracking s: 0.030664820224046707\ntracking FPS: 32.610660552978516\nrendering ms: 0.8783468008041382\nrendering FPS: 1138.50244140625\n",
+        "evaluation/full/eval.txt": "psnr: 21.647025626864473\nssim: 0.7196387409251473\nlpips: 0.2881459413485068\ntracking s: 0.030664820224046707\ntracking FPS: 32.610660552978516\nrendering ms: 0.8783468008041382\nrendering FPS: 1138.50244140625\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 20.72468552324117\nssim: 0.6831755640929961\nlpips: 0.389203219781176\ntracking s: 0.030664820224046707\ntracking FPS: 32.610660552978516\nrendering ms: 0.8783468008041382\nrendering FPS: 1138.50244140625\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "xyz/legacy/repeat3",
+      "scene": "xyz",
+      "backend": "legacy",
+      "repeat": 3,
+      "train": {
+        "exit": 0,
+        "seconds": 163.038947686553,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg2_xyz.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg2_xyz.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat3",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 589.3186879232526,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat3",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/legacy/repeat3/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.634272120298622\nssim: 0.6002177923329971\nlpips: 0.6605525970774817\ntracking s: 0.031433235853910446\ntracking FPS: 31.813459396362305\nrendering ms: 0.8743611574172974\nrendering FPS: 1143.692138671875\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 19.0545328219989\nssim: 0.6362614692362891\nlpips: 0.5090542097441898\ntracking s: 0.031433235853910446\ntracking FPS: 31.813459396362305\nrendering ms: 0.8743611574172974\nrendering FPS: 1143.692138671875\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 20.039714707393383\nssim: 0.6651349562317054\nlpips: 0.43030169939587737\ntracking s: 0.031433235853910446\ntracking FPS: 31.813459396362305\nrendering ms: 0.8743611574172974\nrendering FPS: 1143.692138671875\n",
+        "evaluation/full/eval.txt": "psnr: 21.186293173018786\nssim: 0.7090764793536928\nlpips: 0.30665783206873304\ntracking s: 0.031433235853910446\ntracking FPS: 31.813459396362305\nrendering ms: 0.8743611574172974\nrendering FPS: 1143.692138671875\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 20.389242725860804\nssim: 0.6757432484507455\nlpips: 0.4011398204677695\ntracking s: 0.031433235853910446\ntracking FPS: 31.813459396362305\nrendering ms: 0.8743611574172974\nrendering FPS: 1143.692138671875\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "xyz/cuda/repeat1",
+      "scene": "xyz",
+      "backend": "cuda",
+      "repeat": 1,
+      "train": {
+        "exit": 0,
+        "seconds": 161.77979458495975,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg2_xyz.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg2_xyz.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat1",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 588.761853646487,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat1",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat1/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.50978946882309\nssim: 0.5976443779549249\nlpips: 0.6423356729568648\ntracking s: 0.031009724363684654\ntracking FPS: 32.247947692871094\nrendering ms: 0.9129313826560974\nrendering FPS: 1095.37255859375\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 19.21058691225229\nssim: 0.6373798886502109\nlpips: 0.509648142376471\ntracking s: 0.031009724363684654\ntracking FPS: 32.247947692871094\nrendering ms: 0.9129313826560974\nrendering FPS: 1095.37255859375\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 20.395006524558486\nssim: 0.6689777159852283\nlpips: 0.41339719055117946\ntracking s: 0.031009724363684654\ntracking FPS: 32.247947692871094\nrendering ms: 0.9129313826560974\nrendering FPS: 1095.37255859375\n",
+        "evaluation/full/eval.txt": "psnr: 21.543032748649356\nssim: 0.7151928940414505\nlpips: 0.29529397701967947\ntracking s: 0.031009724363684654\ntracking FPS: 32.247947692871094\nrendering ms: 0.9129313826560974\nrendering FPS: 1095.37255859375\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 20.6516709213998\nssim: 0.6794102501616536\nlpips: 0.38499684100611475\ntracking s: 0.031009724363684654\ntracking FPS: 32.247947692871094\nrendering ms: 0.9129313826560974\nrendering FPS: 1095.37255859375\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "xyz/cuda/repeat2",
+      "scene": "xyz",
+      "backend": "cuda",
+      "repeat": 2,
+      "train": {
+        "exit": 0,
+        "seconds": 158.09270266070962,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg2_xyz.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg2_xyz.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat2",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 590.0199410878122,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat2",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat2/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.33149041559614\nssim: 0.5980225615653003\nlpips: 0.6664440764340717\ntracking s: 0.030452976003289223\ntracking FPS: 32.8375129699707\nrendering ms: 0.9527932405471802\nrendering FPS: 1049.545654296875\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 18.50979771556523\nssim: 0.6243598611347108\nlpips: 0.5454651965686493\ntracking s: 0.030452976003289223\ntracking FPS: 32.8375129699707\nrendering ms: 0.9527932405471802\nrendering FPS: 1049.545654296875\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 19.70936815634102\nssim: 0.6541294640641301\nlpips: 0.45129798665480436\ntracking s: 0.030452976003289223\ntracking FPS: 32.8375129699707\nrendering ms: 0.9527932405471802\nrendering FPS: 1049.545654296875\n",
+        "evaluation/full/eval.txt": "psnr: 20.876367101256623\nssim: 0.7011297001254745\nlpips: 0.32205017457157153\ntracking s: 0.030452976003289223\ntracking FPS: 32.8375129699707\nrendering ms: 0.9527932405471802\nrendering FPS: 1049.545654296875\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 19.965237011374676\nssim: 0.6617514591445844\nlpips: 0.43455612539262467\ntracking s: 0.030452976003289223\ntracking FPS: 32.8375129699707\nrendering ms: 0.9527932405471802\nrendering FPS: 1049.545654296875\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "xyz/cuda/repeat3",
+      "scene": "xyz",
+      "backend": "cuda",
+      "repeat": 3,
+      "train": {
+        "exit": 0,
+        "seconds": 158.10487476736307,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg2_xyz.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg2_xyz.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat3",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 587.5561824254692,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat3",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/xyz/cuda/repeat3/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.298036777169557\nssim: 0.5964401660331881\nlpips: 0.6088573401522419\ntracking s: 0.03047666698694229\ntracking FPS: 32.811988830566406\nrendering ms: 0.9246308207511902\nrendering FPS: 1081.5126953125\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 17.676891288162157\nssim: 0.6362121525777941\nlpips: 0.47402933582088896\ntracking s: 0.03047666698694229\ntracking FPS: 32.811988830566406\nrendering ms: 0.9246308207511902\nrendering FPS: 1081.5126953125\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 18.27911213590427\nssim: 0.6595275705268462\nlpips: 0.41668664520370075\ntracking s: 0.03047666698694229\ntracking FPS: 32.811988830566406\nrendering ms: 0.9246308207511902\nrendering FPS: 1081.5126953125\n",
+        "evaluation/full/eval.txt": "psnr: 19.474453675104726\nssim: 0.7042411616664793\nlpips: 0.2993497497278485\ntracking s: 0.03047666698694229\ntracking FPS: 32.811988830566406\nrendering ms: 0.9246308207511902\nrendering FPS: 1081.5126953125\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 18.3651574987996\nssim: 0.6640670528333258\nlpips: 0.40129180870619036\ntracking s: 0.03047666698694229\ntracking FPS: 32.811988830566406\nrendering ms: 0.9246308207511902\nrendering FPS: 1081.5126953125\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "long/legacy/repeat1",
+      "scene": "long",
+      "backend": "legacy",
+      "repeat": 1,
+      "train": {
+        "exit": 0,
+        "seconds": 128.76197927072644,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat1",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 383.14547930285335,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat1",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat1/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.675894965518776\nssim: 0.6426179810973333\nlpips: 0.5820188701389798\ntracking s: 0.03728674352169037\ntracking FPS: 26.819183349609375\nrendering ms: 0.9173800349235535\nrendering FPS: 1090.060791015625\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 19.32856364657817\nssim: 0.6828585387935221\nlpips: 0.4080119304699642\ntracking s: 0.03728674352169037\ntracking FPS: 26.819183349609375\nrendering ms: 0.9173800349235535\nrendering FPS: 1090.060791015625\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 19.69087194021843\nssim: 0.6952886733454217\nlpips: 0.3508853785264089\ntracking s: 0.03728674352169037\ntracking FPS: 26.819183349609375\nrendering ms: 0.9173800349235535\nrendering FPS: 1090.060791015625\n",
+        "evaluation/full/eval.txt": "psnr: 19.989620211015403\nssim: 0.706603068741368\nlpips: 0.30745966771013933\ntracking s: 0.03728674352169037\ntracking FPS: 26.819183349609375\nrendering ms: 0.9173800349235535\nrendering FPS: 1090.060791015625\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 19.766217085760584\nssim: 0.6984183543482073\nlpips: 0.3373941479513707\ntracking s: 0.03728674352169037\ntracking FPS: 26.819183349609375\nrendering ms: 0.9173800349235535\nrendering FPS: 1090.060791015625\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "long/legacy/repeat2",
+      "scene": "long",
+      "backend": "legacy",
+      "repeat": 2,
+      "train": {
+        "exit": 0,
+        "seconds": 129.75362350791693,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat2",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 381.4396001622081,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat2",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat2/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 18.012209212377105\nssim: 0.6520746148841281\nlpips: 0.5723671824747241\ntracking s: 0.03786743804812431\ntracking FPS: 26.407913208007812\nrendering ms: 0.915141224861145\nrendering FPS: 1092.7275390625\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 20.48371709213105\nssim: 0.715274057639522\nlpips: 0.39545834377319156\ntracking s: 0.03786743804812431\ntracking FPS: 26.407913208007812\nrendering ms: 0.915141224861145\nrendering FPS: 1092.7275390625\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 21.3655294346288\nssim: 0.7447434491002062\nlpips: 0.32077070397008245\ntracking s: 0.03786743804812431\ntracking FPS: 26.407913208007812\nrendering ms: 0.915141224861145\nrendering FPS: 1092.7275390625\n",
+        "evaluation/full/eval.txt": "psnr: 21.797907343536437\nssim: 0.7650621862582137\nlpips: 0.26760542111297253\ntracking s: 0.03786743804812431\ntracking FPS: 26.407913208007812\nrendering ms: 0.915141224861145\nrendering FPS: 1092.7275390625\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 21.54183792432781\nssim: 0.7518482365854692\nlpips: 0.302978516181942\ntracking s: 0.03786743804812431\ntracking FPS: 26.407913208007812\nrendering ms: 0.915141224861145\nrendering FPS: 1092.7275390625\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "long/legacy/repeat3",
+      "scene": "long",
+      "backend": "legacy",
+      "repeat": 3,
+      "train": {
+        "exit": 0,
+        "seconds": 128.74914586544037,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat3",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/legacy.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 382.50093245878816,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat3",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/legacy/repeat3/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.914179577078546\nssim: 0.6512447648920549\nlpips: 0.5741522814123105\ntracking s: 0.0376514308154583\ntracking FPS: 26.559415817260742\nrendering ms: 0.9143767952919006\nrendering FPS: 1093.6409912109375\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 19.86329339029301\nssim: 0.6999262091416725\nlpips: 0.4052268622646749\ntracking s: 0.0376514308154583\ntracking FPS: 26.559415817260742\nrendering ms: 0.9143767952919006\nrendering FPS: 1093.6409912109375\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 20.522176214714886\nssim: 0.7197049497136064\nlpips: 0.33609619055898715\ntracking s: 0.0376514308154583\ntracking FPS: 26.559415817260742\nrendering ms: 0.9143767952919006\nrendering FPS: 1093.6409912109375\n",
+        "evaluation/full/eval.txt": "psnr: 20.670905869713362\nssim: 0.7292975530235716\nlpips: 0.2862791973008787\ntracking s: 0.0376514308154583\ntracking FPS: 26.559415817260742\nrendering ms: 0.9143767952919006\nrendering FPS: 1093.6409912109375\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 20.63030712021511\nssim: 0.724226623619527\nlpips: 0.31789270779247547\ntracking s: 0.0376514308154583\ntracking FPS: 26.559415817260742\nrendering ms: 0.9143767952919006\nrendering FPS: 1093.6409912109375\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "long/cuda/repeat1",
+      "scene": "long",
+      "backend": "cuda",
+      "repeat": 1,
+      "train": {
+        "exit": 0,
+        "seconds": 129.10224379971623,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat1",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 380.98991683870554,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat1",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat1/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.682017289952302\nssim: 0.6467907311428138\nlpips: 0.5946095099861531\ntracking s: 0.03778710216283798\ntracking FPS: 26.46405601501465\nrendering ms: 0.9194693565368652\nrendering FPS: 1087.5838623046875\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 19.71428478081705\nssim: 0.6944399646214889\nlpips: 0.4205394515578837\ntracking s: 0.03778710216283798\ntracking FPS: 26.46405601501465\nrendering ms: 0.9194693565368652\nrendering FPS: 1087.5838623046875\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 20.297413690616313\nssim: 0.7147809402843119\nlpips: 0.34944580670142505\ntracking s: 0.03778710216283798\ntracking FPS: 26.46405601501465\nrendering ms: 0.9194693565368652\nrendering FPS: 1087.5838623046875\n",
+        "evaluation/full/eval.txt": "psnr: 20.56548472607349\nssim: 0.7273214445910444\nlpips: 0.29013005509291206\ntracking s: 0.03778710216283798\ntracking FPS: 26.46405601501465\nrendering ms: 0.9194693565368652\nrendering FPS: 1087.5838623046875\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 20.368469189744346\nssim: 0.7185456421455854\nlpips: 0.33113834814096305\ntracking s: 0.03778710216283798\ntracking FPS: 26.46405601501465\nrendering ms: 0.9194693565368652\nrendering FPS: 1087.5838623046875\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "long/cuda/repeat2",
+      "scene": "long",
+      "backend": "cuda",
+      "repeat": 2,
+      "train": {
+        "exit": 0,
+        "seconds": 130.2029571533203,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat2",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 382.99077719822526,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat2",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat2/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.769881779725697\nssim: 0.6437277680362906\nlpips: 0.5823941832389794\ntracking s: 0.03817356750369072\ntracking FPS: 26.196136474609375\nrendering ms: 0.9183188080787659\nrendering FPS: 1088.9464111328125\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 19.507220578809857\nssim: 0.6860370403492664\nlpips: 0.4142794591295079\ntracking s: 0.03817356750369072\ntracking FPS: 26.196136474609375\nrendering ms: 0.9183188080787659\nrendering FPS: 1088.9464111328125\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 19.963450589568666\nssim: 0.6993970496991045\nlpips: 0.35194709694409226\ntracking s: 0.03817356750369072\ntracking FPS: 26.196136474609375\nrendering ms: 0.9183188080787659\nrendering FPS: 1088.9464111328125\n",
+        "evaluation/full/eval.txt": "psnr: 20.09574089467407\nssim: 0.70575914423224\nlpips: 0.3039315480361165\ntracking s: 0.03817356750369072\ntracking FPS: 26.196136474609375\nrendering ms: 0.9183188080787659\nrendering FPS: 1088.9464111328125\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 20.003546578651868\nssim: 0.7013186199527611\nlpips: 0.3365282420372631\ntracking s: 0.03817356750369072\ntracking FPS: 26.196136474609375\nrendering ms: 0.9183188080787659\nrendering FPS: 1088.9464111328125\n"
+      },
+      "complete": true
+    },
+    {
+      "name": "long/cuda/repeat3",
+      "scene": "long",
+      "backend": "cuda",
+      "repeat": 3,
+      "train": {
+        "exit": 0,
+        "seconds": 129.70195086300373,
+        "command": [
+          "/home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online",
+          "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "/home/prmi/zwj/selector-cuda-20261015/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat3",
+          "no_viewer",
+          "--selector-config",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/cuda.yaml"
+        ]
+      },
+      "evaluation": {
+        "exit": 0,
+        "seconds": 384.1542859375477,
+        "command": [
+          "/home/prmi/anaconda3/envs/zwj/bin/python",
+          "/home/prmi/zwj/selector-cuda-20261015/python/eval_lod.py",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat3",
+          "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+          "--output",
+          "/home/prmi/zwj/selector-cuda-20261015/results/selector_online_ab_final_20261015/long/cuda/repeat3/evaluation",
+          "--run-script",
+          "/home/prmi/zwj/selector-cuda-20261015/python/selector_acceptance_eval.py"
+        ]
+      },
+      "metrics": {
+        "evaluation/ratio_0p01/eval.txt": "psnr: 17.360831962949476\nssim: 0.6427263590023958\nlpips: 0.5876695528656066\ntracking s: 0.038077905774116516\ntracking FPS: 26.261947631835938\nrendering ms: 0.8832089900970459\nrendering FPS: 1132.23486328125\n",
+        "evaluation/ratio_0p05/eval.txt": "psnr: 18.910256271286467\nssim: 0.6859820670446392\nlpips: 0.41782542552436086\ntracking s: 0.038077905774116516\ntracking FPS: 26.261947631835938\nrendering ms: 0.8832089900970459\nrendering FPS: 1132.23486328125\n",
+        "evaluation/ratio_0p1/eval.txt": "psnr: 19.252769564255093\nssim: 0.6998272690573933\nlpips: 0.35470631448459433\ntracking s: 0.038077905774116516\ntracking FPS: 26.261947631835938\nrendering ms: 0.8832089900970459\nrendering FPS: 1132.23486328125\n",
+        "evaluation/full/eval.txt": "psnr: 19.52904340656804\nssim: 0.7133088998244723\nlpips: 0.3017840338926429\ntracking s: 0.038077905774116516\ntracking FPS: 26.261947631835938\nrendering ms: 0.8832089900970459\nrendering FPS: 1132.23486328125\n",
+        "evaluation/ratio_0p15/eval.txt": "psnr: 19.303884295014218\nssim: 0.7029766253164227\nlpips: 0.33951846398487245\ntracking s: 0.038077905774116516\ntracking FPS: 26.261947631835938\nrendering ms: 0.8832089900970459\nrendering FPS: 1132.23486328125\n"
+      },
+      "complete": true
+    }
+  ],
+  "scope": "Unmodified online Mapping until SLAM shutdown; same inherited online-only driver for both backends; no post-SLAM tail.",
+  "source_config_sha256": "efaeac4bb6a79c250913811e4403cb5f8701b9e5ffb5a9886f81e1e06d2a5422",
+  "binary_sha256": "c39834847a114e8b206b0274bd9d84c0eb72c103ed447c1aa94321d8dfc4476e",
+  "mapper_library_sha256": "b966266926989712568b181dbd9237d681d9512d09495e3d3d9e19f3b51d2302",
+  "active": null,
+  "complete": true
+}

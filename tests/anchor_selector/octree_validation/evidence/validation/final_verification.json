@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "source_files": 51,
+  "mapping_regression_after_null_guard": true,
+  "quality_uses_identical_enabled_selector_path": true
+}

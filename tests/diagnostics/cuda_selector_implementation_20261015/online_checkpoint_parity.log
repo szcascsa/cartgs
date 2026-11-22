@@ -1,0 +1,25 @@
+room/legacy/repeat1 actual checkpoint inference parity complete
+room/legacy/repeat2 actual checkpoint inference parity complete
+room/legacy/repeat3 actual checkpoint inference parity complete
+room/cuda/repeat1 actual checkpoint inference parity complete
+room/cuda/repeat2 actual checkpoint inference parity complete
+room/cuda/repeat3 actual checkpoint inference parity complete
+desk/legacy/repeat1 actual checkpoint inference parity complete
+desk/legacy/repeat2 actual checkpoint inference parity complete
+desk/legacy/repeat3 actual checkpoint inference parity complete
+desk/cuda/repeat1 actual checkpoint inference parity complete
+desk/cuda/repeat2 actual checkpoint inference parity complete
+desk/cuda/repeat3 actual checkpoint inference parity complete
+xyz/legacy/repeat1 actual checkpoint inference parity complete
+xyz/legacy/repeat2 actual checkpoint inference parity complete
+xyz/legacy/repeat3 actual checkpoint inference parity complete
+xyz/cuda/repeat1 actual checkpoint inference parity complete
+xyz/cuda/repeat2 actual checkpoint inference parity complete
+xyz/cuda/repeat3 actual checkpoint inference parity complete
+long/legacy/repeat1 actual checkpoint inference parity complete
+long/legacy/repeat2 actual checkpoint inference parity complete
+long/legacy/repeat3 actual checkpoint inference parity complete
+long/cuda/repeat1 actual checkpoint inference parity complete
+long/cuda/repeat2 actual checkpoint inference parity complete
+long/cuda/repeat3 actual checkpoint inference parity complete
+Actual online checkpoints: 24; failures=2

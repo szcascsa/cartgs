@@ -1,0 +1,31 @@
+{
+  "tier": "frozen_same_seed_repeat",
+  "scene": "fr1_xyz",
+  "jobs": [
+    {
+      "config": {
+        "id": "FrozenBaseHead8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7200,
+      "steps": 12000,
+      "route": "continue"
+    },
+    {
+      "config": {
+        "id": "FrozenBaseGlobalHead8",
+        "feature": "global",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7200,
+      "steps": 12000,
+      "route": "continue"
+    }
+  ],
+  "decision": "same seed repeat motivated by joint paired Bank gain reversing; retain all repeats"
+}

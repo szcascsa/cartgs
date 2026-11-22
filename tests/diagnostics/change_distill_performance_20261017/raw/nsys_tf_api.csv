@@ -1,0 +1,9 @@
+api,calls,total_cpu_us,average_cpu_us
+cudaLaunchKernel_v7000,47859,198226.464,4.141884786560521
+cudaMemcpyAsync_v3020,7979,68136.315,8.539455445544554
+cudaStreamSynchronize_v3020,3579,10992.627,3.0714241408214584
+cudaOccupancyMaxActiveBlocksPerMultiprocessor_v6050,888,838.505,0.9442623873873874
+cudaMemsetAsync_v3020,20,47.396,2.3698
+cudaEventRecord_v3020,2,31.377,15.6885
+cudaEventSynchronize_v3020,1,8.492,8.492
+cudaEventDestroy_v3020,2,1.55,0.775

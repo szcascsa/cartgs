@@ -1785,6 +1785,7 @@ void Tracking::ResetFrameIMU() {
 }
 
 void Tracking::Track() {
+  GIAssociationState::TrackingScope gi_tracking_scope;
   if (bStepByStep) {
     std::cout << "Tracking: Waiting to the next step" << std::endl;
     while (!mbStep && bStepByStep) usleep(500);
@@ -1870,7 +1871,12 @@ void Tracking::Track() {
   mbCreatedMap = false;
 
   // Get Map Mutex -> Map cannot be changed
+  const auto map_lock_start = std::chrono::steady_clock::now();
   unique_lock<mutex> lock(pCurrentMap->mMutexMapUpdate);
+  pCurrentMap->tracking_map_wait_ns.fetch_add(
+      std::chrono::duration_cast<std::chrono::nanoseconds>(
+          std::chrono::steady_clock::now() - map_lock_start).count(), std::memory_order_relaxed);
+  pCurrentMap->tracking_map_lock_count.fetch_add(1, std::memory_order_relaxed);
 
   mbMapUpdated = false;
 

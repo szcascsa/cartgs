@@ -1,0 +1,690 @@
+--- a/python/deployment_candidates.cu
++++ b/python/deployment_candidates.cu
+@@ -0,0 +1,79 @@
++#include <torch/extension.h>
++#include <cub/cub.cuh>
++#include <c10/cuda/CUDAGuard.h>
++#include <c10/cuda/CUDAException.h>
++#include <c10/cuda/CUDAStream.h>
++
++namespace {
++struct AnchorCounts {int64_t visible,eligible;};
++struct AddCounts {
++  __device__ AnchorCounts operator()(AnchorCounts a,AnchorCounts b) const {
++    return {a.visible+b.visible,a.eligible+b.eligible};
++  }
++};
++struct VisibleRow {
++  const bool* visible;const int64_t* owners;
++  __device__ bool operator()(int64_t row) const {return visible[owners[row]];}
++};
++
++__global__ void testAndCount(int64_t n,const float* distance,const float* planes,const float* scales,
++    const bool* occupied,const int64_t* eligible,bool* output,AnchorCounts* partial) {
++  const int64_t i=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
++  bool visible=i<n && occupied[i];
++  if(i<n) {
++    for(int p=0;p<6;++p) {
++      float norm=__fadd_rn(__fadd_rn(fabsf(planes[p*4]),fabsf(planes[p*4+2])),fabsf(planes[p*4+1]));
++      float radius=__fmul_rn(__fmul_rn(scales[i],.5f),norm);
++      float d=__fadd_rn(distance[i*6+p],planes[p*4+3]);
++      visible=visible && __fadd_rn(d,radius)>=0.f;
++    }
++    output[i]=visible;
++  }
++  using Reduce=cub::BlockReduce<AnchorCounts,256>;
++  __shared__ typename Reduce::TempStorage temp;
++  const auto sum=Reduce(temp).Reduce(AnchorCounts{int64_t(visible),visible?eligible[i]:0},AddCounts());
++  if(!threadIdx.x)partial[blockIdx.x]=sum;
++}
++
++__global__ void finishCounts(int n,const AnchorCounts* partial,int64_t* counts) {
++  AnchorCounts value{0,0};
++  for(int i=threadIdx.x;i<n;i+=blockDim.x)value=AddCounts()(value,partial[i]);
++  using Reduce=cub::BlockReduce<AnchorCounts,128>;
++  __shared__ typename Reduce::TempStorage temp;
++  const auto sum=Reduce(temp).Reduce(value,AddCounts());
++  if(!threadIdx.x){counts[1]=sum.visible;counts[2]=sum.eligible;}
++}
++}
++
++std::vector<torch::Tensor> deployment_fused_candidates(const torch::Tensor& distance,const torch::Tensor& planes,
++    const torch::Tensor& scales,const torch::Tensor& occupied,const torch::Tensor& owners,
++    const torch::Tensor& eligible,const torch::Tensor& rows,const torch::Tensor& counts,
++    const torch::Tensor& workspace,const torch::Tensor& partial) {
++  c10::cuda::CUDAGuard guard(distance.device());
++  const int64_t anchors=scales.numel(),blocks=(anchors+255)/256;
++  TORCH_CHECK(partial.scalar_type()==at::kLong && partial.numel()>=blocks*2 && counts.numel()==3 &&
++      eligible.numel()==anchors && distance.is_contiguous() && distance.sizes()==at::IntArrayRef({anchors,6}),
++      "Fused deployment candidate workspace");
++  auto visible=torch::empty({anchors},occupied.options());
++  const auto stream=c10::cuda::getCurrentCUDAStream();
++  if(anchors)testAndCount<<<blocks,256,0,stream>>>(anchors,distance.data_ptr<float>(),planes.data_ptr<float>(),
++      scales.data_ptr<float>(),occupied.data_ptr<bool>(),eligible.data_ptr<int64_t>(),visible.data_ptr<bool>(),
++      reinterpret_cast<AnchorCounts*>(partial.data_ptr<int64_t>()));
++  auto temporary=workspace;
++  if(owners.numel()) {
++    cub::CountingInputIterator<int64_t> input(0);
++    VisibleRow predicate{visible.data_ptr<bool>(),owners.data_ptr<int64_t>()};
++    size_t bytes=0;
++    C10_CUDA_CHECK(cub::DeviceSelect::If(nullptr,bytes,input,rows.data_ptr<int64_t>(),counts.data_ptr<int64_t>(),int(owners.numel()),predicate,stream));
++    if(temporary.numel()<int64_t(bytes))temporary=torch::empty({int64_t(bytes)},workspace.options());
++    C10_CUDA_CHECK(cub::DeviceSelect::If(temporary.data_ptr(),bytes,input,rows.data_ptr<int64_t>(),counts.data_ptr<int64_t>(),int(owners.numel()),predicate,stream));
++  } else C10_CUDA_CHECK(cudaMemsetAsync(counts.data_ptr<int64_t>(),0,sizeof(int64_t),stream));
++  C10_CUDA_KERNEL_LAUNCH_CHECK();
++  return {visible,temporary};
++}
++
++void deployment_finish_counts(const torch::Tensor& partial,const torch::Tensor& counts) {
++  finishCounts<<<1,128,0,c10::cuda::getCurrentCUDAStream()>>>(partial.numel()/2,
++      reinterpret_cast<const AnchorCounts*>(partial.data_ptr<int64_t>()),counts.data_ptr<int64_t>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();
++}
+--- a/python/deployment_prepare.cpp
++++ b/python/deployment_prepare.cpp
+@@ -21,7 +21,12 @@
+     const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,
+     const std::vector<torch::Tensor>&,const torch::Tensor&,const std::vector<torch::Tensor>&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,double,double,int64_t,bool,bool,bool,int64_t,
+-    bool,const std::vector<torch::Tensor>&,bool,bool,const torch::Tensor&);
++    bool,const std::vector<torch::Tensor>&,bool,bool,const torch::Tensor&,bool,bool);
++std::vector<torch::Tensor> deployment_fused_candidates(const torch::Tensor&,const torch::Tensor&,
++    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
++    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
++void deployment_frame_controls_fused(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
++    const DeploymentKnots&,const torch::Tensor&,const torch::Tensor&,int64_t,double,bool);
+ void deployment_frame_controls_request(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     const DeploymentKnots&,const torch::Tensor&);
+ void deployment_upload_request(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,int64_t,
+@@ -88,6 +93,9 @@
+   bool selector_tiled_=true;
+   bool saturated_selection_=true;
+   bool graph_enabled_=false;
++  bool unroll_compensation_=false;
++  bool fused_selection_=false,fused_candidates_=false;
++  torch::Tensor anchor_partials_;
+   struct GraphPlan {
+     int64_t capacity;
+     bool local,compensation;
+@@ -109,14 +117,21 @@
+     auto center=plan.camera.slice(0,32,35);
+     plan.planes=frustum_planes(pm);
+     plan.distance=at::matmul(state_[0],plan.planes.slice(1,0,3).t());
+-    plan.visible=frustum_test(plan.distance,plan.planes,state_[1],state_[2]);
+-    auto candidates=visible_candidates(plan.visible,state_[3],state_[4],rows_,counts_,candidate_workspace_);
+-    candidate_workspace_=candidates[2];
+-    deployment_frame_controls_request(counts_,plan.buffers[0],plan.buffers[7],control_knots_,plan.request);
++    if(fused_candidates_) {
++      auto candidates=deployment_fused_candidates(plan.distance,plan.planes,state_[1],state_[2],state_[3],state_[4],
++          rows_,counts_,candidate_workspace_,anchor_partials_);
++      plan.visible=candidates[0];candidate_workspace_=candidates[1];
++      deployment_frame_controls_fused(counts_,plan.buffers[0],plan.buffers[7],control_knots_,anchor_partials_,plan.request,0,0.,false);
++    } else {
++      plan.visible=frustum_test(plan.distance,plan.planes,state_[1],state_[2]);
++      auto candidates=visible_candidates(plan.visible,state_[3],state_[4],rows_,counts_,candidate_workspace_);
++      candidate_workspace_=candidates[2];
++      deployment_frame_controls_request(counts_,plan.buffers[0],plan.buffers[7],control_knots_,plan.request);
++    }
+     deployment_device_forward(state_,selector_,compensator_,tables_,master_,base_,view_weight_,plan.buffers,
+         vm,pm,center,1.,1.,schema_,softplus_,plan.local,plan.compensation,
+         plan.capacity>1024?compensation_tile_:0,shrinking_radix_ && total_>=4096,radix_,selector_tiled_,
+-        saturated_selection_,plan.request);
++        saturated_selection_,plan.request,unroll_compensation_,fused_selection_);
+   }
+ 
+   Prepared prepare_graph(const torch::Tensor& vm,const torch::Tensor& pm,const torch::Tensor& center,
+@@ -222,6 +237,7 @@
+     control_knots_.log_lo=std::log(bounds[0]);control_knots_.log_span=std::log(bounds[1])-control_knots_.log_lo;
+     c10::cuda::CUDAGuard guard(state_[3].device());
+     rows_=torch::empty_like(state_[3]);counts_=torch::empty({3},state_[3].options());
++    anchor_partials_=torch::empty({2*((state_[0].size(0)+255)/256)},state_[3].options());
+     candidate_workspace_=torch::empty({0},state_[3].options().dtype(at::kByte));
+     empty_=torch::empty({0},state_[0].options());
+     const auto floats=state_[0].options(),ints=state_[3].options().dtype(at::kInt);
+@@ -264,13 +280,21 @@
+     const auto start=std::chrono::steady_clock::now();
+     auto planes=frustum_planes(pm);
+     auto distance=at::matmul(state_[0],planes.slice(1,0,3).t());
+-    auto visible=frustum_test(distance,planes,state_[1],state_[2]);
+-    auto candidates=visible_candidates(visible,state_[3],state_[4],rows_,counts_,candidate_workspace_);
+-    candidate_workspace_=candidates[2];
++    if(fused_candidates_) {
++      auto candidates=deployment_fused_candidates(distance,planes,state_[1],state_[2],state_[3],state_[4],
++          rows_,counts_,candidate_workspace_,anchor_partials_);
++      candidate_workspace_=candidates[1];
++    } else {
++      auto visible=frustum_test(distance,planes,state_[1],state_[2]);
++      auto candidates=visible_candidates(visible,state_[3],state_[4],rows_,counts_,candidate_workspace_);
++      candidate_workspace_=candidates[2];
++    }
+     const int64_t capacity=use_ratio?int64_t(std::floor(requested_ratio*total_)):std::min(requested_budget,total_);
+     buffers_[5]=torch::empty({capacity},rows_.options());
+     buffers_[6]=torch::empty({capacity*width_},state_[0].options());
+-    deployment_frame_controls(counts_,buffers_[0],buffers_[7],control_knots_,requested_budget,requested_ratio,use_ratio);
++    if(fused_candidates_)deployment_frame_controls_fused(counts_,buffers_[0],buffers_[7],control_knots_,anchor_partials_,
++        torch::Tensor(),requested_budget,requested_ratio,use_ratio);
++    else deployment_frame_controls(counts_,buffers_[0],buffers_[7],control_knots_,requested_budget,requested_ratio,use_ratio);
+     if(capacity) {
+       auto center=(local && schema_!=1)?camera.contiguous():camera;
+       TORCH_CHECK(!local || schema_==1 || (camera.device()==state_[0].device() && camera.scalar_type()==at::kFloat &&
+@@ -279,7 +303,7 @@
+       deployment_device_forward(state_,selector_,compensator_,tables_,master_,base_,view_weight_,buffers_,
+           vm,pm,center,double(width)/height,near,schema_,softplus_,local,compensation,
+           capacity>=1024?compensation_tile_:0,shrinking_radix_ && total_>=4096,radix_,selector_tiled_,
+-          saturated_selection_,torch::Tensor());
++          saturated_selection_,torch::Tensor(),unroll_compensation_,fused_selection_);
+     }
+     readback(buffers_[0],host_control_);
+     const auto& frame=*reinterpret_cast<const DeploymentFrame*>(host_control_.data_ptr<uint8_t>());
+@@ -394,6 +418,11 @@
+     if(!enabled)graphs_.clear();
+   }
+ 
++  void kernel_options(bool unroll_compensation,bool fused_selection,bool fused_candidates) {
++    graphs_.clear();unroll_compensation_=unroll_compensation;
++    fused_selection_=fused_selection;fused_candidates_=fused_candidates;
++  }
++
+   pybind11::tuple prepare(const torch::Tensor& vm,const torch::Tensor& pm,const torch::Tensor& camera,
+       int64_t width,int64_t height,double near,int64_t budget,double ratio,bool use_ratio,bool local,bool compensation) {
+     namespace py=pybind11;
+@@ -414,6 +443,9 @@
+     stats["selector_tiled"]=result.selector_tiled;
+     stats["graph_replay"]=result.graph_replay;
+     stats["graph_count"]=result.graph_count;
++    stats["unroll_compensation"]=result.device_counts && unroll_compensation_ && result.compensation_tile==16;
++    stats["fused_selection"]=result.device_counts && fused_selection_ && result.shrinking_radix && total_>=16384;
++    stats["fused_candidates"]=result.device_counts && fused_candidates_;
+     return py::make_tuple(packet,result.ids,stats);
+   }
+ };
+@@ -428,5 +460,6 @@
+     .def("_tuning",&DeploymentPipeline::tuning,py::arg("radix"),py::arg("tile"),py::arg("selector_tiled")=true)
+     .def("_optimization_controls",&DeploymentPipeline::optimization_controls)
+     .def("_graph_enabled",&DeploymentPipeline::graph_enabled)
++    .def("_kernel_options",&DeploymentPipeline::kernel_options)
+     .def("_control",&DeploymentPipeline::debug_control);
+ }
+--- a/python/deployment_radix.cu
++++ b/python/deployment_radix.cu
+@@ -19,6 +19,11 @@
+   unsigned x=score==0.f?0u:__float_as_uint(score);
+   return x^(x&0x80000000u?0xffffffffu:0x80000000u);
+ }
++
++struct Counts {int greater,equal;};
++struct SumCounts {
++  __device__ Counts operator()(Counts a,Counts b) const {return {a.greater+b.greater,a.equal+b.equal};}
++};
+ 
+ // All CTAs are resident together. Temporary candidate order is irrelevant: only
+ // the exact threshold/rank is returned; final IDs use the original stable order.
+@@ -110,10 +115,127 @@
+   }
+ }
+ 
+-struct Counts {int greater,equal;};
+-struct SumCounts {
+-  __device__ Counts operator()(Counts a,Counts b) const {return {a.greater+b.greater,a.equal+b.equal};}
+-};
++__global__ void shrinkingRadixFused(int n,int k,const float* scores,const int64_t* rows,const bool* eligible,
++    unsigned* first,unsigned* second,unsigned* state,const int* status,const DeploymentFrame* frame,
++    bool saturated_fast,Counts* counter,int64_t* selected) {
++  if(status && *status)return;
++  if(frame){n=frame->n;k=frame->k;if(!k)return;}
++  namespace cg=cooperative_groups;
++  const auto grid=cg::this_grid();
++  using Reduce=cub::BlockReduce<Range,threads>;
++  using Scan=cub::BlockScan<int,threads>;
++  __shared__ union {typename Reduce::TempStorage reduce;typename Scan::TempStorage scan;} temp;
++  __shared__ unsigned hist[256],reservation;
++  const int tid=threadIdx.x;
++  unsigned* histogram=state+8;
++  const bool saturated=saturated_fast && frame && k==frame->available;
++  if(!blockIdx.x && !tid) {
++    state[0]=n;state[1]=saturated?0:k;state[2]=0;state[3]=0;state[4]=0;state[5]=0;
++  }
++  grid.sync();
++  if(!saturated) {
++    unsigned* input=first;unsigned* output=second;
++    for(int pass=0;pass<5;++pass) {
++      if(!blockIdx.x) {
++        histogram[tid]=0;
++        if(!tid){state[6]=~0u;state[7]=0;}
++      }
++      grid.sync();
++      const int length=state[0];Range range{~0u,0};
++      for(int i=blockIdx.x*threads+tid;i<length;i+=gridDim.x*threads) {
++        unsigned key;
++        if(!pass){key=eligible[rows[i]]?keyOf(scores[i]):0u;input[i]=key;}
++        else key=input[i];
++        if(key){range.lo=min(range.lo,key);range.hi=max(range.hi,key);}
++      }
++      const Range all=Reduce(temp.reduce).Reduce(range,MergeRange());
++      if(!tid){atomicMin(state+6,all.lo);atomicMax(state+7,all.hi);}
++      grid.sync();
++      const unsigned lo=state[6],hi=state[7];
++      if(lo==hi){if(!blockIdx.x && !tid)state[2]=lo;break;}
++      // Skip shared leading bits. At most four byte-sized refinements are needed.
++      const int top=31-__clz(lo^hi),shift=max(0,top-7);
++      hist[tid]=0;__syncthreads();
++      for(int base=blockIdx.x*threads;base<length;base+=gridDim.x*threads) {
++        const int i=base+tid;const unsigned key=i<length?input[i]:0u;
++        const unsigned digit=key?(key>>shift)&255u:256u;
++  #if __CUDA_ARCH__ >= 700
++        const unsigned group=__match_any_sync(0xffffffffu,digit);
++        if(key && (tid&31)==__ffs(group)-1)atomicAdd(hist+digit,__popc(group));
++  #else
++        if(key)atomicAdd(hist+digit,1u);
++  #endif
++      }
++      __syncthreads();
++      if(hist[tid])atomicAdd(histogram+tid,hist[tid]);
++      grid.sync();
++      if(!blockIdx.x) {
++        const int count=histogram[255-tid];int before;
++        const int wanted=state[1];
++        Scan(temp.scan).ExclusiveSum(count,before);__syncthreads();
++        if(wanted>before && wanted<=before+count) {
++          const unsigned upper=shift<24?(lo&(~0u<<(shift+8))):0u;
++          state[2]=upper|(unsigned(255-tid)<<shift);state[1]=wanted-before;
++          state[3]=shift;state[4]=0;state[5]=pass+1;
++        }
++      }
++      grid.sync();
++      if(!shift)break;
++      const unsigned prefix=state[2],mask=~0u<<shift;
++      for(int base=blockIdx.x*threads;base<length;base+=gridDim.x*threads) {
++        const int i=base+tid;const unsigned key=i<length?input[i]:0u;
++        const int keep=key && (key&mask)==prefix;int before,total;
++        Scan(temp.scan).ExclusiveSum(keep,before,total);__syncthreads();
++        if(!tid)reservation=atomicAdd(state+4,unsigned(total));
++        __syncthreads();
++        if(keep)output[reservation+before]=key;
++        __syncthreads();
++      }
++      grid.sync();
++      if(!blockIdx.x && !tid)state[0]=state[4];
++      grid.sync();
++      auto swap=input;input=output;output=swap;
++    }
++
++  }
++  grid.sync();
++  // Each CTA owns a contiguous range, preserving the original row order.
++  const int chunk=((n+int(gridDim.x)*threads-1)/(int(gridDim.x)*threads))*threads;
++  const int begin=int(blockIdx.x)*chunk,end=min(n,begin+chunk);
++  Counts count{0,0};
++  for(int i=begin+tid;i<end;i+=threads) {
++    const bool valid=eligible[rows[i]];
++    const unsigned key=valid?keyOf(scores[i]):0u;
++    count=SumCounts()(count,Counts{int(valid && key>state[2]),int(valid && key==state[2])});
++  }
++  using CountReduce=cub::BlockReduce<Counts,threads>;
++  using CountScan=cub::BlockScan<Counts,threads>;
++  __shared__ union {typename CountReduce::TempStorage reduce;typename CountScan::TempStorage scan;} count_temp;
++  __shared__ Counts before;
++  count=CountReduce(count_temp.reduce).Reduce(count,SumCounts());
++  if(!tid)counter[blockIdx.x]=count;
++  grid.sync();
++  count={0,0};
++  for(int i=tid;i<blockIdx.x;i+=threads)count=SumCounts()(count,counter[i]);
++  count=CountReduce(count_temp.reduce).Reduce(count,SumCounts());
++  if(!tid)before=count;
++  __syncthreads();
++  for(int base=begin;base<end;base+=threads) {
++    const int i=base+tid;
++    const bool valid=i<end && eligible[rows[i]];
++    const unsigned key=valid?keyOf(scores[i]):0u;
++    const Counts value{int(valid && key>state[2]),int(valid && key==state[2])};
++    Counts local,total;
++    CountScan(count_temp.scan).ExclusiveScan(value,local,Counts{0,0},SumCounts(),total);
++    const int equal=before.equal+local.equal,ties=state[1];
++    if(value.greater || (value.equal && equal<ties))
++      selected[before.greater+local.greater+min(equal,ties)]=rows[i];
++    __syncthreads();
++    if(!tid)before=SumCounts()(before,total);
++    __syncthreads();
++  }
++}
++
+ __global__ void countThreshold(int n,const float* scores,const int64_t* rows,const bool* eligible,
+     const unsigned* state,Counts* counts,const int* status,const DeploymentFrame* frame) {
+   if(status && *status)return;
+@@ -148,7 +270,7 @@
+ 
+ void launchRadix(const torch::Tensor& scores,const torch::Tensor& rows,const torch::Tensor& eligible,
+     int64_t k,const std::vector<torch::Tensor>& scratch,const torch::Tensor& status,
+-    const torch::Tensor& output,const DeploymentFrame* frame,bool saturated_fast) {
++    const torch::Tensor& output,const DeploymentFrame* frame,bool saturated_fast,bool fused=false) {
+   const int n=scores.numel();
+   TORCH_CHECK(!torch::GradMode::is_enabled() && k>=0 && k<=n && scratch.size()==4,"Shrinking Radix request");
+   c10::cuda::CUDAGuard guard(scores.device());if(!n)return;
+@@ -172,10 +294,16 @@
+   const int* failed=frame?&frame->status:(status.defined()?status.data_ptr<int>():nullptr);int count=k;
+   void* args[]={const_cast<int*>(&n),&count,&score_ptr,&row_ptr,&eligible_ptr,&first,&second,&state,&failed,&frame,&saturated_fast};
+   const auto stream=c10::cuda::getCurrentCUDAStream();
+-  C10_CUDA_CHECK(cudaLaunchCooperativeKernel(reinterpret_cast<void*>(shrinkingRadix),blocks,threads,args,0,stream));
+   auto counts=reinterpret_cast<Counts*>(scratch[3].data_ptr<int>());
+-  countThreshold<<<(n+255)/256,threads,0,stream>>>(n,score_ptr,row_ptr,eligible_ptr,state,counts,failed,frame);
+-  emitSelected<<<(n+255)/256,threads,0,stream>>>(n,score_ptr,row_ptr,eligible_ptr,state,counts,output.data_ptr<int64_t>(),failed,frame);
++  if(fused) {
++    auto selected=output.data_ptr<int64_t>();
++    void* fused_args[]={const_cast<int*>(&n),&count,&score_ptr,&row_ptr,&eligible_ptr,&first,&second,&state,&failed,&frame,&saturated_fast,&counts,&selected};
++    C10_CUDA_CHECK(cudaLaunchCooperativeKernel(reinterpret_cast<void*>(shrinkingRadixFused),blocks,threads,fused_args,0,stream));
++  } else {
++    C10_CUDA_CHECK(cudaLaunchCooperativeKernel(reinterpret_cast<void*>(shrinkingRadix),blocks,threads,args,0,stream));
++    countThreshold<<<(n+255)/256,threads,0,stream>>>(n,score_ptr,row_ptr,eligible_ptr,state,counts,failed,frame);
++    emitSelected<<<(n+255)/256,threads,0,stream>>>(n,score_ptr,row_ptr,eligible_ptr,state,counts,output.data_ptr<int64_t>(),failed,frame);
++  }
+   C10_CUDA_KERNEL_LAUNCH_CHECK();
+ }
+ }
+@@ -188,7 +316,13 @@
+ 
+ void deployment_radix_device(const torch::Tensor& scores,const torch::Tensor& rows,const torch::Tensor& eligible,
+     const torch::Tensor& output,const torch::Tensor& control,const std::vector<torch::Tensor>& scratch,
+-    bool saturated_fast) {
++    bool saturated_fast,bool fused) {
+   launchRadix(scores,rows,eligible,0,scratch,torch::Tensor(),output,
+-      reinterpret_cast<const DeploymentFrame*>(control.data_ptr<uint8_t>()),saturated_fast);
+-}
++      reinterpret_cast<const DeploymentFrame*>(control.data_ptr<uint8_t>()),saturated_fast,fused);
++}
++
++torch::Tensor deployment_radix_fused(const torch::Tensor& scores,const torch::Tensor& rows,
++    const torch::Tensor& eligible,int64_t k,const std::vector<torch::Tensor>& scratch,const torch::Tensor& status) {
++  auto output=torch::empty({k},rows.options());if(!k)return output;
++  launchRadix(scores,rows,eligible,k,scratch,status,output,nullptr,false,true);return output;
++}
+--- a/python/deployment_runtime.py
++++ b/python/deployment_runtime.py
+@@ -12,9 +12,9 @@
+ def deployment_extension():
+     from torch.utils.cpp_extension import load
+     root = Path(__file__).resolve().parent
+-    return load(name='mycartgs_deployment_fp32_v21',
++    return load(name='mycartgs_deployment_fp32_v27',
+         sources=[str(root/'deployment_runtime_bindings.cpp'), str(root/'deployment_runtime_kernels.cu'),
+-                 str(root/'deployment_prepare.cpp'), str(root/'deployment_selection.cu'),str(root/'deployment_radix.cu'),
++                 str(root/'deployment_prepare.cpp'), str(root/'deployment_selection.cu'),str(root/'deployment_radix.cu'),str(root/'deployment_candidates.cu'),
+                  str(root/'frozen_inference_kernels.cu')],
+         extra_cflags=['-O3'], extra_cuda_cflags=['-O3'], verbose=False)
+ 
+@@ -28,12 +28,12 @@
+     @torch.inference_mode(False)
+     @torch.no_grad()
+     def __init__(self, model, gaussians, config, seed=0, *, shrinking_radix=True, compensation_tile=16, selector_tiled=True,
+-                 saturated_selection=True,prepare_graph=True):
++                 saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True):
+         from anchor_budget import FixedBudgetRenderer
+         if (not isinstance(shrinking_radix,bool) or not isinstance(selector_tiled,bool) or
+                 isinstance(compensation_tile,bool) or compensation_tile not in (0,4,8,16)):
+             raise ValueError('Use bool Radix/Selector switches and Compensation tile 0, 4, 8 or 16')
+-        if any(not isinstance(value,bool) for value in [saturated_selection,prepare_graph]):
++        if any(not isinstance(value,bool) for value in [saturated_selection,prepare_graph,unroll_compensation,fused_selection,fused_candidates]):
+             raise ValueError('Deployment optimization switches require bool values')
+         # A private frozen snapshot prevents a training update from invalidating deployment data.
+         model, gaussians = copy.deepcopy(model), copy.deepcopy(gaussians)
+@@ -71,12 +71,13 @@
+         self._pipeline._tuning(shrinking_radix,compensation_tile,selector_tiled)
+         self._pipeline._optimization_controls(saturated_selection)
+         self._pipeline._graph_enabled(prepare_graph)
++        self._pipeline._kernel_options(unroll_compensation,fused_selection,fused_candidates)
+ 
+     @classmethod
+     @torch.inference_mode(False)
+     @torch.no_grad()
+     def from_checkpoint(cls, checkpoint, seed=0, *, shrinking_radix=True, compensation_tile=16, selector_tiled=True,
+-                        saturated_selection=True,prepare_graph=True):
++                        saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True):
+         from budget_viewer import read_config
+         from gaussian_model import GaussianModel
+         from selector import load_selector
+@@ -93,7 +94,8 @@
+         model.set_backend(config['backend'])
+         return cls(model,gaussians,config,seed,shrinking_radix=shrinking_radix,
+             compensation_tile=compensation_tile,selector_tiled=selector_tiled,
+-            saturated_selection=saturated_selection,prepare_graph=prepare_graph)
++            saturated_selection=saturated_selection,prepare_graph=prepare_graph,unroll_compensation=unroll_compensation,
++            fused_selection=fused_selection,fused_candidates=fused_candidates)
+ 
+     def _packet(self, flat, n):
+         pc = self._base.pc
+--- a/python/deployment_runtime_bindings.cpp
++++ b/python/deployment_runtime_bindings.cpp
+@@ -1,6 +1,16 @@
+ #include <torch/extension.h>
+ void bind_deployment_prepare(pybind11::module_&);
++std::vector<torch::Tensor> deployment_fused_candidates(const torch::Tensor&,const torch::Tensor&,
++    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
++    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
++void deployment_finish_counts(const torch::Tensor&,const torch::Tensor&);
++torch::Tensor frustum_planes(const torch::Tensor&);
++torch::Tensor frustum_test(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
++std::vector<torch::Tensor> visible_candidates(const torch::Tensor&,const torch::Tensor&,
++    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
+ torch::Tensor deployment_radix_select(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
++    int64_t,const std::vector<torch::Tensor>&,const torch::Tensor&);
++torch::Tensor deployment_radix_fused(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     int64_t,const std::vector<torch::Tensor>&,const torch::Tensor&);
+ void deployment_select_device(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
+@@ -37,4 +47,10 @@
+   module.def("select", &deployment_select);
+   module.def("_select_device", &deployment_select_device);
+   module.def("_radix_select", &deployment_radix_select);
++  module.def("_radix_fused", &deployment_radix_fused);
++  module.def("_fused_candidates", &deployment_fused_candidates);
++  module.def("_finish_counts", &deployment_finish_counts);
++  module.def("_frustum_planes", &frustum_planes);
++  module.def("_frustum_test", &frustum_test);
++  module.def("_visible_candidates", &visible_candidates);
+ }
+--- a/python/deployment_runtime_kernels.cu
++++ b/python/deployment_runtime_kernels.cu
+@@ -1,5 +1,6 @@
+ #include <torch/extension.h>
+ #include <type_traits>
++#include <cub/block/block_reduce.cuh>
+ #include <c10/cuda/CUDAGuard.h>
+ #include <c10/cuda/CUDAException.h>
+ #include <c10/cuda/CUDAStream.h>
+@@ -11,7 +12,7 @@
+ void deployment_select_device(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
+ void deployment_radix_device(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+-    const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,bool);
++    const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,bool,bool);
+ 
+ namespace {
+ struct Weights { const float* p[21]; };
+@@ -349,6 +350,85 @@
+     __syncthreads();
+     if(tid<Points*width) {
+       const int row=tid/width,c=tid%width;float sum=0.f;
++      for(int j=0;j<64;++j)sum=fmaf(h2[row][j],w.p[p+2][j*width+c],sum);
++      sum+=w.p[p+3][c];if(!head && begin+row<n)sum*=reference[ids[row]];
++      delta[row][start+c]=sum;
++      if(begin+row<n){if(residual)residual[(begin+row)*14+start+c]=sum;if(!isfinite(sum))atomicExch(status,2);}
++    }
++    __syncthreads();
++  }
++  const int row=tid/16;
++  if(begin+row<n)publishPoint<Direct>(begin+row,n,ids[row],delta[row],master,softplus,output,status,tid%16,16,request);
++}
++
++
++template<int Points,bool Direct=false> __global__ void compensationRegisterUnrolled(int64_t n,const float* offset,const int64_t* rows,
++    const int64_t* owners,const float* reference,Tables tables,Controls controls,
++    Weights w,const float* view,const float* view_weight,bool local,bool real_view,
++    Master master,bool softplus,float* output,float* residual,int* status,const DeploymentFrame* frame,
++    const DeploymentRequest* request=nullptr) {
++  if(status[0]==1)return;
++  if(frame) {
++    n=frame->k;
++    if(int64_t(blockIdx.x)*Points>=n)return;
++    for(int j=0;j<6;++j)controls.weights[j]=frame->weights[j];
++    for(int j=0;j<3;++j)controls.ratio[j]=frame->ratio_code[j];
++  }
++  const int tid=threadIdx.x,point=(tid/64)*4,col=tid%64;
++  const int64_t begin=int64_t(blockIdx.x)*Points;
++  __shared__ float input[Points][51],h0[Points][64],h1[Points][64],h2[Points][64],delta[Points][14];
++  __shared__ int64_t ids[Points],anchors[Points];
++  if(tid<Points){ids[tid]=begin+tid<n?rows[begin+tid]:0;anchors[tid]=begin+tid<n?owners[ids[tid]]:0;}
++  __syncthreads();
++  for(int i=tid;i<Points*51;i+=Points*16) {
++    const int p=i/51,c=i%51;float value=0.f;
++    if(begin+p<n) {
++      if(c<3)value=offset[ids[p]*3+c];
++      else{const auto a=anchors[p]*48+c-3;value=tables.p[0][a];for(int j=1;j<tables.count;++j){if(controls.weights[j]<0.f)break;value=__fadd_rn(value,__fmul_rn(controls.weights[j],tables.p[j][a]));}}
++    }
++    input[p][c]=value;
++  }
++  __syncthreads();
++  float accum[4]={0.f,0.f,0.f,0.f};
++  #pragma unroll 64
++  for(int j=0;j<51;++j) {
++    const float weight=w.p[0][j*64+col];
++    #pragma unroll
++    for(int q=0;q<4;++q)accum[q]=fmaf(input[point+q][j],weight,accum[q]);
++  }
++  float rp=0.f;for(int j=0;j<3;++j)rp=fmaf(controls.ratio[j],w.p[4][j*64+col],rp);
++  #pragma unroll
++  for(int q=0;q<4;++q) {
++    float value=accum[q]+w.p[1][col];value+=rp;
++    if(local){float vp=0.f;for(int j=0;j<7;++j)vp=fmaf(real_view?view[anchors[point+q]*7+j]:0.f,view_weight[j*64+col],vp);vp+=view_weight[7*64+col];value+=vp;}
++    h0[point+q][col]=relu(value);accum[q]=0.f;
++  }
++  __syncthreads();
++  #pragma unroll 64
++  for(int j=0;j<64;++j) {
++    const float weight=w.p[2][j*64+col];
++    #pragma unroll
++    for(int q=0;q<4;++q)accum[q]=fmaf(h0[point+q][j],weight,accum[q]);
++  }
++  #pragma unroll
++  for(int q=0;q<4;++q)h1[point+q][col]=relu(accum[q]+w.p[3][col]);
++  __syncthreads();
++  for(int head=0;head<4;++head) {
++    const int p=5+4*head,width=head<2?3:4,start=head==0?0:head==1?3:head==2?6:10;
++    #pragma unroll
++    for(int q=0;q<4;++q)accum[q]=0.f;
++    #pragma unroll 64
++    for(int j=0;j<64;++j) {
++      const float weight=w.p[p][j*64+col];
++      #pragma unroll
++      for(int q=0;q<4;++q)accum[q]=fmaf(h1[point+q][j],weight,accum[q]);
++    }
++    #pragma unroll
++    for(int q=0;q<4;++q)h2[point+q][col]=relu(accum[q]+w.p[p+1][col]);
++    __syncthreads();
++    if(tid<Points*width) {
++      const int row=tid/width,c=tid%width;float sum=0.f;
++      #pragma unroll 64
+       for(int j=0;j<64;++j)sum=fmaf(h2[row][j],w.p[p+2][j*width+c],sum);
+       sum+=w.p[p+3][c];if(!head && begin+row<n)sum*=reference[ids[row]];
+       delta[row][start+c]=sum;
+@@ -439,10 +519,11 @@
+   const auto n=rows.numel();auto out=torch::empty({n*(17+m.rest)},offset.options()),delta=torch::empty({n,14},offset.options());
+   auto status=shared_status.defined()?shared_status:torch::zeros({1},rows.options().dtype(at::kInt));
+   check(status,offset,at::kInt);TORCH_CHECK(status.numel()==1,"Deployment finite status");
+-  TORCH_CHECK(tile==0 || tile==4 || tile==8 || tile==16,"Compensation tile width");
++  TORCH_CHECK(tile==0 || tile==4 || tile==8 || tile==16 || tile==6416,"Compensation tile width");
+   if(n) {
+     const auto stream=c10::cuda::getCurrentCUDAStream();
+-    if(tile==16)compensationRegisterTile<16><<<(n+15)/16,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
++    if(tile==6416)compensationRegisterUnrolled<16><<<(n+15)/16,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
++    else if(tile==16)compensationRegisterTile<16><<<(n+15)/16,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+     else if(tile==8)compensationTile<8><<<(n+7)/8,256,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+     else if(tile==4)compensationTile<4><<<(n+3)/4,128,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+     else compensationBlock<><<<n,128,0,stream>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,out.data_ptr<float>(),delta.data_ptr<float>(),status.data_ptr<int>(),nullptr);
+@@ -478,9 +559,24 @@
+ }
+ 
+ namespace {
+-__global__ void frameControls(const int64_t* counts,DeploymentFrame* frame,unsigned* selection,
++struct CountPair {int64_t visible,eligible;};
++struct AddPair {
++  __device__ CountPair operator()(CountPair a,CountPair b) const {return {a.visible+b.visible,a.eligible+b.eligible};}
++};
++template<bool Reduce=false> __global__ void frameControls(int64_t* counts,DeploymentFrame* frame,unsigned* selection,
+     DeploymentKnots knots,int64_t budget,double requested_ratio,bool use_ratio,
+-    const DeploymentRequest* request=nullptr) {
++    const DeploymentRequest* request=nullptr,const int64_t* partial=nullptr,int blocks=0) {
++  if(Reduce) {
++    CountPair value{0,0};
++    for(int j=threadIdx.x;j<blocks;j+=blockDim.x) {
++      value.visible+=partial[j*2];value.eligible+=partial[j*2+1];
++    }
++    using Reduction=cub::BlockReduce<CountPair,128>;
++    __shared__ typename Reduction::TempStorage temp;
++    const auto sum=Reduction(temp).Reduce(value,AddPair());
++    if(threadIdx.x)return;
++    counts[1]=sum.visible;counts[2]=sum.eligible;
++  }
+   if(request){budget=request->budget;requested_ratio=request->ratio;use_ratio=request->use_ratio;}
+   DeploymentFrame f{};
+   f.n=counts[0];f.visible=counts[1];f.available=counts[2];
+@@ -549,7 +645,7 @@
+ void deployment_frame_controls(const torch::Tensor& counts,const torch::Tensor& frame,
+     const torch::Tensor& selection,const DeploymentKnots& knots,
+     int64_t budget,double requested_ratio,bool use_ratio) {
+-  frameControls<<<1,1,0,c10::cuda::getCurrentCUDAStream()>>>(counts.data_ptr<int64_t>(),
++  frameControls<><<<1,1,0,c10::cuda::getCurrentCUDAStream()>>>(counts.data_ptr<int64_t>(),
+       reinterpret_cast<DeploymentFrame*>(frame.data_ptr<uint8_t>()),
+       reinterpret_cast<unsigned*>(selection.data_ptr<int>()),knots,budget,requested_ratio,use_ratio);
+   C10_CUDA_KERNEL_LAUNCH_CHECK();
+@@ -557,10 +653,21 @@
+ 
+ void deployment_frame_controls_request(const torch::Tensor& counts,const torch::Tensor& frame,
+     const torch::Tensor& selection,const DeploymentKnots& knots,const torch::Tensor& request) {
+-  frameControls<<<1,1,0,c10::cuda::getCurrentCUDAStream()>>>(counts.data_ptr<int64_t>(),
++  frameControls<><<<1,1,0,c10::cuda::getCurrentCUDAStream()>>>(counts.data_ptr<int64_t>(),
+       reinterpret_cast<DeploymentFrame*>(frame.data_ptr<uint8_t>()),
+       reinterpret_cast<unsigned*>(selection.data_ptr<int>()),knots,0,0.,false,
+       reinterpret_cast<const DeploymentRequest*>(request.data_ptr<uint8_t>()));
++  C10_CUDA_KERNEL_LAUNCH_CHECK();
++}
++
++void deployment_frame_controls_fused(const torch::Tensor& counts,const torch::Tensor& frame,
++    const torch::Tensor& selection,const DeploymentKnots& knots,const torch::Tensor& partial,
++    const torch::Tensor& request,int64_t budget,double ratio,bool use_ratio) {
++  frameControls<true><<<1,128,0,c10::cuda::getCurrentCUDAStream()>>>(counts.data_ptr<int64_t>(),
++      reinterpret_cast<DeploymentFrame*>(frame.data_ptr<uint8_t>()),
++      reinterpret_cast<unsigned*>(selection.data_ptr<int>()),knots,budget,ratio,use_ratio,
++      request.defined()?reinterpret_cast<const DeploymentRequest*>(request.data_ptr<uint8_t>()):nullptr,
++      partial.data_ptr<int64_t>(),partial.numel()/2);
+   C10_CUDA_KERNEL_LAUNCH_CHECK();
+ }
+ 
+@@ -582,7 +689,7 @@
+     double aspect,double near,int64_t schema,bool softplus,bool local,bool compensate,int64_t tile,
+     bool radix,const std::vector<torch::Tensor>& radix_workspace,bool selector_tiled,
+     bool saturated_selection,
+-    const torch::Tensor& request) {
++    const torch::Tensor& request,bool unroll_compensation,bool fused_selection) {
+   // buffers: frame, candidate rows, view, scores, logits, selected IDs, attributes,
+   // selection counts. Large maps retain the original C++ path.
+   const auto n=state[3].numel(),capacity=buffers[5].numel(),anchors=state[0].size(0);
+@@ -613,14 +720,18 @@
+   else selectorKernel<11><<<(n+3)/4,128,0,stream>>>(n,state[6].data_ptr<float>(),rows,state[3].data_ptr<int64_t>(),
+       buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,false,
+       buffers[3].data_ptr<float>(),buffers[4].data_ptr<float>(),status,frame);
+-  if(radix)deployment_radix_device(buffers[3],buffers[1],state[5],buffers[5],buffers[0],radix_workspace,saturated_selection);
++  if(radix)deployment_radix_device(buffers[3],buffers[1],state[5],buffers[5],buffers[0],radix_workspace,saturated_selection,fused_selection && n>=16384);
+   else deployment_select_device(buffers[3],buffers[1],state[5],buffers[5],buffers[0],buffers[7]);
+   if(compensate) {
+     for(int j=0;j<21;++j)cw.p[j]=compensation[j].data_ptr<float>();
+     t.count=tables.size();for(int j=0;j<t.count;++j)t.p[j]=tables[j].data_ptr<float>();
+     auto launch_compensation=[&](auto direct) {
+       constexpr bool Direct=decltype(direct)::value;
+-      if(tile==16)compensationRegisterTile<16,Direct><<<(capacity+15)/16,256,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),
++      if(tile==16 && unroll_compensation)compensationRegisterUnrolled<16,Direct><<<(capacity+15)/16,256,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),
++          state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),
++          local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,
++          buffers[6].data_ptr<float>(),nullptr,status,frame,destination);
++      else if(tile==16)compensationRegisterTile<16,Direct><<<(capacity+15)/16,256,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),
+           state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),
+           local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,
+           buffers[6].data_ptr<float>(),nullptr,status,frame,destination);

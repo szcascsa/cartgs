@@ -1,0 +1,10 @@
+RUN selector_e1_b8192_r4_m0
+RUN selector_e2_b8192_r4_m0
+Traceback (most recent call last):
+  File "/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/run_matrix.py", line 128, in <module>
+    matrix()
+  File "/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/run_matrix.py", line 107, in matrix
+    execute_case(branch, epochs, 8192, 4)
+  File "/home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/run_matrix.py", line 100, in execute_case
+    raise RuntimeError('Foreign GPU process detected; case must be repeated: ' + name)
+RuntimeError: Foreign GPU process detected; case must be repeated: selector_e2_b8192_r4_m0

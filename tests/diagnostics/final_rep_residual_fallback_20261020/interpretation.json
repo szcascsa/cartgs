@@ -1,0 +1,22 @@
+{
+  "verdict": "REPRESENTATIVE + COMPACT RESIDUAL FALLBACK SUPPORTED",
+  "secondary_verdict": "RAW proxy：MIXED，有较强近似质量证据但不保证高ratio稳定恢复；GEOMETRY-GAP proxy：NOT SUPPORTED；RESIDUAL SCORE REQUIRED仅限本轮等数量pool对Current C selected-set exact completeness，不是GT重建最优的必要性证明。",
+  "answers": {
+    "Q1": "见12-case representative/residual数量表；residual比例随ratio在三个scene均增长。",
+    "Q2": "支持到15%，在保留全部Final reps前提下，最少补入fr1_room 1554、fr1_xyz 379、fr2_xyz 1750个Current-C residual。",
+    "Q3": "P15保留完整population的30.34% / 47.66% / 30.65%；候选规模压缩比3.30x / 2.10x / 3.26x，不是速度提升。",
+    "Q4": "YES：四ratio order/selected sets exact，真实render四指标per-view及aggregate差全部为0。",
+    "Q5": "MIXED：Raw proxy三scene 1/5% exact；高ratio整体接近但fr2_xyz 10% PSNR下降0.040940 dB、15%提高0.102123 dB，不能称统一稳定恢复。",
+    "Q6": "NO：Gap proxy 15% residual recall仅1.87% / 3.43% / 2.17%，高ratio明显不能恢复。",
+    "Q7": "BOTH：Raw importance是主要区分信号，geometry gap修正Current-C residual身份。精确恢复C需要联合信息；不能推出真实重建质量必须采用同一乘积公式。",
+    "Q8": "YES（限本轮冻结1%-15%）：Final Representative Core + residual detail获得明确结构支持，未支持多层precedence。",
+    "Q9": "DESIGN CHEAP RESIDUAL FALLBACK，作为下一轮研究建议；暂保留FULL CURRENT C，不直接训练Selector，本轮不实现。"
+  },
+  "conclusion": "只补入完整candidate的1.60%-4.06%作为residual detail，就能在保留全部Final reps的基础上，精确恢复当前1%-15%范围的C行为；候选保留比例为30.34%-47.66%。这支持candidate compression结构，不等于新的重要性定义或生产速度结论。Raw-only candidate proxy恢复大部分render质量，但高ratio不能保证C identity或所有scene质量一致；Gap-only不足。",
+  "proxy_analysis": "Raw proxy只保留D15参考residual的44.92% / 47.76% / 54.34%，但所有scene的D1和D5均被完整保留（fr1_xyz D1为空）；因此1/5%的完整selected set和render exact。10/15%仍恢复代表-only的大部分损失，说明C中具体residual身份并非渲染quality oracle。fr2_xyz 10% RF-Raw相对C PSNR下降0.040940 dB，只有5.13%的view改善，属于真实且一致的PSNR回退；不过SSIM/LPIPS/photo都改善，不能称四指标统一退化。15%反而四指标都改善，PSNR提高0.102123 dB，87.18%的view改善。综合给Raw proxy MIXED，不发明新dB等价阈值，也不将高ratio改好的一档用来覆盖另一档损失。",
+  "error_analysis": "Raw proxy的FP是Raw很高但gap很小、已高度被覆盖的rows；FN是Raw不够靠前但gap较大的detail。三个scene Raw FP的gap median约0.0364/0.0373/0.0432，而FN约0.9301/0.7623/0.9959。Gap proxy的FP几乎都gap=1，但Raw很低；FP Raw median约1.79/1.66/2.81，漏掉的参考detail Raw median约137.48/319.08/100.24。Gap在浮点饱和为1的点上大量tie，按source row稳定选择；没有根据质量打破tie。",
+  "coverage_analysis": "高价值residual不是简单地cover越低越好：15% selected/nonselected的gap median为fr1_room 0.7129/0.6136、fr1_xyz 0.5134/0.5704、fr2_xyz 0.8069/0.8894，后两scene的未选点反而gap更大。Raw median selected/nonselected则为135.92/5.59、308.88/7.52、96.67/4.41，区分更强。这解释Raw proxy比Gap强；但Raw遗漏较大gap的中等importance点，所以不能精确恢复R-prefix。",
+  "locality_analysis": "D15 residual仅分布于492/5601、150/4889、435/5090个final leaves，即8.78% / 3.07% / 8.55%；达到一半residual数量分别只需92/34/78个leaf。说明detail需求集中在少量leaf，而不是所有leaf平均需要fallback。Q分组仅作诊断，不能据此改变Q或建立新的局部quota。",
+  "limits": "RF-C是Current-C-complete reference pool，不是GT oracle；其exact性质来自包含C15及nested顺序，真实render用于检查实现/consumer一致性，不是独立发现新quality提升。m15是固定Final core下为恢复当前selected identity所需的最小新增residual数，不是任意重建同质量的全局最小候选数。15%只是原审计上限，不得外推更高ratio。所有proxy最终仍用含coverage的C score，因此Raw候选选择效果好并不证明完整pipeline可以删除geometry或已经便宜。",
+  "recommendation": "下一步仅建议研究可低成本实现且保持candidate completeness的residual fallback，保留Raw作为强proxy对照；不直接训练Global Ratio-aware Selector。当前production实现继续FULL CURRENT C，本轮不增加proxy、不增加fallback数量、不改变ratio、tree或参数，不接online。"
+}

@@ -1,0 +1,39 @@
+{
+  "all_passed": true,
+  "frozen_sources_and_prior_unchanged": true,
+  "preregistration_unchanged": true,
+  "math_source_unchanged": true,
+  "camera_archive_unchanged": true,
+  "tree_sha256": "7a296f65a278cdd202b67a0bae8a9c679f69989a4cb62f05b92ad2633c2a34eb",
+  "optimizer_updates": 0,
+  "baseline_reproduction": {
+    "all_passed": true,
+    "complete_rankings_exact": true,
+    "C_tree_binary_exact": true,
+    "F3_prior_gain_exact": true,
+    "B_predecessors_exact": true,
+    "per_view_max_abs": {
+      "psnr": 0.0,
+      "ssim": 0.0,
+      "lpips": 0.0,
+      "photo": 0.0
+    },
+    "aggregate_max_abs": {
+      "psnr": 0.0,
+      "ssim": 0.0,
+      "lpips": 0.0,
+      "photo": 0.0
+    },
+    "rerenders": 864,
+    "new_F1_F2_started": false
+  },
+  "quality": {
+    "all_passed": true,
+    "arm_ratio_cases": 24,
+    "view_renders": 1296,
+    "baseline_rerenders": 864,
+    "new_F1_F2_renders": 432,
+    "new_runtime_seconds": 6.2037767097353935,
+    "optimizer_updates": 0
+  }
+}

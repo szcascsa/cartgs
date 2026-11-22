@@ -67,6 +67,7 @@ add_library(
     src/FrameDrawer.cc
     src/Converter.cc
     src/MapPoint.cc
+    src/GIAssociationState.cc
     src/KeyFrame.cc
     src/Atlas.cc
     src/Map.cc

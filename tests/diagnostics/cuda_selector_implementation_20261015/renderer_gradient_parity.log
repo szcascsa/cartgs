@@ -1,0 +1,21 @@
+independent renderer gradient ratio=0.01 frame=0 failures=11
+independent renderer gradient ratio=0.01 frame=1 failures=23
+independent renderer gradient ratio=0.01 frame=2 failures=44
+independent renderer gradient ratio=0.05 frame=0 failures=59
+independent renderer gradient ratio=0.05 frame=1 failures=75
+independent renderer gradient ratio=0.05 frame=2 failures=86
+independent renderer gradient ratio=0.1 frame=0 failures=96
+independent renderer gradient ratio=0.1 frame=1 failures=108
+independent renderer gradient ratio=0.1 frame=2 failures=128
+independent renderer gradient ratio=0.15 frame=0 failures=141
+independent renderer gradient ratio=0.15 frame=1 failures=154
+independent renderer gradient ratio=0.15 frame=2 failures=168
+Independent renderer gradient parity failed; initial tolerances unchanged
+Exception raised from rendererGradientParity at /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/caller_replay.cpp:379 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7fa22b0962ac in /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, char const*) + 0x84 (0x7fa22b03fdd0 in /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libc10.so)
+frame #2: <unknown function> + 0x2db3d (0x55ee15f29b3d in /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/build-caller/caller_replay)
+frame #3: <unknown function> + 0x1ebb0 (0x55ee15f1abb0 in /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/build-caller/caller_replay)
+frame #4: __libc_start_main + 0xf3 (0x7fa1b067a083 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #5: <unknown function> + 0x1fe3e (0x55ee15f1be3e in /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/build-caller/caller_replay)
+

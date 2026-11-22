@@ -1,0 +1,10 @@
+{
+  "all_passed": true,
+  "source_hashes": 1831,
+  "native_repeated_rankings": 25,
+  "online_quality_cases": 40,
+  "raw_per_view_metrics_reaggregated": 15360,
+  "common_frames_exact": true,
+  "selected_count_exact": true,
+  "offline_render_exact": true
+}

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "local_forward_vjp_checks": 97,
+  "nodes": 9450,
+  "deterministic_trajectory_seeds": 2,
+  "steps": 72,
+  "trajectory_rows": 2592,
+  "production_scatter_still_nondeterministic": true,
+  "deterministic_mode_only_in_probes": true
+}

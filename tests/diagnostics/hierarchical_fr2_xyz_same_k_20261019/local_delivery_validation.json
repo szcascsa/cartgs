@@ -1,0 +1,14 @@
+{
+  "all_passed": true,
+  "files_verified": 92,
+  "bundle_sha256": "e0e63f1c0122d429e2eb4c31b3a340bc687df7e51623312d6373aefd0db40a2d",
+  "candidate_N": 43059,
+  "same_K": true,
+  "nested": true,
+  "complete_rankings": true,
+  "quality_view_renders": 624,
+  "aggregate_max_abs_error": 0.0,
+  "mechanism_gate_recomputed": true,
+  "F3_combined_supported_recomputed": false,
+  "C_primary_PSNR_gate_recomputed": false
+}

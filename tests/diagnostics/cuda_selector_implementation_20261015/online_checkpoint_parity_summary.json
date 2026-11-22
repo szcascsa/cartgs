@@ -1,0 +1,58 @@
+{
+  "cases": 96,
+  "passed": 94,
+  "max_abs": 1.7881393432617188e-07,
+  "failures": {
+    "probability_within_tolerance": 0,
+    "current_mask_exact": 0,
+    "compact_ids_exact": 0,
+    "seed0_bernoulli_exact": 0,
+    "seed0_next_draw_exact": 0,
+    "seed0_state_exact": 0,
+    "two_sided_near_tie_exact": 2,
+    "global_rng_unchanged": 0
+  },
+  "failed_cases": [
+    {
+      "run": "desk/legacy/repeat2",
+      "ratio": "0.1",
+      "N": "71165",
+      "selected": "7556",
+      "max_abs": "1.1920928955078125e-07",
+      "rms": "4.375875217732528e-09",
+      "p99": "0.0",
+      "worst_global_gaussian_id": "1282",
+      "unequal_probabilities": "422",
+      "probability_within_tolerance": "True",
+      "current_mask_exact": "True",
+      "compact_ids_exact": "True",
+      "seed0_bernoulli_exact": "True",
+      "seed0_next_draw_exact": "True",
+      "seed0_state_exact": "True",
+      "two_sided_near_tie_exact": "False",
+      "global_rng_unchanged": "True",
+      "passed": "False"
+    },
+    {
+      "run": "desk/legacy/repeat2",
+      "ratio": "0.15",
+      "N": "71165",
+      "selected": "10890",
+      "max_abs": "1.7881393432617188e-07",
+      "rms": "1.9771027481851888e-08",
+      "p99": "8.940696716308594e-08",
+      "worst_global_gaussian_id": "67069",
+      "unequal_probabilities": "29732",
+      "probability_within_tolerance": "True",
+      "current_mask_exact": "True",
+      "compact_ids_exact": "True",
+      "seed0_bernoulli_exact": "True",
+      "seed0_next_draw_exact": "True",
+      "seed0_state_exact": "True",
+      "two_sided_near_tie_exact": "False",
+      "global_rng_unchanged": "True",
+      "passed": "False"
+    }
+  ],
+  "production_accepted": false
+}

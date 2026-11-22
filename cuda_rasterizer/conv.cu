@@ -3,6 +3,15 @@
 
 #include <algorithm>
 #include <iostream>
+#include "ssim_backend.h"
+
+namespace ssim_backend {
+namespace { thread_local bool split_channels=false; thread_local bool cached_statistics=false; }
+bool optimized(){return split_channels;}
+bool cached(){return cached_statistics;}
+void setCached(bool value){cached_statistics=value;}
+void setOptimized(bool value){split_channels=value;}
+}
 
 namespace cg = cooperative_groups;
 
@@ -602,10 +611,10 @@ __device__ void load_into_shared(float pixels[BY + 10][BX + 10],
                                  int H,
                                  int W,
                                  int i,
-                                 int subtract = 0) {
+                                 int subtract = 0, int origin = 0) {
   auto block = cg::this_thread_block();
-  const int start_y = block.group_index().y * (BY - subtract) - subtract / 2;
-  const int start_x = block.group_index().x * (BX - subtract) - subtract / 2;
+  const int start_y = block.group_index().y * (BY - subtract) - subtract / 2 - origin;
+  const int start_x = block.group_index().x * (BX - subtract) - subtract / 2 - origin;
 
   const int cnt = (BY + 10) * (BX + 10);
   const int num_blocks = (cnt + BX * BY - 1) / (BX * BY);
@@ -924,17 +933,17 @@ __device__ float do_conv(float pixels[BY + 10][BX + 10],
   return val;
 }
 
-template <int CH>
+template <int CH, bool Cache=false>
 __global__ void fusedssimCUDA(int H,
                               int W,
                               float C1,
                               float C2,
                               float* img1,
                               float* img2,
-                              float* ssim_map) {
+                              float* ssim_map, float* statistics=nullptr) {
   auto block = cg::this_thread_block();
-  const int pix_y = block.group_index().y * BY + block.thread_index().y;
-  const int pix_x = block.group_index().x * BX + block.thread_index().x;
+  const int pix_y = block.group_index().y * BY + block.thread_index().y - (Cache?5:0);
+  const int pix_x = block.group_index().x * BX + block.thread_index().x - (Cache?5:0);
   const int pix_id = pix_y * W + pix_x;
   const int num_pix = H * W;
 
@@ -944,6 +953,7 @@ __global__ void fusedssimCUDA(int H,
   float sigma1_sq = 0.0f;
   float sigma2_sq = 0.0f;
   float sigma12 = 0.0f;
+  float raw1=0.f,raw2=0.f,raw12=0.f;
 
   // shared memory that will be used to load pixels temporarily
   __shared__ float buf1[BY + 10][BX + 10];
@@ -953,21 +963,23 @@ __global__ void fusedssimCUDA(int H,
   // sigma1_sq = Conv(img1 * img1) - mu1_sq
   for (int i = 0; i < CH; ++i) {
     // load into shared
-    load_into_shared<CH>(buf1, img1, nullptr, H, W, i);
+    load_into_shared<CH>(buf1, img1, nullptr, H, W, i, 0, Cache?5:0);
     block.sync();
     // conv
     mu1 = do_conv(buf1, H, W);
-    sigma1_sq = do_conv(buf1, H, W, true) - mu1 * mu1;
+    raw1=do_conv(buf1,H,W,true);
+    sigma1_sq = raw1 - mu1 * mu1;
     block.sync();
 
     // mu2 <- Conv(img2)
     // sigma2_sq = Conv(img2 * img2) - mu2_sq
     // load into shared
-    load_into_shared<CH>(buf2, img2, nullptr, H, W, i);
+    load_into_shared<CH>(buf2, img2, nullptr, H, W, i, 0, Cache?5:0);
     block.sync();
     // conv
     mu2 = do_conv(buf2, H, W);
-    sigma2_sq = do_conv(buf2, H, W, true) - mu2 * mu2;
+    raw2=do_conv(buf2,H,W,true);
+    sigma2_sq = raw2 - mu2 * mu2;
     block.sync();
 
     // sigma12 = Conv(img1 * img2) - mu1_mu2
@@ -975,7 +987,8 @@ __global__ void fusedssimCUDA(int H,
     multiply_shared_mem(buf1, buf2);
     block.sync();
     // conv
-    sigma12 = do_conv(buf1, H, W) - mu1 * mu2;
+    raw12=do_conv(buf1,H,W);
+    sigma12 = raw12 - mu1 * mu2;
     block.sync();
 
     float mu1_sq = mu1 * mu1;
@@ -986,7 +999,14 @@ __global__ void fusedssimCUDA(int H,
     float A = (mu1_sq + mu2_sq + C1);
     float B = (sigma1_sq + sigma2_sq + C2);
     float m = (C * D) / (A * B);
-    if (pix_x < W && pix_y < H) {
+    if constexpr(Cache) {
+      if(pix_x<W+5 && pix_y<H+5) {
+        const int plane=CH*(H+10)*(W+10), row=i*(H+10)*(W+10)+(pix_y+5)*(W+10)+pix_x+5;
+        statistics[row]=mu1;statistics[plane+row]=mu2;
+        statistics[2*plane+row]=A;statistics[3*plane+row]=B;statistics[4*plane+row]=C;statistics[5*plane+row]=D;
+      }
+    }
+    if (pix_x>=0 && pix_y>=0 && pix_x < W && pix_y < H) {
       ssim_map[i * num_pix + pix_id] = m;
     }
   }
@@ -998,7 +1018,7 @@ __device__ bool in_inner_window() {
          5 <= block.thread_index().x && block.thread_index().x < BX - 5;
 }
 
-template <int CH>
+template <int CH, bool SplitChannels=false, bool Cached=false>
 __global__ void fusedssim_backwardCUDA(int H,
                                        int W,
                                        float C1,
@@ -1006,7 +1026,7 @@ __global__ void fusedssim_backwardCUDA(int H,
                                        float* img1,
                                        float* img2,
                                        float* dL_dmap,
-                                       float* dL_dimg1) {
+                                       float* dL_dimg1, const float* statistics=nullptr) {
   auto block = cg::this_thread_block();
   const int pix_y =
       block.group_index().y * (BY - 10) + block.thread_index().y - 5;
@@ -1028,10 +1048,18 @@ __global__ void fusedssim_backwardCUDA(int H,
 
   // mu1 <- Conv(img1)
   // sigma1_sq = Conv(img1 * img1) - mu1_sq
-  for (int i = 0; i < CH; ++i) {
+  for (int i = SplitChannels ? blockIdx.z : 0; i < (SplitChannels ? blockIdx.z+1 : CH); ++i) {
     // load into shared
     load_into_shared<CH>(buf1, img1, nullptr, H, W, i, 10);
     block.sync();
+    float cachedA=0,cachedB=0,cachedC=0,cachedD=0;
+    if constexpr(Cached) {
+      const bool inside=pix_y>=-5&&pix_y<H+5&&pix_x>=-5&&pix_x<W+5;
+      const int plane=CH*(H+10)*(W+10), row=i*(H+10)*(W+10)+(pix_y+5)*(W+10)+pix_x+5;
+      mu1=inside?statistics[row]:0.f;mu2=inside?statistics[plane+row]:0.f;
+      cachedA=inside?statistics[2*plane+row]:C1;cachedB=inside?statistics[3*plane+row]:C2;
+      cachedC=inside?statistics[4*plane+row]:C1;cachedD=inside?statistics[5*plane+row]:C2;
+    } else {
     // conv
     mu1 = do_conv(buf1, H, W);
     sigma1_sq = do_conv(buf1, H, W, true) - mu1 * mu1;
@@ -1055,13 +1083,14 @@ __global__ void fusedssim_backwardCUDA(int H,
     sigma12 = do_conv(buf2, H, W) - mu1 * mu2;
     block.sync();
 
+    }
     float mu1_sq = mu1 * mu1;
     float mu2_sq = mu2 * mu2;
     float mu1_mu2 = mu1 * mu2;
-    float C = (2.0f * mu1_mu2 + C1);
-    float D = (2.0f * sigma12 + C2);
-    float A = (mu1_sq + mu2_sq + C1);
-    float B = (sigma1_sq + sigma2_sq + C2);
+    float C = Cached?cachedC:(2.0f * mu1_mu2 + C1);
+    float D = Cached?cachedD:(2.0f * sigma12 + C2);
+    float A = Cached?cachedA:(mu1_sq + mu2_sq + C1);
+    float B = Cached?cachedB:(sigma1_sq + sigma2_sq + C2);
     float m = (C * D) / (A * B);
     // if (in_inner_window() && pix_x < W && pix_y < H) {
     //     ssim_map[i * num_pix + pix_id] = m;
@@ -1156,10 +1185,41 @@ torch::Tensor fusedssim_backward(float C1,
 
   torch::Tensor dL_dimg1 = torch::zeros_like(img1).contiguous();
 
-  fusedssim_backwardCUDA<3><<<grid, block>>>(
+  if(ssim_backend::optimized()){
+    grid.z=3;
+    fusedssim_backwardCUDA<3,true><<<grid,block>>>(H,W,C1,C2,img1.contiguous().data<float>(),img2.contiguous().data<float>(),
+        dL_dmap.contiguous().data<float>(),dL_dimg1.contiguous().data<float>());
+  }else fusedssim_backwardCUDA<3><<<grid, block>>>(
       H, W, C1, C2, img1.contiguous().data<float>(),
       img2.contiguous().data<float>(), dL_dmap.contiguous().data<float>(),
       dL_dimg1.contiguous().data<float>());
 
   return dL_dimg1;
+}
+
+std::vector<int> ssim_backend::attributes(bool split){
+  cudaFuncAttributes attr;int resident=0;cudaError_t status;
+  if(split){status=cudaFuncGetAttributes(&attr,fusedssim_backwardCUDA<3,true>);if(status==cudaSuccess)status=cudaOccupancyMaxActiveBlocksPerMultiprocessor(&resident,fusedssim_backwardCUDA<3,true>,BX*BY,0);}
+  else{status=cudaFuncGetAttributes(&attr,fusedssim_backwardCUDA<3>);if(status==cudaSuccess)status=cudaOccupancyMaxActiveBlocksPerMultiprocessor(&resident,fusedssim_backwardCUDA<3>,BX*BY,0);}
+  TORCH_CHECK(status==cudaSuccess,cudaGetErrorString(status));return {attr.numRegs,int(attr.sharedSizeBytes),attr.maxThreadsPerBlock,resident};
+}
+
+// Autograd-owned cache: no reuse across images, steps, streams or topology events.
+std::vector<torch::Tensor> fusedssim_cached(float C1,float C2,const torch::Tensor& img1,const torch::Tensor& img2) {
+  const int H=img1.size(1),W=img1.size(2);
+  auto image=img1.contiguous(),target=torch::zeros_like(image),statistics=torch::empty({6,3,H+10,W+10},image.options());
+  fusedssimCUDA<3,true><<<dim3((W+10+BX-1)/BX,(H+10+BY-1)/BY,1),dim3(BX,BY,1)>>>(
+      H,W,C1,C2,image.data_ptr<float>(),img2.contiguous().data_ptr<float>(),target.data_ptr<float>(),statistics.data_ptr<float>());
+  return {target,statistics};
+}
+torch::Tensor fusedssim_cached_backward(float C1,float C2,const torch::Tensor& img1,const torch::Tensor& img2,
+    const torch::Tensor& gradient,const torch::Tensor& statistics) {
+  const int H=img1.size(1),W=img1.size(2);
+  auto out=torch::zeros_like(img1).contiguous();
+  dim3 grid((W+BX-11)/(BX-10),(H+BY-11)/(BY-10),ssim_backend::optimized()?3:1),block(BX,BY,1);
+  if(ssim_backend::optimized())fusedssim_backwardCUDA<3,true,true><<<grid,block>>>(H,W,C1,C2,
+      img1.contiguous().data_ptr<float>(),img2.contiguous().data_ptr<float>(),gradient.contiguous().data_ptr<float>(),out.data_ptr<float>(),statistics.data_ptr<float>());
+  else fusedssim_backwardCUDA<3,false,true><<<grid,block>>>(H,W,C1,C2,
+      img1.contiguous().data_ptr<float>(),img2.contiguous().data_ptr<float>(),gradient.contiguous().data_ptr<float>(),out.data_ptr<float>(),statistics.data_ptr<float>());
+  return out;
 }

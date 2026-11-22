@@ -1,0 +1,2 @@
+Harness revision: near_tie+relu_zero+activation_chain+adam_defined_zero
+candidate=cublas_strict device=cuda steps=1000 failures=0

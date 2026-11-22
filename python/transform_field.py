@@ -4,6 +4,7 @@ import json
 import os
 
 import torch
+from elastic_entry import elastic_maturity
 import torch.nn.functional as functional
 from torch import nn
 
@@ -94,7 +95,8 @@ class TransformField(nn.Module):
     def __init__(self, state, device):
         super().__init__()
         self.outside_identity = bool(state.get("outside_identity", True))
-        self.mature_only = bool(state.get("mature_only", True))
+        self.maturity_compute_epsilon = float(state.get("maturity_compute_epsilon", 0.0))
+        self.entry_maturity = float(state.get("elastic_entry_maturity", 0.0))
         self.grid = HexPlaneField(state, device)
         hidden_dim = int(state["hidden_dim"])
         self.feature_out = nn.Linear(self.grid.feature_dim * len(self.grid.multires), hidden_dim)
@@ -150,30 +152,37 @@ def load_transform_field(ply_directory, device):
 
 
 @torch.no_grad()
-def transformed_attributes(model, gaussians, selected_mask, mature_mask, ratio):
+def transformed_attributes(model, gaussians, selected_mask, maturity, ratio):
     """Apply the field using the checkpoint's maturity/AABB policy."""
     xyz_base = gaussians.get_xyz.detach()
-    if selected_mask.numel() != xyz_base.shape[0] or mature_mask.numel() != xyz_base.shape[0]:
+    if selected_mask.numel() != xyz_base.shape[0] or maturity.numel() != xyz_base.shape[0]:
         raise ValueError("selection and maturity masks must match Gaussian count")
-    transform_mask = selected_mask.bool()
-    if model.mature_only:
-        transform_mask = transform_mask & mature_mask.bool()
-    if model.outside_identity:
-        transform_mask = transform_mask & model.grid.inside_mask(xyz_base)
+    transform_mask = selected_mask.bool() & model.grid.inside_mask(xyz_base)
+    transform_mask &= maturity.detach() >= model.maturity_compute_epsilon
+    entry = getattr(model, "entry_maturity", 0.0)
+    if entry > 0:
+        transform_mask &= maturity.detach() >= entry
     indices = torch.nonzero(transform_mask, as_tuple=False).flatten()
     if indices.numel() == 0:
         return None
     xyz = xyz_base.clone()
     delta_xyz, delta_log_scale, delta_rotation = model(xyz_base[indices], float(ratio))
+    weight = elastic_maturity(maturity, entry)[indices, None]
+    delta_xyz = weight * delta_xyz
+    delta_log_scale = weight * delta_log_scale
     xyz[indices] = xyz_base[indices] + delta_xyz
     scaling = gaussians.get_scaling.detach().clone()
     scaling[indices] = scaling[indices] * torch.exp(delta_log_scale)
     rotation = gaussians.get_rotation.detach().clone()
     identity = torch.zeros_like(delta_rotation)
     identity[:, 0] = 1.0
+    correction = _normalize_quaternion(identity + delta_rotation)
+    correction = torch.where(correction[:, :1] < 0, -correction, correction)
+    interpolated = _normalize_quaternion((1-weight)*identity + weight*correction)
+    delta_rotation = torch.where(weight == 1, delta_rotation, interpolated - identity)
     rotated = _multiply_quaternion(
         _normalize_quaternion(identity + delta_rotation),
         _normalize_quaternion(rotation[indices]),
     )
-    rotation[indices] = _normalize_quaternion(rotated)
+    rotation[indices] = torch.where(weight == 0, rotation[indices], _normalize_quaternion(rotated))
     return {"xyz": xyz, "scaling": scaling, "rotation": rotation}

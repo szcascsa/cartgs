@@ -1,0 +1,6 @@
+{
+  "production_sources_modified": false,
+  "method": "expression wrappers and RAII scopes in isolated frozen copies",
+  "events": "same current stream, no synchronization within scopes, resolve after run",
+  "native_binary": "unmodified frozen implementation"
+}

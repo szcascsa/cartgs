@@ -1,0 +1,193 @@
+scene,config,seed,name,shape,count,owner,shared
+fr1_xyz,SpatialFiLM,5100,encode.weight,"[64, 55]",3520,Linear,True
+fr1_xyz,SpatialFiLM,5100,encode.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5100,body.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5100,body.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5100,ratio.0.weight,"[32, 1]",32,Linear,True
+fr1_xyz,SpatialFiLM,5100,ratio.0.bias,[32],32,Linear,True
+fr1_xyz,SpatialFiLM,5100,ratio.2.weight,"[256, 32]",8192,Linear,True
+fr1_xyz,SpatialFiLM,5100,ratio.2.bias,[256],256,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.xyz.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.xyz.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.xyz.2.weight,"[3, 64]",192,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.xyz.2.bias,[3],3,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.scale.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.scale.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.scale.2.weight,"[3, 64]",192,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.scale.2.bias,[3],3,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.rotation.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.rotation.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.rotation.2.weight,"[4, 64]",256,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.rotation.2.bias,[4],4,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.other.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.other.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.other.2.weight,"[4, 64]",256,Linear,True
+fr1_xyz,SpatialFiLM,5100,heads.other.2.bias,[4],4,Linear,True
+fr1_xyz,SpatialFiLM,5101,encode.weight,"[64, 55]",3520,Linear,True
+fr1_xyz,SpatialFiLM,5101,encode.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5101,body.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5101,body.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5101,ratio.0.weight,"[32, 1]",32,Linear,True
+fr1_xyz,SpatialFiLM,5101,ratio.0.bias,[32],32,Linear,True
+fr1_xyz,SpatialFiLM,5101,ratio.2.weight,"[256, 32]",8192,Linear,True
+fr1_xyz,SpatialFiLM,5101,ratio.2.bias,[256],256,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.xyz.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.xyz.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.xyz.2.weight,"[3, 64]",192,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.xyz.2.bias,[3],3,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.scale.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.scale.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.scale.2.weight,"[3, 64]",192,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.scale.2.bias,[3],3,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.rotation.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.rotation.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.rotation.2.weight,"[4, 64]",256,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.rotation.2.bias,[4],4,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.other.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.other.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.other.2.weight,"[4, 64]",256,Linear,True
+fr1_xyz,SpatialFiLM,5101,heads.other.2.bias,[4],4,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,encode.weight,"[64, 55]",3520,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,encode.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,body.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,body.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,ratio.0.weight,"[32, 1]",32,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,ratio.0.bias,[32],32,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,ratio.2.weight,"[256, 32]",8192,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,ratio.2.bias,[256],256,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.xyz.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.xyz.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.xyz.2.weight,"[12, 64]",768,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.xyz.2.bias,[12],12,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.scale.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.scale.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.scale.2.weight,"[12, 64]",768,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.scale.2.bias,[12],12,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.rotation.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.rotation.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.rotation.2.weight,"[16, 64]",1024,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.rotation.2.bias,[16],16,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.other.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.other.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.other.2.weight,"[16, 64]",1024,Linear,True
+fr1_xyz,SpatialOutputKnots,5100,heads.other.2.bias,[16],16,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,encode.weight,"[64, 55]",3520,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,encode.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,body.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,body.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,ratio.0.weight,"[32, 1]",32,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,ratio.0.bias,[32],32,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,ratio.2.weight,"[256, 32]",8192,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,ratio.2.bias,[256],256,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.xyz.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.xyz.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.xyz.2.weight,"[12, 64]",768,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.xyz.2.bias,[12],12,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.scale.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.scale.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.scale.2.weight,"[12, 64]",768,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.scale.2.bias,[12],12,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.rotation.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.rotation.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.rotation.2.weight,"[16, 64]",1024,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.rotation.2.bias,[16],16,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.other.0.weight,"[64, 64]",4096,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.other.0.bias,[64],64,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.other.2.weight,"[16, 64]",1024,Linear,True
+fr1_xyz,SpatialOutputKnots,5101,heads.other.2.bias,[16],16,Linear,True
+fr2_xyz,SpatialFiLM,6100,encode.weight,"[64, 55]",3520,Linear,True
+fr2_xyz,SpatialFiLM,6100,encode.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6100,body.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6100,body.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6100,ratio.0.weight,"[32, 1]",32,Linear,True
+fr2_xyz,SpatialFiLM,6100,ratio.0.bias,[32],32,Linear,True
+fr2_xyz,SpatialFiLM,6100,ratio.2.weight,"[256, 32]",8192,Linear,True
+fr2_xyz,SpatialFiLM,6100,ratio.2.bias,[256],256,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.xyz.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.xyz.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.xyz.2.weight,"[3, 64]",192,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.xyz.2.bias,[3],3,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.scale.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.scale.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.scale.2.weight,"[3, 64]",192,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.scale.2.bias,[3],3,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.rotation.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.rotation.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.rotation.2.weight,"[4, 64]",256,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.rotation.2.bias,[4],4,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.other.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.other.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.other.2.weight,"[4, 64]",256,Linear,True
+fr2_xyz,SpatialFiLM,6100,heads.other.2.bias,[4],4,Linear,True
+fr2_xyz,SpatialFiLM,6101,encode.weight,"[64, 55]",3520,Linear,True
+fr2_xyz,SpatialFiLM,6101,encode.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6101,body.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6101,body.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6101,ratio.0.weight,"[32, 1]",32,Linear,True
+fr2_xyz,SpatialFiLM,6101,ratio.0.bias,[32],32,Linear,True
+fr2_xyz,SpatialFiLM,6101,ratio.2.weight,"[256, 32]",8192,Linear,True
+fr2_xyz,SpatialFiLM,6101,ratio.2.bias,[256],256,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.xyz.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.xyz.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.xyz.2.weight,"[3, 64]",192,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.xyz.2.bias,[3],3,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.scale.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.scale.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.scale.2.weight,"[3, 64]",192,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.scale.2.bias,[3],3,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.rotation.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.rotation.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.rotation.2.weight,"[4, 64]",256,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.rotation.2.bias,[4],4,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.other.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.other.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.other.2.weight,"[4, 64]",256,Linear,True
+fr2_xyz,SpatialFiLM,6101,heads.other.2.bias,[4],4,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,encode.weight,"[64, 55]",3520,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,encode.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,body.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,body.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,ratio.0.weight,"[32, 1]",32,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,ratio.0.bias,[32],32,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,ratio.2.weight,"[256, 32]",8192,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,ratio.2.bias,[256],256,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.xyz.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.xyz.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.xyz.2.weight,"[12, 64]",768,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.xyz.2.bias,[12],12,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.scale.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.scale.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.scale.2.weight,"[12, 64]",768,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.scale.2.bias,[12],12,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.rotation.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.rotation.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.rotation.2.weight,"[16, 64]",1024,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.rotation.2.bias,[16],16,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.other.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.other.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.other.2.weight,"[16, 64]",1024,Linear,True
+fr2_xyz,SpatialOutputKnots,6100,heads.other.2.bias,[16],16,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,encode.weight,"[64, 55]",3520,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,encode.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,body.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,body.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,ratio.0.weight,"[32, 1]",32,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,ratio.0.bias,[32],32,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,ratio.2.weight,"[256, 32]",8192,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,ratio.2.bias,[256],256,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.xyz.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.xyz.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.xyz.2.weight,"[12, 64]",768,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.xyz.2.bias,[12],12,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.scale.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.scale.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.scale.2.weight,"[12, 64]",768,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.scale.2.bias,[12],12,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.rotation.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.rotation.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.rotation.2.weight,"[16, 64]",1024,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.rotation.2.bias,[16],16,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.other.0.weight,"[64, 64]",4096,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.other.0.bias,[64],64,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.other.2.weight,"[16, 64]",1024,Linear,True
+fr2_xyz,SpatialOutputKnots,6101,heads.other.2.bias,[16],16,Linear,True

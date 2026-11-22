@@ -1,0 +1,11 @@
+{
+  "all_passed": true,
+  "arms": 5,
+  "cases": 20,
+  "view_renders": 3220,
+  "real_render": true,
+  "TF": true,
+  "same_K": true,
+  "optimizer_updates": 0,
+  "runtime_seconds": 27.55966494232416
+}

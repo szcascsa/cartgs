@@ -1,0 +1,9 @@
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+Capture range started in the application.
+Generating '/tmp/nsys-report-111b.qdstrm'
+Capture range ended in the application.
+[1/1] [0%                          ] profile_219969.nsys-rep[1/1] [0%                          ] profile_219969.nsys-rep[1/1] [12%                         ] profile_219969.nsys-rep[1/1] [====25%                     ] profile_219969.nsys-rep[1/1] [=================72%        ] profile_219969.nsys-rep[1/1] [===================79%      ] profile_219969.nsys-rep[1/1] [========================100%] profile_219969.nsys-rep[1/1] [========================100%] profile_219969.nsys-rep
+Generated:
+    /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_backward_20261015/profile_final_1/profile_219969.nsys-rep

@@ -1,0 +1,10 @@
+{
+  "scene": "fr1_xyz",
+  "seeds": [2026, 2027],
+  "arms": {"no_si": {"GlobalGI.mode": "disabled", "Selector.gi_loss_weight": 0.0}, "si": {"GlobalGI.mode": "streaming", "Selector.gi_loss_weight": 1.0}},
+  "architecture": "anchor joint log-r v2; feature16 offset3 log-r1; 32-32-2 ReLU",
+  "training": {"normal_mapping_limit": 10000, "forced_tail_enabled": false, "mode": 1, "maturity": 1, "note": "Use existing fixed normal-Mapping limit. Online phase rotates LoD/Full; post-SLAM tail retains existing Full+one joint LoD. Record both counts; asynchronous SLAM means phase counts are not identical."},
+  "unchanged": ["voxel_size 0.1", "Selector lr 0.001", "ratio loss weight 0.01", "photo loss", "TF", "ChangeDistill", "cached uniforms", "joint LoD gradient routing", "Master-only Full"],
+  "evaluation": {"ratios": [0.01, 0.05, 0.10, 0.15], "include_full": true, "views": "all common GT image indices covered by the four completed trajectories, selected without quality", "primary_selection": "production cached Bernoulli", "secondary_selection": "common absolute K from minimum Master N across four runs, probability descending/source-row ascending; diagnostic only", "same_k_rule": "floor(minimum_N*ratio)", "metrics": ["psnr", "ssim", "lpips"], "checkpoint": "final only; no quality-driven selection"},
+  "interpretation": "Two paired seeds on one scene are preliminary end-to-end evidence; same Mapping count does not freeze maps, camera extrinsics, online/tail render counts or densification trajectories. Do not claim an isolated SI causal effect or stable cross-scene gain. No weight/architecture search."
+}

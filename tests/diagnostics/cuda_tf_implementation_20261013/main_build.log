@@ -1,0 +1,257 @@
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- Could NOT find CUDNN (missing: CUDNN_LIBRARY_PATH CUDNN_INCLUDE_PATH) 
+CMake Warning at third_party/libtorch-cu118/libtorch/share/cmake/Caffe2/public/cuda.cmake:250 (message):
+  Cannot find cuDNN library.  Turning the option off
+Call Stack (most recent call first):
+  third_party/libtorch-cu118/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:87 (include)
+  third_party/libtorch-cu118/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)
+  CMakeLists.txt:34 (find_package)
+
+
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+-- Autodetected CUDA architecture(s):  8.6
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+CMake Warning (dev) at CMakeLists.txt:40 (find_package):
+  Policy CMP0146 is not set: The FindCUDA module is removed.  Run "cmake
+  --help-policy CMP0146" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Deprecation Warning at third_party/install/jsoncpp-1.9.5/lib/cmake/jsoncpp/jsoncppConfig.cmake:2 (cmake_policy):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+Call Stack (most recent call first):
+  CMakeLists.txt:47 (find_package)
+
+
+CMake Deprecation Warning at /usr/lib/cmake/glm/glmConfig.cmake:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+Call Stack (most recent call first):
+  CMakeLists.txt:50 (find_package)
+
+
+CMake Deprecation Warning at /usr/lib/cmake/glm/glmConfig.cmake:2 (cmake_policy):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+Call Stack (most recent call first):
+  CMakeLists.txt:50 (find_package)
+
+
+CMake Warning at CMakeLists.txt:53 (find_package):
+  By not providing "Findrealsense2.cmake" in CMAKE_MODULE_PATH this project
+  has asked CMake to find a package configuration file provided by
+  "realsense2", but CMake did not find one.
+
+  Could not find a package configuration file provided by "realsense2" with
+  any of the following names:
+
+    realsense2Config.cmake
+    realsense2-config.cmake
+
+  Add the installation prefix of "realsense2" to CMAKE_PREFIX_PATH or set
+  "realsense2_DIR" to a directory containing one of the above files.  If
+  "realsense2" provides a separate development package or SDK, be sure it has
+  been installed.
+
+
+-- Configuring done (1.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+[1/95] Building CXX object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda.cpp.o
+[2/95] Building CUDA object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda.cu.o
+[3/95] Building CUDA object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda_neural.cu.o
+[4/95] Building CXX object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda_optimizer.cpp.o
+[5/95] Building CUDA object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda_regularization.cu.o
+[6/95] Building CUDA object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda_optimizer.cu.o
+[7/95] Linking CXX static library libtransform_field_cuda.a
+[8/95] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gaussian_mapper.cpp.o
+[9/95] Building CXX object CMakeFiles/gaussian_mapper.dir/src/transform_field.cpp.o
+[10/95] Building CXX object CMakeFiles/gaussian_mapper.dir/src/change_management.cpp.o
+[11/95] Building CXX object CMakeFiles/gaussian_mapper.dir/src/change_distill.cpp.o
+[12/95] Building CXX object CMakeFiles/gaussian_mapper.dir/src/drift_stability.cpp.o
+[13/95] Building CXX object CMakeFiles/gaussian_mapper.dir/src/constrained_adam.cpp.o
+[14/95] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gradient_constraint.cpp.o
+[15/95] Building CXX object CMakeFiles/gaussian_mapper.dir/src/historical_gradient_render.cpp.o
+[16/95] Linking CXX shared library /home/prmi/zwj/mycartgs/lib/libgaussian_mapper.so
+[17/95] Building CXX object CMakeFiles/constrained_adam_test.dir/tests/constrained_adam_test.cpp.o
+[18/95] Building CXX object CMakeFiles/constrained_adam_test.dir/src/constrained_adam.cpp.o
+[19/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/constrained_adam_test
+[20/95] Building CXX object CMakeFiles/joint_replay_test.dir/tests/joint_replay_test.cpp.o
+[21/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/joint_replay_test
+[22/95] Building CXX object CMakeFiles/gradient_constraint_test.dir/tests/gradient_constraint_test.cpp.o
+[23/95] Building CXX object CMakeFiles/gradient_constraint_test.dir/src/gradient_constraint.cpp.o
+[24/95] Building CXX object CMakeFiles/gradient_constraint_test.dir/src/constrained_adam.cpp.o
+[25/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/gradient_constraint_test
+[26/95] Building CXX object CMakeFiles/historical_gradient_render_test.dir/tests/historical_gradient_render_test.cpp.o
+[27/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/historical_gradient_render_test
+[28/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/recent_window_importance_test
+[29/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/gi_association_state_test
+[30/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/global_gi_test
+[31/95] Building CXX object CMakeFiles/gradient_guard_checkpoint_test.dir/tests/gradient_guard_checkpoint_test.cpp.o
+[32/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/gradient_guard_checkpoint_test
+[33/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/historical_outlier_selector_test
+[34/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/gaussian_model_lifecycle_test
+[35/95] Building CXX object CMakeFiles/transform_field_test.dir/tests/transform_field_test.cpp.o
+[36/95] Building CXX object CMakeFiles/ultrafast_mapping_test.dir/tests/ultrafast_mapping_test.cpp.o
+[37/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/ultrafast_mapping_test
+[38/95] Building CXX object CMakeFiles/transform_field_test.dir/src/hexplane_field.cpp.o
+[39/95] Building CXX object CMakeFiles/transform_field_test.dir/src/transform_field.cpp.o
+[40/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/transform_field_test
+[41/95] Building CXX object CMakeFiles/hexplane_resample_test.dir/tests/hexplane_resample_test.cpp.o
+[42/95] Building CXX object CMakeFiles/hexplane_resample_test.dir/src/hexplane_field.cpp.o
+[43/95] Building CXX object CMakeFiles/hexplane_resample_test.dir/src/transform_field.cpp.o
+[44/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/hexplane_resample_test
+[45/95] Building CXX object CMakeFiles/change_distill_test.dir/tests/change_distill_test.cpp.o
+[46/95] Building CXX object CMakeFiles/change_distill_test.dir/src/change_management.cpp.o
+[47/95] Building CXX object CMakeFiles/change_distill_test.dir/src/change_distill.cpp.o
+[48/95] Building CXX object CMakeFiles/change_distill_test.dir/src/hexplane_field.cpp.o
+[49/95] Building CXX object CMakeFiles/change_distill_test.dir/src/transform_field.cpp.o
+[50/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/change_distill_test
+[51/95] Building CXX object CMakeFiles/drift_stability_test.dir/tests/drift_stability_test.cpp.o
+[52/95] Building CXX object CMakeFiles/drift_stability_test.dir/src/drift_stability.cpp.o
+[53/95] Building CXX object CMakeFiles/drift_stability_test.dir/src/hexplane_field.cpp.o
+[54/95] Building CXX object CMakeFiles/drift_stability_test.dir/src/transform_field.cpp.o
+[55/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/drift_stability_test
+[56/95] Building CXX object CMakeFiles/change_distill_tf_cuda_test.dir/tests/change_distill_test.cpp.o
+[57/95] Building CXX object CMakeFiles/change_distill_tf_cuda_test.dir/src/change_management.cpp.o
+[58/95] Building CXX object CMakeFiles/change_distill_tf_cuda_test.dir/src/change_distill.cpp.o
+[59/95] Building CXX object CMakeFiles/change_distill_tf_cuda_test.dir/src/hexplane_field.cpp.o
+[60/95] Building CXX object CMakeFiles/change_distill_tf_cuda_test.dir/src/transform_field.cpp.o
+[61/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/change_distill_tf_cuda_test
+[62/95] Building CXX object CMakeFiles/drift_stability_tf_cuda_test.dir/tests/drift_stability_test.cpp.o
+[63/95] Building CXX object CMakeFiles/drift_stability_tf_cuda_test.dir/src/drift_stability.cpp.o
+[64/95] Building CXX object CMakeFiles/drift_stability_tf_cuda_test.dir/src/hexplane_field.cpp.o
+[65/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/renderer_readonly_test
+[66/95] Building CXX object CMakeFiles/drift_stability_tf_cuda_test.dir/src/transform_field.cpp.o
+[67/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/drift_stability_tf_cuda_test
+[68/95] Building CXX object CMakeFiles/distill_recovery_test.dir/tests/distill_recovery_test.cpp.o
+[69/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/distill_recovery_test
+[70/95] Building CXX object CMakeFiles/historical_probe_cache_test.dir/tests/historical_probe_cache_test.cpp.o
+[71/95] Building CXX object CMakeFiles/historical_probe_cache_test.dir/src/hexplane_field.cpp.o
+[72/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/elastic_budget_test
+[73/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/gaussian_protection_test
+[74/95] Building CXX object CMakeFiles/historical_probe_cache_test.dir/src/transform_field.cpp.o
+[75/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/historical_probe_cache_test
+[76/95] Building CXX object CMakeFiles/compact_lod_test.dir/tests/compact_lod_test.cpp.o
+[77/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/compact_lod_test
+[78/95] Building CXX object CMakeFiles/gaussian_viewer.dir/viewer/imgui_viewer.cpp.o
+[79/95] Linking CXX shared library /home/prmi/zwj/mycartgs/lib/libgaussian_viewer.so
+[80/95] Building CXX object CMakeFiles/train_colmap.dir/examples/train_colmap.cpp.o
+[81/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/train_colmap
+[82/95] Building CXX object CMakeFiles/view_result.dir/examples/view_result.cpp.o
+[83/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/view_result
+[84/95] Building CXX object CMakeFiles/replica_mono.dir/examples/replica_mono.cpp.o
+[85/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/replica_mono
+[86/95] Building CXX object CMakeFiles/replica_rgbd.dir/examples/replica_rgbd.cpp.o
+[87/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/replica_rgbd
+[88/95] Building CXX object CMakeFiles/tum_mono.dir/examples/tum_mono.cpp.o
+[89/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/tum_mono
+[90/95] Building CXX object CMakeFiles/tum_rgbd.dir/examples/tum_rgbd.cpp.o
+[91/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/tum_rgbd
+[92/95] Building CXX object CMakeFiles/vector_stereo.dir/examples/vector_stereo.cpp.o
+[93/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/vector_stereo
+[94/95] Building CXX object CMakeFiles/vector_mono.dir/examples/vector_mono.cpp.o
+[95/95] Linking CXX executable /home/prmi/zwj/mycartgs/bin/vector_mono
+Internal ctest changing into directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+Test project /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+      Start  1: constrained_adam
+ 1/41 Test  #1: constrained_adam ..................   Passed    0.36 sec
+      Start  2: gradient_constraint_solver
+ 2/41 Test  #2: gradient_constraint_solver ........   Passed    0.00 sec
+      Start  3: gradient_constraint_clock
+ 3/41 Test  #3: gradient_constraint_clock .........   Passed    0.00 sec
+      Start  4: conflict_replay
+ 4/41 Test  #4: conflict_replay ...................   Passed    0.00 sec
+      Start  5: joint_replay_cuda
+ 5/41 Test  #5: joint_replay_cuda .................   Passed    0.77 sec
+      Start  6: joint_replay_tf_cuda
+ 6/41 Test  #6: joint_replay_tf_cuda ..............   Passed    0.71 sec
+      Start  7: gradient_constraint
+ 7/41 Test  #7: gradient_constraint ...............   Passed    0.36 sec
+      Start  8: historical_gradient_render
+ 8/41 Test  #8: historical_gradient_render ........   Passed    0.42 sec
+      Start  9: historical_gradient_render_cuda
+ 9/41 Test  #9: historical_gradient_render_cuda ...   Passed    0.65 sec
+      Start 10: online_gi_lifecycle
+10/41 Test #10: online_gi_lifecycle ...............   Passed    0.34 sec
+      Start 11: recent_window_importance
+11/41 Test #11: recent_window_importance ..........   Passed    2.13 sec
+      Start 12: global_gi_bank
+12/41 Test #12: global_gi_bank ....................   Passed    0.39 sec
+      Start 13: global_gi_snapshot_cache
+13/41 Test #13: global_gi_snapshot_cache ..........   Passed    0.03 sec
+      Start 14: gi_association_state
+14/41 Test #14: gi_association_state ..............   Passed    0.38 sec
+      Start 15: global_gi
+15/41 Test #15: global_gi .........................   Passed    0.41 sec
+      Start 16: ultra_light_schedule
+16/41 Test #16: ultra_light_schedule ..............   Passed    0.36 sec
+      Start 17: tail_optimization_schedule
+17/41 Test #17: tail_optimization_schedule ........   Passed    0.00 sec
+      Start 18: ultrafast_rotation
+18/41 Test #18: ultrafast_rotation ................   Passed    0.00 sec
+      Start 19: ultrafast_mapping_cuda
+19/41 Test #19: ultrafast_mapping_cuda ............   Passed    0.78 sec
+      Start 20: ultrafast_eval
+20/41 Test #20: ultrafast_eval ....................   Passed    0.08 sec
+      Start 21: historical_outlier_selector
+21/41 Test #21: historical_outlier_selector .......   Passed    0.35 sec
+      Start 22: gaussian_model_lifecycle
+22/41 Test #22: gaussian_model_lifecycle ..........   Passed    0.64 sec
+      Start 23: transform_field
+23/41 Test #23: transform_field ...................   Passed    0.41 sec
+      Start 24: hexplane_resample
+24/41 Test #24: hexplane_resample .................   Passed    0.39 sec
+      Start 25: change_distill
+25/41 Test #25: change_distill ....................   Passed    0.48 sec
+      Start 26: drift_stability
+26/41 Test #26: drift_stability ...................   Passed    0.74 sec
+      Start 27: change_distill_tf_cuda
+27/41 Test #27: change_distill_tf_cuda ............   Passed    0.89 sec
+      Start 28: drift_stability_tf_cuda
+28/41 Test #28: drift_stability_tf_cuda ...........   Passed    1.36 sec
+      Start 29: gi_teacher
+29/41 Test #29: gi_teacher ........................   Passed    0.40 sec
+      Start 30: performance_primitives
+30/41 Test #30: performance_primitives ............   Passed    0.38 sec
+      Start 31: mapping_profiler
+31/41 Test #31: mapping_profiler ..................   Passed    0.34 sec
+      Start 32: renderer_readonly_cuda
+32/41 Test #32: renderer_readonly_cuda ............   Passed    0.60 sec
+      Start 33: frozen_teacher_target_cache
+33/41 Test #33: frozen_teacher_target_cache .......   Passed    0.37 sec
+      Start 34: historical_probe_cache
+34/41 Test #34: historical_probe_cache ............   Passed    0.35 sec
+      Start 35: elastic_budget_allocation
+35/41 Test #35: elastic_budget_allocation .........   Passed    0.00 sec
+      Start 36: elastic_budget_cuda
+36/41 Test #36: elastic_budget_cuda ...............   Passed    0.58 sec
+      Start 37: gaussian_protection
+37/41 Test #37: gaussian_protection ...............   Passed    0.36 sec
+      Start 38: gaussian_protection_cuda
+38/41 Test #38: gaussian_protection_cuda ..........   Passed    0.54 sec
+      Start 39: elastic_budget
+39/41 Test #39: elastic_budget ....................   Passed    0.40 sec
+      Start 40: compact_lod
+40/41 Test #40: compact_lod .......................   Passed    0.37 sec
+      Start 41: compact_lod_cuda
+41/41 Test #41: compact_lod_cuda ..................   Passed    0.92 sec
+
+100% tests passed, 0 tests failed out of 41
+
+Total Test time (real) =  19.07 sec

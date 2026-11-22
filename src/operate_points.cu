@@ -48,27 +48,6 @@ __global__ void transform_points(const int P,
   insert_point_to_pcd(idx, p_trans, trans_points);
 }
 
-__global__ void scale_and_transform_points(
-    const int P,
-    const float scale,
-    const float* __restrict__ orig_points,
-    const float* __restrict__ orig_rots,
-    const float* __restrict__ transformmatrix,
-    const bool* __restrict__ mask,
-    float* __restrict__ trans_points,
-    float* __restrict__ trans_rots) {
-  auto idx = cg::this_grid().thread_rank();
-  if (idx >= P || !mask[idx]) return;
-
-  float3 p_trans =
-      scale_and_transform_point(idx, scale, orig_points, transformmatrix);
-  insert_point_to_pcd(idx, p_trans, trans_points);
-
-  float4 rot_trans =
-      transfrom_quaternion_using_matrix(idx, orig_rots, transformmatrix);
-  insert_rot_to_rots(idx, rot_trans, trans_rots);
-}
-
 void transformPoints(torch::Tensor& points, torch::Tensor& transformmatrix) {
   if (points.ndimension() != 2 || points.size(1) != 3) {
     AT_ERROR("points must have dimensions (num_points, 3)");
@@ -87,51 +66,12 @@ void transformPoints(torch::Tensor& points, torch::Tensor& transformmatrix) {
   }
 }
 
-torch::Tensor scaleAndTransformThenMarkVisiblePoints(
-    torch::Tensor& points,
-    torch::Tensor& rots,
-    torch::Tensor& point_not_transformed_mask,
-    torch::Tensor& point_unstable_mask,
-    torch::Tensor& transformmatrix,
-    torch::Tensor& viewmatrix,
-    torch::Tensor& projmatrix,
-    int& num_transformed,
-    const float scale) {
-  if (points.ndimension() != 2 || points.size(1) != 3) {
-    AT_ERROR("points must have dimensions (num_points, 3)");
-  }
-
-  torch::Tensor present = markVisible(points, viewmatrix, projmatrix);
-
-  auto num_points = present.size(0);
-  if (point_not_transformed_mask.size(0) != num_points ||
-      point_unstable_mask.size(0) != num_points) {
-    AT_ERROR("points_mask must have dimensions (num_points)");
-  }
-  torch::Tensor final_mask =
-      torch::logical_and(point_not_transformed_mask, point_unstable_mask);
-  final_mask = torch::logical_and(final_mask, present);
-  num_transformed += final_mask.sum().item<int>();
-  const int P = points.size(0);
-
-  if (P != 0) {
-    torch::Tensor transformed_points = torch::zeros_like(points);
-    torch::Tensor transformed_rots = torch::zeros_like(rots);
-
-    scale_and_transform_points<<<(P + 255) / 256, 256>>>(
-        P, scale, points.contiguous().data_ptr<float>(),
-        rots.contiguous().data_ptr<float>(),
-        transformmatrix.contiguous().data_ptr<float>(),
-        final_mask.contiguous().data_ptr<bool>(),
-        transformed_points.contiguous().data_ptr<float>(),
-        transformed_rots.contiguous().data_ptr<float>());
-
-    points.index_put_({final_mask}, transformed_points.index({final_mask}));
-    rots.index_put_({final_mask}, transformed_rots.index({final_mask}));
-    point_not_transformed_mask.index_put_(
-        {final_mask},
-        torch::full({P}, false, point_not_transformed_mask.options())
-            .index({final_mask}));
-  }
-  return final_mask;
+torch::Tensor markVisibleUntransformedPoints(
+    const torch::Tensor& points, const torch::Tensor& remaining,
+    const torch::Tensor& unstable, const torch::Tensor& viewmatrix,
+    const torch::Tensor& projmatrix) {
+  TORCH_CHECK(remaining.size(0) == points.size(0) &&
+                  unstable.size(0) == points.size(0), "Correction mask size mismatch");
+  auto xyz = points, view = viewmatrix, projection = projmatrix;
+  return remaining & unstable & markVisible(xyz, view, projection);
 }

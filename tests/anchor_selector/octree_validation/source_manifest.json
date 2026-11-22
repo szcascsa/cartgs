@@ -1,0 +1,22 @@
+{
+  "baseline_commit": "456c410f2a638effd7c61f38868e20b2e076ba45",
+  "files": {
+    "CMakeLists.txt": "40d891e91bfeef45f516e3232dac8f3fff98057e69bd35b2a8ed383435f25c53",
+    "cfg/selector/fast.yaml": "fb979d13d08a5f204c1ceba9115343d4f79f1db9737c860a43bdf26466dd3860",
+    "cfg/selector/selector_config.yaml": "a63110b39ecc941e3dfcc1f24c99ab48f2d005e866b9c5aca09aba61b6663efb",
+    "improvements/selector/anchor_bank.h": "5048876fb0a77853241c79893b6c9366390569b9a4e772c47aa8fdb55c46e852",
+    "include/gaussian_mapper.h": "6d34c2e1da711dad681cc0a2b1e49a87a2d1342a7848616244c28096d91883cc",
+    "python/selector.py": "5c8fb44aebb95d027503f467a339a2d18bc71c1ce24e346fb0c5076c52598690",
+    "src/gaussian_mapper.cpp": "902a3d1e75872c9f5f6af6d60a2e276eec96f65bc45f4d623d4e6814389f5d48",
+    "tests/anchor_selector/anchor_change_distill_test.cpp": "0243a6071feca06b67117ce5caac55f34936d7c4e01a0a8e3daf09c07763402a",
+    "tests/anchor_selector/anchor_octree_mapping_test.cpp": "8ec935debf44f0677560517e67ac38a7e59e816f7da2ee52e202f1aa3e136360",
+    "tests/anchor_selector/anchor_octree_test.cpp": "b410213a8330ee28442975e0be936fa3ca2ed60c3a24ffa0b3f454f65e6a5817",
+    "tests/anchor_selector/checkpoint_probe.cpp": "d8a6d331ef867543caae31a15fc9a7d06743626338600a0cfb3ed8e6c35d9874",
+    "tests/anchor_selector/octree_checkpoint_audit.py": "066ac23532a67b4515900d47652eba362892ce87c51626c5bcaa595838f6ff18",
+    "tests/anchor_selector/octree_protocol.json": "8392c79898edfa9736a85534726e3a1292e4c434a5d4c4c4421c73e09d335374",
+    "tests/anchor_selector/octree_python_parity.py": "0583a6076df2422d174e1e11c417a6b34f0ce3a457542486b1d7153d4d820dfc",
+    "tests/anchor_selector/run_octree_audit.py": "12477e88ecbd703001cbe2898934c833c91836452f865077146528c001bec860",
+    "tests/anchor_selector/run_octree_pipeline.py": "3df570ce454cf91d8a081ff5ac3a004be90e5a53bc7efdf7064021d355b1385a",
+    "tests/ultrafast_mapping_test.cpp": "d8a89cea31ff2490d9fc8d591a3900a2c9a097c0fc93439cea09d2e52c9cbc8c"
+  }
+}

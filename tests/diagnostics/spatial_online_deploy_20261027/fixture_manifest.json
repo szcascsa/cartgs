@@ -1,0 +1,15 @@
+{
+  "N": 6838,
+  "M": 2066,
+  "source_checkpoint": "SpatialLocalXYZ/5100/step_12000.pt",
+  "selection": {
+    "source": "/home/prmi/zwj/autonomous-compensation-20261027/results/B_confirm/fr1_xyz/R3/3100/formal_raw",
+    "source_seed": 3100,
+    "source_family": "R3",
+    "set_sha256": "3d8e6a6db254b74de832a0d59486becd1eade36cc5544bd07e3d3a14e7f08945",
+    "compensation_sha256": "6f486e490cb0dfb645e70372814126a02ea6db97186834fb63ab7044620d4890",
+    "frozen": "Master/Anchor/Encoder/Selector/selection identities/poses/eligibility/uniform",
+    "teacher_usage": "reference only unless explicit teacher config; never a candidate parameter"
+  },
+  "scope": "live field K-row physical input recomputation and active Gaussian input gradients; no Renderer in field microbenchmark"
+}

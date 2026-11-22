@@ -1,0 +1,62 @@
+[
+  {
+    "time": 1792259790.6636505,
+    "own_pid": 1086471,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792259790.9252567,
+    "own_pid": 1086471,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792259791.18633,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259791.448423,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259791.710307,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259791.9717968,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259792.2503145,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259792.511557,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259792.7726655,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259793.0338655,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259793.2951183,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  },
+  {
+    "time": 1792259793.5563014,
+    "own_pid": 1086471,
+    "gpu_processes": "1086471, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/benchmark_instrumented"
+  }
+]

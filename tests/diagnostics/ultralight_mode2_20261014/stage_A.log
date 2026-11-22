@@ -1,0 +1,117 @@
+Internal ctest changing into directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+Test project /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+    Start 20: ultralight_mode2_config
+1/2 Test #20: ultralight_mode2_config ..........Subprocess aborted***Exception:   0.34 sec
+[Gaussian Mapper]Training on CPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146189076217/defaults/selector_config.yaml"
+[Mapping CONFIG] ultra_light_mode=2 explicit_mode=1
+[UltrafastRotation CONFIG] ultra_light=0 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=0 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=0 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Gaussian Mapper]Training on CPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146189076217/legacy/selector_config.yaml"
+[Mapping CONFIG] ultra_light_mode=1 explicit_mode=0
+[UltrafastRotation CONFIG] ultra_light=1 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[UltrafastRotation CONFIG] ratios=0.01,0.05,0.10,0.15,Full stop_at_online_end=1 topology_full_only=1 tail_disabled=1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=0 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=0 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Gaussian Mapper]Training on CPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146189076217/legacy0/selector_config.yaml"
+[Mapping CONFIG] ultra_light_mode=0 explicit_mode=0
+[UltrafastRotation CONFIG] ultra_light=0 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=0 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=0 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Gaussian Mapper]Training on CPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146189076217/explicit0/selector_config.yaml"
+[Mapping CONFIG] ultra_light_mode=0 explicit_mode=1
+[UltrafastRotation CONFIG] ultra_light=0 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=0 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=0 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Gaussian Mapper]Training on CPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146189076217/invalid/selector_config.yaml"
+[Gaussian Mapper]Training on CPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146189076217/invalid/selector_config.yaml"
+[Gaussian Mapper]Training on CPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146189076217/invalid/selector_config.yaml"
+[Mapping CONFIG] ultra_light_mode=2 explicit_mode=1
+[UltrafastRotation CONFIG] ultra_light=0 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=0 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=0 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Invalid mode/ratios/Guard combination silently accepted
+
+    Start 21: ultralight_mode2_full_parity
+2/2 Test #21: ultralight_mode2_full_parity .....***Exception: SegFault  0.39 sec
+[Gaussian Mapper]CUDA available! Training on GPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146534071983/parity/selector_config.yaml"
+[Mapping CONFIG] ultra_light_mode=2 explicit_mode=1
+[UltrafastRotation CONFIG] ultra_light=0 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=0 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=0 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Gaussian Mapper]CUDA available! Training on GPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-mode2-test-20978146534071983/reference/selector_config.yaml"
+[Mapping CONFIG] ultra_light_mode=2 explicit_mode=1
+[UltrafastRotation CONFIG] ultra_light=0 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Protection CONFIG] age_ready=100 optimization_ready=80 unique_keyframe_ready=4 stale_age=1000 max_budget_fraction=0.35
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=0 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=0 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+
+
+0% tests passed, 2 tests failed out of 2
+
+Total Test time (real) =   0.73 sec
+
+The following tests FAILED:
+	 20 - ultralight_mode2_config (Subprocess aborted)
+	 21 - ultralight_mode2_full_parity (SEGFAULT)
+Errors while running CTest

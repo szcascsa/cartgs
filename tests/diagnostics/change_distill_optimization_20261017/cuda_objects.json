@@ -1,0 +1,112 @@
+{
+  "baseline": {
+    "selector_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "3ccfd511cb616989258cb0fa29fe079163297b0bab65a9cf5654b6c752c5dc2b"
+    },
+    "transform_field_cuda_neural.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "11e18bac7c52ed231613b5222d2fbb21a8dfb074ee1979e177ba2a69c00967ff"
+    },
+    "transform_field_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "27b460953c22744452b8f3dcdd7e9c7f7a57a0e6964b708dc427ccb8298c9d7e"
+    },
+    "transform_field_cuda_optimizer.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "14be36b4fe3dd0df4785962bf38944537c86ee47e540dc4ba1ef66b33c7b11b9"
+    },
+    "transform_field_cuda_regularization.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "b2accfad7a49fcb030f9e8c842d723d9f113942ab382d46569d0cc4279c90293"
+    }
+  },
+  "stage_a": {
+    "selector_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "3ccfd511cb616989258cb0fa29fe079163297b0bab65a9cf5654b6c752c5dc2b"
+    },
+    "transform_field_cuda_neural.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "11e18bac7c52ed231613b5222d2fbb21a8dfb074ee1979e177ba2a69c00967ff"
+    },
+    "transform_field_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "27b460953c22744452b8f3dcdd7e9c7f7a57a0e6964b708dc427ccb8298c9d7e"
+    },
+    "transform_field_cuda_optimizer.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "14be36b4fe3dd0df4785962bf38944537c86ee47e540dc4ba1ef66b33c7b11b9"
+    },
+    "transform_field_cuda_regularization.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "b2accfad7a49fcb030f9e8c842d723d9f113942ab382d46569d0cc4279c90293"
+    }
+  },
+  "stage_a_grouped": {
+    "selector_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "3ccfd511cb616989258cb0fa29fe079163297b0bab65a9cf5654b6c752c5dc2b"
+    },
+    "transform_field_cuda_neural.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "11e18bac7c52ed231613b5222d2fbb21a8dfb074ee1979e177ba2a69c00967ff"
+    },
+    "transform_field_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "27b460953c22744452b8f3dcdd7e9c7f7a57a0e6964b708dc427ccb8298c9d7e"
+    },
+    "transform_field_cuda_optimizer.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "14be36b4fe3dd0df4785962bf38944537c86ee47e540dc4ba1ef66b33c7b11b9"
+    },
+    "transform_field_cuda_regularization.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "b2accfad7a49fcb030f9e8c842d723d9f113942ab382d46569d0cc4279c90293"
+    }
+  },
+  "stage_b": {
+    "selector_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "3ccfd511cb616989258cb0fa29fe079163297b0bab65a9cf5654b6c752c5dc2b"
+    },
+    "transform_field_cuda_neural.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "11e18bac7c52ed231613b5222d2fbb21a8dfb074ee1979e177ba2a69c00967ff"
+    },
+    "transform_field_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "27b460953c22744452b8f3dcdd7e9c7f7a57a0e6964b708dc427ccb8298c9d7e"
+    },
+    "transform_field_cuda_optimizer.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "14be36b4fe3dd0df4785962bf38944537c86ee47e540dc4ba1ef66b33c7b11b9"
+    },
+    "transform_field_cuda_regularization.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "b2accfad7a49fcb030f9e8c842d723d9f113942ab382d46569d0cc4279c90293"
+    }
+  },
+  "stage_c": {
+    "selector_cuda.cu": {
+      "unchanged_from_baseline": false,
+      "object_sha256": "c93a1d06fb6d4f40492ea1d44a86ae7f3a5bfa41cec2bbf21896ccaa6cf7a6ab"
+    },
+    "transform_field_cuda_neural.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "11e18bac7c52ed231613b5222d2fbb21a8dfb074ee1979e177ba2a69c00967ff"
+    },
+    "transform_field_cuda.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "27b460953c22744452b8f3dcdd7e9c7f7a57a0e6964b708dc427ccb8298c9d7e"
+    },
+    "transform_field_cuda_optimizer.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "14be36b4fe3dd0df4785962bf38944537c86ee47e540dc4ba1ef66b33c7b11b9"
+    },
+    "transform_field_cuda_regularization.cu": {
+      "unchanged_from_baseline": true,
+      "object_sha256": "b2accfad7a49fcb030f9e8c842d723d9f113942ab382d46569d0cc4279c90293"
+    }
+  }
+}

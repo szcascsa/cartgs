@@ -1,0 +1,29 @@
+{
+  "frozen_before_nonbank": true,
+  "registered_utc": "2026-10-27T02:15:25.115985+00:00",
+  "design": "all registered comparisons retained; final12000; Bank-only decisions",
+  "primary": "same_k",
+  "scene": "fr2_xyz",
+  "source_seed": 4100,
+  "source_family": "R3",
+  "models": [
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/fr2_confirm/fr2_xyz/Reference59TrainEncoder/6100"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/fr2_confirm/fr2_xyz/SpatialFiLM/6100"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/fr2_confirm/fr2_xyz/SpatialOutputKnots/6100"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/fr2_confirm/fr2_xyz/Reference59TrainEncoder/6101"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/fr2_confirm/fr2_xyz/SpatialFiLM/6101"
+    },
+    {
+      "directory": "/home/prmi/zwj/neural-v1-20261027/results/fr2_confirm/fr2_xyz/SpatialOutputKnots/6101"
+    }
+  ]
+}

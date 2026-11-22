@@ -1,0 +1,21 @@
+{
+  "verdict": "PARTIAL",
+  "conclusion": "Hierarchy representative pool在低budget保留了大部分C高rank点，但不能作为1/5/10/15%通用的无损candidate过滤器。M-C只在3/12个case的PSNR高于P0，恢复fr1_xyz 5/10%和fr2_xyz 1%的失败，却损害两个原本成功的1% case；高budget因遗漏residual而系统性损失PSNR/SSIM/photo。Multi-level union只比Final-only多74/42/46个unique rows，对C recall扩充很小。当前保留完整Current C，不支持直接以representatives-only pool替换它。",
+  "answers": {
+    "Q1": "F/M占比：fr1_room 27.25%/27.40%；fr1_xyz 46.06%/46.23%；fr2_xyz 26.59%/26.69%。",
+    "Q2": "M对C的recall 1/5/10/15%：fr1_room 99.80/94.99/86.97/79.55%；fr1_xyz 100.00/97.72/92.89/89.37%；fr2_xyz 98.61/90.94/81.63/73.12%。",
+    "Q3": "NO：C recall增加0至0.232个百分点，低budget多数完全不变；不足以弥补高budget缺口。",
+    "Q4": "MIXED：仅3/12 case的PSNR高于P0，不构成稳定优于。",
+    "Q5": "见12-case差值表；M-C−C在15%为−0.237206/−0.104441/−0.368400 dB。",
+    "Q6": "BOTH（须区分）：P0 ordering相关失败有局部恢复证据；新representatives-only pool另有明确的高budget不完整性，不能倒推P0原完整population本身漏点。无法唯一认定P0主因。",
+    "Q7": "EVIDENCE INCONCLUSIVE：低budget candidate compression有证据，但不支持当前rep-only pool成为通用candidate generator，也未支持P0成为稳定ranking mechanism。",
+    "Q8": "暂不直接推进Global Ratio-aware Selector训练；仅在candidate completeness问题获得独立验证后，再考虑该研究方向。本轮不实现。"
+  },
+  "capacity_text": "三个scene的F和M在四档K均足够，48个新arm-ratio集合均same-K；无capacity skip，无refill",
+  "cases_text": "成功case：fr1_room 1%的P0/C/M-C为13.938402/13.834515/13.841405 dB，取消precedence后损失P0的0.096997 dB；fr1_xyz 1%为14.456831/14.206011/14.206011，M-C与C selected set及四指标exact相同，却丢失P0的0.250820 dB优势。\n\n失败case：fr1_xyz 5%为P0 18.707482、C 18.822068、M-C 18.812056，恢复大部分差距但仍低C 0.010012；10%为20.182299/20.301973/20.266110，恢复0.083811但仍低C 0.035863。fr2_xyz 1%为16.636306/16.726775/16.753436，M-C超过P0与C；5%为20.175046/20.232834/20.165084，M-C没有恢复P0失败；10%为21.024125/21.065654/20.738416，反而显著扩大损失。\n\n上述结果只能支持局部解除P0约束有帮助，不能支持其跨scene稳定成立。M-C相对M-Raw在三scene的1%提高0.553160/0.811135/0.474306 dB，远大于这些case的M-vs-F增量；说明低budget主要证据来自C scorer，而非加入multi-level内部候选。fr2_xyz 10/15%的C scorer对M-Raw也不占优。",
+  "recall_quality_text": "未人为给recall划新阈值。按用户机制Case定义看，1%的M recall为98.61%至100%，质量相对C为+0.006891/0/+0.026660 dB，符合低budget candidate compression的Case A方向；fr1_xyz 1% recall=100%时排序集合与渲染四指标exact相同。10/15% recall明显下降并伴随质量损失，呈Case C方向；高recall本身不构成GT质量保证，也不强行制造一个新的Case B门槛。\n\n三个scene的M与F在1% C recall完全相同，低budget M-C实际选中internal-only rows均为0；5%仅fr2_xyz选入5个。15% internal-only仅15/2/17个。因此structural internal reps主要是已存在final reps的跨层重复，union本身几乎没有扩展关键候选。高budget遗漏的是residual信息，而非最终代表。",
+  "paired_text": "主要恢复case的paired证据较一致：fr1_xyz 5%/10%的M-C−P0 PSNR改善视角比例为94.44%/83.33%，fr2_xyz 1%为94.87%。反向证据同样明确：两个成功1% case仅29.81%/5.56%视角改善；fr2_xyz 10%仅17.95%改善，median −0.302963 dB。不能只选有利scene/ratio汇报。\n\n高budget存在指标交换：M-C相对C的三个scene 10/15% LPIPS均改善，但PSNR/SSIM下降、production photo变差。重复度也下降，不能因此覆盖重建损失。",
+  "runtime_text": "总共8128次真实render：4064次baseline复现、4064次新pool评价；未重渲染Raw contribution，未训练。所有容量检查通过，没有减少预算或减少评价视角。",
+  "limitations_text": "本轮没有发现candidate-only global ranking导致root-level空间坍缩：15% M-C hit roots相对C反而为1522 vs1367、1271 vs1181、1361 vs1171；hit-leaf mass也增加。与此同时PSNR降低，说明空间覆盖与重复度不能代替render utility。\n\nM-C是使用完整C score的诊断，不是新pool-native重要性定义；pool过滤不会改变保留rows之间的C relative order，只会排除missed rows并将更低C rank填入same-K。P0与M-C并不是只改一个precedence开关的严格消融：还从ancestor-conditioned候选选择切换到structural pool和C scorer。因此既不能将局部恢复唯一归因于precedence，也不能将高budgetpool缺失误说成P0原population不完整。\n\n仅三个冻结TUM final maps及既有归档视角，不是online/production验证；新pool容量足够并不等于高价值candidate recall足够。没有做新的阈值、pool扩充或Selector训练。",
+  "recommendation": "建议KEEP CURRENT C。低budget pool压缩具有研究信号，但当前representatives-only pool的高budgetresidual缺口需要先独立解决与验证；不应直接用新Selector训练掩盖候选信息已被删除的问题。是否研究representative pool + residual fallback或Global Ratio-aware Selector留给人工下一轮决定，本轮不实现。"
+}

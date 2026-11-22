@@ -157,6 +157,18 @@ GaussianRasterizationOutput GaussianRasterizer::forward(
         "precomputed 3D covariance!");
 
   torch::TensorOptions options;
+  // CaRtGS kernels consume DC and higher-order SH coefficients separately.
+  if (!dc.defined() && shs.defined()) {
+    dc = shs.slice(1, 0, 1).contiguous();
+    shs = shs.slice(1, 1).contiguous();
+  }
+  if (cov3D_precomp.defined() && cov3D_precomp.dim() == 3) {
+    auto covariance = cov3D_precomp.flatten(1);
+    cov3D_precomp = torch::stack({covariance.select(1, 0), covariance.select(1, 1),
+        covariance.select(1, 2), covariance.select(1, 4), covariance.select(1, 5),
+        covariance.select(1, 8)}, 1).contiguous();
+  }
+  if (!dc.defined()) dc = torch::tensor({}, options.device(torch::kCUDA));
   if (!shs.defined()) shs = torch::tensor({}, options.device(torch::kCUDA));
   if (!colors_precomp.defined())
     colors_precomp = torch::tensor({}, options.device(torch::kCUDA));
@@ -166,6 +178,24 @@ GaussianRasterizationOutput GaussianRasterizer::forward(
     rotations = torch::tensor({}, options.device(torch::kCUDA));
   if (!cov3D_precomp.defined())
     cov3D_precomp = torch::tensor({}, options.device(torch::kCUDA));
+
+  if (raster_settings.mode_ != RasterizeMode::Training) {
+    torch::NoGradGuard no_grad;
+    TORCH_CHECK(raster_settings.mode_ != RasterizeMode::Visibility ||
+                !raster_settings.collect_importance_,
+                "Visibility-only rasterization cannot collect GI contributions");
+    const auto result = RasterizeGaussiansCUDAWithImportance(
+        raster_settings.bg_, means3D, colors_precomp, opacities, scales,
+        rotations, raster_settings.scale_modifier_, cov3D_precomp,
+        raster_settings.viewmatrix_, raster_settings.projmatrix_,
+        raster_settings.tanfovx_, raster_settings.tanfovy_,
+        raster_settings.image_height_, raster_settings.image_width_, dc, shs,
+        raster_settings.sh_degree_, raster_settings.campos_,
+        raster_settings.prefiltered_, raster_settings.debug_, raster_settings.collect_importance_,
+        raster_settings.mode_);
+    return {std::get<2>(result), std::get<3>(result), std::get<4>(result),
+            std::get<5>(result)};
+  }
 
   auto result =
       rasterizeGaussians(means3D, means2D, dc, shs, colors_precomp, opacities,

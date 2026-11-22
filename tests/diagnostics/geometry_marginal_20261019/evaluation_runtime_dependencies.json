@@ -1,0 +1,11 @@
+{
+  "existing_project_sources_only": {
+    "python/selector_cuda_bindings.cpp": "3971dadb955e316589949d5eade79b3375375967dc2f423db9d8bfff17f4e46e",
+    "src/selector_cuda.cpp": "f0e72dcdb300265f5d44da40c7ea27a4b37d81194bcb8a7cbe566c96b3836a1c",
+    "src/selector_cuda.cu": "fc638b3ddb4a2fb412c7b5a667f0edcb1ea709a1a5deb1db20dea8276912beab",
+    "include/selector_cuda.h": "0249481d2f70fa31063ffc109498dee52b7cd01a1ef7f1a835151f8981a6711f"
+  },
+  "CUDA_changes": false,
+  "optimization": false,
+  "reason": "frozen runtime copy initially lacked sources required by existing Selector Python binding"
+}

@@ -1,0 +1,1 @@
+Replica office2 RGB-D在1200×680分辨率下，mode182渲染器相对于同一地图Full渲染的加速比。折线表示2000个视角的平均加速比，阴影表示视角间第5至95百分位区间。每个视角使用三次单图纯渲染计时的中位数；不包含准备、Selector和Compensator开销。ratio按当前视角的名义Anchor候选池计算，Full使用全部43197个未补偿Master高斯。

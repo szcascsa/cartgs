@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "native_samples": 48000,
+  "native_cases": 96,
+  "isolated_cases": 280,
+  "gradient_cases": 11,
+  "captured_kernels": 3510,
+  "parameter_count": 4962,
+  "observed_workload_rows": 36228,
+  "source_drift": [
+    "cfg/selector/fast.yaml"
+  ],
+  "files_hashed": 74
+}

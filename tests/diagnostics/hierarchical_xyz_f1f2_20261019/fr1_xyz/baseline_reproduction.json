@@ -1,0 +1,21 @@
+{
+  "all_passed": true,
+  "complete_rankings_exact": true,
+  "C_tree_binary_exact": true,
+  "F3_prior_gain_exact": true,
+  "B_predecessors_exact": true,
+  "per_view_max_abs": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "photo": 0.0
+  },
+  "aggregate_max_abs": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "photo": 0.0
+  },
+  "rerenders": 864,
+  "new_F1_F2_started": false
+}

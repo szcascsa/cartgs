@@ -141,6 +141,7 @@ class MapPoint {
 
   void SetBadFlag();
   bool isBad();
+  bool GIBad() const;
 
   void Replace(MapPoint* pMP);
   MapPoint* GetReplaced();

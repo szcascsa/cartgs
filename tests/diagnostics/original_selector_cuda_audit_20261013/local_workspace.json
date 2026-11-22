@@ -1,0 +1,17 @@
+{
+  "branch --show-current": {
+    "exit": 0,
+    "stdout": "cuda-tf",
+    "stderr": ""
+  },
+  "rev-parse HEAD": {
+    "exit": 0,
+    "stdout": "62ab7f9ade068e361628db1bd758dde007978eb3",
+    "stderr": ""
+  },
+  "status --short": {
+    "exit": 0,
+    "stdout": "M CUDA_TF_IMPLEMENTATION_REPORT.md\n M cfg/selector/fast.yaml\n M tests/diagnostics/cuda_tf_implementation_20261013/CMakeLists.txt\n M tests/diagnostics/cuda_tf_implementation_20261013/collect_online_results.py\n M tests/diagnostics/cuda_tf_implementation_20261013/local_source_manifest.json\n M tests/diagnostics/cuda_tf_implementation_20261013/online_driver.cmake\n M tests/diagnostics/cuda_tf_implementation_20261013/run_online.py\n M tests/diagnostics/cuda_tf_implementation_20261013/run_online_evaluation.py\n M tests/diagnostics/cuda_tf_implementation_20261013/sample_online_memory.py\n?? ORIGINAL_TF_CUDA_AUDIT.md\n?? build-cuda118-sm86.zip\n?? tests/diagnostics/cuda_tf_implementation_20261013/desk_start1000_online_memory_samples.csv\n?? tests/diagnostics/cuda_tf_implementation_20261013/desk_start1000_online_runs.json\n?? tests/diagnostics/cuda_tf_implementation_20261013/desk_start1000_online_summary.json\n?? tests/diagnostics/cuda_tf_implementation_20261013/evaluate_headless_batched.py\n?? tests/diagnostics/cuda_tf_implementation_20261013/headless_help.log\n?? tests/diagnostics/cuda_tf_implementation_20261013/online_build.exit\n?? tests/diagnostics/cuda_tf_implementation_20261013/online_build.log\n?? tests/diagnostics/cuda_tf_implementation_20261013/online_memory_samples.csv\n?? tests/diagnostics/cuda_tf_implementation_20261013/online_profiler_parity.cpp\n?? tests/diagnostics/cuda_tf_implementation_20261013/online_runs.json\n?? tests/diagnostics/cuda_tf_implementation_20261013/online_summary.json\n?? tests/diagnostics/cuda_tf_implementation_20261013/online_tf_profiler.h\n?? tests/diagnostics/cuda_tf_implementation_20261013/phase_d.exit\n?? tests/diagnostics/cuda_tf_implementation_20261013/phase_d.log\n?? tests/diagnostics/cuda_tf_implementation_20261013/phase_d_build.log\n?? tests/diagnostics/cuda_tf_implementation_20261013/remote_source_verification.json\n?? tests/diagnostics/cuda_tf_implementation_20261013/run_online_profile.py\n?? tests/diagnostics/cuda_tf_implementation_20261013/run_online_profile_build.sh\n?? tests/diagnostics/cuda_tf_implementation_20261013/run_remaining_acceptance.py\n?? tests/diagnostics/original_selector_cuda_audit_20261013/\n?? tests/diagnostics/original_tf_cuda_audit_20261013/",
+    "stderr": ""
+  }
+}

@@ -1,0 +1,410 @@
+[
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.07568,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/backward",
+    "kernel_calls": 10080,
+    "kernel_gpu_ms": 114.230969,
+    "launch_threads": "all_autograd_threads"
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/cache_missing_indices",
+    "kernel_calls": 144,
+    "kernel_gpu_ms": 0.480032,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/selector_network_backward",
+    "kernel_calls": 6080,
+    "kernel_gpu_ms": 104.765364,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/student_forward",
+    "kernel_calls": 4028,
+    "kernel_gpu_ms": 23.290116,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/target_cache",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 5.069693,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "component": "selector/teacher_forward",
+    "kernel_calls": 528,
+    "kernel_gpu_ms": 3.080109,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.950183,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/backward",
+    "kernel_calls": 8400,
+    "kernel_gpu_ms": 39.042314,
+    "launch_threads": "all_autograd_threads"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/cache_missing_indices",
+    "kernel_calls": 940,
+    "kernel_gpu_ms": 2.876374,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/geometry_transport",
+    "kernel_calls": 30024,
+    "kernel_gpu_ms": 90.172912,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/hexplane_backward",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 10.614445,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/output_backward",
+    "kernel_calls": 80,
+    "kernel_gpu_ms": 0.53936,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/student_forward",
+    "kernel_calls": 3680,
+    "kernel_gpu_ms": 49.120906,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/target_cache",
+    "kernel_calls": 31608,
+    "kernel_gpu_ms": 99.54024,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/teacher_forward",
+    "kernel_calls": 400,
+    "kernel_gpu_ms": 5.455774,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "component": "tf/tf_mlp_backward",
+    "kernel_calls": 2560,
+    "kernel_gpu_ms": 14.351471,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.948452,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/backward",
+    "kernel_calls": 8400,
+    "kernel_gpu_ms": 36.711322,
+    "launch_threads": "all_autograd_threads"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/cache_missing_indices",
+    "kernel_calls": 120,
+    "kernel_gpu_ms": 0.393341,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/geometry_transport",
+    "kernel_calls": 30024,
+    "kernel_gpu_ms": 86.311657,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/hexplane_backward",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 9.499009,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/output_backward",
+    "kernel_calls": 80,
+    "kernel_gpu_ms": 0.526115,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/student_forward",
+    "kernel_calls": 3680,
+    "kernel_gpu_ms": 48.534188,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/target_cache",
+    "kernel_calls": 30788,
+    "kernel_gpu_ms": 93.022658,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/teacher_forward",
+    "kernel_calls": 400,
+    "kernel_gpu_ms": 5.321908,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "component": "tf/tf_mlp_backward",
+    "kernel_calls": 2560,
+    "kernel_gpu_ms": 13.848707,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.075553,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/backward",
+    "kernel_calls": 10080,
+    "kernel_gpu_ms": 115.32639,
+    "launch_threads": "all_autograd_threads"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/cache_missing_indices",
+    "kernel_calls": 144,
+    "kernel_gpu_ms": 0.480352,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/selector_network_backward",
+    "kernel_calls": 6080,
+    "kernel_gpu_ms": 105.698723,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/student_forward",
+    "kernel_calls": 6688,
+    "kernel_gpu_ms": 36.908641,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/target_cache",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 5.120977,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "component": "selector/teacher_forward",
+    "kernel_calls": 528,
+    "kernel_gpu_ms": 3.079508,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.95901,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/backward",
+    "kernel_calls": 8400,
+    "kernel_gpu_ms": 39.622287,
+    "launch_threads": "all_autograd_threads"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/cache_missing_indices",
+    "kernel_calls": 940,
+    "kernel_gpu_ms": 2.935113,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/geometry_transport",
+    "kernel_calls": 41564,
+    "kernel_gpu_ms": 118.143935,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/hexplane_backward",
+    "kernel_calls": 1120,
+    "kernel_gpu_ms": 10.366488,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/output_backward",
+    "kernel_calls": 80,
+    "kernel_gpu_ms": 0.571074,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/student_forward",
+    "kernel_calls": 3680,
+    "kernel_gpu_ms": 52.832165,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/target_cache",
+    "kernel_calls": 43148,
+    "kernel_gpu_ms": 127.603601,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/teacher_forward",
+    "kernel_calls": 400,
+    "kernel_gpu_ms": 5.48902,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "component": "tf/tf_mlp_backward",
+    "kernel_calls": 2560,
+    "kernel_gpu_ms": 15.048835,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/adam_step",
+    "kernel_calls": 20,
+    "kernel_gpu_ms": 0.08733,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/backward",
+    "kernel_calls": 10080,
+    "kernel_gpu_ms": 114.797441,
+    "launch_threads": "all_autograd_threads"
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/cache_missing_indices",
+    "kernel_calls": 1544,
+    "kernel_gpu_ms": 4.592174,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/selector_network_backward",
+    "kernel_calls": 6080,
+    "kernel_gpu_ms": 105.332448,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/student_forward",
+    "kernel_calls": 6688,
+    "kernel_gpu_ms": 36.705406,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/target_cache",
+    "kernel_calls": 2520,
+    "kernel_gpu_ms": 9.23982,
+    "launch_threads": "scope_thread"
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "component": "selector/teacher_forward",
+    "kernel_calls": 528,
+    "kernel_gpu_ms": 3.07481,
+    "launch_threads": "scope_thread"
+  }
+]

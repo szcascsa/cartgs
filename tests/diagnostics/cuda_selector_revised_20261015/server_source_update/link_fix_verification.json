@@ -1,0 +1,18 @@
+{
+  "cmake_configure_passed": true,
+  "target_link_checks": {
+    "performance_primitives_test": true,
+    "historical_gradient_selector_cuda_test": true,
+    "historical_gradient_render_test": true,
+    "drift_stability_test": true,
+    "gradient_guard_checkpoint_test": true,
+    "distill_recovery_test": true,
+    "historical_probe_cache_test": true,
+    "drift_stability_selector_cuda_test": true,
+    "drift_stability_tf_cuda_test": true,
+    "change_distill_test": true,
+    "hexplane_resample_test": true,
+    "change_distill_selector_cuda_test": true
+  },
+  "project_build_executed": false
+}

@@ -1,0 +1,56 @@
+{
+  "all_passed": true,
+  "N_total": 52635,
+  "N_candidate": 50330,
+  "all_arms_identical_population": true,
+  "same_K": {
+    "A_Raw": {
+      "0.01": 503,
+      "0.05": 2517,
+      "0.1": 5033,
+      "0.15": 7550
+    },
+    "B_FixedMarginal": {
+      "0.01": 503,
+      "0.05": 2517,
+      "0.1": 5033,
+      "0.15": 7550
+    },
+    "C_Hierarchical": {
+      "0.01": 503,
+      "0.05": 2517,
+      "0.1": 5033,
+      "0.15": 7550
+    },
+    "D_RepresentativeOnly": {
+      "0.01": 503,
+      "0.05": 2517,
+      "0.1": 5033,
+      "0.15": 7550
+    },
+    "E_L1Only": {
+      "0.01": 503,
+      "0.05": 2517,
+      "0.1": 5033,
+      "0.15": 7550
+    }
+  },
+  "nested": true,
+  "complete_permutations": true,
+  "C_repeat_complete_ranking_exact": true,
+  "C_prior_score_tree_exact": true,
+  "B_prior_complete_ranking_exact": true,
+  "raw_contributions_unchanged": true,
+  "structure": {
+    "occupied_roots": 2048,
+    "h_root": 0.29986755746366806,
+    "leaves": 5601,
+    "representatives": 13715,
+    "weighted_leaf_Q": 0.8837622487608384
+  },
+  "runtime_ms": {
+    "B_reference": 1258.6299665272236,
+    "C_build": 8951.454991
+  },
+  "E_uses_same_root_provisional_representatives": true
+}

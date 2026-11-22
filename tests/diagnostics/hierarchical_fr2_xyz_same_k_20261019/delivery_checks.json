@@ -1,0 +1,15 @@
+{
+  "all_passed": true,
+  "frozen_sources_unchanged": true,
+  "reused_math_unchanged": true,
+  "preregistration_sha256": "09d4fc88476394a64e24cd4bd161a311299106bef6ee21bd824e0e1f07ae5a6a",
+  "optimizer_updates": 0,
+  "same_K": true,
+  "nested": true,
+  "deterministic": true,
+  "unique_rows": true,
+  "quality_cases": 16,
+  "view_renders": 624,
+  "camera_archive_unchanged": true,
+  "report_sha256": "4f8162e4a2d307326d5cf14b10a8b3eb6f5a0c42c9c873b7d559f72a180c11d0"
+}

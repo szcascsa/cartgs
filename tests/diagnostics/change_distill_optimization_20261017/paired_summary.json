@@ -1,0 +1,321 @@
+[
+  {
+    "stage": "baseline",
+    "branch": "both",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 759.141891,
+      "min": 748.194441,
+      "max": 769.950817,
+      "std": 7.658074514519617
+    },
+    "cuda_elapsed_ms": {
+      "median": 759.1324157714844,
+      "min": 748.1846313476562,
+      "max": 769.941650390625,
+      "std": 7.6579537706804
+    },
+    "peak_allocated_bytes": {
+      "median": 106548736.0,
+      "min": 106548736,
+      "max": 106548736,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 56031232.0,
+      "min": 56031232,
+      "max": 56031232,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 231.26649450000002,
+      "min": 228.581297,
+      "max": 235.525327,
+      "std": 2.6246474972848017
+    },
+    "cuda_elapsed_ms": {
+      "median": 231.25939178466797,
+      "min": 228.57382202148438,
+      "max": 235.51747131347656,
+      "std": 2.6246618446332786
+    },
+    "peak_allocated_bytes": {
+      "median": 101559808.0,
+      "min": 101559808,
+      "max": 101559808,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 55793664.0,
+      "min": 55793664,
+      "max": 55793664,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 558.90678,
+      "min": 544.820219,
+      "max": 570.095946,
+      "std": 11.669305049034003
+    },
+    "cuda_elapsed_ms": {
+      "median": 558.8983764648438,
+      "min": 544.8125610351562,
+      "max": 570.087646484375,
+      "std": 11.66913669991586
+    },
+    "peak_allocated_bytes": {
+      "median": 100217856.0,
+      "min": 100217856,
+      "max": 100217856,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 53918720.0,
+      "min": 53918720,
+      "max": 53918720,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "both",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 673.509073,
+      "min": 670.487727,
+      "max": 683.242401,
+      "std": 4.433651849160469
+    },
+    "cuda_elapsed_ms": {
+      "median": 673.49951171875,
+      "min": 670.4781494140625,
+      "max": 683.2329711914062,
+      "std": 4.433625346403085
+    },
+    "peak_allocated_bytes": {
+      "median": 106548736.0,
+      "min": 106548736,
+      "max": 106548736,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 56031232.0,
+      "min": 56031232,
+      "max": 56031232,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 468.73445749999996,
+      "min": 462.996317,
+      "max": 473.907895,
+      "std": 4.361126505466113
+    },
+    "cuda_elapsed_ms": {
+      "median": 468.7265167236328,
+      "min": 462.98779296875,
+      "max": 473.8996276855469,
+      "std": 4.361172409878124
+    },
+    "peak_allocated_bytes": {
+      "median": 100217856.0,
+      "min": 100217856,
+      "max": 100217856,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 53918720.0,
+      "min": 53918720,
+      "max": 53918720,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "stage_b",
+    "branch": "both",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 625.121381,
+      "min": 622.043596,
+      "max": 628.158911,
+      "std": 2.215052232928042
+    },
+    "cuda_elapsed_ms": {
+      "median": 625.1124877929688,
+      "min": 622.0346069335938,
+      "max": 628.1502075195312,
+      "std": 2.215522751715342
+    },
+    "peak_allocated_bytes": {
+      "median": 106548736.0,
+      "min": 106548736,
+      "max": 106548736,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 56031232.0,
+      "min": 56031232,
+      "max": 56031232,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 196.8847375,
+      "min": 195.805143,
+      "max": 197.943055,
+      "std": 0.6152461561989714
+    },
+    "cuda_elapsed_ms": {
+      "median": 196.87799835205078,
+      "min": 195.79811096191406,
+      "max": 197.9363555908203,
+      "std": 0.6153873342791476
+    },
+    "peak_allocated_bytes": {
+      "median": 101559808.0,
+      "min": 101559808,
+      "max": 101559808,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 55793664.0,
+      "min": 55793664,
+      "max": 55793664,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 461.0597105,
+      "min": 456.313197,
+      "max": 473.566531,
+      "std": 5.014927522188456
+    },
+    "cuda_elapsed_ms": {
+      "median": 461.0518493652344,
+      "min": 456.3057861328125,
+      "max": 473.55859375,
+      "std": 5.014871233469468
+    },
+    "peak_allocated_bytes": {
+      "median": 100217856.0,
+      "min": 100217856,
+      "max": 100217856,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 53918720.0,
+      "min": 53918720,
+      "max": 53918720,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "stage_c",
+    "branch": "both",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 619.3470975,
+      "min": 606.057121,
+      "max": 624.198907,
+      "std": 6.3692458279475535
+    },
+    "cuda_elapsed_ms": {
+      "median": 619.3376159667969,
+      "min": 606.04833984375,
+      "max": 624.1898803710938,
+      "std": 6.369085013513242
+    },
+    "peak_allocated_bytes": {
+      "median": 104790528.0,
+      "min": 104790528,
+      "max": 104790528,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 54273024.0,
+      "min": 54273024,
+      "max": 54273024,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 185.84446200000002,
+      "min": 184.810886,
+      "max": 188.739384,
+      "std": 1.2414426364526412
+    },
+    "cuda_elapsed_ms": {
+      "median": 185.83748626708984,
+      "min": 184.80364990234375,
+      "max": 188.73184204101562,
+      "std": 1.241274685108061
+    },
+    "peak_allocated_bytes": {
+      "median": 85086208.0,
+      "min": 85086208,
+      "max": 85086208,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 39320064.0,
+      "min": 39320064,
+      "max": 39320064,
+      "std": 0.0
+    }
+  },
+  {
+    "stage": "stage_c",
+    "branch": "tf",
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 459.8875845,
+      "min": 448.426655,
+      "max": 463.574524,
+      "std": 4.450082830286635
+    },
+    "cuda_elapsed_ms": {
+      "median": 459.87957763671875,
+      "min": 448.41851806640625,
+      "max": 463.5670471191406,
+      "std": 4.450171805172776
+    },
+    "peak_allocated_bytes": {
+      "median": 100217856.0,
+      "min": 100217856,
+      "max": 100217856,
+      "std": 0.0
+    },
+    "additional_allocated_bytes": {
+      "median": 53918720.0,
+      "min": 53918720,
+      "max": 53918720,
+      "std": 0.0
+    }
+  }
+]

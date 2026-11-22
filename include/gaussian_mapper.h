@@ -1,3 +1,4 @@
+#include "anchor_si.h"
 /**
  * This file is part of Photo-SLAM
  *
@@ -24,7 +25,12 @@
 #include <torch/torch.h>
 
 #include <algorithm>
+#include <array>
 #include <chrono>
+#include "mapping_profiler.h"
+#include "continuous_tf_statistics.h"
+#include "transform_field_cuda.h"
+#include "model_snapshot.h"
 #include <cstdint>
 #include <ctime>
 #include <filesystem>
@@ -47,15 +53,34 @@
 
 #include "ORB-SLAM3/Thirdparty/Sophus/sophus/se3.hpp"
 #include "ORB-SLAM3/include/System.h"
+#include "change_management.h"
+#include "drift_stability.h"
+#include "selector_handoff.h"
+#include "historical_outlier_selector.h"
+#include "gradient_constraint.h"
+#include "gradient_constraint_clock.h"
+#include "conflict_replay.h"
+#include "historical_gradient_render.h"
 #include "improvements/selector/gumbel_network.h"
 #include "gaussian_keyframe.h"
 #include "gaussian_scene.h"
 #include "gi_teacher.h"
+#include "global_gi.h"
+#include "geometry_marginal_importance.h"
+#include "hierarchical_representative_si.h"
+#include "global_gi_snapshot_cache.h"
 #include "operate_points.h"
-#include "online_gi.h"
+#include "recent_window_importance.h"
 #include "stereo_vision.h"
 #include "tensor_utils.h"
 #include "transform_field.h"
+#include "ultra_light_schedule.h"
+#include "ultrafast_rotation.h"
+#include "ultrafast_training_timer.h"
+#include "tail_optimization_schedule.h"
+#include "real_lod_schedule.h"
+#include "mixed_ratio.h"
+#include "lod_health_guard.h"
 
 #define CHECK_DIRECTORY_AND_CREATE_IF_NOT_EXISTS(dir)                 \
   if (!dir.empty() && !std::filesystem::exists(dir))                  \
@@ -187,19 +212,74 @@ class GaussianMapper {
   void generateKfidRandomShuffle();
   std::shared_ptr<GaussianKeyframe> useOneRandomSlidingWindowKeyframe();
   std::shared_ptr<GaussianKeyframe> useOneRandomKeyframe();
-  bool shouldRunSelectorReplay() const;
-  std::vector<std::shared_ptr<GaussianKeyframe>> sampleReplayKeyframes(
-      const std::shared_ptr<GaussianKeyframe>& current_kf,
-      int num_keyframes);
-  void trainMappingIteration(std::shared_ptr<GaussianKeyframe> viewpoint_cam);
-  void trainSelectorReplay(std::shared_ptr<GaussianKeyframe> replay_kf);
-  bool trainSelectorUpdate(std::shared_ptr<GaussianKeyframe> viewpoint_cam,
+  bool shouldRunSelectorReplay(bool deferred = false) const;
+  void processConflictReplay(const std::shared_ptr<GaussianKeyframe>& current);
+  void enqueueConflictReplay(const std::shared_ptr<GaussianKeyframe>& current);
+  void trainMappingIteration(std::shared_ptr<GaussianKeyframe> viewpoint_cam,
+                             bool enhanced, bool resumed_after_slam);
+  bool trainJointReplay(const ConflictReplayTask& task, std::shared_ptr<GaussianKeyframe> replay_kf);
+  struct LodGradientResult {
+    bool trained = false, finite_loss = true;
+    bool rendered = false;
+    int64_t active_gaussians = 0, transformed_gaussians = 0, compensated_gaussians = 0;
+    int render_height = 0, render_width = 0;
+    double loss = 0.0;
+    torch::Tensor supervised_indices;
+    Json::Value spatial_plan;
+  };
+  LodGradientResult accumulateSpatialRatioGradients(const std::shared_ptr<GaussianKeyframe>& camera,
+                           torch::Tensor& truth, std::size_t ratio_index);
+  LodGradientResult accumulateViewBudgetGradients(const std::shared_ptr<GaussianKeyframe>& camera,
+                           torch::Tensor& truth, std::size_t ratio_index);
+  LodGradientResult accumulateLodGradients(std::shared_ptr<GaussianKeyframe> viewpoint_cam,
                            int image_height,
                            int image_width,
                            torch::Tensor& gt_image,
-                           bool step_optimizer);
+                           std::size_t ratio_index,
+                           bool detach_gaussian_parameters,
+                           bool record_supervision,
+                           UltrafastTrainingTimer* rotation_timer = nullptr,
+                           bool normal_mode2 = false,
+                           bool native_lod = false);
+  struct MappingStageCommit {
+    bool gaussian = false, selector = false, tf = false, finite = true;
+  };
+  MappingStageCommit commitMode2Stage(bool gaussian_stage);
+  void reportMode2Mapping(const char* reason) const;
   void initializeTransformFieldIfNeeded();
+  std::vector<torch::Tensor> reliability_trace_;
+  void observeFullMaturity(const torch::Tensor& radii,int64_t keyframe,
+      const torch::Tensor& contribution={},int64_t sample_pixels=0);
+  void prepareElasticEntryState();
+  void ensureSharedMappingOptimizer();
+  bool stepWithHistoricalGuard(const std::shared_ptr<GaussianKeyframe>& current,
+                               bool count_rejection = true,
+                               bool* stage_committed = nullptr);  // Already render-locked.
+  GuardEvaluation makeHistoricalEvaluation(const std::vector<GuardObjective>& objectives);
   void updateTransformLearningRate();
+  ChangeCapture captureGeometryChange(ChangeFlag flag);
+  void finishGeometryChange(ChangeCapture&& capture,
+                            const AABBUpdatePlan* prepared_plan = nullptr);
+  void evaluateDynamicAABB(bool force_check = false);
+  void evaluateDriftStability(bool deferred = false);
+  void reportUltrafastRotation(const char* event) const;
+  void markUltrafastOnlineEnd();
+  void beginForcedTail(std::uint64_t iteration);
+  std::uint64_t normalMappingLimit() const;
+  bool hasNormalOptimizationBudget();
+  void runRealLodOptimization();
+  void trainRealLodIteration(const std::shared_ptr<GaussianKeyframe>& camera);
+  double accumulateRealLodFullGradients(const std::shared_ptr<GaussianKeyframe>& camera,
+                                       torch::Tensor& truth);
+  void refreshFlexgsImportance();
+  void saveRealLodState(const std::filesystem::path& directory);
+  void registerRecentKeyframe(const std::shared_ptr<GaussianKeyframe>& keyframe);
+  void updateGlobalGIBank();  // Already render-locked; copy ORB IDs under map lock.
+  torch::Tensor renderGlobalGIContribution(uint64_t keyframe_id);
+  void refreshRecentWindowContribution(
+      const std::shared_ptr<GaussianKeyframe>& keyframe,
+      const torch::Tensor& raw_importance,
+      const torch::Tensor& contribution_count);
   void readSelectorConfigFromFile(std::filesystem::path cfg_path);
   void increaseKeyframeTimesOfUse(std::shared_ptr<GaussianKeyframe> pkf,
                                   int times);
@@ -230,6 +310,7 @@ class GaussianMapper {
   void renderAndRecordAllKeyframes(std::string name_suffix = "");
 
   void savePly(std::filesystem::path result_dir);
+  void saveViewBankOrbMap(std::filesystem::path result_dir);
   void saveSelectorConfig(std::filesystem::path result_dir);
   void keyframesToJson(std::filesystem::path result_dir);
   void saveModelParams(std::filesystem::path result_dir);
@@ -277,6 +358,8 @@ class GaussianMapper {
   // Data
   std::map<std::size_t, std::shared_ptr<GaussianKeyframe>>
       viewpoint_sliding_window_;
+  std::map<std::size_t, std::shared_ptr<GaussianKeyframe>>
+      historical_keyframes_;
   std::vector<std::size_t> kfid_shuffle_;
   std::size_t kfid_shuffle_idx_ = 0;
   std::map<std::size_t, int> kfs_used_times_;
@@ -294,7 +377,12 @@ class GaussianMapper {
   int default_sh_ = 0;
   std::uint64_t mapping_iter_ = 0;
   std::uint64_t selector_step_ = 0;
-  std::uint64_t transform_step_ = 0;
+  MappingUpdateClock normal_update_clock_;
+  std::uint64_t topology_version_ = 0;
+  std::uint64_t correspondence_version_ = 0;
+  std::uint64_t cd_selector_steps_ = 0, cd_tf_steps_ = 0;
+  std::uint64_t cd_compensation_steps_ = 0, compensation_forwards_ = 0, compensation_decoded_rows_ = 0;
+  std::uint64_t change_version_ = 0;
 
   // Settings
   SystemSensorType sensor_type_;
@@ -329,31 +417,161 @@ class GaussianMapper {
 
   bool do_gaus_pyramid_training_;
   bool selector_enabled_ = false;
+  std::string selector_backend_ = "cuda";
+  std::string selector_selection_mode_ = "cached_bernoulli";
+  bool selector_gumbel_budget_normalize_ = false;
+  // Omitted in old configs: preserve legacy checkpoint/experiment behavior.
+  std::string selector_architecture_ = "legacy";
+  float selector_anchor_voxel_size_ = 0.1f;
+  bool selector_anchor_gaussian_attributes_ = false;
+  bool selector_anchor_global_xyz_ = false;
+  bool selector_anchor_ratio_features_ = false;
+  int selector_anchor_ratio_shared_dim_ = 8;
+  std::string selector_anchor_ratio_scalar_input_ = "none";
+  int selector_anchor_feature_dim_ = 16;
+  bool selector_anchor_adaptive_ = false;
+  bool selector_explicit_anchor_blocks_ = false;
+  bool selector_variable_anchor_members_ = false;
+  bool selector_slot_deactivation_ = false;
+  bool selector_anchor_frustum_culling_ = true;
+  bool selector_anchor_set_encoder_ = false;
+  bool selector_anchor_set_statistics_ = false;
+  bool selector_anchor_context_residual_ = false;
   bool selector_protection_enabled_ = true;
+  ProtectionConfig protection_config_;
   std::vector<float> selector_target_ratios_ = {0.01f, 0.05f, 0.1f, 0.15f};
-  int selector_min_age_ = 100;
-  int selector_min_seen_ = 80;
   float selector_temperature_ = 1.0f;
   float selector_learning_rate_ = 0.001f;
   float selector_render_loss_weight_ = 1.0f;
   float selector_gi_loss_weight_ = 1.0f;
   float selector_ratio_loss_weight_ = 0.01f;
-  bool selector_replay_enabled_ = true;
+  // Mode1 scales online LoD only; mode2 scales LoD in both online and tail.
+  float selector_lod_render_scale_ = 1.0f;
+  int ultra_light_mode_ = 1;
+  int lod_start_iteration_ = 0;
+  bool selector_physical_scale_additive_ = false;
+  bool selector_softplus_scale_ = false;
+  int selector_geometry_head_variant_ = 0;
+  bool mapping_iteration_logging_ = false;
+  std::uint64_t normal_lod_branch_count_ = 0;
+  struct Mode2MappingCounts {
+    std::uint64_t mappings = 0, full_renders = 0, full_backwards = 0;
+    std::uint64_t gaussian_step_calls = 0, gaussian_updates = 0;
+    std::uint64_t stats = 0, topology = 0, opacity_resets = 0;
+    std::uint64_t lod_attempts = 0, lod_renders = 0, selector_commits = 0, tf_commits = 0;
+    std::uint64_t lod_nonfinite = 0;
+    std::vector<std::uint64_t> ratios;
+  };
+  Mode2MappingCounts mode2_online_, mode2_tail_;
+  UltrafastRotation ultrafast_rotation_;
+  std::unique_ptr<UltrafastTrainingTimer> ultrafast_training_timer_;
+  DeferredMappingTask ultrafast_densify_task_, ultrafast_opacity_task_;
+  std::int64_t ultrafast_tf_first_initialized_ = -1, ultrafast_tf_first_applied_ = -1;
+  TailOptimizationSchedule tail_optimization_schedule_;
+  RealLodSchedule real_lod_;
+  mixed_ratio::Config mixed_ratio_config_;
+  std::vector<std::uint64_t> uniform_ratio_counts_, mixed_ratio_counts_;
+  float real_lod_full_loss_weight_ = 1.f;
+  std::uint64_t real_lod_full_renders_ = 0, real_lod_full_backwards_ = 0;
+  bool flexgs_importance_enabled_ = false;
+  int flexgs_importance_interval_ = 1000;
+  torch::Tensor flexgs_importance_;
+  std::uint64_t flexgs_importance_version_ = 0, flexgs_importance_views_ = 0;
+  std::uint64_t flexgs_importance_topology_ = 0, flexgs_lod_master_updates_ = 0;
+  std::uint64_t flexgs_lod_selector_updates_ = 0, flexgs_lod_nonfinite_ = 0;
+  std::vector<std::uint64_t> real_lod_ratio_counts_;
+  double flexgs_importance_ms_ = 0, real_lod_training_ms_ = 0;
+  DeferredMappingTask gi_refresh_task_, aabb_task_, historical_task_, replay_task_;
+  bool record_keyframe_used_times_ = false;
+  // Normal LOD rendering keeps Gaussian gradients by default, matching
+  // FlexGS. Joint Replay explicitly keeps Gaussian gradients.
+  bool selector_detach_gaussian_parameters_ = false;
+  bool selector_replay_enabled_ = false;
   int selector_replay_interval_ = 300;
   int selector_replay_num_frames_ = 2;
-  int selector_replay_seed_ = 0;
+  // Zero preserves the original CaRtGS stopping policy. When non-zero, this
+  // is the exact number of completed normal KF mapping iterations targeted;
+  // Joint Replay updates do not contribute to this counter.
+  std::uint64_t selector_max_mapping_iterations_ = 0;
+  bool mapping_budget_warning_printed_ = false;
+  bool importance_ratio_aware_weight_ = false;
+  std::vector<float> importance_ratio_weights_ = {1.0f, 1.0f, 1.0f, 1.0f};
 
-  OnlineGIConfig online_gi_config_;
-  std::unique_ptr<OnlineGIManager> online_gi_;
+  DynamicAABBConfig dynamic_aabb_config_;
+  ChangeDistillConfig change_distill_config_;
+
+  RecentWindowConfig recent_window_config_;
+  std::unique_ptr<RecentWindowImportanceManager> recent_window_importance_;
+  GlobalGIConfig global_gi_config_;
+  std::unique_ptr<GlobalGIManager> global_gi_;
+  std::unique_ptr<GeometryMarginalImportance> geometry_marginal_;
+  GlobalGISnapshotCache global_gi_snapshot_cache_;
+  std::optional<std::chrono::steady_clock::time_point> global_gi_cycle_start_;
+  HistoricalOutlierConfig historical_outlier_config_;
+  std::unique_ptr<HistoricalOutlierSelector> historical_outlier_selector_;
+  GradientConstraintConfig gradient_constraint_config_;
+  ConflictReplayConfig conflict_replay_config_;
+  std::unique_ptr<ConflictReplayManager> conflict_replay_manager_;
+  std::vector<GuardObjective> last_guard_objectives_;
+  std::uint64_t replay_ratio_cursor_ = 0, replay_attempt_count_ = 0, replay_commit_count_ = 0;
+  std::uint64_t replay_skip_count_ = 0, replay_tf_updates_ = 0, replay_enqueued_count_ = 0;
+  GuardModuleCandidates gradient_candidate_modules_;
+  std::uint64_t gradient_guard_attempt_ = 0, gradient_history_cursor_ = 0, gradient_ratio_cursor_ = 0;
+  std::uint64_t gradient_accept_count_ = 0, gradient_shrink_count_ = 0, gradient_cancel_count_ = 0;
+  std::uint64_t gradient_noop_count_ = 0;
+  std::uint64_t gradient_fallback_count_ = 0, gradient_would_cancel_count_ = 0;
+  std::string gradient_guard_last_status_;
+  MappingProfiler mapping_profiler_;
+  ContinuousTFStatistics continuous_tf_statistics_;
+  int initialization_seed_ = 0;
 
   improvements::selector::GumbelNetwork selector_network_ = nullptr;
+  bool selector_compensation_ = false;
+  anchor_si::Config anchor_si_config_;
+  anchor_si::State anchor_si_;
+  bool fused_dense_adam_ = true;
+  bool fused_compensation_decode_ = true;
+  bool fused_anchor_input_pack_ = true;
+  bool fused_spatial_compensation_ = true;
+  bool fused_anchor_full_stats_ = true;
+  bool fused_selector_compaction_ = true;
+  bool fused_flexgs_selector_ = true;
+  bool cached_anchor_context_ = false;
+  bool reuse_renderer_workspace_ = true;
+  bool optimized_ssim_backward_ = true;
+  bool cached_ssim_statistics_ = true;
+  bool cache_ratio_code_ = true;
+  bool elide_inactive_maturity_gate_ = true;
+  bool reuse_maturity_softmax_ = true;
+  bool fused_anchor128_input_ = true;
+  bool fused_residual48_input_ = true;
+  bool fused_residual48_training_input_ = true;
+  bool fused_residual48_heads_ = false;
+  bool parallel_residual48_heads_ = false;
+  bool fused_maturity_loss_ = true;
+  bool fused_l1_loss_ = true;
+  bool fused_empty_tf_statistics_ = true;
+  std::string selector_compensation_method_ = "shared_mlp";
+  int selector_anchor_only_pruning_ = 0;
+  bool selector_anchor_refine_requires_full_ = false;
+  int selector_compensation_start_iter_ = 3000;
+  int selector_compensation_fourier_bands_ = 6;
   std::shared_ptr<torch::optim::Adam> selector_optimizer_;
+  bool shared_selector_optimizer_configured_ = false;
+  std::size_t shared_selector_group_index_ = 0;
   GITeacherBuilder gi_teacher_builder_;
-  std::mt19937 selector_replay_frame_rng_;
 
   TransformFieldConfig transform_field_config_;
   TransformField transform_field_ = nullptr;
   std::shared_ptr<torch::optim::Adam> transform_optimizer_;
+  bool shared_transform_optimizer_configured_ = false;
+  std::size_t shared_transform_mlp_group_index_ = 0;
+  std::size_t shared_transform_grid_group_index_ = 0;
+  std::unique_ptr<DynamicAABBManager> dynamic_aabb_manager_;
+  std::unique_ptr<ChangeDistillManager> change_distill_manager_;
+  std::unique_ptr<ChangeCoordinator> change_coordinator_;
+  std::unique_ptr<DriftStabilityManager> drift_stability_manager_;
+  DriftStabilityConfig drift_stability_config_;
 
   std::filesystem::path result_dir_;
   int keyframe_record_interval_;
@@ -376,4 +594,29 @@ class GaussianMapper {
   std::mutex mutex_settings_;
   std::mutex
       mutex_render_;  ///< the model is suppose to be read-only from outside
+  LodHealthGuard lod_health_guard_;
+  void failLodHealth(const std::string& reason);
+  bool selector_view_residual_enabled_ = false;
+  torch::Tensor view_importance_;
+  std::vector<std::uint64_t> global_view_ratio_counts_, residual_view_ratio_counts_;
+  bool selector_view_input_enabled_ = false;
+  float selector_view_gi_weight_ = 1.f;
+  bool selector_view_gi_lowest_two_only_ = false;
+  std::vector<std::size_t> selector_view_ratio_indices_;
+  bool selector_view_visible_budget_ = false;
+  std::vector<double> selector_view_budget_ratio_values_;
+  bool view_budget_enabled_ = false, view_budget_global_control_ = false;
+  bool view_budget_view_residual_ = false;
+  int view_budget_conditioning_ = 0; // 0 off, 1 mode, 2 both view, 3 Selector view, 4 Compensator view
+  std::string view_budget_residual_input_ = "hidden32";
+  float view_budget_loss_weight_ = 1.f;
+  int view_budget_seed_ = 0;
+  at::Generator view_budget_generator_;
+  std::uint64_t view_budget_renders_ = 0, view_budget_backwards_ = 0;
+  std::vector<std::uint64_t> view_budget_ratio_counts_;
+  LodHealthGuard view_budget_health_;
+  float view_budget_li_weight_ = 0.f;
+  torch::Tensor view_budget_li_;
+  std::uint64_t view_budget_li_step_ = 0, view_budget_li_camera_ = 0, view_budget_li_topology_ = 0;
+  std::uint64_t view_budget_li_full_renders_ = 0, view_budget_li_backwards_ = 0;
 };

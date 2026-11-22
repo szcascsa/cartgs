@@ -61,6 +61,7 @@ Map::Map(int initKFid)
 }
 
 Map::~Map() {
+  GIAssociationState::Write gi_write;
   // TODO: erase all points from memory
   mspMapPoints.clear();
 
@@ -72,6 +73,7 @@ Map::~Map() {
 }
 
 void Map::AddKeyFrame(KeyFrame* pKF) {
+  GIAssociationState::Write gi_write;
   unique_lock<mutex> lock(mMutexMap);
   if (mspKeyFrames.empty()) {
     cout << "First KF:" << pKF->mnId << "; Map init KF:" << mnInitKFid << endl;
@@ -112,6 +114,7 @@ void Map::EraseMapPoint(MapPoint* pMP) {
 }
 
 void Map::EraseKeyFrame(KeyFrame* pKF) {
+  GIAssociationState::Write gi_write;
   unique_lock<mutex> lock(mMutexMap);
   mspKeyFrames.erase(pKF);
   if (mspKeyFrames.size() > 0) {
@@ -192,6 +195,8 @@ void Map::SetCurrentMap() { mIsInUse = true; }
 void Map::SetStoredMap() { mIsInUse = false; }
 
 void Map::clear() {
+  GIAssociationState::Write gi_write;
+  gi_generation_ = GIAssociationState::newGeneration();
   //    for(set<MapPoint*>::iterator sit=mspMapPoints.begin(),
   //    send=mspMapPoints.end(); sit!=send; sit++)
   //        delete *sit;
@@ -216,7 +221,10 @@ void Map::clear() {
 
 bool Map::IsInUse() { return mIsInUse; }
 
-void Map::SetBad() { mbBad = true; }
+void Map::SetBad() {
+  GIAssociationState::Write gi_write;
+  mbBad = true;
+}
 
 bool Map::IsBad() { return mbBad; }
 
@@ -314,6 +322,7 @@ void Map::SetLastMapChange(int currentChangeId) {
 }
 
 void Map::PreSave(std::set<GeometricCamera*>& spCams) {
+  GIAssociationState::Write gi_write;
   int nMPWithoutObs = 0;
   for (MapPoint* pMPi : mspMapPoints) {
     if (!pMPi || pMPi->isBad()) continue;
@@ -372,6 +381,8 @@ void Map::PostLoad(
     ORBVocabulary*
         pORBVoc /*, map<long unsigned int, KeyFrame*>& mpKeyFrameId*/,
     map<unsigned int, GeometricCamera*>& mpCams) {
+  GIAssociationState::Write gi_write;
+  gi_generation_ = GIAssociationState::newGeneration();
   std::copy(mvpBackupMapPoints.begin(), mvpBackupMapPoints.end(),
             std::inserter(mspMapPoints, mspMapPoints.begin()));
   std::copy(mvpBackupKeyFrames.begin(), mvpBackupKeyFrames.end(),

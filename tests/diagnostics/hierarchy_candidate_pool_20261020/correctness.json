@@ -1,0 +1,569 @@
+{
+  "all_passed": true,
+  "baseline_all_exact": true,
+  "independent_checks": {
+    "all_passed": true,
+    "checks": [
+      {
+        "scene": "fr1_room",
+        "F": 13715,
+        "M": 13789,
+        "node_rep_occurrences": 16769,
+        "structural_union_exact": true,
+        "Raw_C_sort_exact": true,
+        "source_tie_exact": true,
+        "same_K_nested_exact": true,
+        "capacity_no_refill": true
+      },
+      {
+        "scene": "fr1_xyz",
+        "F": 10889,
+        "M": 10931,
+        "node_rep_occurrences": 13055,
+        "structural_union_exact": true,
+        "Raw_C_sort_exact": true,
+        "source_tie_exact": true,
+        "same_K_nested_exact": true,
+        "capacity_no_refill": true
+      },
+      {
+        "scene": "fr2_xyz",
+        "F": 11448,
+        "M": 11494,
+        "node_rep_occurrences": 14232,
+        "structural_union_exact": true,
+        "Raw_C_sort_exact": true,
+        "source_tie_exact": true,
+        "same_K_nested_exact": true,
+        "capacity_no_refill": true
+      }
+    ],
+    "synthetic": [
+      "cross_level_duplicate_union",
+      "multi_hot_identity",
+      "Raw_C_scoring",
+      "stable_source_tie",
+      "capacity_insufficient_no_refill"
+    ],
+    "no_GT_or_quality_read": true,
+    "pre_render_SHA": {
+      "fr1_room": {
+        "selected_sets.npz": "b8bec2e154fedeadaf1205daa8d62f175ca0363a073debada848154c92eee84f",
+        "pool_rankings.npz": "6b4fdbc8b86c737bd9f30e264ced2b56f059639ef5e88027e9fc8e8e93354e71",
+        "candidate_pool_rows.csv": "5369729225e9cc781601e771372a9fed752556fb5b208155f50d8a0b851c162d"
+      },
+      "fr1_xyz": {
+        "selected_sets.npz": "8d2b298f09f837626139bf3d89b850df8e553cb0c7bc11145ddefe68cf452765",
+        "pool_rankings.npz": "cfc9cec122b7c3154de50900208d85745f532e731a2f54b08265eeed759c1c6e",
+        "candidate_pool_rows.csv": "8b462272dcc5dd2e207dc969de0f30366e5f900ae4c837d43119aeb92cf5a90c"
+      },
+      "fr2_xyz": {
+        "selected_sets.npz": "71f68c1f2725386abec24276013bdb2357322d5d86a0106b55bbe91f8db5ebcd",
+        "pool_rankings.npz": "3d766eb7d947b5220ba0037af4d9e8713bf561f7e339fa2731c8440a8381cb39",
+        "candidate_pool_rows.csv": "046dd7da65ef83cc740071f3bb3a9c6b121b356d45e03495d687974c1bb70004"
+      }
+    }
+  },
+  "scenes": {
+    "fr1_room": {
+      "all_passed": true,
+      "F_subset_M": true,
+      "unique": true,
+      "candidate_only": true,
+      "structural_tree_source": true,
+      "P0_events_not_read": true,
+      "no_frontier_or_unlock": true,
+      "Raw_or_C_scorer_only": true,
+      "source_row_tie_break": true,
+      "complete_pool_permutations": true,
+      "nested_prefixes": true,
+      "repeat_exact": true,
+      "GT_or_quality_read": false,
+      "capacity": [
+        {
+          "arm": "F-Raw",
+          "ratio": 0.01,
+          "K": 503,
+          "pool_size": 13715,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.01,
+          "K": 503,
+          "pool_size": 13715,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.01,
+          "K": 503,
+          "pool_size": 13789,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.01,
+          "K": 503,
+          "pool_size": 13789,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.05,
+          "K": 2517,
+          "pool_size": 13715,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.05,
+          "K": 2517,
+          "pool_size": 13715,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.05,
+          "K": 2517,
+          "pool_size": 13789,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.05,
+          "K": 2517,
+          "pool_size": 13789,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.1,
+          "K": 5033,
+          "pool_size": 13715,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.1,
+          "K": 5033,
+          "pool_size": 13715,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.1,
+          "K": 5033,
+          "pool_size": 13789,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.1,
+          "K": 5033,
+          "pool_size": 13789,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.15,
+          "K": 7550,
+          "pool_size": 13715,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.15,
+          "K": 7550,
+          "pool_size": 13715,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.15,
+          "K": 7550,
+          "pool_size": 13789,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.15,
+          "K": 7550,
+          "pool_size": 13789,
+          "status": "SUFFICIENT"
+        }
+      ],
+      "pools": [
+        {
+          "N_candidate": 50330,
+          "pool": "F",
+          "pool_size": 13715,
+          "pool_fraction": 0.2725014901649116,
+          "compression_ratio": 3.6697047028800585,
+          "total_node_rep_occurrences": 13715,
+          "unique_rep_rows": 13715,
+          "duplicate_occurrence_ratio": 0.0
+        },
+        {
+          "N_candidate": 50330,
+          "pool": "M",
+          "pool_size": 13789,
+          "pool_fraction": 0.2739717862110074,
+          "compression_ratio": 3.6500108782362752,
+          "total_node_rep_occurrences": 16769,
+          "unique_rep_rows": 13789,
+          "duplicate_occurrence_ratio": 0.1777088675532232
+        }
+      ],
+      "level_overlap": {
+        "unique_L1": 4797,
+        "unique_L2": 5902,
+        "unique_L3": 6070,
+        "unique_final": 13715,
+        "L1_intersect_L2": 1371,
+        "L1_intersect_L3": 489,
+        "L2_intersect_L3": 1601,
+        "L1_intersect_L2_intersect_L3": 481
+      },
+      "baseline_exact": true,
+      "independent_pool_replay": true,
+      "historical_fixed_h8_redundancy_exact": true,
+      "new_scorer_no_unlock": true
+    },
+    "fr1_xyz": {
+      "all_passed": true,
+      "F_subset_M": true,
+      "unique": true,
+      "candidate_only": true,
+      "structural_tree_source": true,
+      "P0_events_not_read": true,
+      "no_frontier_or_unlock": true,
+      "Raw_or_C_scorer_only": true,
+      "source_row_tie_break": true,
+      "complete_pool_permutations": true,
+      "nested_prefixes": true,
+      "repeat_exact": true,
+      "GT_or_quality_read": false,
+      "capacity": [
+        {
+          "arm": "F-Raw",
+          "ratio": 0.01,
+          "K": 236,
+          "pool_size": 10889,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.01,
+          "K": 236,
+          "pool_size": 10889,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.01,
+          "K": 236,
+          "pool_size": 10931,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.01,
+          "K": 236,
+          "pool_size": 10931,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.05,
+          "K": 1182,
+          "pool_size": 10889,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.05,
+          "K": 1182,
+          "pool_size": 10889,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.05,
+          "K": 1182,
+          "pool_size": 10931,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.05,
+          "K": 1182,
+          "pool_size": 10931,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.1,
+          "K": 2364,
+          "pool_size": 10889,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.1,
+          "K": 2364,
+          "pool_size": 10889,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.1,
+          "K": 2364,
+          "pool_size": 10931,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.1,
+          "K": 2364,
+          "pool_size": 10931,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.15,
+          "K": 3546,
+          "pool_size": 10889,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.15,
+          "K": 3546,
+          "pool_size": 10889,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.15,
+          "K": 3546,
+          "pool_size": 10931,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.15,
+          "K": 3546,
+          "pool_size": 10931,
+          "status": "SUFFICIENT"
+        }
+      ],
+      "pools": [
+        {
+          "N_candidate": 23643,
+          "pool": "F",
+          "pool_size": 10889,
+          "pool_fraction": 0.46055915069999576,
+          "compression_ratio": 2.1712737625126275,
+          "total_node_rep_occurrences": 10889,
+          "unique_rep_rows": 10889,
+          "duplicate_occurrence_ratio": 0.0
+        },
+        {
+          "N_candidate": 23643,
+          "pool": "M",
+          "pool_size": 10931,
+          "pool_fraction": 0.46233557501163136,
+          "compression_ratio": 2.1629311133473608,
+          "total_node_rep_occurrences": 13055,
+          "unique_rep_rows": 10931,
+          "duplicate_occurrence_ratio": 0.16269628494829566
+        }
+      ],
+      "level_overlap": {
+        "unique_L1": 4464,
+        "unique_L2": 4281,
+        "unique_L3": 4310,
+        "unique_final": 10889,
+        "L1_intersect_L2": 1019,
+        "L1_intersect_L3": 334,
+        "L2_intersect_L3": 1098,
+        "L1_intersect_L2_intersect_L3": 327
+      },
+      "baseline_exact": true,
+      "independent_pool_replay": true,
+      "historical_fixed_h8_redundancy_exact": true,
+      "new_scorer_no_unlock": true
+    },
+    "fr2_xyz": {
+      "all_passed": true,
+      "F_subset_M": true,
+      "unique": true,
+      "candidate_only": true,
+      "structural_tree_source": true,
+      "P0_events_not_read": true,
+      "no_frontier_or_unlock": true,
+      "Raw_or_C_scorer_only": true,
+      "source_row_tie_break": true,
+      "complete_pool_permutations": true,
+      "nested_prefixes": true,
+      "repeat_exact": true,
+      "GT_or_quality_read": false,
+      "capacity": [
+        {
+          "arm": "F-Raw",
+          "ratio": 0.01,
+          "K": 431,
+          "pool_size": 11448,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.01,
+          "K": 431,
+          "pool_size": 11448,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.01,
+          "K": 431,
+          "pool_size": 11494,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.01,
+          "K": 431,
+          "pool_size": 11494,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.05,
+          "K": 2153,
+          "pool_size": 11448,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.05,
+          "K": 2153,
+          "pool_size": 11448,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.05,
+          "K": 2153,
+          "pool_size": 11494,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.05,
+          "K": 2153,
+          "pool_size": 11494,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.1,
+          "K": 4306,
+          "pool_size": 11448,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.1,
+          "K": 4306,
+          "pool_size": 11448,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.1,
+          "K": 4306,
+          "pool_size": 11494,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.1,
+          "K": 4306,
+          "pool_size": 11494,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-Raw",
+          "ratio": 0.15,
+          "K": 6459,
+          "pool_size": 11448,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "F-C",
+          "ratio": 0.15,
+          "K": 6459,
+          "pool_size": 11448,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-Raw",
+          "ratio": 0.15,
+          "K": 6459,
+          "pool_size": 11494,
+          "status": "SUFFICIENT"
+        },
+        {
+          "arm": "M-C",
+          "ratio": 0.15,
+          "K": 6459,
+          "pool_size": 11494,
+          "status": "SUFFICIENT"
+        }
+      ],
+      "pools": [
+        {
+          "N_candidate": 43059,
+          "pool": "F",
+          "pool_size": 11448,
+          "pool_fraction": 0.26586776283703756,
+          "compression_ratio": 3.7612683438155137,
+          "total_node_rep_occurrences": 11448,
+          "unique_rep_rows": 11448,
+          "duplicate_occurrence_ratio": 0.0
+        },
+        {
+          "N_candidate": 43059,
+          "pool": "M",
+          "pool_size": 11494,
+          "pool_fraction": 0.26693606446968116,
+          "compression_ratio": 3.7462154167391684,
+          "total_node_rep_occurrences": 14232,
+          "unique_rep_rows": 11494,
+          "duplicate_occurrence_ratio": 0.1923833614390107
+        }
+      ],
+      "level_overlap": {
+        "unique_L1": 4124,
+        "unique_L2": 4083,
+        "unique_L3": 6025,
+        "unique_final": 11448,
+        "L1_intersect_L2": 1071,
+        "L1_intersect_L3": 527,
+        "L2_intersect_L3": 1661,
+        "L1_intersect_L2_intersect_L3": 521
+      },
+      "baseline_exact": true,
+      "independent_pool_replay": true,
+      "historical_fixed_h8_redundancy_exact": true,
+      "new_scorer_no_unlock": true
+    }
+  },
+  "preregistration_unchanged": true,
+  "no_production_change": true,
+  "no_stage": true,
+  "no_commit": true,
+  "no_push": true
+}

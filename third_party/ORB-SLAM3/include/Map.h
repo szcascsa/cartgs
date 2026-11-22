@@ -23,8 +23,11 @@
 #define MAP_H
 
 #include <boost/serialization/base_object.hpp>
+#include <atomic>
+#include <cstdint>
 #include <mutex>
 #include <set>
+#include "GIAssociationState.h"
 
 #include "KeyFrame.h"
 #include "MapPoint.h"
@@ -69,6 +72,9 @@ class Map {
   Map();
   Map(int initKFid);
   ~Map();
+
+  std::atomic<uint64_t> tracking_map_wait_ns{0};
+  std::atomic<uint64_t> tracking_map_lock_count{0};
 
   void AddKeyFrame(KeyFrame* pKF);
   void AddMapPoint(MapPoint* pMP);
@@ -157,7 +163,9 @@ class Map {
   std::set<long unsigned int> msOptKFs;
   std::set<long unsigned int> msFixedKFs;
 
+  uint64_t GIGeneration() const { return gi_generation_; }
  protected:
+  uint64_t gi_generation_ = GIAssociationState::newGeneration();
   long unsigned int mnId;
 
   std::set<MapPoint*> mspMapPoints;

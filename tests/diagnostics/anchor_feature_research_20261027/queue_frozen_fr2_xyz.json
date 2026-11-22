@@ -1,0 +1,106 @@
+{
+  "tier": "frozen_mechanism",
+  "scene": "fr2_xyz",
+  "jobs": [
+    {
+      "config": {
+        "id": "FrozenBaseHead8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseGlobalHead8",
+        "feature": "global",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseFakeHead8",
+        "feature": "fake",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true,
+        "grouping": "signature"
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseHead8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseGlobalHead8",
+        "feature": "global",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseFakeHead8",
+        "feature": "fake",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true,
+        "grouping": "signature"
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseContextHead8",
+        "feature": "context",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseContextHead8",
+        "feature": "context",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    }
+  ],
+  "decision": "Bank-only frozen-base signal: isolate table information vs global bias and spatial group sharing, before any nonBank read",
+  "context_extension": "Same frozen-C Head fusion tests if failed short ContextFiLM was an optimization/placement confound; no test metrics read"
+}

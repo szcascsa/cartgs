@@ -1,0 +1,6 @@
+phase1_verified_legacy_1000 exit=0
+phase1_verified_real_219969 exit=0
+phase2_verified_cublas_1000 exit=1
+phase2_verified_cublas_real_219969 exit=1
+phase3_verified_warp_1000 exit=1
+phase3_verified_warp_real_219969 exit=1

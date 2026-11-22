@@ -1,0 +1,54 @@
+{
+  "production_default": "spatial_localxyz",
+  "server_source_verified": 4395,
+  "controlled_live_field": [
+    {
+      "stage": "forward",
+      "reference_ms": 0.8527969523809524,
+      "optimized_ms": 0.31236876190476187,
+      "speedup": 2.7300967842647523
+    },
+    {
+      "stage": "forward_backward",
+      "reference_ms": 3.75218,
+      "optimized_ms": 1.5048904761904762,
+      "speedup": 2.4933243045689135
+    }
+  ],
+  "online_observations": [
+    {
+      "name": "online_spatial",
+      "steps": 6900,
+      "compensation_steps": 3120,
+      "N": 7596,
+      "anchors": 2426,
+      "wall_seconds": 43.1151384152472,
+      "mapping_host_ms": 4.8090630927536235,
+      "mapping_cuda_ms": 4.8758,
+      "compensated_lod_host_ms": 7.083832067307692,
+      "compensation_host_ms": 1.2016316849358974,
+      "lod_backward_host_ms": 4.077536490384616,
+      "peak_gpu_memory_raw": "Peak reserved (MB): 572\nPeak allocated (MB): 487.697"
+    },
+    {
+      "name": "online_live_fused",
+      "steps": 8400,
+      "compensation_steps": 4320,
+      "N": 8345,
+      "anchors": 2281,
+      "wall_seconds": 42.2367747426033,
+      "mapping_host_ms": 3.8510664904761907,
+      "mapping_cuda_ms": 3.9141,
+      "compensated_lod_host_ms": 4.7552002430555556,
+      "compensation_host_ms": 0.5235478351851851,
+      "lod_backward_host_ms": 2.509193962962963,
+      "peak_gpu_memory_raw": "Peak reserved (MB): 614\nPeak allocated (MB): 518.329"
+    }
+  ],
+  "direct_checks": 2153,
+  "direct_max_abs": 7.15256e-07,
+  "historical_output_max_abs": 9.53674e-07,
+  "quality_claim": false,
+  "committed": false,
+  "pushed": false
+}

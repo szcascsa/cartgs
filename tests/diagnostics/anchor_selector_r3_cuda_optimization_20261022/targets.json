@@ -1,0 +1,14 @@
+[
+  "controlled_mapping_replay",
+  "fused_anchor_input_test",
+  "fused_compensation_decode_test",
+  "fused_mapping_adam_test",
+  "fused_mapping_scaling_benchmark",
+  "gaussian_split_sampling_test",
+  "local_anchor_migration_test",
+  "optimized_native_benchmark",
+  "private_compensation_cuda_test",
+  "private_compensation_mapping_test",
+  "tum_rgbd",
+  "variable_anchor_test"
+]

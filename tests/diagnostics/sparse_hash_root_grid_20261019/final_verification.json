@@ -1,0 +1,59 @@
+{
+  "all_passed": true,
+  "source_sha256": {
+    "CMakeLists.txt": "cde36099264cbfe12eb598a686f4f7e5cd8a1f7e4beac1393d5900ef6e2c0668",
+    "cfg/selector/fast.yaml": "7b0e549acb109004b7ac0951d884d70d86c12e98c14a7f49562659f5d5cfc316",
+    "cfg/selector/selector_config.yaml": "5bf019dbd0f2ec59fe138002f0d652ad904d63083aa88e7871b819b778ba4d1b",
+    "include/hierarchical_representative_si.h": "cfbd98f272c3385d1b8bfa930fde452e82bd4569df80c3e70f3533add4beaa7a",
+    "include/sparse_hash_root_grid.h": "a9b96f8778eada225553206df78ef1fa0781f33f818cd66ffc84f2e42b4ac940",
+    "src/hierarchical_representative_si.cpp": "62f63b866677239acc07ceb26296295dfc7e81289f6da2a9aef82f886591dee6",
+    "src/sparse_hash_root_grid.cpp": "c58fc6b68df54c58e99c72f023312aa2d3226f3c8ff85d8c8cf8aacac80540bd",
+    "tests/hierarchical_representative_si_test.cpp": "708ff3e22cf0fa4189f3aa45235dfb7977ca9b6d9bb3c470ddaac8826481bd23",
+    "tests/sparse_hash_root_grid_test.cpp": "0d5438e4afc2745220b8f67df8f7f2e40a457494bc49e613a649d9c936c9704b",
+    "include/gaussian_mapper.h": "a84b6ba669a5e0ad3cf12cc22f8302764fcb33279f7ea03096e9379422d892bb",
+    "src/gaussian_mapper.cpp": "abb65744a772230083b273d89f968c7a2862d811e4ce77d58e64580c6df3cdcc",
+    "include/global_gi_bank.h": "dcc9f2b6c3c42fbbc9ea26c12835782cbf387a79b114e00499e27ad715b49e3b",
+    "src/global_gi.cpp": "93a22b400142381d3390d820aa989b3cbe9013898218f0c5a4e6a27ee6a5bd8d",
+    "src/gi_teacher.cpp": "71ec10c0a1a36d514ce7ca1ff57ab2d57fb868ff7074d87433c02060bcf41921",
+    "include/selector_handoff.h": "540581b23db96d6935c9b8b1e7023519ee04defc067ff762037bdebd13a6524d",
+    "improvements/selector/gumbel_network.h": "666f20bba9d4e563668249ea7ccca5ddbb5bb266b193071e6c24bfbacffda3e6",
+    "cuda_rasterizer/forward.cu": "7d7b3888b784502ddec23c86cac3de504ab566f75d32e244a72e9ec91e5a1e96",
+    "tests/global_gi_test.cpp": "f109758de746850312e4a7ad06a5843a1beebacb4b765183b9c16d50995f4cf8",
+    "include/global_gi.h": "a9fd5c75a04a8bacc1177ddae01174fb904c2a8ed50a7d9651c7fc4c9aadce9d",
+    "include/gi_teacher.h": "983f7555cf0d751db68671d1f7eb09c98682885eb54a57e6f7df667d7d3c5faf",
+    "include/elastic_entry.h": "70b15e27a57d74d207c2663106659ed86d4da26db15de0cbcf200ea2911b4d17",
+    "include/model_snapshot.h": "2dd013765d0cb164d6b95d23f226cd917ecfe5af494468ce7b52dfb051f9faf9",
+    "include/selector_cuda.h": "0249481d2f70fa31063ffc109498dee52b7cd01a1ef7f1a835151f8981a6711f"
+  },
+  "default_off_opencv": {
+    "cfg/selector/fast.yaml": {
+      "enable": 0,
+      "diagnostics": 0
+    },
+    "cfg/selector/selector_config.yaml": {
+      "enable": 0,
+      "diagnostics": 0
+    }
+  },
+  "unchanged_math_sha256": {
+    "geometry": "0205db4af2bfa4f03b40cc3673000653ab59a2be66f944a08f13dcdc57846e32",
+    "representative_greedy": "be624d69e834e418d3aa34a83d369033997c20abcea3229cfe5f14c3505b8491",
+    "redistribution": "369c0afc6ff3c64661ecea4f74d2437fd047fd653b0fc97c735d1b2d047f1ac8"
+  },
+  "environment": {
+    "python": "3.11.16",
+    "torch": "2.3.1+cu118",
+    "cuda_runtime": "11.8",
+    "GPU": "NVIDIA GeForce RTX 3090",
+    "platform": "Linux-5.15.0-139-generic-x86_64-with-glibc2.31"
+  },
+  "scope": {
+    "training": false,
+    "online_SLAM": false,
+    "quality_evaluation": false,
+    "production_deployment": false,
+    "full_SLAM_binary_link": false,
+    "commit": false,
+    "push": false
+  }
+}

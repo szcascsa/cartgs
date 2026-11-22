@@ -1,0 +1,79 @@
+{
+  "tier": "input_cause",
+  "jobs": [
+    {
+      "config": {
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "id": "NoWorldControl",
+        "no_world": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "id": "NoShapeControl",
+        "no_shape": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "id": "NormalizedLocalOnly",
+        "no_world": true,
+        "no_shape": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "id": "NoWorldControl",
+        "no_world": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "id": "NoShapeControl",
+        "no_shape": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "id": "NormalizedLocalOnly",
+        "no_world": true,
+        "no_shape": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    }
+  ]
+}

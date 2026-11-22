@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "correctness_gates": 10,
+  "new_models": 4,
+  "new_quality_evaluations": 36,
+  "historical_same_k_reevaluations": 16,
+  "views": 792,
+  "quality_per_view_rows": 28512,
+  "source_sha_matched": 56,
+  "common_k": {
+    "0.01": 233,
+    "0.05": 1168,
+    "0.1": 2336,
+    "0.15": 3504
+  },
+  "git_index_empty": true,
+  "head": "456c410f2a638effd7c61f38868e20b2e076ba45"
+}

@@ -1,0 +1,30 @@
+{
+  "1": {
+    "network_forward": {
+      "kernels_per_iteration": 18.0,
+      "kernel_active_ms": 2.084949,
+      "mean_kernel_device_span_ms": 2.1353523999999995,
+      "mean_host_nvtx_ms": 0.2272898
+    },
+    "network_backward": {
+      "kernels_per_iteration": 43.0,
+      "kernel_active_ms": 2.1809801,
+      "mean_kernel_device_span_ms": 2.238176,
+      "mean_host_nvtx_ms": 0.7227524
+    }
+  },
+  "6": {
+    "network_forward": {
+      "kernels_per_iteration": 18.0,
+      "kernel_active_ms": 2.0889586,
+      "mean_kernel_device_span_ms": 2.1396726,
+      "mean_host_nvtx_ms": 0.2197372
+    },
+    "network_backward": {
+      "kernels_per_iteration": 42.0,
+      "kernel_active_ms": 1.9283402,
+      "mean_kernel_device_span_ms": 1.9844234,
+      "mean_host_nvtx_ms": 0.721803
+    }
+  }
+}

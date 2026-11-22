@@ -1,0 +1,112 @@
+[
+  {
+    "time": 1792260288.3214557,
+    "own_pid": 1095333,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792260288.5826342,
+    "own_pid": 1095333,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792260288.8437395,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260289.1061192,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260289.3685749,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260289.6298745,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260289.89119,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260290.1703112,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260290.4315343,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260290.6927302,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260290.9542022,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260291.215421,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260291.4769475,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260291.7382224,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260292.0183523,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260292.2796185,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260292.5409715,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260292.8022323,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260293.063481,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260293.3246572,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260293.5858183,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  },
+  {
+    "time": 1792260293.8471656,
+    "own_pid": 1095333,
+    "gpu_processes": "1095333, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_b/benchmark_native"
+  }
+]

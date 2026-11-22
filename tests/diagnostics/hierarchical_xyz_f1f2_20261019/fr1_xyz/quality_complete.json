@@ -1,0 +1,9 @@
+{
+  "all_passed": true,
+  "arm_ratio_cases": 24,
+  "view_renders": 1296,
+  "baseline_rerenders": 864,
+  "new_F1_F2_renders": 432,
+  "new_runtime_seconds": 6.2037767097353935,
+  "optimizer_updates": 0
+}

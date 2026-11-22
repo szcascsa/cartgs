@@ -1,0 +1,103 @@
+{
+  "all_passed": true,
+  "runtime_checks": [
+    {
+      "scene": "fr1_room",
+      "path": "runtime/lib/libsimple_knn.so",
+      "sha256": "a090acbf61786a56ee2397db00f7526306462bcaeae5f5f9c04662cebceab88b",
+      "exact": true
+    },
+    {
+      "scene": "fr1_room",
+      "path": "runtime/lib/libcuda_rasterizer.so",
+      "sha256": "019cbd9fb052c8fa01dd03a977ec0f0c262cb01c963c03e2bb87c4e383f5e6a7",
+      "exact": true
+    },
+    {
+      "scene": "fr1_room",
+      "path": "runtime/lib/libimgui.so",
+      "sha256": "01930f981b7bd387f5dff5f7f923ef7a411d53de11802eebff46e4256fe8002f",
+      "exact": true
+    },
+    {
+      "scene": "fr1_room",
+      "path": "runtime/lib/libgaussian_viewer.so",
+      "sha256": "c7a2468e94bf5dd206cc2141fc0650029aab4ae7fb158cba01886907ed657cc1",
+      "exact": true
+    },
+    {
+      "scene": "fr1_room",
+      "path": "runtime/lib/libgaussian_mapper.so",
+      "sha256": "523bba9fea150989e07f93eb4977e95bbd91cafb4c58cc0ed3fcdb2964345b1c",
+      "exact": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "path": "runtime/lib/libsimple_knn.so",
+      "sha256": "a090acbf61786a56ee2397db00f7526306462bcaeae5f5f9c04662cebceab88b",
+      "exact": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "path": "runtime/lib/libcuda_rasterizer.so",
+      "sha256": "019cbd9fb052c8fa01dd03a977ec0f0c262cb01c963c03e2bb87c4e383f5e6a7",
+      "exact": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "path": "runtime/lib/libimgui.so",
+      "sha256": "01930f981b7bd387f5dff5f7f923ef7a411d53de11802eebff46e4256fe8002f",
+      "exact": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "path": "runtime/lib/libgaussian_viewer.so",
+      "sha256": "c7a2468e94bf5dd206cc2141fc0650029aab4ae7fb158cba01886907ed657cc1",
+      "exact": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "path": "runtime/lib/libgaussian_mapper.so",
+      "sha256": "523bba9fea150989e07f93eb4977e95bbd91cafb4c58cc0ed3fcdb2964345b1c",
+      "exact": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "path": "runtime/lib/libsimple_knn.so",
+      "sha256": "a090acbf61786a56ee2397db00f7526306462bcaeae5f5f9c04662cebceab88b",
+      "exact": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "path": "runtime/lib/libcuda_rasterizer.so",
+      "sha256": "019cbd9fb052c8fa01dd03a977ec0f0c262cb01c963c03e2bb87c4e383f5e6a7",
+      "exact": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "path": "runtime/lib/libimgui.so",
+      "sha256": "01930f981b7bd387f5dff5f7f923ef7a411d53de11802eebff46e4256fe8002f",
+      "exact": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "path": "runtime/lib/libgaussian_viewer.so",
+      "sha256": "c7a2468e94bf5dd206cc2141fc0650029aab4ae7fb158cba01886907ed657cc1",
+      "exact": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "path": "runtime/lib/libgaussian_mapper.so",
+      "sha256": "523bba9fea150989e07f93eb4977e95bbd91cafb4c58cc0ed3fcdb2964345b1c",
+      "exact": true
+    }
+  ],
+  "synthetic": [
+    "same_subtree_proxy",
+    "missing_descendant_retains_original",
+    "G_C_rank_refill",
+    "same_K_unique",
+    "repeat_exact",
+    "all_candidate_ids"
+  ]
+}

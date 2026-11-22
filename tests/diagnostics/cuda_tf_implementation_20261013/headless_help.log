@@ -1,0 +1,30 @@
+usage: run.py [-h] [--output_path OUTPUT_PATH] [--selector SELECTOR]
+              [--shutdown-model SHUTDOWN_MODEL]
+              [--selector-ratio SELECTOR_RATIO]
+              [--selector-config SELECTOR_CONFIG]
+              [--selector-protection-enabled {0,1}]
+              [--selector-temperature SELECTOR_TEMPERATURE] [--correct_scale]
+              [--show_plot]
+              result_path gt_path
+
+evaluation script parameters
+
+positional arguments:
+  result_path
+  gt_path
+
+options:
+  -h, --help            show this help message and exit
+  --output_path OUTPUT_PATH
+                        write metrics/images to this directory while reading
+                        the model from result_path
+  --selector SELECTOR
+  --shutdown-model SHUTDOWN_MODEL
+                        select a specific shutdown checkpoint for Full
+                        evaluation
+  --selector-ratio SELECTOR_RATIO
+  --selector-config SELECTOR_CONFIG
+  --selector-protection-enabled {0,1}
+  --selector-temperature SELECTOR_TEMPERATURE
+  --correct_scale
+  --show_plot

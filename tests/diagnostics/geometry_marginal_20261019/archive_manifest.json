@@ -1,0 +1,377 @@
+{
+  "source_directory": "H:\\AIProjects\\cartgs优化更细致版\\geometry-marginal-online-20261019",
+  "remote_directory": "/home/prmi/zwj/geometry-marginal-online-20261019",
+  "original_base_commit": "f7e2ce52a0ba63bbfbd1ab2e63fb74ceb0beb016",
+  "files": {
+    "GEOMETRY_MARGINAL_ONLINE_REPORT.md": {
+      "sha256": "90a58d4a4d2ed8d893bd3e6f7dd2341b581afe387171a1f355a43e11ce90a851",
+      "bytes": 10292
+    },
+    "GEOMETRY_MARGINAL_PERFORMANCE_REPORT.md": {
+      "sha256": "10e4be4334fb2501af8fd475b7a2d5ca677072f7284a8a54b6796ceb4dfb4454",
+      "bytes": 8386
+    },
+    "GEOMETRY_ONLY_REFERENCE_VALIDATION.md": {
+      "sha256": "818c3f092ce378cb2690c1dfbb243e61444627b2bdd10a786f418666c1629c06",
+      "bytes": 543
+    },
+    "GEOMETRY_ONLY_SIMPLIFICATION_REPORT.md": {
+      "sha256": "46097e7b5fef6ae05103a7adf0b1f1b32849939c1c73108c290bf068ea209734",
+      "bytes": 2741
+    },
+    "PHASE0_CODE_PATH_AUDIT.md": {
+      "sha256": "e1461a22cd309cf02df9a8d298b416bbf0988f406512f443202d90453e974ece",
+      "bytes": 4814
+    },
+    "analysis_preregistration.json": {
+      "sha256": "e0c8a6de9385d1d638c0f39e6e3190312e0870f9d91632c76de7bfeffce0252a",
+      "bytes": 1548
+    },
+    "analyze_snapshots.py": {
+      "sha256": "2afa5b700b846fdd70ce2fa9b5e98e32ed9fdc9b5da7c45f02e969eb6e9a6187",
+      "bytes": 3225
+    },
+    "benchmark.py": {
+      "sha256": "0274f5f826baee8a96797d92786c9b81ad6f5ada8af777e6c5c6f39ad4e82859",
+      "bytes": 4757
+    },
+    "code_sync_manifest.json": {
+      "sha256": "051ba788091f2166d50a7ae31a35d3339779fcba6506838508a153218ad7545a",
+      "bytes": 289223
+    },
+    "code_sync_result.json": {
+      "sha256": "66efca00fb5ecbc65fa57272a3801ab302e793b239be1de09254ed47b73f7dfd",
+      "bytes": 355911
+    },
+    "collect.py": {
+      "sha256": "9d85bab9560c25038f73443b230851dbee62fac40da294c393c9881322c9c983",
+      "bytes": 795
+    },
+    "common.py": {
+      "sha256": "e698db03769cd1d8157a061800c267d07dd4b75539be2499ea912328c58fc6ca",
+      "bytes": 2760
+    },
+    "delivery_checks.json": {
+      "sha256": "469374895d4f271f497b506118d926693c123de9d13f35dd2f7ca1682b6f6c67",
+      "bytes": 206
+    },
+    "deploy_build.py": {
+      "sha256": "095e5941bda7b1d5ea744fbaeac8b61531a838c3059233088a27dfaa777cc595",
+      "bytes": 2031
+    },
+    "deployment_checks.json": {
+      "sha256": "35aa310e9ad74f4dbe98c6c7e806b6a60b3592e57ffc39dbd933c126b43eb058",
+      "bytes": 2156
+    },
+    "engineering_online_failure.json": {
+      "sha256": "839043ed923e2f2a197dacb9afd1861d3a3ec145efa0fba48b82495f5b36f565",
+      "bytes": 1671
+    },
+    "engineering_postprocess_failure.json": {
+      "sha256": "3ead00934e2f4c532ea79899197844c687d00610cdd1ea95815305820f2d186b",
+      "bytes": 446
+    },
+    "engineering_report_metadata_failure.json": {
+      "sha256": "02f89f17e92911f10845b297a0998d439a9a9a72d8f25301156990fe011c560d",
+      "bytes": 241
+    },
+    "evaluate.py": {
+      "sha256": "b36e26d52c0f66038055735ef3003a54936237abaa0c458cbc1cae3c5155b9ca",
+      "bytes": 1771
+    },
+    "evaluate_online.py": {
+      "sha256": "d06b1c8cf05a0779dca438e23bc2330469efea05d449e60c03bb28170ea68509",
+      "bytes": 3724
+    },
+    "evaluation_plan.json": {
+      "sha256": "c0048cb4b7ac837ea4f234dfa7645e65a5e6bd2b99db9c9ade850cc23ca389a8",
+      "bytes": 192
+    },
+    "evaluation_runtime_dependencies.json": {
+      "sha256": "ce22c943a528ca77b0ed70899267ad26239b994e7c8164616d83e8af0c157298",
+      "bytes": 599
+    },
+    "external_artifacts.json": {
+      "sha256": "0b845193e0e775dc778b485823bb5996d1c8ee0b98c7a4197a3b1cfed4a21091",
+      "bytes": 66252
+    },
+    "final_offline_profiles.json": {
+      "sha256": "b33e1cff2f21f29df499d8ac000415b13def4326e8970fb28f65bcd241b3f5e0",
+      "bytes": 7480
+    },
+    "finish.py": {
+      "sha256": "9d03a8ab00bc3dfc0dfab4dddf9e7744565e10421001b517e46ca3f5856f36cd",
+      "bytes": 473
+    },
+    "fr1_desk_common_frames.json": {
+      "sha256": "5f2b626592e7f5ecf04c7ad829e4f6bfaa4126e96f01868d86a1073e3af5d3eb",
+      "bytes": 1338
+    },
+    "fr1_room_common_frames.json": {
+      "sha256": "265ed2606a20c701051738194a0bf35a25816ddde17445cb09a84c4f6e88ea6e",
+      "bytes": 1384
+    },
+    "geometry_marginal_importance.cpp": {
+      "sha256": "e9926cd40875eb4dfefcd85501c8d4c20c5169722c3314b81985363cdedb3ce3",
+      "bytes": 5710
+    },
+    "geometry_marginal_importance.h": {
+      "sha256": "e314d93f9ea1c97f7c45c8788ea7d0cbfea37b1b64eb8c1bc4bac0582060e3b9",
+      "bytes": 1108
+    },
+    "geometry_marginal_manifest.json": {
+      "sha256": "140bd16e624768b83d130eb80681a247b515c9b7f7f9ab8499c7b8514e11cf4e",
+      "bytes": 674279
+    },
+    "geometry_marginal_results.json": {
+      "sha256": "2b1e04d575148b4b2fc8477868c94f9d60f19779db5bf20d2a76a13d64f0911d",
+      "bytes": 51103
+    },
+    "geometry_ranker.h": {
+      "sha256": "4c4b45a184c4ae15809b46223990cf2b909598a4c8ac9a9ec529cb7ff458b0f8",
+      "bytes": 4932
+    },
+    "geometry_ranker_heap_profile.h": {
+      "sha256": "edfd4b561e2577d3e7d4170f719405710565107a944eba6066bb954f104d66aa",
+      "bytes": 5092
+    },
+    "geometry_ranker_uncached.h": {
+      "sha256": "cf0f7802268232b3440470b44960ac6c698427e2ae725c1655086000c5f230a0",
+      "bytes": 4966
+    },
+    "independent_local_checks.json": {
+      "sha256": "ddf7b33a021c2219c79db907e50822db159aa8052069e8c5b3900e92dc16dc43",
+      "bytes": 265
+    },
+    "independent_verification.json": {
+      "sha256": "0b7db16ad66535e5b2ecc18eb01843c4748e7e407a96838dd1b42811ffa46812",
+      "bytes": 542
+    },
+    "input_manifest.json": {
+      "sha256": "55ec3ad7fd8ed60ee8317343f44340ed08d96bff3d13d7364ab63bbd5916abad",
+      "bytes": 5288
+    },
+    "largest_20_cells.csv": {
+      "sha256": "43fedfb595c3005e7fd4303961b1151dc2ea430a5a1f1cb4a3f2183f23c57fc3",
+      "bytes": 2124
+    },
+    "lifecycle_validation.json": {
+      "sha256": "76d71b2c6f6e5ae290049594799db5d2f4149fdfc9f5f33e4f3a38f0c5caa6ec",
+      "bytes": 206
+    },
+    "local_delivery_validation.json": {
+      "sha256": "cfbe9ea0ea08f136cc4919aed83b571c7d1b10a976f082abc772e04cdf69edb6",
+      "bytes": 134
+    },
+    "monitor_recovery.json": {
+      "sha256": "2715ae38b3560f250c7806046b1ce6f730b4154a79efe410585588bc519933b7",
+      "bytes": 209
+    },
+    "native_allocation_profiles.json": {
+      "sha256": "bd8c91fe8fe898ef2b63d518209c1cd9eb27f506cf9aa65f1e1899e5344d4b6c",
+      "bytes": 29582
+    },
+    "native_allocation_summary.csv": {
+      "sha256": "fe7d87ee5d20804aa8cc67983f67b769b4200b78cfa56a918c90993ac2ff92e3",
+      "bytes": 172
+    },
+    "occupancy_bucket_profile.csv": {
+      "sha256": "6136fc0d47cb3ba93943bd622ba3afba7c3fb85ccc6dd92bcc136baabbe6969c",
+      "bytes": 4383
+    },
+    "offline.py": {
+      "sha256": "9b7585ce3b38e9081a34f3e993b0d3112d6ac801e3bcdbc51081d78803c5c82d",
+      "bytes": 3457
+    },
+    "offline_exact_speed.png": {
+      "sha256": "667e01d6e7d5e0398d6546d68b0c6464cea81f67a5c6aebbee3937fa761d8d66",
+      "bytes": 41400
+    },
+    "online.py": {
+      "sha256": "d210fd2f7cc6c2b5686a457c0b13670680957c756f78facc521348cc98c19fa6",
+      "bytes": 7802
+    },
+    "online_ate_vs_full_quality.png": {
+      "sha256": "a9f8c6d08db1e70d2cca9728bd0d30abfee01340bff02fbc43f49cda14580174",
+      "bytes": 30933
+    },
+    "online_evaluation_results.json": {
+      "sha256": "45753042b43661bd0a2a165fb9733c6b564acaee275263912a529579b91a5fcb",
+      "bytes": 90650
+    },
+    "online_lod_vs_full_gap.csv": {
+      "sha256": "55b6100204c937162a236ef9e66d1784ef0dc5942d3bc3b4c99b6a9912eb200b",
+      "bytes": 3144
+    },
+    "online_mapping_cost.png": {
+      "sha256": "38d9ebbc19fd6961f4c2f735398acd2e78c94198118f4d5bf402ba46fa16a09c",
+      "bytes": 62279
+    },
+    "online_mechanism.csv": {
+      "sha256": "b795471eec9b50c928d6444d78211dbf91604f5471c8c69f326a9e5dc6c4f48c",
+      "bytes": 85840
+    },
+    "online_mechanism_summary.csv": {
+      "sha256": "0e5f25ec5deb244f3746c2bf166132899e0d819722184ca2ba4da736e36c6649",
+      "bytes": 456
+    },
+    "online_overheads.csv": {
+      "sha256": "15d7a86b7fd420238023d896a39e1b07cbd017913a750ad372e87adda301397e",
+      "bytes": 754
+    },
+    "online_paired_deltas.csv": {
+      "sha256": "4faf26cd92a2b4d49e4e855f9fe8d452f97aea28f459ec70ec66cb7f14491e6a",
+      "bytes": 4115
+    },
+    "online_protocol.json": {
+      "sha256": "2b5fa33a6359cbb7de4a06463f06c4f4edd56fc375d2a5ae075a67e42fc6e1e1",
+      "bytes": 4170
+    },
+    "online_quality.csv": {
+      "sha256": "ee838247991256e3d3c0dbbd1b040c56b277a83ffbdcc96dafa4857f39f0261d",
+      "bytes": 5873
+    },
+    "online_quality_by_ratio.png": {
+      "sha256": "f654eb81fbc2b9cb8b429906278971279b5341fb5806f18600d49e709bf61f93",
+      "bytes": 84701
+    },
+    "online_resource_usage.csv": {
+      "sha256": "d49363faa427cebb3be6bbb9b0e6991c89dfc3f6be2b523be9c0eeaddf22122a",
+      "bytes": 881
+    },
+    "online_run_summary.csv": {
+      "sha256": "acbce8dc0ae93e480157ffbbd4e8837f0a57233370f861962f64f07272d3e719",
+      "bytes": 1766
+    },
+    "online_snapshot_redundancy.png": {
+      "sha256": "262e7534b25f829b0267c2d1945c07bf8f61ebb62850cb26ef31c99ca64cd9c6",
+      "bytes": 50311
+    },
+    "online_stage_profile.csv": {
+      "sha256": "9f0034a19b1fe00cd8b672b5b27d7efefcd6135da354f76abe7a83a61ef8997e",
+      "bytes": 29992
+    },
+    "online_teacher.csv": {
+      "sha256": "7950651fb617f2b9819c67688c20a942f4c436a151c1705acac2154f1c327ff0",
+      "bytes": 30529
+    },
+    "online_training_budget.csv": {
+      "sha256": "67646be42cd14f845beb6fe4392fa06b6d789eb5d97accec984a41266a6e71b2",
+      "bytes": 527
+    },
+    "online_training_results.json": {
+      "sha256": "21e72cc50de56982dbeaa5341552a7fe62edfc3fd9b8d8cb4e94a6830fa8d36e",
+      "bytes": 18807
+    },
+    "optimized_exact_validation.json": {
+      "sha256": "bb058efaab7c6fda5a86246154cad89f261520f602d716a98e20b0e5796e96fe",
+      "bytes": 192
+    },
+    "optimized_per_view.csv": {
+      "sha256": "cc5240b58b5dc346f85bb8f175a907375d3a76dbf6dd42d1dbddf8e2bef501be",
+      "bytes": 77794
+    },
+    "optimized_quality.csv": {
+      "sha256": "8e3fe719863a1dc87c99219cddf94b885de867b99d57d75b007c66ff42f20500",
+      "bytes": 513
+    },
+    "optimized_quality.py": {
+      "sha256": "74010ba06ae23508bd39eb7417747eb6b6bfab3e6d44dfb999fd99a9335f66cc",
+      "bytes": 1343
+    },
+    "optimized_render_validation.json": {
+      "sha256": "08da2c24c94548bf8c5fefaa7bc130c5b352d3321788c03b49a0751e6e6c1fb9",
+      "bytes": 189
+    },
+    "pack.py": {
+      "sha256": "2b476ba9ea27f0c4c84a774af1b0150ae0434d41a32392b45871a1e7a494549b",
+      "bytes": 2721
+    },
+    "population.json": {
+      "sha256": "871b47cb047e5970ebee2a02deaae6c49ca0eb544f8d12e385d034cfc3c9571d",
+      "bytes": 348
+    },
+    "postprocess.py": {
+      "sha256": "7b352fffe133ee4ecd938c4cd6added69b654ec87f9daa113510958336291bc2",
+      "bytes": 906
+    },
+    "prepare_online.py": {
+      "sha256": "e4a92b5a6212f22f10f16dfb4a714063e8f39af983e4841582cd15e48cbf94b9",
+      "bytes": 3564
+    },
+    "profile_extra.py": {
+      "sha256": "a54e407be2fc2e6272e362895d253a3803ac7f6cb80e40ac64944cec4b239684",
+      "bytes": 1162
+    },
+    "protocol.json": {
+      "sha256": "32175b5359455aef007552ce6bce6541f02c75615c1cf60e5d017709187f98c9",
+      "bytes": 86
+    },
+    "rank_cli.cpp": {
+      "sha256": "d6ae5c0796102b62cfd1c97b41abbc2d95faede8e360fd739bf98e8962347e5c",
+      "bytes": 1639
+    },
+    "rank_cli_heap_profile.cpp": {
+      "sha256": "52ff98f29337dda23c12cc2cd7fe44d6876510f38cf3330336481a619861456e",
+      "bytes": 1652
+    },
+    "rank_cli_uncached.cpp": {
+      "sha256": "ecd37430d1293869e2b61f88acff0158804f44347a22d8148b1f001fee44af93",
+      "bytes": 1648
+    },
+    "reference.py": {
+      "sha256": "c67b72a95b1aaef8f107c7c9ca997ea025fd291473a6969478ae3b66647f0f4a",
+      "bytes": 3137
+    },
+    "reference_per_view.csv": {
+      "sha256": "e5ae9d128e3acb71bd4a0e9fd345890c99ce47b2827e5360373f310de213641c",
+      "bytes": 74574
+    },
+    "reference_quality.csv": {
+      "sha256": "f132de1f98e9f9d247a99ae156fa9001a3d8b8f13deca9231ceda0c87f168174",
+      "bytes": 493
+    },
+    "reference_validation.json": {
+      "sha256": "f6f22829290cc6b68b67a820eae24b50289de345d0769355a82cc21472b4334b",
+      "bytes": 170
+    },
+    "reports.py": {
+      "sha256": "934157e23d5c77df77f30f80f45e6f3e13b0968cfaf6e1d25715642eebea2785",
+      "bytes": 34107
+    },
+    "shadow_validation.json": {
+      "sha256": "2bde465a5518a6461b15a6bd351e02ad09e6e72643c0a95e628a026ed930e051",
+      "bytes": 2673
+    },
+    "source_deployment.json": {
+      "sha256": "1163157568d77ec7a3af32ab869adb49ddf2e26bd6af8d31d7fb3e459f371537",
+      "bytes": 1818
+    },
+    "start_online.py": {
+      "sha256": "10f39285889011a7f5cef9c898421591c1b0eb082e40832c13574e814835bcf9",
+      "bytes": 1470
+    },
+    "sync_code.py": {
+      "sha256": "370e7ad8db6c9ec5dd4b61213935e8ae63ec7f23552cf91c1a51d0d3ba76924f",
+      "bytes": 1384
+    },
+    "test_ranker.cpp": {
+      "sha256": "bd920085a29c7d2333ce968e15a917e2d0c3898b089ba2db2c2a0b8215d1f14c",
+      "bytes": 1428
+    },
+    "verify.py": {
+      "sha256": "0044fbb43d3dbb8e0be467f442cb0a079df4159553260972f50e46e0aa261f63",
+      "bytes": 3996
+    },
+    "verify_local.py": {
+      "sha256": "21656a7cae9b38d582a98294e3d4105eb884ab2575aa69d33a2b9bc5eee80c45",
+      "bytes": 1970
+    }
+  },
+  "full_bundle": {
+    "path": "H:\\AIProjects\\cartgs优化更细致版\\geometry-marginal-online-20261019\\geometry_marginal_validation_bundle.tar.gz",
+    "remote_path": "/home/prmi/zwj/geometry-marginal-online-20261019/geometry_marginal_validation_bundle.tar.gz",
+    "sha256": "87b3e5d30a9fa8fc2b3952d3ac770668227f62ed7886c9878f6eecaf202b902d",
+    "bytes": 71270720
+  }
+}

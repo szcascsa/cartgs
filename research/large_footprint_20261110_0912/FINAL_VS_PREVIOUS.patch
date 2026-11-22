@@ -1,0 +1,494 @@
+--- a/source/direct_pixels.cuh
++++ b/source/direct_pixels.cuh
+@@ -0,0 +1,56 @@
++// 不预分配每Tile 9KiB共享属性；低成员数直接复用GPU只读缓存。
++template<int Pixels> __global__ void renderDirectPixels(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,
++    const uint32_t* counts,int capacity,const float2* xy,const float4* conic,const float* colors,
++    const float* bg,float* out,const uint32_t* sorted_depth_keys,const GraphInputs* dynamic=nullptr) {
++  if(dynamic){bg=dynamic->background;out=dynamic->image;}
++  constexpr int Rows=16/Pixels;
++  int tile=blockIdx.y*gridDim.x+blockIdx.x;
++  int x=blockIdx.x*16+threadIdx.x,y=blockIdx.y*16+threadIdx.y;
++  float T[Pixels],C[Pixels][3];float2 pix[Pixels];bool done[Pixels],inside[Pixels];
++  #pragma unroll
++  for(int p=0;p<Pixels;++p) {
++    pix[p]={(float)x,(float)(y+p*Rows)};inside[p]=x<W&&y+p*Rows<H;done[p]=!inside[p];
++    T[p]=1.f;C[p][0]=C[p][1]=C[p][2]=0.f;
++  }
++  if(sorted_depth_keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    #pragma unroll
++    for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=bg[ch];
++    return;
++  }
++  int count=counts[tile];
++  if(count<=capacity) {
++    for(int j=0;j<count;++j) {
++      if((j&31)==0) {
++        bool all_done=true;
++        #pragma unroll
++        for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++        if(__all_sync(0xffffffff,all_done))break;
++      }
++      const int id=lists[tile*capacity+j];
++      const float2 point=xy[id];const float4 co=conic[id];const float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++    }
++  } else {
++    for(int group=0;group<groups;++group) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(__all_sync(0xffffffff,all_done))break;
++      unsigned nonempty=directory[tile*groups+group];
++      while(nonempty) {
++        int w=group*32+__ffs(nonempty)-1;nonempty&=nonempty-1;unsigned members=bits[tile*words+w];
++        while(members) {
++          int rank=w*32+__ffs(members)-1;members&=members-1;int id=sorted[rank];
++          float2 point=xy[id];float4 co=conic[id];float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};
++          #pragma unroll
++          for(int p=0;p<Pixels;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=C[p][ch]+T[p]*bg[ch];
++}
++
+--- a/source/footprint_build.cuh
++++ b/source/footprint_build.cuh
+@@ -0,0 +1,101 @@
++// 只改Gaussian->Tile整数成员构建；所有覆盖公式复用原SASS固定的FP32运算顺序。
++template<int Threads,int Shards> __global__ void buildGaussianFootprint(int n,const uint32_t* sorted,
++    const float2* xy,const float4* conic,const int* radii,uint32_t* bits,int words,dim3 grid) {
++  const int rank=blockIdx.x/Shards,shard=blockIdx.x%Shards;
++  if(rank>=n)return;
++  const int id=sorted[rank];if(radii[id]<=0)return;
++  uint2 lo,hi;getRect(xy[id],radii[id],lo,hi,grid);
++  const int width=hi.x-lo.x,area=width*(hi.y-lo.y);
++  const float2 point=xy[id];const float4 co=conic[id];const float limit=logf(co.w/(1.0f/255.0f));
++  for(int k=shard*Threads+threadIdx.x;k<area;k+=Threads*Shards) {
++    const int x=lo.x+k%width,y=lo.y+k/width;
++    if(orderedTilePower(point,co,x,y)<=limit)
++      atomicOr(bits+(y*grid.x+x)*words+rank/32,1u<<(rank&31));
++  }
++}
++
++// 每warp聚合一个Tile/深度字，消除同一个32位成员字的多Gaussian原子竞争。
++template<bool Dynamic=false> __global__ void buildTileWords(int n,const uint32_t* sorted,const float2* xy,const float4* conic,
++    const int* radii,uint32_t* bits,int words,dim3 grid,const GraphInputs* dynamic=nullptr) {
++  const int tile=blockIdx.x,lane=threadIdx.x&31,warp=threadIdx.x>>5;
++  const int tx=tile%grid.x,ty=tile/grid.x;
++  const int active_words=Dynamic?(min(n,dynamic->P)+31)/32:words;
++  for(int word=warp;word<active_words;word+=4) {
++    const int rank=word*32+lane;bool present=false;
++    if(rank<n) {
++      const int id=sorted[rank];
++      if(radii[id]>0) {
++        uint2 lo,hi;getRect(xy[id],radii[id],lo,hi,grid);
++        if(tx>=lo.x&&tx<hi.x&&ty>=lo.y&&ty<hi.y) {
++          const float4 co=conic[id];const float limit=logf(co.w/(1.0f/255.0f));
++          present=orderedTilePower(xy[id],co,tx,ty)<=limit;
++        }
++      }
++    }
++    unsigned mask=__ballot_sync(0xffffffff,present);
++    if(!lane)bits[int64_t(tile)*words+word]=mask;
++  }
++  if(Dynamic)for(int word=active_words+threadIdx.x;word<words;word+=blockDim.x)bits[int64_t(tile)*words+word]=0;
++  if(tile==0&&!threadIdx.x){bits[int64_t(grid.x)*grid.y*words]=0;bits[int64_t(grid.x)*grid.y*words+1]=0;}
++}
++
++// 预计算只在当前帧Workspace保存，每帧重算bbox和阈值；不改变预处理浮点表达式。
++__global__ void prepareFootprintMetadata(int n,const float2* xy,const float4* conic,const int* radii,
++    const uint32_t* sorted,const uint32_t* keys,const uint32_t* touched,uint4* rectangles,float* limits,
++    uint32_t* flags,dim3 grid) {
++  const int id=blockIdx.x*blockDim.x+threadIdx.x;
++  if(id<n) {
++    uint2 lo=make_uint2(0,0),hi=make_uint2(0,0);float limit=0.f;
++    if(radii[id]>0){getRect(xy[id],radii[id],lo,hi,grid);limit=logf(conic[id].w/(1.0f/255.0f));}
++    rectangles[id]=make_uint4(lo.x,lo.y,hi.x,hi.y);limits[id]=limit;
++  }
++  if(blockIdx.x==0&&threadIdx.x<32) {
++    const int lane=threadIdx.x;unsigned total=0;
++    for(int base=0;base<min(n,257);base+=32) {
++      const int rank=base+lane;
++      unsigned value=rank<min(n,257)&&keys[rank]!=0xffffffff?touched[sorted[rank]]:0;
++      for(int offset=16;offset;offset/=2)value+=__shfl_down_sync(0xffffffff,value,offset);
++      total+=__shfl_sync(0xffffffff,value,0);
++      if(total>256)break;
++    }
++    if(!lane){flags[0]=total<=256;flags[1]=total<=256;}
++  }
++}
++
++// 一个warp负责一个Tile；ballot得到有序成员，直接写位表、目录、短列表和真实count。
++// 溢出仍写完整位表和目录，像素核沿原深度次序回退枚举，不截断。
++template<bool Dynamic=false> __global__ void buildCompactedTiles(int n,const uint32_t* sorted,const float2* xy,const float4* conic,
++    const uint4* rectangles,const float* limits,uint32_t* bits,int words,uint32_t* directory,int groups,
++    uint32_t* lists,uint32_t* counts,int list_capacity,dim3 grid,const GraphInputs* dynamic=nullptr) {
++  const int lane=threadIdx.x&31,tile=(blockIdx.x*blockDim.x+threadIdx.x)>>5;
++  const int tiles=grid.x*grid.y;if(tile>=tiles)return;
++  const unsigned tx=tile%grid.x,ty=tile/grid.x;
++  unsigned carry=0,dir=0;const bool sparse_candidate=bits[int64_t(tiles)*words]!=0;
++  const int active_words=Dynamic?(min(n,dynamic->P)+31)/32:words;
++  for(int word=0;word<active_words;++word) {
++    const int rank=word*32+lane;unsigned id=0;bool present=false;
++    if(rank<n) {
++      id=sorted[rank];const uint4 rect=rectangles[id];
++      if(tx>=rect.x&&tx<rect.z&&ty>=rect.y&&ty<rect.w)
++        present=orderedTilePower(xy[id],conic[id],tx,ty)<=limits[id];
++    }
++    const unsigned mask=__ballot_sync(0xffffffff,present);
++    if(!lane)bits[int64_t(tile)*words+word]=mask;
++    if(mask)dir|=1u<<(word&31);
++    if(present) {
++      const unsigned position=carry+__popc(mask&((1u<<lane)-1));
++      if(position<unsigned(list_capacity))lists[tile*list_capacity+position]=id;
++    }
++    carry+=__popc(mask);
++    if(!lane&&sparse_candidate&&mask)atomicExch(bits+int64_t(tiles)*words+1,0);
++    if((word&31)==31||word==active_words-1) {
++      if(!lane)directory[tile*groups+word/32]=dir;
++      dir=0;
++    }
++  }
++  if(Dynamic){
++    for(int word=active_words+lane;word<words;word+=32)bits[int64_t(tile)*words+word]=0;
++    for(int group=(active_words+31)/32+lane;group<groups;group+=32)directory[tile*groups+group]=0;
++  }
++  if(!lane)counts[tile]=carry;
++}
+--- a/source/graph_forward.cu
++++ b/source/graph_forward.cu
+@@ -168,7 +168,7 @@
+ }
+ 
+ // Perform initial steps for each Gaussian prior to rasterization.
+-template <int C, bool Keys = false, bool Strided = false, bool Metadata = false, bool Dynamic = false>
++template <int C, bool Keys = false, bool Strided = false, bool Metadata = false, bool Dynamic = false, bool Schedule = false>
+ __global__ void preprocessCUDA(int P,
+                                int D,
+                                int M,
+@@ -200,7 +200,7 @@
+                                const dim3 grid,
+                                uint32_t* tiles_touched,
+                                bool prefiltered,uint32_t* depth_keys=nullptr,uint32_t* depth_ids=nullptr,
+-  int v0=0,int v1=0,int p0=0,int p1=0,int c0=0,uint4* footprint_rects=nullptr,float* footprint_limits=nullptr,const GraphInputs* dynamic=nullptr) {
++  int v0=0,int v1=0,int p0=0,int p1=0,int c0=0,uint4* footprint_rects=nullptr,float* footprint_limits=nullptr,const GraphInputs* dynamic=nullptr,uint2* tasks=nullptr,uint32_t* task_count=nullptr) {
+   const int padded_capacity=P;
+   if(Dynamic) {
+     P=dynamic->P;D=dynamic->D;M=dynamic->M;W=dynamic->W;H=dynamic->H;
+@@ -320,6 +320,11 @@
+   // Inverse 2D covariance and opacity neatly pack into one float4
+   conic_opacity[idx] = {conic.x, conic.y, conic.z, opacities[idx]};
+   tiles_touched[idx] = (rect_max.y - rect_min.y) * (rect_max.x - rect_min.x);
++  if(Schedule) {
++    const unsigned chunks=(tiles_touched[idx]+255)/256;
++    const unsigned first=atomicAdd(task_count,chunks);
++    for(unsigned chunk=0;chunk<chunks;++chunk)tasks[first+chunk]=make_uint2(idx,chunk*256);
++  }
+   if(Metadata) {
+     footprint_rects[idx]=make_uint4(rect_min.x,rect_min.y,rect_max.x,rect_max.y);
+     footprint_limits[idx]=logf(opacities[idx]/(1.0f/255.0f));
+@@ -329,9 +334,16 @@
+ 
+ void graph_preprocess(int capacity,const GraphInputs* inputs,int* radii,float2* xy,float* depths,
+     float* covariance,float* rgb,float4* conic,bool* clamped,uint32_t* touched,
+-    uint32_t* depth_keys,uint32_t* depth_ids,dim3 grid,cudaStream_t stream) {
+-  preprocessCUDA<3,true,true,false,true><<<(capacity+255)/256,256,0,stream>>>(capacity,0,0,
++    uint32_t* depth_keys,uint32_t* depth_ids,dim3 grid,cudaStream_t stream,int threads,uint2* tasks,uint32_t* task_count) {
++  if(tasks) {
++  preprocessCUDA<3,true,true,false,true,true><<<(capacity+threads-1)/threads,threads,0,stream>>>(capacity,0,0,
++      nullptr,nullptr,1.f,nullptr,nullptr,nullptr,nullptr,clamped,nullptr,nullptr,nullptr,nullptr,nullptr,
++      0,0,0.f,0.f,0.f,0.f,radii,xy,depths,covariance,rgb,conic,grid,touched,false,
++      depth_keys,depth_ids,0,0,0,0,0,nullptr,nullptr,inputs,tasks,task_count);
++  } else {
++  preprocessCUDA<3,true,true,false,true><<<(capacity+threads-1)/threads,threads,0,stream>>>(capacity,0,0,
+       nullptr,nullptr,1.f,nullptr,nullptr,nullptr,nullptr,clamped,nullptr,nullptr,nullptr,nullptr,nullptr,
+       0,0,0.f,0.f,0.f,0.f,radii,xy,depths,covariance,rgb,conic,grid,touched,false,
+       depth_keys,depth_ids,0,0,0,0,0,nullptr,nullptr,inputs);
+-}
++  }
++}
+--- a/source/graph_inputs.h
++++ b/source/graph_inputs.h
+@@ -14,4 +14,4 @@
+ 
+ void graph_preprocess(int capacity,const GraphInputs* inputs,int* radii,float2* xy,float* depths,
+     float* covariance,float* rgb,float4* conic,bool* clamped,uint32_t* touched,
+-    uint32_t* depth_keys,uint32_t* depth_ids,dim3 grid,cudaStream_t stream);
++    uint32_t* depth_keys,uint32_t* depth_ids,dim3 grid,cudaStream_t stream,int threads=256,uint2* tasks=nullptr,uint32_t* task_count=nullptr);
+--- a/source/graph_kernels.cuh
++++ b/source/graph_kernels.cuh
+@@ -82,7 +82,7 @@
+ }
+ 
+ __global__ void mergeDepthSort(int n,int width,const uint64_t* input,uint64_t* temporary,
+-    uint32_t* output,uint32_t* ids,bool final) {
++    uint32_t* output,uint32_t* ids,bool final,uint32_t* inverse=nullptr) {
+   int index=blockIdx.x*blockDim.x+threadIdx.x;if(index>=n)return;
+   int base=(index/(width*2))*(width*2),diagonal=index-base;
+   int left=min(width,n-base),right=min(width,max(0,n-base-width));
+@@ -94,11 +94,11 @@
+   }
+   int i=lo,j=diagonal-i;
+   uint64_t value=(i<left&&(j>=right||A[i]<B[j]))?A[i]:B[j];
+-  if(final){output[index]=value>>32;ids[index]=uint32_t(value);}else temporary[index]=value;
++  if(final){output[index]=value>>32;ids[index]=uint32_t(value);if(inverse)inverse[uint32_t(value)]=index;}else temporary[index]=value;
+ }
+ 
+ __global__ void blockDepthSort512(int n,const uint32_t* input,uint64_t* temporary,
+-    uint32_t* output,uint32_t* ids,bool final) {
++    uint32_t* output,uint32_t* ids,bool final,uint32_t* inverse=nullptr) {
+   using Sort=cub::BlockRadixSort<uint32_t,128,4,uint32_t>;
+   __shared__ typename Sort::TempStorage storage;
+   uint32_t keys[4],values[4];
+@@ -111,7 +111,7 @@
+   for(int j=0;j<4;++j) {
+     unsigned i=blockIdx.x*512+threadIdx.x*4+j;
+     if(i<unsigned(n)) {
+-      if(final){output[i]=keys[j];ids[i]=values[j];}
++      if(final){output[i]=keys[j];ids[i]=values[j];if(inverse)inverse[values[j]]=i;}
+       else temporary[i]=(uint64_t(keys[j])<<32)|values[j];
+     }
+   }
+--- a/source/graph_main.cu
++++ b/source/graph_main.cu
+@@ -1,5 +1,9 @@
+ // 独立实验：有界容量调度图。所有输入、相机和输出指针每帧重新提交。
+ #include "graph_kernels.cuh"
++#include "footprint_build.cuh"
++#include "warp_pixels.cuh"
++#include "direct_pixels.cuh"
++#include "preprocess_tasks.cuh"
+ #include <list>
+ #include <memory>
+ #include <tuple>
+@@ -18,28 +22,29 @@
+   }
+ };
+ 
+-struct CapacityGraphRasterizer {
++struct FootprintGraphRasterizerV4 {
+   int device=-1;cudaStream_t owner=nullptr;Tensor parameters;
+   Tensor pool_geometry,pool_sort,pool_bits,pool_directory,pool_lists,pool_counts,pool_tasks;
+   int pool_capacity=0,pool_W=0,pool_H=0;
+   std::list<std::unique_ptr<CapturedPlan>> plans;
+   using Key=std::tuple<int,int,int,int,int,bool>;
+   std::map<Key,CapturedPlan*> lookup;
+-  int max_plans=64;
++  int max_plans=64;int build_mode_=0;int pixel_mode_=0;int preprocess_threads_=256;Tensor pool_metadata;
+   bool ordered_coverage_=false;
+   bool device_clear_=false;
+   uint64_t clock=0,hits=0,misses=0,evictions=0;
+   static constexpr int64_t Limit=1024ll<<20;
+-  CapacityGraphRasterizer(int count=64,bool ordered=false,bool device_clear=false):max_plans(count),ordered_coverage_(ordered),device_clear_(device_clear){TORCH_CHECK(count>0&&count<=512,"Graph plan count must be in 1..512");}
++  FootprintGraphRasterizerV4(int count=64,bool ordered=true,bool device_clear=true,int build_mode=0,int pixel_mode=0,int preprocess_threads=256):max_plans(count),build_mode_(build_mode),pixel_mode_(pixel_mode),preprocess_threads_(preprocess_threads),ordered_coverage_(ordered),device_clear_(device_clear){TORCH_CHECK(count>0&&count<=512,"Graph plan count must be in 1..512");TORCH_CHECK(build_mode>=0&&build_mode<=11&&pixel_mode>=0&&pixel_mode<=5&&(preprocess_threads==64||preprocess_threads==128||preprocess_threads==256)&&ordered,"Footprint build mode and exact coverage");}
+ 
+   static int64_t estimated_bytes(int capacity,int W,int H,int list_capacity) {
+     int64_t tiles=((W+15)/16)*((H+15)/16),words=(capacity+31)/32,groups=(words+31)/32;
+-    return int64_t(capacity)*128+8192+tiles*words*4+8+tiles*groups*4+
++    return int64_t(capacity)*148+8192+tiles*words*4+8+tiles*groups*4+
+         tiles*list_capacity*4+tiles*4+int64_t(capacity)*((tiles+255)/256)*8;
+   }
+ 
+   int64_t workspace_bytes()const {
+     int64_t n=parameters.defined()?parameters.storage().nbytes():0;
++    if(pool_metadata.defined())n+=pool_metadata.storage().nbytes();
+     for(const auto& t:{pool_geometry,pool_sort,pool_bits,pool_directory,pool_lists,pool_counts,pool_tasks})if(t.defined())n+=t.storage().nbytes();
+     return n;
+   }
+@@ -51,12 +56,12 @@
+     TORCH_CHECK(bit_bytes<=256ll<<20&&required+sizeof(GraphInputs)<=Limit,"Shared graph pool exceeds capacity limit");
+     // 同一Stream串行使用；扩容或分辨率变化立即销毁所有旧地址的计划。
+     lookup.clear();plans.clear();pool_geometry=Tensor();pool_sort=Tensor();pool_bits=Tensor();pool_directory=Tensor();
+-    pool_lists=Tensor();pool_counts=Tensor();pool_tasks=Tensor();
++    pool_lists=Tensor();pool_counts=Tensor();pool_tasks=Tensor();pool_metadata=Tensor();
+     auto buffer=[&](int64_t n){return torch::empty({n},options.dtype(at::kByte));};
+     pool_geometry=buffer(int64_t(capacity)*96+4096);pool_sort=buffer(int64_t(capacity)*32+4096);
+     pool_bits=buffer(bit_bytes);pool_directory=buffer(int64_t(tiles)*groups*4);
+     pool_lists=buffer(int64_t(tiles)*256*4);pool_counts=buffer(int64_t(tiles)*4);
+-    pool_tasks=buffer(int64_t(capacity)*((tiles+255)/256)*8);
++    pool_tasks=buffer(int64_t(capacity)*((tiles+255)/256)*8);pool_metadata=buffer(int64_t(capacity)*20);
+     pool_capacity=capacity;pool_W=W;pool_H=H;
+     TORCH_CHECK(workspace_bytes()<=Limit,"Shared graph pool accounting exceeded limit");
+   }
+@@ -101,14 +106,29 @@
+     C10_CUDA_CHECK(cudaStreamBeginCapture(capture,cudaStreamCaptureModeThreadLocal));
+     if(input_in_graph)updateGraphInputs<<<1,1,0,capture>>>(GraphInputs{},reinterpret_cast<GraphInputs*>(parameters.data_ptr()));
+     dim3 grid((W+15)/16,(H+15)/16);
+-    graph_preprocess(capacity,inputs,radii,xy,depths,covariance,rgb,conic,clamped,touched,key_in,id_in,grid,capture);
+-    blockDepthSort512<<<(capacity+511)/512,128,0,capture>>>(capacity,key_in,merge_in,key_out,sorted,capacity<=512);
++    const bool fused_tasks=build_mode_==10||build_mode_==11;
++    auto inverse=fused_tasks?reinterpret_cast<uint32_t*>(pool_metadata.data_ptr()):nullptr;
++    if(fused_tasks)clearGraphBits<<<(bit_bytes/4+255)/256,256,0,capture>>>(bits,bit_bytes/4);
++    graph_preprocess(capacity,inputs,radii,xy,depths,covariance,rgb,conic,clamped,touched,key_in,id_in,grid,capture,
++        preprocess_threads_,fused_tasks?tasks:nullptr,fused_tasks?task_count:nullptr);
++    blockDepthSort512<<<(capacity+511)/512,128,0,capture>>>(capacity,key_in,merge_in,key_out,sorted,capacity<=512,inverse);
+     for(int width=512;width<capacity;width*=2) {
+-      mergeDepthSort<<<(capacity+255)/256,256,0,capture>>>(capacity,width,merge_in,merge_out,key_out,sorted,width*2>=capacity);
++      mergeDepthSort<<<(capacity+255)/256,256,0,capture>>>(capacity,width,merge_in,merge_out,key_out,sorted,width*2>=capacity,inverse);
+       std::swap(merge_in,merge_out);
+     }
+-    if(device_clear_)clearGraphBits<<<(bit_bytes/4+255)/256,256,0,capture>>>(bits,bit_bytes/4);
+-    else C10_CUDA_CHECK(cudaMemsetAsync(bits,0,bit_bytes,capture));
++    if(build_mode_==7||build_mode_==8) {
++      auto rectangles=reinterpret_cast<uint4*>(pool_metadata.data_ptr());
++      auto limits=reinterpret_cast<float*>(rectangles+capacity);
++      prepareFootprintMetadata<<<(capacity+127)/128,128,0,capture>>>(capacity,xy,conic,radii,sorted,key_out,touched,
++          rectangles,limits,bits+int64_t(tiles)*words,grid);
++      if(build_mode_==7)buildCompactedTiles<false><<<(tiles+3)/4,128,0,capture>>>(capacity,sorted,xy,conic,rectangles,limits,bits,words,directory,groups,lists,counts,list_capacity,grid);
++      else buildCompactedTiles<true><<<(tiles+3)/4,128,0,capture>>>(capacity,sorted,xy,conic,rectangles,limits,bits,words,directory,groups,lists,counts,list_capacity,grid,inputs);
++    } else {
++      if(build_mode_!=6&&build_mode_!=9&&!fused_tasks) {
++        if(device_clear_)clearGraphBits<<<(bit_bytes/4+255)/256,256,0,capture>>>(bits,bit_bytes/4);
++        else C10_CUDA_CHECK(cudaMemsetAsync(bits,0,bit_bytes,capture));
++      }
++      if(build_mode_==0) {
+     if(ordered_coverage_) {
+       scheduleBits<false,true><<<(capacity+3)/4,128,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid,tasks,task_count);
+       executeBitTasks<false,true><<<workers,128,0,capture>>>(tasks,task_count,sorted,xy,conic,radii,bits,words,grid);
+@@ -116,8 +136,24 @@
+       scheduleBits<false><<<(capacity+3)/4,128,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid,tasks,task_count);
+       executeBitTasks<false><<<workers,128,0,capture>>>(tasks,task_count,sorted,xy,conic,radii,bits,words,grid);
+     }
+-    compactTileBits<<<(tiles+3)/4,128,0,capture>>>(bits,words,tiles,sorted,directory,groups,lists,counts,list_capacity,capacity,key_out,touched);
+-    if(variant==5)renderMultiPixel<2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,
++      }
++      else if(build_mode_==1)buildGaussianFootprint<128,1><<<capacity,128,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid);
++      else if(build_mode_==2)buildGaussianFootprint<64,1><<<capacity,64,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid);
++      else if(build_mode_==3)buildGaussianFootprint<256,1><<<capacity,256,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid);
++      else if(build_mode_==4)buildGaussianFootprint<128,2><<<capacity*2,128,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid);
++      else if(build_mode_==5)buildGaussianFootprint<128,4><<<capacity*4,128,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid);
++      else if(build_mode_==6)buildTileWords<false><<<tiles,128,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid);
++      else if(build_mode_==9)buildTileWords<true><<<tiles,128,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid,inputs);
++      else if(build_mode_==10)executePreprocessedTasks<32><<<workers,128,0,capture>>>(tasks,task_count,inverse,xy,conic,radii,bits,words,grid);
++      else if(build_mode_==11)executePreprocessedTasks<128><<<workers,128,0,capture>>>(tasks,task_count,inverse,xy,conic,radii,bits,words,grid);
++      compactTileBits<<<(tiles+3)/4,128,0,capture>>>(bits,words,tiles,sorted,directory,groups,lists,counts,list_capacity,capacity,key_out,touched);
++    }
++    if(pixel_mode_==4)renderDirectPixels<2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++    else if(pixel_mode_==5)renderDirectPixels<1><<<grid,dim3(16,16),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++    else if(pixel_mode_==1)renderWarpPixels<8><<<grid,dim3(16,2),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++    else if(pixel_mode_==2)renderWarpPixels<4><<<grid,dim3(16,4),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++    else if(pixel_mode_==3)renderWarpPixels<2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++    else if(variant==5)renderMultiPixel<2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,
+         list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+     else renderCached<1><<<grid,dim3(16,16),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,
+         list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+@@ -207,13 +243,25 @@
+     C10_CUDA_CHECK(cudaGraphLaunch(selected->execution,stream));C10_CUDA_KERNEL_LAUNCH_CHECK();
+     return {out,output_radii};
+   }
++  std::vector<Tensor> snapshot()const {
++    TORCH_CHECK(!plans.empty(),"No rendered plan");
++    TORCH_CHECK(c10::cuda::getCurrentCUDAStream().stream()==owner,"Use one graph renderer per device/stream");
++    auto found=std::max_element(plans.begin(),plans.end(),[](const auto& a,const auto& b){return a->last_used<b->last_used;});
++    const auto& p=**found;const int n=p.capacity,tiles=((p.W+15)/16)*((p.H+15)/16),words=(n+31)/32,groups=(words+31)/32;
++    auto take=[&](void* data,std::vector<int64_t> shape){return torch::from_blob(data,shape,p.bits.options().dtype(at::kInt)).clone();};
++    char* sorting=reinterpret_cast<char*>(p.sort.data_ptr());uint32_t *ki,*ko,*ii,*sorted;uint64_t *mi,*mo;
++    CudaRasterizer::obtain(sorting,ki,n,128);CudaRasterizer::obtain(sorting,ko,n,128);
++    CudaRasterizer::obtain(sorting,ii,n,128);CudaRasterizer::obtain(sorting,sorted,n,128);
++    return {take(p.bits.data_ptr(),{tiles,words}),take(p.directory.data_ptr(),{tiles,groups}),
++        take(p.lists.data_ptr(),{tiles,p.list_capacity}),take(p.counts.data_ptr(),{tiles}),take(sorted,{n}),take(ko,{n})};
++  }
+   std::vector<int64_t> stats()const{return {int64_t(hits),int64_t(misses),int64_t(evictions),int64_t(plans.size()),workspace_bytes()};}
+ };
+ 
+ PYBIND11_MODULE(TORCH_EXTENSION_NAME,m) {
+-  pybind11::class_<CapacityGraphRasterizer>(m,"GraphRasterizer").def(pybind11::init<int,bool,bool>(),pybind11::arg("max_plans")=64,pybind11::arg("ordered_coverage")=false,pybind11::arg("device_clear")=false)
+-      .def("render",&CapacityGraphRasterizer::render,pybind11::call_guard<pybind11::gil_scoped_release>())
+-      .def("reserve",&CapacityGraphRasterizer::reserve,pybind11::call_guard<pybind11::gil_scoped_release>())
+-      .def("precompile",&CapacityGraphRasterizer::precompile,pybind11::call_guard<pybind11::gil_scoped_release>())
+-      .def("workspace_bytes",&CapacityGraphRasterizer::workspace_bytes).def("stats",&CapacityGraphRasterizer::stats);
++  pybind11::class_<FootprintGraphRasterizerV4>(m,"FootprintRasterizer").def(pybind11::init<int,bool,bool,int,int,int>(),pybind11::arg("max_plans")=512,pybind11::arg("ordered_coverage")=true,pybind11::arg("device_clear")=true,pybind11::arg("build_mode")=0,pybind11::arg("pixel_mode")=0,pybind11::arg("preprocess_threads")=256)
++      .def("render",&FootprintGraphRasterizerV4::render,pybind11::call_guard<pybind11::gil_scoped_release>())
++      .def("reserve",&FootprintGraphRasterizerV4::reserve,pybind11::call_guard<pybind11::gil_scoped_release>())
++      .def("precompile",&FootprintGraphRasterizerV4::precompile,pybind11::call_guard<pybind11::gil_scoped_release>())
++      .def("snapshot",&FootprintGraphRasterizerV4::snapshot).def("workspace_bytes",&FootprintGraphRasterizerV4::workspace_bytes).def("stats",&FootprintGraphRasterizerV4::stats);
+ }
+--- a/source/preprocess_tasks.cuh
++++ b/source/preprocess_tasks.cuh
+@@ -0,0 +1,20 @@
++// 任务由本帧预处理生成；排序最后一阶段写inverse rank。只并行整数Tile成员构建。
++// ThreadsPerTask=32为每Warp一个任务，128为每CTA一个任务；无K/Ratio路径分流。
++template<int ThreadsPerTask> __global__ void executePreprocessedTasks(const uint2* tasks,const uint32_t* task_count,
++    const uint32_t* inverse,const float2* xy,const float4* conic,const int* radii,uint32_t* bits,int words,dim3 grid) {
++  constexpr int TasksPerBlock=128/ThreadsPerTask;
++  const int worker=blockIdx.x*TasksPerBlock+threadIdx.x/ThreadsPerTask;
++  const int lane=threadIdx.x%ThreadsPerTask;
++  const unsigned count=*task_count;
++  for(unsigned task=worker;task<count;task+=gridDim.x*TasksPerBlock) {
++    const uint2 work=tasks[task];const int id=work.x,rank=inverse[id];
++    uint2 lo,hi;getRect(xy[id],radii[id],lo,hi,grid);
++    const int width=hi.x-lo.x,area=width*(hi.y-lo.y);
++    const float2 point=xy[id];const float4 co=conic[id];const float limit=logf(co.w/(1.0f/255.0f));
++    for(int k=work.y+lane;k<min(area,int(work.y)+256);k+=ThreadsPerTask) {
++      const int x=lo.x+k%width,y=lo.y+k/width;
++      if(orderedTilePower(point,co,x,y)<=limit)
++        atomicOr(bits+(y*grid.x+x)*words+rank/32,1u<<(rank&31));
++    }
++  }
++}
+--- a/source/warp_pixels.cuh
++++ b/source/warp_pixels.cuh
+@@ -0,0 +1,57 @@
++// 每warp协作加载32个有序成员，多个独立像素链复用相同寄存器属性。
++// 每个像素仍按原成员次序、FP32 power/exp/alpha/T/C表达式依次合成。
++template<int Pixels> __global__ void renderWarpPixels(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,const uint32_t* counts,
++    int capacity,const float2* xy,const float4* conic,const float* rgb,const uint32_t* keys,const GraphInputs* dynamic) {
++  constexpr int Rows=16/Pixels;
++  const int tile=blockIdx.y*gridDim.x+blockIdx.x,lane=(threadIdx.y*blockDim.x+threadIdx.x)&31;
++  const int x=blockIdx.x*16+threadIdx.x,y=blockIdx.y*16+threadIdx.y;
++  const float* bg=dynamic->background;float* out=dynamic->image;
++  float T[Pixels],C[Pixels][3];float2 pix[Pixels];bool inside[Pixels],done[Pixels];
++  #pragma unroll
++  for(int p=0;p<Pixels;++p){pix[p]={(float)x,(float)(y+p*Rows)};inside[p]=x<W&&y+p*Rows<H;done[p]=!inside[p];T[p]=1.f;C[p][0]=C[p][1]=C[p][2]=0.f;}
++  if(keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    #pragma unroll
++    for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=bg[ch];
++    return;
++  }
++  const int count=counts[tile];
++  if(count<=capacity) {
++    for(int begin=0;begin<count;begin+=32) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(__all_sync(0xffffffff,all_done))break;
++      float2 point{};float4 co{};float3 color{};
++      if(begin+lane<count) {
++        const int id=lists[tile*capacity+begin+lane];point=xy[id];co=conic[id];color={rgb[id*3],rgb[id*3+1],rgb[id*3+2]};
++      }
++      for(int member=0;member<min(32,count-begin);++member) {
++        float2 q={__shfl_sync(0xffffffff,point.x,member),__shfl_sync(0xffffffff,point.y,member)};
++        float4 c={__shfl_sync(0xffffffff,co.x,member),__shfl_sync(0xffffffff,co.y,member),__shfl_sync(0xffffffff,co.z,member),__shfl_sync(0xffffffff,co.w,member)};
++        float3 col={__shfl_sync(0xffffffff,color.x,member),__shfl_sync(0xffffffff,color.y,member),__shfl_sync(0xffffffff,color.z,member)};
++        #pragma unroll
++        for(int p=0;p<Pixels;++p)compositeValues(q,c,col,pix[p],done[p],T[p],C[p]);
++      }
++    }
++  } else {
++    for(int group=0;group<groups;++group) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(__all_sync(0xffffffff,all_done))break;
++      unsigned nonempty=directory[tile*groups+group];
++      while(nonempty) {
++        const int word=group*32+__ffs(nonempty)-1;nonempty&=nonempty-1;unsigned members=bits[tile*words+word];
++        while(members) {
++          const int rank=word*32+__ffs(members)-1;members&=members-1;const int id=sorted[rank];
++          const float2 q=xy[id];const float4 c=conic[id];const float3 col={rgb[id*3],rgb[id*3+1],rgb[id*3+2]};
++          #pragma unroll
++          for(int p=0;p<Pixels;++p)compositeValues(q,c,col,pix[p],done[p],T[p],C[p]);
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=C[p][ch]+T[p]*bg[ch];
++}

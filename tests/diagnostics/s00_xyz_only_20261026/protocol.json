@@ -1,0 +1,39 @@
+{
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "source_run_sha256": "e630e91ffcee1e7a75d190ab512722bcd58e8d8ba963abec7551613d8b0714b8",
+  "runtime_sha256": "9ae25a86d702050c55db2255e6f6cc1f65b4cccd359341166f855f7bcb822025",
+  "renderer_binary": "/home/prmi/zwj/mycartgs/python/diff-gaussian-rasterization/diff_gaussian_rasterization/_C.cpython-311-x86_64-linux-gnu.so",
+  "renderer_sha256": "27b5b468cf385dd1c96aeabdd65426da38a938a38d52d8181b1b1da485090c86",
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "baseline": "previous raw11 Encoder11->32,raw11+Anchor ratio latent16+h32=59,four heads59->32->32->3/3/4/4, matched final12000 seeds3100/3101",
+  "candidate": "raw worldXYZ3+logratio1 only; Encoder4->32; compensation raw4+Anchor ratio latent16+h32=52, four heads52->32->32->3/3/4/4",
+  "input_exclusions": "no Anchor-local offset,Scale,SH DC,Opacity,Rotation,view inputs or extra encoding in either Encoder or compensation",
+  "coordinate": "explicit Gaussian raw global XYZ, frozen world frame, no new normalization",
+  "unchanged": "latent16 per Anchor per training ratio and linear interpolation,shared h32,original14D meanings,Selector head,Loss,Adam,ratio schedule,Cached Bernoulli,Renderer,frozen Master",
+  "initialization": "reuse first3 coordinate columns for globalXYZ instead of offset; retain logratio,latent,h columns,all biases,later layers and zero final outputs; initial p and compensation exact, hidden functions necessarily differ",
+  "controls": "same source map/poses/eligible/uniform, per-seed frame order,12000 common Adam steps and3000 per latent table; reuse both locked previous baseline seeds without selecting best repeat",
+  "limits": "changes input information,coordinate frame and first-layer parameter count simultaneously, so not pure feature count causality; two seeds one frozen map, no online claim",
+  "source": "fr1_xyz N6838/M2066,54 Bank train320x240,13 holdout and45 historical nonBank640x480",
+  "optimizer": "fresh fused Adam lr=.001 eps1e-15; no LR search",
+  "loss": "original .8L1+.2(1-fast_ssim)+.01 relative expected-budget L1",
+  "selection": "cached Bernoulli train; primary deterministic same-K rank logit(p)-logit(uniform), floor ratio*N capped by eligible; actual cachedK separately",
+  "evaluation": "all4 metrics,all7 ratios,final12000 only; no nonBank model/step/LR selection; no feature additions in this round",
+  "no_production_change": true,
+  "no_stage_commit_push": true
+}

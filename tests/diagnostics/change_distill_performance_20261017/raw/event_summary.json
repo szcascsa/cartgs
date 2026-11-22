@@ -1,0 +1,86 @@
+{
+  "aabb_changed": false,
+  "active_sh_degree": 3,
+  "cd": {
+    "anchor_loss_weight": 1.0,
+    "anchor_max_count": 32768,
+    "anchor_ratio_to_corrected": 1.0,
+    "batch_size": 8192,
+    "distill_selector_on_geometry_change": true,
+    "distill_tf_on_aabb_change": true,
+    "distill_tf_on_geometry_change": true,
+    "enable_unaffected_anchors": true,
+    "epochs": 5,
+    "position_weight": 1.0,
+    "rotation_weight": 1.0,
+    "scale_weight": 1.0,
+    "selector_learning_rate": 9.999999747378752e-05,
+    "selector_weight": 1.0,
+    "tf_grid_learning_rate": 0.00015999999595806003,
+    "tf_mlp_learning_rate": 1.5999999959603883e-05
+  },
+  "corrected_count": 66564,
+  "corrected_mature_count": 29687,
+  "flags": 1,
+  "mapping_iter": 6207,
+  "mature_count": 44889,
+  "maturity_mode": "g_real",
+  "max_sh_degree": 3,
+  "origin": "captured_live_mapping",
+  "post_append_count": 85653,
+  "protection_enabled": true,
+  "ratios": [
+    0.009999999776482582,
+    0.05000000074505806,
+    0.10000000149011612,
+    0.15000000596046448
+  ],
+  "selector_adam": [
+    {
+      "amsgrad": false,
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "eps": 1e-08,
+      "lr": 0.0010000000474974513,
+      "weight_decay": 0.0
+    }
+  ],
+  "selector_backend": "cuda",
+  "snapshot_count": 85653,
+  "temperature": 1.0,
+  "tf": {
+    "backend": "cuda",
+    "elastic_entry_maturity": 0.0,
+    "feature_dim": 8,
+    "hidden_dim": 32,
+    "maturity_compute_epsilon": 0.0,
+    "multires": [
+      1,
+      2
+    ],
+    "outside_identity": true,
+    "ratio_resolution": 150,
+    "spatial_resolution": 64
+  },
+  "tf_adam": [
+    {
+      "amsgrad": false,
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "eps": 1e-15,
+      "lr": 2.4781607862678356e-05,
+      "weight_decay": 0.0
+    },
+    {
+      "amsgrad": false,
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "eps": 1e-15,
+      "lr": 0.0002478158276062459,
+      "weight_decay": 0.0
+    }
+  ],
+  "type": "local_loop",
+  "correction_group_count": 144,
+  "snapshot_local_available": false
+}

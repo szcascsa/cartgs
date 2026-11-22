@@ -1,0 +1,336 @@
+{
+  "event/aabb_min/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 12,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      3
+    ],
+    "stride" : 
+    [
+      1
+    ]
+  },
+  "event/current_rotation/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1370448,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      4
+    ],
+    "stride" : 
+    [
+      4,
+      1
+    ]
+  },
+  "event/current_scale/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1027836,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "event/current_xyz/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1027836,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "event/mature/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 85653,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Bool",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653
+    ],
+    "stride" : 
+    [
+      1
+    ]
+  },
+  "event/old_xyz/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1027836,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "selector/cache_values/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 342612,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653
+    ],
+    "stride" : 
+    [
+      1
+    ]
+  },
+  "selector/stage_0/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "selector/stage_1/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "selector/stage_2/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "selector/stage_3/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "selector/stage_4/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "selector/stage_5/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "selector/stage_6/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "selector/stage_7/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "selector/stage_8/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 65536,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      2
+    ],
+    "stride" : 
+    [
+      2,
+      1
+    ]
+  },
+  "selector/stage_9/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 4194304,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      8192,
+      128
+    ],
+    "stride" : 
+    [
+      128,
+      1
+    ]
+  }
+}

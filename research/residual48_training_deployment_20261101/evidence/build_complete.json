@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "targets": [
+    "replica_rgbd",
+    "replica_mono",
+    "tum_rgbd",
+    "tum_mono",
+    "vector_mono",
+    "vector_stereo",
+    "train_colmap",
+    "view_result"
+  ],
+  "source_files": 226,
+  "artifacts": {
+    "bin/replica_rgbd": "ecaf016d274faca0d28a3e03bdddccc6c592e8e8edec42b6c1eadf421d2dd78d",
+    "bin/replica_mono": "19a682b17298dd96a9b2520b645ca6a20899841a233f6f681a05a41ba6eb09ae",
+    "bin/tum_rgbd": "de29b8cbec926587ea69cf01c4a29fe371f78e3cfdb7d72a7a9d7436f15f5a6c",
+    "bin/tum_mono": "1de178f4e4f27125f315dc89b11809deef60ffb60c04999413c2636cfb92be0e",
+    "bin/vector_mono": "1092d6403a59fc2500ec2bed2e82884c8986fe0a961ab48d791093af076e45fc",
+    "bin/vector_stereo": "32b8f2c7e5f6b81923d964c2b9205daf0f305fe67a40e57735ce377532f9e658",
+    "bin/train_colmap": "b0af6c2f34af02f50af3cd79f98823c2f8136192cb7a1fe8908c093baaa86087",
+    "bin/view_result": "851eea3856b498602969c6ecf669e71c8b4af983d11459d33bf79621c64e06d6",
+    "lib/libsimple_knn.so": "6e5f8938833468bfdc49c7597592d153d62810bc93950954618a39233989527f",
+    "lib/libcuda_rasterizer.so": "0a945c8198acb792cd157e637f2fa055eade72947d9443692f13826b11747a73",
+    "lib/libimgui.so": "01930f981b7bd387f5dff5f7f923ef7a411d53de11802eebff46e4256fe8002f",
+    "lib/libgaussian_viewer.so": "f4da68f99d4496a68c921afb5184ba06a8a3e0c23f95a619a5e25a0823b26c6a",
+    "lib/libgaussian_mapper.so": "5a33fe032511dd2cb6e7a183df3fab1e3fe06309f1965c3865b6bb52943aabd2"
+  },
+  "backup": "/home/prmi/zwj/deployments/residual48_training_20261101/before"
+}

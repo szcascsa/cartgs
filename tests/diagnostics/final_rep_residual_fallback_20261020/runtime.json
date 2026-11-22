@@ -1,0 +1,92 @@
+[
+  {
+    "scene": "final-rep-residual-fallback-20261020",
+    "stage": "prepare",
+    "wall_seconds": 4.724014718085527
+  },
+  {
+    "scene": "final-rep-residual-fallback-20261020",
+    "stage": "build",
+    "wall_seconds": 12.584141537547112
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "baseline",
+    "wall_seconds": 44.92714611440897
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "baseline",
+    "wall_seconds": 25.7610368616879
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "baseline",
+    "wall_seconds": 27.115746840834618
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "coverage",
+    "wall_seconds": 8.555205002427101
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "fallback",
+    "wall_seconds": 3.487880364060402
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "coverage",
+    "wall_seconds": 7.032159399241209
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "fallback",
+    "wall_seconds": 1.4796750470995903
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "coverage",
+    "wall_seconds": 7.509702559560537
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "fallback",
+    "wall_seconds": 3.0395831018686295
+  },
+  {
+    "scene": "final-rep-residual-fallback-20261020",
+    "stage": "independent_check",
+    "wall_seconds": 0.5745292380452156
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "quality",
+    "wall_seconds": 19.478370156139135
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "diagnostics",
+    "wall_seconds": 2.0237848982214928
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "quality",
+    "wall_seconds": 9.014995712786913
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "diagnostics",
+    "wall_seconds": 0.7656452618539333
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "quality",
+    "wall_seconds": 7.859589219093323
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "diagnostics",
+    "wall_seconds": 1.525341235101223
+  }
+]

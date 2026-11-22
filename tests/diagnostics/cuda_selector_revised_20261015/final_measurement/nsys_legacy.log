@@ -1,0 +1,7 @@
+Capture range started in the application.
+Generating '/tmp/nsys-report-bd94.qdstrm'
+Capture range ended in the application.
+[1/1] [0%                          ] mlp_legacy.nsys-rep[1/1] [0%                          ] mlp_legacy.nsys-rep[1/1] [14%                         ] mlp_legacy.nsys-rep[1/1] [=====29%                    ] mlp_legacy.nsys-rep[1/1] [===================82%      ] mlp_legacy.nsys-rep[1/1] [========================100%] mlp_legacy.nsys-rep[1/1] [========================100%] mlp_legacy.nsys-rep
+legacy M=219969 network_forward_backward complete
+Generated:
+    /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_revised_20261015/final_measurement/mlp_legacy.nsys-rep

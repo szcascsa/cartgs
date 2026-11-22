@@ -1,0 +1,6 @@
+{
+  "tests": 62,
+  "failures": [
+    "ultrafast_mapping_cuda"
+  ]
+}

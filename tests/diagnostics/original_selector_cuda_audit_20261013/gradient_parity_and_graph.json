@@ -1,0 +1,615 @@
+{
+  "N": 257,
+  "selected": 38,
+  "fixed_noise_hard_exact": true,
+  "checks": [
+    {
+      "name": "pos_emd.0.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "pos_emd.0.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "pos_emd.2.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "pos_emd.2.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "rotation_emd.0.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "rotation_emd.0.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "rotation_emd.2.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "rotation_emd.2.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "scale_emd.0.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "scale_emd.0.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "scale_emd.2.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "scale_emd.2.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "time_emd.0.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "time_emd.0.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "time_emd.2.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "time_emd.2.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "soft_net.weight",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "soft_net.bias",
+      "max_abs": 0.0,
+      "scaled_error": 0.0,
+      "passed": true
+    },
+    {
+      "name": "x",
+      "max_abs": 0.0,
+      "passed": true
+    },
+    {
+      "name": "q",
+      "max_abs": 0.0,
+      "passed": true
+    },
+    {
+      "name": "s",
+      "max_abs": 0.0,
+      "passed": true
+    },
+    {
+      "name": "alpha",
+      "max_abs": 0.0,
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "autograd_nodes": {
+    "AddBackward0": 3,
+    "DivBackward0": 2,
+    "MulBackward0": 2,
+    "AbsBackward0": 1,
+    "SubBackward0": 1,
+    "SumBackward0": 1,
+    "SelectBackward0": 2,
+    "SliceBackward0": 2,
+    "SoftmaxBackward0": 2,
+    "AddmmBackward0": 9,
+    "TBackward0": 9,
+    "AccumulateGrad": 22,
+    "CatBackward0": 1,
+    "ExpandBackward0": 1,
+    "ReluBackward0": 8,
+    "MeanBackward0": 1,
+    "IndexBackward0": 2,
+    "UnsqueezeBackward0": 1
+  },
+  "total_nodes": 70,
+  "saved_tensor_references": 33,
+  "unique_saved_storage": 28,
+  "unique_saved_storage_bytes": 364968,
+  "saved_tensors": [
+    {
+      "shape": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 4,
+      "storage_bytes": 4,
+      "storage": 140102674193408
+    },
+    {
+      "shape": [
+        1,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 128,
+      "storage_bytes": 128,
+      "storage": 140102674194432
+    },
+    {
+      "shape": [
+        1,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 128,
+      "storage_bytes": 128,
+      "storage": 140102674194432
+    },
+    {
+      "shape": [
+        32,
+        32
+      ],
+      "stride": [
+        1,
+        32
+      ],
+      "dtype": "torch.float32",
+      "bytes": 4096,
+      "storage_bytes": 4096,
+      "storage": 140102674171392
+    },
+    {
+      "shape": [
+        1,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 128,
+      "storage_bytes": 128,
+      "storage": 140102674194944
+    },
+    {
+      "shape": [
+        257,
+        3
+      ],
+      "stride": [
+        3,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 3084,
+      "storage_bytes": 3084,
+      "storage": 140102674177536
+    },
+    {
+      "shape": [
+        3,
+        32
+      ],
+      "stride": [
+        1,
+        3
+      ],
+      "dtype": "torch.float32",
+      "bytes": 384,
+      "storage_bytes": 384,
+      "storage": 140102674153472
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674228736
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674228736
+    },
+    {
+      "shape": [
+        32,
+        32
+      ],
+      "stride": [
+        1,
+        32
+      ],
+      "dtype": "torch.float32",
+      "bytes": 4096,
+      "storage_bytes": 4096,
+      "storage": 140102674154496
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674262016
+    },
+    {
+      "shape": [
+        257,
+        4
+      ],
+      "stride": [
+        4,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 4112,
+      "storage_bytes": 4112,
+      "storage": 140102674181120
+    },
+    {
+      "shape": [
+        4,
+        32
+      ],
+      "stride": [
+        1,
+        4
+      ],
+      "dtype": "torch.float32",
+      "bytes": 512,
+      "storage_bytes": 512,
+      "storage": 140102674159104
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674295296
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674295296
+    },
+    {
+      "shape": [
+        32,
+        32
+      ],
+      "stride": [
+        1,
+        32
+      ],
+      "dtype": "torch.float32",
+      "bytes": 4096,
+      "storage_bytes": 4096,
+      "storage": 140102674160128
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674328576
+    },
+    {
+      "shape": [
+        257,
+        3
+      ],
+      "stride": [
+        3,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 3084,
+      "storage_bytes": 3084,
+      "storage": 140102674185728
+    },
+    {
+      "shape": [
+        3,
+        32
+      ],
+      "stride": [
+        1,
+        3
+      ],
+      "dtype": "torch.float32",
+      "bytes": 384,
+      "storage_bytes": 384,
+      "storage": 140102674164736
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674361856
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674361856
+    },
+    {
+      "shape": [
+        32,
+        32
+      ],
+      "stride": [
+        1,
+        32
+      ],
+      "dtype": "torch.float32",
+      "bytes": 4096,
+      "storage_bytes": 4096,
+      "storage": 140102674165760
+    },
+    {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 32896,
+      "storage_bytes": 32896,
+      "storage": 140102674395136
+    },
+    {
+      "shape": [
+        257,
+        128
+      ],
+      "stride": [
+        128,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 131584,
+      "storage_bytes": 131584,
+      "storage": 140102674428416
+    },
+    {
+      "shape": [
+        128,
+        2
+      ],
+      "stride": [
+        1,
+        128
+      ],
+      "dtype": "torch.float32",
+      "bytes": 1024,
+      "storage_bytes": 1024,
+      "storage": 140102674176000
+    },
+    {
+      "shape": [
+        257,
+        2
+      ],
+      "stride": [
+        2,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 2056,
+      "storage_bytes": 2056,
+      "storage": 140102674198016
+    },
+    {
+      "shape": [
+        257,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "dtype": "torch.int64",
+      "bytes": 2056,
+      "storage_bytes": 2056,
+      "storage": 140102674204672
+    },
+    {
+      "shape": [
+        38
+      ],
+      "stride": [
+        1
+      ],
+      "dtype": "torch.int64",
+      "bytes": 304,
+      "storage_bytes": 304,
+      "storage": 140102674204160
+    },
+    {
+      "shape": [
+        38
+      ],
+      "stride": [
+        1
+      ],
+      "dtype": "torch.int64",
+      "bytes": 304,
+      "storage_bytes": 304,
+      "storage": 140102674204160
+    },
+    {
+      "shape": [
+        38,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 152,
+      "storage_bytes": 152,
+      "storage": 140102674203136
+    },
+    {
+      "shape": [
+        38,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 152,
+      "storage_bytes": 152,
+      "storage": 140102674193920
+    },
+    {
+      "shape": [
+        257,
+        2
+      ],
+      "stride": [
+        2,
+        1
+      ],
+      "dtype": "torch.float32",
+      "bytes": 2056,
+      "storage_bytes": 2056,
+      "storage": 140102674208256
+    },
+    {
+      "shape": [],
+      "stride": [],
+      "dtype": "torch.float32",
+      "bytes": 4,
+      "storage_bytes": 4,
+      "storage": 140102674210816
+    }
+  ],
+  "limit": "257 actual checkpoint rows; native structural opacity VJP + ratio oracle, not full photometric numerical parity; native renderer gradients are separately verified"
+}

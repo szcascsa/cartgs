@@ -1,0 +1,587 @@
+[  3%] Building CXX object CMakeFiles/selector_cuda.dir/src/selector_cuda.cpp.o
+[  3%] Building CUDA object CMakeFiles/cuda_rasterizer.dir/src/operate_points.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/auxiliary.h(161): warning #177-D: variable "p_proj" was declared but never referenced
+
+[  3%] Building CUDA object CMakeFiles/selector_cuda.dir/src/selector_cuda.cu.o
+[  6%] Building CUDA object CMakeFiles/cuda_rasterizer.dir/src/stereo_vision.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/auxiliary.h(161): warning #177-D: variable "p_proj" was declared but never referenced
+
+[ 10%] Linking CXX static library libselector_cuda.a
+[ 10%] Built target selector_cuda
+[ 10%] Building CUDA object CMakeFiles/simple_knn.dir/third_party/simple-knn/simple_knn.cu.o
+[ 13%] Building CUDA object CMakeFiles/simple_knn.dir/third_party/simple-knn/spatial.cu.o
+[ 13%] Building CUDA object CMakeFiles/cuda_rasterizer.dir/cuda_rasterizer/rasterize_points.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu(106): warning #2809-D: ignoring return value from routine declared with "nodiscard" attribute
+
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu(107): warning #2809-D: ignoring return value from routine declared with "nodiscard" attribute
+
+[ 13%] Linking CUDA shared library /home/prmi/zwj/selector-cuda-20261015/lib/libsimple_knn.so
+[ 13%] Built target simple_knn
+[ 13%] Building CXX object CMakeFiles/imgui.dir/viewer/imgui/imgui_demo.cpp.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu(106): warning #2809-D: ignoring return value from routine declared with "nodiscard" attribute
+
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu(107): warning #2809-D: ignoring return value from routine declared with "nodiscard" attribute
+
+[ 17%] Building CXX object CMakeFiles/imgui.dir/viewer/imgui/imgui_draw.cpp.o
+[ 17%] Building CXX object CMakeFiles/imgui.dir/viewer/imgui/imgui_impl_glfw.cpp.o
+[ 20%] Building CXX object CMakeFiles/imgui.dir/viewer/imgui/imgui_impl_opengl3.cpp.o
+[ 20%] Building CXX object CMakeFiles/imgui.dir/viewer/imgui/imgui_tables.cpp.o
+[ 24%] Building CXX object CMakeFiles/imgui.dir/viewer/imgui/imgui_widgets.cpp.o
+[ 24%] Building CXX object CMakeFiles/imgui.dir/viewer/imgui/imgui.cpp.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu: In function ‘std::tuple<int, int, at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor> RasterizeGaussiansCUDAWithImportance(const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, float, const at::Tensor&, const at::Tensor&, const at::Tensor&, float, float, int, int, const at::Tensor&, const at::Tensor&, int, const at::Tensor&, bool, bool, bool, RasterizeMode)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:106:35: warning: ignoring return value of ‘c10::TensorOptions c10::TensorOptions::requires_grad(std::optional<bool>) const’, declared with attribute nodiscard [-Wunused-result]
+  106 |   stats_int_opts.requires_grad(false);
+      |                                   ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/c10/core/TensorOptions.h:255:1: note: declared here
+  255 |   requires_grad(c10::optional<bool> requires_grad) const noexcept {
+      | ^ ~~~~~~~~~~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:107:37: warning: ignoring return value of ‘c10::TensorOptions c10::TensorOptions::requires_grad(std::optional<bool>) const’, declared with attribute nodiscard [-Wunused-result]
+  107 |   stats_float_opts.requires_grad(false);
+      |                                     ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/c10/core/TensorOptions.h:255:1: note: declared here
+  255 |   requires_grad(c10::optional<bool> requires_grad) const noexcept {
+      | ^ ~~~~~~~~~~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:146: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                  ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:192: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:336: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                                                                                                                                                                ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:376: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                                                                                                                                                                                                        ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:527: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:570: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:613: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:652: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:727: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:140:763: warning: ‘T* at::Tensor::data() const [with T = int]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  140 |     auto tup = CudaRasterizer::Rasterizer::forward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu: In function ‘std::tuple<at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor> RasterizeGaussiansBackwardCUDA(const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, float, const at::Tensor&, const at::Tensor&, const at::Tensor&, float, float, const at::Tensor&, const at::Tensor&, const at::Tensor&, int, const at::Tensor&, const at::Tensor&, int, const at::Tensor&, const at::Tensor&, int, const at::Tensor&, bool)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:98: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                  ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:144: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:179: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                   ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:214: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                      ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:253: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                             ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:374: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                      ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:417: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                 ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:460: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:499: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:555: warning: ‘T* at::Tensor::data() const [with T = int]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:867: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:911: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:953: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:997: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:1040: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:1084: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:1126: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:1165: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:1204: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:1247: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:264:1293: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  264 |     CudaRasterizer::Rasterizer::backward(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu: In function ‘at::Tensor markVisible(at::Tensor&, at::Tensor&, at::Tensor&)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:303:81: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  303 |     CudaRasterizer::Rasterizer::markVisible(
+      |                                                                                 ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:303:124: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  303 |     CudaRasterizer::Rasterizer::markVisible(
+      |                                                                                                                            ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:303:167: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  303 |     CudaRasterizer::Rasterizer::markVisible(
+      |                                                                                                                                                                       ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:303:206: warning: ‘T* at::Tensor::data() const [with T = bool]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  303 |     CudaRasterizer::Rasterizer::markVisible(
+      |                                                                                                                                                                                                              ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu: In function ‘void adamUpdate(at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&, float, float, float, float, uint32_t, uint32_t)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:324:53: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  324 |   ADAM::adamUpdate(
+      |                                                     ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:324:96: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  324 |   ADAM::adamUpdate(
+      |                                                                                                ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:324:136: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  324 |   ADAM::adamUpdate(
+      |                                                                                                                                        ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:324:179: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  324 |   ADAM::adamUpdate(
+      |                                                                                                                                                                                   ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/rasterize_points.cu:324:218: warning: ‘T* at::Tensor::data() const [with T = bool]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  324 |   ADAM::adamUpdate(
+      |                                                                                                                                                                                                                          ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+[ 27%] Linking CXX shared library /home/prmi/zwj/selector-cuda-20261015/lib/libimgui.so
+[ 27%] Built target imgui
+[ 31%] Building CXX object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda.cpp.o
+[ 34%] Building CUDA object CMakeFiles/cuda_rasterizer.dir/cuda_rasterizer/backward.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/auxiliary.h(161): warning #177-D: variable "p_proj" was declared but never referenced
+
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/backward.cu(44): warning #177-D: variable "direct_color" was declared but never referenced
+
+[ 34%] Building CUDA object CMakeFiles/cuda_rasterizer.dir/cuda_rasterizer/forward.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/auxiliary.h(161): warning #177-D: variable "p_proj" was declared but never referenced
+
+[ 37%] Building CUDA object CMakeFiles/cuda_rasterizer.dir/cuda_rasterizer/rasterizer_impl.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/auxiliary.h(161): warning #177-D: variable "p_proj" was declared but never referenced
+
+[ 37%] Building CUDA object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda.cu.o
+[ 37%] Building CUDA object CMakeFiles/cuda_rasterizer.dir/cuda_rasterizer/adam.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/auxiliary.h(161): warning #177-D: variable "p_proj" was declared but never referenced
+
+[ 41%] Building CUDA object CMakeFiles/cuda_rasterizer.dir/cuda_rasterizer/conv.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu(1065): warning #177-D: variable "m" was declared but never referenced
+
+[ 44%] Building CUDA object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda_neural.cu.o
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu: In function ‘at::Tensor conv2DForward(at::Tensor&)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:453:105: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  453 |   convCUDA<3><<<grid, block>>>(input.contiguous().data<float>(),
+      |                                                                                                         ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:453:141: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  453 |   convCUDA<3><<<grid, block>>>(input.contiguous().data<float>(),
+      |                                                                                                                                             ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:457:114: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  457 |   separableConvCUDA<3><<<grid, block>>>(input.contiguous().data<float>(),
+      |                                                                                                                  ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:457:150: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  457 |   separableConvCUDA<3><<<grid, block>>>(input.contiguous().data<float>(),
+      |                                                                                                                                                      ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:477:112: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  477 |   separableConvCUDA<3><<<grid, block>>>(aux.contiguous().data<float>(),
+      |                                                                                                                ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:477:153: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  477 |   separableConvCUDA<3><<<grid, block>>>(aux.contiguous().data<float>(),
+      |                                                                                                                                                         ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu: In function ‘at::Tensor ssimrest(float, float, at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:566:122: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  566 |   ssimrestCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                          ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:566:158: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  566 |   ssimrestCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                              ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:566:194: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  566 |   ssimrestCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                  ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:566:230: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  566 |   ssimrestCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                      ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:566:269: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  566 |   ssimrestCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                             ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:566:311: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  566 |   ssimrestCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                                                                       ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:566:350: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  566 |   ssimrestCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                                                                                                              ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu: In function ‘std::tuple<at::Tensor, at::Tensor, at::Tensor> ssimrest_back(float, float, at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&, at::Tensor&)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:127: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                               ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:163: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                   ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:199: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                       ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:235: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                           ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:274: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                                  ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:316: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                                                                            ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:351: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                                                                                                               ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:391: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                                                                                                                                                       ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:431: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                               ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:589:471: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+  589 |   ssimrest_backCUDA<<<(N + 255) / 256, 256>>>(
+      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu: In function ‘at::Tensor fusedssim(float, float, const at::Tensor&, const at::Tensor&)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:1139:123: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+ 1139 |   fusedssimCUDA<3><<<grid, block>>>(
+      |                                                                                                                           ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:1139:160: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+ 1139 |   fusedssimCUDA<3><<<grid, block>>>(
+      |                                                                                                                                                                ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:1139:199: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+ 1139 |   fusedssimCUDA<3><<<grid, block>>>(
+      |                                                                                                                                                                                                       ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu: In function ‘at::Tensor fusedssim_backward(float, float, const at::Tensor&, const at::Tensor&, const at::Tensor&)’:
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:1159:132: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+ 1159 |   fusedssim_backwardCUDA<3><<<grid, block>>>(
+      |                                                                                                                                    ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:1159:169: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+ 1159 |   fusedssim_backwardCUDA<3><<<grid, block>>>(
+      |                                                                                                                                                                         ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:1159:209: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+ 1159 |   fusedssim_backwardCUDA<3><<<grid, block>>>(
+      |                                                                                                                                                                                                                 ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+/home/prmi/zwj/selector-cuda-20261015/cuda_rasterizer/conv.cu:1159:250: warning: ‘T* at::Tensor::data() const [with T = float]’ is deprecated: Tensor.data<T>() is deprecated. Please use Tensor.data_ptr<T>() instead. [-Wdeprecated-declarations]
+ 1159 |   fusedssim_backwardCUDA<3><<<grid, block>>>(
+      |                                                                                                                                                                                                                                                          ^
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/ATen/core/TensorBody.h:247:1: note: declared here
+  247 |   T * data() const {
+      | ^ ~~
+[ 44%] Linking CUDA shared library /home/prmi/zwj/selector-cuda-20261015/lib/libcuda_rasterizer.so
+[ 44%] Built target cuda_rasterizer
+[ 44%] Building CUDA object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda_regularization.cu.o
+[ 48%] Building CXX object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda_optimizer.cpp.o
+[ 48%] Building CUDA object CMakeFiles/transform_field_cuda.dir/src/transform_field_cuda_optimizer.cu.o
+[ 51%] Building CXX object CMakeFiles/transform_field_cuda.dir/src/protection_profiler.cpp.o
+[ 51%] Linking CXX static library libtransform_field_cuda.a
+[ 51%] Built target transform_field_cuda
+[ 51%] Building CXX object CMakeFiles/gaussian_mapper.dir/third_party/tinyply/tinyply.cpp.o
+[ 55%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gaussian_keyframe.cpp.o
+[ 55%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gaussian_model.cpp.o
+[ 58%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gaussian_parameters.cpp.o
+[ 58%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gaussian_rasterizer.cpp.o
+[ 62%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gaussian_renderer.cpp.o
+[ 62%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gaussian_scene.cpp.o
+[ 65%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gaussian_mapper.cpp.o
+[ 65%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/maturity_dynamics.cpp.o
+[ 68%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gi_teacher.cpp.o
+[ 68%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/online_gi.cpp.o
+[ 72%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/hexplane_field.cpp.o
+[ 72%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/transform_field.cpp.o
+[ 75%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/change_management.cpp.o
+[ 75%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/change_distill.cpp.o
+[ 79%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/drift_stability.cpp.o
+[ 79%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/recent_window_importance.cpp.o
+[ 82%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/global_gi.cpp.o
+[ 82%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/historical_outlier_selector.cpp.o
+[ 86%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/constrained_adam.cpp.o
+[ 86%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/gradient_constraint.cpp.o
+[ 89%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/conflict_replay.cpp.o
+[ 89%] Building CXX object CMakeFiles/gaussian_mapper.dir/src/historical_gradient_render.cpp.o
+[ 93%] Linking CXX shared library /home/prmi/zwj/selector-cuda-20261015/lib/libgaussian_mapper.so
+[ 93%] Built target gaussian_mapper
+[ 93%] Building CXX object CMakeFiles/gaussian_viewer.dir/viewer/imgui_viewer.cpp.o
+[ 96%] Building CXX object CMakeFiles/gaussian_viewer.dir/viewer/map_drawer.cpp.o
+[ 96%] Linking CXX shared library /home/prmi/zwj/selector-cuda-20261015/lib/libgaussian_viewer.so
+[ 96%] Built target gaussian_viewer
+[100%] Building CXX object CMakeFiles/tum_rgbd.dir/examples/tum_rgbd.cpp.o
+[100%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd
+[100%] Built target tum_rgbd
+[  0%] Building CUDA object CMakeFiles/selector_cuda.dir/src/selector_cuda.cu.o
+[ 13%] Built target cuda_rasterizer
+[ 17%] Built target simple_knn
+[ 31%] Built target imgui
+[ 34%] Linking CXX static library libselector_cuda.a
+[ 37%] Built target selector_cuda
+[ 51%] Built target transform_field_cuda
+[ 55%] Linking CXX shared library /home/prmi/zwj/selector-cuda-20261015/lib/libgaussian_mapper.so
+[ 93%] Built target gaussian_mapper
+[ 93%] Linking CXX shared library /home/prmi/zwj/selector-cuda-20261015/lib/libgaussian_viewer.so
+[ 96%] Built target gaussian_viewer
+[100%] Building CXX object CMakeFiles/tum_rgbd_cuda_tf_online.dir/cuda_tf_online_main.cpp.o
+[100%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/tum_rgbd_cuda_tf_online
+[100%] Built target tum_rgbd_cuda_tf_online
+[ 22%] Built target selector_cuda
+[ 66%] Built target transform_field_cuda
+[ 66%] Building CXX object CMakeFiles/change_distill_selector_cuda_test.dir/tests/change_distill_test.cpp.o
+[ 77%] Building CXX object CMakeFiles/change_distill_selector_cuda_test.dir/src/change_management.cpp.o
+[ 77%] Building CXX object CMakeFiles/change_distill_selector_cuda_test.dir/src/change_distill.cpp.o
+[ 88%] Building CXX object CMakeFiles/change_distill_selector_cuda_test.dir/src/hexplane_field.cpp.o
+[ 88%] Building CXX object CMakeFiles/change_distill_selector_cuda_test.dir/src/transform_field.cpp.o
+[100%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/change_distill_selector_cuda_test
+[100%] Built target change_distill_selector_cuda_test
+[ 22%] Built target selector_cuda
+[ 66%] Built target transform_field_cuda
+[ 77%] Building CXX object CMakeFiles/drift_stability_selector_cuda_test.dir/tests/drift_stability_test.cpp.o
+[ 77%] Building CXX object CMakeFiles/drift_stability_selector_cuda_test.dir/src/drift_stability.cpp.o
+[ 88%] Building CXX object CMakeFiles/drift_stability_selector_cuda_test.dir/src/hexplane_field.cpp.o
+[ 88%] Building CXX object CMakeFiles/drift_stability_selector_cuda_test.dir/src/transform_field.cpp.o
+[100%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/drift_stability_selector_cuda_test
+[100%] Built target drift_stability_selector_cuda_test
+[  8%] Built target selector_cuda
+[ 25%] Built target cuda_rasterizer
+[ 29%] Built target simple_knn
+[ 45%] Built target transform_field_cuda
+[ 95%] Built target gaussian_mapper
+[ 95%] Building CXX object CMakeFiles/joint_replay_selector_cuda_test.dir/tests/joint_replay_test.cpp.o
+[100%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/joint_replay_selector_cuda_test
+[100%] Built target joint_replay_selector_cuda_test
+[  8%] Built target selector_cuda
+[ 25%] Built target cuda_rasterizer
+[ 29%] Built target simple_knn
+[ 45%] Built target transform_field_cuda
+[ 95%] Built target gaussian_mapper
+[ 95%] Building CXX object CMakeFiles/historical_gradient_selector_cuda_test.dir/tests/historical_gradient_render_test.cpp.o
+[100%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/historical_gradient_selector_cuda_test
+[100%] Built target historical_gradient_selector_cuda_test
+[ 25%] Built target selector_cuda
+[ 75%] Built target transform_field_cuda
+[ 75%] Building CXX object CMakeFiles/gradient_constraint_test.dir/tests/gradient_constraint_test.cpp.o
+[ 87%] Building CXX object CMakeFiles/gradient_constraint_test.dir/src/gradient_constraint.cpp.o
+[ 87%] Building CXX object CMakeFiles/gradient_constraint_test.dir/src/constrained_adam.cpp.o
+[100%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/gradient_constraint_test
+[100%] Built target gradient_constraint_test

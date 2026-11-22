@@ -1,0 +1,176 @@
+%YAML:1.0
+# R3 Independent14D质量参考；当前实验默认使用S00R00E50D12。
+
+# 默认实验 A：仅 Anchor pruning；下一层 growing 不要求满10成员。
+# 方法参数沿用已完成的 A 实验，Mapping 预算保持原停止规则。
+# 共享浅层 Selector + R3每Gaussian/ratio独立14D选后残差；原补偿头冻结。
+# 未见ratio线性插值残差，训练区间外用端点；TF / SI / GI 关闭。
+# mode2 已停用。LoD 联合更新 Gaussian / Selector / Anchor / 补偿头。
+# Full 只更新 Master Gaussian；选后补偿从 3000 iteration 开始。
+# 模式1在线和尾部连续按 1%/5%/10%/15%/Full 轮转；尾部 LoD 为 native，Full 保持 GausPyramid。
+# 模式1需要 Selector.enabled: 1。
+Training.ultra_light_mode: 1
+Mapping.iteration_logging: 0
+# CUDA 优化默认启用；任一项设为 0 可单独回退 Legacy。
+CUDA.fused_dense_adam: 1
+CUDA.fused_compensation_decode: 1
+CUDA.fused_anchor_input_pack: 1
+CUDA.fused_anchor_full_stats: 1
+CUDA.fused_selector_compaction: 1
+CUDA.reuse_renderer_workspace: 1
+CUDA.optimized_ssim_backward: 1
+
+# 强制覆写尾优化默认关闭；所有在线训练模式均生效，开启后忽略 Selector.max_mapping_iterations。
+# -1: SLAM 结束时 iteration 的一半（向下取整）；>=0: 固定尾部 Mapping 步数。
+Training.force_tail_optimization_enabled: 0
+Training.tail_optimization_steps: -1
+
+Selector.enabled: 1
+Selector.architecture: "anchor"
+# 世界坐标单位的固定 voxel 边长；不根据图像质量调节。
+Selector.anchor_voxel_size: 0.1
+Selector.anchor_gaussian_attributes: 1
+Selector.anchor_adaptive: 0
+Selector.anchor_global_xyz: 0
+# 每 Anchor 一张16维共享特征，Selector 保留显式 log(ratio) 输入。
+Selector.anchor_ratio_features: 0
+Selector.anchor_feature_dim: 16
+Selector.explicit_anchor_blocks: 1
+# 只用真实观测初始化，每 Anchor 1..10 点；topology 事件交替执行逐点和 Anchor 增删。
+# 闭环按同层目标容量迁移：满10丢弃，接收端 Feature 按成员数加权。
+# 设为 0 可复现固定十点 baseline；不改变 LoD/Full 调度。
+Selector.variable_anchor_members: 1
+# 0: Gaussian 与 Anchor pruning 交替；1: 仅整 Anchor pruning。Gaussian clone/split 保留。
+Selector.anchor_only_pruning: 0
+# 可设为 1：仅下一层 growing 要求源 Anchor 满10点；同层 growing 不受影响。
+Selector.anchor_refine_requires_full: 0
+# Anchor 使用 LibTorch GPU；旧四路网络仍可显式选择 architecture=legacy。
+Selector.backend: "legacy"
+Selector.target_ratios: [0.01, 0.05, 0.10, 0.15]
+Selector.protection_enabled: 0
+# Anchor 路径固定 maturity=1，以下 drift 参数仅保留给显式 legacy baseline。
+Protection.drift_temperature: 0.10
+Protection.beta_fast: 0.60
+Protection.beta_slow: 0.15
+Protection.maturity_rise_rate: 0.05
+Protection.maturity_fall_rate: 0.50
+Protection.maturity_diagnostics: 0
+# TF/GI/ChangeDistill compatibility only; does not restrict Selector candidates.
+Protection.compatibility_mature_threshold: 0.80
+Protection.performance_logging: 0
+Selector.temperature: 1.0
+Selector.learning_rate: 0.001
+Selector.render_loss_weight: 1.0
+Selector.gi_loss_weight: 0.0
+# 独立 Anchor 级概率 L2；仅更新 Selector 私有分支，旧 SI/GI 保持关闭。
+AnchorSI.enabled: 0
+AnchorSI.loss_weight: 0.01
+AnchorSI.ema_decay: 0.9
+AnchorSI.temperature: 1.0
+AnchorSI.collect_every_full: 4
+AnchorSI.minimum_visits: 4
+AnchorSI.maximum_age_full: 128
+Selector.ratio_loss_weight: 0.01
+# mode1: online scale only, native in tail.
+Selector.lod_render_scale: 0.5
+# mode0 only: 0 jointly updates Gaussian attributes; 1 detaches them.
+# mode1 always joint.
+# Optional conflict-source remote Replay; does not sample random views.
+Selector.detach_gaussian_parameters: 0
+Selector.replay_enabled: 0
+Selector.replay_interval: 300
+Selector.replay_num_frames: 2
+ConflictReplay.trigger_cancel_count: 1000
+ConflictReplay.source_view_count: 2
+ConflictReplay.views_per_source: 4
+ConflictReplay.remote_candidate_count: 32
+ConflictReplay.queue_capacity: 16
+# 0：沿用原 CaRtGS 停止规则，不强制指定 Mapping 步数。
+Selector.max_mapping_iterations: 0
+
+# 1: record per-mapping and final keyframe usage files; 0: disable file writes.
+Mapping.record_keyframe_used_times: 0
+
+# GI 来源：streaming / disabled；停用实验参数见 archive/retired_features.yaml，不自动加载。
+GlobalGI.mode: "disabled"
+GlobalGI.HierarchicalRepresentative.enable: 0
+GlobalGI.HierarchicalRepresentative.diagnostics: 0
+GlobalGI.view_ratio: 0.30
+GlobalGI.coverage_anchor_fraction: 0.80
+GlobalGI.sampling_seed: 0
+GlobalGI.refresh_interval: 1000
+GlobalGI.max_views: 0
+GlobalGI.performance_logging: 1
+# 0: 仅周期摘要；1: 打印逐次 Bank/拓扑详情，用于调试。
+GlobalGI.verbose_logging: 0
+GlobalGI.marginal_shadow: 0
+GlobalGI.marginal_diagnostics: 0
+Importance.ratio_aware_weight: 0
+Importance.ratio_weights: [1.0, 1.0, 1.0, 1.0]
+
+TransformField.enable: 0
+# TF 计算后端：legacy = 原 LibTorch 实现；cuda = 专用 CUDA 实现（仅 CUDA FP32）。
+# 此项同时切换 TF forward/backward、regularization 和 TF Adam；修改后重启程序生效。
+TransformField.backend: "cuda"
+TransformField.start_iter: 3000
+TransformField.aabb_scale: 1.0
+TransformField.spatial_resolution: 64
+TransformField.ratio_resolution: 150
+TransformField.feature_dim: 8
+TransformField.multires: [1, 2]
+TransformField.hidden_dim: 32
+TransformField.grid_lr_init: 0.0016
+TransformField.grid_lr_final: 0.00016
+TransformField.mlp_lr_init: 0.00016
+TransformField.mlp_lr_final: 0.000016
+TransformField.lr_delay_mult: 0.01
+TransformField.lr_max_steps: 20000
+TransformField.spatial_smooth_weight: 0.0002
+TransformField.ratio_smooth_weight: 0.001
+TransformField.ratio_l1_weight: 0.0001
+TransformField.outside_identity: 1
+# 0 preserves the validated continuous path; D/F explicitly use 0.30.
+Elastic.entry_maturity: 0
+TransformField.ready_maturity: 0.30
+TransformField.min_ready_gaussians: 500
+TransformField.start_mode: fixed_iteration
+TransformField.maturity_compute_epsilon: 0
+TransformField.dynamic_aabb: 1
+TransformField.aabb_check_interval: 1000
+TransformField.outside_count_threshold: 100
+TransformField.expand_margin_ratio: 0.2
+TransformField.bound_quantile_low: 0.001
+TransformField.bound_quantile_high: 0.999
+TransformField.fixed_resolution: 1
+
+# 默认关闭；显式设为 1 才执行几何变化蒸馏。
+ChangeDistill.enable: 0
+ChangeDistill.distill_selector_on_geometry_change: 1
+ChangeDistill.distill_tf_on_geometry_change: 1
+ChangeDistill.distill_tf_on_aabb_change: 1
+ChangeDistill.position_weight: 1.0
+ChangeDistill.scale_weight: 1.0
+ChangeDistill.rotation_weight: 1.0
+ChangeDistill.selector_weight: 1.0
+ChangeDistill.selector_learning_rate: 0.0001
+ChangeDistill.tf_grid_learning_rate: 0.00016
+ChangeDistill.tf_mlp_learning_rate: 0.000016
+ChangeDistill.batch_size: 8192
+ChangeDistill.epochs: 5
+ChangeDistill.seed: 0
+ChangeDistill.enable_unaffected_anchors: 1
+ChangeDistill.anchor_ratio_to_corrected: 1.0
+ChangeDistill.anchor_max_count: 32768
+ChangeDistill.anchor_loss_weight: 1.0
+# Event-local Adam uses the fixed CD learning rates above, with weight_decay=0.
+# Normal mapping clocks do not advance during CD.
+ChangeDistill.post_change_replay: 0
+
+Selector.compensation: 1
+Selector.compensation_method: "r3_independent14"
+# 14维：XYZ3、log-scale3、quaternion4、opacity-logit1、SH DC3；最后一层零初始化。
+Selector.compensation_start_iter: 3000
+Selector.slot_deactivation: 1
+Training.serial_full_lod: 0
+Training.serial_lod_detach_master: 0
+Training.post_topology_full_steps: 0

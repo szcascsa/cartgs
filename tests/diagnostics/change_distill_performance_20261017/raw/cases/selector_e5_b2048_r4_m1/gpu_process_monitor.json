@@ -1,0 +1,57 @@
+[
+  {
+    "time": 1792247817.1039293,
+    "own_pid": 907767,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247817.383543,
+    "own_pid": 907767,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247817.6452124,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 442"
+  },
+  {
+    "time": 1792247817.9074247,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 842"
+  },
+  {
+    "time": 1792247818.1696014,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 976"
+  },
+  {
+    "time": 1792247818.4311843,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 976"
+  },
+  {
+    "time": 1792247818.6927207,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 976"
+  },
+  {
+    "time": 1792247818.9544885,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 976"
+  },
+  {
+    "time": 1792247819.2345438,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 976"
+  },
+  {
+    "time": 1792247819.4961927,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 976"
+  },
+  {
+    "time": 1792247819.7575092,
+    "own_pid": 907767,
+    "compute_processes": "907767, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 976"
+  }
+]

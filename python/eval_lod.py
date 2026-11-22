@@ -1,7 +1,8 @@
 """Evaluate selector LOD ratios by reusing the standard ``run.py`` pipeline.
 
 The source result directory is never modified. Each ratio gets an independent
-output directory containing rendered images and the standard metric files.
+output directory containing a compensated PLY, provenance, rendered images,
+and the standard metric files. Full evaluation uses the original PLY.
 """
 
 import argparse
@@ -44,9 +45,12 @@ def read_selector_config(config_path):
         return float(match.group(1)) if match else default
 
     return {
+        "ultrafast": read_int("Training.ultra_light_mode", 1) == 1,
         "ratios": ratios,
-        "min_age": read_int("Selector.min_age", 100),
-        "min_seen": read_int("Selector.min_seen", 80),
+        "drift_temperature": read_float("Protection.drift_temperature", 0.10),
+        "beta_fast": read_float("Protection.beta_fast", 0.60),
+        "beta_slow": read_float("Protection.beta_slow", 0.15),
+        "compatibility_mature_threshold": read_float("Protection.compatibility_mature_threshold", 0.80),
         "protection_enabled": read_int("Selector.protection_enabled", 1) != 0,
         "temperature": read_float("Selector.temperature", 1.0),
     }
@@ -142,10 +146,11 @@ def main():
     os.makedirs(output_root, exist_ok=True)
 
     summary = []
-    for ratio in ratios:
-        if ratio <= 0.0 or ratio > 1.0:
+    for ratio in list(ratios) + ([None] if config["ultrafast"] else []):
+        full = ratio is None
+        if not full and (ratio <= 0.0 or ratio > 1.0):
             raise ValueError("ratio must be in (0, 1]: {}".format(ratio))
-        ratio_output = os.path.join(output_root, ratio_directory_name(ratio))
+        ratio_output = os.path.join(output_root, "full" if full else ratio_directory_name(ratio))
         os.makedirs(ratio_output, exist_ok=True)
         command = [
             sys.executable,
@@ -154,22 +159,26 @@ def main():
             gt_path,
             "--output_path",
             ratio_output,
-            "--selector",
-            selector_path,
-            "--selector-ratio",
-            str(ratio),
-            "--selector-config",
-            config_path,
         ]
+        if full:
+            checkpoint_dir = os.path.dirname(selector_path)
+            if os.path.basename(checkpoint_dir) == "ply":
+                checkpoint_dir = os.path.dirname(checkpoint_dir)
+            command.extend(["--shutdown-model", os.path.basename(checkpoint_dir)])
+        else:
+            command.extend(["--selector", selector_path, "--selector-ratio", str(ratio),
+                            "--selector-config", config_path])
         if args.correct_scale:
             command.append("--correct_scale")
         subprocess.run(command, check=True)
 
         row = {
-            "ratio": float(ratio),
+            "ratio": 1.0 if full else float(ratio),
             "output_path": ratio_output,
             **parse_eval_file(os.path.join(ratio_output, "eval.txt")),
         }
+        if config["ultrafast"]:
+            row["phase"] = "FULL" if full else "LOD"
         stats_path = os.path.join(ratio_output, "selector_stats.json")
         if os.path.isfile(stats_path):
             with open(stats_path, "r", encoding="utf-8") as stream:

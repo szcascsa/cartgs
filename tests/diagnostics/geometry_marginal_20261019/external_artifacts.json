@@ -1,0 +1,1332 @@
+[
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_5000.bin",
+    "sha256": "823cd30271673e19697f00f7c361b77559dc9871dc4f4635d75f4c88dcce014b",
+    "bytes": 3791824
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_12000.bin",
+    "sha256": "b7c6fdfc8260f0afa5dd22632ff7ae3c549e5e6915ac6a57fc1013cfd37812e8",
+    "bytes": 2286016
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_11000.bin",
+    "sha256": "00a20c0fb9df5f98d0dcce503ce27b050dbecce55c81968ef183b1417cc8ea2b",
+    "bytes": 2248096
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_6000.bin",
+    "sha256": "e196c72de05ca2f1946de9ded52bf852c379d03813750870a790772de0b2c355",
+    "bytes": 3856144
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_14000.bin",
+    "sha256": "67c63580ba004fde961328609a17b9ed30d067d1c871bc24e83dd7ae816089d1",
+    "bytes": 2415520
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_2000.bin",
+    "sha256": "ad85fcc60e0815e4cb2f63706c67e84335bd913fce2e7fa83d7d3cb59e66ea50",
+    "bytes": 1494928
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_15000.bin",
+    "sha256": "de48653e8af21afb9d1741b5a4a7514147c118975b2c675d0c7d9adfa4e9a9cc",
+    "bytes": 2469280
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_8000.bin",
+    "sha256": "c7e5bec62520228dfb2ad6b5c0b231521cbde0e84d22de29236fb7d8db6d7922",
+    "bytes": 3664960
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_1000.bin",
+    "sha256": "2c61b711a39d7afbae91bab10199abf5a43f2581cdf8432692c78be97c603523",
+    "bytes": 1061440
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_16000.bin",
+    "sha256": "a2640e5c4d88f792391549315c82d79afee57e1077292af3d3aa83b2e38eabf6",
+    "bytes": 2529904
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_9000.bin",
+    "sha256": "78dcabe1740960e5449f3e9f5eff32bbe5d8f82090f036fce1d675ccdd8943a7",
+    "bytes": 2641360
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_13000.bin",
+    "sha256": "ddd7a40a6eb7c84df0a80d06fe035c2e29f536061cc9ecfce0afadb3fe588668",
+    "bytes": 2352256
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_10000.bin",
+    "sha256": "0e84eb18a7b2f9926b83c8dab0c95a5cf0a373bb783907cfee4da7d3e0cdfef2",
+    "bytes": 2289232
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_4000.bin",
+    "sha256": "8a468eac9b2e3d6ed0bdf5c18b1f96fae84dfee282a8b36eee415404f1d65294",
+    "bytes": 2533840
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_3000.bin",
+    "sha256": "9657df4ea3a77979a2beccd2918045c88a7168ae887fb04aa2b398b9e02eabde",
+    "bytes": 1877440
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/marginal_snapshot_7000.bin",
+    "sha256": "50cb28b8581e4357f4cd9c843ab44981e7bf450c7f251d65c9b4e88f92a2bd31",
+    "bytes": 3988912
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/dssim.txt",
+    "sha256": "b806ba180d828035d73fb8afea5c72e25de3d3a378219906c393e88956aa1bc5",
+    "bytes": 3753
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "d3766e4a733b54961461fffba8f975383196832aee991025a78e75d78e6190e1",
+    "bytes": 3996
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/render_time.txt",
+    "sha256": "19f53c6d849b9f732fe7f734dd82931bdef8f737dbbf0e4c7e2bae1d2fc0d5a9",
+    "bytes": 3340
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/psnr.txt",
+    "sha256": "fd2a0ff7188c88a1d23eeab916544308332d578b4ab8f59f6c5347ef44f0f2c6",
+    "bytes": 3977
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/selector_config.yaml",
+    "sha256": "a30c9ebb88488ae0e5616a564d9293ae1e86eb5e8c466c46130d7435d1933475",
+    "bytes": 3499
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "9fbeddce2e4ba09e65dbe580bf27368c05f07ade0f55844ce68e2b70a77eb933",
+    "bytes": 4336985
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/maturity_dynamics.json",
+    "sha256": "e284877d0c32917514b01de524ff5231c859720a90bf3e630175ee689aeca9ee",
+    "bytes": 15244271
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/mapping_stage_state.json",
+    "sha256": "2aed72fef8de3205fcb6652ccf31baf3221830e3ceb8b53a281a269befcb0228",
+    "bytes": 912
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/transform_state.json",
+    "sha256": "c2b951222d4211f91e93a4cfe10e5ff77dbc19daf826d0398f7776b3dc16af52",
+    "bytes": 1637
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/maturity_speed.json",
+    "sha256": "a9d2e37cad6c1570ff531c4580426f33ef4deb8a6fd91aa3ea01421a08077afe",
+    "bytes": 24401
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "869182e68643c9eaba1f01b485d7f14c98b483b1296121bf6140ed0ff6e11b15",
+    "bytes": 1000
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/view_bank_orb.json",
+    "sha256": "b208e8f899b6ae27699bd5e3f9d9f66ba5c3482ea89f640ecae9e11904e663fc",
+    "bytes": 1215414
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/cameras.json",
+    "sha256": "9de9fd4a794e1b6353de1c12ada332db590c5315c7e1efa440c12fec3d0a7372",
+    "bytes": 119083
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/point_cloud/iteration_16900/protection_state.json",
+    "sha256": "2677055c5e662fad0f3ea70b03f9b26e4d6cec4d70e203e46be58ec200297b25",
+    "bytes": 1091
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_5000.bin",
+    "sha256": "b2ee9fd97290dd2a62ffdbd4ce805b58f03b82417181c0a2e1ee5a072ced7fcf",
+    "bytes": 4225072
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_12000.bin",
+    "sha256": "880a51d116ad16fe571ce862ba7d03c52ac0ec12934b9883cdd2f2c4eb9331c0",
+    "bytes": 2184688
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_11000.bin",
+    "sha256": "45c48d00bd3d0c5c941b854ef1eb120a55a1c4db929b85b772e240640003b1a3",
+    "bytes": 2158432
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_6000.bin",
+    "sha256": "aa58a59b3ef3b84544f57fa3d8507d2a2e1721c904eedb4073766f3d2e842e34",
+    "bytes": 4735600
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_14000.bin",
+    "sha256": "5827441fe3bd47f357c0e1acccc089f1866796c59ac94fda798e7c3b1bdd0dd5",
+    "bytes": 2269888
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_2000.bin",
+    "sha256": "94d257e26563b3f8eaf13f0da63e76e4c32532adcac917f77adf0bc986bd5401",
+    "bytes": 2062528
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_15000.bin",
+    "sha256": "5fcd67c460b6d5a52651bf5f37c6154ad1b1c69d0113c324c61a10c346a53b3b",
+    "bytes": 2342224
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_8000.bin",
+    "sha256": "ec3847a17424b3ae53859824a75322e341d81d0999dff54d153526b2f01d100d",
+    "bytes": 3638608
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_1000.bin",
+    "sha256": "684e619376278f5204639acb947ef559fa226e7d8ded4e49ffb851826426fcb4",
+    "bytes": 1068400
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_16000.bin",
+    "sha256": "632ac7d2de064c03c14809b9244d442dc0670dd876bf5c483f6c41c2cd19f708",
+    "bytes": 2399920
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_9000.bin",
+    "sha256": "58756a81a0fe0ad4507d32ac4b39708519ae0b4f6acb99c337a4367cd7d4b88f",
+    "bytes": 2491120
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_13000.bin",
+    "sha256": "3518e356cb6b4d4a90ef82de95271e1fbfd5f5ef190d052924248e2832eff95a",
+    "bytes": 2199088
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_10000.bin",
+    "sha256": "99d0438918a17b264df223276fbcc3b99aee91f46e926548248aff529007430b",
+    "bytes": 2176624
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_4000.bin",
+    "sha256": "d43d9a3c6a679bfdf918cb769244b7985a47247b025e8b77f0a6d24ace1386eb",
+    "bytes": 2891008
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_3000.bin",
+    "sha256": "2b35fc3671931d428c2b7ff63162dff447fdcf841bd596196565370d97953bbe",
+    "bytes": 2328304
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/marginal_snapshot_7000.bin",
+    "sha256": "2de9a1b3a9fd4d5913c7da2b25dd48ae8ef2b16b2af74b28ef0b2422ce6d233d",
+    "bytes": 4752256
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/dssim.txt",
+    "sha256": "6822ce786963ccc684195bb96ee1e1bd7c74703f191225572899a5c67f68a735",
+    "bytes": 3787
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "3d422be1af91d54ea38fc7e15f0f881a3813045369d09eeb9606505276f4ac80",
+    "bytes": 4032
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/render_time.txt",
+    "sha256": "400d60ebdf69cff6de2202e4e73ff2ccd6008d8b6b33eaa87872a16c97fb021a",
+    "bytes": 3370
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/psnr.txt",
+    "sha256": "1d5c991ceedb83ee598aa55cbcb8d4904b4e758d67f8e6d301a8a9ae3038fdec",
+    "bytes": 4013
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/selector_config.yaml",
+    "sha256": "a30c9ebb88488ae0e5616a564d9293ae1e86eb5e8c466c46130d7435d1933475",
+    "bytes": 3499
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "5070dc0bd664194ec6851f888ad2e9d16a95d9feb42d91daba73dff5d38c804b",
+    "bytes": 4373186
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/maturity_dynamics.json",
+    "sha256": "11db76e7625df9591d87835c7ee4e48982c5051d78edf58102f8426ad5458dfc",
+    "bytes": 15404743
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/mapping_stage_state.json",
+    "sha256": "7ce3f87f5c18acf8e64bcf50c9bf6fe27fc838045783643ca42cc3c9e5da9f43",
+    "bytes": 912
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/transform_state.json",
+    "sha256": "c579d56a5e08745f716ac1683d7ec2076ab67f3b8c62a51174222f59800688eb",
+    "bytes": 1644
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/maturity_speed.json",
+    "sha256": "96cd55b50914334f87a7b4889a19f64561d29d887293ba06c4e2996f726bfc7e",
+    "bytes": 24384
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "92b72ad4601e72e2693dc5012ae3e032815f64e454ff8c381be356ff3a34c9ce",
+    "bytes": 1000
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/view_bank_orb.json",
+    "sha256": "6c6f1f387b631e315363b468fa662fd5e1614faed9e6e98415bc26a810a55f16",
+    "bytes": 1393148
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/cameras.json",
+    "sha256": "ac57806a392531ef9e66c9a6fcab616a724ce89ba56763135db7804b837e9cae",
+    "bytes": 120168
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/point_cloud/iteration_16900/protection_state.json",
+    "sha256": "0101ab7d07f08bdbfc8984edfcd0c01fa05e9188fb5e6bd6083da20b923f5631",
+    "bytes": 1092
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/marginal_snapshot_5000.bin",
+    "sha256": "8933a80a9e64d5eea09ab3ff062b6cd943613b78b88eab1891c70ab7828d27e9",
+    "bytes": 1691920
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/marginal_snapshot_6000.bin",
+    "sha256": "5dfca593e6176e078d7478ad68e34e95b07a67414db6ba7a8ab41e8bbee990f5",
+    "bytes": 1277440
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/marginal_snapshot_2000.bin",
+    "sha256": "a1b6332ba65e9eee8b91d23c2034b5e2f676bb2b1c20cb8ddb13254d7d44d396",
+    "bytes": 1009024
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/marginal_snapshot_1000.bin",
+    "sha256": "cbc42ff54a6dde71dbdb9dfe9b3f803186989fdebffa5b28602498256ebd3926",
+    "bytes": 732112
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/marginal_snapshot_4000.bin",
+    "sha256": "5fe185301d53f41fc5fda819a29b4d876f3cc847d97c92d1d558e28a4194e8fb",
+    "bytes": 2424976
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/marginal_snapshot_3000.bin",
+    "sha256": "da42b4c624a1b7a8031de20bc337963f5c75d7a4ef2c80429490139dbf4d635c",
+    "bytes": 927712
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/marginal_snapshot_7000.bin",
+    "sha256": "1ace84e4dee7c44f6968a7525e3f64c7b454ccc14c7c89e92db2082069fecce5",
+    "bytes": 1151488
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/dssim.txt",
+    "sha256": "7e921613fd27316abad0b109fdbb313a7c93daa22de895ed4d949cccb2f30f61",
+    "bytes": 1452
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "27f148966a6137914bad9c6d6ef51f08e507d06953e046ab8bf548a612b4b768",
+    "bytes": 1558
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/render_time.txt",
+    "sha256": "961169717e35bf5e9f91f7a5eef0fac9c2779d25098c0b67052a5be02805dd5a",
+    "bytes": 1311
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/psnr.txt",
+    "sha256": "8c8f67ee42966b523c5c676f999689f76a7689b9f51f135823aa470c05f36491",
+    "bytes": 1539
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/selector_config.yaml",
+    "sha256": "80263373e92d851c44e9c4c4fcdc458c36a95586c4f41b5124589cb5fd68d7c3",
+    "bytes": 3498
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "90c8f102904012413a8653eb3b7d81fc32f00477577104864fa308c3d278310d",
+    "bytes": 1502397
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/maturity_dynamics.json",
+    "sha256": "e06ed3b7524a89065e6b66d9b2d3ff4006b813e8ccc2bd13438dc2216fc5ba08",
+    "bytes": 5308316
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/mapping_stage_state.json",
+    "sha256": "24de75ea2001498f333656667f2b6306b5bfc0e854c9bf97cccc4d80356f743f",
+    "bytes": 895
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/transform_state.json",
+    "sha256": "0ab1d0eed62a82da25595826743944938cfda567880f4b74644493197ac071e2",
+    "bytes": 1641
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/maturity_speed.json",
+    "sha256": "1c311bb569c05b38071f3ed62d35b72801a2c103dda204040152c2e1f7e0f687",
+    "bytes": 24479
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "0cfd0426e9e6cd56b4d52c663c0066319ce4e153f924e6b327ea76b3ca7aaa99",
+    "bytes": 988
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/view_bank_orb.json",
+    "sha256": "cd5f7a619318d5cbc93bb8fd89f157045be73dff997c4651fab562dfec60b762",
+    "bytes": 592262
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/cameras.json",
+    "sha256": "a2b7a13b6b9ad91a79257daf9d29e6862fd580319a4c3aa8c2ec00f2fa51a6c2",
+    "bytes": 47031
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/point_cloud/iteration_7400/protection_state.json",
+    "sha256": "1d482341d4f77988c39b99e18c5c59001109d01ba9127ee63ea705bd6777a5af",
+    "bytes": 1089
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/marginal_snapshot_5000.bin",
+    "sha256": "9629991dd4289cb9bab44066cca2ec8c397bb49136320ad438127a011b60b484",
+    "bytes": 1739440
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/marginal_snapshot_6000.bin",
+    "sha256": "c6b8f30cc31796c7e6ebf6bf25d44e6db4aec997147b9040e4be0dd662c0f524",
+    "bytes": 1372240
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/marginal_snapshot_2000.bin",
+    "sha256": "f101b9c3dda05cbb1238fe0425ce1daab13d896e581cc774b9872962109fa84e",
+    "bytes": 1310416
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/marginal_snapshot_1000.bin",
+    "sha256": "9d1ddefe9a8dab9d78aab1424ba65291dab358cefce39e2a5316a1edf395a6b8",
+    "bytes": 757456
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/marginal_snapshot_4000.bin",
+    "sha256": "b4a3584b0ee37f0a7ba2c385c22ab56ad5c690e07309b26447f0f735527a07db",
+    "bytes": 2255152
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/marginal_snapshot_3000.bin",
+    "sha256": "de0a9f0c96ee68637952c507f7e4fef9e89406e30d284a7d1030a77ce2397114",
+    "bytes": 1333696
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/marginal_snapshot_7000.bin",
+    "sha256": "965f3e6a4e76164106e8e262e30e079ea0c2914b48277ac1abfecfb58880795a",
+    "bytes": 1263760
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/dssim.txt",
+    "sha256": "bd5128e164c7cfc077df92f9342d6d2ed72004a1fabe534e09fa01682dfb89a3",
+    "bytes": 1500
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "6d090288559ab086f42246fa09af543b573a19a1513a840e9e0abb04bf982cc6",
+    "bytes": 1609
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/render_time.txt",
+    "sha256": "8006729f8743b655928033252bf66f536ab00f581c923f363df2c831cf2f8344",
+    "bytes": 1353
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/psnr.txt",
+    "sha256": "0964f986d0af5e3226b3241ff8ab48a210156796d0ce5ad466c3a18133676e43",
+    "bytes": 1590
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/selector_config.yaml",
+    "sha256": "c23a5357e46773edb6a054941bb7fa52f4d6440b8fb009ae785893ab7046de55",
+    "bytes": 3511
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "ad6d8452ed5e47e772292af678ce7784af78f7ec57467a79bc367c8760f2cc99",
+    "bytes": 1544672
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/maturity_dynamics.json",
+    "sha256": "ed326c17e379c05df1ace7b67ef6962dd859df54b08fb44c52b7d2aa143a2a25",
+    "bytes": 5457325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/mapping_stage_state.json",
+    "sha256": "84418f8bbf8839747abe11e865b9782f4877c8a6fcc65b4c3b5f1699387af32f",
+    "bytes": 895
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/transform_state.json",
+    "sha256": "37fff1bc07719e131d54ae3ddc5b5111ce886b46c9a7da870a4b6b83f2b54e0c",
+    "bytes": 1635
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/maturity_speed.json",
+    "sha256": "953ef7e7edbc8233d3b2558a680fd3141875110c446569f7c0b200d21e5ba597",
+    "bytes": 24538
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "4a0ebecbad098b6750fcb2995ca972de98eeba9324ec73fe628f9d1e0fa93cae",
+    "bytes": 988
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/view_bank_orb.json",
+    "sha256": "549312d3b13b6887d313edb1c867fb4858d0707ff8de189784badb7afed2999b",
+    "bytes": 584034
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/cameras.json",
+    "sha256": "15ca8755aa0f39fcbf03cebc70a9463e181557b4822ee8a6d3810ade8a5e538f",
+    "bytes": 48410
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/point_cloud/iteration_7400/protection_state.json",
+    "sha256": "0b7519e86e5ad6b4114dec99eb1d74cdc77affdd44acfa20a24f76d6452974db",
+    "bytes": 1089
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_5000.bin",
+    "sha256": "db559ce60326979ad407c91619eac712905ef8de787ac55f2fde59b13f948668",
+    "bytes": 4365616
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_12000.bin",
+    "sha256": "2d961cab368fc3d8a67d05d8667983140eaa32bca7b9bcf72a0d6f01c4c21dd0",
+    "bytes": 2483248
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_11000.bin",
+    "sha256": "e08f4bf9e773b1b0ac572725398d1190f36374db049252ab8d1e4b19acee9045",
+    "bytes": 2455840
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_6000.bin",
+    "sha256": "a38285dc727b232712a0c402b2204a00377ea7a51b1fc3846202b22028fb796d",
+    "bytes": 4782736
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_14000.bin",
+    "sha256": "7c72eaf1c0d251dcab49cb65874b87d148dcd30ba618cf229902e63232d747d5",
+    "bytes": 2576944
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_2000.bin",
+    "sha256": "01072bf85165efde782dfbe29a1ad6f19834bdc883a747642e75d3b2190788ef",
+    "bytes": 1841152
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_15000.bin",
+    "sha256": "1619544b56bd52b269fe22816325c9bda0a2b90aece18c918169bd5c8636d85a",
+    "bytes": 2629072
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_8000.bin",
+    "sha256": "bbb3cdd952f73f5cbbd24567a30013507eaaad7ef6b0169906dbc6afe6599cea",
+    "bytes": 3337888
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_1000.bin",
+    "sha256": "8c70354aeb4c354a85d23a870bb993585cfd3c64de21f1388f545075533983ad",
+    "bytes": 1098352
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_16000.bin",
+    "sha256": "0ea6e71478900bbe2ff6ea89b9903f81628f9d78414652cd6fbd3cbee5624ae6",
+    "bytes": 2701120
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_9000.bin",
+    "sha256": "d4e7662723f7fed34094481220830bd5f540b647c8a9d316e5f8d0c780cf1519",
+    "bytes": 2612080
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_13000.bin",
+    "sha256": "3899fcd4cad94d54e754e5512a727c2a38a6008e9960f5a01165fecfbb84490c",
+    "bytes": 2518912
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_10000.bin",
+    "sha256": "9359e225a75df7ee95f2627efa9ffd7a4b721ee09b69898289679c8b3ed32319",
+    "bytes": 2421520
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_4000.bin",
+    "sha256": "8f5b1fa7f2e21fea31e7a2d42667cd419161c2fc5155ed475248fcb6ef9f22f4",
+    "bytes": 2378896
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_3000.bin",
+    "sha256": "41090b5346d6182645d891e6f3617d776061177d487643aa1d2a4316b0ecbba8",
+    "bytes": 1873504
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/marginal_snapshot_7000.bin",
+    "sha256": "edde8de63b7b0f9741f1178d5cce8b3fd720a3e225c1823f8f93e6f0abdd8eb1",
+    "bytes": 5134048
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/dssim.txt",
+    "sha256": "b210495f6225da732ee859798c1e1ebfd1c5158bfb394d5a771582beb41d0dd7",
+    "bytes": 3719
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "cb8c94e5791aff1cbef64c820721ea07ab34d0517cfae2f74f52984f2e1ff6bb",
+    "bytes": 3960
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/render_time.txt",
+    "sha256": "ca5c55264708ff228976c28753fda2acf7ce3a3028a09c3fb8b4ff49b0612776",
+    "bytes": 3310
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/psnr.txt",
+    "sha256": "d58e72f86cac32b0c425f6a1c4b084c9e7279602fac9498ec62037aaee0ec24c",
+    "bytes": 3941
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/selector_config.yaml",
+    "sha256": "ed65df56eb814cad9bea82f91e3875c330b218daff261a418a8866f48c042da5",
+    "bytes": 3499
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "bd8a0e0732083f0f975a988a5bfc4de473c7b4f62d45fd986103d6e98d3b064f",
+    "bytes": 4559092
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/maturity_dynamics.json",
+    "sha256": "ff625948d8511dfee8769c0c9f03496cb62b7fa64c3660a80bb1baf6c08e2b0a",
+    "bytes": 16019798
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/mapping_stage_state.json",
+    "sha256": "e11ccccd1aadd5f0e5b832718574d4dd173cd8ab08310355ece976939d7454ba",
+    "bytes": 912
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/transform_state.json",
+    "sha256": "dda46f382d630fc50adfef3a548bb226466ed821f715d2200621083004806325",
+    "bytes": 1644
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/maturity_speed.json",
+    "sha256": "bd47deffcd793cf045c749bbe373a4461d50df1357ffdea794f66227801dc65e",
+    "bytes": 24381
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "f162747336581130ddc9dd40cbbfa829d4cf6c680d1ac905214f352513b7da93",
+    "bytes": 1000
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/view_bank_orb.json",
+    "sha256": "a1c33e1b64f9fd07bbc75c8ff21175c8a25d03a7b7969ec7078dc1a1cb9efe51",
+    "bytes": 1417108
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/cameras.json",
+    "sha256": "360897a588ae89c0ecf88a69dcdb4b3e0b1fe5e2b54ac16f6c1033561d3269d8",
+    "bytes": 118045
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown/ply/point_cloud/iteration_16900/protection_state.json",
+    "sha256": "f0ba0758771500258b5d95835c4e6e6047a5cfd707ae0e7750a6abd087e035b6",
+    "bytes": 1092
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_5000.bin",
+    "sha256": "250087a604b1a02931d034db4892485a2ab15ac93480a1640ed605145202c25a",
+    "bytes": 4556704
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_12000.bin",
+    "sha256": "1f618e621c2043c7f2fe3d57cedc3c30c71fb98a38333ac1f51a1a5c60cfe75d",
+    "bytes": 2376112
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_11000.bin",
+    "sha256": "e10948e668ff42e9ed432ed9504c89908cf6ae8cc221fbc4de1f30c45ab3a47e",
+    "bytes": 2349376
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_6000.bin",
+    "sha256": "42266c0c9c838d988e5949f31fecce66118c43ae43e6df4cac78ce8e1bb01637",
+    "bytes": 4886992
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_14000.bin",
+    "sha256": "acb584b16cd8997c64b815e1cdcb43b819de0900df966c342c37b2306cd8384e",
+    "bytes": 2450224
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_2000.bin",
+    "sha256": "b29b07b1f085ee8e6cc9e542282b3fbe5f951c18ad69b2ab635c70040be68ce3",
+    "bytes": 1598848
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_15000.bin",
+    "sha256": "714ae3b50b7c62e58aee58bb5442280005a01c7004c75579e69a037b563f19b7",
+    "bytes": 2519392
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_8000.bin",
+    "sha256": "009cbed4af0b70ba06795a612bd24d93eee7406e5c72f7c515fc527f84e8b32a",
+    "bytes": 3690496
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_1000.bin",
+    "sha256": "c86a1557565e4ec71e82aec653e6d218815a6085703dc47afe86c4bb2142e21d",
+    "bytes": 1108240
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_16000.bin",
+    "sha256": "d8636cd70f383917c3f119f0215c3006eb51775ca0202b6c83094b91cc9fd028",
+    "bytes": 2582848
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_9000.bin",
+    "sha256": "7915e8a0e11b766c1628234b3a53012e5254bcfd048656a2217fcb00ff362aeb",
+    "bytes": 2678320
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_13000.bin",
+    "sha256": "4a80131a94e4bf4b60cbdb28d11edc8ff6fcae60b9b83abab0334a0c54fdeb90",
+    "bytes": 2438752
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_10000.bin",
+    "sha256": "3fba294aba1f35b37b3a185f37cc39defe38297241fba7459a58ee0e2e131f25",
+    "bytes": 2410864
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_4000.bin",
+    "sha256": "34b532f5b554b780ce7b8d530c6a52a85d0a8c76d45c98121160141fdcd60307",
+    "bytes": 3248992
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_3000.bin",
+    "sha256": "4cb86caff8e9c120060dc0b3e8604a73a852f2bf405fe1f0c9f887c7ac098bc8",
+    "bytes": 2362768
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/marginal_snapshot_7000.bin",
+    "sha256": "54884ccbe19dba828c2b27ec81879f05cece8cb6c6a3bcfda572d4e10419ce71",
+    "bytes": 5298688
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/dssim.txt",
+    "sha256": "86d918a34d51f938b24f5abb1d9c98b04aaa2a790d482daa570b933561c22ba5",
+    "bytes": 3855
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "2841708daa7f00e36edd69195f15b1b52dc144bee48e223ab123cf2cd0163d21",
+    "bytes": 4104
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/render_time.txt",
+    "sha256": "8e5ef475d402802694bbf85b9592e2f9202ac94ac1fc2a274ea32a4da5fa48ce",
+    "bytes": 3430
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/psnr.txt",
+    "sha256": "6a34175cb61bcca6af7aa58c6d4cea269477c536680ef367ddb178982b6e99c2",
+    "bytes": 4085
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/selector_config.yaml",
+    "sha256": "9761277dd70e5c915a5a6109789f2fa74389f971fd8ce2d4d9b0f4ca1bb4970d",
+    "bytes": 3512
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "d7f0bbc7959bb72f6c4aac31037be86fd98138ccddee57f731cc931126f04283",
+    "bytes": 4438087
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/maturity_dynamics.json",
+    "sha256": "a16a28cdd358e50995ae247e726cccf1a82f33eab8985b87a451473d664e08ac",
+    "bytes": 15661641
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/mapping_stage_state.json",
+    "sha256": "256e047bf2de75f1886d6c5aec2cce55056e4b50ce1a779ae6612c54a7038402",
+    "bytes": 912
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/transform_state.json",
+    "sha256": "1df7efe3576bc287a6437b60620f044febe53b99e61d9d0c3488286f89363419",
+    "bytes": 1643
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/maturity_speed.json",
+    "sha256": "9f4df7169df3202d73ec39d672a85b4cadd0bf605e990148424ba0287982b4f5",
+    "bytes": 24444
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "411cd61fba79d8f5307e673c993f38325fd0eec74c052f75da282bf7b907be11",
+    "bytes": 1000
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/view_bank_orb.json",
+    "sha256": "b88e3ccaa6e653f3961fc0a3986aef958d726f9d3ea2848319c6266a737e04c7",
+    "bytes": 1441808
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/cameras.json",
+    "sha256": "bdb6484426cf99fda241a0183a5177088b607f6e79c029634de370ecf50dea18",
+    "bytes": 122205
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/point_cloud/iteration_16900/protection_state.json",
+    "sha256": "3fdc1c64a30bb31762b6b8714952efc5132b2f3eedf9f851e6e3703a7151f29f",
+    "bytes": 1091
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/marginal_snapshot_5000.bin",
+    "sha256": "7b64093b9f52785cdf97627820a370513d58782957795cf1f587d8c42fb19bc3",
+    "bytes": 2200048
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/marginal_snapshot_6000.bin",
+    "sha256": "a3a71dc49cddd7accde152b7895cb91d5f722579470ac65e7682064832713d7d",
+    "bytes": 1746016
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/marginal_snapshot_2000.bin",
+    "sha256": "b0f250fc2063cc79e7457e7e3e09f5ff76cb8d0426c4e53b8dfaf1f68ceefa06",
+    "bytes": 1830160
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/marginal_snapshot_1000.bin",
+    "sha256": "0c2fb6c7c5d52c8050b2aa13fc4fa98ed1c26a941a0d57b324b80792370c30ea",
+    "bytes": 1235104
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/marginal_snapshot_4000.bin",
+    "sha256": "01e947ebbd723997b1a2e4c9a7499353ed306debf6f2254b2bed0376da3eea33",
+    "bytes": 3772048
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/marginal_snapshot_3000.bin",
+    "sha256": "f3c04e520ad579270b235808921594efd4ee50e0e5e3c3bc4e1a43824bcadd85",
+    "bytes": 2113120
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/marginal_snapshot_7000.bin",
+    "sha256": "17e6f9d635b2e669f03c7c1b6536ccff84c9982bfc7de80c4d37e2084d49dcf0",
+    "bytes": 1596736
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/dssim.txt",
+    "sha256": "c716884b2343d8a9553d3264ac3b03fa406bd9e290b0418a5d43bc363f8c6c81",
+    "bytes": 2392
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "8163784e6f00b878c85836ce3370a6efdde64e83f031bf927089ce05d92188ba",
+    "bytes": 2554
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/render_time.txt",
+    "sha256": "c67b0b9f86efe0b9ef7240983dfb056ea9a38a520bacb5a063e4581fa03b41da",
+    "bytes": 2141
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/psnr.txt",
+    "sha256": "ecc9f87e96be619f647ef6ffe43bdc58ae76948daf7eb485c2d52302e3562330",
+    "bytes": 2535
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/selector_config.yaml",
+    "sha256": "80263373e92d851c44e9c4c4fcdc458c36a95586c4f41b5124589cb5fd68d7c3",
+    "bytes": 3498
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "b7b1a00a019dd3bbe4ea27b7460858630435efab47141b0ecd51043f8098dd43",
+    "bytes": 1657605
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/maturity_dynamics.json",
+    "sha256": "8ffd366d385c9f6b6c926ab90ea184c118399765f0076db5311bb38cb86ad73a",
+    "bytes": 5851631
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/mapping_stage_state.json",
+    "sha256": "44d68fcd7a0f1bcacf59652d994a244e5a687b9b3fe88f93c8e9cea59c919613",
+    "bytes": 894
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/transform_state.json",
+    "sha256": "1faa535aff35ca82954e836d67be119c6f1b6e18f4fe9ad5cef253b37f4d8015",
+    "bytes": 1640
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/maturity_speed.json",
+    "sha256": "524c716f9ca703962d4ee93e7287bcb25e61f7c449fb4dde84ce864f5a8d9826",
+    "bytes": 24497
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "85f3a9b422bd48afa72e32bc3f889b995b00c2902f00cb536737b6f72ee588d1",
+    "bytes": 987
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/view_bank_orb.json",
+    "sha256": "ae49b022d6160ece09ffd47ed6bbcf5d561dfbe877de94de2dc66f2df4b78fa5",
+    "bytes": 629827
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/cameras.json",
+    "sha256": "be927b146b74ae5fa25875df96afa8470ee930f91df7b85d96ce939311b794f5",
+    "bytes": 76244
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/point_cloud/iteration_7400/protection_state.json",
+    "sha256": "12f5e1b0c711a7257405a231df799cdc5757d8dd23a562f987c13ae12b49032e",
+    "bytes": 1092
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_5000.bin",
+    "sha256": "9dd1f39b6080a751dffc7be7c84429616fb04efc267cef04d235678bfd1dd489",
+    "bytes": 4129360
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_12000.bin",
+    "sha256": "271b5b2bf5312c526c954e8d01d2988d167dfc3185cc755b25fee2f6e8d51c94",
+    "bytes": 2443744
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_11000.bin",
+    "sha256": "b44def09f24efb573f5c9f802fec51711c0a7194791d9f69baebf11a764af09f",
+    "bytes": 2427904
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_6000.bin",
+    "sha256": "3aa0bd539725395b1c62480f5c922fac6d769369ca45527e37eed4e3b57c98ff",
+    "bytes": 4741792
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_14000.bin",
+    "sha256": "5668021438b71c84dd31b45b63e943141abac05ae0530ad981a1ffdffc1d34a1",
+    "bytes": 2545408
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_2000.bin",
+    "sha256": "8167d058e27cf60b02c2eb92a26568a7f3d8caca4c6cb3f60986a919f9edf6fb",
+    "bytes": 1468000
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_15000.bin",
+    "sha256": "b8a629af998c9bd4eb5e4e83ac8484a74adfe9aae720a4335f6d25d80378af6b",
+    "bytes": 2612464
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_8000.bin",
+    "sha256": "d7856028a33056505a1677c7d2d9906ee11c5d76cf1fb25ae5d30f37745adfe8",
+    "bytes": 3861760
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_1000.bin",
+    "sha256": "c203650d120e1491105147ba4fcfdf5af1211fb814d2f4af3917f7fea14f7356",
+    "bytes": 1036768
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_16000.bin",
+    "sha256": "73ab08ef6e8d7bb187c44921aa8492a7a925afd4b614a7de337890db407d0256",
+    "bytes": 2682448
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_9000.bin",
+    "sha256": "9179162860631c9b87fc5921594f1ca2f5dc17d6761c8858dfd8f9849ea7c299",
+    "bytes": 2782480
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_13000.bin",
+    "sha256": "0b7104f2cc2ae582d98ce9f37e8575cf343c8657d0181c14248a3abce153eb77",
+    "bytes": 2468560
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_10000.bin",
+    "sha256": "f4199860b838266f4dc4c852b4c66f13eb789640869f8a4b99741d81ceff7b72",
+    "bytes": 2458624
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_4000.bin",
+    "sha256": "53320a5fb825debc9a91b9be3e9a0c54fd8a309d755263f5a77c68f9eafa366b",
+    "bytes": 2431504
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_3000.bin",
+    "sha256": "d510e6f1407e0dad53b1b531f978da4bd46ee3d3755a3903b331241a53dedd84",
+    "bytes": 2067232
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/marginal_snapshot_7000.bin",
+    "sha256": "f08b5c718f974de4afc23fd21efb066c6992d835bf7ff57b7dfa3c4fe348fdc3",
+    "bytes": 5225728
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/dssim.txt",
+    "sha256": "a9a765c2cb3d87f34b50da067b13403dfc9e35e8736b2dfbb7a3e32be9116ec3",
+    "bytes": 3923
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "502cfe9bad5cb655c20fce9aba2971afb81c4801460e5b2146d8168a0fc8417b",
+    "bytes": 4176
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/render_time.txt",
+    "sha256": "168ea94889e66b32927d0b137741cd99feea8198397cbfa9ff1fca54e1ba461a",
+    "bytes": 3490
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/psnr.txt",
+    "sha256": "ae52bc4263fa8d2f78b70212d2d97fe72ae3a661c652d62d1379b6c04b15f873",
+    "bytes": 4157
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/selector_config.yaml",
+    "sha256": "9761277dd70e5c915a5a6109789f2fa74389f971fd8ce2d4d9b0f4ca1bb4970d",
+    "bytes": 3512
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "928f9820f8b9fb54f49b2197e4779e13bd2bc2cab7761d897e6f5637f0193887",
+    "bytes": 4425933
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/maturity_dynamics.json",
+    "sha256": "d33a7e73b50ef8ea76ece24a6d7a56e490f0558c0400155a5afd89e57a83ee56",
+    "bytes": 15590093
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/mapping_stage_state.json",
+    "sha256": "f4f63f1f566ee6a2c466ae54109330c8bc1f8c35f699429c5383a4e8728608e2",
+    "bytes": 912
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/transform_state.json",
+    "sha256": "25d0ee94e4e58b37333bfbe1a9c7c94798415d2de7d1937370fd0f312586d8f9",
+    "bytes": 1645
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/maturity_speed.json",
+    "sha256": "f04eac598b2295646969c5047400d0e48a26a4f77e982ec940fab12a3391b468",
+    "bytes": 24385
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "daea0c6e13e153f8958256fb2fc6eee19ccc2776d242ad793bccdab3f6755d22",
+    "bytes": 1000
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/view_bank_orb.json",
+    "sha256": "ebeaa2d314837e4cd454b458d31d62321425e0bba53247e8ed6e2e631f61d482",
+    "bytes": 1358484
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/cameras.json",
+    "sha256": "e3d88bbdc27d633fbea66223cd13627dc2567219f062fde31d5a53982f0863a5",
+    "bytes": 124404
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/point_cloud/iteration_16900/protection_state.json",
+    "sha256": "5db6f45f1521a3df722301a247f628c01a9e2724258a18906cd152ea634274e3",
+    "bytes": 1088
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/marginal_snapshot_5000.bin",
+    "sha256": "c677e87d6bfd398666be92d6d7bf0ebcf0c5d085819274aa319bcd0d08df4001",
+    "bytes": 1571776
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/marginal_snapshot_6000.bin",
+    "sha256": "95337282a61fe07d0777e5aa10c00a96b6c52fd09bfb3a5db55d9d4c1998d619",
+    "bytes": 1288768
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/marginal_snapshot_2000.bin",
+    "sha256": "ab5c6b952e768a9b5d28bcab38049f014ecf44e91bb4cef9e62d53022272f9ff",
+    "bytes": 1002256
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/marginal_snapshot_1000.bin",
+    "sha256": "840f722d57ba8491f793abfb53f8a368196cc6da1061bec9a04f440dba0763ef",
+    "bytes": 754192
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/marginal_snapshot_4000.bin",
+    "sha256": "a846fb3a03e36815d3c404ebdafc204ac5b2974d02391348cabcc9ec0a2fa239",
+    "bytes": 2185072
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/marginal_snapshot_3000.bin",
+    "sha256": "7ad9497ae949790344a90be0b8d9476bfbb6d56c623656c2f76aa1efc05a2562",
+    "bytes": 1659136
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/marginal_snapshot_7000.bin",
+    "sha256": "37d2167a813045da0eb8b94aa363aab61b3537e6cf532f982ca76f53eaa76382",
+    "bytes": 1220752
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/dssim.txt",
+    "sha256": "aad1f3e04c4e46c44e080743339e45d430e3827355464bc04c176a8e4d37bbb7",
+    "bytes": 1436
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/psnr_gaussian_splatting.txt",
+    "sha256": "35864b0a2accef44ab129682bd784b54c2efb83e89af5e26566f59990f552b56",
+    "bytes": 1542
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/render_time.txt",
+    "sha256": "91f9582519c8e31a0993d88b1d18321488402f0ccd2f97aa41f3c344bdfb78a6",
+    "bytes": 1297
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/psnr.txt",
+    "sha256": "283444d403528308272e76f589a162f9ae8e3454cacf98ad8d3cc58bf778b283",
+    "bytes": 1523
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/selector_config.yaml",
+    "sha256": "c23a5357e46773edb6a054941bb7fa52f4d6440b8fb009ae785893ab7046de55",
+    "bytes": 3511
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/maturity_dynamics.csv",
+    "sha256": "410fb7d97204df9bcc36916abada089e4f68a4e36367a6b4597c90a93b7aeed1",
+    "bytes": 1539515
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/maturity_dynamics.json",
+    "sha256": "d18d50b889385331be5653c197455f7180c9b332337682a771090ceab3debf95",
+    "bytes": 5437627
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/mapping_stage_state.json",
+    "sha256": "5767d33a885d38eed67d92f1440c638a86884d7e80e0529b6bc5f42cba14dbad",
+    "bytes": 895
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/transform_state.json",
+    "sha256": "57ed7cdfc85df92bc2f3e6af2e96d50e64a03f47b4915a30427497c7bfd1bb5e",
+    "bytes": 1640
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/maturity_speed.json",
+    "sha256": "380bfeee454a7d5d8d5803c13d0d57cbadf79f4d855a41ea14eb3f5fe73cb262",
+    "bytes": 24461
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/ultrafast_rotation_state.json",
+    "sha256": "044cc2aa2892ba7b7e428b7cc20f5abe2d7263dae543551edbd8a4134c72dd07",
+    "bytes": 988
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/view_bank_orb.json",
+    "sha256": "eb870366902026e1ecf69907e9ce8489920d3f4a67f94bd6bec0a7b4a35130a6",
+    "bytes": 607981
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/cameras.json",
+    "sha256": "9bdae77a53329d39958f71c2279c89f7e4da6cf5840e1125a9d7dc6d9c5fae61",
+    "bytes": 46458
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/point_cloud/iteration_7400/protection_state.json",
+    "sha256": "2f04dd75e63c1e7862db7a800b5403bb52e3e840528951750ab9c7d79a4fb971",
+    "bytes": 1091
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/selector.pt",
+    "sha256": "24ac9b008b5f63576043e946e2f5ee0c49f803288c29212983b216126359cea3",
+    "bytes": 41216
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/transform_field.pt",
+    "sha256": "e4169591ec5e07e8737c062e7afde87054b1d0776103df0ec24ce42ec11e30d8",
+    "bytes": 4762325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/point_cloud/iteration_16900/point_cloud.ply",
+    "sha256": "50978fb71489791b90f465fea407bc7fcf28fbf5f17bd998162ced34bbbef435",
+    "bytes": 12584802
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown/ply/point_cloud/iteration_16900/selector_metadata.ply",
+    "sha256": "44096ceec47e83edabfeecb45e07f3300af18ca98494be0ddb808264fdd85f23",
+    "bytes": 609111
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/selector.pt",
+    "sha256": "582ccedb2c59f4b69b51ebad2ce532d157a84d858c16c5bc23281ab9adc0be17",
+    "bytes": 41216
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/transform_field.pt",
+    "sha256": "f3a90c5a35d889de228351d2037acc20bda50bea897dadfc5555624e33c245fe",
+    "bytes": 4762325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/point_cloud/iteration_16900/point_cloud.ply",
+    "sha256": "735435119a458be9231a85e9866b3ec4f8edf3c597fa6d2654530e360e8f16d5",
+    "bytes": 14076274
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown/ply/point_cloud/iteration_16900/selector_metadata.ply",
+    "sha256": "a304359244319892c309f754fabea1f3c7cc92a06a252dabddb839b621085a47",
+    "bytes": 681279
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/selector.pt",
+    "sha256": "310068c2634926e2fb06d9827604841c3ebb6e3632b92282f2dc99fcbefa0f50",
+    "bytes": 41216
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/transform_field.pt",
+    "sha256": "43f7a928b389fad2e19d82608a9d979c97433568222e627026d4e7dadbae1cc2",
+    "bytes": 4762325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/point_cloud/iteration_16900/point_cloud.ply",
+    "sha256": "d6f6570cdf023e11a03490f38ed7b0037dd4f8de4c5d44e8895fde23ef352205",
+    "bytes": 13467186
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown/ply/point_cloud/iteration_16900/selector_metadata.ply",
+    "sha256": "cf820cf21a28b9c01f9bdef85106896a75952a8b4a2d0a2c8cc52859a645296a",
+    "bytes": 651807
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/selector.pt",
+    "sha256": "f10dd34eb108eec3659736252e2998d4a6f7d873a603bb178d6ef5fd50bf328a",
+    "bytes": 41216
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/transform_field.pt",
+    "sha256": "43196ff00144dd37f71f1ff73b18e0df0f4a408cb98b0e032ce7937d81caedd2",
+    "bytes": 4762325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/point_cloud/iteration_16900/point_cloud.ply",
+    "sha256": "2ae424d583c773ef1f55f13edf8566b0e0b6852fd42f002628abdbc5f1ad6410",
+    "bytes": 13318386
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown/ply/point_cloud/iteration_16900/selector_metadata.ply",
+    "sha256": "3df2d3f1612fc5f8e0f01bdf3c3d811a450663e9523463d5565ac5d80633d360",
+    "bytes": 644607
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/selector.pt",
+    "sha256": "07abf9794aca5a70ca9257e9538773e848cc299e70b90b5fec688fb681f7de71",
+    "bytes": 41216
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/transform_field.pt",
+    "sha256": "13d7ef2841e0f13e7911d93d3b37495a2b01bfbea39ef0b07407551fb9a86d5f",
+    "bytes": 4762325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/point_cloud/iteration_7400/point_cloud.ply",
+    "sha256": "046a678480f9fa44021b8725854892edadf4365cad94eeef03fc4d8d069a9fd3",
+    "bytes": 5965682
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown/ply/point_cloud/iteration_7400/selector_metadata.ply",
+    "sha256": "de0ac48633b68ba46ec66d6dac1d4ab8bd90e1df5386b895b2b3b7028331731f",
+    "bytes": 288830
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/selector.pt",
+    "sha256": "89ca2cbe544535848243b3806d6f0fd894e68e5dbeeacd45c33c844cc8b9f510",
+    "bytes": 41216
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/transform_field.pt",
+    "sha256": "58b3bca7f7253231ab10527930e4e11f84a7a78832e4f216536c3c3d80567098",
+    "bytes": 4762325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/point_cloud/iteration_7400/point_cloud.ply",
+    "sha256": "fb69ae78947c29d93143e256ca1eeef071e5590ee464792b424e51147054d77a",
+    "bytes": 6549474
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown/ply/point_cloud/iteration_7400/selector_metadata.ply",
+    "sha256": "d537d7435330ada76fbd6c17590a3e46f4f92f1179854ce177194369e75145e1",
+    "bytes": 317078
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/selector.pt",
+    "sha256": "a808448dc948873cff9fd007d537f6be8e1539cd7a0e04ab2d66e78a9b589d4a",
+    "bytes": 41216
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/transform_field.pt",
+    "sha256": "cedbe66f1d6dc0793f63013f25111c4b972764e71dfb33bede15a286f655e55f",
+    "bytes": 4762325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/point_cloud/iteration_7400/point_cloud.ply",
+    "sha256": "2b8e32f489c9f07415b5cab295d71986b2137f9700f0eac188fb98ef7f160997",
+    "bytes": 6331978
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown/ply/point_cloud/iteration_7400/selector_metadata.ply",
+    "sha256": "c6e7d2058db7c00f9208290f5c46d52ab13dbae550075c1cbc3debdf28a6c9b4",
+    "bytes": 306554
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/selector.pt",
+    "sha256": "f992c12c85310d1ff7a230c3daa491cbc30078635c99a253cf95159f298017d4",
+    "bytes": 41216
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/transform_field.pt",
+    "sha256": "9a1e5694938c9e05e1c5d41aa0459489653604a02f9d0fb81f3004492ec42ca8",
+    "bytes": 4762325
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/point_cloud/iteration_7400/point_cloud.ply",
+    "sha256": "d8aa28c9cb2a407405cb3404d1c6e626b67b783ee8ff04a01fbe5b99d0654580",
+    "bytes": 8257450
+  },
+  {
+    "path": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown/ply/point_cloud/iteration_7400/selector_metadata.ply",
+    "sha256": "174ddd6e44dc308ad8b109050567cfc89935f54d512716184db54c4007a3904a",
+    "bytes": 399722
+  }
+]

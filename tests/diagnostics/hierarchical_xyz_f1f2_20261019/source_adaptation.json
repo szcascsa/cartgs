@@ -1,0 +1,9 @@
+{
+  "prior_dir": "H:\\AIProjects\\cartgs\u4f18\u5316\u66f4\u7ec6\u81f4\u7248\\hierarchical-progressive-marginal-20261019",
+  "prior_sha256": {
+    "new_rankings.py": "df4876c6356b2673dce2012dfd8252e38a5f0a3bc0b143ba322be35995723fc3",
+    "replay_checks.py": "063fb55b0e4f74f662d958c2cbb854bfe21807593841c570d10344e49c7e36d4",
+    "diagnostics.py": "0f326c8698e5deaa36e818887c46fa0a419563ff9439233dc98b9f302552d2a2"
+  },
+  "adaptations": "only prior-file paths, scene counts, F3 parity assertions and extra comparison; ranking mathematics unchanged"
+}

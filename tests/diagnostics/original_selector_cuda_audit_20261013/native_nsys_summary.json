@@ -1,0 +1,877 @@
+{
+  "N": 220084,
+  "M": 219969,
+  "ratio": 0.05,
+  "warmup": 100,
+  "captured_iterations": 10,
+  "stages": {
+    "protection": {
+      "kernels_per_iteration": 53.0,
+      "kernel_active_ms": 0.2050888,
+      "copies_per_iteration": 2.0,
+      "memsets_per_iteration": 2.0,
+      "nvtx_host_ms": 0.9611538000000001,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.870241,
+          "active_ms": 0.203293,
+          "gap_ms": 0.666948
+        },
+        {
+          "span_ms": 1.408257,
+          "active_ms": 0.220992,
+          "gap_ms": 1.187265
+        },
+        {
+          "span_ms": 0.715745,
+          "active_ms": 0.194335,
+          "gap_ms": 0.52141
+        },
+        {
+          "span_ms": 0.729697,
+          "active_ms": 0.194336,
+          "gap_ms": 0.535361
+        },
+        {
+          "span_ms": 0.792993,
+          "active_ms": 0.198911,
+          "gap_ms": 0.594082
+        },
+        {
+          "span_ms": 0.689888,
+          "active_ms": 0.194304,
+          "gap_ms": 0.495584
+        },
+        {
+          "span_ms": 0.805057,
+          "active_ms": 0.309952,
+          "gap_ms": 0.495105
+        },
+        {
+          "span_ms": 0.670753,
+          "active_ms": 0.202631,
+          "gap_ms": 0.468122
+        },
+        {
+          "span_ms": 0.744833,
+          "active_ms": 0.19235,
+          "gap_ms": 0.552483
+        },
+        {
+          "span_ms": 0.799553,
+          "active_ms": 0.20042,
+          "gap_ms": 0.599133
+        }
+      ]
+    },
+    "features": {
+      "kernels_per_iteration": 8.0,
+      "kernel_active_ms": 0.0844708,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.1586576,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.152832,
+          "active_ms": 0.08896,
+          "gap_ms": 0.063872
+        },
+        {
+          "span_ms": 0.088608,
+          "active_ms": 0.083199,
+          "gap_ms": 0.005409
+        },
+        {
+          "span_ms": 0.088288,
+          "active_ms": 0.0824,
+          "gap_ms": 0.005888
+        },
+        {
+          "span_ms": 0.14656,
+          "active_ms": 0.087744,
+          "gap_ms": 0.058816
+        },
+        {
+          "span_ms": 0.088641,
+          "active_ms": 0.083522,
+          "gap_ms": 0.005119
+        },
+        {
+          "span_ms": 0.132161,
+          "active_ms": 0.082528,
+          "gap_ms": 0.049633
+        },
+        {
+          "span_ms": 0.089856,
+          "active_ms": 0.08384,
+          "gap_ms": 0.006016
+        },
+        {
+          "span_ms": 0.087232,
+          "active_ms": 0.082048,
+          "gap_ms": 0.005184
+        },
+        {
+          "span_ms": 0.139776,
+          "active_ms": 0.085888,
+          "gap_ms": 0.053888
+        },
+        {
+          "span_ms": 0.089697,
+          "active_ms": 0.084579,
+          "gap_ms": 0.005118
+        }
+      ]
+    },
+    "network": {
+      "kernels_per_iteration": 19.0,
+      "kernel_active_ms": 4.3945232,
+      "copies_per_iteration": 1.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.5123248,
+      "per_iteration_spans": [
+        {
+          "span_ms": 4.515941,
+          "active_ms": 4.323492,
+          "gap_ms": 0.192449
+        },
+        {
+          "span_ms": 5.064164,
+          "active_ms": 4.830854,
+          "gap_ms": 0.23331
+        },
+        {
+          "span_ms": 4.490692,
+          "active_ms": 4.296452,
+          "gap_ms": 0.19424
+        },
+        {
+          "span_ms": 4.15002,
+          "active_ms": 3.977349,
+          "gap_ms": 0.172671
+        },
+        {
+          "span_ms": 4.485092,
+          "active_ms": 4.292517,
+          "gap_ms": 0.192575
+        },
+        {
+          "span_ms": 4.137892,
+          "active_ms": 3.980902,
+          "gap_ms": 0.15699
+        },
+        {
+          "span_ms": 5.467846,
+          "active_ms": 5.294439,
+          "gap_ms": 0.173407
+        },
+        {
+          "span_ms": 4.942821,
+          "active_ms": 4.707333,
+          "gap_ms": 0.235488
+        },
+        {
+          "span_ms": 4.158564,
+          "active_ms": 3.980515,
+          "gap_ms": 0.178049
+        },
+        {
+          "span_ms": 4.481764,
+          "active_ms": 4.287685,
+          "gap_ms": 0.194079
+        }
+      ]
+    },
+    "gumbel": {
+      "kernels_per_iteration": 3.0,
+      "kernel_active_ms": 0.0124418,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.0570004,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.014304,
+          "active_ms": 0.0128,
+          "gap_ms": 0.001504
+        },
+        {
+          "span_ms": 0.0144,
+          "active_ms": 0.012097,
+          "gap_ms": 0.002303
+        },
+        {
+          "span_ms": 0.014496,
+          "active_ms": 0.013025,
+          "gap_ms": 0.001471
+        },
+        {
+          "span_ms": 0.013952,
+          "active_ms": 0.012512,
+          "gap_ms": 0.00144
+        },
+        {
+          "span_ms": 0.013728,
+          "active_ms": 0.012384,
+          "gap_ms": 0.001344
+        },
+        {
+          "span_ms": 0.015104,
+          "active_ms": 0.012768,
+          "gap_ms": 0.002336
+        },
+        {
+          "span_ms": 0.013664,
+          "active_ms": 0.012192,
+          "gap_ms": 0.001472
+        },
+        {
+          "span_ms": 0.013696,
+          "active_ms": 0.012192,
+          "gap_ms": 0.001504
+        },
+        {
+          "span_ms": 0.013888,
+          "active_ms": 0.012384,
+          "gap_ms": 0.001504
+        },
+        {
+          "span_ms": 0.014368,
+          "active_ms": 0.012064,
+          "gap_ms": 0.002304
+        }
+      ]
+    },
+    "probability": {
+      "kernels_per_iteration": 4.0,
+      "kernel_active_ms": 0.0193503,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.0710103,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.021696,
+          "active_ms": 0.018944,
+          "gap_ms": 0.002752
+        },
+        {
+          "span_ms": 0.022465,
+          "active_ms": 0.019487,
+          "gap_ms": 0.002978
+        },
+        {
+          "span_ms": 0.021568,
+          "active_ms": 0.019392,
+          "gap_ms": 0.002176
+        },
+        {
+          "span_ms": 0.021024,
+          "active_ms": 0.018912,
+          "gap_ms": 0.002112
+        },
+        {
+          "span_ms": 0.02224,
+          "active_ms": 0.019392,
+          "gap_ms": 0.002848
+        },
+        {
+          "span_ms": 0.023008,
+          "active_ms": 0.019872,
+          "gap_ms": 0.003136
+        },
+        {
+          "span_ms": 0.0208,
+          "active_ms": 0.018688,
+          "gap_ms": 0.002112
+        },
+        {
+          "span_ms": 0.021056,
+          "active_ms": 0.018976,
+          "gap_ms": 0.00208
+        },
+        {
+          "span_ms": 0.021312,
+          "active_ms": 0.019104,
+          "gap_ms": 0.002208
+        },
+        {
+          "span_ms": 0.02288,
+          "active_ms": 0.020736,
+          "gap_ms": 0.002144
+        }
+      ]
+    },
+    "row_argmax": {
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms": 0.011216,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.0292974,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.0112,
+          "active_ms": 0.0112,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011168,
+          "active_ms": 0.011168,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.01104,
+          "active_ms": 0.01104,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011168,
+          "active_ms": 0.011168,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011072,
+          "active_ms": 0.011072,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011168,
+          "active_ms": 0.011168,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011104,
+          "active_ms": 0.011104,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011552,
+          "active_ms": 0.011552,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011008,
+          "active_ms": 0.011008,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.01168,
+          "active_ms": 0.01168,
+          "gap_ms": 0.0
+        }
+      ]
+    },
+    "mask": {
+      "kernels_per_iteration": 11.0,
+      "kernel_active_ms": 0.042121900000000004,
+      "copies_per_iteration": 1.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.1788612,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.054496,
+          "active_ms": 0.045952,
+          "gap_ms": 0.008544
+        },
+        {
+          "span_ms": 0.054432,
+          "active_ms": 0.046336,
+          "gap_ms": 0.008096
+        },
+        {
+          "span_ms": 0.054721,
+          "active_ms": 0.045891,
+          "gap_ms": 0.00883
+        },
+        {
+          "span_ms": 0.053824,
+          "active_ms": 0.04576,
+          "gap_ms": 0.008064
+        },
+        {
+          "span_ms": 0.054496,
+          "active_ms": 0.046432,
+          "gap_ms": 0.008064
+        },
+        {
+          "span_ms": 0.053568,
+          "active_ms": 0.045696,
+          "gap_ms": 0.007872
+        },
+        {
+          "span_ms": 0.054336,
+          "active_ms": 0.045088,
+          "gap_ms": 0.009248
+        },
+        {
+          "span_ms": 0.054816,
+          "active_ms": 0.045472,
+          "gap_ms": 0.009344
+        },
+        {
+          "span_ms": 0.053248,
+          "active_ms": 0.04528,
+          "gap_ms": 0.007968
+        },
+        {
+          "span_ms": 0.053376,
+          "active_ms": 0.045408,
+          "gap_ms": 0.007968
+        }
+      ]
+    },
+    "compact_indices": {
+      "kernels_per_iteration": 5.0,
+      "kernel_active_ms": 0.020266,
+      "copies_per_iteration": 1.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 3.9792095,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.073952,
+          "active_ms": 0.021504,
+          "gap_ms": 0.052448
+        },
+        {
+          "span_ms": 0.67296,
+          "active_ms": 0.022496,
+          "gap_ms": 0.650464
+        },
+        {
+          "span_ms": 0.211233,
+          "active_ms": 0.021507,
+          "gap_ms": 0.189726
+        },
+        {
+          "span_ms": 0.057248,
+          "active_ms": 0.020576,
+          "gap_ms": 0.036672
+        },
+        {
+          "span_ms": 0.203296,
+          "active_ms": 0.021088,
+          "gap_ms": 0.182208
+        },
+        {
+          "span_ms": 0.193376,
+          "active_ms": 0.024768,
+          "gap_ms": 0.168608
+        },
+        {
+          "span_ms": 0.698144,
+          "active_ms": 0.023041,
+          "gap_ms": 0.675103
+        },
+        {
+          "span_ms": 0.19376,
+          "active_ms": 0.020256,
+          "gap_ms": 0.173504
+        },
+        {
+          "span_ms": 0.055681,
+          "active_ms": 0.020929,
+          "gap_ms": 0.034752
+        },
+        {
+          "span_ms": 0.198528,
+          "active_ms": 0.0208,
+          "gap_ms": 0.177728
+        }
+      ]
+    },
+    "gather": {
+      "kernels_per_iteration": 8.0,
+      "kernel_active_ms": 0.0351394,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.1436894,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.122016,
+          "active_ms": 0.03264,
+          "gap_ms": 0.089376
+        },
+        {
+          "span_ms": 0.038944,
+          "active_ms": 0.033888,
+          "gap_ms": 0.005056
+        },
+        {
+          "span_ms": 0.038528,
+          "active_ms": 0.033504,
+          "gap_ms": 0.005024
+        },
+        {
+          "span_ms": 0.115328,
+          "active_ms": 0.032768,
+          "gap_ms": 0.08256
+        },
+        {
+          "span_ms": 0.038944,
+          "active_ms": 0.033696,
+          "gap_ms": 0.005248
+        },
+        {
+          "span_ms": 0.05648,
+          "active_ms": 0.049984,
+          "gap_ms": 0.006496
+        },
+        {
+          "span_ms": 0.038657,
+          "active_ms": 0.03392,
+          "gap_ms": 0.004737
+        },
+        {
+          "span_ms": 0.039392,
+          "active_ms": 0.033472,
+          "gap_ms": 0.00592
+        },
+        {
+          "span_ms": 0.115424,
+          "active_ms": 0.032959,
+          "gap_ms": 0.082465
+        },
+        {
+          "span_ms": 0.039456,
+          "active_ms": 0.034563,
+          "gap_ms": 0.004893
+        }
+      ]
+    },
+    "loss_vjp": {
+      "kernels_per_iteration": 7.0,
+      "kernel_active_ms": 0.0285341,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 1.0,
+      "nvtx_host_ms": 0.1335796,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.132704,
+          "active_ms": 0.0272,
+          "gap_ms": 0.105504
+        },
+        {
+          "span_ms": 0.033152,
+          "active_ms": 0.027102,
+          "gap_ms": 0.00605
+        },
+        {
+          "span_ms": 0.269024,
+          "active_ms": 0.035776,
+          "gap_ms": 0.233248
+        },
+        {
+          "span_ms": 0.101728,
+          "active_ms": 0.026975,
+          "gap_ms": 0.074753
+        },
+        {
+          "span_ms": 0.215104,
+          "active_ms": 0.028895,
+          "gap_ms": 0.186209
+        },
+        {
+          "span_ms": 0.078528,
+          "active_ms": 0.041952,
+          "gap_ms": 0.036576
+        },
+        {
+          "span_ms": 0.032672,
+          "active_ms": 0.026881,
+          "gap_ms": 0.005791
+        },
+        {
+          "span_ms": 0.209281,
+          "active_ms": 0.028897,
+          "gap_ms": 0.180384
+        },
+        {
+          "span_ms": 0.104416,
+          "active_ms": 0.027007,
+          "gap_ms": 0.077409
+        },
+        {
+          "span_ms": 0.209185,
+          "active_ms": 0.027806,
+          "gap_ms": 0.181379
+        }
+      ]
+    },
+    "backward": {
+      "kernels_per_iteration": 88.0,
+      "kernel_active_ms": 2.8548535,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 8.0,
+      "nvtx_host_ms": 2.1494682999999997,
+      "per_iteration_spans": [
+        {
+          "span_ms": 3.610628,
+          "active_ms": 2.985444,
+          "gap_ms": 0.625184
+        },
+        {
+          "span_ms": 3.495524,
+          "active_ms": 2.49303,
+          "gap_ms": 1.002494
+        },
+        {
+          "span_ms": 4.362852,
+          "active_ms": 2.505982,
+          "gap_ms": 1.85687
+        },
+        {
+          "span_ms": 3.082404,
+          "active_ms": 2.497917,
+          "gap_ms": 0.584487
+        },
+        {
+          "span_ms": 3.685443,
+          "active_ms": 2.772641,
+          "gap_ms": 0.912802
+        },
+        {
+          "span_ms": 3.180419,
+          "active_ms": 2.572125,
+          "gap_ms": 0.608294
+        },
+        {
+          "span_ms": 3.499364,
+          "active_ms": 3.183621,
+          "gap_ms": 0.315743
+        },
+        {
+          "span_ms": 4.969765,
+          "active_ms": 4.272613,
+          "gap_ms": 0.697152
+        },
+        {
+          "span_ms": 3.080227,
+          "active_ms": 2.505955,
+          "gap_ms": 0.574272
+        },
+        {
+          "span_ms": 3.763971,
+          "active_ms": 2.854082,
+          "gap_ms": 0.909889
+        }
+      ]
+    },
+    "optimizer": {
+      "kernels_per_iteration": 144.0,
+      "kernel_active_ms": 0.3501092,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 1.3795166,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.44928,
+          "active_ms": 0.348606,
+          "gap_ms": 0.100674
+        },
+        {
+          "span_ms": 0.4488,
+          "active_ms": 0.34848,
+          "gap_ms": 0.10032
+        },
+        {
+          "span_ms": 0.447425,
+          "active_ms": 0.348135,
+          "gap_ms": 0.09929
+        },
+        {
+          "span_ms": 0.448544,
+          "active_ms": 0.347901,
+          "gap_ms": 0.100643
+        },
+        {
+          "span_ms": 0.448577,
+          "active_ms": 0.349414,
+          "gap_ms": 0.099163
+        },
+        {
+          "span_ms": 0.544993,
+          "active_ms": 0.365771,
+          "gap_ms": 0.179222
+        },
+        {
+          "span_ms": 0.449505,
+          "active_ms": 0.349472,
+          "gap_ms": 0.100033
+        },
+        {
+          "span_ms": 0.448225,
+          "active_ms": 0.347897,
+          "gap_ms": 0.100328
+        },
+        {
+          "span_ms": 0.449184,
+          "active_ms": 0.3472,
+          "gap_ms": 0.101984
+        },
+        {
+          "span_ms": 0.448417,
+          "active_ms": 0.348216,
+          "gap_ms": 0.100201
+        }
+      ]
+    },
+    "outside": {
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms": 0.0,
+      "copies_per_iteration": 18.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": null,
+      "per_iteration_spans": []
+    }
+  },
+  "runtime_apis": {
+    "cudaDeviceSynchronize_v3020": {
+      "count": 11,
+      "cpu_ms": 0.744153
+    },
+    "cudaEventRecord_v3020": {
+      "count": 160,
+      "cpu_ms": 0.3926089999999998
+    },
+    "cudaLaunchKernel_v7000": {
+      "count": 3510,
+      "cpu_ms": 15.139460999999999
+    },
+    "cudaMemcpyAsync_v3020": {
+      "count": 230,
+      "cpu_ms": 41.939243999999995
+    },
+    "cudaStreamSynchronize_v3020": {
+      "count": 30,
+      "cpu_ms": 0.06647299999999999
+    },
+    "cudaMemsetAsync_v3020": {
+      "count": 110,
+      "cpu_ms": 0.4402420000000002
+    },
+    "cudaOccupancyMaxActiveBlocksPerMultiprocessor_v6050": {
+      "count": 80,
+      "cpu_ms": 0.064167
+    },
+    "cudaStreamIsCapturing_v10000": {
+      "count": 10,
+      "cpu_ms": 0.011622
+    },
+    "cudaEventSynchronize_v3020": {
+      "count": 10,
+      "cpu_ms": 7.448504000000001
+    }
+  },
+  "top20_kernels": [
+    {
+      "name": "ampere_sgemm_64x64_tn",
+      "total_ms": 34.914403,
+      "per_iteration_ms": 3.4914403
+    },
+    {
+      "name": "ampere_sgemm_32x32_sliced1x4_nt",
+      "total_ms": 5.660741,
+      "per_iteration_ms": 0.5660741
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::launch_clamp_scalar(at::TensorIteratorBase &, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)",
+      "total_ms": 4.434187,
+      "per_iteration_ms": 0.4434187
+    },
+    {
+      "name": "void at::native::reduce_kernel<(int)128, (int)4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4>>(T3)",
+      "total_ms": 3.843333,
+      "per_iteration_ms": 0.3843333
+    },
+    {
+      "name": "ampere_sgemm_64x64_nn",
+      "total_ms": 3.603684,
+      "per_iteration_ms": 0.36036840000000003
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, void at::native::<unnamed>::threshold_kernel_impl<float>(at::TensorIteratorBase &, T1, T1)::[lambda(float, float) (instance 1)]>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+      "total_ms": 3.01389,
+      "per_iteration_ms": 0.301389
+    },
+    {
+      "name": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, void at::native::<unnamed>::threshold_kernel_impl<float>(at::TensorIteratorBase &, T1, T1)::[lambda(float, float) (instance 1)]>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "total_ms": 2.98186,
+      "per_iteration_ms": 0.298186
+    },
+    {
+      "name": "ampere_sgemm_32x128_nn",
+      "total_ms": 2.909792,
+      "per_iteration_ms": 0.2909792
+    },
+    {
+      "name": "void at::native::<unnamed>::CatArrayBatchedCopy<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsigned int, (int)2, (int)64, (int)64>(T1 *, at::native::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::native::<unnamed>::TensorSizeStride<T2, (unsigned int)4>, int, T2)",
+      "total_ms": 2.506084,
+      "per_iteration_ms": 0.2506084
+    },
+    {
+      "name": "ampere_sgemm_32x128_tn",
+      "total_ms": 2.187104,
+      "per_iteration_ms": 0.2187104
+    },
+    {
+      "name": "void cutlass::Kernel<cutlass_80_simt_sgemm_128x32_8x5_nn_align1>(T1::Params)",
+      "total_ms": 1.413602,
+      "per_iteration_ms": 0.14136020000000002
+    },
+    {
+      "name": "void cutlass::Kernel<cutlass_80_simt_sgemm_128x32_8x5_nt_align1>(T1::Params)",
+      "total_ms": 1.396065,
+      "per_iteration_ms": 0.1396065
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)2>>(int, T2, T3)",
+      "total_ms": 0.935395,
+      "per_iteration_ms": 0.0935395
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<float>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+      "total_ms": 0.871556,
+      "per_iteration_ms": 0.0871556
+    },
+    {
+      "name": "void at::native::<unnamed>::indexSelectLargeIndex<float, long, unsigned int, (int)2, (int)2, (int)-2, (bool)1>(at::cuda::detail::TensorInfo<T1, T3>, at::cuda::detail::TensorInfo<const T1, T3>, at::cuda::detail::TensorInfo<const T2, T3>, int, int, T3, T3, long)",
+      "total_ms": 0.682465,
+      "per_iteration_ms": 0.0682465
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)2>>(int, T2, T3)",
+      "total_ms": 0.623739,
+      "per_iteration_ms": 0.0623739
+    },
+    {
+      "name": "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+      "total_ms": 0.618368,
+      "per_iteration_ms": 0.061836800000000004
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+      "total_ms": 0.585347,
+      "per_iteration_ms": 0.058534699999999995
+    },
+    {
+      "name": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "total_ms": 0.563775,
+      "per_iteration_ms": 0.0563775
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::addcdiv_cuda_kernel(at::TensorIteratorBase &, const c10::Scalar &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float, float, float) (instance 1)], at::detail::Array<char *, (int)4>>(int, T2, T3)",
+      "total_ms": 0.503004,
+      "per_iteration_ms": 0.0503004
+    }
+  ],
+  "copies_by_kind_in_timed_stages": {
+    "2": 30,
+    "8": 20
+  },
+  "copies_by_kind_outside": {
+    "8": 180
+  },
+  "total_iteration_kernel_count": 3510,
+  "short_kernel_fraction": 0.8213675213675213,
+  "launch_gap_mean_ms": 0.023512654,
+  "launch_gap_max_ms": 4.788562,
+  "limitation": "Nsight instrumentation and per-stage events affect dispatch; gaps include scheduling, dependencies and synchronization, not pure removable framework cost; outside includes untimed checkpoint restoration"
+}

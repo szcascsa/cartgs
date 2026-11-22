@@ -1,0 +1,57 @@
+{
+  "dataset": "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg2_xyz",
+  "checkpoint": "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr2_xyz/full/attempt_1/model/37900_shutdown/ply",
+  "checkpoint_rule": "existing full final shutdown, highest final iteration; no quality selection",
+  "arms": [
+    "A_Raw",
+    "B_FixedMarginal",
+    "C_Hierarchical",
+    "F3_ProgressiveMarginal"
+  ],
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "K": "floor(ratio*N+.5)",
+  "candidate": "valid AND observed",
+  "maturity": 1,
+  "frozen_tree": {
+    "target_roots": 2048,
+    "representatives_per_node": 3,
+    "Q": 0.8,
+    "max_level": 3,
+    "origin": [
+      0,
+      0,
+      0
+    ],
+    "h_search": "unchanged current rule"
+  },
+  "progressive_semantics": {
+    "initial": "all occupied roots active",
+    "coarse_capacity": "up to 3 NEW globally unselected representatives; if fewer remain, finish immediately",
+    "objective_population": "all original node members, including already emitted rows (self coverage makes their residual zero)",
+    "inherited_coverage": "max kappa over all emitted ancestors on path, including ancestors outside the child bounds; no sibling/cross-root coverage",
+    "internal_unlock": "after min(3,remaining) NEW reps emitted, activate every nonempty child with all ancestor coverage; node with no remaining rows is exhausted and its descendants still traversed as necessary",
+    "leaf_F2": "fixed independent residual after inherited+leaf coarse cover; never update residual coverage",
+    "leaf_F3": "continue conditional marginal tail and update coverage",
+    "no_final_resort": true,
+    "ordinal_score": "N-rank0, not physical SI mass"
+  },
+  "heap_tie": "descending gain/priority; lexicographic (root gx,gy,gz,octree path) stable node key; source row ascending; one exposed item per active node/leaf",
+  "local_tie": "exact equal maximum marginal gain, then source row ascending; no quantization",
+  "geometry_diagnostic": "unchanged fixed-h8 cell metric, max offdiagonal selected kappa per row, singleton0; unordered thresholds .8/.9/.95",
+  "F3_gate": "four-ratio mean delta PSNR>=0; 1% delta PSNR>0; both10/15% mean redundancy<C",
+  "F3_strong": "F3_gate plus mean PSNR>=B-.02, mean-of-four redundancy<=1.10*B mean and total >.9 pair counts<=1.10*B (integer ceiling, minimum allowance1 for zero)",
+  "Q5_Fixed_comparison": "EXCEEDS if mean deltaPSNR>=+.02; MATCHES if mean>=-.02; otherwise BELOW; include each metric separately",
+  "evaluation": "all archived KF excluding union of actual GlobalGI anchor/representative Bank; fixed before quality; original SLAM views, not unseen",
+  "C_vs_A_primary": "at least3 ratios deltaPSNR>=-.02; low mean deltaPSNR>.10 OR one>.20 and other>=-.02; systematic SSIM/LPIPS tradeoff downgrades interpretation",
+  "runtime_gate": false,
+  "parameter_search": false,
+  "optimizer_updates": 0,
+  "production_integration": false,
+  "commit": false,
+  "push": false
+}

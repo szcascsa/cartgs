@@ -1,0 +1,23 @@
+{
+  "all_passed": true,
+  "checks": [
+    {
+      "scene": "fr1_room",
+      "source": "/home/prmi/zwj/hierarchy-candidate-pool-20261020/fr1_room",
+      "N_candidate": 50330,
+      "all_passed": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "source": "/home/prmi/zwj/hierarchy-candidate-pool-20261020/fr1_xyz",
+      "N_candidate": 23643,
+      "all_passed": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "source": "/home/prmi/zwj/hierarchy-candidate-pool-20261020/fr2_xyz",
+      "N_candidate": 43059,
+      "all_passed": true
+    }
+  ]
+}

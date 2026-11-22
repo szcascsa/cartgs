@@ -1,0 +1,10 @@
+{
+  "all_passed": true,
+  "baseline_rerenders": 4064,
+  "new_C32_P32_renders": 2032,
+  "total_renders": 6096,
+  "report_sha256": "26403f5ed739905b7a3ba858edc4d521bcab9c2accf5edbcdf9e4af0224d3f39",
+  "no_new_F1_F3_renders": true,
+  "only_lambda": 32,
+  "production_changed": false
+}

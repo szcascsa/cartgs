@@ -1,0 +1,57 @@
+[
+  {
+    "time": 1792247876.7091346,
+    "own_pid": 908799,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247876.986571,
+    "own_pid": 908799,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792247877.292081,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 562"
+  },
+  {
+    "time": 1792247877.5550888,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 936"
+  },
+  {
+    "time": 1792247877.8172283,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 992"
+  },
+  {
+    "time": 1792247878.0787888,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 992"
+  },
+  {
+    "time": 1792247878.3403401,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 992"
+  },
+  {
+    "time": 1792247878.6018708,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 992"
+  },
+  {
+    "time": 1792247878.8825486,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 992"
+  },
+  {
+    "time": 1792247879.1441364,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 992"
+  },
+  {
+    "time": 1792247879.4056258,
+    "own_pid": 908799,
+    "compute_processes": "908799, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_instrumented, 992"
+  }
+]

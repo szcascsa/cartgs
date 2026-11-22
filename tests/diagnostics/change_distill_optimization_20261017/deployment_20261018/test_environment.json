@@ -1,0 +1,11 @@
+{
+  "existing_gpu_processes": "",
+  "timing_used_as_performance_evidence": false,
+  "ctest_command": [
+    "/home/prmi/.local/lib/python3.13/site-packages/cmake/data/bin/ctest",
+    "--test-dir",
+    "/home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9",
+    "--output-on-failure",
+    "-j1"
+  ]
+}

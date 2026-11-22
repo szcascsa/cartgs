@@ -1,0 +1,12 @@
+1000 cuda_query=0 ms=11.1912
+1000 cuda_query=1 ms=9.37834
+5000 cuda_query=0 ms=11.3108
+5000 cuda_query=1 ms=9.39989
+8491 cuda_query=0 ms=11.3323
+8491 cuda_query=1 ms=9.50063
+10000 cuda_query=0 ms=11.2995
+10000 cuda_query=1 ms=9.44257
+20000 cuda_query=0 ms=11.2066
+20000 cuda_query=1 ms=9.38601
+50000 cuda_query=0 ms=11.8123
+50000 cuda_query=1 ms=9.50238

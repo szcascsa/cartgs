@@ -1,0 +1,3 @@
+strategy6 M=219969 network_forward complete
+strategy6 M=219969 network_backward complete
+strategy6 M=219969 network_forward_backward complete

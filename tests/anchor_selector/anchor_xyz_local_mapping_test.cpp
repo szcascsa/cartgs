@@ -1,0 +1,5 @@
+#define CARTGS_TEST_ANCHOR_SELECTOR
+#define CARTGS_TEST_ANCHOR_ATTRIBUTES
+#define CARTGS_TEST_ANCHOR_ADAPTIVE
+#define CARTGS_TEST_ANCHOR_GLOBAL_XYZ
+#include "../ultrafast_mapping_test.cpp"

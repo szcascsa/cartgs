@@ -1,0 +1,382 @@
+{
+  "all_passed": true,
+  "source_sha": {
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_xyz/full/attempt_1/model/9900_shutdown/ply/cameras.json": {
+      "sha256": "c8663c2acfa6a32d1bb705f0e84272d69cf9f44e683cc6f6b58d106d61861d3b",
+      "bytes": 38330
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_xyz/full/attempt_1/model/9900_shutdown/ply/view_bank_orb.json": {
+      "sha256": "16f77de7ed2238e29c24b556a8d1d910eb342e5180c82567f14d37442bd3d9fd",
+      "bytes": 335209
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_xyz/full/attempt_1/model/9900_shutdown/ply/transform_field.pt": {
+      "sha256": "bba18765352bced0e8359a5bae8501e7293cb4f907e7760a01e12b5b2f4f0384",
+      "bytes": 4762325
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_xyz/full/attempt_1/model/9900_shutdown/ply/selector_config.yaml": {
+      "sha256": "2d0d0516bd299fff14b946b65c901e14e2970e20685229febd4c7bcbbb239690",
+      "bytes": 3481
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_xyz/full/attempt_1/model/9900_shutdown/ply/point_cloud/iteration_9900/point_cloud.ply": {
+      "sha256": "a8abd19e63cc3079d4efd07947856e7d8e1f5e959e17142b62aa659b0faebb10",
+      "bytes": 5887314
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031102.175304.png": {
+      "sha256": "331c3fd7a3d5eefb19e3da2026625aa221ca1991f5ae30ff96060e2e3e45e368",
+      "bytes": 506503
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031102.443271.png": {
+      "sha256": "49deecb97bbb0ef1b8d14212b10d5cdb9a2ce7b4c852ad4838bc8e2a872d82df",
+      "bytes": 484710
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031102.475318.png": {
+      "sha256": "b0ba51dedfe7de56904d29515185fc9c6337f36dccf116493501b62fd03ed171",
+      "bytes": 489780
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031102.711263.png": {
+      "sha256": "48be03e8e2b369d348559d4f94b26811ac156f0036798092ccc0429367d09688",
+      "bytes": 500905
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031102.975203.png": {
+      "sha256": "c3d09cdd91eb23c6407cb1969ed65e592e58f231f502b9185a0da7115ba59a68",
+      "bytes": 475690
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031103.243216.png": {
+      "sha256": "dffe2b7b0efb05d9a3cb9d7d938efee092d16436d6fc9a29432b1c447cd20333",
+      "bytes": 478978
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031104.075425.png": {
+      "sha256": "dc3e0c636c350cbbb7254476ff76aab624391d07e30ea3f81e8dfb277177da84",
+      "bytes": 487687
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031104.443288.png": {
+      "sha256": "37e98a4384c44da727847f3befcec16a0361ca49f960c5bd5ac99bbab66cb7b9",
+      "bytes": 521570
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031104.575343.png": {
+      "sha256": "55b5ef44c2246a548f4d203613053ce3dd27fdbc59bbb424d6b673669a7ce7d7",
+      "bytes": 505679
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031104.643243.png": {
+      "sha256": "6ffddf7dae2abb6417337569ae7b099029b3046fd4042eb9c5e6d29582025370",
+      "bytes": 494054
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031104.775327.png": {
+      "sha256": "842f116c2208e9ce686ce9dcba8dac2a3da1e7f1c2b57533cd23991d869e73ed",
+      "bytes": 485408
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031105.275288.png": {
+      "sha256": "143f52a9911082358c5510c8b240f85b18ee4dc689571215767dccbe9421175a",
+      "bytes": 480319
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031105.775339.png": {
+      "sha256": "8bb0a885dbf88a4aed6d2f0489ded481d826d4fa52742fd7606d5ae83e5d4f24",
+      "bytes": 486103
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031105.943272.png": {
+      "sha256": "902df0293a9625b6535cf434c1d08e2fd500fcfe997498ae5debc1a2be37a474",
+      "bytes": 483708
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031106.143355.png": {
+      "sha256": "cb37253dfca4f2e20da1c7d93608b8196d98adbb12a1ef3d30237b6356093110",
+      "bytes": 482612
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031106.375388.png": {
+      "sha256": "1388894566e93732a8a8de828a7dabb4f001fb47749cd61ce675789492d09288",
+      "bytes": 470615
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031108.011320.png": {
+      "sha256": "a8d1a43ee4c1be39adfca4f2903c004ac70540e7aa304b09b9ccc88b5de7cf8b",
+      "bytes": 488717
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031108.111378.png": {
+      "sha256": "76262dc4f596e7be0394a49cb36a5bd0b6cec594c08100dcbbc41dba6da1cecf",
+      "bytes": 492090
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031108.211475.png": {
+      "sha256": "03bc03a9409ad8baa1b62067707958dd889bd880d662aa6770508b5861da8084",
+      "bytes": 473840
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031108.343278.png": {
+      "sha256": "0988c4aaf8b092d009532e7ec6ea31622fc4ec9244048c061b9bb3f0b9c349d6",
+      "bytes": 479444
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031108.511378.png": {
+      "sha256": "d743df506ba4b44becd78c5da378935f84306631452e74e3078d2cec6a095d7b",
+      "bytes": 436640
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031108.643303.png": {
+      "sha256": "19dc120a3ce2fff726b296b55f0e691f77482b5d05490dd1632bcb89847ed0df",
+      "bytes": 460214
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031108.843264.png": {
+      "sha256": "ac3a83afb4e0cf4205b6da956353a382769b5123e7072572852de4b3790852c7",
+      "bytes": 473965
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031109.143334.png": {
+      "sha256": "ecc26646d9e8c6039b90f64436f41a68edffe3bb62ab6645fec04dae77942471",
+      "bytes": 453397
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031109.275308.png": {
+      "sha256": "6825519a31bcb5d3cd2ecdd82aa71be68fc84c0038883dbf373b4106f029495b",
+      "bytes": 423767
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031109.411329.png": {
+      "sha256": "9a685889e624d91bb8c067474e51c606a0e8ab5fed4cb3ded3fcaf96d1ae3a23",
+      "bytes": 448689
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031109.875306.png": {
+      "sha256": "4d3e82c985a31fd542220cec1c819c7cf8cef9f2a9d2d33e4307dbb028b2725f",
+      "bytes": 464902
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031110.111325.png": {
+      "sha256": "9f2a4a185c9ed64d7805806d9e8937b7933b946656e5c119063c75c0cfe0eca1",
+      "bytes": 469820
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031110.279321.png": {
+      "sha256": "c67b16fad0ec734d518870608050d69652c0557cd3f3a4730f2f95d7aa622722",
+      "bytes": 477451
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031110.443260.png": {
+      "sha256": "20c947533dd459314003791823b93c6723e6888df9944ff91761fab663c40f9e",
+      "bytes": 467320
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031110.611307.png": {
+      "sha256": "62abdb01640d6a4110ac93a8ac2f6318b4ed572f4af9bd75dde7e363170cb0ea",
+      "bytes": 492597
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031111.179326.png": {
+      "sha256": "452587b1d13d86ca40b591e8d1970915bb9907983d95d6084900a183166919aa",
+      "bytes": 465719
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031111.479259.png": {
+      "sha256": "59cfbaa4d0e41c4a6b4070489eb739509fc6cc7a04e0ec1ba649b6488d35e6dc",
+      "bytes": 451370
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031111.643395.png": {
+      "sha256": "11fa3465a7b24d229eb51bc3dce0f617b9d618cbd8a5086867673b66e43bf231",
+      "bytes": 459566
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031111.811406.png": {
+      "sha256": "9a9a40b14c1728d38fbd53ead1fece5fd92317848bb59d2ee538ce6477bf2d0a",
+      "bytes": 446760
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031112.011433.png": {
+      "sha256": "096840711a44b66f8237f88a33e356e44f077e2f3b1adc2581ea9fe66605f679",
+      "bytes": 442324
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031112.211254.png": {
+      "sha256": "02b1631bb1dd1943d42d551394e9593cf8014a3d616dffba200f99f569c6d221",
+      "bytes": 418354
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031112.643246.png": {
+      "sha256": "f58e0d6d35a33b3eb074387217089c100e92d4355d9ec8b922f4d3c04e1cea6c",
+      "bytes": 466219
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031112.811310.png": {
+      "sha256": "7fc16ad50f1a45f0f3e252d223743783df6115d4dcd53be06f9680a13d8e844d",
+      "bytes": 459431
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031113.011353.png": {
+      "sha256": "0e08bbb625daee0077b9bc13fa47c7d6109400f65fbc2929fae126b7e6fca0ed",
+      "bytes": 442870
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031113.211259.png": {
+      "sha256": "1b7ce577d1c61169bc372ad5991a81a760dbdc861bea5a8d8cb6475be7d92641",
+      "bytes": 414595
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031113.511523.png": {
+      "sha256": "efaa2598573cd9ecf0937409aac045c65d0a42b34ee32ea8d2c7e39eadf932fc",
+      "bytes": 464287
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031114.043301.png": {
+      "sha256": "e82ba0a05b96f11f8aae12376c9804f71ddeb230cd139e9a77a43abb406f7d2d",
+      "bytes": 474990
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031114.243337.png": {
+      "sha256": "eae1d38b5730af2b24b4ddfc0c31133fdc6f4ce679dbe53f55496513bc0027a3",
+      "bytes": 482140
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031114.443345.png": {
+      "sha256": "6669dd78a695340863b9f5dc974b26443827592fbe2f0c61a7017fe9261f5040",
+      "bytes": 487193
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031114.644136.png": {
+      "sha256": "71740c8a8cd4097af90f707c857497bf7ab0850893af638c2f41ed9787468484",
+      "bytes": 494533
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031115.011300.png": {
+      "sha256": "9cb65f4620d8533a0a529b85e0e70558530e7ceb89ea73d50212157174efddcc",
+      "bytes": 499042
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031115.211374.png": {
+      "sha256": "4486f6dec05d90f6f650c9b171bb203dc592c8f692d5526125e6bea310355d05",
+      "bytes": 470704
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031115.443159.png": {
+      "sha256": "5ce92736f8a6465977f47e1684396604df835df8a93171fa4f8dff5c6c9095ca",
+      "bytes": 472355
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031115.643254.png": {
+      "sha256": "0fe9e33421748050e1df533f2b6dc08c5665d3782908d5f9a89311ec74511393",
+      "bytes": 455511
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031115.911118.png": {
+      "sha256": "c8ccbf37509a21da7732e4d62f3bc71507313c45a063f2ce5d2c6e8fdda5f122",
+      "bytes": 451933
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031116.143441.png": {
+      "sha256": "7a761fdfc1868b848ee64be383bd69c6fce88904b822d100bd124106e43759f2",
+      "bytes": 405122
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031116.379384.png": {
+      "sha256": "28c3e91d3a339760bf59adf435c7282f7e681ccf462431de52f1a8227cc9fc6e",
+      "bytes": 419096
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031116.611261.png": {
+      "sha256": "e87fb0811f71c2b397a33465be13c6763b284317037c740b1049b040fc192f89",
+      "bytes": 401248
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031116.811318.png": {
+      "sha256": "74f35b295db2b0e29ad89589a0d623cafa24de73c90b09aaaa1d5214fde99d78",
+      "bytes": 394943
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031117.043261.png": {
+      "sha256": "b39f5a5283c87c9942b3058c3cd126950596d196bfb6dfbef9c3aca9d35fd826",
+      "bytes": 416184
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031117.911407.png": {
+      "sha256": "711fd613992e67d3efa4f7e675478fd10a0fbd98c660c2f20e6f321e686cbfa6",
+      "bytes": 497897
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031118.143256.png": {
+      "sha256": "8225bb9d7ea10776e2b65177a595ecf6968db051442209ba0fd1f9d0e4ffb0f1",
+      "bytes": 504622
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031118.379208.png": {
+      "sha256": "2aced9363c22f4a4877343a36761b41a63102a424b852a3c707a33d41a719165",
+      "bytes": 493777
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031118.979374.png": {
+      "sha256": "bb6f95900387f17969e5ca36e1b5af2ce201ccd623e93df1f2220d6aa6c44d68",
+      "bytes": 495322
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031119.579559.png": {
+      "sha256": "1ad39cecc4041ef54151db18e987a54f8ed237e6b932c5c592018e4e1ad0afae",
+      "bytes": 466418
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031119.847429.png": {
+      "sha256": "dbc0d4e35a606b43e4ab183f3eaefc3a184bbb677b64c03dc63907f7eda656f4",
+      "bytes": 468387
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031120.415445.png": {
+      "sha256": "0e03b765c4a33f40d333ea333cda0625f291fbbcdd002aab62899306444ba0e6",
+      "bytes": 454975
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031121.583204.png": {
+      "sha256": "56817af7d07a426586ce01b240e53781f317af717305e69b408c76f4f30c0b4a",
+      "bytes": 500592
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031121.882060.png": {
+      "sha256": "4042de5a73485517f73f373cc91eccdffe2c58b35df854a9d1b38a467cf5a03b",
+      "bytes": 506025
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031122.214959.png": {
+      "sha256": "abbc62da4b3c076fd52316de0e7b2706a11df37822ae96184ef28eb8f11dca5d",
+      "bytes": 482954
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031123.250618.png": {
+      "sha256": "c120f575111182c4f15f975bb1665703cba26379ba1c2ae695b4081b46f17bce",
+      "bytes": 443094
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031123.483594.png": {
+      "sha256": "7e588c6b515cab20ca99d19061d909e36a021996a295c0ada9d186043b980cd5",
+      "bytes": 438627
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031123.751723.png": {
+      "sha256": "6f9d39e6cf2053029fa114e75d4196afb0e36b6daafb661a6ca542f0964be01a",
+      "bytes": 449189
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031124.111331.png": {
+      "sha256": "9b2995962bab3bac1b9c80374a17a6d7f0f4d1f6a53c8dc417ba0a8296709269",
+      "bytes": 435330
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031125.679328.png": {
+      "sha256": "9dc565a8b421708219ebddae77560629d80c74e7723fb84e52024a97038c0893",
+      "bytes": 490781
+    },
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_xyz/rgb/1305031127.179349.png": {
+      "sha256": "941dc8570ba4dc08e5273cdc05c54bb334ead430a6108435694becbe1c84f6b8",
+      "bytes": 481605
+    },
+    "/home/prmi/zwj/hierarchical-progressive-marginal-20261019/runtime/lib/libgaussian_mapper.so": {
+      "sha256": "523bba9fea150989e07f93eb4977e95bbd91cafb4c58cc0ed3fcdb2964345b1c",
+      "bytes": 2754688
+    },
+    "/home/prmi/zwj/hierarchical-progressive-marginal-20261019/runtime/lib/libcuda_rasterizer.so": {
+      "sha256": "019cbd9fb052c8fa01dd03a977ec0f0c262cb01c963c03e2bb87c4e383f5e6a7",
+      "bytes": 949888
+    },
+    "/home/prmi/zwj/hierarchical-progressive-marginal-20261019/audit_worker": {
+      "sha256": "cf47b087a4b09a2e34a595580485896669f1247f0d9a2aa52edda79ac85259a2",
+      "bytes": 228568
+    },
+    "/home/prmi/zwj/sparse-hash-root-grid-20261019/build/libhierarchy.a": {
+      "sha256": "d50cae98896c7c11f0192639d74e3e7fba914c96e7a7f6ba8664ebba50207a38",
+      "bytes": 232482
+    },
+    "/home/prmi/zwj/sparse-hash-root-grid-20261019/source/include/hierarchical_representative_si.h": {
+      "sha256": "cfbd98f272c3385d1b8bfa930fde452e82bd4569df80c3e70f3533add4beaa7a",
+      "bytes": 3041
+    },
+    "/home/prmi/zwj/sparse-hash-root-grid-20261019/source/src/hierarchical_representative_si.cpp": {
+      "sha256": "62f63b866677239acc07ceb26296295dfc7e81289f6da2a9aef82f886591dee6",
+      "bytes": 20442
+    },
+    "/home/prmi/zwj/sparse-hash-root-grid-20261019/source/include/sparse_hash_root_grid.h": {
+      "sha256": "a9b96f8778eada225553206df78ef1fa0781f33f818cd66ffc84f2e42b4ac940",
+      "bytes": 1035
+    },
+    "/home/prmi/zwj/sparse-hash-root-grid-20261019/source/src/sparse_hash_root_grid.cpp": {
+      "sha256": "c58fc6b68df54c58e99c72f023312aa2d3226f3c8ff85d8c8cf8aacac80540bd",
+      "bytes": 6186
+    },
+    "/home/prmi/zwj/hierarchical-progressive-marginal-20261019/progressive_ranker.py": {
+      "sha256": "27853a411ec41ce6d65439f20004dd77384000504aaeedf0157aeb3f87c52236",
+      "bytes": 8335
+    },
+    "/home/prmi/zwj/hierarchical-progressive-marginal-20261019/fixed_marginal_reference.py": {
+      "sha256": "c67b72a95b1aaef8f107c7c9ca997ea025fd291473a6969478ae3b66647f0f4a",
+      "bytes": 3137
+    },
+    "/home/prmi/zwj/hierarchical-progressive-marginal-20261019/common.py": {
+      "sha256": "e698db03769cd1d8157a061800c267d07dd4b75539be2499ea912328c58fc6ca",
+      "bytes": 2760
+    },
+    "/home/prmi/zwj/hierarchical-progressive-marginal-20261019/evaluate.py": {
+      "sha256": "b36e26d52c0f66038055735ef3003a54936237abaa0c458cbc1cae3c5155b9ca",
+      "bytes": 1771
+    }
+  },
+  "artifact_sha": {
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/ranking_inputs.npz": "86a06e6b9d7f7cdce27a07ff30c8ce46e645a4ad9ebe725d5760c43005029602",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/hierarchy_input.bin": "9518c1b79e2bd00f499fcbb81244c7a82be9cc10c3f0610ed745695a99a67fac",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/frozen_input_arrays.npz": "04810e58b90b022764fc89b00509bc138cac77f63202ba263035f9a1d638ae2a",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/quality_summary.csv": "4b06eea5c49bc280f9b2fb75b2ff511ff5a08df40dac49c575376d51472e80d9",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/quality_per_view.csv": "29469b9f1e785bcb1de9952d8a853fef1ce22bdca05a4f460e829d6d4e49e638",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/arm_rankings.npz": "3f60c56296498dcdffd8299bec61ed3bc6bd87a1891b27235080f1072cbf1905",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/new_arm_rankings.npz": "12e2cd9179a4ef9f3a99ab4b7165734d3a9f83b8ddc664e92efaa173799e7c34",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/structure_run1/sparse_hash_target_2048_tree.csv": "7a296f65a278cdd202b67a0bae8a9c679f69989a4cb62f05b92ad2633c2a34eb",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/structure_run1/sparse_hash_target_2048.bin": "0105008300806e505cba922a8f90f9fce8a9df4e6eff3320e4ea4d822298dfda",
+    "/home/prmi/zwj/hierarchical-xyz-f1f2-mechanism-20261019/fr1_xyz/structure_run1/sparse_hash_target_2048_telemetry.json": "689898dd64d74899ec6a461e50765dc324dd9b2dd68f2e4ba083a09515474bbc"
+  },
+  "source_math": {
+    "progressive_ranker.py": "27853a411ec41ce6d65439f20004dd77384000504aaeedf0157aeb3f87c52236",
+    "fixed_marginal_reference.py": "c67b72a95b1aaef8f107c7c9ca997ea025fd291473a6969478ae3b66647f0f4a",
+    "common.py": "e698db03769cd1d8157a061800c267d07dd4b75539be2499ea912328c58fc6ca",
+    "evaluate.py": "b36e26d52c0f66038055735ef3003a54936237abaa0c458cbc1cae3c5155b9ca",
+    "audit_worker": "cf47b087a4b09a2e34a595580485896669f1247f0d9a2aa52edda79ac85259a2"
+  },
+  "camera_sha256": "684882bed264ddfc1dfdaca74eab0168f9b7d255e120e3d18aa2d3cdfb5fc074",
+  "preregistration_sha256": "7edc5589b72be28bf69b5859217f90cd563cbe8473c008e2f647b32653284cbd"
+}

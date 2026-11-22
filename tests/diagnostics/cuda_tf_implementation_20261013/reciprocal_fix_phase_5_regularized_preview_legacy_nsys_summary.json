@@ -1,0 +1,516 @@
+{
+  "protocol": {
+    "N": 8491,
+    "warmup": 100,
+    "captured_iterations": 10,
+    "mode": "regularized_preview",
+    "trace": "cuda,nvtx",
+    "cpu_sampling": false
+  },
+  "stages": {
+    "backward": {
+      "cpu_nvtx_mean_ms": 13.1368517,
+      "kernels_per_iteration": 602.0,
+      "kernel_active_ms_per_iteration": 2.217396,
+      "copies_per_iteration": 156.0,
+      "memsets_per_iteration": 4.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 13.197432,
+          "device_work_active_ms": 2.695615,
+          "gap_fraction": 0.7957470059326693
+        },
+        {
+          "span_ms": 12.935449,
+          "device_work_active_ms": 2.645269,
+          "gap_fraction": 0.7955023439851219
+        },
+        {
+          "span_ms": 12.916665,
+          "device_work_active_ms": 2.646129,
+          "gap_fraction": 0.7951383735662417
+        },
+        {
+          "span_ms": 12.970873,
+          "device_work_active_ms": 2.676612,
+          "gap_fraction": 0.7936444216206573
+        },
+        {
+          "span_ms": 12.933657,
+          "device_work_active_ms": 2.661923,
+          "gap_fraction": 0.7941863619856318
+        },
+        {
+          "span_ms": 12.947161,
+          "device_work_active_ms": 2.64257,
+          "gap_fraction": 0.7958957952249146
+        },
+        {
+          "span_ms": 12.968217,
+          "device_work_active_ms": 2.660663,
+          "gap_fraction": 0.7948320112163453
+        },
+        {
+          "span_ms": 13.503223,
+          "device_work_active_ms": 2.660961,
+          "gap_fraction": 0.8029388243088336
+        },
+        {
+          "span_ms": 12.965977,
+          "device_work_active_ms": 2.632725,
+          "gap_fraction": 0.7969512825759293
+        },
+        {
+          "span_ms": 12.925305,
+          "device_work_active_ms": 2.639021,
+          "gap_fraction": 0.7958252435822597
+        }
+      ]
+    },
+    "forward": {
+      "cpu_nvtx_mean_ms": 1.4819928,
+      "kernels_per_iteration": 81.0,
+      "kernel_active_ms_per_iteration": 0.42720020000000003,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 1.651191,
+          "device_work_active_ms": 0.428863,
+          "gap_fraction": 0.7402705077728742
+        },
+        {
+          "span_ms": 1.426392,
+          "device_work_active_ms": 0.426552,
+          "gap_fraction": 0.7009573805798126
+        },
+        {
+          "span_ms": 1.415704,
+          "device_work_active_ms": 0.433085,
+          "gap_fraction": 0.6940850629792669
+        },
+        {
+          "span_ms": 1.454104,
+          "device_work_active_ms": 0.433825,
+          "gap_fraction": 0.7016547647210929
+        },
+        {
+          "span_ms": 1.419768,
+          "device_work_active_ms": 0.43046,
+          "gap_fraction": 0.6968096195998219
+        },
+        {
+          "span_ms": 1.419,
+          "device_work_active_ms": 0.425274,
+          "gap_fraction": 0.7003002114164905
+        },
+        {
+          "span_ms": 1.413753,
+          "device_work_active_ms": 0.425758,
+          "gap_fraction": 0.6988455550580618
+        },
+        {
+          "span_ms": 1.410808,
+          "device_work_active_ms": 0.420957,
+          "gap_fraction": 0.7016199227676623
+        },
+        {
+          "span_ms": 1.52716,
+          "device_work_active_ms": 0.418497,
+          "gap_fraction": 0.7259638806673826
+        },
+        {
+          "span_ms": 1.421816,
+          "device_work_active_ms": 0.428731,
+          "gap_fraction": 0.6984623889448424
+        }
+      ]
+    },
+    "loss": {
+      "cpu_nvtx_mean_ms": 0.1005735,
+      "kernels_per_iteration": 7.0,
+      "kernel_active_ms_per_iteration": 0.030041400000000003,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 0.079007,
+          "device_work_active_ms": 0.030432,
+          "gap_fraction": 0.6148189400939157
+        },
+        {
+          "span_ms": 0.075744,
+          "device_work_active_ms": 0.029888,
+          "gap_fraction": 0.6054076890578792
+        },
+        {
+          "span_ms": 0.074879,
+          "device_work_active_ms": 0.030014,
+          "gap_fraction": 0.5991666555376007
+        },
+        {
+          "span_ms": 0.077855,
+          "device_work_active_ms": 0.029952,
+          "gap_fraction": 0.6152848243529638
+        },
+        {
+          "span_ms": 0.07712,
+          "device_work_active_ms": 0.030048,
+          "gap_fraction": 0.6103734439834025
+        },
+        {
+          "span_ms": 0.077184,
+          "device_work_active_ms": 0.029986,
+          "gap_fraction": 0.6114997927031509
+        },
+        {
+          "span_ms": 0.076703,
+          "device_work_active_ms": 0.03027,
+          "gap_fraction": 0.6053609376425955
+        },
+        {
+          "span_ms": 0.078752,
+          "device_work_active_ms": 0.03008,
+          "gap_fraction": 0.6180414465664363
+        },
+        {
+          "span_ms": 0.076448,
+          "device_work_active_ms": 0.029856,
+          "gap_fraction": 0.609460025115111
+        },
+        {
+          "span_ms": 0.077024,
+          "device_work_active_ms": 0.029888,
+          "gap_fraction": 0.6119651017864562
+        }
+      ]
+    },
+    "optimizer": {
+      "cpu_nvtx_mean_ms": 3.9787912999999997,
+      "kernels_per_iteration": 260.0,
+      "kernel_active_ms_per_iteration": 0.7125053,
+      "copies_per_iteration": 104.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 3.922859,
+          "device_work_active_ms": 1.008983,
+          "gap_fraction": 0.7427939673590104
+        },
+        {
+          "span_ms": 3.889546,
+          "device_work_active_ms": 1.01043,
+          "gap_fraction": 0.7402190384173372
+        },
+        {
+          "span_ms": 3.873099,
+          "device_work_active_ms": 1.007406,
+          "gap_fraction": 0.7398966563984035
+        },
+        {
+          "span_ms": 3.881771,
+          "device_work_active_ms": 1.010109,
+          "gap_fraction": 0.7397814039004362
+        },
+        {
+          "span_ms": 3.888107,
+          "device_work_active_ms": 1.010108,
+          "gap_fraction": 0.740205709359336
+        },
+        {
+          "span_ms": 3.889482,
+          "device_work_active_ms": 1.01093,
+          "gap_fraction": 0.7400862119942964
+        },
+        {
+          "span_ms": 3.890315,
+          "device_work_active_ms": 1.012371,
+          "gap_fraction": 0.7397714580952957
+        },
+        {
+          "span_ms": 4.234153,
+          "device_work_active_ms": 1.020722,
+          "gap_fraction": 0.7589312431553608
+        },
+        {
+          "span_ms": 3.880522,
+          "device_work_active_ms": 1.012697,
+          "gap_fraction": 0.7390307283401563
+        },
+        {
+          "span_ms": 3.870155,
+          "device_work_active_ms": 1.011896,
+          "gap_fraction": 0.7385386373413985
+        }
+      ]
+    },
+    "regularization": {
+      "cpu_nvtx_mean_ms": 1.7288801999999999,
+      "kernels_per_iteration": 93.0,
+      "kernel_active_ms_per_iteration": 0.3966051,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 6.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 1.794806,
+          "device_work_active_ms": 0.407997,
+          "gap_fraction": 0.772679052777849
+        },
+        {
+          "span_ms": 1.696118,
+          "device_work_active_ms": 0.404731,
+          "gap_fraction": 0.7613780409146061
+        },
+        {
+          "span_ms": 1.689975,
+          "device_work_active_ms": 0.399487,
+          "gap_fraction": 0.7636136629240078
+        },
+        {
+          "span_ms": 1.691287,
+          "device_work_active_ms": 0.402554,
+          "gap_fraction": 0.7619836254875725
+        },
+        {
+          "span_ms": 1.695702,
+          "device_work_active_ms": 0.403039,
+          "gap_fraction": 0.7623173175475408
+        },
+        {
+          "span_ms": 1.693047,
+          "device_work_active_ms": 0.39347,
+          "gap_fraction": 0.7675965286256081
+        },
+        {
+          "span_ms": 1.688887,
+          "device_work_active_ms": 0.401181,
+          "gap_fraction": 0.7624583527494735
+        },
+        {
+          "span_ms": 1.695222,
+          "device_work_active_ms": 0.416956,
+          "gap_fraction": 0.7540404737550598
+        },
+        {
+          "span_ms": 1.781046,
+          "device_work_active_ms": 0.409182,
+          "gap_fraction": 0.770257477909049
+        },
+        {
+          "span_ms": 1.685911,
+          "device_work_active_ms": 0.398785,
+          "gap_fraction": 0.763460230107046
+        }
+      ]
+    },
+    "synchronize": {
+      "cpu_nvtx_mean_ms": 0.008476899999999999,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": []
+    },
+    "zero_grad": {
+      "cpu_nvtx_mean_ms": 0.0335286,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": []
+    }
+  },
+  "per_iteration": [
+    {
+      "instrumented_wall_ms": 21.016106,
+      "device_work_active_ms": 4.57189,
+      "gap_fraction": 0.782457796891584
+    },
+    {
+      "instrumented_wall_ms": 20.277502,
+      "device_work_active_ms": 4.51687,
+      "gap_fraction": 0.7772472171374956
+    },
+    {
+      "instrumented_wall_ms": 20.210628,
+      "device_work_active_ms": 4.516121,
+      "gap_fraction": 0.776547220600963
+    },
+    {
+      "instrumented_wall_ms": 20.316918,
+      "device_work_active_ms": 4.553052,
+      "gap_fraction": 0.7758984901154791
+    },
+    {
+      "instrumented_wall_ms": 20.258809,
+      "device_work_active_ms": 4.535578,
+      "gap_fraction": 0.7761182308397301
+    },
+    {
+      "instrumented_wall_ms": 20.262136,
+      "device_work_active_ms": 4.50223,
+      "gap_fraction": 0.7778008202096758
+    },
+    {
+      "instrumented_wall_ms": 20.283372,
+      "device_work_active_ms": 4.530243,
+      "gap_fraction": 0.7766523731852869
+    },
+    {
+      "instrumented_wall_ms": 21.45247,
+      "device_work_active_ms": 4.549676,
+      "gap_fraction": 0.7879183143013369
+    },
+    {
+      "instrumented_wall_ms": 20.493711,
+      "device_work_active_ms": 4.502957,
+      "gap_fraction": 0.7802761539869475
+    },
+    {
+      "instrumented_wall_ms": 20.215051,
+      "device_work_active_ms": 4.508321,
+      "gap_fraction": 0.7769819625980662
+    }
+  ],
+  "kernels_per_iteration": 1043.0,
+  "short_kernel_fraction": 0.9718120805369127,
+  "copy_kinds": {
+    "8": 2600
+  },
+  "kernel_counts": {
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<float>, at::detail::Array<char *, (int)1>>(int, T2, T3)": 2490,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<float>, at::detail::Array<char *, (int)3>>(int, T2, T3)": 1910,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 250,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)2>>(int, T2, T3)": 740,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 100,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctorOnSelf_add<float>, at::detail::Array<char *, (int)2>>(int, T2, T3)": 270,
+    "void at::native::<unnamed>::CatArrayBatchedCopy_aligned16_contig<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsigned int, (int)2, (int)128, (int)1>(T1 *, at::native::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::native::<unnamed>::TensorSizeStride<T2, (unsigned int)4>, int, T2)": 20,
+    "void at::native::<unnamed>::CatArrayBatchedCopy<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsigned int, (int)2, (int)64, (int)64>(T1 *, at::native::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::native::<unnamed>::TensorSizeStride<T2, (unsigned int)4>, int, T2)": 130,
+    "void at::native::<unnamed>::grid_sampler_2d_kernel<float, int>(T2, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::native::detail::GridSamplerInterpolation, at::native::detail::GridSamplerPadding, bool)": 120,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)3>>(int, T2, T3)": 360,
+    "ampere_sgemm_32x128_tn": 70,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::launch_clamp_scalar(at::TensorIteratorBase &, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)": 80,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::exp_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 2)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)": 10,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::FillFunctor<float>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 10,
+    "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4>>(T3)": 90,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::sqrt_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 2)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)": 280,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 360,
+    "void at::native::cross_kernel<float, OffsetCalculator<(int)3, unsigned int, (bool)0>, int>(int, T1 *, const T1 *, const T1 *, T2, T3, T3, T3)": 30,
+    "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, float>, unsigned int, float, (int)4>>(T3)": 210,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float>>, at::detail::Array<char *, (int)3>>(int, T2, T3)": 40,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::AbsFunctor<float>, at::detail::Array<char *, (int)2>>(int, T2, T3)": 60,
+    "void at::native::vectorized_elementwise_kernel<(int)4, void at::native::<unnamed>::pow_tensor_scalar_kernel_impl<float, float>(at::TensorIteratorBase &, T2)::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)": 120,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 210,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::neg_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)": 320,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 820,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::sign_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)": 60,
+    "void at::native::vectorized_elementwise_kernel<(int)4, void at::native::compare_scalar_kernel<float>(at::TensorIteratorBase &, at::native::<unnamed>::OpType, T1)::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)": 20,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::<unnamed>::where_kernel_impl(at::TensorIterator &)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(bool, float, float) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 20,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::neg_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 10,
+    "ampere_sgemm_32x128_nn": 70,
+    "ampere_sgemm_32x32_sliced1x4_nt": 70,
+    "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)": 70,
+    "void at::native::reduce_kernel<(int)128, (int)4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4>>(T3)": 50,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, void at::native::<unnamed>::threshold_kernel_impl<float>(at::TensorIteratorBase &, T1, T1)::[lambda(float, float) (instance 1)]>, at::detail::Array<char *, (int)3>>(int, T2, T3)": 60,
+    "void at::native::<unnamed>::grid_sampler_2d_backward_kernel<float, int>(T2, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::native::detail::GridSamplerInterpolation, at::native::detail::GridSamplerPadding, bool, T2, bool)": 120,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::addcmul_cuda_kernel(at::TensorIteratorBase &, const c10::Scalar &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float, float, float) (instance 1)], at::detail::Array<char *, (int)4>>(int, T2, T3)": 260,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)2>>(int, T2, T3)": 260,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::addcdiv_cuda_kernel(at::TensorIteratorBase &, const c10::Scalar &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float, float, float) (instance 1)], at::detail::Array<char *, (int)4>>(int, T2, T3)": 260
+  },
+  "top20_kernels": [
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<float>, at::detail::Array<char *, (int)1>>(int, T2, T3)",
+      "total_ms": 5.863434
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<float>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+      "total_ms": 5.417985
+    },
+    {
+      "name": "void at::native::<unnamed>::grid_sampler_2d_backward_kernel<float, int>(T2, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::native::detail::GridSamplerInterpolation, at::native::detail::GridSamplerPadding, bool, T2, bool)",
+      "total_ms": 4.815556
+    },
+    {
+      "name": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "total_ms": 2.593524
+    },
+    {
+      "name": "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, float>, unsigned int, float, (int)4>>(T3)",
+      "total_ms": 1.970807
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)2>>(int, T2, T3)",
+      "total_ms": 1.870868
+    },
+    {
+      "name": "ampere_sgemm_32x128_tn",
+      "total_ms": 1.534871
+    },
+    {
+      "name": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "total_ms": 1.280702
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+      "total_ms": 1.039541
+    },
+    {
+      "name": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "total_ms": 0.892405
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::neg_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)",
+      "total_ms": 0.866882
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::addcdiv_cuda_kernel(at::TensorIteratorBase &, const c10::Scalar &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float, float, float) (instance 1)], at::detail::Array<char *, (int)4>>(int, T2, T3)",
+      "total_ms": 0.823127
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::sqrt_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 2)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)",
+      "total_ms": 0.76754
+    },
+    {
+      "name": "void at::native::<unnamed>::grid_sampler_2d_kernel<float, int>(T2, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::cuda::detail::TensorInfo<T1, T2>, at::native::detail::GridSamplerInterpolation, at::native::detail::GridSamplerPadding, bool)",
+      "total_ms": 0.73695
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::addcmul_cuda_kernel(at::TensorIteratorBase &, const c10::Scalar &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float, float, float) (instance 1)], at::detail::Array<char *, (int)4>>(int, T2, T3)",
+      "total_ms": 0.704443
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctorOnSelf_add<float>, at::detail::Array<char *, (int)2>>(int, T2, T3)",
+      "total_ms": 0.683163
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)2>>(int, T2, T3)",
+      "total_ms": 0.655066
+    },
+    {
+      "name": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "total_ms": 0.646247
+    },
+    {
+      "name": "ampere_sgemm_32x32_sliced1x4_nt",
+      "total_ms": 0.561535
+    },
+    {
+      "name": "void at::native::<unnamed>::CatArrayBatchedCopy<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsigned int, (int)2, (int)64, (int)64>(T1 *, at::native::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::native::<unnamed>::TensorSizeStride<T2, (unsigned int)4>, int, T2)",
+      "total_ms": 0.482076
+    }
+  ],
+  "runtime_api_counts": {
+    "cudaEventRecord_v3020": 60,
+    "cudaLaunchKernel_v7000": 10430,
+    "cudaOccupancyMaxActiveBlocksPerMultiprocessor_v6050": 250,
+    "cudaMemsetAsync_v3020": 100,
+    "cudaMemcpyAsync_v3020": 2600,
+    "cudaEventSynchronize_v3020": 10
+  },
+  "forbidden_kernel_counts": {
+    "grid_sampler": 240,
+    "CatArrayBatchedCopy": 150,
+    "elementwise_kernel": 9380
+  },
+  "limitation": "Nsight instrumented wall and span gaps are not uninstrumented Mapping performance."
+}

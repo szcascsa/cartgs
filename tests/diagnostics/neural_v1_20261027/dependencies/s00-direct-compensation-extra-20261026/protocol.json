@@ -1,0 +1,27 @@
+{
+  "scene": "fr1_xyz",
+  "seed": 3100,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "training_ratios": [0.01, 0.05, 0.1, 0.15],
+  "unseen_ratios": [0.025, 0.075, 0.125],
+  "candidates": [
+    {"id":"DirectRawE32", "shared":0, "ratio":0, "extra":32, "selector_depth":1, "compensation_depth":2, "compensation_input":"raw11"},
+    {"id":"RawSharedE16", "shared":0, "ratio":0, "extra":16, "selector_depth":1, "compensation_depth":2, "compensation_input":"raw11", "attach_shared":true}
+  ],
+  "input_layout": "raw11, per-Anchor per-ratio latent32/16, then optional original shared h32; input widths43/59, hidden32->32, output14",
+  "initialization": "same encoder/Selector/compensation second and output layers; zero compensation output; same raw11/first16 latent projection columns and bias as previous DirectRawE16; extra32 extends original28-column reservoir without changing first16; appended shared32 initialized independently at same small scale",
+  "previous_control": "/home/prmi/zwj/s00-direct-compensation-20261026/results/fr1_xyz/DirectRawE16/3100",
+  "frozen": "Master all attributes, Gaussian IDs, Anchor ownership/centers/scales, cameras, eligible and cached uniforms",
+  "trainable": "original encoder/Selector, current-ratio Anchor compensation latent and compensation head; shared h32 is not detached in RawSharedE16",
+  "optimizer": "unchanged Adam fused lr=.001 eps1e-15",
+  "loss": "unchanged 0.8L1+0.2(1-fast_ssim)+.01 relative expected-budget L1",
+  "training_selection": "original cached Bernoulli; same deterministic Bank schedule",
+  "evaluation": "final12000 only, 13 internal-Bank holdout plus45 historical nonBank, exact sameK logit(p)-logit(u) and cached actualK, all4 metrics",
+  "interpolation": "unseen ratio linearly interpolates Anchor latent in raw ratio, then same head; never optimize unseen ratios",
+  "scope": "two new single-seed frozen-map models, no online SLAM or production change; no inference of stable improvement",
+  "no_hparam_search": true,
+  "no_early_stop": true,
+  "no_stage_commit_push": true,
+  "execution_workers": 1
+}

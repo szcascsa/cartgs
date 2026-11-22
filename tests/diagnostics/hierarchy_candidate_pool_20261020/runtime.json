@@ -1,0 +1,72 @@
+[
+  {
+    "scene": "hierarchy-candidate-pool-20261020",
+    "stage": "prepare",
+    "wall_seconds": 7.8883260153234005
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "baseline",
+    "wall_seconds": 47.800777696073055
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "baseline",
+    "wall_seconds": 26.61258701235056
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "baseline",
+    "wall_seconds": 30.075535375624895
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "pools",
+    "wall_seconds": 1.2569731175899506
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "pools",
+    "wall_seconds": 0.8526538796722889
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "pools",
+    "wall_seconds": 1.0866362191736698
+  },
+  {
+    "scene": "hierarchy-candidate-pool-20261020",
+    "stage": "independent_check",
+    "wall_seconds": 0.5561325885355473
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "quality",
+    "wall_seconds": 24.25880402699113
+  },
+  {
+    "scene": "fr1_room",
+    "stage": "diagnostics",
+    "wall_seconds": 1.614424116909504
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "quality",
+    "wall_seconds": 10.583714995533228
+  },
+  {
+    "scene": "fr1_xyz",
+    "stage": "diagnostics",
+    "wall_seconds": 0.6112914383411407
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "quality",
+    "wall_seconds": 9.052980303764343
+  },
+  {
+    "scene": "fr2_xyz",
+    "stage": "diagnostics",
+    "wall_seconds": 1.208463165909052
+  }
+]

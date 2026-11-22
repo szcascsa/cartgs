@@ -1,0 +1,18 @@
+{
+  "HEAD": "40751d07e194aaaa997d06bdea14d90f813b1222",
+  "branch": "redundancy-aware-si",
+  "initial_status": " M CMakeLists.txt\n M cfg/selector/fast.yaml\n M cfg/selector/selector_config.yaml\n M include/gaussian_mapper.h\n M include/global_gi_bank.h\n M src/gaussian_mapper.cpp\n?? HIERARCHICAL_REPRESENTATIVE_SI_IMPLEMENTATION_REPORT.md\n?? SPARSE_HASH_ROOT_GRID_AUDIT.md\n?? STREAMING_GI_CURRENT_REPORT.md\n?? include/hierarchical_representative_si.h\n?? include/sparse_hash_root_grid.h\n?? src/hierarchical_representative_si.cpp\n?? src/sparse_hash_root_grid.cpp\n?? tests/__pycache__/\n?? tests/diagnostics/change_distill_optimization_20261017/__pycache__/\n?? tests/diagnostics/change_distill_optimization_20261017/deployment_20261018/__pycache__/\n?? tests/diagnostics/change_distill_performance_20261017/__pycache__/\n?? tests/diagnostics/change_distill_tf_multi_ratio_20261018/__pycache__/\n?? tests/diagnostics/cuda_selector_backward_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_direct_parity_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_implementation_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_revised_20261015/__pycache__/\n?? tests/diagnostics/hierarchical_representative_si_20261019/\n?? tests/diagnostics/original_tf_cuda_audit_20261013/__pycache__/\n?? tests/diagnostics/sparse_hash_root_grid_20261019/\n?? tests/diagnostics/ultralight_mode2_20261014/__pycache__/\n?? tests/hierarchical_representative_si_test.cpp\n?? tests/sparse_hash_root_grid_test.cpp\n",
+  "frozen_local_source": {
+    "include/hierarchical_representative_si.h": "cfbd98f272c3385d1b8bfa930fde452e82bd4569df80c3e70f3533add4beaa7a",
+    "src/hierarchical_representative_si.cpp": "62f63b866677239acc07ceb26296295dfc7e81289f6da2a9aef82f886591dee6",
+    "include/sparse_hash_root_grid.h": "a9b96f8778eada225553206df78ef1fa0781f33f818cd66ffc84f2e42b4ac940",
+    "src/sparse_hash_root_grid.cpp": "c58fc6b68df54c58e99c72f023312aa2d3226f3c8ff85d8c8cf8aacac80540bd",
+    "src/gaussian_mapper.cpp": "abb65744a772230083b273d89f968c7a2862d811e4ce77d58e64580c6df3cdcc",
+    "src/global_gi.cpp": "93a22b400142381d3390d820aa989b3cbe9013898218f0c5a4e6a27ee6a5bd8d",
+    "src/gi_teacher.cpp": "71ec10c0a1a36d514ce7ca1ff57ab2d57fb868ff7074d87433c02060bcf41921",
+    "cfg/selector/fast.yaml": "7b0e549acb109004b7ac0951d884d70d86c12e98c14a7f49562659f5d5cfc316",
+    "cfg/selector/selector_config.yaml": "5bf019dbd0f2ec59fe138002f0d652ad904d63083aa88e7871b819b778ba4d1b",
+    "SPARSE_HASH_ROOT_GRID_AUDIT.md": "a2378bd52453d692dd89ca7502d7a8c1473ee62407f79a92c5bab236414ddb70"
+  },
+  "quality_started": false
+}

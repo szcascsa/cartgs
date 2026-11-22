@@ -1,0 +1,47 @@
+{
+  "tier": "screen_I",
+  "scene": "fr1_xyz",
+  "source_seed": 3100,
+  "jobs": [
+    {
+      "config": {
+        "id": "Reference59",
+        "kind": "reference59"
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "RawPure",
+        "kind": "self",
+        "raw_only": true,
+        "width": 64,
+        "film": false
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "PhysicalFiLM",
+        "kind": "self",
+        "width": 64,
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialFiLM",
+        "kind": "self",
+        "width": 64,
+        "film": true,
+        "bands": 6
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

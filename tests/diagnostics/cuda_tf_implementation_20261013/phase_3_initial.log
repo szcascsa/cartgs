@@ -1,0 +1,36 @@
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+-- Autodetected CUDA architecture(s):  8.6
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+-- Configuring done (0.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/prmi/zwj/mycartgs/tests/diagnostics/cuda_tf_implementation_20261013/build
+[ 11%] Building CUDA object CMakeFiles/tf_cuda.dir/home/prmi/zwj/mycartgs/src/transform_field_cuda_regularization.cu.o
+[ 22%] Linking CXX static library libtf_cuda.a
+[ 55%] Built target tf_cuda
+[ 66%] Linking CXX executable cuda_tf_regularization_test
+[100%] Built target cuda_tf_regularization_test
+[ 50%] Built target tf_cuda
+[ 60%] Linking CXX executable training_benchmark
+[100%] Built target training_benchmark
+phase D passed
+terminate called after throwing an instance of 'c10::Error'
+  what():  Only Tensors of floating point and complex dtype can require gradients
+Exception raised from set_requires_grad at /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/autograd/variable.h:267 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7f747903b2ac in /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, char const*) + 0x84 (0x7f7478fe4dd0 in /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libc10.so)
+frame #2: std::_MakeUniq<torch::autograd::AutogradMeta>::__single_object std::make_unique<torch::autograd::AutogradMeta, c10::TensorImpl*, bool&>(c10::TensorImpl*&&, bool&) + 0x17f (0x55721675677f in build/training_benchmark)
+frame #3: <unknown function> + 0x1c0dc (0x5572167570dc in build/training_benchmark)
+frame #4: <unknown function> + 0x28a81 (0x557216763a81 in build/training_benchmark)
+frame #5: <unknown function> + 0x2d8fe (0x5572167688fe in build/training_benchmark)
+frame #6: <unknown function> + 0x1a1fc (0x5572167551fc in build/training_benchmark)
+frame #7: <unknown function> + 0x145f3 (0x55721674f5f3 in build/training_benchmark)
+frame #8: __libc_start_main + 0xf3 (0x7f7472b6d083 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #9: <unknown function> + 0x1757e (0x55721675257e in build/training_benchmark)
+
+run_phase_3.sh：行 12: 3150387 已放弃               build/training_benchmark "$CHECKPOINT" ../original_tf_cuda_audit_20261013/input.bin phase_3

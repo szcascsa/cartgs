@@ -1,0 +1,648 @@
+{
+  "date": "2026-10-26",
+  "scope": "local evidence synthesis only; no new experiments or production edits",
+  "git_before": {
+    "head": "27b943956894367632b1a50562fd16e90d51ae8e",
+    "branch": "anchor-si",
+    "tracked_status": " M CMakeLists.txt\n M cfg/selector/selector_config.yaml\n M cuda_rasterizer/forward.cu\n M cuda_rasterizer/forward.h\n M cuda_rasterizer/rasterize_points.cu\n M cuda_rasterizer/rasterizer.h\n M cuda_rasterizer/rasterizer_impl.cu\n M improvements/selector/anchor_bank.h\n M improvements/selector/gumbel_network.h\n M include/gaussian_mapper.h\n M include/ultrafast_rotation.h\n M python/selector.py\n M src/gaussian_mapper.cpp\n M tests/post_topology_full_test.cpp\n M tests/ultra_light_schedule_test.cpp\n M tests/ultrafast_mapping_test.cpp\n M tests/ultrafast_rotation_test.cpp\n",
+    "tracked_diff_sha256": "5c44c3a1ff8e11ff19e5d87c322683bfcdaa1833241385396acb1f5655248abd",
+    "staged_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "files": {
+    "RECENT_LOD_EXPERIMENTS_SYNTHESIS_REPORT.md": {
+      "bytes": 37948,
+      "sha256": "edab934dd419675e284a33de087616c77b31f3d3e48c685dacc85ae38f8dbf06"
+    },
+    "RENDER_QUALITY_BOTTLENECK_AUDIT.md": {
+      "bytes": 21117,
+      "sha256": "2411a99bb8aee284f3e327cf1ddd63ca67f98149f86862a222465f7edad34b45"
+    },
+    "GAUSSIAN_PRIVATE_COMPENSATION_AUDIT.md": {
+      "bytes": 21402,
+      "sha256": "5fc7a833e85b5672931b4788affe1e994f82fe232ffed8cdd06dd0e021a657de"
+    },
+    "RATIO_CONDITIONED_PRIVATE_COMPENSATION_AUDIT.md": {
+      "bytes": 22105,
+      "sha256": "138efdca3530187fe908a41bc297f6aa5175ebe7880a53a26d2e94d2802474f4"
+    },
+    "COMPENSATION_ROOT_CAUSE_AUDIT.md": {
+      "bytes": 34383,
+      "sha256": "98ef68f723c1033016d83b74e20a96e63aaa9310e2329f127a2b0695d2a5ac13"
+    },
+    "ANCHOR_RATIO_SCALAR_INPUT_AUDIT.md": {
+      "bytes": 7479,
+      "sha256": "b7a0b734dcdd5a94be60d00cf66bbbfcb29de04636d910ed1c669ab02c5be743"
+    },
+    "ANCHOR_SHARED16_RATIO8_AUDIT.md": {
+      "bytes": 7885,
+      "sha256": "767512d6c854b92779f1964828d0f089e768cb96fa7f3f7faf2cb881d92cd209"
+    },
+    "SELECTOR_CAPACITY_MATRIX_AUDIT.md": {
+      "bytes": 20029,
+      "sha256": "fff18649b685f20312eccb539bf3d933dd18874cddeac7896f6a25db5d56b4fd"
+    },
+    "S00_E50_COMPENSATION_AUDIT.md": {
+      "bytes": 7424,
+      "sha256": "ed74d61f274ef8149df78f5fd31a5c36be2a032e25b18f546694890a81bd761b"
+    },
+    "S00_DIRECT_COMPENSATION_AUDIT.md": {
+      "bytes": 7646,
+      "sha256": "bb10cf36b985f41992bbcd91c39cd9ae8b013f9b0dd2764b400f108a37ab0625"
+    },
+    "S00_DIRECT_COMPENSATION_EXTRA_AUDIT.md": {
+      "bytes": 5810,
+      "sha256": "6b25df7b2d3d21248e7727e9eae67b4dee8a93d92527c2bcbca9cc44d8c753c4"
+    },
+    "S00_RAW_SHARED_DEPTH_AUDIT.md": {
+      "bytes": 5180,
+      "sha256": "6cb8720f881b0d62251c6ee5db7b7c1cd4c390e394320b4ad122f0e53755436e"
+    },
+    "S00_RAW_SHARED_SPLIT_AUDIT.md": {
+      "bytes": 6992,
+      "sha256": "badab0e73d9917ccff05d6a686a40a18bbebff44a379b6e957a4390f7c1daf71"
+    },
+    "SPLIT_WIDE_ROTATION_COMPENSATION_AUDIT.md": {
+      "bytes": 11652,
+      "sha256": "b9eee532a730f6e2fb14930ea6d05c75eb7cf75beeec5baca7914fdba94b862c"
+    },
+    "SPLIT_HEAD_NO_RAW_COMPENSATION_AUDIT.md": {
+      "bytes": 6478,
+      "sha256": "be7bfb5ec0d24b9a8613eaa9c3a7c44de1170602f38e0dfdf414b2b16ba53219"
+    },
+    "COMPENSATION_PRIVATE_ENCODER_AUDIT.md": {
+      "bytes": 7765,
+      "sha256": "de15dff772157ae86f8900411d1534e16dc969fdc4c673d87aaf4ad33be65c81"
+    },
+    "ROTATION_ENCODER_COMPENSATION_AUDIT.md": {
+      "bytes": 5042,
+      "sha256": "288caeb2db6c6b2151a216cfc33ad13ef657fdbcde843fb1a4fb25fb16ecede5"
+    },
+    "XYZ_ONLY_COMPENSATION_AUDIT.md": {
+      "bytes": 5744,
+      "sha256": "1476220e9b96fdcf97ca4d8b1d830af00288680728633d7ab6ae66b613edcc37"
+    },
+    "XYZ_SCALE_OPACITY_COMPENSATION_AUDIT.md": {
+      "bytes": 5083,
+      "sha256": "e5efe1d4506d59ef55bafca44be5aed06502f899f17bd482208b210faa1b5984"
+    },
+    "OFFSET_SHDC_INPUT_AUDIT.md": {
+      "bytes": 6429,
+      "sha256": "bc7a45c80ee2c022ddf3c7cdf619b27575595ad42a20bb24c4cc9b5048e55e52"
+    },
+    "OFFSET_ENCODER16_RELU_COMPENSATION_AUDIT.md": {
+      "bytes": 5845,
+      "sha256": "0d4df7743d434132fdb68e290248e54b53e5c5d10e0ebdf911dba4e677b3c373"
+    },
+    "ENCODER_OPTIMIZATION_AUDIT.md": {
+      "bytes": 9078,
+      "sha256": "6185f633c566f9288940a33ff6aafd9dabb6603943710327b4f2374bb89bfe9c"
+    },
+    "SHALLOW_DC_COMPENSATION_AUDIT.md": {
+      "bytes": 6685,
+      "sha256": "b089360c27edf40f3311c1959bd305d11efe131b49c69b5a5cce3010f9d628d1"
+    },
+    "BASELINE_GLOBAL_XYZ_AUDIT.md": {
+      "bytes": 7385,
+      "sha256": "8532f0d8d5887fe3f25fc3abf14909fa413931c13ae5d55d60baf1f4c0a64b9e"
+    },
+    "SPLIT_SCALE_SAMPLING_FIX_REPORT.md": {
+      "bytes": 12725,
+      "sha256": "3947322b02cacc3df986b28875372408ccf2381b5f0e778c35478de09539da2d"
+    },
+    "cfg/selector/selector_config.yaml": {
+      "bytes": 7774,
+      "sha256": "c589d3149bec03cfc7cabe54562f9d790b9fe13b1d7a34cdf3c204defb113d1f"
+    },
+    "improvements/selector/gumbel_network.h": {
+      "bytes": 34111,
+      "sha256": "4627c8284786e92b143e95923ed5ebebcf1f7f42d264d637cbf04cc83f9de9d2"
+    },
+    "python/selector.py": {
+      "bytes": 29314,
+      "sha256": "07c6fd35e221068ef65784f3ec5831c1ffc2c55dc83cba4a6a0904a32e42caec"
+    },
+    "src/gaussian_model.cpp": {
+      "bytes": 85015,
+      "sha256": "53d81cb23372d9587a8738e4b7cd17e5bcaac8f222ee991bae87a8fe75e76c60"
+    },
+    "tests/diagnostics/s00_baseline_globalxyz_20261026/evidence/results/fr1_xyz/scene_manifest.json": {
+      "bytes": 4091,
+      "sha256": "5ed2ef01bf5fc9c8fdff9959cea64921cb2fea9b0301f10db1956aa939f80c9b"
+    },
+    "tests/diagnostics/s00_baseline_globalxyz_20261026/delivery_verification.json": {
+      "bytes": 1616,
+      "sha256": "ed6a3f6fc4bba4e8ffe0770acc1d07cb620b446ef11c376d94aaec93bf58d561"
+    },
+    "tests/diagnostics/s00_rotation_encoder_20261026/run.py": {
+      "bytes": 9890,
+      "sha256": "e630e91ffcee1e7a75d190ab512722bcd58e8d8ba963abec7551613d8b0714b8"
+    },
+    "tests/diagnostics/s00_split_wide_rotation_20261026/run.py": {
+      "bytes": 9681,
+      "sha256": "5d02e33adcd4ff71af2c5940114d9d5662d0f8e5ea03dac975d5c14cb74aa336"
+    },
+    "tests/diagnostics/s00_baseline_globalxyz_20261026/run.py": {
+      "bytes": 6986,
+      "sha256": "396fbe1f50bdbdac3819bea53fad42c39bbba3b69350dbc37ee57baeb176dd44"
+    },
+    "tests/diagnostics/s00_baseline_globalxyz_20261026/matrix_runtime.py": {
+      "bytes": 17000,
+      "sha256": "9ae25a86d702050c55db2255e6f6cc1f65b4cccd359341166f855f7bcb822025"
+    },
+    "tests/diagnostics/s00_xyz_only_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 8161,
+      "sha256": "b7e16f91080a1719c0f582dc4d63e7c44986f3c3355d394de198edeb4351128a"
+    },
+    "tests/diagnostics/s00_xyz_scale_opacity_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 12544,
+      "sha256": "4dd4d3fb7bb333bb343545a61f27023ad6390e7d04e0cb243afde0cd156d8431"
+    },
+    "tests/diagnostics/s00_offset_shdc_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 15930,
+      "sha256": "f57b777dff0b659291629ad4ffc05060d62505b2b2c9844b540241b092703bc7"
+    },
+    "tests/diagnostics/s00_offset_encoder16_relu_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 12836,
+      "sha256": "8476f78741c39fc4913136ff18a918fbb4937a8f18b9c82757e6e701bf1c643a"
+    },
+    "tests/diagnostics/s00_encoder_optimization_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 20852,
+      "sha256": "03c5ffd5d9050166f06faf86a6a23da77006eaaaa7983a4098269e789427573c"
+    },
+    "tests/diagnostics/s00_shallow_dc_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 12799,
+      "sha256": "f716ed35bea35c745d422c27d5a0ffa56803836b400af9432165be5f938b27a3"
+    },
+    "tests/diagnostics/s00_baseline_globalxyz_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 8631,
+      "sha256": "8445aa8fcd8605405e875790140e9b0daf6e4cb44c133e59db2e2dc684f4e120"
+    },
+    "tests/diagnostics/s00_rotation_encoder_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 10972,
+      "sha256": "cb8f9de182e3c749deb2504a0c1b349c527b24cdcc86056260befba6bcabcfbb"
+    },
+    "tests/diagnostics/s00_split_no_raw_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 5380,
+      "sha256": "95a7a940dead7c9b6c4c5896ae61391542b1172f7fa5ac51ec0246893feef4f1"
+    },
+    "tests/diagnostics/s00_comp_private_encoder_20261026/evidence/analysis/group_summary.csv": {
+      "bytes": 8379,
+      "sha256": "4c3fecab0e1baeb898ad581b9d796642b1938d8c47b1978affe3fb4beb6a16ba"
+    },
+    "tests/diagnostics/selector_capacity_matrix_20261026/evidence/analysis/fr1_xyz_confirm_test_seed_metrics.csv": {
+      "bytes": 11519,
+      "sha256": "70d6d44920388cf1430abec6a7c537fff1cc6c21e49bed9e1d633c9e7f26e5c9"
+    }
+  },
+  "recent_aggregate_metrics": {
+    "s00_xyz_only": {
+      "baseline|same_k": {
+        "seeds": 2,
+        "psnr": 17.244348164210244,
+        "ssim": 0.6018460335239532,
+        "lpips": 0.6002175709557912,
+        "photo": 0.15107255635990036
+      },
+      "baseline|cached": {
+        "seeds": 2,
+        "psnr": 17.286773168473015,
+        "ssim": 0.6013029245157091,
+        "lpips": 0.6011156083099426,
+        "photo": 0.15108857857329505
+      },
+      "xyz_only|same_k": {
+        "seeds": 2,
+        "psnr": 15.907091834053162,
+        "ssim": 0.5660151920621357,
+        "lpips": 0.6200887413251968,
+        "photo": 0.17450262581308681
+      },
+      "xyz_only|cached": {
+        "seeds": 2,
+        "psnr": 15.827006246930079,
+        "ssim": 0.5643155686202503,
+        "lpips": 0.6219761603881442,
+        "photo": 0.17609001632247653
+      }
+    },
+    "s00_xyz_scale_opacity": {
+      "baseline|same_k": {
+        "seeds": 2,
+        "psnr": 17.244348164210244,
+        "ssim": 0.6018460335239532,
+        "lpips": 0.6002175709557912,
+        "photo": 0.15107255635990036
+      },
+      "baseline|cached": {
+        "seeds": 2,
+        "psnr": 17.286773168473015,
+        "ssim": 0.6013029245157091,
+        "lpips": 0.6011156083099426,
+        "photo": 0.15108857857329505
+      },
+      "xyz_only|same_k": {
+        "seeds": 2,
+        "psnr": 15.907091834053162,
+        "ssim": 0.5660151920621357,
+        "lpips": 0.6200887413251968,
+        "photo": 0.17450262581308681
+      },
+      "xyz_only|cached": {
+        "seeds": 2,
+        "psnr": 15.827006246930079,
+        "ssim": 0.5643155686202503,
+        "lpips": 0.6219761603881442,
+        "photo": 0.17609001632247653
+      },
+      "xyz_scale_opacity|same_k": {
+        "seeds": 2,
+        "psnr": 16.464699065496053,
+        "ssim": 0.581486049862135,
+        "lpips": 0.612058217137579,
+        "photo": 0.16511966551816654
+      },
+      "xyz_scale_opacity|cached": {
+        "seeds": 2,
+        "psnr": 16.388427729833694,
+        "ssim": 0.5807234384710827,
+        "lpips": 0.6125456039867704,
+        "photo": 0.16638458056582345
+      }
+    },
+    "s00_offset_shdc": {
+      "baseline|same_k": {
+        "seeds": 2,
+        "psnr": 17.244348164210244,
+        "ssim": 0.6018460335239532,
+        "lpips": 0.6002175709557912,
+        "photo": 0.15107255635990036
+      },
+      "baseline|cached": {
+        "seeds": 2,
+        "psnr": 17.286773168473015,
+        "ssim": 0.6013029245157091,
+        "lpips": 0.6011156083099426,
+        "photo": 0.15108857857329505
+      },
+      "base|same_k": {
+        "seeds": 2,
+        "psnr": 16.464699065496053,
+        "ssim": 0.581486049862135,
+        "lpips": 0.612058217137579,
+        "photo": 0.16511966551816654
+      },
+      "base|cached": {
+        "seeds": 2,
+        "psnr": 16.388427729833694,
+        "ssim": 0.5807234384710827,
+        "lpips": 0.6125456039867704,
+        "photo": 0.16638458056582345
+      },
+      "offset|same_k": {
+        "seeds": 2,
+        "psnr": 16.944279655577645,
+        "ssim": 0.596160104823491,
+        "lpips": 0.6017177153674382,
+        "photo": 0.15544726687764365
+      },
+      "offset|cached": {
+        "seeds": 2,
+        "psnr": 16.82892974066356,
+        "ssim": 0.5936492668730872,
+        "lpips": 0.6076520056951615,
+        "photo": 0.1566811283547727
+      },
+      "shdc|same_k": {
+        "seeds": 2,
+        "psnr": 15.863985116141183,
+        "ssim": 0.5678447015228726,
+        "lpips": 0.6197336375240295,
+        "photo": 0.1717575806000876
+      },
+      "shdc|cached": {
+        "seeds": 2,
+        "psnr": 15.803944445413256,
+        "ssim": 0.5658522153184529,
+        "lpips": 0.6219316556813224,
+        "photo": 0.17308189855918052
+      }
+    },
+    "s00_offset_encoder16_relu": {
+      "baseline|same_k": {
+        "seeds": 2,
+        "psnr": 17.244348164210244,
+        "ssim": 0.6018460335239532,
+        "lpips": 0.6002175709557912,
+        "photo": 0.15107255635990036
+      },
+      "baseline|cached": {
+        "seeds": 2,
+        "psnr": 17.286773168473015,
+        "ssim": 0.6013029245157091,
+        "lpips": 0.6011156083099426,
+        "photo": 0.15108857857329505
+      },
+      "xyz_scale_opacity|same_k": {
+        "seeds": 2,
+        "psnr": 16.464699065496053,
+        "ssim": 0.581486049862135,
+        "lpips": 0.612058217137579,
+        "photo": 0.16511966551816654
+      },
+      "xyz_scale_opacity|cached": {
+        "seeds": 2,
+        "psnr": 16.388427729833694,
+        "ssim": 0.5807234384710827,
+        "lpips": 0.6125456039867704,
+        "photo": 0.16638458056582345
+      },
+      "offset_encoder16|same_k": {
+        "seeds": 2,
+        "psnr": 16.272955396440295,
+        "ssim": 0.5812198693790133,
+        "lpips": 0.6361838673315352,
+        "photo": 0.1660927735978649
+      },
+      "offset_encoder16|cached": {
+        "seeds": 2,
+        "psnr": 16.316709739442857,
+        "ssim": 0.5812977704736921,
+        "lpips": 0.6372125637909722,
+        "photo": 0.16587340155291178
+      }
+    },
+    "s00_encoder_optimization": {
+      "original_baseline|same_k": {
+        "seeds": 2,
+        "psnr": 17.244348164210244,
+        "ssim": 0.6018460335239532,
+        "lpips": 0.6002175709557912,
+        "photo": 0.15107255635990036
+      },
+      "original_baseline|cached": {
+        "seeds": 2,
+        "psnr": 17.286773168473015,
+        "ssim": 0.6013029245157091,
+        "lpips": 0.6011156083099426,
+        "photo": 0.15108857857329505
+      },
+      "bottleneck16|same_k": {
+        "seeds": 2,
+        "psnr": 16.272955396440295,
+        "ssim": 0.5812198693790133,
+        "lpips": 0.6361838673315352,
+        "photo": 0.1660927735978649
+      },
+      "bottleneck16|cached": {
+        "seeds": 2,
+        "psnr": 16.316709739442857,
+        "ssim": 0.5812977704736921,
+        "lpips": 0.6372125637909722,
+        "photo": 0.16587340155291178
+      },
+      "shallow32|same_k": {
+        "seeds": 2,
+        "psnr": 16.758154168204655,
+        "ssim": 0.5891555973461695,
+        "lpips": 0.6036065086485848,
+        "photo": 0.15902274364516847
+      },
+      "shallow32|cached": {
+        "seeds": 2,
+        "psnr": 16.752169306316073,
+        "ssim": 0.587885225103015,
+        "lpips": 0.6046188437749469,
+        "photo": 0.15953865090296382
+      },
+      "deep32|same_k": {
+        "seeds": 2,
+        "psnr": 16.759756725553483,
+        "ssim": 0.5890880065777946,
+        "lpips": 0.6055530153569721,
+        "photo": 0.15945364230918507
+      },
+      "deep32|cached": {
+        "seeds": 2,
+        "psnr": 16.831969035617888,
+        "ssim": 0.5895105422962279,
+        "lpips": 0.606534709438445,
+        "photo": 0.15870304134866547
+      },
+      "residual32|same_k": {
+        "seeds": 2,
+        "psnr": 16.564454812852162,
+        "ssim": 0.5902557271813589,
+        "lpips": 0.6087344757621251,
+        "photo": 0.15988138817132463
+      },
+      "residual32|cached": {
+        "seeds": 2,
+        "psnr": 16.481116744450162,
+        "ssim": 0.5867297190522391,
+        "lpips": 0.6117192429682565,
+        "photo": 0.16159020572427718
+      }
+    },
+    "s00_shallow_dc": {
+      "original_baseline|same_k": {
+        "seeds": 2,
+        "psnr": 17.244348164210244,
+        "ssim": 0.6018460335239532,
+        "lpips": 0.6002175709557912,
+        "photo": 0.15107255635990036
+      },
+      "original_baseline|cached": {
+        "seeds": 2,
+        "psnr": 17.286773168473015,
+        "ssim": 0.6013029245157091,
+        "lpips": 0.6011156083099426,
+        "photo": 0.15108857857329505
+      },
+      "shallow_no_dc|same_k": {
+        "seeds": 2,
+        "psnr": 16.758154168204655,
+        "ssim": 0.5891555973461695,
+        "lpips": 0.6036065086485848,
+        "photo": 0.15902274364516847
+      },
+      "shallow_no_dc|cached": {
+        "seeds": 2,
+        "psnr": 16.752169306316073,
+        "ssim": 0.587885225103015,
+        "lpips": 0.6046188437749469,
+        "photo": 0.15953865090296382
+      },
+      "shallow_dc|same_k": {
+        "seeds": 2,
+        "psnr": 16.81183596111479,
+        "ssim": 0.5883129032358291,
+        "lpips": 0.6004208234567491,
+        "photo": 0.1574196097987985
+      },
+      "shallow_dc|cached": {
+        "seeds": 2,
+        "psnr": 16.731153120313373,
+        "ssim": 0.5840738760573523,
+        "lpips": 0.6054420741304519,
+        "photo": 0.15952672440381277
+      }
+    },
+    "s00_baseline_globalxyz": {
+      "original_baseline|same_k": {
+        "seeds": 2,
+        "psnr": 17.244348164210244,
+        "ssim": 0.6018460335239532,
+        "lpips": 0.6002175709557912,
+        "photo": 0.15107255635990036
+      },
+      "original_baseline|cached": {
+        "seeds": 2,
+        "psnr": 17.286773168473015,
+        "ssim": 0.6013029245157091,
+        "lpips": 0.6011156083099426,
+        "photo": 0.15108857857329505
+      },
+      "baseline_xyz|same_k": {
+        "seeds": 2,
+        "psnr": 16.867636729043625,
+        "ssim": 0.5906806960938469,
+        "lpips": 0.6053784219991594,
+        "photo": 0.15696912799326201
+      },
+      "baseline_xyz|cached": {
+        "seeds": 2,
+        "psnr": 16.990898170168435,
+        "ssim": 0.5911535202983826,
+        "lpips": 0.6071749387752441,
+        "photo": 0.15628886562254693
+      }
+    },
+    "s00_rotation_encoder": {
+      "baseline|same_k": {
+        "seeds": 2,
+        "psnr": 17.244348164210244,
+        "ssim": 0.6018460335239532,
+        "lpips": 0.6002175709557912,
+        "photo": 0.15107255635990036
+      },
+      "baseline|cached": {
+        "seeds": 2,
+        "psnr": 17.286773168473015,
+        "ssim": 0.6013029245157091,
+        "lpips": 0.6011156083099426,
+        "photo": 0.15108857857329505
+      },
+      "rotation_all|same_k": {
+        "seeds": 2,
+        "psnr": 16.990875440930562,
+        "ssim": 0.5955175693546022,
+        "lpips": 0.6006176430554617,
+        "photo": 0.15520652108012684
+      },
+      "rotation_all|cached": {
+        "seeds": 2,
+        "psnr": 17.15419271711319,
+        "ssim": 0.5947445195345651,
+        "lpips": 0.6004806174172295,
+        "photo": 0.1537217551280582
+      }
+    },
+    "s00_split_no_raw": {
+      "full59|same_k": {
+        "seeds": 2,
+        "psnr": 17.21817381117079,
+        "ssim": 0.5988195183731261,
+        "lpips": 0.6008168569632939,
+        "photo": 0.15201103349053668
+      },
+      "full59|cached": {
+        "seeds": 2,
+        "psnr": 17.263112172626315,
+        "ssim": 0.5983844081560771,
+        "lpips": 0.6003074366894978,
+        "photo": 0.15177773303455777
+      },
+      "compact48|same_k": {
+        "seeds": 2,
+        "psnr": 17.070845936972,
+        "ssim": 0.595504029355352,
+        "lpips": 0.6038191589098127,
+        "photo": 0.15422184196492983
+      },
+      "compact48|cached": {
+        "seeds": 2,
+        "psnr": 17.105699103219166,
+        "ssim": 0.5943048172999942,
+        "lpips": 0.6050171071101749,
+        "photo": 0.15419924144470504
+      }
+    },
+    "s00_comp_private_encoder": {
+      "initial|cached": {
+        "seeds": 2,
+        "psnr": 17.105699177393838,
+        "ssim": 0.5943048205167529,
+        "lpips": 0.6050171076778381,
+        "photo": 0.15419924062868906
+      },
+      "initial|same_k": {
+        "seeds": 2,
+        "psnr": 17.070846026284357,
+        "ssim": 0.5955040324301947,
+        "lpips": 0.6038191797714385,
+        "photo": 0.15422184052211899
+      },
+      "frozen_encoder|cached": {
+        "seeds": 2,
+        "psnr": 17.437237049284438,
+        "ssim": 0.6044796305989463,
+        "lpips": 0.5977231765550282,
+        "photo": 0.14898826418414948
+      },
+      "frozen_encoder|same_k": {
+        "seeds": 2,
+        "psnr": 17.218512196011012,
+        "ssim": 0.6020866951299093,
+        "lpips": 0.6003689618810775,
+        "photo": 0.1510274096259049
+      },
+      "private_encoder|cached": {
+        "seeds": 2,
+        "psnr": 17.440009068685868,
+        "ssim": 0.6045381335038988,
+        "lpips": 0.5971714215146171,
+        "photo": 0.14902234848529572
+      },
+      "private_encoder|same_k": {
+        "seeds": 2,
+        "psnr": 17.23503673341539,
+        "ssim": 0.6024392001685641,
+        "lpips": 0.598731761366602,
+        "photo": 0.1509674062686307
+      }
+    }
+  },
+  "matched_source_R3_reference": {
+    "seeds": {
+      "3100": 18.017703891935803,
+      "3101": 17.94501139020163
+    },
+    "mean": 17.981357641068715,
+    "note": "same source map/budget but different Selector structure; system reference only"
+  },
+  "verification": {
+    "all_source_hashes_unchanged": true,
+    "link_targets_verified": 32,
+    "code_fences_balanced": true,
+    "recent_quality_table_matches_csv": true,
+    "tracked_and_staged_state_unchanged": true,
+    "no_new_training": true,
+    "no_production_edits": true,
+    "document": {
+      "path": "COMPENSATION_RESEARCH_DECISION_BRIEF_20261026.md",
+      "sha256": "ef67de850af66af393a9cd8a0c1492517c0e0130f21f9c96f42ebec8d044588e",
+      "lines": 406,
+      "characters": 20354
+    }
+  }
+}

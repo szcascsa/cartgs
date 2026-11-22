@@ -1,0 +1,544 @@
+{
+  "schema": "mode2-final-mature-counts-v1",
+  "phase": "final",
+  "sources": {
+    "quality": "tests/diagnostics/ultralight_mode2_20261014/online_summary.json:quality.final",
+    "master_maturity": "read-only server checkpoint protection_state.json"
+  },
+  "mature_definition": {
+    "age_ready": 100,
+    "optimization_ready": 80,
+    "unique_keyframe_ready": 4
+  },
+  "ratio_denominator": {
+    "full": "master total_gaussians",
+    "lod": "active_gaussians"
+  },
+  "validation": {
+    "checkpoint_count": 12,
+    "master_population_sums_match": true,
+    "all_lod_master_mature_counts_match_checkpoint": true
+  },
+  "runs": [
+    {
+      "scene": "room",
+      "mode": "original_full_only",
+      "checkpoint_protection": {
+        "scene": "room",
+        "mode": "original_full_only",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/room/original_full_only/16418_shutdown/ply/point_cloud/iteration_16418/protection_state.json",
+        "mapping_iteration": 16418,
+        "protection_enabled": true,
+        "selector_enabled": false,
+        "mature_gaussians": 69804,
+        "protected_gaussians": 8003,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 7056,
+        "stale_gaussians": 947
+      },
+      "full": {
+        "psnr": 18.18549886575112,
+        "total_gaussians": 77807,
+        "mature_gaussians": 69804,
+        "mature_fraction": 0.8971429305846518
+      },
+      "lod": []
+    },
+    {
+      "scene": "room",
+      "mode": "mode1",
+      "checkpoint_protection": {
+        "scene": "room",
+        "mode": "mode1",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/room/mode1/6975_shutdown/ply/point_cloud/iteration_6975/protection_state.json",
+        "mapping_iteration": 6975,
+        "protection_enabled": true,
+        "selector_enabled": true,
+        "mature_gaussians": 44318,
+        "protected_gaussians": 90167,
+        "warmup_gaussians": 9814,
+        "under_observed_gaussians": 29195,
+        "stale_gaussians": 51158
+      },
+      "full": {
+        "psnr": 15.542750242899155,
+        "total_gaussians": 134485,
+        "mature_gaussians": 44318,
+        "mature_fraction": 0.32953861025393166
+      },
+      "lod": [
+        {
+          "ratio": "0.01",
+          "psnr": 14.110706846389546,
+          "active_gaussians": 1421,
+          "mature_actual": 937,
+          "mature_fraction": 0.6593947923997185
+        },
+        {
+          "ratio": "0.05",
+          "psnr": 15.106842395821973,
+          "active_gaussians": 6559,
+          "mature_actual": 4132,
+          "mature_fraction": 0.6299740814148498
+        },
+        {
+          "ratio": "0.1",
+          "psnr": 15.255863276459056,
+          "active_gaussians": 13455,
+          "mature_actual": 8597,
+          "mature_fraction": 0.6389446302489781
+        },
+        {
+          "ratio": "0.15",
+          "psnr": 15.306187104896681,
+          "active_gaussians": 19880,
+          "mature_actual": 12665,
+          "mature_fraction": 0.6370724346076458
+        }
+      ]
+    },
+    {
+      "scene": "room",
+      "mode": "mode2",
+      "checkpoint_protection": {
+        "scene": "room",
+        "mode": "mode2",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/room/mode2/6400_shutdown/ply/point_cloud/iteration_6400/protection_state.json",
+        "mapping_iteration": 6400,
+        "protection_enabled": true,
+        "selector_enabled": true,
+        "mature_gaussians": 71050,
+        "protected_gaussians": 10685,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 6681,
+        "stale_gaussians": 4004
+      },
+      "full": {
+        "psnr": 16.74001138167974,
+        "total_gaussians": 81735,
+        "mature_gaussians": 71050,
+        "mature_fraction": 0.869272649415795
+      },
+      "lod": [
+        {
+          "ratio": "0.01",
+          "psnr": 12.193769340684428,
+          "active_gaussians": 1401,
+          "mature_actual": 1110,
+          "mature_fraction": 0.7922912205567452
+        },
+        {
+          "ratio": "0.05",
+          "psnr": 13.89892511184399,
+          "active_gaussians": 3825,
+          "mature_actual": 2383,
+          "mature_fraction": 0.6230065359477124
+        },
+        {
+          "ratio": "0.1",
+          "psnr": 14.9329191421616,
+          "active_gaussians": 8354,
+          "mature_actual": 5469,
+          "mature_fraction": 0.6546564519990423
+        },
+        {
+          "ratio": "0.15",
+          "psnr": 15.327659045098097,
+          "active_gaussians": 12187,
+          "mature_actual": 7920,
+          "mature_fraction": 0.6498728152949864
+        }
+      ]
+    },
+    {
+      "scene": "desk",
+      "mode": "original_full_only",
+      "checkpoint_protection": {
+        "scene": "desk",
+        "mode": "original_full_only",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/desk/original_full_only/7900_shutdown/ply/point_cloud/iteration_7900/protection_state.json",
+        "mapping_iteration": 7900,
+        "protection_enabled": true,
+        "selector_enabled": false,
+        "mature_gaussians": 35896,
+        "protected_gaussians": 145,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 145,
+        "stale_gaussians": 0
+      },
+      "full": {
+        "psnr": 20.06020593321001,
+        "total_gaussians": 36041,
+        "mature_gaussians": 35896,
+        "mature_fraction": 0.995976804195222
+      },
+      "lod": []
+    },
+    {
+      "scene": "desk",
+      "mode": "mode1",
+      "checkpoint_protection": {
+        "scene": "desk",
+        "mode": "mode1",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/desk/mode1/3673_shutdown/ply/point_cloud/iteration_3673/protection_state.json",
+        "mapping_iteration": 3673,
+        "protection_enabled": true,
+        "selector_enabled": true,
+        "mature_gaussians": 43786,
+        "protected_gaussians": 21837,
+        "warmup_gaussians": 9622,
+        "under_observed_gaussians": 11735,
+        "stale_gaussians": 480
+      },
+      "full": {
+        "psnr": 17.8265548622286,
+        "total_gaussians": 65623,
+        "mature_gaussians": 43786,
+        "mature_fraction": 0.6672355728936501
+      },
+      "lod": [
+        {
+          "ratio": "0.01",
+          "psnr": 15.908903155777905,
+          "active_gaussians": 1011,
+          "mature_actual": 785,
+          "mature_fraction": 0.7764589515331355
+        },
+        {
+          "ratio": "0.05",
+          "psnr": 16.872610206539566,
+          "active_gaussians": 3193,
+          "mature_actual": 2014,
+          "mature_fraction": 0.630754776072659
+        },
+        {
+          "ratio": "0.1",
+          "psnr": 17.39789755441047,
+          "active_gaussians": 6547,
+          "mature_actual": 4278,
+          "mature_fraction": 0.6534290514739576
+        },
+        {
+          "ratio": "0.15",
+          "psnr": 17.539047023734533,
+          "active_gaussians": 9387,
+          "mature_actual": 5999,
+          "mature_fraction": 0.639075316927666
+        }
+      ]
+    },
+    {
+      "scene": "desk",
+      "mode": "mode2",
+      "checkpoint_protection": {
+        "scene": "desk",
+        "mode": "mode2",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/desk/mode2/4400_shutdown/ply/point_cloud/iteration_4400/protection_state.json",
+        "mapping_iteration": 4400,
+        "protection_enabled": true,
+        "selector_enabled": true,
+        "mature_gaussians": 39096,
+        "protected_gaussians": 323,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 269,
+        "stale_gaussians": 54
+      },
+      "full": {
+        "psnr": 19.384816933322597,
+        "total_gaussians": 39419,
+        "mature_gaussians": 39096,
+        "mature_fraction": 0.9918059818869074
+      },
+      "lod": [
+        {
+          "ratio": "0.01",
+          "psnr": 12.357184788665256,
+          "active_gaussians": 1713,
+          "mature_actual": 1618,
+          "mature_fraction": 0.9445417396380619
+        },
+        {
+          "ratio": "0.05",
+          "psnr": 13.267254806853629,
+          "active_gaussians": 2172,
+          "mature_actual": 2077,
+          "mature_fraction": 0.9562615101289135
+        },
+        {
+          "ratio": "0.1",
+          "psnr": 14.319657309635266,
+          "active_gaussians": 2888,
+          "mature_actual": 2793,
+          "mature_fraction": 0.9671052631578947
+        },
+        {
+          "ratio": "0.15",
+          "psnr": 15.42636522086891,
+          "active_gaussians": 3979,
+          "mature_actual": 3884,
+          "mature_fraction": 0.9761246544357879
+        }
+      ]
+    },
+    {
+      "scene": "xyz",
+      "mode": "original_full_only",
+      "checkpoint_protection": {
+        "scene": "xyz",
+        "mode": "original_full_only",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/xyz/original_full_only/38900_shutdown/ply/point_cloud/iteration_38900/protection_state.json",
+        "mapping_iteration": 38900,
+        "protection_enabled": true,
+        "selector_enabled": false,
+        "mature_gaussians": 41756,
+        "protected_gaussians": 218,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 134,
+        "stale_gaussians": 84
+      },
+      "full": {
+        "psnr": 22.724578590718725,
+        "total_gaussians": 41974,
+        "mature_gaussians": 41756,
+        "mature_fraction": 0.9948063086672703
+      },
+      "lod": []
+    },
+    {
+      "scene": "xyz",
+      "mode": "mode1",
+      "checkpoint_protection": {
+        "scene": "xyz",
+        "mode": "mode1",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/xyz/mode1/21795_shutdown/ply/point_cloud/iteration_21795/protection_state.json",
+        "mapping_iteration": 21795,
+        "protection_enabled": true,
+        "selector_enabled": true,
+        "mature_gaussians": 31504,
+        "protected_gaussians": 1797,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 1557,
+        "stale_gaussians": 240
+      },
+      "full": {
+        "psnr": 21.4036442445312,
+        "total_gaussians": 33301,
+        "mature_gaussians": 31504,
+        "mature_fraction": 0.946037656526831
+      },
+      "lod": [
+        {
+          "ratio": "0.01",
+          "psnr": 17.8391717784995,
+          "active_gaussians": 333,
+          "mature_actual": 245,
+          "mature_fraction": 0.7357357357357357
+        },
+        {
+          "ratio": "0.05",
+          "psnr": 19.7129340063729,
+          "active_gaussians": 1642,
+          "mature_actual": 1100,
+          "mature_fraction": 0.6699147381242387
+        },
+        {
+          "ratio": "0.1",
+          "psnr": 20.39983172945882,
+          "active_gaussians": 2964,
+          "mature_actual": 2196,
+          "mature_fraction": 0.7408906882591093
+        },
+        {
+          "ratio": "0.15",
+          "psnr": 20.518222873127385,
+          "active_gaussians": 3623,
+          "mature_actual": 2855,
+          "mature_fraction": 0.7880209770908088
+        }
+      ]
+    },
+    {
+      "scene": "xyz",
+      "mode": "mode2",
+      "checkpoint_protection": {
+        "scene": "xyz",
+        "mode": "mode2",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/xyz/mode2/14900_shutdown/ply/point_cloud/iteration_14900/protection_state.json",
+        "mapping_iteration": 14900,
+        "protection_enabled": true,
+        "selector_enabled": true,
+        "mature_gaussians": 30978,
+        "protected_gaussians": 79,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 45,
+        "stale_gaussians": 34
+      },
+      "full": {
+        "psnr": 22.356714469038252,
+        "total_gaussians": 31057,
+        "mature_gaussians": 30978,
+        "mature_fraction": 0.9974562900473323
+      },
+      "lod": [
+        {
+          "ratio": "0.01",
+          "psnr": 14.559010688438113,
+          "active_gaussians": 344,
+          "mature_actual": 308,
+          "mature_fraction": 0.8953488372093024
+        },
+        {
+          "ratio": "0.05",
+          "psnr": 17.13400601961699,
+          "active_gaussians": 1607,
+          "mature_actual": 1571,
+          "mature_fraction": 0.9775980087118855
+        },
+        {
+          "ratio": "0.1",
+          "psnr": 17.94532960269042,
+          "active_gaussians": 3145,
+          "mature_actual": 3109,
+          "mature_fraction": 0.9885532591414944
+        },
+        {
+          "ratio": "0.15",
+          "psnr": 18.436260284590027,
+          "active_gaussians": 4496,
+          "mature_actual": 4460,
+          "mature_fraction": 0.9919928825622776
+        }
+      ]
+    },
+    {
+      "scene": "long",
+      "mode": "original_full_only",
+      "checkpoint_protection": {
+        "scene": "long",
+        "mode": "original_full_only",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/long/original_full_only/28968_shutdown/ply/point_cloud/iteration_28968/protection_state.json",
+        "mapping_iteration": 28968,
+        "protection_enabled": true,
+        "selector_enabled": false,
+        "mature_gaussians": 62443,
+        "protected_gaussians": 36,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 19,
+        "stale_gaussians": 17
+      },
+      "full": {
+        "psnr": 18.312981478120413,
+        "total_gaussians": 62479,
+        "mature_gaussians": 62443,
+        "mature_fraction": 0.99942380639895
+      },
+      "lod": []
+    },
+    {
+      "scene": "long",
+      "mode": "mode1",
+      "checkpoint_protection": {
+        "scene": "long",
+        "mode": "mode1",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/long/mode1/11438_shutdown/ply/point_cloud/iteration_11438/protection_state.json",
+        "mapping_iteration": 11438,
+        "protection_enabled": true,
+        "selector_enabled": true,
+        "mature_gaussians": 119509,
+        "protected_gaussians": 18109,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 17781,
+        "stale_gaussians": 328
+      },
+      "full": {
+        "psnr": 17.68109767944154,
+        "total_gaussians": 137618,
+        "mature_gaussians": 119509,
+        "mature_fraction": 0.8684111090119025
+      },
+      "lod": [
+        {
+          "ratio": "0.01",
+          "psnr": 16.86797369545544,
+          "active_gaussians": 1704,
+          "mature_actual": 1231,
+          "mature_fraction": 0.7224178403755869
+        },
+        {
+          "ratio": "0.05",
+          "psnr": 17.491916038786204,
+          "active_gaussians": 6967,
+          "mature_actual": 4601,
+          "mature_fraction": 0.6603990239701449
+        },
+        {
+          "ratio": "0.1",
+          "psnr": 17.673269757598817,
+          "active_gaussians": 13797,
+          "mature_actual": 9061,
+          "mature_fraction": 0.656736971805465
+        },
+        {
+          "ratio": "0.15",
+          "psnr": 17.692839013890293,
+          "active_gaussians": 18194,
+          "mature_actual": 11753,
+          "mature_fraction": 0.6459821919314059
+        }
+      ]
+    },
+    {
+      "scene": "long",
+      "mode": "mode2",
+      "checkpoint_protection": {
+        "scene": "long",
+        "mode": "mode2",
+        "path": "/home/prmi/zwj/mycartgs/results/newgi/ultralight_mode2_20261014/long/mode2/9400_shutdown/ply/point_cloud/iteration_9400/protection_state.json",
+        "mapping_iteration": 9400,
+        "protection_enabled": true,
+        "selector_enabled": true,
+        "mature_gaussians": 106248,
+        "protected_gaussians": 52,
+        "warmup_gaussians": 0,
+        "under_observed_gaussians": 38,
+        "stale_gaussians": 14
+      },
+      "full": {
+        "psnr": 19.918867557518052,
+        "total_gaussians": 106300,
+        "mature_gaussians": 106248,
+        "mature_fraction": 0.999510818438382
+      },
+      "lod": [
+        {
+          "ratio": "0.01",
+          "psnr": 15.17902958113441,
+          "active_gaussians": 1152,
+          "mature_actual": 1135,
+          "mature_fraction": 0.9852430555555556
+        },
+        {
+          "ratio": "0.05",
+          "psnr": 17.723225444922626,
+          "active_gaussians": 5573,
+          "mature_actual": 5556,
+          "mature_fraction": 0.9969495783240624
+        },
+        {
+          "ratio": "0.1",
+          "psnr": 18.37551551310727,
+          "active_gaussians": 10866,
+          "mature_actual": 10849,
+          "mature_fraction": 0.9984354868396834
+        },
+        {
+          "ratio": "0.15",
+          "psnr": 18.724035384403784,
+          "active_gaussians": 15714,
+          "mature_actual": 15697,
+          "mature_fraction": 0.9989181621484027
+        }
+      ]
+    }
+  ]
+}

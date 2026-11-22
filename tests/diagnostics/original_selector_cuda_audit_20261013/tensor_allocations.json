@@ -1,0 +1,236 @@
+{
+  "native_cuda_allocation_requests": 2490,
+  "allocation_requests_per_iteration": 249.0,
+  "requested_bytes_per_iteration": 991612876.8,
+  "peak_allocated_bytes": 616943616,
+  "peak_reserved_bytes": 757071872,
+  "note": "Native Kineto allocator events; includes profiler-retained tensors and untimed 18-tensor restore; peak is absolute process allocation, not incremental production peak",
+  "operator_attribution_note": "Allocator instant events attributed to the innermost same-thread CPU operator, excluding empty allocation APIs. Scope attribution is not a separate cudaMalloc or production peak measurement.",
+  "by_operator": [
+    {
+      "name": "aten::mm",
+      "requests_per_iteration": 17.0,
+      "requested_bytes_per_iteration": 207264256.0
+    },
+    {
+      "name": "aten::addmm",
+      "requests_per_iteration": 17.0,
+      "requested_bytes_per_iteration": 179088384.0
+    },
+    {
+      "name": "aten::clamp_min",
+      "requests_per_iteration": 11.0,
+      "requested_bytes_per_iteration": 171581440.0
+    },
+    {
+      "name": "aten::threshold_backward",
+      "requests_per_iteration": 8.0,
+      "requested_bytes_per_iteration": 168939520.0
+    },
+    {
+      "name": "aten::cat",
+      "requests_per_iteration": 2.0,
+      "requested_bytes_per_iteration": 113246720.0
+    },
+    {
+      "name": "aten::sum",
+      "requests_per_iteration": 36.0,
+      "requested_bytes_per_iteration": 25553408.0
+    },
+    {
+      "name": "aten::div",
+      "requests_per_iteration": 32.0,
+      "requested_bytes_per_iteration": 25279334.4
+    },
+    {
+      "name": "aten::mul",
+      "requests_per_iteration": 15.0,
+      "requested_bytes_per_iteration": 16834611.2
+    },
+    {
+      "name": "aten::resize_",
+      "requests_per_iteration": 15.0,
+      "requested_bytes_per_iteration": 14510643.2
+    },
+    {
+      "name": "aten::new_zeros",
+      "requests_per_iteration": 5.0,
+      "requested_bytes_per_iteration": 10565632.0
+    },
+    {
+      "name": "unscoped_allocator",
+      "requests_per_iteration": 5.0,
+      "requested_bytes_per_iteration": 7043072.0
+    },
+    {
+      "name": "aten::_to_copy",
+      "requests_per_iteration": 6.2,
+      "requested_bytes_per_iteration": 5371955.2
+    },
+    {
+      "name": "aten::neg",
+      "requests_per_iteration": 2.0,
+      "requested_bytes_per_iteration": 5281792.0
+    },
+    {
+      "name": "aten::add",
+      "requests_per_iteration": 4.0,
+      "requested_bytes_per_iteration": 4403200.0
+    },
+    {
+      "name": "aten::zeros",
+      "requests_per_iteration": 3.0,
+      "requested_bytes_per_iteration": 4401152.0
+    },
+    {
+      "name": "aten::_softmax_backward_data",
+      "requests_per_iteration": 2.0,
+      "requested_bytes_per_iteration": 3522048.0
+    },
+    {
+      "name": "aten::exp",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 3442688.0
+    },
+    {
+      "name": "aten::_softmax",
+      "requests_per_iteration": 1.8,
+      "requested_bytes_per_iteration": 3168460.8
+    },
+    {
+      "name": "aten::clamp",
+      "requests_per_iteration": 3.0,
+      "requested_bytes_per_iteration": 2641920.0
+    },
+    {
+      "name": "aten::max",
+      "requests_per_iteration": 2.0,
+      "requested_bytes_per_iteration": 2640384.0
+    },
+    {
+      "name": "aten::log",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 1761792.0
+    },
+    {
+      "name": "aten::zeros_like",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 1761792.0
+    },
+    {
+      "name": "aten::ge",
+      "requests_per_iteration": 8.0,
+      "requested_bytes_per_iteration": 1761280.0
+    },
+    {
+      "name": "aten::minimum",
+      "requests_per_iteration": 2.0,
+      "requested_bytes_per_iteration": 1761280.0
+    },
+    {
+      "name": "aten::sub",
+      "requests_per_iteration": 2.0,
+      "requested_bytes_per_iteration": 1760768.0
+    },
+    {
+      "name": "aten::bitwise_and",
+      "requests_per_iteration": 5.0,
+      "requested_bytes_per_iteration": 1100800.0
+    },
+    {
+      "name": "aten::sigmoid_backward",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 880640.0
+    },
+    {
+      "name": "aten::full_like",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 880640.0
+    },
+    {
+      "name": "aten::norm",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 880640.0
+    },
+    {
+      "name": "aten::sigmoid",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 880640.0
+    },
+    {
+      "name": "aten::index_copy",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 880640.0
+    },
+    {
+      "name": "aten::to",
+      "requests_per_iteration": 0.8,
+      "requested_bytes_per_iteration": 792524.8
+    },
+    {
+      "name": "aten::lt",
+      "requests_per_iteration": 2.0,
+      "requested_bytes_per_iteration": 440320.0
+    },
+    {
+      "name": "aten::bitwise_not",
+      "requests_per_iteration": 2.0,
+      "requested_bytes_per_iteration": 440320.0
+    },
+    {
+      "name": "aten::softmax",
+      "requests_per_iteration": 0.2,
+      "requested_bytes_per_iteration": 352051.2
+    },
+    {
+      "name": "aten::eq",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 220160.0
+    },
+    {
+      "name": "aten::gt",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 220160.0
+    },
+    {
+      "name": "aten::nonzero",
+      "requests_per_iteration": 6.0,
+      "requested_bytes_per_iteration": 28672.0
+    },
+    {
+      "name": "aten::sqrt",
+      "requests_per_iteration": 18.0,
+      "requested_bytes_per_iteration": 24064.0
+    },
+    {
+      "name": "aten::sgn",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 512.0
+    },
+    {
+      "name": "aten::scalar_tensor",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 512.0
+    },
+    {
+      "name": "aten::clamp_max",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 512.0
+    },
+    {
+      "name": "aten::full",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 512.0
+    },
+    {
+      "name": "aten::mean",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 512.0
+    },
+    {
+      "name": "aten::ones_like",
+      "requests_per_iteration": 1.0,
+      "requested_bytes_per_iteration": 512.0
+    }
+  ]
+}

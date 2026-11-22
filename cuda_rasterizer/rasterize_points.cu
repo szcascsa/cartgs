@@ -1,3 +1,5 @@
+#include "anchor_si_capture.h"
+#include "rendering_contribution.h"
 /*
  * Copyright (C) 2023, Inria
  * GRAPHDECO research group, https://team.inria.fr/graphdeco
@@ -31,10 +33,46 @@
 #include "config.h"
 #include "rasterize_points.h"
 #include "rasterizer.h"
+#include "render_workspace.h"
+#include <ATen/cuda/CUDAContext.h>
+#include <array>
+#include <algorithm>
+#include <vector>
+
+namespace renderer_workspace {
+namespace {
+struct Entry { int device; std::array<torch::Tensor,4> buffers; };
+thread_local bool reuse=false;
+thread_local std::vector<Entry> pool;
+thread_local Stats counters;
+bool idle(const Entry& e){
+  for(const auto& t:e.buffers)if(t.use_count()!=1 || t.storage().use_count()!=1)return false;
+  return true;
+}
+}
+bool enabled(){return reuse;}
+void setEnabled(bool value){reuse=value;}
+Stats stats(){auto result=counters;result.retained_bytes=0;for(const auto& e:pool)for(const auto& t:e.buffers)result.retained_bytes+=t.storage().nbytes();return result;}
+void clearIdle(){pool.erase(std::remove_if(pool.begin(),pool.end(),idle),pool.end());}
+std::array<torch::Tensor,4> acquire(const torch::TensorOptions& options,int device){
+  // The legacy rasterizer/CUB uses the default stream. Do not enable reuse on
+  // another stream until that entire call graph has a separate stream audit.
+  if(reuse && at::cuda::getCurrentCUDAStream(device)==at::cuda::getDefaultCUDAStream(device)){
+    for(auto& e:pool)if(e.device==device && idle(e)){++counters.hits;return e.buffers;}
+    if(pool.size()<4){Entry e;e.device=device;for(auto& t:e.buffers)t=torch::empty({0},options);pool.push_back(e);++counters.misses;return e.buffers;}
+  }
+  std::array<torch::Tensor,4> result;for(auto& t:result)t=torch::empty({0},options);return result;
+}
+void resize(torch::Tensor& t,size_t size){
+  if(reuse && size>t.storage().nbytes())++counters.growths;
+  // resize_ preserves storage capacity when the request shrinks.
+  t.resize_({static_cast<int64_t>(size)});
+}
+}
 
 std::function<char*(size_t N)> resizeFunctional(torch::Tensor& t) {
   auto lambda = [&t](size_t N) {
-    t.resize_({(long long)N});
+    renderer_workspace::resize(t,N);
     return reinterpret_cast<char*>(t.contiguous().data_ptr());
   };
   return lambda;
@@ -54,6 +92,24 @@ std::function<float*(size_t N)> resizeFloatFunctional(torch::Tensor& t) {
     return t.contiguous().data_ptr<float>();
   };
   return lambda;
+}
+
+namespace rendering_contribution {
+namespace { thread_local CaptureScope* active=nullptr; }
+CaptureScope* current(){return active;}
+CaptureScope::CaptureScope(bool enabled,int step,int64_t phase)
+    : stride(step),offset_x(0),offset_y(0),previous_(active) {
+  TORCH_CHECK(step>0,"Contribution pixel stride");
+  offset_x=phase%step;offset_y=(phase/step)%step;active=enabled?this:nullptr;
+}
+CaptureScope::~CaptureScope(){active=previous_;}
+}
+
+namespace anchor_si {
+namespace { thread_local bool enabled=false; }
+bool captureEnabled() { return enabled; }
+CaptureScope::CaptureScope(bool value) : previous_(enabled) { enabled=value; }
+CaptureScope::~CaptureScope() { enabled=previous_; }
 }
 
 std::tuple<int,
@@ -87,7 +143,14 @@ RasterizeGaussiansCUDAWithImportance(
     const torch::Tensor& campos,
     const bool prefiltered,
     const bool debug,
-    const bool collect_importance) {
+    const bool collect_importance,
+    RasterizeMode mode) {
+  auto* contribution_capture=rendering_contribution::current();
+  TORCH_CHECK(mode!=RasterizeMode::Visibility || !contribution_capture,
+              "Visibility-only rendering cannot collect alpha contribution");
+  const int importance_mode = anchor_si::captureEnabled() ? 2 : (collect_importance ? 1 : 0);
+  TORCH_CHECK(mode != RasterizeMode::Visibility || !importance_mode,
+              "Visibility-only rasterization cannot collect GI contributions");
   if (means3D.ndimension() != 2 || means3D.size(1) != 3) {
     AT_ERROR("means3D must have dimensions (num_points, 3)");
   }
@@ -103,22 +166,26 @@ RasterizeGaussiansCUDAWithImportance(
   stats_int_opts.requires_grad(false);
   stats_float_opts.requires_grad(false);
 
-  torch::Tensor out_color = torch::full({NUM_CHAFFELS, H, W}, 0.0, float_opts);
+  torch::Tensor out_color = mode == RasterizeMode::Visibility
+      ? torch::empty({0}, float_opts)
+      : torch::full({NUM_CHAFFELS, H, W}, 0.0, float_opts);
   torch::Tensor radii =
       torch::full({P}, 0, means3D.options().dtype(torch::kInt32));
   torch::Tensor frame_importance =
-      collect_importance ? torch::zeros({P}, stats_float_opts)
+      importance_mode ? torch::zeros({P}, stats_float_opts)
                          : torch::empty({0}, stats_float_opts);
   torch::Tensor contribution_count =
-      collect_importance ? torch::zeros({P}, stats_int_opts)
+      importance_mode == 1 ? torch::zeros({P}, stats_int_opts)
                          : torch::empty({0}, stats_int_opts);
 
+  if(contribution_capture)contribution_capture->sums=torch::zeros({P},stats_float_opts);
   torch::Device device(torch::kCUDA);
   torch::TensorOptions options(torch::kByte);
-  torch::Tensor geomBuffer = torch::empty({0}, options.device(device));
-  torch::Tensor binningBuffer = torch::empty({0}, options.device(device));
-  torch::Tensor imgBuffer = torch::empty({0}, options.device(device));
-  torch::Tensor sampleBuffer = torch::empty({0}, options.device(device));
+  auto workspace=renderer_workspace::acquire(options.device(device),means3D.get_device());
+  torch::Tensor geomBuffer = workspace[0];
+  torch::Tensor binningBuffer = workspace[1];
+  torch::Tensor imgBuffer = workspace[2];
+  torch::Tensor sampleBuffer = workspace[3];
   std::function<char*(size_t)> geomFunc = resizeFunctional(geomBuffer);
   std::function<char*(size_t)> binningFunc = resizeFunctional(binningBuffer);
   std::function<char*(size_t)> imgFunc = resizeFunctional(imgBuffer);
@@ -135,7 +202,8 @@ RasterizeGaussiansCUDAWithImportance(
     auto tup = CudaRasterizer::Rasterizer::forward(
         geomFunc, binningFunc, imgFunc, sampleFunc, P, degree, M,
         background.contiguous().data<float>(), W, H,
-        means3D.contiguous().data<float>(), dc.contiguous().data_ptr<float>(),
+        means3D.contiguous().data<float>(),
+        dc.defined() ? dc.contiguous().data_ptr<float>() : nullptr,
         sh.contiguous().data_ptr<float>(), colors.contiguous().data<float>(),
         opacity.contiguous().data<float>(),
         scales.contiguous().data_ptr<float>(), scale_modifier,
@@ -145,13 +213,18 @@ RasterizeGaussiansCUDAWithImportance(
         projmatrix.contiguous().data<float>(),
         campos.contiguous().data<float>(), tan_fovx, tan_fovy, prefiltered,
         out_color.contiguous().data<float>(), radii.contiguous().data<int>(),
-        debug, collect_importance,
-        collect_importance
+        debug, importance_mode,
+        importance_mode
             ? frame_importance.contiguous().data_ptr<float>()
             : nullptr,
-        collect_importance
+        importance_mode == 1
             ? contribution_count.contiguous().data_ptr<int>()
-            : nullptr);
+            : nullptr, mode == RasterizeMode::Inference,
+        mode == RasterizeMode::Visibility,
+        contribution_capture?contribution_capture->sums.data_ptr<float>():nullptr,
+        contribution_capture?contribution_capture->stride:1,
+        contribution_capture?contribution_capture->offset_x:0,
+        contribution_capture?contribution_capture->offset_y:0);
 
     rendered = std::get<0>(tup);
     num_buckets = std::get<1>(tup);
@@ -199,6 +272,35 @@ RasterizeGaussiansCUDA(const torch::Tensor& background,
                          std::get<8>(result), std::get<9>(result));
 }
 
+std::tuple<torch::Tensor, torch::Tensor> RasterizeGaussiansInferenceCUDA(
+    const torch::Tensor& background,
+    const torch::Tensor& means3D,
+    const torch::Tensor& colors,
+    const torch::Tensor& opacity,
+    const torch::Tensor& scales,
+    const torch::Tensor& rotations,
+    const float scale_modifier,
+    const torch::Tensor& cov3D_precomp,
+    const torch::Tensor& viewmatrix,
+    const torch::Tensor& projmatrix,
+    const float tan_fovx,
+    const float tan_fovy,
+    const int image_height,
+    const int image_width,
+    const torch::Tensor& dc,
+    const torch::Tensor& sh,
+    const int degree,
+    const torch::Tensor& campos,
+    const bool prefiltered,
+    const bool debug) {
+  auto result = RasterizeGaussiansCUDAWithImportance(
+      background, means3D, colors, opacity, scales, rotations, scale_modifier,
+      cov3D_precomp, viewmatrix, projmatrix, tan_fovx, tan_fovy, image_height,
+      image_width, dc, sh, degree, campos, prefiltered, debug, false,
+      RasterizeMode::Inference);
+  return std::make_tuple(std::get<2>(result), std::get<3>(result));
+}
+
 std::tuple<torch::Tensor,
            torch::Tensor,
            torch::Tensor,
@@ -237,7 +339,8 @@ RasterizeGaussiansBackwardCUDA(const torch::Tensor& background,
   const int W = dL_dout_color.size(2);
 
   int M = 0;
-  if (sh.size(0) != 0) {
+  // An empty compact population still has an SH channel dimension.
+  if (sh.dim() >= 2) {
     M = sh.size(1);
   }
 

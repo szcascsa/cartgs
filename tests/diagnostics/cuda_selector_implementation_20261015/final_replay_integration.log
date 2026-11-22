@@ -1,0 +1,22 @@
+[Gaussian Mapper]CUDA available! Training on GPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/selector-cuda-20261015/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/home/prmi/zwj/selector-cuda-20261015/cfg/selector/fast.yaml"
+[Mapping CONFIG] ultra_light_mode=1 explicit_mode=0
+[UltrafastRotation CONFIG] ultra_light=1 legacy_interval_ignored=20
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Gaussian Mapper] selector_backend=legacy
+[UltrafastRotation CONFIG] ratios=0.01,0.05,0.10,0.15,Full stop_at_online_end=0 topology_full_only=1 tail_policy=configured
+[Protection CONFIG] schema=continuous_cycle_geometric drift_temperature=0.1 beta_fast=0.6 beta_slow=0.15 maturity_rise_rate=0.05 maturity_fall_rate=0.5 compatibility_mature_threshold=0.8 observation_mode=1 mode2=frozen
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=streaming view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=1 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=1 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Continuous TF INIT] mapping_iteration=6000 start_mode=fixed_iteration first_valid_maturity_cycle_iteration=-1 initialization_seed=0
+[Elastic TF INIT] tf_initialization_iteration=6000 ready_count_when_initialized=3 initial_aabb_population=3 initial_aabb_threshold=0
+[Gaussian Mapper] Transform Field initialized at mapping_iter 6000, current-position AABB initialized
+[Gaussian Mapper] Normal LOD Selector parameters attached to the shared Gaussian optimizer (group 6)
+[Gaussian Mapper] Normal LOD Transform Field parameters attached to the shared Gaussian optimizer (groups 7, 8)
+[ConflictReplay UPDATE] iter=6000 window=1 KF=7 ratio=0.0100 committed=1 loss(full/lod)=0.2762/0.3048 changed(GS/Selector/TF)=1/1/1 replay_full(MSE_x1e6 before/committed)=10013.9482/9987.3003 replay_lod(MSE_x1e6 before/committed)=10013.9249/9987.3003 counts(attempt/commit/skip)=1/1/0 pending=0 quality_renders=4 stage_host_ms(training/preview/quality)=13.9705/37.0843/18.4846 ms=72.4361
+[ConflictReplay SKIP] iter=6000 window=2 KF=7 committed=0 reason=nonfinite_full_loss ms=0.4231

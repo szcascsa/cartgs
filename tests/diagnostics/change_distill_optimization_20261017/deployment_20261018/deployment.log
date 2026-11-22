@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/deployment_20261018/install_and_build.py", line 53, in <module>
+    assert result.returncode == 0, name + ' failed; inspect saved log'
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: build failed; inspect saved log

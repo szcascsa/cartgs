@@ -15,11 +15,15 @@
  */
 
 #include "include/gaussian_model.h"
+#include "include/anchor_stats_cuda.h"
 
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#include <fstream>
+#include <limits>
 #include <stdexcept>
+#include <sstream>
 
 #include "include/gaussian_rasterizer.h"
 #include "include/quaternion_utils.h"
@@ -77,7 +81,7 @@ torch::Tensor GaussianModel::getOpacityActivation() {
   return torch::sigmoid(this->opacity_);
 }
 
-torch::Tensor GaussianModel::getCovarianceActivation(int scaling_modifier) {
+torch::Tensor GaussianModel::getScalingRotationActivation(int scaling_modifier) {
   // build_rotation
   auto r = this->rotation_;
   auto R = general_utils::build_rotation(r);
@@ -91,7 +95,11 @@ torch::Tensor GaussianModel::getCovarianceActivation(int scaling_modifier) {
   L.select(1, 1).select(1, 1).copy_(s.index({torch::indexing::Slice(), 1}));
   L.select(1, 2).select(1, 2).copy_(s.index({torch::indexing::Slice(), 2}));
   L = R.matmul(L);  // L = R @ L
+  return L;
+}
 
+torch::Tensor GaussianModel::getCovarianceActivation(int scaling_modifier) {
+  auto L = getScalingRotationActivation(scaling_modifier);
   // build_covariance_from_scaling_rotation
   auto actual_covariance = L.matmul(L.transpose(1, 2));
   return actual_covariance;
@@ -105,6 +113,211 @@ void GaussianModel::oneUpShDegree() {
 void GaussianModel::setShDegree(const int sh) {
   this->active_sh_degree_ =
       (sh > this->max_sh_degree_ ? this->max_sh_degree_ : sh);
+}
+
+void GaussianModel::enableExplicitAnchors(improvements::selector::AnchorBank bank,
+                                          torch::optim::Adam* feature_optimizer,
+                                          std::filesystem::path pruning_diagnostics) {
+  TORCH_CHECK(xyz_.numel()==0 && bank && bank->explicitBlocks(), "Explicit map must be enabled before initialization");
+  explicit_anchors_=bank;anchor_feature_optimizer_=feature_optimizer;
+  anchor_opacity_accum_=torch::zeros({bank->size()},bank->features().options().dtype(torch::kFloat64).requires_grad(false));
+  anchor_visits_=torch::zeros({bank->size()},bank->features().options().dtype(torch::kLong).requires_grad(false));
+  anchor_slot_opacity_accum_=bank->variableMembers()?torch::zeros({0},anchor_opacity_accum_.options()):torch::zeros({bank->size(),10},anchor_opacity_accum_.options());
+  anchor_slot_below_prune_=torch::zeros_like(anchor_slot_opacity_accum_,anchor_visits_.options());
+  anchor_slot_below_cutoff_=torch::zeros_like(anchor_slot_below_prune_);
+  anchor_pruning_diagnostics_=std::move(pruning_diagnostics);
+}
+
+void GaussianModel::finishAnchorGeometry() {
+  if(explicit_anchors_) explicit_anchors_->finishBlockGeometry();
+}
+
+void GaussianModel::migrateLocalAnchors() {
+  if(fixedTenAnchors()) {
+    torch::NoGradGuard guard;
+    auto migration=explicit_anchors_->takeFixedMigration();
+    if(!migration.remove.defined())return;
+    resetAnchorWindows(migration.changed);
+    auto affected=migration.changed.index_select(0,explicit_anchors_->rows());
+    anchor_growth_gradient_accum_.masked_fill_(affected.unsqueeze(1),0);anchor_growth_denom_.masked_fill_(affected.unsqueeze(1),0);
+    xyz_gradient_accum_.masked_fill_(affected.unsqueeze(1),0);denom_.masked_fill_(affected.unsqueeze(1),0);
+    max_radii2D_.masked_fill_(affected,0);
+    if(explicit_anchors_->slotDeactivation()) {
+      explicit_anchors_->inactiveSlots().masked_fill_(affected,false);
+      explicit_anchors_->recoveredSlots().masked_fill_(affected,false);
+    }
+    const auto dropped=migration.remove.sum().item<int64_t>();
+    if(dropped)prunePoints(migration.remove);
+    local_anchor_migrated_members_+=migration.moved;local_anchor_dropped_members_+=dropped;
+    explicit_anchors_->assertBlocks(xyz_.size(0));
+    std::cout<<"[Fixed Ten Anchor Migration] transferred="<<migration.moved<<" dropped_collision="<<dropped
+             <<" anchors="<<explicit_anchors_->size()<<" gaussians="<<xyz_.size(0)<<'\n';
+    return;
+  }
+  auto corrected=local_anchor_moved_rows_;local_anchor_moved_rows_=torch::Tensor();
+  if(!variableAnchorMembers() || !corrected.defined() || !corrected.numel())return;
+  torch::NoGradGuard guard;
+  auto migration=explicit_anchors_->migrateLocalMembers(xyz_,corrected,{optimizer_.get(),anchor_feature_optimizer_});
+  const auto added=explicit_anchors_->size()-anchor_visits_.numel();
+  anchor_opacity_accum_=torch::cat({anchor_opacity_accum_,torch::zeros({added},anchor_opacity_accum_.options())});
+  anchor_visits_=torch::cat({anchor_visits_,torch::zeros({added},anchor_visits_.options())});
+  resetAnchorWindows(migration.changed);
+  auto affected=migration.changed.index_select(0,explicit_anchors_->rows());
+  anchor_growth_gradient_accum_.masked_fill_(affected.unsqueeze(1),0);
+  anchor_growth_denom_.masked_fill_(affected.unsqueeze(1),0);
+  xyz_gradient_accum_.masked_fill_(affected.unsqueeze(1),0);denom_.masked_fill_(affected.unsqueeze(1),0);
+  max_radii2D_.masked_fill_(affected,0);
+  const auto dropped=migration.remove.sum().item<int64_t>();
+  // This is collision resolution, independent of opacity/size quality pruning.
+  // Reuse the existing compaction path for all attributes, Adam and row metadata.
+  prunePoints(migration.remove);
+  local_anchor_migrated_members_+=migration.moved;local_anchor_dropped_members_+=dropped;
+  std::cout<<"[Local Anchor Migration] transferred="<<migration.moved<<" dropped_full="<<dropped
+           <<" created="<<migration.created<<" anchors="<<explicit_anchors_->size()
+           <<" gaussians="<<xyz_.size(0)<<" capacity=10 feature_weight=accepted_members\n";
+}
+
+void GaussianModel::addAnchorPruningStats(const torch::Tensor& visible_indices) {
+  MappingAuditRange trace("full/anchor_statistics");
+  if(!explicit_anchors_) return;
+  torch::NoGradGuard guard;
+  explicit_anchors_->assertBlocks(xyz_.size(0));
+  TORCH_CHECK(anchor_opacity_accum_.numel()==explicit_anchors_->size() &&
+      anchor_visits_.numel()==explicit_anchors_->size(),"Anchor pruning statistics are not aligned");
+  if(variableAnchorMembers() && explicit_anchors_->fusedFullStats() && xyz_.is_cuda() &&
+      explicit_anchors_->validatedMembers().defined() && visible_indices.is_contiguous()) {
+    mapping_cuda::anchorFullStats(explicit_anchors_->rows(),explicit_anchors_->validatedMembers(),
+        explicit_anchors_->memberCounts(),visible_indices,getOpacityActivation().detach(),
+        {anchor_opacity_accum_,anchor_visits_,anchor_slot_opacity_accum_,anchor_slot_below_prune_,anchor_slot_below_cutoff_},
+        explicit_anchors_->inactiveSlots(),explicit_anchors_->recoveredSlots());
+    return;
+  }
+  // One visit per Full view if any member is in the renderer's visibility set.
+  auto anchors=torch::zeros({explicit_anchors_->size()},xyz_.options().dtype(torch::kBool));
+  anchors.index_fill_(0,explicit_anchors_->rows().index_select(0,visible_indices),true);
+  if(variableAnchorMembers()) {
+    auto owners=explicit_anchors_->rows();
+    auto opacity=getOpacityActivation().detach().reshape({-1}).to(torch::kFloat64);
+    explicit_anchors_->refreshSlotActivity(getOpacityActivation());
+    auto active=anchors.index_select(0,owners);
+    auto observed=torch::where(active,opacity,torch::zeros_like(opacity));
+    anchor_opacity_accum_.index_add_(0,owners,observed);
+    anchor_visits_+=anchors.to(torch::kLong);
+    anchor_slot_opacity_accum_+=observed;
+    anchor_slot_below_prune_+=((opacity<.02)&active).to(torch::kLong);
+    anchor_slot_below_cutoff_+=((opacity<1./255)&active).to(torch::kLong);
+    return;
+  }
+  // Octree-GS sums all positive slot opacities, without dividing by slot count.
+  auto opacity=getOpacityActivation().detach().clamp_min(0).to(torch::kFloat64).reshape({explicit_anchors_->size(),10});
+  explicit_anchors_->refreshSlotActivity(getOpacityActivation());
+  auto active=anchors.unsqueeze(1);
+  auto observed=torch::where(active,opacity,torch::zeros_like(opacity));
+  anchor_opacity_accum_+=observed.sum(1);
+  anchor_visits_+=anchors.to(torch::kLong);
+  anchor_slot_opacity_accum_+=observed;
+  anchor_slot_below_prune_+=((opacity<.02)&active).to(torch::kLong);
+  anchor_slot_below_cutoff_+=((opacity<1./255)&active).to(torch::kLong);
+}
+
+void GaussianModel::saveAnchorPruningState(std::filesystem::path path, int check_interval) const {
+  torch::NoGradGuard guard;
+  auto denominator=variableAnchorMembers()?anchor_visits_.index_select(0,explicit_anchors_->rows()).to(torch::kFloat64):
+      anchor_visits_.to(torch::kFloat64).unsqueeze(1);
+  auto observed=denominator>0;
+  auto missing=torch::full_like(anchor_slot_opacity_accum_,std::numeric_limits<double>::quiet_NaN());
+  torch::serialize::OutputArchive archive;
+  archive.write("block_uids",explicit_anchors_->blockUIDs(),true);
+  archive.write("levels",explicit_anchors_->levels(),true);
+  archive.write("keys",explicit_anchors_->named_buffers()["keys"],true);
+  if(variableAnchorMembers()) {
+    archive.write("gaussian_owner",explicit_anchors_->rows(),true);
+    archive.write("member_counts",explicit_anchors_->memberCounts(),true);
+    archive.write("topology_round",explicit_anchors_->topologyRound(),true);
+  }
+  archive.write("mapping_iteration",torch::tensor(protection_.mapping_iteration,torch::kLong),true);
+  archive.write("check_interval",torch::tensor(check_interval,torch::kLong),true);
+  archive.write("opacity_accum",anchor_opacity_accum_,true);
+  archive.write("anchor_visits",anchor_visits_,true);
+  archive.write("slot_opacity_accum",anchor_slot_opacity_accum_,true);
+  archive.write("slot_below_002_count",anchor_slot_below_prune_,true);
+  archive.write("slot_below_cutoff_count",anchor_slot_below_cutoff_,true);
+  archive.write("slot_mean_opacity",torch::where(observed,anchor_slot_opacity_accum_/denominator,missing),true);
+  archive.write("slot_below_002_fraction",torch::where(observed,anchor_slot_below_prune_/denominator,missing),true);
+  archive.write("slot_below_cutoff_fraction",torch::where(observed,anchor_slot_below_cutoff_/denominator,missing),true);
+  archive.write("slot_current_opacity",variableAnchorMembers()?torch::sigmoid(opacity_.detach()).reshape({-1}):
+      torch::sigmoid(opacity_.detach()).reshape({explicit_anchors_->size(),10}),true);
+  if (explicit_anchors_->slotDeactivation()) archive.write("slot_inactive",explicit_anchors_->inactiveSlots(),true);
+  archive.save_to(path.string());
+}
+
+torch::Tensor GaussianModel::anchorPruningMask(int check_interval) {
+  MappingAuditRange trace("topology/anchor_prune_window");
+  torch::NoGradGuard guard;
+  TORCH_CHECK(explicit_anchors_ && check_interval>0 && anchor_visits_.numel()==explicit_anchors_->size() &&
+      anchor_opacity_accum_.numel()==explicit_anchors_->size(),"Invalid Anchor pruning window");
+  // Match Octree-GS adjust_anchor: strict count gate and strict opacity test.
+  auto enough=anchor_visits_>check_interval*.8;
+  auto prune=enough & (anchor_opacity_accum_<.005*anchor_visits_.to(torch::kFloat64));
+  explicit_anchors_->closeSlotWindow(enough,anchor_visits_,anchor_slot_below_cutoff_,getOpacityActivation());
+  if (explicit_anchors_->slotDeactivation())
+    std::cout<<"[Slot Activity] mapping="<<protection_.mapping_iteration
+             <<" inactive="<<explicit_anchors_->inactiveSlots().sum().item<int64_t>()
+             <<" population="<<xyz_.size(0)<<" budget_population=all_stored\n";
+  if(!anchor_pruning_diagnostics_.empty()) {
+    std::filesystem::create_directories(anchor_pruning_diagnostics_);
+    saveAnchorPruningState(anchor_pruning_diagnostics_/(
+        "window_"+std::to_string(protection_.mapping_iteration)+".pt"),check_interval);
+    const auto csv=anchor_pruning_diagnostics_/"windows.csv";
+    const bool header=!std::filesystem::exists(csv);
+    std::ofstream output(csv,std::ios::app);
+    if(header) output<<"mapping_iteration,uid,visits,sufficient,deleted,mean_opacity_sum,always_below_002_slots,always_below_cutoff_slots,other_slot_opacity_share\n";
+    auto visit=anchor_visits_.cpu().contiguous(),uids=explicit_anchors_->blockUIDs().cpu().contiguous();
+    auto sufficient=enough.cpu().contiguous(),removed=prune.cpu().contiguous();
+    auto total=anchor_opacity_accum_.cpu().contiguous();
+    const auto owners=explicit_anchors_->rows();
+    auto denominator=anchor_visits_.index_select(0,owners);
+    auto always=(denominator>0)&(anchor_slot_below_cutoff_.reshape({-1})==denominator);
+    auto low=torch::zeros_like(anchor_visits_),dead=torch::zeros_like(anchor_visits_);
+    auto other=torch::zeros_like(anchor_opacity_accum_);
+    low.index_add_(0,owners,((denominator>0)&(anchor_slot_below_prune_.reshape({-1})==denominator)).to(torch::kLong));
+    dead.index_add_(0,owners,always.to(torch::kLong));
+    other.index_add_(0,owners,torch::where(always,torch::zeros_like(anchor_slot_opacity_accum_.reshape({-1})),
+                                         anchor_slot_opacity_accum_.reshape({-1})));
+    low=low.cpu().contiguous();dead=dead.cpu().contiguous();other=other.cpu().contiguous();
+    for(int64_t j=0;j<explicit_anchors_->size();++j) {
+      const auto n=visit.accessor<int64_t,1>()[j];
+      output<<protection_.mapping_iteration<<','<<uids.accessor<int64_t,1>()[j]<<','<<n<<','
+            <<sufficient.accessor<bool,1>()[j]<<','<<removed.accessor<bool,1>()[j]<<',';
+      if(n>0) output<<total.accessor<double,1>()[j]/n<<','<<low.accessor<int64_t,1>()[j]<<','<<dead.accessor<int64_t,1>()[j]<<','
+                    <<(total.accessor<double,1>()[j]>0?other.accessor<double,1>()[j]/total.accessor<double,1>()[j]:std::numeric_limits<double>::quiet_NaN());
+      else output<<"nan,nan,nan,nan";
+      output<<'\n';
+    }
+  }
+  std::cout<<"[Anchor Opacity Prune] check_interval="<<check_interval<<" min_opacity=0.005 success_threshold=0.8"
+           <<" observed_enough="<<enough.sum().item<int64_t>()<<" removed="<<prune.sum().item<int64_t>()
+           <<" pending="<<(~enough).sum().item<int64_t>()<<'\n';
+  // Insufficiently observed anchors carry their evidence into the next check.
+  anchor_opacity_accum_.masked_fill_(enough,0);
+  anchor_visits_.masked_fill_(enough,0);
+  auto complete=variableAnchorMembers()?enough.index_select(0,explicit_anchors_->rows()):enough.unsqueeze(1);
+  anchor_slot_opacity_accum_.masked_fill_(complete,0);
+  anchor_slot_below_prune_.masked_fill_(complete,0);
+  anchor_slot_below_cutoff_.masked_fill_(complete,0);
+  return variableAnchorMembers()?prune.index_select(0,explicit_anchors_->rows()):prune.repeat_interleave(10);
+}
+
+void GaussianModel::appendAnchorSeeds(const improvements::selector::AnchorBankImpl::BlockSeeds& seeds, int iteration) {
+  if(!seeds.xyz.size(0))return;
+  auto color=seeds.color;
+  auto xyz=seeds.xyz, dc=sh_utils::RGB2SH(color).unsqueeze(1).contiguous();
+  auto rest=torch::zeros({xyz.size(0),(max_sh_degree_+1)*(max_sh_degree_+1)-1,3},xyz.options());
+  auto rotation=torch::zeros({xyz.size(0),4},xyz.options());rotation.select(1,0).fill_(1);
+  auto sigma=seeds.sigma.log();
+  auto opacity=general_utils::inverse_sigmoid(torch::full({xyz.size(0),1},1-std::pow(.5,1./10),xyz.options()));
+  auto birth=torch::full({xyz.size(0)},iteration,xyz.options().dtype(torch::kInt32));
+  densificationPostfix(xyz,dc,rest,opacity,sigma,rotation,birth);
 }
 
 void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
@@ -132,6 +345,23 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
   sparse_points_xyz_ = fused_point_cloud;
   sparse_points_color_ = color;
 
+  torch::Tensor block_sigma;
+  if(explicit_anchors_) {
+    TORCH_CHECK(explicit_anchors_->size()==0,"Explicit map cannot be reinitialized from an arbitrary PCD");
+    auto seeds=explicit_anchors_->observeBlocks(fused_point_cloud,color,{optimizer_.get(),anchor_feature_optimizer_});
+    fused_point_cloud=seeds.xyz;color=seeds.color;block_sigma=seeds.sigma;
+    anchor_opacity_accum_=torch::zeros({explicit_anchors_->size()},fused_point_cloud.options().dtype(torch::kFloat64));
+    anchor_visits_=torch::zeros({explicit_anchors_->size()},fused_point_cloud.options().dtype(torch::kLong));
+    anchor_slot_opacity_accum_=variableAnchorMembers()?torch::zeros({fused_point_cloud.size(0)},anchor_opacity_accum_.options()):
+        torch::zeros({explicit_anchors_->size(),10},anchor_opacity_accum_.options());
+    anchor_slot_below_prune_=torch::zeros_like(anchor_slot_opacity_accum_,anchor_visits_.options());
+    anchor_slot_below_cutoff_=torch::zeros_like(anchor_slot_below_prune_);
+    if(variableAnchorMembers()) {
+      anchor_growth_gradient_accum_=torch::zeros({fused_point_cloud.size(0),1},fused_point_cloud.options());
+      anchor_growth_denom_=torch::zeros_like(anchor_growth_gradient_accum_);
+    }
+  }
+
   torch::Tensor fused_color = sh_utils::RGB2SH(color);
   auto temp = this->max_sh_degree_ + 1;
   torch::Tensor features = torch::zeros(
@@ -147,18 +377,19 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
   // fused_point_cloud.size(0) << std::endl;
 
   torch::Tensor point_cloud_copy = fused_point_cloud.clone();
-  torch::Tensor dist2 =
-      torch::clamp_min(distCUDA2(point_cloud_copy), 0.0000001);
-  torch::Tensor scales = torch::log(torch::sqrt(dist2) * 0.1);
-  auto scales_ndimension = scales.ndimension();
-  scales = scales.unsqueeze(scales_ndimension).repeat({1, 3});
+  torch::Tensor scales;
+  if(block_sigma.defined()) scales=block_sigma.log();
+  else {
+    auto dist2=torch::clamp_min(distCUDA2(point_cloud_copy),0.0000001);
+    scales=torch::log(torch::sqrt(dist2)*0.1).unsqueeze(1).repeat({1,3});
+  }
   torch::Tensor rots =
       torch::zeros({fused_point_cloud.size(0), 4},
                    torch::TensorOptions().device(device_type_));
   rots.index({torch::indexing::Slice(), 0}) = 1;
 
   torch::Tensor opacities = general_utils::inverse_sigmoid(
-      0.5f *
+      (explicit_anchors_ ? float(1-std::pow(.5,1./10)) : 0.5f) *
       torch::ones(
           {fused_point_cloud.size(0), 1},
           torch::TensorOptions().dtype(torch::kFloat).device(device_type_)));
@@ -166,12 +397,9 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
   this->exist_since_iter_ = torch::zeros(
       {fused_point_cloud.size(0)},
       torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
-  this->selector_birth_iter_ = torch::zeros(
-      {fused_point_cloud.size(0)},
-      torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
-  this->selector_seen_count_ = torch::zeros(
-      {fused_point_cloud.size(0)},
-      torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
+  protection_.reset(fused_point_cloud.size(0), torch::TensorOptions().device(device_type_));
+  this->last_elastic_supervised_iter_ = torch::full({fused_point_cloud.size(0)}, protection_.mapping_iteration,
+      fused_point_cloud.options().dtype(torch::kInt64).requires_grad(false));
   this->xyz_ = fused_point_cloud.requires_grad_();
   this->features_dc_ =
       features
@@ -195,10 +423,11 @@ void GaussianModel::createFromPcd(std::map<point3D_id_t, Point3D> pcd,
 
   this->max_radii2D_ = torch::zeros(
       {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
-  assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
-  assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  protection_.assertAligned(this->xyz_.size(0));
+  assert(this->xyz_.size(0) == this->last_elastic_supervised_iter_.size(0));
   if (online_gi_reset_callback_)
     online_gi_reset_callback_(this->xyz_.size(0));
+  if(private_compensation_)private_compensation_->append(xyz_.size(0),{}, {optimizer_.get(),anchor_feature_optimizer_});
 }
 
 void GaussianModel::increasePcd(std::vector<float> points,
@@ -219,6 +448,7 @@ void GaussianModel::increasePcd(std::vector<float> points,
       torch::from_blob(colors.data(), {num_new_points, 3},
                        torch::TensorOptions().dtype(torch::kFloat32))
           .to(device_type_);
+  if(explicit_anchors_) { increasePcd(new_point_cloud,new_colors,iteration); return; }
   // torch::zeros({num_new_points, 3}, xyz_.options());
 
   sparse_points_xyz_ =
@@ -258,9 +488,6 @@ void GaussianModel::increasePcd(std::vector<float> points,
   torch::Tensor new_exist_since_iter = torch::full(
       {new_point_cloud.size(0)}, iteration,
       torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
-  torch::Tensor new_selector_birth_iter = new_exist_since_iter.clone();
-  torch::Tensor new_selector_seen_count = torch::zeros_like(
-      new_selector_birth_iter);
 
   auto new_xyz = new_point_cloud;
   auto new_features_dc =
@@ -286,8 +513,7 @@ void GaussianModel::increasePcd(std::vector<float> points,
 
   densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                        new_opacities, new_scaling, new_rotation,
-                       new_exist_since_iter, new_selector_birth_iter,
-                       new_selector_seen_count);
+                       new_exist_since_iter);
 
   c10::cuda::CUDACachingAllocator::emptyCache();
   // auto time3 = std::chrono::steady_clock::now();
@@ -308,6 +534,12 @@ void GaussianModel::increasePcd(torch::Tensor& new_point_cloud,
       torch::cat({sparse_points_xyz_, new_point_cloud}, /*dim=*/0);
   sparse_points_color_ =
       torch::cat({sparse_points_color_, new_colors}, /*dim=*/0);
+
+  if(explicit_anchors_) {
+    appendAnchorSeeds(explicit_anchors_->observeBlocks(new_point_cloud,new_colors,
+        {optimizer_.get(),anchor_feature_optimizer_}),iteration);
+    return;
+  }
 
   torch::Tensor new_fused_colors = sh_utils::RGB2SH(new_colors);
   auto temp = this->max_sh_degree_ + 1;
@@ -341,9 +573,6 @@ void GaussianModel::increasePcd(torch::Tensor& new_point_cloud,
   torch::Tensor new_exist_since_iter = torch::full(
       {new_point_cloud.size(0)}, iteration,
       torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
-  torch::Tensor new_selector_birth_iter = new_exist_since_iter.clone();
-  torch::Tensor new_selector_seen_count = torch::zeros_like(
-      new_selector_birth_iter);
 
   auto new_xyz = new_point_cloud;
   auto new_features_dc =
@@ -369,8 +598,7 @@ void GaussianModel::increasePcd(torch::Tensor& new_point_cloud,
 
   densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                        new_opacities, new_scaling, new_rotation,
-                       new_exist_since_iter, new_selector_birth_iter,
-                       new_selector_seen_count);
+                       new_exist_since_iter);
 
   c10::cuda::CUDACachingAllocator::emptyCache();
 
@@ -381,54 +609,62 @@ void GaussianModel::increasePcd(torch::Tensor& new_point_cloud,
   // <<std::endl;
 }
 
-void GaussianModel::applyScaledTransformation(const float s,
+namespace {
+GaussianTransformResult makeCorrection(const Sophus::SE3f& pose, float scale,
+                                        const torch::TensorOptions& options) {
+  GaussianTransformResult result;
+  result.transform_4x4 = tensor_utils::EigenMatrix2TorchTensor(
+      pose.matrix(), options.device().type()).to(options.device())
+          .transpose(0, 1).detach().clone();
+  const auto q = pose.unit_quaternion();
+  result.rotation_wxyz = torch::tensor({q.w(), q.x(), q.y(), q.z()},
+                                        options.dtype(torch::kFloat32));
+  result.scale = scale;
+  constexpr float kChangeEps = 1e-5f;
+  const bool scale_changed = std::abs(scale - 1.0f) > kChangeEps;
+  const bool rotation_changed = !pose.rotationMatrix().isApprox(
+      Eigen::Matrix3f::Identity(), kChangeEps);
+  // XYZ always follows the exact correction, including small translations.
+  result.changed_attributes = toBits(GaussianAttrFlag::XYZ);
+  if (scale_changed)
+    result.changed_attributes |= toBits(GaussianAttrFlag::SCALE);
+  if (rotation_changed)
+    result.changed_attributes |= toBits(GaussianAttrFlag::ROTATION);
+  return result;
+}
+}  // namespace
+
+GaussianTransformResult GaussianModel::applyScaledTransformation(const float s,
                                                const Sophus::SE3f T) {
   if (!std::isfinite(s) || s <= 0.0f)
     throw std::invalid_argument("Sim(3) scale must be positive and finite");
   torch::NoGradGuard no_grad;
-  // pt <- (s * Ryw * pt + tyw)
-  this->xyz_ *= s;
-  torch::Tensor T_tensor =
-      tensor_utils::EigenMatrix2TorchTensor(T.matrix(), device_type_)
-          .transpose(0, 1);
-  transformPoints(this->xyz_, T_tensor);
-
-  // torch::Tensor scales;
-  // torch::Tensor point_cloud_copy = this->xyz_.clone();
-  // torch::Tensor dist2 = torch::clamp_min(distCUDA2(point_cloud_copy),
-  // 0.0000001); scales = torch::log(torch::sqrt(dist2)); auto scales_ndimension
-  // = scales.ndimension(); scales =
-  // scales.unsqueeze(scales_ndimension).repeat({1, 3});
-  this->scaling_ += std::log(s);
-  const auto quaternion = T.unit_quaternion();
-  auto delta_rotation = torch::tensor(
-      {quaternion.w(), quaternion.x(), quaternion.y(), quaternion.z()},
-      xyz_.options())
-                           .view({1, 4})
-                           .expand({xyz_.size(0), 4});
-  auto rotated = quaternion_utils::normalize(
-      quaternion_utils::multiply(delta_rotation, getRotationActivation()));
-  scaledTransformationPostfix(this->xyz_, this->scaling_);
-  this->rotation_ = replaceTensorToOptimizer(rotated, 5);
-  this->Tensor_vec_rotation_ = {this->rotation_};
+  auto correction = makeCorrection(T, s, xyz_.options());
+  correction.affects_all = true;
+  correction.population_count = xyz_.size(0);
+  if (correction.population_count == 0) {
+    correction.changed_attributes = toBits(GaussianAttrFlag::NONE);
+    return correction;
+  }
+  auto transformed = applyGaussianTransform(
+      {xyz_, scaling_, getRotationActivation()}, correction);
+  xyz_ = replaceTensorToOptimizer(transformed.xyz, 0);
+  Tensor_vec_xyz_ = {xyz_};
+  if (correction.changed_attributes & toBits(GaussianAttrFlag::SCALE)) {
+    scaling_ = replaceTensorToOptimizer(transformed.log_scaling, 4);
+    Tensor_vec_scaling_ = {scaling_};
+  }
+  if (correction.changed_attributes & toBits(GaussianAttrFlag::ROTATION)) {
+    rotation_ = replaceTensorToOptimizer(transformed.rotation, 5);
+    Tensor_vec_rotation_ = {rotation_};
+  }
+  protection_.transportSnapshot(correction);
+  if(explicit_anchors_) explicit_anchors_->transportBlocks(correction);
+  if(private_compensation_)private_compensation_->transport(correction,{optimizer_.get(),anchor_feature_optimizer_});
+  return correction;
 }
 
-void GaussianModel::scaledTransformationPostfix(torch::Tensor& new_xyz,
-                                                torch::Tensor& new_scaling) {
-  // param_groups[0] = xyz_
-  torch::Tensor optimizable_xyz = this->replaceTensorToOptimizer(new_xyz, 0);
-  // param_groups[4] = scaling_
-  torch::Tensor optimizable_scaling =
-      this->replaceTensorToOptimizer(new_scaling, 4);
-
-  this->xyz_ = optimizable_xyz;
-  this->scaling_ = optimizable_scaling;
-
-  this->Tensor_vec_xyz_ = {this->xyz_};
-  this->Tensor_vec_scaling_ = {this->scaling_};
-}
-
-void GaussianModel::scaledTransformVisiblePointsOfKeyframe(
+GaussianTransformResult GaussianModel::scaledTransformVisiblePointsOfKeyframe(
     torch::Tensor& point_not_transformed_flags,
     const Sophus::SE3f& diff_pose,
     torch::Tensor& kf_world_view_transform,
@@ -450,19 +686,33 @@ void GaussianModel::scaledTransformVisiblePointsOfKeyframe(
                        stable_num_iter_existence,
                    true, false);
 
-  torch::Tensor diff_pose_tensor =
-      tensor_utils::EigenMatrix2TorchTensor(diff_pose.matrix(), device_type_)
-          .transpose(0, 1);
-  auto transformed_mask = scaleAndTransformThenMarkVisiblePoints(
-      points, rots, point_not_transformed_flags, point_unstable_flags,
-      diff_pose_tensor, kf_world_view_transform, kf_full_proj_transform,
-      num_transformed, scale);
-
-  const auto transformed_count = transformed_mask.sum().item<std::int64_t>();
-  if (transformed_count > 0) {
-    scaling_.index_put_({transformed_mask},
-                        scaling_.index({transformed_mask}) + std::log(scale));
+  auto transformed_mask = markVisibleUntransformedPoints(
+      points, point_not_transformed_flags, point_unstable_flags,
+      kf_world_view_transform, kf_full_proj_transform);
+  auto indices = torch::nonzero(transformed_mask).reshape({-1});
+  auto correction = makeCorrection(diff_pose, scale, points.options());
+  correction.indices = indices.detach();
+  correction.population_count = points.size(0);
+  if (indices.numel() == 0) {
+    correction.changed_attributes = toBits(GaussianAttrFlag::NONE);
+    return correction;
   }
+  auto transformed = applyGaussianTransform(
+      GaussianAttrState{points, scaling_, rots}.select(indices), correction);
+  points.index_copy_(0, indices, transformed.xyz);
+  if (correction.changed_attributes & toBits(GaussianAttrFlag::ROTATION)) {
+    // Preserve raw rotations outside the actual correction population.
+    rotation_.index_copy_(0, indices, transformed.rotation);
+    rotation_ = replaceTensorToOptimizer(rotation_, 5);
+    Tensor_vec_rotation_ = {rotation_};
+  }
+  if (correction.changed_attributes & toBits(GaussianAttrFlag::SCALE)) {
+    scaling_.index_copy_(0, indices, transformed.log_scaling);
+    scaling_ = replaceTensorToOptimizer(scaling_, 4);
+    Tensor_vec_scaling_ = {scaling_};
+  }
+  point_not_transformed_flags.index_put_({indices}, false);
+  num_transformed += static_cast<int>(indices.numel());
 
   // torch::Tensor point_cloud_copy = points.clone();
   // torch::Tensor dist2 = torch::clamp_min(distCUDA2(point_cloud_copy),
@@ -480,16 +730,14 @@ void GaussianModel::scaledTransformVisiblePointsOfKeyframe(
   // param_groups[5] = rotation_
   // ==================================
   torch::Tensor optimizable_xyz = this->replaceTensorToOptimizer(points, 0);
-  torch::Tensor optimizable_scaling = this->replaceTensorToOptimizer(scaling_, 4);
-  torch::Tensor optimizable_rots = this->replaceTensorToOptimizer(rots, 5);
-
   this->xyz_ = optimizable_xyz;
-  this->scaling_ = optimizable_scaling;
-  this->rotation_ = optimizable_rots;
-
   this->Tensor_vec_xyz_ = {this->xyz_};
-  this->Tensor_vec_scaling_ = {this->scaling_};
-  this->Tensor_vec_rotation_ = {this->rotation_};
+  protection_.transportSnapshot(correction);
+  if(variableAnchorMembers() && !fixedTenAnchors())
+    local_anchor_moved_rows_=local_anchor_moved_rows_.defined()?torch::cat({local_anchor_moved_rows_,indices}):indices.clone();
+  else if(explicit_anchors_) explicit_anchors_->transportBlocks(correction);
+  if(private_compensation_)private_compensation_->transport(correction,{optimizer_.get(),anchor_feature_optimizer_});
+  return correction;
 }
 
 void GaussianModel::trainingSetup(
@@ -605,7 +853,43 @@ torch::Tensor GaussianModel::replaceTensorToOptimizer(torch::Tensor& tensor,
 }
 
 void GaussianModel::prunePoints(torch::Tensor& mask) {
+  MappingAuditRange trace("topology/gaussian_prune_and_moments");
+  if(fixedTenAnchors()) {
+    auto removed=torch::zeros_like(explicit_anchors_->memberCounts());
+    removed.index_add_(0,explicit_anchors_->rows(),mask.to(torch::kLong));
+    TORCH_CHECK(((removed==0)|(removed==10)).all().item<bool>(),"Fixed-ten mode cannot prune individual Gaussian members");
+  }
+  if(explicit_anchors_&&!variableAnchorMembers()) mask=explicit_anchors_->wholeBlockPrune(mask);
+  if (!last_elastic_supervised_iter_.defined() ||
+      last_elastic_supervised_iter_.numel() != xyz_.size(0)) {
+    last_elastic_supervised_iter_ = torch::full({xyz_.size(0)}, protection_.mapping_iteration, xyz_.options().dtype(torch::kInt64).requires_grad(false));
+  }
   auto valid_points_mask = ~mask;
+  if(private_compensation_)private_compensation_->select(torch::nonzero(valid_points_mask).reshape({-1}),
+      {optimizer_.get(),anchor_feature_optimizer_});
+  if(variableAnchorMembers()) {
+    auto counts=torch::zeros_like(explicit_anchors_->memberCounts());
+    auto surviving_owners=explicit_anchors_->rows().index({valid_points_mask});
+    counts.index_add_(0,surviving_owners,torch::ones_like(surviving_owners));
+    auto changed=counts!=explicit_anchors_->memberCounts();
+    auto alive=explicit_anchors_->pruneVariableMembers(valid_points_mask,{optimizer_.get(),anchor_feature_optimizer_});
+    anchor_opacity_accum_=anchor_opacity_accum_.index_select(0,alive);
+    anchor_visits_=anchor_visits_.index_select(0,alive);
+    anchor_slot_opacity_accum_=anchor_slot_opacity_accum_.index({valid_points_mask});
+    anchor_slot_below_prune_=anchor_slot_below_prune_.index({valid_points_mask});
+    anchor_slot_below_cutoff_=anchor_slot_below_cutoff_.index({valid_points_mask});
+    anchor_growth_gradient_accum_=anchor_growth_gradient_accum_.index({valid_points_mask});
+    anchor_growth_denom_=anchor_growth_denom_.index({valid_points_mask});
+    resetAnchorWindows(changed.index_select(0,alive));
+  } else if(explicit_anchors_) {
+    auto keep=valid_points_mask.reshape({explicit_anchors_->size(),10}).select(1,0);
+    anchor_opacity_accum_=anchor_opacity_accum_.index({keep});
+    anchor_visits_=anchor_visits_.index({keep});
+    anchor_slot_opacity_accum_=anchor_slot_opacity_accum_.index({keep});
+    anchor_slot_below_prune_=anchor_slot_below_prune_.index({keep});
+    anchor_slot_below_cutoff_=anchor_slot_below_cutoff_.index({keep});
+    explicit_anchors_->pruneBlocks(valid_points_mask,{optimizer_.get(),anchor_feature_optimizer_});
+  }
 
   // _prune_optimizer
   std::vector<torch::Tensor> optimizable_tensors(6);
@@ -655,45 +939,35 @@ void GaussianModel::prunePoints(torch::Tensor& mask) {
   GAUSSIAN_MODEL_TENSORS_TO_VEC
 
   this->exist_since_iter_ = this->exist_since_iter_.index({valid_points_mask});
-  this->selector_birth_iter_ =
-      this->selector_birth_iter_.index({valid_points_mask});
-  this->selector_seen_count_ =
-      this->selector_seen_count_.index({valid_points_mask});
+  protection_.prune(valid_points_mask);
+  this->last_elastic_supervised_iter_ =
+      this->last_elastic_supervised_iter_.index({valid_points_mask});
 
   this->xyz_gradient_accum_ =
       this->xyz_gradient_accum_.index({valid_points_mask});
 
   this->denom_ = this->denom_.index({valid_points_mask});
   this->max_radii2D_ = this->max_radii2D_.index({valid_points_mask});
-  assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
-  assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  protection_.assertAligned(this->xyz_.size(0));
+  assert(this->xyz_.size(0) == this->last_elastic_supervised_iter_.size(0));
   if (online_gi_prune_callback_)
     online_gi_prune_callback_(valid_points_mask);
 }
 
-torch::Tensor GaussianModel::getSelectorMatureMask(int current_iteration,
-                                                   int min_age,
-                                                   int min_seen) const {
-  if (this->selector_birth_iter_.numel() == 0) {
-    return torch::empty(
-        {0}, torch::TensorOptions().dtype(torch::kBool).device(device_type_));
-  }
-
-  auto age = current_iteration - this->selector_birth_iter_;
-  return torch::logical_and(age >= min_age,
-                            this->selector_seen_count_ >= min_seen);
+torch::Tensor GaussianModel::getSelectorMatureMask() const {
+  return protection_.matureMask();
 }
 
-void GaussianModel::updateSelectorSeenCount(
-    const torch::Tensor& visibility_filter) {
-  if (visibility_filter.numel() == 0 ||
-      this->selector_seen_count_.numel() == 0)
+void GaussianModel::updateElasticSupervision(
+    const torch::Tensor& indices, std::int64_t mapping_iter) {
+  if (!indices.defined() || indices.numel() == 0 ||
+      this->last_elastic_supervised_iter_.numel() == 0)
     return;
 
   torch::NoGradGuard no_grad;
-  this->selector_seen_count_.index_put_(
-      {visibility_filter},
-      this->selector_seen_count_.index({visibility_filter}) + 1);
+  auto long_indices = indices.to(torch::kLong);
+  this->last_elastic_supervised_iter_.index_put_(
+      {long_indices}, mapping_iter);
 }
 
 void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
@@ -703,13 +977,33 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
                                          torch::Tensor& new_scaling,
                                          torch::Tensor& new_rotation,
                                          torch::Tensor& new_exist_since_iter,
-                                         torch::Tensor& new_selector_birth_iter,
-                                         torch::Tensor& new_selector_seen_count) {
+                                         AppendKind append_kind,
+                                         const torch::Tensor& parent_indices) {
+  MappingAuditRange trace("topology/gaussian_append_and_moments");
+  if(explicit_anchors_&&!variableAnchorMembers()) {
+    TORCH_CHECK(append_kind==AppendKind::Append && new_xyz.size(0)%10==0,
+                "Explicit map forbids pointwise clone/split/append");
+    explicit_anchors_->assertBlocks(xyz_.size(0)+new_xyz.size(0));
+  }
+  if (!last_elastic_supervised_iter_.defined() ||
+      last_elastic_supervised_iter_.numel() != xyz_.size(0)) {
+    last_elastic_supervised_iter_ = torch::full({xyz_.size(0)}, protection_.mapping_iteration, xyz_.options().dtype(torch::kInt64).requires_grad(false));
+  }
   // cat_tensors_to_optimizer
+  if(variableAnchorMembers()) {
+    if(parent_indices.defined()) {
+      TORCH_CHECK(parent_indices.numel()==new_xyz.size(0),"Variable append requires one owner per child");
+      explicit_anchors_->appendVariableMembers(parent_indices);
+    }
+    TORCH_CHECK(explicit_anchors_->rows().numel()==xyz_.size(0)+new_xyz.size(0),
+                "Variable append lost Gaussian ownership");
+  }
   std::vector<torch::Tensor> optimizable_tensors(6);
   std::vector<torch::Tensor> tensors_dict = {new_xyz,           new_features_dc,
                                              new_features_rest, new_opacities,
                                              new_scaling,       new_rotation};
+  if(private_compensation_)private_compensation_->append(new_xyz.size(0),parent_indices,
+      {optimizer_.get(),anchor_feature_optimizer_});
   auto& param_groups = this->optimizer_->param_groups();
   auto& state = this->optimizer_->state();
   for (int group_idx = 0; group_idx < 6; ++group_idx) {
@@ -763,37 +1057,64 @@ void GaussianModel::densificationPostfix(torch::Tensor& new_xyz,
 
   this->exist_since_iter_ =
       torch::cat({this->exist_since_iter_, new_exist_since_iter}, /*dim=*/0);
-  this->selector_birth_iter_ = torch::cat(
-      {this->selector_birth_iter_, new_selector_birth_iter}, /*dim=*/0);
-  this->selector_seen_count_ = torch::cat(
-      {this->selector_seen_count_, new_selector_seen_count}, /*dim=*/0);
+  protection_.append(new_xyz.size(0), parent_indices);
+  this->last_elastic_supervised_iter_ = torch::cat(
+      {this->last_elastic_supervised_iter_, torch::full({new_xyz.size(0)},
+       protection_.mapping_iteration, this->last_elastic_supervised_iter_.options())});
 
-  this->xyz_gradient_accum_ = torch::zeros(
-      {this->getXYZ().size(0), 1}, torch::TensorOptions().device(device_type_));
-  this->denom_ = torch::zeros({this->getXYZ().size(0), 1},
-                              torch::TensorOptions().device(device_type_));
-  this->max_radii2D_ = torch::zeros(
-      {this->getXYZ().size(0)}, torch::TensorOptions().device(device_type_));
-  assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
-  assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  if(variableAnchorMembers()) {
+    const auto added_anchors=explicit_anchors_->size()-anchor_visits_.numel();
+    anchor_opacity_accum_=torch::cat({anchor_opacity_accum_,torch::zeros({added_anchors},anchor_opacity_accum_.options())});
+    anchor_visits_=torch::cat({anchor_visits_,torch::zeros({added_anchors},anchor_visits_.options())});
+    anchor_slot_opacity_accum_=torch::cat({anchor_slot_opacity_accum_,torch::zeros({new_xyz.size(0)},anchor_slot_opacity_accum_.options())});
+    anchor_slot_below_prune_=torch::cat({anchor_slot_below_prune_,torch::zeros({new_xyz.size(0)},anchor_slot_below_prune_.options())});
+    anchor_slot_below_cutoff_=torch::cat({anchor_slot_below_cutoff_,torch::zeros({new_xyz.size(0)},anchor_slot_below_cutoff_.options())});
+    anchor_growth_gradient_accum_=torch::cat({anchor_growth_gradient_accum_,torch::zeros({new_xyz.size(0),1},xyz_.options().requires_grad(false))});
+    anchor_growth_denom_=torch::cat({anchor_growth_denom_,torch::zeros({new_xyz.size(0),1},xyz_.options().requires_grad(false))});
+    auto changed=torch::zeros({explicit_anchors_->size()},explicit_anchors_->rows().options().dtype(torch::kBool));
+    changed.index_fill_(0,explicit_anchors_->rows().slice(0,-new_xyz.size(0)),true);
+    resetAnchorWindows(changed);
+    xyz_gradient_accum_=torch::cat({xyz_gradient_accum_,torch::zeros({new_xyz.size(0),1},xyz_gradient_accum_.options())});
+    denom_=torch::cat({denom_,torch::zeros({new_xyz.size(0),1},denom_.options())});
+    max_radii2D_=torch::cat({max_radii2D_,torch::zeros({new_xyz.size(0)},max_radii2D_.options())});
+  } else if(explicit_anchors_) {
+    const auto added_anchors=new_xyz.size(0)/10;
+    anchor_opacity_accum_=torch::cat({anchor_opacity_accum_,torch::zeros({added_anchors},anchor_opacity_accum_.options())});
+    anchor_visits_=torch::cat({anchor_visits_,torch::zeros({added_anchors},anchor_visits_.options())});
+    anchor_slot_opacity_accum_=torch::cat({anchor_slot_opacity_accum_,torch::zeros({added_anchors,10},anchor_slot_opacity_accum_.options())});
+    anchor_slot_below_prune_=torch::cat({anchor_slot_below_prune_,torch::zeros({added_anchors,10},anchor_slot_below_prune_.options())});
+    anchor_slot_below_cutoff_=torch::cat({anchor_slot_below_cutoff_,torch::zeros({added_anchors,10},anchor_slot_below_cutoff_.options())});
+    xyz_gradient_accum_=torch::cat({xyz_gradient_accum_,torch::zeros({new_xyz.size(0),1},xyz_gradient_accum_.options())});
+    denom_=torch::cat({denom_,torch::zeros({new_xyz.size(0),1},denom_.options())});
+    max_radii2D_=torch::cat({max_radii2D_,torch::zeros({new_xyz.size(0)},max_radii2D_.options())});
+  } else {
+    xyz_gradient_accum_=torch::zeros({getXYZ().size(0),1},torch::TensorOptions().device(device_type_));
+    denom_=torch::zeros({getXYZ().size(0),1},torch::TensorOptions().device(device_type_));
+    max_radii2D_=torch::zeros({getXYZ().size(0)},torch::TensorOptions().device(device_type_));
+  }
+  protection_.assertAligned(this->xyz_.size(0));
+  assert(this->xyz_.size(0) == this->last_elastic_supervised_iter_.size(0));
   if (online_gi_append_callback_ && new_xyz.size(0) > 0)
     online_gi_append_callback_(new_xyz.size(0));
+  if (gi_append_event_callback_ && new_xyz.size(0) > 0)
+    gi_append_event_callback_(new_xyz.size(0), append_kind);
 }
 
 void GaussianModel::setOnlineGIStateCallbacks(
     OnlineGIAppendCallback on_append,
     OnlineGIPruneCallback on_prune,
-    OnlineGIResetCallback on_reset) {
+    OnlineGIResetCallback on_reset, GIAppendEventCallback on_append_event) {
   online_gi_append_callback_ = std::move(on_append);
   online_gi_prune_callback_ = std::move(on_prune);
   online_gi_reset_callback_ = std::move(on_reset);
+  gi_append_event_callback_ = std::move(on_append_event);
 }
 
 void GaussianModel::densifyAndSplit(torch::Tensor& grads,
                                     float grad_threshold,
                                     float scene_extent,
-                                    int N,
-                                    int current_iteration) {
+                                    int N) {
+  TORCH_CHECK(!explicit_anchors_,"Explicit map disables Gaussian split");
   int n_init_points = this->getXYZ().size(0);
   // Extract points that satisfy the gradient condition
   auto padded_grad = torch::zeros({n_init_points},
@@ -810,10 +1131,10 @@ void GaussianModel::densifyAndSplit(torch::Tensor& grads,
   auto new_xyz = this->getXYZ().index({selected_pts_mask}).repeat({N, 1});
   auto samples = torch::normal(0.0f, 1.0f, new_xyz.sizes()).to(device_type_);
   samples.index_put_({samples.abs() > 3.0f}, 0.0f);
-  auto new_covs = this->getCovarianceActivation()
+  auto new_transforms = this->getScalingRotationActivation()
                       .index({selected_pts_mask})
                       .repeat({N, 1, 1});
-  new_xyz += new_covs.matmul(samples.unsqueeze(-1)).squeeze(-1);
+  new_xyz += new_transforms.matmul(samples.unsqueeze(-1)).squeeze(-1);
   auto new_scaling = torch::log(
       this->getScalingActivation().index({selected_pts_mask}).repeat({N, 1}) /
       (0.8 * N));  // scaling_inverse_activation
@@ -826,18 +1147,10 @@ void GaussianModel::densifyAndSplit(torch::Tensor& grads,
 
   auto new_exist_since_iter =
       this->exist_since_iter_.index({selected_pts_mask}).repeat({N});
-  // Split children are new Selector identities. Keep CaRtGS' original
-  // existence metadata, but restart the protection warm-up for each child.
-  auto new_selector_birth_iter = torch::full(
-      {new_xyz.size(0)}, current_iteration,
-      this->selector_birth_iter_.options());
-  auto new_selector_seen_count = torch::zeros(
-      {new_xyz.size(0)}, this->selector_seen_count_.options());
-
+  const auto parent_indices = torch::nonzero(selected_pts_mask).reshape({-1}).repeat({N});
   this->densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                              new_opacity, new_scaling, new_rotation,
-                             new_exist_since_iter, new_selector_birth_iter,
-                             new_selector_seen_count);
+                             new_exist_since_iter, AppendKind::Split, parent_indices);
 
   auto prune_filter = torch::cat(
       {selected_pts_mask,
@@ -849,8 +1162,8 @@ void GaussianModel::densifyAndSplit(torch::Tensor& grads,
 
 void GaussianModel::densifyAndClone(torch::Tensor& grads,
                                     float grad_threshold,
-                                    float scene_extent,
-                                    int current_iteration) {
+                                    float scene_extent) {
+  TORCH_CHECK(!explicit_anchors_,"Explicit map disables Gaussian clone");
   // Extract points that satisfy the gradient condition
   auto selected_pts_mask = torch::where(
       torch::frobenius_norm(grads, /*dim=*/-1) >= grad_threshold, true, false);
@@ -868,32 +1181,151 @@ void GaussianModel::densifyAndClone(torch::Tensor& grads,
 
   auto new_exist_since_iter =
       this->exist_since_iter_.index({selected_pts_mask});
-  // Clone children are also fresh Selector identities; parent protection
-  // metadata must not make them mature at birth.
-  auto new_selector_birth_iter = torch::full(
-      {new_xyz.size(0)}, current_iteration,
-      this->selector_birth_iter_.options());
-  auto new_selector_seen_count = torch::zeros(
-      {new_xyz.size(0)}, this->selector_seen_count_.options());
-
+  const auto parent_indices = torch::nonzero(selected_pts_mask).reshape({-1});
   this->densificationPostfix(new_xyz, new_features_dc, new_features_rest,
                              new_opacities, new_scaling, new_rotation,
-                             new_exist_since_iter, new_selector_birth_iter,
-                             new_selector_seen_count);
+                             new_exist_since_iter, AppendKind::Clone, parent_indices);
+}
+
+void GaussianModel::resetAnchorWindows(const torch::Tensor& changed) {
+  if(!variableAnchorMembers())return;
+  auto affected=changed.index_select(0,explicit_anchors_->rows());
+  anchor_opacity_accum_.masked_fill_(changed,0);anchor_visits_.masked_fill_(changed,0);
+  anchor_slot_opacity_accum_.masked_fill_(affected,0);
+  anchor_slot_below_prune_.masked_fill_(affected,0);anchor_slot_below_cutoff_.masked_fill_(affected,0);
+}
+
+void GaussianModel::densifyVariableMembers(const torch::Tensor& gradients,float threshold,float extent) {
+  MappingAuditRange trace("topology/gaussian_candidates_clone_split");
+  const auto total=xyz_.size(0);if(!total)return;
+  // The legacy transaction returns without touching leaves or moments when
+  // no finite gradient passes the threshold. Keep that exact no-change case
+  // on device instead of copying four populations and stable-sorting N rows.
+  if(explicit_anchors_->fusedFullStats() && gradients.is_cuda()) {
+    const auto candidate=torch::isfinite(gradients)&(gradients>=threshold);
+    if(!candidate.any().item<bool>())return;
+  }
+  auto grad=gradients.reshape({-1}).to(torch::kCPU,torch::kFloat64).contiguous();
+  auto counts=explicit_anchors_->memberCounts().cpu().contiguous();
+  auto owners=explicit_anchors_->rows().cpu().contiguous();
+  auto large=(std::get<0>(getScalingActivation().max(1))>percentDense()*extent).cpu().contiguous();
+  auto g=grad.accessor<double,1>();auto c=counts.accessor<int64_t,1>(),a=owners.accessor<int64_t,1>();
+  std::vector<int64_t> order(total),clone,split;
+  std::iota(order.begin(),order.end(),0);
+  { MappingAuditRange sorting_trace("topology/cpu_stable_sort");
+  std::stable_sort(order.begin(),order.end(),[&](int64_t i,int64_t j){
+    const double x=std::isfinite(g[i])?g[i]:-1,y=std::isfinite(g[j])?g[j]:-1;
+    return x==y?i<j:x>y;
+  });
+  }
+  std::vector<int64_t> remaining(counts.numel());for(int64_t j=0;j<counts.numel();++j)remaining[j]=10-c[j];
+  for(auto i:order)if(std::isfinite(g[i])&&g[i]>=threshold&&remaining[a[i]]>0) {
+    (large.accessor<bool,1>()[i]?split:clone).push_back(i);--remaining[a[i]];
+  }
+  if(clone.empty()&&split.empty())return;
+  auto options=explicit_anchors_->rows().options();
+  auto clones=torch::tensor(clone,options),splits=torch::tensor(split,options);
+  auto parents=torch::cat({clones,splits.repeat({2})});
+  auto xyz=xyz_.index_select(0,parents).clone(),scales=scaling_.index_select(0,parents).clone();
+  if(!split.empty()) {
+    auto split_xyz=xyz.slice(0,clones.numel());
+    auto samples=torch::normal(0.f,1.f,split_xyz.sizes()).to(xyz_.device());
+    samples.index_put_({samples.abs()>3.f},0.f);
+    auto transform=getScalingRotationActivation().index_select(0,splits).repeat({2,1,1});
+    split_xyz.add_(transform.matmul(samples.unsqueeze(-1)).squeeze(-1));
+    scales.slice(0,clones.numel()).sub_(std::log(1.6));
+  }
+  auto dc=features_dc_.index_select(0,parents),rest=features_rest_.index_select(0,parents);
+  auto opacity=opacity_.index_select(0,parents),rotation=rotation_.index_select(0,parents);
+  auto birth=exist_since_iter_.index_select(0,parents);
+  // One graph-free transaction: insert children, then remove split parents.
+  // The capacity check uses net +1 per split; no render sees the transient rows.
+  auto append=[&](int64_t first,int64_t last,AppendKind kind) {
+    if(first==last)return;
+    auto x=xyz.slice(0,first,last),d=dc.slice(0,first,last),f=rest.slice(0,first,last);
+    auto o=opacity.slice(0,first,last),s=scales.slice(0,first,last),r=rotation.slice(0,first,last),b=birth.slice(0,first,last);
+    densificationPostfix(x,d,f,o,s,r,b,kind,parents.slice(0,first,last));
+  };
+  append(0,clones.numel(),AppendKind::Clone);append(clones.numel(),parents.numel(),AppendKind::Split);
+  auto remove=torch::zeros({xyz_.size(0)},options.dtype(torch::kBool));remove.index_fill_(0,splits,true);
+  prunePoints(remove);
+  std::cout<<"[Variable Gaussian Densify] clones="<<clone.size()<<" split_parents="<<split.size()
+           <<" net_added="<<clone.size()+split.size()<<'\n';
 }
 
 void GaussianModel::densifyAndPrune(float max_grad,
                                     float min_opacity,
                                     float extent,
                                     int max_screen_size,
-                                    int current_iteration) {
+                                    int anchor_check_interval) {
+  MappingAuditRange trace("topology/complete_event");
   auto grads = this->xyz_gradient_accum_ / this->denom_;
   grads.index_put_({grads.isnan()}, 0.0f);
-  this->densifyAndClone(grads, max_grad, extent, current_iteration);
-  this->densifyAndSplit(grads, max_grad, extent, 2, current_iteration);
+  if(variableAnchorMembers()) {
+    torch::NoGradGuard guard;
+    const auto round=explicit_anchors_->topologyRound().item<int64_t>();
+    const bool gaussian_round=!fixedTenAnchors() && round%2==0;
+    std::cout<<"[Alternating Topology] round="<<round<<" phase="<<(gaussian_round?"Gaussian":"Anchor")
+             <<" mapping="<<protection_.mapping_iteration<<'\n';
+    if(gaussian_round) {
+      int64_t removed=0;
+      if(!anchor_only_pruning_) {
+        auto remove=(getOpacityActivation()<min_opacity).reshape({-1});
+        if(max_screen_size)remove|=(max_radii2D_>max_screen_size)|
+            (std::get<0>(getScalingActivation().max(1))>.1f*extent);
+        removed=remove.sum().item<int64_t>();gaussian_pruned_members_+=removed;
+        grads=grads.index({~remove});
+        prunePoints(remove);
+      }
+      std::cout<<"[Variable Gaussian Prune] enabled="<<!anchor_only_pruning_<<" removed="<<removed<<'\n';
+      densifyVariableMembers(grads,max_grad,extent);
+      xyz_gradient_accum_.zero_();denom_.zero_();max_radii2D_.zero_();
+    } else {
+      auto anchor_grads=anchor_growth_gradient_accum_/anchor_growth_denom_.clamp_min(1);
+      if(anchor_growth_threshold_==0) {
+        auto root=explicit_anchors_->levels().index_select(0,explicit_anchors_->rows())==0;
+        auto valid=root & (anchor_growth_denom_.reshape({-1})>0) & torch::isfinite(anchor_grads.reshape({-1})) &
+            (anchor_grads.reshape({-1})>0);
+        auto values=anchor_grads.reshape({-1}).index({valid});
+        if(values.numel())anchor_growth_threshold_=torch::quantile(values,.9).item<double>();
+      }
+      if(anchor_growth_threshold_>0) {
+        auto color=(features_dc_.squeeze(1)*0.28209479177387814+.5).clamp(0,1);
+        appendAnchorSeeds(explicit_anchors_->growBlocks(xyz_,color,anchor_grads,anchor_growth_denom_,anchor_growth_threshold_,2,
+            {optimizer_.get(),anchor_feature_optimizer_},anchor_refine_requires_full_),int(protection_.mapping_iteration));
+      }
+      auto remove=anchorPruningMask(anchor_check_interval);
+      anchor_pruned_members_+=remove.sum().item<int64_t>();prunePoints(remove);
+      anchor_growth_gradient_accum_.zero_();anchor_growth_denom_.zero_();
+      if(fixedTenAnchors()){xyz_gradient_accum_.zero_();denom_.zero_();max_radii2D_.zero_();}
+    }
+    explicit_anchors_->topologyRound().add_(1);
+    explicit_anchors_->assertBlocks(xyz_.size(0));
+    { MappingAuditRange cache_trace("topology/empty_cache");c10::cuda::CUDACachingAllocator::emptyCache(); }
+    return;
+  }
+  if(explicit_anchors_) {
+    if(anchor_growth_threshold_==0) {
+      auto root=explicit_anchors_->levels().index_select(0,explicit_anchors_->rows())==0;
+      auto valid=root & (denom_.reshape({-1})>0) & torch::isfinite(grads.reshape({-1})) & (grads.reshape({-1})>0);
+      auto values=grads.reshape({-1}).index({valid});
+      if(values.numel()) anchor_growth_threshold_=torch::quantile(values,.9).item<double>();
+      std::cout<<"[Explicit Anchor Calibration] Full-only native gradient q90 tau0="<<anchor_growth_threshold_
+               <<" visible_positive_L0="<<values.numel()<<" alpha=2\n";
+    }
+    if(anchor_growth_threshold_>0) {
+      auto color=(features_dc_.squeeze(1)*0.28209479177387814+.5).clamp(0,1);
+      appendAnchorSeeds(explicit_anchors_->growBlocks(xyz_,color,grads,denom_,anchor_growth_threshold_,2,
+          {optimizer_.get(),anchor_feature_optimizer_}),int(protection_.mapping_iteration));
+    }
+  } else {
+    this->densifyAndClone(grads, max_grad, extent);
+    this->densifyAndSplit(grads, max_grad, extent, 2);
+  }
 
-  auto prune_mask = (this->getOpacityActivation() < min_opacity).squeeze();
-  if (max_screen_size) {
+  auto prune_mask = explicit_anchors_ ? anchorPruningMask(anchor_check_interval) :
+      (this->getOpacityActivation() < min_opacity).squeeze();
+  if (!explicit_anchors_ && max_screen_size) {
     auto big_points_vs = this->max_radii2D_ > max_screen_size;
     auto big_points_ws =
         std::get<0>(this->getScalingActivation().max(/*dim=*/1)) >
@@ -902,12 +1334,18 @@ void GaussianModel::densifyAndPrune(float max_grad,
                                    big_points_ws);
   }
   this->prunePoints(prune_mask);
+  if(explicit_anchors_) { xyz_gradient_accum_.zero_();denom_.zero_();max_radii2D_.zero_(); }
 
   c10::cuda::CUDACachingAllocator::emptyCache();  // torch.cuda.empty_cache()
 }
 
 void GaussianModel::addDensificationStats(torch::Tensor& viewspace_point_tensor,
                                           torch::Tensor& update_filter) {
+  if(variableAnchorMembers()) {
+    anchor_growth_gradient_accum_.index_put_({update_filter},
+        torch::frobenius_norm(viewspace_point_tensor.grad().index({update_filter,torch::indexing::Slice(0,2)}),-1,true),true);
+    anchor_growth_denom_.index_put_({update_filter},anchor_growth_denom_.index({update_filter})+1.0);
+  }
   this->xyz_gradient_accum_.index_put_(
       {update_filter},
       torch::frobenius_norm(viewspace_point_tensor.grad().index(
@@ -1077,98 +1515,85 @@ void GaussianModel::loadPly(std::filesystem::path ply_path) {
                        torch::TensorOptions().dtype(torch::kFloat32))
           .to(device_type_);
 
-  this->selector_birth_iter_ = torch::zeros(
-      {num_points},
-      torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
-  this->selector_seen_count_ = torch::zeros(
-      {num_points},
-      torch::TensorOptions().dtype(torch::kInt32).device(device_type_));
+  protection_.reset(num_points, torch::TensorOptions().device(device_type_));
+  this->last_elastic_supervised_iter_ = torch::full({xyz_.size(0)}, protection_.mapping_iteration, xyz_.options().dtype(torch::kInt64).requires_grad(false));
 
   GAUSSIAN_MODEL_TENSORS_TO_VEC
 
   this->active_sh_degree_ = this->max_sh_degree_;
-  assert(this->xyz_.size(0) == this->selector_birth_iter_.size(0));
-  assert(this->xyz_.size(0) == this->selector_seen_count_.size(0));
+  protection_.assertAligned(this->xyz_.size(0));
+  assert(this->xyz_.size(0) == this->last_elastic_supervised_iter_.size(0));
   if (online_gi_reset_callback_)
     online_gi_reset_callback_(this->xyz_.size(0));
 }
 
-void GaussianModel::loadSelectorMetadataPly(
-    std::filesystem::path ply_path) {
-  std::ifstream instream_binary(ply_path, std::ios::binary);
-  if (!instream_binary.is_open() || instream_binary.fail())
-    throw std::runtime_error("Fail to open selector metadata PLY at " +
-                             ply_path.string());
-
-  tinyply::PlyFile ply_file;
-  ply_file.parse_header(instream_binary);
-  std::shared_ptr<tinyply::PlyData> birth, seen;
-  try {
-    birth = ply_file.request_properties_from_element(
-        "vertex", {"selector_birth_iter"});
-    seen = ply_file.request_properties_from_element(
-        "vertex", {"selector_seen_count"});
-  } catch (const std::exception& e) {
-    throw std::runtime_error("Invalid selector metadata PLY at " +
-                             ply_path.string() + ": " + e.what());
+void GaussianModel::loadSelectorMetadataPly(std::filesystem::path ply_path) {
+  std::ifstream input(ply_path, std::ios::binary);
+  if (!input) throw std::runtime_error("Cannot open maturity metadata: " + ply_path.string());
+  tinyply::PlyFile file;
+  file.parse_header(input);
+  std::string schema;
+  int64_t mapping_iteration = -1;
+  for (const auto& comment : file.get_comments()) {
+    std::istringstream stream(comment);
+    std::string key; stream >> key;
+    if (key == "protection_schema") stream >> schema;
+    if (key == "protection_mapping_iteration") stream >> mapping_iteration;
   }
-  ply_file.read(instream_binary);
-
-  const auto num_points = this->xyz_.size(0);
-  if (birth->count != num_points || seen->count != num_points)
-    throw std::runtime_error("Selector metadata count does not match Gaussian "
-                             "count in " + ply_path.string());
-
-  std::vector<int32_t> birth_values(num_points);
-  std::vector<int32_t> seen_values(num_points);
-  std::memcpy(birth_values.data(), birth->buffer.get(),
-              birth->buffer.size_bytes());
-  std::memcpy(seen_values.data(), seen->buffer.get(),
-              seen->buffer.size_bytes());
-  this->selector_birth_iter_ =
-      torch::from_blob(birth_values.data(), {num_points},
-                       torch::TensorOptions().dtype(torch::kInt32))
-          .clone()
-          .to(device_type_);
-  this->selector_seen_count_ =
-      torch::from_blob(seen_values.data(), {num_points},
-                       torch::TensorOptions().dtype(torch::kInt32))
-          .clone()
-          .to(device_type_);
+  TORCH_CHECK(schema == "continuous_cycle_geometric" && mapping_iteration >= 0,
+      "Checkpoint requires continuous_cycle_geometric maturity metadata");
+  std::map<std::string, std::shared_ptr<tinyply::PlyData>> fields;
+  for (const auto* name : {"maturity", "drift_ema", "cached_uniform"})
+    fields[name] = file.request_properties_from_element("vertex", {name});
+  file.read(input);
+  const int64_t count = xyz_.size(0);
+  protection_.reset(count, xyz_.options());
+  protection_.mapping_iteration = mapping_iteration;
+  for (auto entry : {std::make_pair("maturity", &protection_.maturity),
+                     std::make_pair("drift_ema", &protection_.drift_ema),
+                     std::make_pair("cached_uniform", &protection_.cached_uniform)}) {
+    const auto& field = fields.at(entry.first);
+    TORCH_CHECK(field->count == count && field->t == tinyply::Type::FLOAT32,
+        "Maturity metadata count/dtype differs from Gaussian geometry");
+    *entry.second = torch::from_blob(field->buffer.get(), {count}, torch::kFloat32).clone().to(device_type_);
+    TORCH_CHECK(torch::isfinite(*entry.second).all().item<bool>(), "Non-finite maturity metadata");
+  }
+  TORCH_CHECK(((protection_.maturity >= 0) & (protection_.maturity <= 1)).all().item<bool>() &&
+      (protection_.drift_ema >= 0).all().item<bool>() &&
+      ((protection_.cached_uniform >= 0) & (protection_.cached_uniform < 1)).all().item<bool>(),
+      "Maturity checkpoint values outside their domains");
+  // Restored EMA is evidence; runtime snapshots/touched state start invalid.
+  protection_.drift_initialized.copy_((protection_.maturity > 0) | (protection_.drift_ema > 0));
+  if (protection_.config.fixed_maturity_one) {
+    protection_.maturity.fill_(1);
+    protection_.drift_ema.zero_();
+    protection_.drift_initialized.zero_();
+    protection_.first_valid_maturity_cycle_iteration = protection_.mapping_iteration;
+  }
+  protection_.assertAligned(count);
+  if(protection_.config.reliability_v2)
+    protection_.loadReliability((ply_path.parent_path()/"reliability_state.pt").string());
 }
 
-void GaussianModel::saveSelectorMetadataPly(
-    std::filesystem::path result_path) {
-  torch::Tensor birth = this->selector_birth_iter_.detach()
-                            .toType(torch::kInt32)
-                            .contiguous()
-                            .cpu();
-  torch::Tensor seen = this->selector_seen_count_.detach()
-                           .toType(torch::kInt32)
-                           .contiguous()
-                           .cpu();
-  if (birth.size(0) != this->xyz_.size(0) ||
-      seen.size(0) != this->xyz_.size(0))
-    throw std::runtime_error(
-        "Selector metadata count does not match Gaussian count");
-
-  std::filebuf fb_binary;
-  fb_binary.open(result_path, std::ios::out | std::ios::binary);
-  std::ostream outstream_binary(&fb_binary);
-  if (outstream_binary.fail())
-    throw std::runtime_error("failed to open " + result_path.string());
-
-  tinyply::PlyFile result_file;
-  result_file.add_properties_to_element(
-      "vertex", {"selector_birth_iter"}, tinyply::Type::INT32,
-      birth.size(0), reinterpret_cast<uint8_t*>(birth.data_ptr<int32_t>()),
-      tinyply::Type::INVALID, 0);
-  result_file.add_properties_to_element(
-      "vertex", {"selector_seen_count"}, tinyply::Type::INT32,
-      seen.size(0), reinterpret_cast<uint8_t*>(seen.data_ptr<int32_t>()),
-      tinyply::Type::INVALID, 0);
-  result_file.write(outstream_binary, true);
-  fb_binary.close();
+void GaussianModel::saveSelectorMetadataPly(std::filesystem::path result_path) {
+  protection_.assertAligned(xyz_.size(0));
+  const int64_t count = xyz_.size(0);
+  tinyply::PlyFile file;
+  file.get_comments().push_back("protection_schema continuous_cycle_geometric");
+  file.get_comments().push_back(std::string("maturity_mode ") +
+      (protection_.config.fixed_maturity_one ? "fixed_one" : "continuous_cycle_geometric"));
+  file.get_comments().push_back("protection_mapping_iteration " + std::to_string(protection_.mapping_iteration));
+  std::map<std::string, torch::Tensor> tensors;
+  tensors["maturity"] = protection_.maturity.cpu().contiguous();
+  tensors["drift_ema"] = protection_.drift_ema.cpu().contiguous();
+  tensors["cached_uniform"] = protection_.cached_uniform.cpu().contiguous();
+  for (const auto& entry : tensors)
+    file.add_properties_to_element("vertex", {entry.first}, tinyply::Type::FLOAT32, count,
+        reinterpret_cast<const uint8_t*>(entry.second.data_ptr()), tinyply::Type::INVALID, 0);
+  std::ofstream output(result_path, std::ios::binary);
+  if (!output) throw std::runtime_error("Cannot write maturity metadata: " + result_path.string());
+  file.write(output, true);
+  protection_.saveReliability((result_path.parent_path()/"reliability_state.pt").string());
 }
 
 void GaussianModel::savePly(std::filesystem::path result_path) {

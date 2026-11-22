@@ -1,0 +1,12 @@
+{
+  "selector": {
+    "kernel_calls": 6793,
+    "total_kernel_gpu_ms": 46.707573,
+    "tiny_kernel_calls_lt_10us": 6183
+  },
+  "tf": {
+    "kernel_calls": 47859,
+    "total_kernel_gpu_ms": 171.106098,
+    "tiny_kernel_calls_lt_10us": 47503
+  }
+}

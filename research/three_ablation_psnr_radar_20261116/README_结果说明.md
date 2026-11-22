@@ -1,0 +1,21 @@
+# 三数据集局部Ratio四种消融的PSNR下降
+
+已生成一张三联图，以及Replica、TUM RGB-D、VECtor各自的独立图。每图四条线分别为关闭补偿、随机选择保留补偿、关闭GI与LI重要性监督、Detach Master Gaussian。
+
+PSNR下降量统一为当前完整局部方案减消融，单位dB，正值表示消融质量降低，负值表示消融PSNR更高。11档Ratio等角度排列，三数据集统一使用−3–18dB线性径向刻度。表中保留两位小数，CSV保留完整精度，未平滑或裁剪下降量。
+
+## 有效数据
+
+关闭重要性有5组连续零选点失败。为维持四条线严格同组比较，图中共同剔除这些场景／模式，使用相同的27组，不以零质量填充。Replica为8场景15组，office0仅有单目；TUM为4场景7组，freiburg2_xyz仅有RGB-D，freiburg3_long_office_household两个模式均剔除；VECtor为3场景5组，corridors-dolly仅有单目。Detach Master自身已完成全部32组和736项评价，其全量逐组下降另存于data/MASTER_DETACH_ALL32_PSNR_DECREASE.csv。
+
+每组先使用全轨迹逐帧PSNR均值。同场景的有效模式等权平均，随后场景等权平均。因此，只有一个有效模式的场景仍占一个场景权重。逐组覆盖见data/GROUP_COVERAGE.csv。
+
+## 统一完整方案基准
+
+corner-slow与robot-normal双目的关闭重要性源表仍引用11月7日完整模型，另两项推理消融已使用11月11日复跑模型。本次按用户要求统一使用复跑模型PSNR，重新计算关闭重要性的下降量。每Ratio的旧基准、新基准和修正量保存在data/BASELINE_REFERENCE_AUDIT.csv，原始报告保持原值。两组复跑的Full起点、配置、初始化、关键帧序列和Ratio序列已核验一致。
+
+全部27组的N、评价帧数和局部实际K均核对一致。四种消融每Ratio使用同一最新完整方案PSNR；Detach Master的全部32组也逐项核对了N、帧数与实际K。
+
+## 实验解释范围
+
+关闭Compensator和随机选择属于冻结模型的推理干预，保留共同训练的Master。关闭重要性与Detach Master属于从原Full起点重新执行Fine：前者关闭GI／LI但允许Master更新，后者保留GI／LI并固定Master，只训练网络和Anchor Feature。四条曲线包含不同类型的干预，不能直接用幅度给模块因果作用排序。无重要性与Detach实验的健康停止规则均存在各自历史差异；单seed结果不包含重复试验置信区间。

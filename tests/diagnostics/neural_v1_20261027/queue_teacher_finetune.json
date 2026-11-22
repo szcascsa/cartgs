@@ -1,0 +1,31 @@
+{
+  "tier": "teacher_finetune",
+  "jobs": [
+    {
+      "config": {
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "knots": true,
+        "film": true,
+        "id": "Teacher4kPhoto8k",
+        "initial_checkpoint": "/home/prmi/zwj/neural-v1-20261027/results/teacher_corrected/fr1_xyz/TeacherSpatialKnots6/5100/step_4000.pt"
+      },
+      "seed": 5100,
+      "steps": 8000
+    },
+    {
+      "config": {
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "knots": true,
+        "film": true,
+        "id": "Photo4kPhoto8kReset",
+        "initial_checkpoint": "/home/prmi/zwj/neural-v1-20261027/results/mechanism_II/fr1_xyz/SpatialOutputKnots/5100/step_4000.pt"
+      },
+      "seed": 5100,
+      "steps": 8000
+    }
+  ]
+}

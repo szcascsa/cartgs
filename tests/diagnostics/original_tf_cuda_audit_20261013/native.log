@@ -1,0 +1,15 @@
+core_adam N=1000 complete
+core_adam N=5000 complete
+core_adam N=10000 complete
+core_adam N=20000 complete
+core_adam N=50000 complete
+regularized_adam N=1000 complete
+regularized_adam N=5000 complete
+regularized_adam N=10000 complete
+regularized_adam N=20000 complete
+regularized_adam N=50000 complete
+regularized_preview N=1000 complete
+regularized_preview N=5000 complete
+regularized_preview N=10000 complete
+regularized_preview N=20000 complete
+regularized_preview N=50000 complete

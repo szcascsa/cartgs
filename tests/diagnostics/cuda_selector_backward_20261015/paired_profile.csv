@@ -1,0 +1,9 @@
+strategy,M,stage,metric,mean_ms,p50_ms,p95_ms
+1,219969,backward_part_event,paired,2.24439,2.24634,2.25139
+1,219969,fb_event,paired,4.4334,4.42275,4.42883
+1,219969,fb_wall,paired,4.45358,4.44138,4.44912
+1,219969,forward_part_event,paired,2.189,2.17926,2.18147
+6,219969,backward_part_event,paired,1.99044,1.99098,2.00496
+6,219969,fb_event,paired,4.17786,4.16938,4.18742
+6,219969,fb_wall,paired,4.19622,4.18765,4.20535
+6,219969,forward_part_event,paired,2.18742,2.18134,2.19504

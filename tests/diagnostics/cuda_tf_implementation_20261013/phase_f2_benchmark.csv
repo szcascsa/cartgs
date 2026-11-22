@@ -1,0 +1,3 @@
+backend,stage,mean_ms,p50_ms,p95_ms
+legacy,adam_preview,2.18247,2.17702,2.24154
+cuda,adam_preview,0.239213,0.23552,0.264192

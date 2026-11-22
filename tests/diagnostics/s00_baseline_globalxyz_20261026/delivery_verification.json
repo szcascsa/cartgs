@@ -1,0 +1,66 @@
+{
+  "archive_sha256": "f490b26a1e6b42d0c8d770a3bb8a999c2a6459152564e3c79d9e2bce46960a7d",
+  "new_models": 2,
+  "reused_models": 2,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "source_scripts_exact": true,
+  "step0_and_real_photo_xyz_gradients_verified": true,
+  "quality_rows": 6272,
+  "quality_finite": true,
+  "adam_clocks_match_recorded_empty_steps": true,
+  "update_records": [
+    {
+      "kind": "BaselinePlusGlobalXYZSplit4",
+      "seed": 3100,
+      "empty_steps": {
+        "0.01": 0,
+        "0.05": 0,
+        "0.1": 0,
+        "0.15": 0
+      },
+      "compensation_updates": 12000,
+      "parameters": 146576
+    },
+    {
+      "kind": "BaselinePlusGlobalXYZSplit4",
+      "seed": 3101,
+      "empty_steps": {
+        "0.01": 0,
+        "0.05": 0,
+        "0.1": 0,
+        "0.15": 0
+      },
+      "compensation_updates": 12000,
+      "parameters": 146576
+    },
+    {
+      "kind": "original_baseline",
+      "seed": 3100,
+      "empty_steps": {
+        "0.01": 0,
+        "0.05": 0,
+        "0.1": 0,
+        "0.15": 0
+      },
+      "compensation_updates": 12000,
+      "parameters": 146096
+    },
+    {
+      "kind": "original_baseline",
+      "seed": 3101,
+      "empty_steps": {
+        "0.01": 0,
+        "0.05": 0,
+        "0.1": 0,
+        "0.15": 0
+      },
+      "compensation_updates": 12000,
+      "parameters": 146096
+    }
+  ],
+  "tracked_and_staged_state_unchanged": true,
+  "production_change": false,
+  "online_slam": false,
+  "report_sha256": "8532f0d8d5887fe3f25fc3abf14909fa413931c13ae5d55d60baf1f4c0a64b9e"
+}

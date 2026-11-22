@@ -1,0 +1,16 @@
+{
+  "decision": "SPARSE ROOT STRUCTURAL GO",
+  "gates": {
+    "occupied_roots_near_target": true,
+    "root_max_occupancy_substantially_reduced": true,
+    "largest_root_not_majority": true,
+    "unresolved_raw_mass_reduced": true,
+    "weighted_Q_increased": true,
+    "mass_and_representative_parity": true
+  },
+  "h_root": 0.29986755746366806,
+  "occupied": 2048,
+  "max_occupancy": 1188.0,
+  "weighted_Q": 0.8837622487608384,
+  "unresolved_mass_fraction": 0.16046069829372683
+}

@@ -1,0 +1,27 @@
+{
+  "all_passed": true,
+  "scenes": [
+    "fr1_xyz",
+    "fr2_xyz"
+  ],
+  "baseline_rerenders": 1488,
+  "new_F1_F2_renders": 744,
+  "total_renders": 2232,
+  "baseline_max_abs": {
+    "fr1_xyz": {
+      "psnr": 0.0,
+      "ssim": 0.0,
+      "lpips": 0.0,
+      "photo": 0.0
+    },
+    "fr2_xyz": {
+      "psnr": 0.0,
+      "ssim": 0.0,
+      "lpips": 0.0,
+      "photo": 0.0
+    }
+  },
+  "report_sha256": "38c4794c0d6eb2b4eae3bbbc089fa32eca6d5b83ad796f470cb11eb78fde1679",
+  "production_changed": false,
+  "optimizer_updates": 0
+}

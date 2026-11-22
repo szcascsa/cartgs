@@ -1,0 +1,199 @@
+{
+  "all_passed": true,
+  "scenes": {
+    "fr1_room": {
+      "all_passed": true,
+      "baseline": {
+        "all_passed": true,
+        "complete_rankings_exact": true,
+        "same_K": true,
+        "selected_sets_exact": true,
+        "C0_binary_tree_exact": true,
+        "P0_priority_exact": true,
+        "per_view_max_abs": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0,
+          "photo": 0.0
+        },
+        "aggregate_max_abs": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0,
+          "photo": 0.0
+        },
+        "view_renders": 2576
+      },
+      "new_ranking": {
+        "all_passed": true,
+        "N_candidate": 50330,
+        "new_h_over_d50": 32.0,
+        "occupied_roots": 1221,
+        "new_first3_argmax_checked": true,
+        "max_gain_error": 7.275957614183426e-12,
+        "max_leaf_mass_relative": 5.377884364406915e-16,
+        "global_mass_relative": 0.0,
+        "C32_repeat_exact": true,
+        "P32_repeat_exact": true,
+        "complete_permutations": true,
+        "unique_rows": true,
+        "nested": true,
+        "ordinal_order_exact": true,
+        "no_F1_F3_executed": true,
+        "progressive_ms": 2579.0482126176357,
+        "new_tree_sha256": "21e7ce144fc9f2d13869c28eec27d6432c852d4a74325a94c4324998e98158e2",
+        "new_hierarchy_ms": 6689.915134,
+        "new_grid_ms": 6.208219
+      },
+      "replay": {
+        "all_passed": true,
+        "rows_checked": 100660,
+        "max_gain_error": 0.0,
+        "P32_argmax_ancestor_unlock_exact": true,
+        "no_F1_F3_executed": true
+      },
+      "quality": {
+        "all_passed": true,
+        "baseline_rerenders": 2576,
+        "new_C32_P32_renders": 1288,
+        "total_renders": 3864,
+        "cases": 24,
+        "optimizer_updates": 0,
+        "no_F1_F3_renders": true
+      }
+    },
+    "fr1_xyz": {
+      "all_passed": true,
+      "baseline": {
+        "all_passed": true,
+        "complete_rankings_exact": true,
+        "same_K": true,
+        "selected_sets_exact": true,
+        "C0_binary_tree_exact": true,
+        "P0_priority_exact": true,
+        "per_view_max_abs": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0,
+          "photo": 0.0
+        },
+        "aggregate_max_abs": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0,
+          "photo": 0.0
+        },
+        "view_renders": 864
+      },
+      "new_ranking": {
+        "all_passed": true,
+        "N_candidate": 23643,
+        "new_h_over_d50": 32.0,
+        "occupied_roots": 440,
+        "new_first3_argmax_checked": true,
+        "max_gain_error": 1.4551915228366852e-11,
+        "max_leaf_mass_relative": 5.703419655784872e-16,
+        "global_mass_relative": 0.0,
+        "C32_repeat_exact": true,
+        "P32_repeat_exact": true,
+        "complete_permutations": true,
+        "unique_rows": true,
+        "nested": true,
+        "ordinal_order_exact": true,
+        "no_F1_F3_executed": true,
+        "progressive_ms": 1373.826265335083,
+        "new_tree_sha256": "f5de661319a93c32f28ba218f612bb2fbd15bb77d432af2e2a629820e8bab97b",
+        "new_hierarchy_ms": 2634.80807,
+        "new_grid_ms": 2.421548
+      },
+      "replay": {
+        "all_passed": true,
+        "rows_checked": 47286,
+        "max_gain_error": 0.0,
+        "P32_argmax_ancestor_unlock_exact": true,
+        "no_F1_F3_executed": true
+      },
+      "quality": {
+        "all_passed": true,
+        "baseline_rerenders": 864,
+        "new_C32_P32_renders": 432,
+        "total_renders": 1296,
+        "cases": 24,
+        "optimizer_updates": 0,
+        "no_F1_F3_renders": true
+      }
+    },
+    "fr2_xyz": {
+      "all_passed": true,
+      "baseline": {
+        "all_passed": true,
+        "complete_rankings_exact": true,
+        "same_K": true,
+        "selected_sets_exact": true,
+        "C0_binary_tree_exact": true,
+        "P0_priority_exact": true,
+        "per_view_max_abs": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0,
+          "photo": 0.0
+        },
+        "aggregate_max_abs": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0,
+          "photo": 0.0
+        },
+        "view_renders": 624
+      },
+      "new_ranking": {
+        "all_passed": true,
+        "N_candidate": 43059,
+        "new_h_over_d50": 32.0,
+        "occupied_roots": 4110,
+        "new_first3_argmax_checked": true,
+        "max_gain_error": 7.275957614183426e-12,
+        "max_leaf_mass_relative": 5.854819966561324e-16,
+        "global_mass_relative": 0.0,
+        "C32_repeat_exact": true,
+        "P32_repeat_exact": true,
+        "complete_permutations": true,
+        "unique_rows": true,
+        "nested": true,
+        "ordinal_order_exact": true,
+        "no_F1_F3_executed": true,
+        "progressive_ms": 1476.4937534928322,
+        "new_tree_sha256": "c71dba83089a5b1f5dbe31b4bea77750909bdcf32f13fb8bf5fe1891cf6d1fea",
+        "new_hierarchy_ms": 10164.395658,
+        "new_grid_ms": 7.001616
+      },
+      "replay": {
+        "all_passed": true,
+        "rows_checked": 86118,
+        "max_gain_error": 0.0,
+        "P32_argmax_ancestor_unlock_exact": true,
+        "no_F1_F3_executed": true
+      },
+      "quality": {
+        "all_passed": true,
+        "baseline_rerenders": 624,
+        "new_C32_P32_renders": 312,
+        "total_renders": 936,
+        "cases": 24,
+        "optimizer_updates": 0,
+        "no_F1_F3_renders": true
+      }
+    }
+  },
+  "preregistration_sha256": "7edc5589b72be28bf69b5859217f90cd563cbe8473c008e2f647b32653284cbd",
+  "mathematical_parity": {
+    "all_passed": true,
+    "unchanged_blocks": {
+      "geometry": "4d7e4d660568e2214809a0b25cc5b2961ccc49f00dd0060f855e9f8e7e95f0a4",
+      "selectCell": "85d9532b3fa955c37fc959f59ac4037ff77f0241a57ee6d7dd9f1a6fe519cfd6",
+      "recursive_greedy_split_redistribution": "6d337912c6e978739dc01dea7348e8eee597866318a122d9118ba68cf95b63f9"
+    },
+    "production_modified": false
+  },
+  "no_stage_commit_push": true
+}

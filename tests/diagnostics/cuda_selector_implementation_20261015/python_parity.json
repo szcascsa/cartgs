@@ -1,0 +1,463 @@
+{
+  "torch": "2.3.1+cu118",
+  "abi": false,
+  "checks": [
+    {
+      "name": "n0/probability",
+      "exact": true,
+      "max_abs": 0
+    },
+    {
+      "name": "n0/grad0",
+      "exact": true,
+      "max_abs": 0
+    },
+    {
+      "name": "n0/grad1",
+      "exact": true,
+      "max_abs": 0
+    },
+    {
+      "name": "n0/grad2",
+      "exact": true,
+      "max_abs": 0
+    },
+    {
+      "name": "n0/grad3",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad4",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad5",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad6",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad7",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad8",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad9",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad10",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad11",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad12",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad13",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad14",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad15",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad16",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad17",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad18",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad19",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n0/grad20",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/probability",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/hard",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad0",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad1",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad2",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad3",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad4",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad5",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad6",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad7",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad8",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad9",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad10",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad11",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad12",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad13",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad14",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad15",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad16",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad17",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad18",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad19",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n1/grad20",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/probability",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/hard",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad0",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad1",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad2",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad3",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad4",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad5",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad6",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad7",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad8",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad9",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad10",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad11",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad12",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad13",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad14",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad15",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad16",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad17",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad18",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad19",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n257/grad20",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/probability",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/hard",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad0",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad1",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad2",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad3",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad4",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad5",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad6",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad7",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad8",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad9",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad10",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad11",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad12",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad13",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad14",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad15",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad16",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad17",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad18",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad19",
+      "exact": true,
+      "max_abs": 0.0
+    },
+    {
+      "name": "n219969/grad20",
+      "exact": true,
+      "max_abs": 0.0
+    }
+  ],
+  "all_exact": true,
+  "checkpoint_keys_unchanged": true
+}

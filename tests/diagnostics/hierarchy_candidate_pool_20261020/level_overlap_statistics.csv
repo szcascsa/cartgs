@@ -1,0 +1,4 @@
+scene,unique_L1,unique_L2,unique_L3,unique_final,L1_intersect_L2,L1_intersect_L3,L2_intersect_L3,L1_intersect_L2_intersect_L3
+fr1_room,4797,5902,6070,13715,1371,489,1601,481
+fr1_xyz,4464,4281,4310,10889,1019,334,1098,327
+fr2_xyz,4124,4083,6025,11448,1071,527,1661,521

@@ -1,0 +1,8 @@
+{
+  "mode": "selection",
+  "cases": 192,
+  "records": 2688,
+  "failures": 0,
+  "source_sha256": "7820801d77fe2f7faa520069a2913a00bf53ece0004705f884e0ad508266dfd3",
+  "tf32": false
+}

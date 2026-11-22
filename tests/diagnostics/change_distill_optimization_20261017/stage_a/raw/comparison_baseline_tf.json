@@ -1,0 +1,1361 @@
+{
+  "baseline": "baseline",
+  "candidate": "stage_a",
+  "branch": "tf",
+  "verification": {
+    "allclose": true,
+    "bitwise_equal": false,
+    "tensors": [
+      {
+        "tensor": "target_0",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 4.76837158203125e-07,
+        "mean_abs": 4.361010219611217e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_1",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 4.76837158203125e-07,
+        "mean_abs": 4.248320806254924e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_2",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 4.76837158203125e-07,
+        "mean_abs": 4.4827714873463265e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_3",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 4.76837158203125e-07,
+        "mean_abs": 4.401681685806125e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_4",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 8.943476181855203e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_5",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 8.944067708682724e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_6",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 8.830650877200696e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_7",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 8.918689786696632e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_8",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 5.364165556187572e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_9",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 5.31165955663937e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_10",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 5.207414055519166e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_11",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 5.443280493011571e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_12",
+        "shape": [
+          5107,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 6.274573749465162e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_13",
+        "shape": [
+          5107,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 6.25994855951717e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_14",
+        "shape": [
+          5107,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 6.205385538748942e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_15",
+        "shape": [
+          5107,
+          10
+        ],
+        "max_abs": 9.5367431640625e-07,
+        "mean_abs": 6.408992891948628e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "target_16",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "target_17",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "target_18",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "target_19",
+        "shape": [
+          8192,
+          10
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_0",
+        "shape": [],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_0",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 2.3283064365386963e-10,
+        "mean_abs": 1.2314282894169276e-13,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_1",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 4.656612873077393e-10,
+        "mean_abs": 1.340898963045345e-13,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_2",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 2.0372681319713593e-10,
+        "mean_abs": 3.667279289487971e-14,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_3",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 5.820766091346741e-10,
+        "mean_abs": 1.1570318271189595e-13,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_4",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 2.3283064365386963e-10,
+        "mean_abs": 3.685461021107374e-14,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_5",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 2.3283064365386963e-10,
+        "mean_abs": 3.292088417193931e-14,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_6",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 6.411227104763384e-11,
+        "mean_abs": 2.4491977998648828e-14,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_7",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 6.366462912410498e-11,
+        "mean_abs": 2.7092240397711548e-14,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_8",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 2.3646862246096134e-11,
+        "mean_abs": 7.937232346529564e-15,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_9",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 6.548361852765083e-11,
+        "mean_abs": 1.8237647652383053e-14,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_10",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 4.18367562815547e-11,
+        "mean_abs": 6.371726995172853e-15,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_11",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 2.4556356947869062e-11,
+        "mean_abs": 7.387073435859582e-15,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_12",
+        "shape": [
+          32,
+          16
+        ],
+        "max_abs": 2.2282620193436742e-10,
+        "mean_abs": 1.938074006835322e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_13",
+        "shape": [
+          32
+        ],
+        "max_abs": 3.026798367500305e-09,
+        "mean_abs": 4.832685362998745e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_14",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 1.6691181770056573e-10,
+        "mean_abs": 1.2206716540341667e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_15",
+        "shape": [
+          32
+        ],
+        "max_abs": 1.6752892406657338e-09,
+        "mean_abs": 6.619740311464284e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_16",
+        "shape": [
+          3,
+          32
+        ],
+        "max_abs": 5.337642505764961e-08,
+        "mean_abs": 5.711764838878253e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_17",
+        "shape": [
+          3
+        ],
+        "max_abs": 1.0425574146211147e-06,
+        "mean_abs": 4.51827276037875e-07,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_18",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_19",
+        "shape": [
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_20",
+        "shape": [
+          3,
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_21",
+        "shape": [
+          3
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_22",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_23",
+        "shape": [
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_24",
+        "shape": [
+          4,
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_gradient_25",
+        "shape": [
+          4
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_0",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_1",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_2",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_3",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_4",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_5",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_6",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_7",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_8",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_9",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_10",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_11",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_12",
+        "shape": [
+          32,
+          16
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_13",
+        "shape": [
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_14",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 3.2007694244384766e-05,
+        "mean_abs": 3.1257513910532e-08,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_15",
+        "shape": [
+          32
+        ],
+        "max_abs": 1.4551915228366852e-11,
+        "mean_abs": 4.547473508864641e-13,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_16",
+        "shape": [
+          3,
+          32
+        ],
+        "max_abs": 1.4551915228366852e-11,
+        "mean_abs": 3.031649096259942e-13,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_17",
+        "shape": [
+          3
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_18",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_19",
+        "shape": [
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_20",
+        "shape": [
+          3,
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_21",
+        "shape": [
+          3
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_22",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_23",
+        "shape": [
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_24",
+        "shape": [
+          4,
+          32
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_updated_25",
+        "shape": [
+          4
+        ],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_1",
+        "shape": [],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_2",
+        "shape": [],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_3",
+        "shape": [],
+        "max_abs": 2.9103830456733704e-11,
+        "mean_abs": 2.9103830456733704e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_4",
+        "shape": [],
+        "max_abs": 1.4551915228366852e-11,
+        "mean_abs": 1.4551915228366852e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_5",
+        "shape": [],
+        "max_abs": 1.4551915228366852e-11,
+        "mean_abs": 1.4551915228366852e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_6",
+        "shape": [],
+        "max_abs": 2.9103830456733704e-11,
+        "mean_abs": 2.9103830456733704e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_7",
+        "shape": [],
+        "max_abs": 1.4551915228366852e-11,
+        "mean_abs": 1.4551915228366852e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_8",
+        "shape": [],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_9",
+        "shape": [],
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "bitwise_equal": true,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_10",
+        "shape": [],
+        "max_abs": 7.275957614183426e-11,
+        "mean_abs": 7.275957614183426e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_11",
+        "shape": [],
+        "max_abs": 1.0186340659856796e-10,
+        "mean_abs": 1.0186340659856796e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_12",
+        "shape": [],
+        "max_abs": 7.275957614183426e-11,
+        "mean_abs": 7.275957614183426e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_13",
+        "shape": [],
+        "max_abs": 4.3655745685100555e-11,
+        "mean_abs": 4.3655745685100555e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_14",
+        "shape": [],
+        "max_abs": 8.731149137020111e-11,
+        "mean_abs": 8.731149137020111e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_15",
+        "shape": [],
+        "max_abs": 1.4551915228366852e-11,
+        "mean_abs": 1.4551915228366852e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_16",
+        "shape": [],
+        "max_abs": 2.1827872842550278e-10,
+        "mean_abs": 2.1827872842550278e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_17",
+        "shape": [],
+        "max_abs": 2.473825588822365e-10,
+        "mean_abs": 2.473825588822365e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_18",
+        "shape": [],
+        "max_abs": 8.731149137020111e-11,
+        "mean_abs": 8.731149137020111e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "tf_loss_19",
+        "shape": [],
+        "max_abs": 1.4551915228366852e-11,
+        "mean_abs": 1.4551915228366852e-11,
+        "bitwise_equal": false,
+        "allclose": true
+      }
+    ]
+  },
+  "final_parameters": {
+    "allclose": false,
+    "bitwise_equal": false,
+    "tensors": [
+      {
+        "tensor": "p0",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 2.086162567138672e-07,
+        "mean_abs": 2.2100721253082156e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p1",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 1.4901161193847656e-07,
+        "mean_abs": 2.4078872229438275e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p2",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 4.76837158203125e-07,
+        "mean_abs": 3.4458935704861915e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p3",
+        "shape": [
+          1,
+          8,
+          64,
+          64
+        ],
+        "max_abs": 7.152557373046875e-07,
+        "mean_abs": 2.4022028810577467e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p4",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 5.960464477539062e-07,
+        "mean_abs": 2.351589478699623e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p5",
+        "shape": [
+          1,
+          8,
+          150,
+          64
+        ],
+        "max_abs": 3.5762786865234375e-07,
+        "mean_abs": 1.8083179398331595e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p6",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 8.791685104370117e-07,
+        "mean_abs": 1.7195134205394424e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p7",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 1.1026859283447266e-06,
+        "mean_abs": 1.6609646991128102e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p8",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 8.344650268554688e-07,
+        "mean_abs": 2.5883006848914647e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p9",
+        "shape": [
+          1,
+          8,
+          128,
+          128
+        ],
+        "max_abs": 2.980232238769531e-07,
+        "mean_abs": 1.2107648217352107e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p10",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 5.960464477539062e-07,
+        "mean_abs": 1.6104119426874064e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p11",
+        "shape": [
+          1,
+          8,
+          150,
+          128
+        ],
+        "max_abs": 7.152557373046875e-07,
+        "mean_abs": 2.0333876249445382e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p12",
+        "shape": [
+          32,
+          16
+        ],
+        "max_abs": 2.9802322387695312e-08,
+        "mean_abs": 1.415287442796398e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p13",
+        "shape": [
+          32
+        ],
+        "max_abs": 6.752088665962219e-09,
+        "mean_abs": 1.5188561519607902e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p14",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 3.203749656677246e-05,
+        "mean_abs": 1.823381694521231e-07,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p15",
+        "shape": [
+          32
+        ],
+        "max_abs": 1.0011426638811827e-06,
+        "mean_abs": 5.877200237591751e-08,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p16",
+        "shape": [
+          3,
+          32
+        ],
+        "max_abs": 6.392856448655948e-07,
+        "mean_abs": 3.37109717918338e-08,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p17",
+        "shape": [
+          3
+        ],
+        "max_abs": 1.0331859812140465e-09,
+        "mean_abs": 8.682642937962726e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p18",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 2.9802322387695312e-08,
+        "mean_abs": 1.5011778486950789e-09,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p19",
+        "shape": [
+          32
+        ],
+        "max_abs": 3.725290298461914e-09,
+        "mean_abs": 9.313225746154785e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p20",
+        "shape": [
+          3,
+          32
+        ],
+        "max_abs": 5.587935447692871e-09,
+        "mean_abs": 7.372970567409709e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p21",
+        "shape": [
+          3
+        ],
+        "max_abs": 1.862645149230957e-09,
+        "mean_abs": 9.313225746154785e-10,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p22",
+        "shape": [
+          32,
+          32
+        ],
+        "max_abs": 3.355741500854492e-05,
+        "mean_abs": 1.0970338735205587e-06,
+        "bitwise_equal": false,
+        "allclose": false
+      },
+      {
+        "tensor": "p23",
+        "shape": [
+          32
+        ],
+        "max_abs": 1.940308720804751e-06,
+        "mean_abs": 2.6816428544407245e-07,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p24",
+        "shape": [
+          4,
+          32
+        ],
+        "max_abs": 1.9068829715251923e-06,
+        "mean_abs": 2.3822495620606787e-07,
+        "bitwise_equal": false,
+        "allclose": true
+      },
+      {
+        "tensor": "p25",
+        "shape": [
+          4
+        ],
+        "max_abs": 1.6193371266126633e-07,
+        "mean_abs": 7.729067874606699e-08,
+        "bitwise_equal": false,
+        "allclose": true
+      }
+    ]
+  },
+  "baseline_timing": {
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 545.9692749999999,
+      "min": 543.888236,
+      "max": 559.789599,
+      "std": 5.4868792719770845
+    },
+    "cuda_elapsed_ms": {
+      "median": 545.9613647460938,
+      "min": 543.8800048828125,
+      "max": 559.7807006835938,
+      "std": 5.486715185313484
+    },
+    "additional_allocated_bytes": {
+      "median": 53918720.0,
+      "min": 53918720,
+      "max": 53918720,
+      "std": 0.0
+    },
+    "peak_allocated_bytes": {
+      "median": 100217856.0,
+      "min": 100217856,
+      "max": 100217856,
+      "std": 0.0
+    }
+  },
+  "candidate_timing": {
+    "runs": 10,
+    "cpu_wall_ms": {
+      "median": 207.0784475,
+      "min": 204.290709,
+      "max": 209.037509,
+      "std": 1.1754986899482964
+    },
+    "cuda_elapsed_ms": {
+      "median": 207.07176208496094,
+      "min": 204.2840576171875,
+      "max": 209.03109741210938,
+      "std": 1.1755114288575197
+    },
+    "additional_allocated_bytes": {
+      "median": 53934592.0,
+      "min": 53934592,
+      "max": 53934592,
+      "std": 0.0
+    },
+    "peak_allocated_bytes": {
+      "median": 100233728.0,
+      "min": 100233728,
+      "max": 100233728,
+      "std": 0.0
+    }
+  },
+  "speedup": 2.63653355330472
+}

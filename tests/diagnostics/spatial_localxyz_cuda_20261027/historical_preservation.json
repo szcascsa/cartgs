@@ -1,0 +1,26 @@
+{
+  "all_match": true,
+  "records": [
+    {
+      "path": "NEURAL_V1_RESEARCH_REPORT.md",
+      "sha256": "7f8d214a385a81210c4ddea1d16212820551f4e7d8481a1da4f8fc2e781b0213",
+      "expected": "7f8d214a385a81210c4ddea1d16212820551f4e7d8481a1da4f8fc2e781b0213"
+    },
+    {
+      "path": "main_results.csv",
+      "sha256": "f8118b0e639463fd43c9feb7f55bc9f0e1bfc7c39bcd7f64c293d9f8db31d57a",
+      "expected": "f8118b0e639463fd43c9feb7f55bc9f0e1bfc7c39bcd7f64c293d9f8db31d57a"
+    },
+    {
+      "path": "mechanism_comparisons.csv",
+      "sha256": "56b4747b54e594252da7b98c1d75545adcbd86106c8351914f6762156c982e89",
+      "expected": "56b4747b54e594252da7b98c1d75545adcbd86106c8351914f6762156c982e89"
+    },
+    {
+      "path": "research_state.json",
+      "sha256": "9f2e6df34a94df445783523372ec00f0437733c82915375c9e98d8f15dcbbe7c",
+      "expected": "9f2e6df34a94df445783523372ec00f0437733c82915375c9e98d8f15dcbbe7c"
+    }
+  ],
+  "incident": "same-name report module collision regenerated two historical documents; original bytes restored and checked against pre-existing manifest; metrics unchanged; fixed with explicit importlib file path"
+}

@@ -1,0 +1,215 @@
+{
+  "mapping": [
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/protection_recheck_20261012/fr3_long_office_household/runtime.log",
+      "line": 76,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=28.7160/54.8272/143.4120 stage_host_ms=operations:1.6623,full_render:0.9004,gi:17.0131,full_backward:0.8710,lod:6.5231,densify:0.3831,optimizer:1.0103,aabb:0.0000,historical:0.0000 sampled_cuda_elapsed_ms=operations:0.6033(n=49),full_render:0.9206(n=49),gi:18.2228(n=49),full_backward:1.7188(n=49),lod:5.9052(n=49),densify:0.3640(n=49),optimizer:1.1169(n=49),aabb:NA(n=0),historical:NA(n=0),total:29.2880(n=49)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/protection_recheck_20261012/fr3_long_office_household/runtime.log",
+      "line": 83,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=54.0656/95.5426/195.5037 stage_host_ms=operations:3.5870,full_render:1.3045,gi:35.6418,full_backward:0.8102,lod:10.7158,densify:0.3911,optimizer:1.0390,aabb:0.0000,historical:0.0000 sampled_cuda_elapsed_ms=operations:5.0450(n=50),full_render:1.2643(n=50),gi:39.7559(n=50),full_backward:2.2304(n=50),lod:9.3167(n=50),densify:1.2622(n=50),optimizer:1.3142(n=50),aabb:0.0024(n=1),historical:NA(n=0),total:60.9649(n=50)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/protection_recheck_20261012/fr3_long_office_household/runtime.log",
+      "line": 100,
+      "text": "[Mapping PERF] iter=3000 cycles=1000 wall_ms(avg/p95/max)=65.3385/99.4538/333.9067 stage_host_ms=operations:1.6560,full_render:1.4751,gi:44.7698,full_backward:0.7324,lod:14.0427,densify:0.3703,optimizer:0.9949,aabb:0.0000,historical:0.0000 sampled_cuda_elapsed_ms=operations:3.4003(n=34),full_render:1.4977(n=50),gi:42.7399(n=50),full_backward:2.6384(n=50),lod:12.8255(n=50),densify:1.4003(n=50),optimizer:1.6956(n=50),aabb:0.0029(n=1),historical:NA(n=0),total:66.2323(n=50)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_3/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=2.9313/3.9540/114.8037 stage_host_ms=operations:0.2033,full_render:0.0970,gi:0.1520,full_backward:0.1344,lod:1.7327,densify:0.1043,optimizer:0.3050,aabb:0.0000,historical:0.0000,mature_preparation:0.0857,gi_teacher:0.0605,gi_loss:0.0000,lod_render:0.1892,lod_backward:0.6181 sampled_cuda_elapsed_ms=operations:0.3644(n=52),full_render:0.4572(n=10),gi:0.1754(n=52),full_backward:1.1737(n=10),lod:2.1486(n=42),densify:0.2658(n=10),optimizer:0.2641(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1112(n=42),gi_teacher:0.0709(n=42),gi_loss:NA(n=0),lod_render:0.2460(n=42),lod_backward:0.7904(n=42),total:3.0437(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_3/run.log",
+      "line": 2095,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=8.8442/20.8094/223.5486 stage_host_ms=operations:0.8394,full_render:0.1323,gi:0.5883,full_backward:0.1551,lod:5.7520,densify:0.0827,optimizer:0.8397,aabb:0.1633,historical:0.0000,mature_preparation:0.1110,gi_teacher:0.1055,gi_loss:0.0533,lod_render:0.2495,lod_backward:3.5125 sampled_cuda_elapsed_ms=operations:0.4081(n=53),full_render:0.6392(n=11),gi:0.3223(n=53),full_backward:1.3880(n=11),lod:7.8094(n=42),densify:0.3030(n=11),optimizer:0.8268(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1392(n=42),gi_teacher:0.2125(n=42),gi_loss:0.1371(n=21),lod_render:0.3153(n=42),lod_backward:4.4185(n=42),total:8.4000(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_3/run.log",
+      "line": 3112,
+      "text": "[Mapping PERF] iter=3000 cycles=1000 wall_ms(avg/p95/max)=17.8716/36.6806/226.9079 stage_host_ms=operations:1.3061,full_render:0.1495,gi:1.1220,full_backward:0.1512,lod:12.7250,densify:0.0931,optimizer:1.7973,aabb:0.1472,historical:0.0000,mature_preparation:0.1119,gi_teacher:0.1314,gi_loss:0.1093,lod_render:0.2491,lod_backward:8.6715 sampled_cuda_elapsed_ms=operations:1.8218(n=52),full_render:0.7619(n=10),gi:1.0773(n=52),full_backward:1.5928(n=10),lod:15.9486(n=42),densify:0.3081(n=10),optimizer:1.8356(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1311(n=42),gi_teacher:0.1659(n=42),gi_loss:0.1370(n=42),lod_render:0.3269(n=42),lod_backward:10.8028(n=42),total:18.2955(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_3/run.log",
+      "line": 4127,
+      "text": "[Mapping PERF] iter=4000 cycles=1000 wall_ms(avg/p95/max)=18.9346/40.3700/122.1589 stage_host_ms=operations:1.4161,full_render:0.1417,gi:1.6288,full_backward:0.1519,lod:13.2045,densify:0.1063,optimizer:1.8242,aabb:0.0006,historical:0.0000,mature_preparation:0.1254,gi_teacher:0.1382,gi_loss:0.1113,lod_render:0.2479,lod_backward:8.9833 sampled_cuda_elapsed_ms=operations:2.0571(n=53),full_render:0.7124(n=11),gi:1.5450(n=53),full_backward:1.6487(n=11),lod:16.5482(n=42),densify:0.3164(n=11),optimizer:1.8766(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1453(n=42),gi_teacher:0.1682(n=42),gi_loss:0.1341(n=42),lod_render:0.3095(n=42),lod_backward:11.3726(n=42),total:19.3334(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_2/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=3.2077/4.7203/117.2468 stage_host_ms=operations:0.2904,full_render:0.0990,gi:0.2076,full_backward:0.1442,lod:1.8271,densify:0.1059,optimizer:0.3158,aabb:0.0000,historical:0.0000,mature_preparation:0.0985,gi_teacher:0.0637,gi_loss:0.0000,lod_render:0.1947,lod_backward:0.6475 sampled_cuda_elapsed_ms=operations:0.6550(n=52),full_render:0.4708(n=10),gi:0.2639(n=52),full_backward:1.2557(n=10),lod:2.3856(n=42),densify:0.3063(n=10),optimizer:0.2745(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1433(n=42),gi_teacher:0.0839(n=42),gi_loss:NA(n=0),lod_render:0.2781(n=42),lod_backward:0.8179(n=42),total:3.6717(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_2/run.log",
+      "line": 2095,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=8.1736/21.2739/213.4174 stage_host_ms=operations:0.7749,full_render:0.1360,gi:0.5512,full_backward:0.1544,lod:5.2573,densify:0.0837,optimizer:0.7714,aabb:0.1565,historical:0.0000,mature_preparation:0.1084,gi_teacher:0.0962,gi_loss:0.0466,lod_render:0.2411,lod_backward:3.1387 sampled_cuda_elapsed_ms=operations:1.8715(n=53),full_render:0.6754(n=11),gi:0.5829(n=53),full_backward:1.4114(n=11),lod:6.2579(n=42),densify:0.2979(n=11),optimizer:0.7395(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1260(n=42),gi_teacher:0.1134(n=42),gi_loss:0.1385(n=17),lod_render:0.2887(n=42),lod_backward:3.7231(n=42),total:8.8146(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_2/run.log",
+      "line": 3112,
+      "text": "[Mapping PERF] iter=3000 cycles=1000 wall_ms(avg/p95/max)=17.9240/30.7527/225.2734 stage_host_ms=operations:1.3036,full_render:0.1507,gi:1.1196,full_backward:0.1463,lod:12.7550,densify:0.0896,optimizer:1.8213,aabb:0.1469,historical:0.0000,mature_preparation:0.1085,gi_teacher:0.1340,gi_loss:0.1074,lod_render:0.2498,lod_backward:8.7205 sampled_cuda_elapsed_ms=operations:1.2935(n=52),full_render:0.8035(n=10),gi:1.3993(n=52),full_backward:1.5657(n=10),lod:15.9072(n=42),densify:0.3295(n=10),optimizer:1.8621(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1399(n=42),gi_teacher:0.1799(n=42),gi_loss:0.1397(n=42),lod_render:0.3028(n=42),lod_backward:10.8928(n=42),total:18.1007(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_2/run.log",
+      "line": 4127,
+      "text": "[Mapping PERF] iter=4000 cycles=1000 wall_ms(avg/p95/max)=19.6212/39.1258/116.1691 stage_host_ms=operations:1.5002,full_render:0.1487,gi:1.6912,full_backward:0.1589,lod:13.7005,densify:0.0997,optimizer:1.8490,aabb:0.0006,historical:0.0000,mature_preparation:0.1176,gi_teacher:0.1400,gi_loss:0.1110,lod_render:0.2479,lod_backward:9.4754 sampled_cuda_elapsed_ms=operations:0.3111(n=53),full_render:0.7636(n=11),gi:1.7055(n=53),full_backward:1.6830(n=11),lod:17.4364(n=42),densify:0.3110(n=11),optimizer:1.9259(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1520(n=42),gi_teacher:0.1822(n=42),gi_loss:0.1394(n=42),lod_render:0.3176(n=42),lod_backward:12.0959(n=42),total:18.5235(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_1/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=3.1016/4.4199/114.1535 stage_host_ms=operations:0.2691,full_render:0.0984,gi:0.1909,full_backward:0.1367,lod:1.7799,densify:0.1036,optimizer:0.3073,aabb:0.0000,historical:0.0000,mature_preparation:0.0925,gi_teacher:0.0620,gi_loss:0.0000,lod_render:0.1873,lod_backward:0.6361 sampled_cuda_elapsed_ms=operations:0.0021(n=52),full_render:0.4916(n=10),gi:0.1178(n=52),full_backward:1.1882(n=10),lod:2.2675(n=42),densify:0.2833(n=10),optimizer:0.2639(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1194(n=42),gi_teacher:0.0743(n=42),gi_loss:NA(n=0),lod_render:0.2475(n=42),lod_backward:0.8704(n=42),total:2.7398(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_1/run.log",
+      "line": 2095,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=8.7705/20.7854/200.3553 stage_host_ms=operations:0.8319,full_render:0.1375,gi:0.5603,full_backward:0.1437,lod:5.7176,densify:0.0822,optimizer:0.8481,aabb:0.1543,historical:0.0000,mature_preparation:0.1050,gi_teacher:0.1006,gi_loss:0.0559,lod_render:0.2436,lod_backward:3.4798 sampled_cuda_elapsed_ms=operations:0.3096(n=53),full_render:0.6748(n=11),gi:0.3588(n=53),full_backward:1.4227(n=11),lod:8.0136(n=42),densify:0.3395(n=11),optimizer:0.8155(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1350(n=42),gi_teacher:0.2135(n=42),gi_loss:0.1406(n=21),lod_render:0.3005(n=42),lod_backward:4.5243(n=42),total:8.5076(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_1/run.log",
+      "line": 3112,
+      "text": "[Mapping PERF] iter=3000 cycles=1000 wall_ms(avg/p95/max)=18.4660/39.2357/251.5766 stage_host_ms=operations:1.5553,full_render:0.1480,gi:1.3822,full_backward:0.1440,lod:12.7793,densify:0.0924,optimizer:1.8188,aabb:0.1448,historical:0.0000,mature_preparation:0.1073,gi_teacher:0.1331,gi_loss:0.1097,lod_render:0.2488,lod_backward:8.7414 sampled_cuda_elapsed_ms=operations:0.7631(n=52),full_render:0.7917(n=10),gi:1.1709(n=52),full_backward:1.6185(n=10),lod:15.8929(n=42),densify:0.3689(n=10),optimizer:1.8542(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1426(n=42),gi_teacher:0.1720(n=42),gi_loss:0.1378(n=42),lod_render:0.3235(n=42),lod_backward:10.8456(n=42),total:17.3367(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/optimized/run_1/run.log",
+      "line": 4127,
+      "text": "[Mapping PERF] iter=4000 cycles=1000 wall_ms(avg/p95/max)=19.6874/40.8836/123.5522 stage_host_ms=operations:1.5489,full_render:0.1452,gi:1.9546,full_backward:0.1509,lod:13.4469,densify:0.1085,optimizer:1.8502,aabb:0.0006,historical:0.0000,mature_preparation:0.1175,gi_teacher:0.1394,gi_loss:0.1089,lod_render:0.2509,lod_backward:9.2290 sampled_cuda_elapsed_ms=operations:1.9995(n=53),full_render:0.7875(n=11),gi:2.1851(n=53),full_backward:1.7342(n=11),lod:16.4457(n=42),densify:0.3180(n=11),optimizer:1.9184(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1452(n=42),gi_teacher:0.1718(n=42),gi_loss:0.1358(n=42),lod_render:0.3037(n=42),lod_backward:11.3007(n=42),total:19.9140(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_3/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=10.0779/25.9269/118.9121 stage_host_ms=operations:0.9769,full_render:0.1377,gi:6.0130,full_backward:0.1491,lod:2.0069,densify:0.1121,optimizer:0.3285,aabb:0.0000,historical:0.0000 sampled_cuda_elapsed_ms=operations:0.9796(n=49),full_render:0.7142(n=49),gi:6.4014(n=49),full_backward:1.3913(n=49),lod:NA(n=0),densify:0.3232(n=49),optimizer:0.2396(n=49),aabb:NA(n=0),historical:NA(n=0),total:10.6535(n=49)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_3/run.log",
+      "line": 2084,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=21.1383/46.5567/96.5050 stage_host_ms=operations:1.8293,full_render:0.1666,gi:12.1799,full_backward:0.1558,lod:5.3741,densify:0.0964,optimizer:0.7785,aabb:0.0007,historical:0.0000 sampled_cuda_elapsed_ms=operations:2.4119(n=50),full_render:0.8466(n=50),gi:12.6812(n=50),full_backward:1.6769(n=50),lod:NA(n=0),densify:0.9612(n=50),optimizer:0.6096(n=50),aabb:0.0036(n=1),historical:NA(n=0),total:19.8189(n=50)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_2/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=8.7231/23.9858/125.4911 stage_host_ms=operations:0.8470,full_render:0.1233,gi:4.9224,full_backward:0.1479,lod:1.9403,densify:0.1114,optimizer:0.3215,aabb:0.0000,historical:0.0000 sampled_cuda_elapsed_ms=operations:1.0485(n=49),full_render:0.6228(n=49),gi:4.0031(n=49),full_backward:1.3879(n=49),lod:NA(n=0),densify:0.3100(n=49),optimizer:0.1906(n=49),aabb:NA(n=0),historical:NA(n=0),total:8.0529(n=49)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_2/run.log",
+      "line": 2084,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=14.7544/30.3803/76.2870 stage_host_ms=operations:0.8727,full_render:0.1630,gi:8.3309,full_backward:0.1467,lod:4.0462,densify:0.0907,optimizer:0.5944,aabb:0.0006,historical:0.0000 sampled_cuda_elapsed_ms=operations:0.7005(n=50),full_render:0.8233(n=50),gi:8.5479(n=50),full_backward:1.6385(n=50),lod:NA(n=0),densify:0.9706(n=50),optimizer:0.4573(n=50),aabb:0.0025(n=1),historical:NA(n=0),total:13.7804(n=50)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_1/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=9.1610/24.5321/124.4968 stage_host_ms=operations:0.9008,full_render:0.1204,gi:5.2389,full_backward:0.1545,lod:1.9904,densify:0.1115,optimizer:0.3286,aabb:0.0000,historical:0.0000 sampled_cuda_elapsed_ms=operations:0.7161(n=49),full_render:0.6131(n=49),gi:4.5990(n=49),full_backward:1.3727(n=49),lod:NA(n=0),densify:0.2981(n=49),optimizer:0.2065(n=49),aabb:NA(n=0),historical:NA(n=0),total:8.3012(n=49)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline_retry/run_1/run.log",
+      "line": 2084,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=17.7977/33.9749/123.7892 stage_host_ms=operations:1.2007,full_render:0.1626,gi:9.9873,full_backward:0.1560,lod:4.9445,densify:0.0950,optimizer:0.7196,aabb:0.0006,historical:0.0000 sampled_cuda_elapsed_ms=operations:0.7147(n=50),full_render:0.7750(n=50),gi:10.0956(n=50),full_backward:1.5782(n=50),lod:NA(n=0),densify:0.9546(n=50),optimizer:0.5259(n=50),aabb:0.0028(n=1),historical:NA(n=0),total:15.2629(n=50)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/baseline/run_1/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=9.1578/24.2602/123.3234 stage_host_ms=operations:0.8985,full_render:0.1216,gi:5.2675,full_backward:0.1508,lod:1.9712,densify:0.1069,optimizer:0.3261,aabb:0.0000,historical:0.0000 sampled_cuda_elapsed_ms=operations:0.6905(n=49),full_render:0.5915(n=49),gi:5.2315(n=49),full_backward:1.3709(n=49),lod:NA(n=0),densify:0.3293(n=49),optimizer:0.2096(n=49),aabb:NA(n=0),historical:NA(n=0),total:8.9176(n=49)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/profile_baseline/run_1/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=9.1825/25.0130/124.1125 stage_host_ms=operations:0.8630,full_render:0.1284,gi:5.3237,full_backward:0.1468,lod:1.9685,densify:0.1094,optimizer:0.3246,aabb:0.0000,historical:0.0000,mature_preparation:0.1390,gi_teacher:0.0666,gi_loss:0.0000,lod_render:0.2021,lod_backward:0.6696 sampled_cuda_elapsed_ms=operations:0.9085(n=52),full_render:0.6514(n=10),gi:4.5112(n=52),full_backward:1.3780(n=10),lod:2.4544(n=42),densify:0.3453(n=10),optimizer:0.3192(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1869(n=42),gi_teacher:0.0780(n=42),gi_loss:NA(n=0),lod_render:0.2645(n=42),lod_backward:0.8634(n=42),total:8.3681(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/profile_baseline/run_1/run.log",
+      "line": 2084,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=16.8880/32.8588/97.5660 stage_host_ms=operations:1.2064,full_render:0.1618,gi:9.9190,full_backward:0.1522,lod:4.2085,densify:0.0902,optimizer:0.6090,aabb:0.0006,historical:0.0000,mature_preparation:0.1491,gi_teacher:0.0835,gi_loss:0.0298,lod_render:0.2213,lod_backward:2.2927 sampled_cuda_elapsed_ms=operations:0.0022(n=53),full_render:0.7683(n=11),gi:10.3964(n=53),full_backward:1.5928(n=11),lod:5.4170(n=42),densify:0.3234(n=11),optimizer:0.7911(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.2077(n=42),gi_teacher:0.1022(n=42),gi_loss:0.1337(n=12),lod_render:0.2712(n=42),lod_backward:3.0213(n=42),total:16.2343(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/validate_snapshot/run_1/run.log",
+      "line": 1074,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=7.3975/11.6861/126.9512 stage_host_ms=operations:0.7576,full_render:0.1245,gi:3.5904,full_backward:0.1519,lod:2.0191,densify:0.1145,optimizer:0.3298,aabb:0.0000,historical:0.0000,mature_preparation:0.1539,gi_teacher:0.0685,gi_loss:0.0000,lod_render:0.1970,lod_backward:0.6888 sampled_cuda_elapsed_ms=operations:0.3741(n=52),full_render:0.6572(n=10),gi:3.5755(n=52),full_backward:1.4092(n=10),lod:2.5094(n=42),densify:0.3369(n=10),optimizer:0.3245(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1885(n=42),gi_teacher:0.0802(n=42),gi_loss:NA(n=0),lod_render:0.2463(n=42),lod_backward:0.8833(n=42),total:6.9478(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/validate_snapshot/run_1/run.log",
+      "line": 2084,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=14.4851/29.7694/83.9274 stage_host_ms=operations:1.1025,full_render:0.1583,gi:7.4915,full_backward:0.1541,lod:4.3459,densify:0.0948,optimizer:0.6473,aabb:0.0006,historical:0.0000,mature_preparation:0.1478,gi_teacher:0.0854,gi_loss:0.0335,lod_render:0.2219,lod_backward:2.3934 sampled_cuda_elapsed_ms=operations:0.9943(n=53),full_render:0.8032(n=11),gi:7.7006(n=53),full_backward:1.5939(n=11),lod:5.1570(n=42),densify:0.3401(n=11),optimizer:0.7403(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1915(n=42),gi_teacher:0.1077(n=42),gi_loss:0.1453(n=12),lod_render:0.2793(n=42),lod_backward:2.7751(n=42),total:14.2902(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/results/gi_runtime_20261012/validate_snapshot/run_1/run.log",
+      "line": 3108,
+      "text": "[Mapping PERF] iter=3000 cycles=1000 wall_ms(avg/p95/max)=34.1670/57.6178/256.9928 stage_host_ms=operations:2.9305,full_render:0.1575,gi:17.4597,full_backward:0.1597,lod:11.2150,densify:0.1111,optimizer:1.5900,aabb:0.0006,historical:0.0000,mature_preparation:0.1564,gi_teacher:0.1412,gi_loss:0.1121,lod_render:0.2466,lod_backward:7.5219 sampled_cuda_elapsed_ms=operations:3.1587(n=52),full_render:0.8092(n=10),gi:16.3961(n=52),full_backward:1.7675(n=10),lod:13.6380(n=42),densify:0.3424(n=10),optimizer:1.7468(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.2026(n=42),gi_teacher:0.1850(n=42),gi_loss:0.1409(n=42),lod_render:0.3036(n=42),lod_backward:9.0429(n=42),total:33.0829(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 1090,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=10.1221/18.5396/165.0318 stage_host_ms=operations:0.0794,full_render:0.1077,gi:0.0914,full_backward:0.1350,lod:8.0837,densify:0.0939,optimizer:1.1479,aabb:0.1450,historical:0.0000,mature_preparation:0.0946,gi_teacher:0.1026,gi_loss:0.0608,lod_render:0.2303,lod_backward:5.3094 sampled_cuda_elapsed_ms=operations:0.0022(n=52),full_render:0.5675(n=10),gi:0.0405(n=52),full_backward:1.2573(n=10),lod:9.9252(n=42),densify:0.2718(n=10),optimizer:1.1139(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1085(n=42),gi_teacher:0.1176(n=42),gi_loss:0.1271(n=25),lod_render:0.3266(n=42),lod_backward:6.5478(n=42),total:9.7287(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 2096,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=15.3044/20.5542/42.8630 stage_host_ms=operations:0.2389,full_render:0.1402,gi:0.1851,full_backward:0.1448,lod:12.5107,densify:0.0747,optimizer:1.7049,aabb:0.0005,historical:0.0000,mature_preparation:0.0976,gi_teacher:0.1241,gi_loss:0.1041,lod_render:0.3114,lod_backward:8.6410 sampled_cuda_elapsed_ms=operations:0.4116(n=53),full_render:0.6958(n=11),gi:0.1596(n=53),full_backward:1.5086(n=11),lod:15.6569(n=42),densify:0.2785(n=11),optimizer:1.6381(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1212(n=42),gi_teacher:0.1550(n=42),gi_loss:0.1344(n=42),lod_render:0.3877(n=42),lod_backward:10.7857(n=42),total:15.2959(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 3102,
+      "text": "[Mapping PERF] iter=3000 cycles=1000 wall_ms(avg/p95/max)=16.0323/21.4344/52.9674 stage_host_ms=operations:0.1866,full_render:0.1508,gi:0.1685,full_backward:0.1415,lod:13.2221,densify:0.0802,optimizer:1.7522,aabb:0.0005,historical:0.0000,mature_preparation:0.1042,gi_teacher:0.1311,gi_loss:0.1101,lod_render:0.3254,lod_backward:9.1864 sampled_cuda_elapsed_ms=operations:1.0592(n=52),full_render:0.7319(n=10),gi:0.3523(n=52),full_backward:1.6089(n=10),lod:16.5725(n=42),densify:0.2952(n=10),optimizer:1.7449(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1243(n=42),gi_teacher:0.1855(n=42),gi_loss:0.1381(n=42),lod_render:0.4057(n=42),lod_backward:11.5221(n=42),total:17.2197(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 4108,
+      "text": "[Mapping PERF] iter=4000 cycles=1000 wall_ms(avg/p95/max)=16.0331/21.1256/54.7819 stage_host_ms=operations:0.0891,full_render:0.1582,gi:0.1136,full_backward:0.1400,lod:13.3574,densify:0.0799,optimizer:1.7439,aabb:0.0006,historical:0.0000,mature_preparation:0.1017,gi_teacher:0.1311,gi_loss:0.1106,lod_render:0.3284,lod_backward:9.3378 sampled_cuda_elapsed_ms=operations:0.0022(n=53),full_render:0.7965(n=11),gi:0.0328(n=53),full_backward:1.7386(n=11),lod:16.6870(n=42),densify:0.2784(n=11),optimizer:1.6853(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1257(n=42),gi_teacher:0.1883(n=42),gi_loss:0.1386(n=42),lod_render:0.4212(n=42),lod_backward:11.5136(n=42),total:15.6944(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 5114,
+      "text": "[Mapping PERF] iter=5000 cycles=1000 wall_ms(avg/p95/max)=16.0983/21.3000/56.1652 stage_host_ms=operations:0.1572,full_render:0.1676,gi:0.1582,full_backward:0.1398,lod:13.2673,densify:0.0828,optimizer:1.7558,aabb:0.0006,historical:0.0000,mature_preparation:0.1047,gi_teacher:0.1319,gi_loss:0.1103,lod_render:0.3384,lod_backward:9.2161 sampled_cuda_elapsed_ms=operations:0.0024(n=53),full_render:0.8421(n=10),gi:0.0364(n=53),full_backward:1.8286(n=10),lod:16.6243(n=43),densify:0.2992(n=10),optimizer:1.7571(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1297(n=43),gi_teacher:0.2002(n=43),gi_loss:0.1420(n=43),lod_render:0.4211(n=43),lod_backward:11.6052(n=43),total:16.0133(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 6120,
+      "text": "[Mapping PERF] iter=6000 cycles=1000 wall_ms(avg/p95/max)=16.4679/22.1301/57.7379 stage_host_ms=operations:0.1625,full_render:0.1756,gi:0.1823,full_backward:0.1402,lod:13.5987,densify:0.0840,optimizer:1.7370,aabb:0.0006,historical:0.0000,mature_preparation:0.1031,gi_teacher:0.1746,gi_loss:0.1108,lod_render:0.3430,lod_backward:9.4921 sampled_cuda_elapsed_ms=operations:0.0021(n=52),full_render:0.8482(n=11),gi:0.1585(n=52),full_backward:1.8276(n=11),lod:16.8477(n=41),densify:0.2908(n=11),optimizer:1.7086(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1305(n=41),gi_teacher:0.2036(n=41),gi_loss:0.1372(n=41),lod_render:0.4245(n=41),lod_backward:11.7124(n=41),total:15.9489(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 7126,
+      "text": "[Mapping PERF] iter=7000 cycles=1000 wall_ms(avg/p95/max)=15.8714/20.5624/56.8029 stage_host_ms=operations:0.0680,full_render:0.1743,gi:0.1148,full_backward:0.1358,lod:13.1985,densify:0.0808,optimizer:1.7189,aabb:0.0005,historical:0.0000,mature_preparation:0.1002,gi_teacher:0.1896,gi_loss:0.1097,lod_render:0.3356,lod_backward:9.1818 sampled_cuda_elapsed_ms=operations:0.0022(n=53),full_render:0.8612(n=10),gi:0.1191(n=53),full_backward:1.8471(n=10),lod:16.6369(n=43),densify:0.3009(n=10),optimizer:1.7257(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1308(n=43),gi_teacher:0.2006(n=43),gi_loss:0.1446(n=43),lod_render:0.4423(n=43),lod_backward:11.5362(n=43),total:16.0735(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 8143,
+      "text": "[Mapping PERF] iter=8000 cycles=1000 wall_ms(avg/p95/max)=16.9494/21.8654/549.4240 stage_host_ms=operations:0.1043,full_render:0.1844,gi:0.1273,full_backward:0.1406,lod:13.6262,densify:0.0874,optimizer:1.7585,aabb:0.5119,historical:0.0000,mature_preparation:0.1044,gi_teacher:0.2096,gi_loss:0.1125,lod_render:0.3575,lod_backward:9.4328 sampled_cuda_elapsed_ms=operations:0.6335(n=53),full_render:0.8975(n=11),gi:0.0809(n=53),full_backward:1.8922(n=11),lod:17.0973(n=42),densify:0.2894(n=11),optimizer:1.7218(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1331(n=42),gi_teacher:0.1978(n=42),gi_loss:0.1355(n=42),lod_render:0.4558(n=42),lod_backward:11.8279(n=42),total:16.8637(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr2_xyz/train.log",
+      "line": 9149,
+      "text": "[Mapping PERF] iter=9000 cycles=1000 wall_ms(avg/p95/max)=16.1758/20.8199/54.0675 stage_host_ms=operations:0.0700,full_render:0.1886,gi:0.1232,full_backward:0.1374,lod:13.4348,densify:0.0825,optimizer:1.7409,aabb:0.0006,historical:0.0000,mature_preparation:0.1024,gi_teacher:0.2356,gi_loss:0.1157,lod_render:0.3385,lod_backward:9.3000 sampled_cuda_elapsed_ms=operations:0.0025(n=52),full_render:0.9338(n=10),gi:0.2067(n=52),full_backward:1.8588(n=10),lod:17.0613(n=42),densify:0.2819(n=10),optimizer:1.7456(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1292(n=42),gi_teacher:0.2081(n=42),gi_loss:0.1362(n=42),lod_render:0.4298(n=42),lod_backward:11.8604(n=42),total:16.4879(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr1_desk/train.log",
+      "line": 1090,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=12.6315/26.4348/213.4036 stage_host_ms=operations:1.1589,full_render:0.1346,gi:0.6312,full_backward:0.1523,lod:8.7826,densify:0.1100,optimizer:1.2276,aabb:0.1596,historical:0.0000,mature_preparation:0.1146,gi_teacher:0.1218,gi_loss:0.0681,lod_render:0.2608,lod_backward:5.6515 sampled_cuda_elapsed_ms=operations:0.9128(n=52),full_render:0.6224(n=10),gi:0.4172(n=52),full_backward:1.3385(n=10),lod:10.7636(n=42),densify:0.3052(n=10),optimizer:1.1651(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1315(n=42),gi_teacher:0.1443(n=42),gi_loss:0.1384(n=25),lod_render:0.3216(n=42),lod_backward:6.9762(n=42),total:11.7908(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr3_long_office_household/train.log",
+      "line": 1080,
+      "text": "[Mapping PERF] iter=1000 cycles=1000 wall_ms(avg/p95/max)=12.4477/25.0956/113.2684 stage_host_ms=operations:0.7775,full_render:0.1382,gi:0.6223,full_backward:0.1513,lod:9.0486,densify:0.1080,optimizer:1.3054,aabb:0.0007,historical:0.0000,mature_preparation:0.1156,gi_teacher:0.1210,gi_loss:0.0684,lod_render:0.2762,lod_backward:5.8598 sampled_cuda_elapsed_ms=operations:1.1225(n=52),full_render:0.6804(n=10),gi:0.5410(n=52),full_backward:1.4356(n=10),lod:11.2066(n=42),densify:0.3319(n=10),optimizer:1.3809(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1626(n=42),gi_teacher:0.1441(n=42),gi_loss:0.1433(n=25),lod_render:0.3495(n=42),lod_backward:7.2716(n=42),total:12.7440(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr3_long_office_household/train.log",
+      "line": 2097,
+      "text": "[Mapping PERF] iter=2000 cycles=1000 wall_ms(avg/p95/max)=21.1192/30.4116/1207.5312 stage_host_ms=operations:1.1829,full_render:0.2079,gi:1.0759,full_backward:0.1690,lod:14.8564,densify:0.1031,optimizer:1.9498,aabb:1.1152,historical:0.0000,mature_preparation:0.1331,gi_teacher:0.4288,gi_loss:0.1493,lod_render:0.3419,lod_backward:9.9898 sampled_cuda_elapsed_ms=operations:1.6448(n=53),full_render:0.9913(n=11),gi:0.8731(n=53),full_backward:1.8873(n=11),lod:18.5314(n=42),densify:0.3991(n=11),optimizer:2.0300(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1772(n=42),gi_teacher:0.2696(n=42),gi_loss:0.1492(n=42),lod_render:0.4469(n=42),lod_backward:12.3230(n=42),total:20.1345(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr3_long_office_household/train.log",
+      "line": 3114,
+      "text": "[Mapping PERF] iter=3000 cycles=1000 wall_ms(avg/p95/max)=25.0310/37.4632/2151.7530 stage_host_ms=operations:1.4416,full_render:0.2255,gi:1.8437,full_backward:0.1831,lod:16.6912,densify:0.1081,optimizer:1.9421,aabb:2.0578,historical:0.0000,mature_preparation:0.1368,gi_teacher:1.1176,gi_loss:0.2914,lod_render:0.3272,lod_backward:10.8802 sampled_cuda_elapsed_ms=operations:1.1020(n=52),full_render:1.3147(n=10),gi:1.9087(n=52),full_backward:2.0833(n=10),lod:20.9188(n=42),densify:0.4713(n=10),optimizer:2.0286(n=52),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1724(n=42),gi_teacher:0.4792(n=42),gi_loss:0.1660(n=42),lod_render:0.4178(n=42),lod_backward:13.5979(n=42),total:22.8868(n=52)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr3_long_office_household/train.log",
+      "line": 4120,
+      "text": "[Mapping PERF] iter=4000 cycles=1000 wall_ms(avg/p95/max)=26.4272/53.4336/175.4620 stage_host_ms=operations:1.8560,full_render:0.2648,gi:3.1076,full_backward:0.1720,lod:18.2182,densify:0.1220,optimizer:1.9555,aabb:0.0008,historical:0.0000,mature_preparation:0.1388,gi_teacher:1.9247,gi_loss:0.4656,lod_render:0.3452,lod_backward:11.3124 sampled_cuda_elapsed_ms=operations:1.2178(n=53),full_render:1.2303(n=11),gi:2.0270(n=53),full_backward:2.3936(n=11),lod:23.1532(n=42),densify:0.4208(n=11),optimizer:2.0421(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1772(n=42),gi_teacher:0.7328(n=42),gi_loss:0.1622(n=42),lod_render:0.4547(n=42),lod_backward:14.6416(n=42),total:24.6915(n=53)"
+    },
+    {
+      "path": "/home/prmi/zwj/chcl-validation-20261013/full-online/original/fr3_long_office_household/train.log",
+      "line": 5135,
+      "text": "[Mapping PERF] iter=5000 cycles=1000 wall_ms(avg/p95/max)=24.5792/42.0747/155.1126 stage_host_ms=operations:0.8858,full_render:0.2564,gi:1.7526,full_backward:0.1587,lod:18.5927,densify:0.1306,optimizer:1.9116,aabb:0.0006,historical:0.0000,mature_preparation:0.1352,gi_teacher:2.5629,gi_loss:0.6472,lod_render:0.3405,lod_backward:10.9123 sampled_cuda_elapsed_ms=operations:0.9770(n=53),full_render:1.2999(n=10),gi:0.9824(n=53),full_backward:2.3410(n=10),lod:23.7377(n=43),densify:0.4228(n=10),optimizer:1.8977(n=53),aabb:NA(n=0),historical:NA(n=0),mature_preparation:0.1604(n=43),gi_teacher:0.9408(n=43),gi_loss:0.1651(n=43),lod_render:0.4258(n=43),lod_backward:14.4568(n=43),total:24.0807(n=53)"
+    }
+  ],
+  "gi": []
+}

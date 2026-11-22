@@ -1,0 +1,12 @@
+{
+  "initial_cell_total": 2048,
+  "grid_policy": "deterministic power-of-two factorization with product 2048; minimize log cell-size variance",
+  "representatives_per_leaf": 3,
+  "split_coverage_threshold": 0.8,
+  "max_level": 3,
+  "effective_maturity": 1,
+  "optimizer_updates": 0,
+  "parameter_change_authorization": "user explicitly changed initial total from 256 to 2048, confirmed total-cell interpretation",
+  "unchanged": ["raw contribution", "Bank", "candidate masks", "geometry kernel", "greedy formula", "teacher percentile", "Selector architecture", "TF architecture"],
+  "prior_256_result": "before_grid2048/; engineering history only, not a quality-selected parameter"
+}

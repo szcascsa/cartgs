@@ -1,0 +1,252 @@
+%YAML:1.0
+
+# 视角条件研究：同一步 Full + 全局 LoD1 + 名义 Anchor 视锥 LoD2，三路权重 1:1:1。
+# 两路均为原 Gumbel-ST + |sum(mask)-rN|/max(1,rN)，局部不使用 Top-K 或 GI。
+# 独立条件实验；从原Full起点设conditioning=off可恢复原联合架构。
+ViewBudget.enabled: 1
+ViewBudget.loss_weight: 1.0
+ViewBudget.seed: 0
+# 仅供额外全局渲染对照：1 将第三分支候选改为全图，仍无额外 GI。
+ViewBudget.global_control: 0
+
+# real-lod分支默认：Full建图/尾优化 → 等在线步数Joint LoD；FlexGS重要性监督。
+# Selector为19→32→32→2；Compensator为offset3+累加Feature48+ratio3，64/64四Head。
+# 每Anchor一份48D基座和五级48D ratio残差；连续插值累加，无Feature门控或空间Fourier。
+# 在线及正常尾部仅Full；结束后LoD独立训练，步数等于实际在线Mapping。
+# Fine每步Full＋全局LoD＋名义Anchor视锥局部LoD，同ratio三路反传后提交一次Adam，固定拓扑。
+# FlexGS全训练视图重要性伪标签引导Selector；Maturity与SGI关闭。
+Training.ultra_light_mode: 1
+Training.real_lod: 1
+# Fine的Full photo权重；设0前需关闭ViewBudget以使用LoD-only。Full Opacity正则每步只计算一次。
+RealLoD.full_loss_weight: 1.0
+FlexGSImportance.enabled: 1
+FlexGSImportance.refresh_interval: 1000
+Mapping.iteration_logging: 0
+# CUDA 优化默认启用；任一项设为 0 可单独回退 Legacy。
+CUDA.fused_dense_adam: 1
+CUDA.fused_compensation_decode: 1
+CUDA.fused_anchor_input_pack: 1
+CUDA.fused_spatial_compensation: 1
+CUDA.fused_anchor_full_stats: 1
+CUDA.fused_selector_compaction: 1
+# 默认使用已校准的tiled FP32 Selector及CUB workspace；不支持的设备/人口/配置自动回退。
+# phase2在线质量稳定性仍未通过；2026-10-28按用户明确要求启用，0可回退原版。
+CUDA.fused_flexgs_selector: 1
+CUDA.reuse_renderer_workspace: 1
+CUDA.optimized_ssim_backward: 1
+# 2026-10-31：SSIM缓存及小算子融合设为生产默认；各项设0可单独回退。
+CUDA.cached_ssim_statistics: 1
+CUDA.cache_ratio_code: 1
+CUDA.elide_inactive_maturity_gate: 1
+CUDA.reuse_maturity_softmax: 1
+CUDA.fused_anchor128_input: 1
+CUDA.fused_maturity_loss: 1
+CUDA.fused_l1_loss: 1
+CUDA.fused_empty_tf_statistics: 1
+# Residual48 输入训练融合；共享表仍使用原生 Gather/Scatter，原子归约位差见诊断报告。
+CUDA.fused_residual48_input: 1
+CUDA.fused_residual48_training_input: 1
+
+# 强制覆写尾优化默认关闭；所有在线训练模式均生效，开启后忽略 Selector.max_mapping_iterations。
+# -1: SLAM 结束时 iteration 的一半（向下取整）；>=0: 固定尾部 Mapping 步数。
+Training.force_tail_optimization_enabled: 0
+Training.tail_optimization_steps: -1
+
+Selector.enabled: 1
+Selector.architecture: "anchor"
+# 世界坐标单位的固定 voxel 边长；不根据图像质量调节。
+Selector.anchor_voxel_size: 0.1
+Selector.anchor_gaussian_attributes: 1
+Selector.anchor_adaptive: 0
+Selector.anchor_global_xyz: 0
+# Selector 不读可学习Anchor latent；Offset/Scale/SH DC/Opacity/log(ratio)共11维。
+Selector.anchor_ratio_features: 0
+Selector.anchor_feature_dim: 0
+Selector.explicit_anchor_blocks: 1
+# 全局LoD及离线全局导出使用全图候选；局部LoD另按名义Anchor视锥候选N_v计算预算。
+# 全局训练若设1需先关闭ViewBudget；离线渲染需额外传 --selector-anchor-frustum 才启用。
+Selector.anchor_frustum_culling: 0
+# 1: 10→16→16成员编码+Anchor Mean/Max/数量，50→32→32→2评分；0保留11D。
+Selector.anchor_set_encoder: 0
+# 只用真实观测初始化，每 Anchor 1..10 点；topology 事件交替执行逐点和 Anchor 增删。
+# 闭环按同层目标容量迁移：满10丢弃，接收端 Feature 按成员数加权。
+# 设为 0 可复现固定十点 baseline；不改变 LoD/Full 调度。
+Selector.variable_anchor_members: 1
+# 0: Gaussian 与 Anchor pruning 交替；1: 仅整 Anchor pruning。Gaussian clone/split 保留。
+# 3/4: 每次拓扑事件仅 Anchor 生长/整组删除，所有创建入口固定十成员；3 强制关闭 slot_deactivation，4 强制开启。
+# 3/4 保留名义格子视锥；闭环整组迁移，同层最终目标原地者优先，其余最小 UID 优先；仅支持本模式 checkpoint。
+Selector.anchor_only_pruning: 1
+# 可设为 1：仅下一层 growing 要求源 Anchor 满10点；同层 growing 不受影响。
+Selector.anchor_refine_requires_full: 0
+# Anchor 使用 LibTorch GPU；旧四路网络仍可显式选择 architecture=legacy。
+Selector.backend: "legacy"
+Selector.target_ratios: [0.01, 0.05, 0.1, 0.3, 0.5, 0.7]
+Selector.protection_enabled: 0
+# 连续Maturity V2复用漂移统计；Legacy概率混合保持关闭。
+Protection.drift_temperature: 0.10
+Protection.beta_fast: 0.60
+Protection.beta_slow: 0.15
+Protection.maturity_rise_rate: 0.05
+Protection.maturity_fall_rate: 0.50
+Protection.maturity_diagnostics: 0
+# TF/GI/ChangeDistill compatibility only; does not restrict Selector candidates.
+Protection.compatibility_mature_threshold: 0.80
+Protection.performance_logging: 0
+Selector.temperature: 1.0
+# 当前分支：同步FlexGS训练采样/ST梯度、hard-mask预算和分位数推理。
+# cached_bernoulli 可恢复旧采样；旧配置缺少该项时仍按旧模式加载。
+Selector.selection_mode: "flexgs"
+# 修复低ratio训练预算偏大：|sum(ST mask)-rN|/max(1,rN)。0可复现原FlexGS绝对比例损失。
+Selector.gumbel_budget_normalize: 1
+Selector.learning_rate: 0.001
+Selector.render_loss_weight: 1.0
+Selector.gi_loss_weight: 1.0
+# 独立 Anchor 级概率 L2；仅更新 Selector 私有分支，旧 SI/GI 保持关闭。
+AnchorSI.enabled: 0
+AnchorSI.loss_weight: 0.01
+AnchorSI.ema_decay: 0.9
+AnchorSI.temperature: 1.0
+AnchorSI.collect_every_full: 4
+AnchorSI.minimum_visits: 4
+AnchorSI.maximum_age_full: 128
+Selector.ratio_loss_weight: 0.01
+# online及tail LoD使用原分辨率。
+Selector.lod_render_scale: 1.0
+# RealLoD: 0 enables joint Master gradients; 1 requires full_loss_weight=0.
+# Legacy mode0 also honors this flag; legacy rotating mode1 remains joint.
+# Optional conflict-source remote Replay; does not sample random views.
+Selector.detach_gaussian_parameters: 0
+Selector.replay_enabled: 0
+Selector.replay_interval: 300
+Selector.replay_num_frames: 2
+ConflictReplay.trigger_cancel_count: 1000
+ConflictReplay.source_view_count: 2
+ConflictReplay.views_per_source: 4
+ConflictReplay.remote_candidate_count: 32
+ConflictReplay.queue_capacity: 16
+# 0：沿用原 CaRtGS 停止规则，不强制指定 Mapping 步数。
+Selector.max_mapping_iterations: 0
+
+# 1: record per-mapping and final keyframe usage files; 0: disable file writes.
+Mapping.record_keyframe_used_times: 0
+
+# GI 来源：streaming / disabled；停用实验参数见 archive/retired_features.yaml，不自动加载。
+GlobalGI.mode: "disabled"
+GlobalGI.HierarchicalRepresentative.enable: 0
+GlobalGI.HierarchicalRepresentative.diagnostics: 0
+GlobalGI.view_ratio: 0.30
+GlobalGI.coverage_anchor_fraction: 0.80
+GlobalGI.sampling_seed: 0
+GlobalGI.refresh_interval: 1000
+GlobalGI.max_views: 0
+GlobalGI.performance_logging: 1
+# 0: 仅周期摘要；1: 打印逐次 Bank/拓扑详情，用于调试。
+GlobalGI.verbose_logging: 0
+GlobalGI.marginal_shadow: 0
+GlobalGI.marginal_diagnostics: 0
+Importance.ratio_aware_weight: 0
+Importance.ratio_weights: [1.0, 1.0, 1.0, 1.0]
+
+TransformField.enable: 0
+# TF 计算后端：legacy = 原 LibTorch 实现；cuda = 专用 CUDA 实现（仅 CUDA FP32）。
+# 此项同时切换 TF forward/backward、regularization 和 TF Adam；修改后重启程序生效。
+TransformField.backend: "cuda"
+TransformField.start_iter: 3000
+TransformField.aabb_scale: 1.0
+TransformField.spatial_resolution: 64
+TransformField.ratio_resolution: 150
+TransformField.feature_dim: 8
+TransformField.multires: [1, 2]
+TransformField.hidden_dim: 32
+TransformField.grid_lr_init: 0.0016
+TransformField.grid_lr_final: 0.00016
+TransformField.mlp_lr_init: 0.00016
+TransformField.mlp_lr_final: 0.000016
+TransformField.lr_delay_mult: 0.01
+TransformField.lr_max_steps: 20000
+TransformField.spatial_smooth_weight: 0.0002
+TransformField.ratio_smooth_weight: 0.001
+TransformField.ratio_l1_weight: 0.0001
+TransformField.outside_identity: 1
+# 0 preserves the validated continuous path; D/F explicitly use 0.30.
+Elastic.entry_maturity: 0
+TransformField.ready_maturity: 0.30
+TransformField.min_ready_gaussians: 500
+TransformField.start_mode: fixed_iteration
+TransformField.maturity_compute_epsilon: 0
+TransformField.dynamic_aabb: 1
+TransformField.aabb_check_interval: 1000
+TransformField.outside_count_threshold: 100
+TransformField.expand_margin_ratio: 0.2
+TransformField.bound_quantile_low: 0.001
+TransformField.bound_quantile_high: 0.999
+TransformField.fixed_resolution: 1
+
+# 默认关闭；显式设为 1 才执行几何变化蒸馏。
+ChangeDistill.enable: 0
+ChangeDistill.distill_selector_on_geometry_change: 1
+ChangeDistill.distill_tf_on_geometry_change: 1
+ChangeDistill.distill_tf_on_aabb_change: 1
+ChangeDistill.position_weight: 1.0
+ChangeDistill.scale_weight: 1.0
+ChangeDistill.rotation_weight: 1.0
+ChangeDistill.selector_weight: 1.0
+ChangeDistill.selector_learning_rate: 0.0001
+ChangeDistill.tf_grid_learning_rate: 0.00016
+ChangeDistill.tf_mlp_learning_rate: 0.000016
+ChangeDistill.batch_size: 8192
+ChangeDistill.epochs: 5
+ChangeDistill.seed: 0
+ChangeDistill.enable_unaffected_anchors: 1
+ChangeDistill.anchor_ratio_to_corrected: 1.0
+ChangeDistill.anchor_max_count: 32768
+ChangeDistill.anchor_loss_weight: 1.0
+# Event-local Adam uses the fixed CD learning rates above, with weight_decay=0.
+# Normal mapping clocks do not advance during CD.
+ChangeDistill.post_change_replay: 0
+
+Selector.compensation: 1
+Selector.compensation_method: "spatial_offset3_residual48"
+# 14维：Anchor单位XYZ3、相对Softplus尺度参数3、quaternion4、opacity-logit1、SH DC3。
+Selector.compensation_start_iter: 0
+Selector.slot_deactivation: 1
+Training.serial_full_lod: 0
+Training.serial_lod_detach_master: 0
+Training.post_topology_full_steps: 0
+
+Training.lod_start_iteration: 0
+Training.tail_ratio_rotation: 1
+# s_out=exp(log_s_master)*softplus(log(expm1(1))+u)；零输出保持原尺度。
+Selector.physical_scale_additive: 0
+Selector.softplus_scale: 1
+Selector.compensation_fourier_bands: 0
+
+# 真实Full alpha*T/HW；每8次原分辨率Full采集一次，采样所有像素。
+# M_selector=M_base*(0.6+0.4R)；不直接改概率，不限制候选，不额外渲染。
+MaturityV2.enabled: 0
+MaturityV2.tau_o: 20.0
+MaturityV2.tau_v: 3.0
+MaturityV2.xyz_scale_floor: 0.0001
+MaturityV2.inherit_fraction: 0.5
+MaturityV2.selector_loss_weight: 0.0
+MaturityV2.selector_delta: 0.05
+MaturityV2.compensation_gate: 0
+MaturityV2.gate_appearance: 1
+MaturityV2.gate_low: 0.4
+MaturityV2.gate_high: 0.8
+MaturityV2.contribution_enabled: 0
+MaturityV2.contribution_decay: 0.9
+MaturityV2.tau_r: 0.00001
+MaturityV2.contribution_weight: 0.4
+MaturityV2.contribution_every_full: 8
+MaturityV2.contribution_pixel_stride: 1
+
+# LI=0.1，复用当前Full贡献；旧视角残差及交替调度关闭。
+ViewBudget.conditioning: view
+ViewBudget.li_weight: 0.1
+ViewBudget.view_residual: 0
+ViewInput.enabled: 0
+ViewResidual.enabled: 0
+
+# 独立消融：移除Other Head，Opacity/SH DC补偿恒零；Master保持可优化。
+Selector.geometry_head_variant: 1

@@ -1,0 +1,300 @@
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1068.1710
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] cold cpu_ms=1129.91 cuda_ms=1129.9
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/1 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/1 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0002,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=4 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=415.4016
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=4 skipped_outside=4
+[PERF RESULT] warmup cpu_ms=434.565 cuda_ms=434.557
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/1 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/1 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0002,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=4 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=416.8931
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=4 skipped_outside=4
+[PERF RESULT] warmup cpu_ms=436.353 cuda_ms=436.345
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1010.2683
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_0 cpu_ms=1029.41 cuda_ms=1029.4
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1013.6013
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_1 cpu_ms=1032.88 cuda_ms=1032.87
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1013.7960
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_2 cpu_ms=1033.04 cuda_ms=1033.03
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1013.0392
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_3 cpu_ms=1032.28 cuda_ms=1032.27
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1012.2045
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_4 cpu_ms=1031.46 cuda_ms=1031.45
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1010.5652
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_5 cpu_ms=1029.81 cuda_ms=1029.8
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1012.6353
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_6 cpu_ms=1031.9 cuda_ms=1031.88
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1015.4672
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_7 cpu_ms=1034.69 cuda_ms=1034.68
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1013.1738
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_8 cpu_ms=1032.4 cuda_ms=1032.39
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=NONE tf_scope=CORRECTED_MATURE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=20 selector_epochs=20 tf_epochs=20 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=CORRECTED_MATURE
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/20 loss=0.0003 position_loss=0.0000 log_scale_loss=0.0003 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=6/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=7/20 loss=0.0002 position_loss=0.0000 log_scale_loss=0.0002 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=8/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=9/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=10/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=11/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=12/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=13/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=14/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=15/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=16/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=17/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=18/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=19/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=20/20 loss=0.0001 position_loss=0.0000 log_scale_loss=0.0001 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=29683 skipped_outside=4
+[TF CD] event=1 count=29683 skipped_outside=4 pre_xyz/log_scale/rotation=0.0000,0.0003,0.0000 post_xyz/log_scale/rotation=0.0000,0.0001,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0001,0.0000 steps=80 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=1013.5651
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=0 tf_steps=80 skipped_outside=4
+[PERF RESULT] warm_9 cpu_ms=1032.79 cuda_ms=1032.78

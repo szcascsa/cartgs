@@ -1,0 +1,12 @@
+{
+  "selector": {
+    "nsys": "completed",
+    "ncu_selected_hotspot": "void at::native::radixSortKVInPlace<-2, -1, 32, 32, long, long, unsigned int>(at::cuda::detail::TensorInfo<long, unsigned int>, unsigned int, unsigned int, unsigned int, at::cuda::detail::TensorInfo<long, unsigned int>, unsigned int, bool)",
+    "ncu": "completed"
+  },
+  "tf": {
+    "nsys": "completed",
+    "ncu_selected_hotspot": "void at::native::index_elementwise_kernel<128, 4, at::native::index_copy_kernel_impl<at::native::OpaqueType<4> >(at::TensorIterator&, long, long, long)::{lambda(int)#1}>(long, at::native::index_copy_kernel_impl<at::native::OpaqueType<4> >(at::TensorIterator&, long, long, long)::{lambda(int)#1})",
+    "ncu": "completed"
+  }
+}

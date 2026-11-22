@@ -1,0 +1,24 @@
+-- Found CUDAToolkit: /usr/local/cuda-11.8/include (found version "11.8.89") 
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+-- Autodetected CUDA architecture(s):  8.6
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+-- Found CUDAToolkit: /usr/local/cuda-11.8/include (found suitable exact version "11.8.89") 
+-- Configuring done (0.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_implementation_20261015/build-candidates
+[ 14%] Building CXX object CMakeFiles/selector_candidates.dir/home/prmi/zwj/selector-cuda-20261015/src/selector_cuda.cpp.o
+[ 28%] Building CUDA object CMakeFiles/selector_candidates.dir/home/prmi/zwj/selector-cuda-20261015/src/selector_cuda.cu.o
+[ 42%] Linking CXX static library libselector_candidates.a
+[ 42%] Built target selector_candidates
+[ 57%] Building CXX object CMakeFiles/selector_parity.dir/selector_parity.cpp.o
+[ 71%] Building CXX object CMakeFiles/network_benchmark.dir/network_benchmark.cpp.o
+[ 85%] Linking CXX executable network_benchmark
+[ 85%] Built target network_benchmark
+[100%] Linking CXX executable selector_parity
+[100%] Built target selector_parity

@@ -1,0 +1,13 @@
+{
+  "all_passed": true,
+  "files_verified": 96,
+  "bundle_sha256": "477e32ec9bce79d9e239f46edf603de5fc0e3d0ca36728ae29ab435a7f0595d8",
+  "candidate_N": 23643,
+  "same_K": true,
+  "nested": true,
+  "complete_rankings": true,
+  "quality_view_renders": 864,
+  "aggregate_max_abs_error": 0.0,
+  "mechanism_gate_recomputed": true,
+  "F3_combined_supported_recomputed": false
+}

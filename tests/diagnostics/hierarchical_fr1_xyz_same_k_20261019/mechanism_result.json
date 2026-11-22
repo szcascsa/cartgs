@@ -1,0 +1,43 @@
+{
+  "dataset": "fr1_xyz",
+  "C_delta_PSNR_vs_A": [
+    1.1853406870806662,
+    1.0074454590126294,
+    0.4898718727959519,
+    0.01008499993218237
+  ],
+  "F3_delta_PSNR_vs_A": [
+    1.4361603878162512,
+    0.8969791200425874,
+    0.3653612490053497,
+    -0.04968533692536781
+  ],
+  "F3_delta_PSNR_vs_C": [
+    0.250819700735585,
+    -0.11046633897004199,
+    -0.12451062379060218,
+    -0.05977033685755018
+  ],
+  "F3_delta_PSNR_vs_B": [
+    -0.1279821219267685,
+    -0.0657719329551405,
+    -0.08373507746943787,
+    0.022906585975928095
+  ],
+  "F3_mean_delta_PSNR_C": -0.010981899720652333,
+  "F3_mean_delta_PSNR_B": -0.0636456365938547,
+  "C_primary_PSNR_gate": true,
+  "F3_combined_supported": false,
+  "F3_strong_improvement": false,
+  "F3_high_redundancy_gate": true,
+  "F3_vs_B_PSNR": "BELOW",
+  "strong_redundancy": {
+    "B_mean": 0.16178182238985972,
+    "F3_mean": 0.2213488259211917,
+    "B_pairs_gt09": 82,
+    "F3_pairs_gt09": 163
+  },
+  "single_frozen_map": true,
+  "zero_tuning": true,
+  "online_claim": false
+}

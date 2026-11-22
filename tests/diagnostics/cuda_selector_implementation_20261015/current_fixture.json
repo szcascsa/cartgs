@@ -1,0 +1,12 @@
+{
+  "checkpoint": "/home/prmi/zwj/mycartgs/results/cudatfnewprotection/tum_rgbd/roomfixednice/6900_shutdown/ply",
+  "N": 109564,
+  "entry": 0.0,
+  "eligible": 109564,
+  "frames": [
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room/rgb/1305031910.765238.png",
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room/rgb/1305031910.865025.png",
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg1_room/rgb/1305031910.897222.png"
+  ],
+  "limit": "Fixed real map and saved maturity/uniform; no topology updates in deterministic replay"
+}

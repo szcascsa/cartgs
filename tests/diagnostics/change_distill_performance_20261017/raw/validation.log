@@ -1,0 +1,15 @@
+{
+  "cases_checked": 282,
+  "parity": {
+    "selector": {
+      "parameter_tensors": 18,
+      "all_bitwise_equal": true,
+      "allclose": true
+    },
+    "tf": {
+      "parameter_tensors": 26,
+      "all_bitwise_equal": false,
+      "allclose": true
+    }
+  }
+}

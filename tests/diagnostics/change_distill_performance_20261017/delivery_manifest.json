@@ -1,0 +1,18 @@
+{
+  "raw_files": 824,
+  "native_cases": 22,
+  "warm_repeats_per_case": 10,
+  "run_contracts_checked": 282,
+  "production_files_changed": [],
+  "archives": {
+    "raw_profiling_outputs.tar.gz": {
+      "bytes": 86654249,
+      "sha256": "8644775d69658336def8522b282f39ecc0da180abec546a376e5509ee7e62629"
+    },
+    "audit_source.tar.gz": {
+      "bytes": 452354,
+      "sha256": "e4a5acc1af0efd940370ea78f966bfb1e24c52c3224aca40783511c3d8a03091"
+    }
+  },
+  "report_sha256": "750a10b54b3f8815d2996071cac9f09a0687bf458ff04fddcaca433ae08e0b4c"
+}

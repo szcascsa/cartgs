@@ -53,9 +53,13 @@ class Rasterizer {
       float* out_color,
       int* radii = nullptr,
       bool debug = false,
-      bool collect_importance = false,
+      int collect_importance = 0,
       float* frame_importance = nullptr,
-      int* contribution_count = nullptr);
+      int* contribution_count = nullptr,
+      bool inference_only = false,
+      bool visibility_only = false,
+      float* alpha_contribution = nullptr,
+      int contribution_stride = 1,int contribution_x = 0,int contribution_y = 0);
 
   static void backward(const int P,
                        int D,

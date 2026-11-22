@@ -1,0 +1,578 @@
+[
+  {
+    "shared": 16,
+    "ratio": 0,
+    "extra": 14,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S16R00E14D11"
+  },
+  {
+    "shared": 8,
+    "ratio": 8,
+    "extra": 14,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S08R08E14D11"
+  },
+  {
+    "shared": 16,
+    "ratio": 8,
+    "extra": 14,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S16R08E14D11"
+  },
+  {
+    "shared": 32,
+    "ratio": 0,
+    "extra": 14,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S32R00E14D11"
+  },
+  {
+    "shared": 16,
+    "ratio": 0,
+    "extra": 0,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S16R00E00D11"
+  },
+  {
+    "shared": 0,
+    "ratio": 16,
+    "extra": 14,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S00R16E14D11"
+  },
+  {
+    "shared": 0,
+    "ratio": 0,
+    "extra": 0,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S00R00E00D11"
+  },
+  {
+    "shared": 16,
+    "ratio": 8,
+    "extra": 28,
+    "selector_depth": 2,
+    "compensation_depth": 2,
+    "id": "S16R08E28D22"
+  },
+  {
+    "shared": 32,
+    "ratio": 16,
+    "extra": 28,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S32R16E28D20"
+  },
+  {
+    "shared": 32,
+    "ratio": 16,
+    "extra": 28,
+    "selector_depth": 0,
+    "compensation_depth": 1,
+    "id": "S32R16E28D01"
+  },
+  {
+    "shared": 32,
+    "ratio": 4,
+    "extra": 28,
+    "selector_depth": 2,
+    "compensation_depth": 1,
+    "id": "S32R04E28D21"
+  },
+  {
+    "shared": 32,
+    "ratio": 8,
+    "extra": 28,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S32R08E28D02"
+  },
+  {
+    "shared": 16,
+    "ratio": 16,
+    "extra": 8,
+    "selector_depth": 2,
+    "compensation_depth": 2,
+    "id": "S16R16E08D22"
+  },
+  {
+    "shared": 8,
+    "ratio": 16,
+    "extra": 28,
+    "selector_depth": 0,
+    "compensation_depth": 0,
+    "id": "S08R16E28D00"
+  },
+  {
+    "shared": 16,
+    "ratio": 0,
+    "extra": 14,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S16R00E14D20"
+  },
+  {
+    "shared": 8,
+    "ratio": 16,
+    "extra": 4,
+    "selector_depth": 2,
+    "compensation_depth": 2,
+    "id": "S08R16E04D22"
+  },
+  {
+    "shared": 32,
+    "ratio": 4,
+    "extra": 28,
+    "selector_depth": 0,
+    "compensation_depth": 0,
+    "id": "S32R04E28D00"
+  },
+  {
+    "shared": 8,
+    "ratio": 4,
+    "extra": 28,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S08R04E28D20"
+  },
+  {
+    "shared": 8,
+    "ratio": 16,
+    "extra": 8,
+    "selector_depth": 1,
+    "compensation_depth": 2,
+    "id": "S08R16E08D12"
+  },
+  {
+    "shared": 16,
+    "ratio": 16,
+    "extra": 4,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S16R16E04D02"
+  },
+  {
+    "shared": 0,
+    "ratio": 0,
+    "extra": 14,
+    "selector_depth": 2,
+    "compensation_depth": 2,
+    "id": "S00R00E14D22"
+  },
+  {
+    "shared": 32,
+    "ratio": 0,
+    "extra": 14,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S32R00E14D02"
+  },
+  {
+    "shared": 32,
+    "ratio": 8,
+    "extra": 14,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S32R08E14D20"
+  },
+  {
+    "shared": 16,
+    "ratio": 16,
+    "extra": 28,
+    "selector_depth": 1,
+    "compensation_depth": 2,
+    "id": "S16R16E28D12"
+  },
+  {
+    "shared": 16,
+    "ratio": 4,
+    "extra": 28,
+    "selector_depth": 0,
+    "compensation_depth": 1,
+    "id": "S16R04E28D01"
+  },
+  {
+    "shared": 8,
+    "ratio": 0,
+    "extra": 4,
+    "selector_depth": 2,
+    "compensation_depth": 1,
+    "id": "S08R00E04D21"
+  },
+  {
+    "shared": 32,
+    "ratio": 8,
+    "extra": 0,
+    "selector_depth": 1,
+    "compensation_depth": 2,
+    "id": "S32R08E00D12"
+  },
+  {
+    "shared": 0,
+    "ratio": 4,
+    "extra": 14,
+    "selector_depth": 1,
+    "compensation_depth": 2,
+    "id": "S00R04E14D12"
+  },
+  {
+    "shared": 0,
+    "ratio": 16,
+    "extra": 8,
+    "selector_depth": 2,
+    "compensation_depth": 1,
+    "id": "S00R16E08D21"
+  },
+  {
+    "shared": 0,
+    "ratio": 8,
+    "extra": 8,
+    "selector_depth": 0,
+    "compensation_depth": 0,
+    "id": "S00R08E08D00"
+  },
+  {
+    "shared": 16,
+    "ratio": 4,
+    "extra": 4,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S16R04E04D20"
+  },
+  {
+    "shared": 32,
+    "ratio": 4,
+    "extra": 0,
+    "selector_depth": 1,
+    "compensation_depth": 0,
+    "id": "S32R04E00D10"
+  },
+  {
+    "shared": 8,
+    "ratio": 4,
+    "extra": 8,
+    "selector_depth": 1,
+    "compensation_depth": 0,
+    "id": "S08R04E08D10"
+  },
+  {
+    "shared": 0,
+    "ratio": 4,
+    "extra": 0,
+    "selector_depth": 2,
+    "compensation_depth": 2,
+    "id": "S00R04E00D22"
+  },
+  {
+    "shared": 32,
+    "ratio": 16,
+    "extra": 8,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S32R16E08D11"
+  },
+  {
+    "shared": 8,
+    "ratio": 0,
+    "extra": 14,
+    "selector_depth": 1,
+    "compensation_depth": 2,
+    "id": "S08R00E14D12"
+  },
+  {
+    "shared": 8,
+    "ratio": 8,
+    "extra": 4,
+    "selector_depth": 0,
+    "compensation_depth": 1,
+    "id": "S08R08E04D01"
+  },
+  {
+    "shared": 32,
+    "ratio": 0,
+    "extra": 0,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S32R00E00D20"
+  },
+  {
+    "shared": 8,
+    "ratio": 4,
+    "extra": 0,
+    "selector_depth": 0,
+    "compensation_depth": 0,
+    "id": "S08R04E00D00"
+  },
+  {
+    "shared": 0,
+    "ratio": 0,
+    "extra": 0,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S00R00E00D02"
+  },
+  {
+    "shared": 32,
+    "ratio": 8,
+    "extra": 28,
+    "selector_depth": 1,
+    "compensation_depth": 0,
+    "id": "S32R08E28D10"
+  },
+  {
+    "shared": 0,
+    "ratio": 16,
+    "extra": 4,
+    "selector_depth": 0,
+    "compensation_depth": 1,
+    "id": "S00R16E04D01"
+  },
+  {
+    "shared": 0,
+    "ratio": 4,
+    "extra": 4,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S00R04E04D02"
+  },
+  {
+    "shared": 0,
+    "ratio": 16,
+    "extra": 8,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S00R16E08D02"
+  },
+  {
+    "shared": 8,
+    "ratio": 0,
+    "extra": 0,
+    "selector_depth": 0,
+    "compensation_depth": 1,
+    "id": "S08R00E00D01"
+  },
+  {
+    "shared": 8,
+    "ratio": 0,
+    "extra": 0,
+    "selector_depth": 1,
+    "compensation_depth": 0,
+    "id": "S08R00E00D10"
+  },
+  {
+    "shared": 8,
+    "ratio": 4,
+    "extra": 4,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S08R04E04D11"
+  },
+  {
+    "shared": 0,
+    "ratio": 4,
+    "extra": 8,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S00R04E08D20"
+  },
+  {
+    "shared": 0,
+    "ratio": 8,
+    "extra": 4,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S00R08E04D20"
+  },
+  {
+    "shared": 0,
+    "ratio": 4,
+    "extra": 28,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S00R04E28D11"
+  },
+  {
+    "shared": 16,
+    "ratio": 8,
+    "extra": 14,
+    "selector_depth": 0,
+    "compensation_depth": 0,
+    "id": "S16R08E14D00"
+  },
+  {
+    "shared": 8,
+    "ratio": 8,
+    "extra": 0,
+    "selector_depth": 2,
+    "compensation_depth": 1,
+    "id": "S08R08E00D21"
+  },
+  {
+    "shared": 16,
+    "ratio": 0,
+    "extra": 4,
+    "selector_depth": 0,
+    "compensation_depth": 0,
+    "id": "S16R00E04D00"
+  },
+  {
+    "shared": 32,
+    "ratio": 4,
+    "extra": 8,
+    "selector_depth": 0,
+    "compensation_depth": 1,
+    "id": "S32R04E08D01"
+  },
+  {
+    "shared": 16,
+    "ratio": 4,
+    "extra": 14,
+    "selector_depth": 2,
+    "compensation_depth": 1,
+    "id": "S16R04E14D21"
+  },
+  {
+    "shared": 16,
+    "ratio": 8,
+    "extra": 0,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S16R08E00D02"
+  },
+  {
+    "shared": 16,
+    "ratio": 4,
+    "extra": 4,
+    "selector_depth": 1,
+    "compensation_depth": 2,
+    "id": "S16R04E04D12"
+  },
+  {
+    "shared": 16,
+    "ratio": 4,
+    "extra": 28,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S16R04E28D02"
+  },
+  {
+    "shared": 0,
+    "ratio": 8,
+    "extra": 14,
+    "selector_depth": 0,
+    "compensation_depth": 1,
+    "id": "S00R08E14D01"
+  },
+  {
+    "shared": 0,
+    "ratio": 0,
+    "extra": 8,
+    "selector_depth": 1,
+    "compensation_depth": 2,
+    "id": "S00R00E08D12"
+  },
+  {
+    "shared": 8,
+    "ratio": 0,
+    "extra": 8,
+    "selector_depth": 2,
+    "compensation_depth": 2,
+    "id": "S08R00E08D22"
+  },
+  {
+    "shared": 32,
+    "ratio": 0,
+    "extra": 14,
+    "selector_depth": 1,
+    "compensation_depth": 0,
+    "id": "S32R00E14D10"
+  },
+  {
+    "shared": 8,
+    "ratio": 16,
+    "extra": 8,
+    "selector_depth": 2,
+    "compensation_depth": 0,
+    "id": "S08R16E08D20"
+  },
+  {
+    "shared": 32,
+    "ratio": 16,
+    "extra": 14,
+    "selector_depth": 0,
+    "compensation_depth": 0,
+    "id": "S32R16E14D00"
+  },
+  {
+    "shared": 8,
+    "ratio": 4,
+    "extra": 14,
+    "selector_depth": 0,
+    "compensation_depth": 2,
+    "id": "S08R04E14D02"
+  },
+  {
+    "shared": 32,
+    "ratio": 4,
+    "extra": 28,
+    "selector_depth": 2,
+    "compensation_depth": 2,
+    "id": "S32R04E28D22"
+  },
+  {
+    "shared": 32,
+    "ratio": 8,
+    "extra": 8,
+    "selector_depth": 2,
+    "compensation_depth": 1,
+    "id": "S32R08E08D21"
+  },
+  {
+    "shared": 16,
+    "ratio": 16,
+    "extra": 4,
+    "selector_depth": 1,
+    "compensation_depth": 0,
+    "id": "S16R16E04D10"
+  },
+  {
+    "shared": 0,
+    "ratio": 16,
+    "extra": 8,
+    "selector_depth": 1,
+    "compensation_depth": 0,
+    "id": "S00R16E08D10"
+  },
+  {
+    "shared": 32,
+    "ratio": 0,
+    "extra": 0,
+    "selector_depth": 2,
+    "compensation_depth": 1,
+    "id": "S32R00E00D21"
+  },
+  {
+    "shared": 0,
+    "ratio": 8,
+    "extra": 8,
+    "selector_depth": 1,
+    "compensation_depth": 1,
+    "id": "S00R08E08D11"
+  },
+  {
+    "shared": 0,
+    "ratio": 8,
+    "extra": 4,
+    "selector_depth": 2,
+    "compensation_depth": 1,
+    "id": "S00R08E04D21"
+  }
+]

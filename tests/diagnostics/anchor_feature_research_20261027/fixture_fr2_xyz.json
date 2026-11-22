@@ -1,0 +1,44 @@
+{
+  "scene": "fr2_xyz",
+  "N": 9275,
+  "M": 2724,
+  "occupancy": {
+    "1": 1467,
+    "2": 277,
+    "3": 165,
+    "4": 95,
+    "5": 69,
+    "6": 54,
+    "7": 49,
+    "8": 38,
+    "9": 37,
+    "10": 473
+  },
+  "K": {
+    "0.01": 92,
+    "0.025": 231,
+    "0.05": 463,
+    "0.075": 695,
+    "0.1": 927,
+    "0.125": 1159,
+    "0.15": 1391
+  },
+  "checkpoint": "/home/prmi/zwj/neural-v1-20261027/results/fr2_local_followup/fr2_xyz/SpatialLocalXYZ/6100/step_12000.pt",
+  "checkpoint_sha256": "ab006ce873ce7e12f2641af33f28557e2cb22a9eb11ac0ebebe8c08a1a5af61f",
+  "source": {
+    "source": "/home/prmi/zwj/autonomous-compensation-20261027/results/B_fr2/fr2_xyz/R3/4100/formal_raw",
+    "source_seed": 4100,
+    "source_family": "R3",
+    "set_sha256": "c9afdf57b414a091aff85a99e05f07d09b2250b703f6b9abed7682cc0863b478",
+    "compensation_sha256": "c428d16308a78989545629e6bdb043dcf6090ae1382f2e966d123be2a9db38eb",
+    "frozen": "Master/Anchor/Encoder/Selector/selection identities/poses/eligibility/uniform",
+    "teacher_usage": "reference only unless explicit teacher config; never a candidate parameter"
+  },
+  "train_views": 47,
+  "bank_holdout_views": 12,
+  "test_views": 64,
+  "normalization": "same full frozen map as original 12k; production physical55 function checked",
+  "production_difference": "production fixes statistics at first online compensation; this fixed-map study fixes them on the historical frozen map",
+  "shared_anchor_feature": true,
+  "gaussian_private_parameters": false
+}

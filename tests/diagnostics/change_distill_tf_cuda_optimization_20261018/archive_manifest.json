@@ -1,0 +1,7 @@
+{
+  "archive": "raw_profiling_and_sources.tar.gz",
+  "files": 1803,
+  "bytes": 393651937,
+  "sha256": "10807f6780541e24315ad4030d05a05777b8a8dbd92f142443dc19b7aba4129d",
+  "excluded": "executables, link objects, core dumps, binary backups; raw CSV/JSON/PT/Nsys and all source snapshots included"
+}

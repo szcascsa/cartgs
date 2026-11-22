@@ -1,0 +1,989 @@
+--- a/source/alpha_pipeline.cuh
++++ b/source/alpha_pipeline.cuh
+@@ -0,0 +1,71 @@
++template<int Batch,int Pixels=2> __global__ void renderAlphaPipeline(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,
++    const uint32_t* counts,int capacity,const float2* xy,const float4* conic,const float* colors,
++    const float* bg,float* out,const uint32_t* sorted_depth_keys,const GraphInputs* dynamic=nullptr) {
++  if(dynamic){bg=dynamic->background;out=dynamic->image;}
++  constexpr int Rows=16/Pixels,Threads=256/Pixels;
++  int tile=blockIdx.y*gridDim.x+blockIdx.x,thread=threadIdx.y*blockDim.x+threadIdx.x;
++  int x=blockIdx.x*16+threadIdx.x,y=blockIdx.y*16+threadIdx.y;
++  float T[Pixels],C[Pixels][3];float2 pix[Pixels];bool done[Pixels],inside[Pixels];
++  #pragma unroll
++  for(int p=0;p<Pixels;++p) {
++    pix[p]={(float)x,(float)(y+p*Rows)};inside[p]=x<W&&y+p*Rows<H;done[p]=!inside[p];
++    T[p]=1.f;C[p][0]=C[p][1]=C[p][2]=0.f;
++  }
++  if(sorted_depth_keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    #pragma unroll
++    for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=bg[ch];
++    return;
++  }
++  int count=counts[tile];
++  if(count<=capacity) {
++    __shared__ float unused_bound[1];__shared__ float2 cached_xy[256];__shared__ float4 cached_conic[256];__shared__ float3 cached_color[256];
++    for(int j=thread;j<count;j+=Threads) {
++      int id=lists[tile*capacity+j];cached_xy[j]=xy[id];cached_conic[j]=conic[id];
++      cached_color[j]={colors[id*3],colors[id*3+1],colors[id*3+2]};
++    }
++    __syncthreads();
++    for(int base=0;base<count;base+=Batch) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(__all_sync(0xffffffff,all_done))break;
++      float alphas[Batch][Pixels];float3 color[Batch];
++      #pragma unroll
++      for(int j=0;j<Batch;++j) {
++        const bool valid=base+j<count;
++        float2 point=valid?cached_xy[base+j]:make_float2(0,0);
++        float4 co=valid?cached_conic[base+j]:make_float4(0,0,0,0);
++        color[j]=valid?cached_color[base+j]:make_float3(0,0,0);
++        #pragma unroll
++        for(int p=0;p<Pixels;++p)
++          alphas[j][p]=valid&&!done[p]?alphaValue(point,co,pix[p]):-1.f;
++      }
++      #pragma unroll
++      for(int j=0;j<Batch;++j)if(base+j<count) {
++        #pragma unroll
++        for(int p=0;p<Pixels;++p)compositeAlpha(alphas[j][p],color[j],done[p],T[p],C[p]);
++      }
++    }
++  } else {
++    for(int group=0;group<groups;++group) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(__all_sync(0xffffffff,all_done))break;
++      unsigned nonempty=directory[tile*groups+group];
++      while(nonempty) {
++        int w=group*32+__ffs(nonempty)-1;nonempty&=nonempty-1;unsigned members=bits[tile*words+w];
++        while(members) {
++          int rank=w*32+__ffs(members)-1;members&=members-1;int id=sorted[rank];
++          float2 point=xy[id];float4 co=conic[id];float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};
++          #pragma unroll
++          for(int p=0;p<Pixels;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=C[p][ch]+T[p]*bg[ch];
++}
++
+--- a/source/compact_pixel.cuh
++++ b/source/compact_pixel.cuh
+@@ -0,0 +1,68 @@
++// 成员压缩与属性装载共用CTA；使用四Warp并行扫描，而非单Warp串行枚举。
++template<int Unroll> __global__ void renderCompactPixel(int W,int H,uint32_t* bits,int words,
++    uint32_t* directory,int groups,const uint32_t* sorted,uint32_t* global_lists,uint32_t* counts,
++    int capacity,const float2* xy,const float4* conic,const float* rgb,const uint32_t* keys,
++    const uint32_t* touched,const int* radii,int n,const GraphInputs* dynamic) {
++  const int tid=threadIdx.x,tile=blockIdx.y*gridDim.x+blockIdx.x;
++  const int x=blockIdx.x*16+tid%16,y=blockIdx.y*16+tid/16;
++  const float* bg=dynamic->background;float* out=dynamic->image;
++  float2 pix[2]={make_float2(x,y),make_float2(x,y+8)};
++  bool inside[2]={x<W&&y<H,x<W&&y+8<H},done[2]={!inside[0],!inside[1]};
++  float T[2]={1.f,1.f},C[2][3]={{0.f},{0.f}};
++  __shared__ uint32_t members[256],count;
++  __shared__ float2 cached_xy[256];__shared__ float4 cached_co[256];__shared__ float3 cached_rgb[256];
++  __shared__ bool background_copy;
++  if(!tid)background_copy=directBackgroundCopy(n,gridDim.x,gridDim.y,sorted,keys,touched,radii,xy,conic,bg);
++  __syncthreads();
++  if(background_copy){
++    #pragma unroll
++    for(int p=0;p<2;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*8)*W+x]=bg[ch];
++    return;
++  }
++  using Scan=cub::BlockScan<unsigned,128>;
++  __shared__ typename Scan::TempStorage storage;
++  unsigned carry=0;
++  for(int base=0;base<words;base+=128) {
++    const int word=base+tid;
++    unsigned mask=word<words?bits[tile*words+word]:0;
++    unsigned number=__popc(mask),prefix=0,total=0;
++    Scan(storage).ExclusiveSum(number,prefix,total);
++    unsigned position=carry+prefix;
++    for(unsigned m=mask;m;m&=m-1) {
++      const int rank=word*32+__ffs(m)-1;
++      if(position<256)members[position]=sorted[rank];
++      ++position;
++    }
++    carry+=total;
++    __syncthreads();
++  }
++  if(!tid){count=carry;counts[tile]=carry;}
++  __syncthreads();
++  if(count<=256) {
++    for(int j=tid;j<int(count);j+=128) {
++      const int id=members[j];cached_xy[j]=xy[id];cached_co[j]=conic[id];
++      cached_rgb[j]={rgb[id*3],rgb[id*3+1],rgb[id*3+2]};
++    }
++    __syncthreads();
++    #pragma unroll Unroll
++    for(int j=0;j<int(count);++j) {
++      if((j&31)==0&&__all_sync(0xffffffff,done[0]&&done[1]))break;
++      const float2 point=cached_xy[j];const float4 co=cached_co[j];const float3 color=cached_rgb[j];
++      #pragma unroll
++      for(int p=0;p<2;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++    }
++  } else {
++    for(int word=0;word<words;++word) {
++      if(__all_sync(0xffffffff,done[0]&&done[1]))break;
++      unsigned mask=bits[tile*words+word];
++      while(mask) {
++        int rank=word*32+__ffs(mask)-1;mask&=mask-1;int id=sorted[rank];
++        const float2 point=xy[id];const float4 co=conic[id];const float3 color={rgb[id*3],rgb[id*3+1],rgb[id*3+2]};
++        #pragma unroll
++        for(int p=0;p<2;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<2;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*8)*W+x]=C[p][ch]+T[p]*bg[ch];
++}
+--- a/source/direct_tile_pixels.cuh
++++ b/source/direct_tile_pixels.cuh
+@@ -0,0 +1,74 @@
++// 与F2特殊背景copy条件一致；只在负零/非normal背景执行有界全局证明。
++__device__ bool directBackgroundCopy(int n,int gx,int gy,const uint32_t* sorted,
++    const uint32_t* keys,const uint32_t* touched,const int* radii,const float2* xy,const float4* conic,
++    const float* background) {
++  if(keys[0]==0xffffffff)return true;
++  bool ordinary=true;
++  #pragma unroll
++  for(int ch=0;ch<3;++ch) {
++    unsigned b=__float_as_uint(background[ch]),m=b&0x7fffffffu;
++    ordinary=ordinary&&(b==0||(m>=0x00800000u&&m<0x7f800000u));
++  }
++  if(ordinary)return false;
++  unsigned total=0;
++  for(int rank=0;rank<min(n,257)&&keys[rank]!=0xffffffff;++rank){
++    total+=touched[sorted[rank]];if(total>256)return false;
++  }
++  if(total==0)return true;
++  for(int rank=0;rank<min(n,257)&&keys[rank]!=0xffffffff;++rank) {
++    const unsigned id=sorted[rank];uint2 lo,hi;getRect(xy[id],radii[id],lo,hi,dim3(gx,gy));
++    float limit=logf(conic[id].w/(1.f/255.f));
++    for(int y=lo.y;y<int(hi.y);++y)for(int x=lo.x;x<int(hi.x);++x)
++      if(orderedTilePower(xy[id],conic[id],x,y)<=limit)return false;
++  }
++  return true;
++}
++
++template<int Batch> __global__ void renderDirectTiles(int n,int W,int H,
++    const uint32_t* sorted,const uint32_t* keys,const uint32_t* touched,const int* radii,
++    const float2* xy,const float4* conic,const float* rgb,const GraphInputs* inputs) {
++  const int tid=threadIdx.x,tx=blockIdx.x,ty=blockIdx.y;
++  const int x=tx*16+tid%16,y=ty*16+tid/16,gx=gridDim.x,gy=gridDim.y;
++  const float* bg=inputs->background;float* out=inputs->image;
++  float2 pix[2]={make_float2(x,y),make_float2(x,y+8)};
++  bool inside[2]={x<W&&y<H,x<W&&y+8<H},done[2]={!inside[0],!inside[1]};
++  float T[2]={1.f,1.f},C[2][3]={{0.f},{0.f}};
++  __shared__ bool copy_background;
++  if(!tid)copy_background=directBackgroundCopy(n,gx,gy,sorted,keys,touched,radii,xy,conic,bg);
++  __syncthreads();
++  if(copy_background) {
++    #pragma unroll
++    for(int p=0;p<2;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*8)*W+x]=bg[ch];
++    return;
++  }
++  using Scan=cub::BlockScan<int,128>;
++  __shared__ typename Scan::TempStorage scan;
++  __shared__ float2 cached_xy[Batch];__shared__ float4 cached_co[Batch];__shared__ float3 cached_rgb[Batch];
++  for(int base=0;base<n;base+=Batch) {
++    if(keys[base]==0xffffffff)break;
++    const int rank=base+tid;int id=0,present=0;
++    if(tid<Batch&&rank<n&&keys[rank]!=0xffffffff) {
++      id=sorted[rank];uint2 lo,hi;getRect(xy[id],radii[id],lo,hi,dim3(gx,gy));
++      if(tx>=lo.x&&tx<hi.x&&ty>=lo.y&&ty<hi.y) {
++        const float limit=logf(conic[id].w/(1.f/255.f));
++        present=orderedTilePower(xy[id],conic[id],tx,ty)<=limit;
++      }
++    }
++    int position=0,count=0;Scan(scan).ExclusiveSum(present,position,count);
++    if(present) {
++      cached_xy[position]=xy[id];cached_co[position]=conic[id];
++      cached_rgb[position]={rgb[id*3],rgb[id*3+1],rgb[id*3+2]};
++    }
++    __syncthreads();
++    #pragma unroll 32
++    for(int j=0;j<count;++j) {
++      if(done[0]&&done[1])break;
++      float2 point=cached_xy[j];float4 co=cached_co[j];float3 color=cached_rgb[j];
++      #pragma unroll
++      for(int p=0;p<2;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++    }
++    if(__syncthreads_count(done[0]&&done[1])==128)break;
++  }
++  #pragma unroll
++  for(int p=0;p<2;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*8)*W+x]=C[p][ch]+T[p]*bg[ch];
++}
+--- a/source/early_exit_pixels.cuh
++++ b/source/early_exit_pixels.cuh
+@@ -0,0 +1,60 @@
++template<int Early> __global__ void renderEarlyExitPixels(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,
++    const uint32_t* counts,int capacity,const float2* xy,const float4* conic,const float* colors,
++    const float* bg,float* out,const uint32_t* sorted_depth_keys,const GraphInputs* dynamic=nullptr) {
++  if(dynamic){bg=dynamic->background;out=dynamic->image;}
++  constexpr int Pixels=2,Rows=8,Threads=128;
++  int tile=blockIdx.y*gridDim.x+blockIdx.x,thread=threadIdx.y*blockDim.x+threadIdx.x;
++  int x=blockIdx.x*16+threadIdx.x,y=blockIdx.y*16+threadIdx.y;
++  float T[Pixels],C[Pixels][3];float2 pix[Pixels];bool done[Pixels],inside[Pixels];
++  #pragma unroll
++  for(int p=0;p<Pixels;++p) {
++    pix[p]={(float)x,(float)(y+p*Rows)};inside[p]=x<W&&y+p*Rows<H;done[p]=!inside[p];
++    T[p]=1.f;C[p][0]=C[p][1]=C[p][2]=0.f;
++  }
++  if(sorted_depth_keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    #pragma unroll
++    for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=bg[ch];
++    return;
++  }
++  int count=counts[tile];
++  if(count<=capacity) {
++    __shared__ float cached_bound[false?256:1];__shared__ float2 cached_xy[256];__shared__ float4 cached_conic[256];__shared__ float3 cached_color[256];
++    for(int j=thread;j<count;j+=Threads) {
++      int id=lists[tile*capacity+j];cached_xy[j]=xy[id];cached_conic[j]=conic[id];
++      cached_color[j]={colors[id*3],colors[id*3+1],colors[id*3+2]};if(false)cached_bound[j]=alphaPowerBound(conic[id].w);
++    }
++    __syncthreads();
++    constexpr int Unroll=32;
++    #pragma unroll Unroll
++    for(int j=0;j<count;++j) {
++      if(Early==0 || (j&(Early-1))==0) {
++        bool all_done=true;
++        #pragma unroll
++        for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++        if(Early==0?all_done:__all_sync(0xffffffff,all_done))break;
++      }
++      float2 point=cached_xy[j];float4 co=cached_conic[j];float3 color=cached_color[j];float bound=false?cached_bound[j]:-CUDART_INF_F;
++      compositeScalingPair<9>(point,co,color,pix,done,T,C,bound);
++    }
++  } else {
++    for(int group=0;group<groups;++group) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(Early==0?all_done:__all_sync(0xffffffff,all_done))break;
++      unsigned nonempty=directory[tile*groups+group];
++      while(nonempty) {
++        int w=group*32+__ffs(nonempty)-1;nonempty&=nonempty-1;unsigned members=bits[tile*words+w];
++        while(members) {
++          int rank=w*32+__ffs(members)-1;members&=members-1;int id=sorted[rank];
++          float2 point=xy[id];float4 co=conic[id];float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};float bound=-CUDART_INF_F;
++          compositeScalingPair<9>(point,co,color,pix,done,T,C,bound);
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=C[p][ch]+T[p]*bg[ch];
++}
++
+--- a/source/exact_common_pixels.cuh
++++ b/source/exact_common_pixels.cuh
+@@ -0,0 +1,82 @@
++// F2 sass原序：ax=co.x*dx，yy=(co.z*dy)*dy，cross=(co.y*dx)*dy，
++// sum=fma(dx,ax,yy)，power=fma(sum,-.5,-cross)。不先舍入ax*dx。
++__device__ __forceinline__ void compositeExactPair(float2 point,float4 co,float3 color,
++    float2* pix,bool* done,float* T,float C[2][3]) {
++  const float dx=__fadd_rn(point.x,-pix[0].x);
++  const float ax=__fmul_rn(co.x,dx),cross_x=__fmul_rn(co.y,dx);
++  #pragma unroll
++  for(int p=0;p<2;++p) {
++    if(done[p])continue;
++    const float dy=__fadd_rn(point.y,-pix[p].y);
++    const float yy=__fmul_rn(dy,__fmul_rn(co.z,dy));
++    const float cross=__fmul_rn(dy,cross_x);
++    const float power=__fmaf_rn(__fmaf_rn(dx,ax,yy),-.5f,-cross);
++    if(power>0.f)continue;
++    const float alpha=min(.99f,co.w*exp(power));
++    if(alpha<1.f/255.f)continue;
++    const float next=T[p]*(1-alpha);
++    if(next<.0001f){done[p]=true;continue;}
++    C[p][0]+=color.x*alpha*T[p];C[p][1]+=color.y*alpha*T[p];C[p][2]+=color.z*alpha*T[p];
++    T[p]=next;
++  }
++}
++
++template<int Unroll,int Early=32> __global__ void renderExactCommonPixels(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,
++    const uint32_t* counts,int capacity,const float2* xy,const float4* conic,const float* colors,
++    const float* bg,float* out,const uint32_t* sorted_depth_keys,const GraphInputs* dynamic=nullptr) {
++  if(dynamic){bg=dynamic->background;out=dynamic->image;}
++  constexpr int Pixels=2,Rows=8,Threads=128;
++  int tile=blockIdx.y*gridDim.x+blockIdx.x,thread=threadIdx.y*blockDim.x+threadIdx.x;
++  int x=blockIdx.x*16+threadIdx.x,y=blockIdx.y*16+threadIdx.y;
++  float T[Pixels],C[Pixels][3];float2 pix[Pixels];bool done[Pixels],inside[Pixels];
++  #pragma unroll
++  for(int p=0;p<Pixels;++p) {
++    pix[p]={(float)x,(float)(y+p*Rows)};inside[p]=x<W&&y+p*Rows<H;done[p]=!inside[p];
++    T[p]=1.f;C[p][0]=C[p][1]=C[p][2]=0.f;
++  }
++  if(sorted_depth_keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    #pragma unroll
++    for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=bg[ch];
++    return;
++  }
++  int count=counts[tile];
++  if(count<=capacity) {
++    __shared__ float cached_bound[false?256:1];__shared__ float2 cached_xy[256];__shared__ float4 cached_conic[256];__shared__ float3 cached_color[256];
++    for(int j=thread;j<count;j+=Threads) {
++      int id=lists[tile*capacity+j];cached_xy[j]=xy[id];cached_conic[j]=conic[id];
++      cached_color[j]={colors[id*3],colors[id*3+1],colors[id*3+2]};if(false)cached_bound[j]=alphaPowerBound(conic[id].w);
++    }
++    __syncthreads();
++    #pragma unroll Unroll
++    for(int j=0;j<count;++j) {
++      if((j&(Early-1))==0) {
++        bool all_done=true;
++        #pragma unroll
++        for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++        if(__all_sync(0xffffffff,all_done))break;
++      }
++      float2 point=cached_xy[j];float4 co=cached_conic[j];float3 color=cached_color[j];
++      compositeExactPair(point,co,color,pix,done,T,C);
++    }
++  } else {
++    for(int group=0;group<groups;++group) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(__all_sync(0xffffffff,all_done))break;
++      unsigned nonempty=directory[tile*groups+group];
++      while(nonempty) {
++        int w=group*32+__ffs(nonempty)-1;nonempty&=nonempty-1;unsigned members=bits[tile*words+w];
++        while(members) {
++          int rank=w*32+__ffs(members)-1;members&=members-1;int id=sorted[rank];
++          float2 point=xy[id];float4 co=conic[id];float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};
++          compositeExactPair(point,co,color,pix,done,T,C);
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=C[p][ch]+T[p]*bg[ch];
++}
++
+--- a/source/graph_main.cu
++++ b/source/graph_main.cu
+@@ -6,6 +6,16 @@
+ #include "preprocess_tasks.cuh"
+ #include "scaling_pixels.cuh"
+ #include "packed_pixels.cuh"
++#include "subtile_pixels.cuh"
++#include "alpha_pipeline.cuh"
++#include "macrotile_pixels.cuh"
++#include "early_exit_pixels.cuh"
++#include "direct_tile_pixels.cuh"
++#include "short_cache_pixels.cuh"
++#include "shared_alpha_pixels.cuh"
++#include "occupancy_pixels.cuh"
++#include "compact_pixel.cuh"
++#include "exact_common_pixels.cuh"
+ #include <list>
+ #include <memory>
+ #include <tuple>
+@@ -24,7 +34,7 @@
+   }
+ };
+ 
+-struct BackgroundScalingRasterizer {
++struct SubtileRasterizer {
+   int device=-1;cudaStream_t owner=nullptr;Tensor parameters;
+   Tensor pool_geometry,pool_sort,pool_bits,pool_directory,pool_lists,pool_counts,pool_tasks;
+   int pool_capacity=0,pool_W=0,pool_H=0;
+@@ -36,7 +46,7 @@
+   bool device_clear_=false;
+   uint64_t clock=0,hits=0,misses=0,evictions=0;
+   static constexpr int64_t Limit=1024ll<<20;
+-  BackgroundScalingRasterizer(int count=64,bool ordered=true,bool device_clear=true,int build_mode=0,int pixel_mode=0,int preprocess_threads=256):max_plans(count),build_mode_(build_mode),pixel_mode_(pixel_mode),preprocess_threads_(preprocess_threads),ordered_coverage_(ordered),device_clear_(device_clear){TORCH_CHECK(count>0&&count<=512,"Graph plan count must be in 1..512");TORCH_CHECK(build_mode>=0&&build_mode<=11&&pixel_mode>=0&&pixel_mode<=18&&(preprocess_threads==64||preprocess_threads==128||preprocess_threads==256)&&ordered,"Footprint build mode and exact coverage");}
++  SubtileRasterizer(int count=64,bool ordered=true,bool device_clear=true,int build_mode=0,int pixel_mode=0,int preprocess_threads=256):max_plans(count),build_mode_(build_mode),pixel_mode_(pixel_mode),preprocess_threads_(preprocess_threads),ordered_coverage_(ordered),device_clear_(device_clear){TORCH_CHECK(count>0&&count<=512,"Graph plan count must be in 1..512");TORCH_CHECK(build_mode>=0&&build_mode<=11&&pixel_mode>=0&&pixel_mode<=68&&(preprocess_threads==64||preprocess_threads==128||preprocess_threads==256)&&ordered,"Footprint build mode and exact coverage");}
+ 
+   static int64_t estimated_bytes(int capacity,int W,int H,int list_capacity) {
+     int64_t tiles=((W+15)/16)*((H+15)/16),words=(capacity+31)/32,groups=(words+31)/32;
+@@ -108,7 +118,8 @@
+     C10_CUDA_CHECK(cudaStreamBeginCapture(capture,cudaStreamCaptureModeThreadLocal));
+     if(input_in_graph)updateGraphInputs<<<1,1,0,capture>>>(GraphInputs{},reinterpret_cast<GraphInputs*>(parameters.data_ptr()));
+     dim3 grid((W+15)/16,(H+15)/16);
+-    const bool fused_tasks=build_mode_==10||build_mode_==11;
++    const bool direct_tiles=pixel_mode_==38||pixel_mode_==39;
++    const bool fused_tasks=!direct_tiles&&(build_mode_==10||build_mode_==11);
+     auto inverse=fused_tasks?reinterpret_cast<uint32_t*>(pool_metadata.data_ptr()):nullptr;
+     if(fused_tasks)clearGraphBits<<<(bit_bytes/4+255)/256,256,0,capture>>>(bits,bit_bytes/4);
+     graph_preprocess(capacity,inputs,radii,xy,depths,covariance,rgb,conic,clamped,touched,key_in,id_in,grid,capture,
+@@ -122,6 +133,7 @@
+       mergeDepthSort<<<(capacity+255)/256,256,0,capture>>>(capacity,width,merge_in,merge_out,key_out,sorted,width*2>=capacity,inverse);
+       std::swap(merge_in,merge_out);
+     }
++    if(!direct_tiles){
+     if(build_mode_==7||build_mode_==8) {
+       auto rectangles=reinterpret_cast<uint4*>(pool_metadata.data_ptr());
+       auto limits=reinterpret_cast<float*>(rectangles+capacity);
+@@ -152,9 +164,17 @@
+       else if(build_mode_==9)buildTileWords<true><<<tiles,128,0,capture>>>(capacity,sorted,xy,conic,radii,bits,words,grid,inputs);
+       else if(build_mode_==10)executePreprocessedTasks<32><<<workers,128,0,capture>>>(tasks,task_count,inverse,xy,conic,radii,bits,words,grid);
+       else if(build_mode_==11)executePreprocessedTasks<128><<<workers,128,0,capture>>>(tasks,task_count,inverse,xy,conic,radii,bits,words,grid);
+-      compactTileBits<<<(tiles+3)/4,128,0,capture>>>(bits,words,tiles,sorted,directory,groups,lists,counts,list_capacity,capacity,key_out,touched,pixel_mode_==18?inputs:nullptr);
+-    }
+-    if(pixel_mode_>=6) {
++      if(pixel_mode_<62||pixel_mode_>64)compactTileBits<<<(tiles+3)/4,128,0,capture>>>(bits,words,tiles,sorted,directory,groups,lists,counts,list_capacity,capacity,key_out,touched,pixel_mode_>=18?inputs:nullptr);
++    }
++    }
++    if(pixel_mode_>=62&&pixel_mode_<=64) {
++      if(pixel_mode_==62)renderCompactPixel<8><<<grid,128,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,touched,radii,capacity,inputs);
++      if(pixel_mode_==63)renderCompactPixel<32><<<grid,128,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,touched,radii,capacity,inputs);
++      if(pixel_mode_==64)renderCompactPixel<16><<<grid,128,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,touched,radii,capacity,inputs);
++    } else if(direct_tiles) {
++      if(pixel_mode_==38)renderDirectTiles<128><<<grid,128,0,capture>>>(capacity,W,H,sorted,key_out,touched,radii,xy,conic,rgb,inputs);
++      else renderDirectTiles<64><<<grid,128,0,capture>>>(capacity,W,H,sorted,key_out,touched,radii,xy,conic,rgb,inputs);
++    } else if(pixel_mode_>=6) {
+       if(pixel_mode_==6)renderScalingPixels<1><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+       if(pixel_mode_==7)renderScalingPixels<2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+       if(pixel_mode_==8)renderScalingPixels<3><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+@@ -165,6 +185,69 @@
+       if(pixel_mode_==13)renderScalingPixels<8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+       if(pixel_mode_==14)renderScalingPixels<9><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+       if(pixel_mode_==18)renderScalingPixels<9><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==19)renderSubtilePixels<0><<<grid,128,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==20)renderSubtilePixels<1><<<grid,128,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==21)renderSubtilePixels<2><<<grid,128,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==22)renderSubtilePixels<3><<<grid,128,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==23)renderAlphaPipeline<2,2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==24)renderAlphaPipeline<4,2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==25)renderAlphaPipeline<8,2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==26)renderAlphaPipeline<2,4><<<grid,dim3(16,4),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==27)renderAlphaPipeline<4,4><<<grid,dim3(16,4),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==28)renderAlphaPipeline<2,1><<<grid,dim3(16,16),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==29)renderMacrotilePixels<2,1,8><<<dim3((grid.x+1)/2,(grid.y+0)/1),128*2,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==30)renderMacrotilePixels<2,1,32><<<dim3((grid.x+1)/2,(grid.y+0)/1),128*2,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==31)renderMacrotilePixels<2,2,8><<<dim3((grid.x+1)/2,(grid.y+1)/2),128*4,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==32)renderMacrotilePixels<1,2,8><<<dim3((grid.x+0)/1,(grid.y+1)/2),128*2,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==33)renderEarlyExitPixels<0><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==34)renderEarlyExitPixels<2><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==35)renderEarlyExitPixels<4><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==36)renderEarlyExitPixels<8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==37)renderEarlyExitPixels<16><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==65)renderExactCommonPixels<8,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==66)renderExactCommonPixels<16,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==67)renderExactCommonPixels<32,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==68)renderExactCommonPixels<32,8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==58)renderOccupancyPixels<12,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==59)renderOccupancyPixels<16,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==60)renderOccupancyPixels<12,8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==61)renderOccupancyPixels<16,8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==52)renderSharedAlphaPixels<4,false><<<grid,256,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==53)renderSharedAlphaPixels<8,false><<<grid,256,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==54)renderSharedAlphaPixels<16,false><<<grid,256,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==55)renderSharedAlphaPixels<4,true><<<grid,256,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==56)renderSharedAlphaPixels<8,true><<<grid,256,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==57)renderSharedAlphaPixels<16,true><<<grid,256,0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,key_out,inputs);
++      if(pixel_mode_==46)renderShortCachePixels<32,0,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==47)renderShortCachePixels<64,0,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==48)renderShortCachePixels<128,0,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==49)renderShortCachePixels<64,1,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==50)renderShortCachePixels<128,1,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==51)renderShortCachePixels<64,3,32><<<grid,dim3(16,16),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      if(pixel_mode_==40){ if(capacity<=32)renderShortCachePixels<32,0,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=64)renderShortCachePixels<64,0,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=128)renderShortCachePixels<128,0,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(true)renderShortCachePixels<256,0,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs); }
++      if(pixel_mode_==41){ if(capacity<=32)renderShortCachePixels<32,1,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=64)renderShortCachePixels<64,1,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=128)renderShortCachePixels<128,1,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(true)renderShortCachePixels<256,1,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs); }
++      if(pixel_mode_==42){ if(capacity<=32)renderShortCachePixels<32,2,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=64)renderShortCachePixels<64,2,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=128)renderShortCachePixels<128,2,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(true)renderShortCachePixels<256,2,32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs); }
++      if(pixel_mode_==43){ if(capacity<=32)renderShortCachePixels<32,3,32><<<grid,dim3(16,16),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=64)renderShortCachePixels<64,3,32><<<grid,dim3(16,16),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=128)renderShortCachePixels<128,3,32><<<grid,dim3(16,16),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(true)renderShortCachePixels<256,3,32><<<grid,dim3(16,16),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs); }
++      if(pixel_mode_==44){ if(capacity<=32)renderShortCachePixels<32,0,8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=64)renderShortCachePixels<64,0,8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=128)renderShortCachePixels<128,0,8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(true)renderShortCachePixels<256,0,8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs); }
++      if(pixel_mode_==45){ if(capacity<=32)renderShortCachePixels<32,0,16><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=64)renderShortCachePixels<64,0,16><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(capacity<=128)renderShortCachePixels<128,0,16><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
++      else if(true)renderShortCachePixels<256,0,16><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs); }
+       if(pixel_mode_==15)renderPackedPixels<8><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+       if(pixel_mode_==16)renderPackedPixels<16><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+       if(pixel_mode_==17)renderPackedPixels<32><<<grid,dim3(16,8),0,capture>>>(W,H,bits,words,directory,groups,sorted,lists,counts,list_capacity,xy,conic,rgb,nullptr,nullptr,key_out,inputs);
+@@ -279,13 +362,34 @@
+     return {take(p.bits.data_ptr(),{tiles,words}),take(p.directory.data_ptr(),{tiles,groups}),
+         take(p.lists.data_ptr(),{tiles,p.list_capacity}),take(p.counts.data_ptr(),{tiles}),take(sorted,{n}),take(ko,{n})};
+   }
++
++  Tensor subtile_statistics(int side,bool verify)const {
++    TORCH_CHECK(side==4||side==8,"Subtile size must be 4 or 8");
++    TORCH_CHECK(!plans.empty(),"Render before diagnostics");
++    TORCH_CHECK(c10::cuda::getCurrentCUDAStream().stream()==owner,"One renderer per stream");
++    auto found=std::max_element(plans.begin(),plans.end(),[](const auto& a,const auto& b){return a->last_used<b->last_used;});
++    const auto& p=**found;const int n=p.capacity,tiles=((p.W+15)/16)*((p.H+15)/16);
++    char* geom=reinterpret_cast<char*>(p.geometry.data_ptr());
++    float *depths,*covariance,*rgb;bool* clamped;int* radii;float2* xy;float4* conic;uint32_t* touched;
++    using CudaRasterizer::obtain;
++    obtain(geom,depths,n,128);obtain(geom,clamped,n*3,128);obtain(geom,radii,n,128);
++    obtain(geom,xy,n,128);obtain(geom,covariance,n*6,128);obtain(geom,conic,n,128);
++    obtain(geom,rgb,n*3,128);obtain(geom,touched,n,128);
++    auto result=torch::zeros({8},p.counts.options().dtype(at::kLong));
++    subtileDiagnostics<<<tiles,256,0,owner>>>(tiles,side,p.W,p.H,
++        reinterpret_cast<const uint32_t*>(p.lists.data_ptr()),reinterpret_cast<const uint32_t*>(p.counts.data_ptr()),
++        xy,conic,reinterpret_cast<unsigned long long*>(result.data_ptr()),verify);
++    C10_CUDA_KERNEL_LAUNCH_CHECK();
++    return result;
++  }
++
+   std::vector<int64_t> stats()const{return {int64_t(hits),int64_t(misses),int64_t(evictions),int64_t(plans.size()),workspace_bytes()};}
+ };
+ 
+ PYBIND11_MODULE(TORCH_EXTENSION_NAME,m) {
+-  pybind11::class_<BackgroundScalingRasterizer>(m,"FootprintRasterizer").def(pybind11::init<int,bool,bool,int,int,int>(),pybind11::arg("max_plans")=512,pybind11::arg("ordered_coverage")=true,pybind11::arg("device_clear")=true,pybind11::arg("build_mode")=0,pybind11::arg("pixel_mode")=0,pybind11::arg("preprocess_threads")=256)
+-      .def("render",&BackgroundScalingRasterizer::render,pybind11::call_guard<pybind11::gil_scoped_release>())
+-      .def("reserve",&BackgroundScalingRasterizer::reserve,pybind11::call_guard<pybind11::gil_scoped_release>())
+-      .def("precompile",&BackgroundScalingRasterizer::precompile,pybind11::call_guard<pybind11::gil_scoped_release>())
+-      .def("snapshot",&BackgroundScalingRasterizer::snapshot).def("workspace_bytes",&BackgroundScalingRasterizer::workspace_bytes).def("stats",&BackgroundScalingRasterizer::stats);
++  pybind11::class_<SubtileRasterizer>(m,"FootprintRasterizer").def(pybind11::init<int,bool,bool,int,int,int>(),pybind11::arg("max_plans")=512,pybind11::arg("ordered_coverage")=true,pybind11::arg("device_clear")=true,pybind11::arg("build_mode")=0,pybind11::arg("pixel_mode")=0,pybind11::arg("preprocess_threads")=256)
++      .def("render",&SubtileRasterizer::render,pybind11::call_guard<pybind11::gil_scoped_release>())
++      .def("reserve",&SubtileRasterizer::reserve,pybind11::call_guard<pybind11::gil_scoped_release>())
++      .def("precompile",&SubtileRasterizer::precompile,pybind11::call_guard<pybind11::gil_scoped_release>())
++      .def("snapshot",&SubtileRasterizer::snapshot).def("workspace_bytes",&SubtileRasterizer::workspace_bytes).def("stats",&SubtileRasterizer::stats).def("subtile_statistics",&SubtileRasterizer::subtile_statistics);
+ }
+--- a/source/macrotile_pixels.cuh
++++ b/source/macrotile_pixels.cuh
+@@ -0,0 +1,94 @@
++template<int Across,int Down,int Unroll> __global__ void renderMacrotilePixels(int W,int H,
++    const uint32_t* bits,int words,const uint32_t* directory,int groups,const uint32_t* sorted,
++    const uint32_t* lists,const uint32_t* counts,int capacity,
++    const float2* xy,const float4* conic,const float* colors,const uint32_t* keys,const GraphInputs* inputs) {
++  constexpr int Tiles=Across*Down,Threads=128*Tiles;
++  const int thread=threadIdx.x,lane=thread&31,local_tile=thread/128,local_thread=thread%128;
++  const int gx=(W+15)/16,gy=(H+15)/16;
++  const int tx=blockIdx.x*Across+local_tile%Across,ty=blockIdx.y*Down+local_tile/Across;
++  const bool valid_tile=tx<gx&&ty<gy;const int tile=ty*gx+tx;
++  const int x=tx*16+local_thread%16,y=ty*16+local_thread/16;
++  float2 pix[2]={make_float2(x,y),make_float2(x,y+8)};
++  bool inside[2]={x<W&&y<H,x<W&&y+8<H},done[2]={!inside[0],!inside[1]};
++  float T[2]={1.f,1.f},C[2][3]={{0.f},{0.f}};const float* bg=inputs->background;float* out=inputs->image;
++  if(keys[0]==0xffffffff||bits[int64_t(gx)*gy*words+1]) {
++    #pragma unroll
++    for(int p=0;p<2;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*8)*W+x]=bg[ch];
++    return;
++  }
++  __shared__ uint32_t union_ids[256],union_masks[256],union_count;
++  __shared__ float2 cached_xy[256];__shared__ float4 cached_co[256];__shared__ float3 cached_rgb[256];
++  // 第一个Warp枚举相邻Tile的位表并集，始终按原稳定深度rank顺序。
++  if(thread<32) {
++    unsigned carry=0;
++    for(int group=0;group<groups;++group) {
++      const int word=group*32+lane;unsigned masks[Tiles],combined=0;
++      #pragma unroll
++      for(int t=0;t<Tiles;++t) {
++        const int a=blockIdx.x*Across+t%Across,b=blockIdx.y*Down+t/Across;
++        masks[t]=word<words&&a<gx&&b<gy?bits[(b*gx+a)*words+word]:0;combined|=masks[t];
++      }
++      unsigned number=__popc(combined),scan=number;
++      for(int offset=1;offset<32;offset*=2){unsigned v=__shfl_up_sync(0xffffffff,scan,offset);if(lane>=offset)scan+=v;}
++      unsigned position=carry+scan-number;
++      for(unsigned left=combined;left;left&=left-1) {
++        const int bit=__ffs(left)-1;
++        if(position<256) {
++          union_ids[position]=sorted[word*32+bit];unsigned membership=0;
++          #pragma unroll
++          for(int t=0;t<Tiles;++t)if(masks[t]&(1u<<bit))membership|=1u<<t;
++          union_masks[position]=membership;
++        }
++        ++position;
++      }
++      carry+=__shfl_sync(0xffffffff,scan,31);
++    }
++    if(!lane)union_count=carry;
++  }
++  __syncthreads();
++  if(union_count<=256) {
++    for(int j=thread;j<int(union_count);j+=Threads) {
++      const int id=union_ids[j];cached_xy[j]=xy[id];cached_co[j]=conic[id];
++      cached_rgb[j]={colors[id*3],colors[id*3+1],colors[id*3+2]};
++    }
++    __syncthreads();
++    #pragma unroll Unroll
++    for(int j=0;j<int(union_count);++j) {
++      if((j&31)==0&&__all_sync(0xffffffff,done[0]&&done[1]))break;
++      if(union_masks[j]&(1u<<local_tile)) {
++        float2 point=cached_xy[j];float4 co=cached_co[j];float3 color=cached_rgb[j];
++        #pragma unroll
++        for(int p=0;p<2;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++      }
++    }
++  } else if(valid_tile) {
++    // 并集溢出时原Tile的全部有序成员仍必须参与，不截断。
++    const unsigned count=counts[tile];
++    if(count<=unsigned(capacity)) {
++      #pragma unroll 8
++      for(int j=0;j<int(count);++j) {
++        if((j&31)==0&&__all_sync(0xffffffff,done[0]&&done[1]))break;
++        int id=lists[tile*capacity+j];float2 point=xy[id];float4 co=conic[id];
++        float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};
++        #pragma unroll
++        for(int p=0;p<2;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++      }
++    } else {
++      for(int group=0;group<groups;++group) {
++        if(__all_sync(0xffffffff,done[0]&&done[1]))break;
++        unsigned dir=directory[tile*groups+group];
++        while(dir) {
++          int word=group*32+__ffs(dir)-1;dir&=dir-1;unsigned mask=bits[tile*words+word];
++          while(mask) {
++            int rank=word*32+__ffs(mask)-1;mask&=mask-1;int id=sorted[rank];
++            float2 point=xy[id];float4 co=conic[id];float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};
++            #pragma unroll
++            for(int p=0;p<2;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++          }
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<2;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*8)*W+x]=C[p][ch]+T[p]*bg[ch];
++}
+--- a/source/occupancy_pixels.cuh
++++ b/source/occupancy_pixels.cuh
+@@ -0,0 +1,60 @@
++template<int Blocks,int Early=32> __global__ __launch_bounds__(128,Blocks) void renderOccupancyPixels(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,
++    const uint32_t* counts,int capacity,const float2* xy,const float4* conic,const float* colors,
++    const float* bg,float* out,const uint32_t* sorted_depth_keys,const GraphInputs* dynamic=nullptr) {
++  if(dynamic){bg=dynamic->background;out=dynamic->image;}
++  constexpr int Pixels=2,Rows=8,Threads=128;
++  int tile=blockIdx.y*gridDim.x+blockIdx.x,thread=threadIdx.y*blockDim.x+threadIdx.x;
++  int x=blockIdx.x*16+threadIdx.x,y=blockIdx.y*16+threadIdx.y;
++  float T[Pixels],C[Pixels][3];float2 pix[Pixels];bool done[Pixels],inside[Pixels];
++  #pragma unroll
++  for(int p=0;p<Pixels;++p) {
++    pix[p]={(float)x,(float)(y+p*Rows)};inside[p]=x<W&&y+p*Rows<H;done[p]=!inside[p];
++    T[p]=1.f;C[p][0]=C[p][1]=C[p][2]=0.f;
++  }
++  if(sorted_depth_keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    #pragma unroll
++    for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=bg[ch];
++    return;
++  }
++  int count=counts[tile];
++  if(count<=capacity) {
++    __shared__ float cached_bound[false?256:1];__shared__ float2 cached_xy[256];__shared__ float4 cached_conic[256];__shared__ float3 cached_color[256];
++    for(int j=thread;j<count;j+=Threads) {
++      int id=lists[tile*capacity+j];cached_xy[j]=xy[id];cached_conic[j]=conic[id];
++      cached_color[j]={colors[id*3],colors[id*3+1],colors[id*3+2]};if(false)cached_bound[j]=alphaPowerBound(conic[id].w);
++    }
++    __syncthreads();
++    constexpr int Unroll=32;
++    #pragma unroll Unroll
++    for(int j=0;j<count;++j) {
++      if((j&(Early-1))==0) {
++        bool all_done=true;
++        #pragma unroll
++        for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++        if(__all_sync(0xffffffff,all_done))break;
++      }
++      float2 point=cached_xy[j];float4 co=cached_conic[j];float3 color=cached_color[j];float bound=false?cached_bound[j]:-CUDART_INF_F;
++      compositeScalingPair<9>(point,co,color,pix,done,T,C,bound);
++    }
++  } else {
++    for(int group=0;group<groups;++group) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(__all_sync(0xffffffff,all_done))break;
++      unsigned nonempty=directory[tile*groups+group];
++      while(nonempty) {
++        int w=group*32+__ffs(nonempty)-1;nonempty&=nonempty-1;unsigned members=bits[tile*words+w];
++        while(members) {
++          int rank=w*32+__ffs(members)-1;members&=members-1;int id=sorted[rank];
++          float2 point=xy[id];float4 co=conic[id];float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};float bound=-CUDART_INF_F;
++          compositeScalingPair<9>(point,co,color,pix,done,T,C,bound);
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+(y+p*Rows)*W+x]=C[p][ch]+T[p]*bg[ch];
++}
++
+--- a/source/shared_alpha_pixels.cuh
++++ b/source/shared_alpha_pixels.cuh
+@@ -0,0 +1,42 @@
++template<int Batch,bool Transpose> __global__ void renderSharedAlphaPixels(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,const uint32_t* counts,
++    int capacity,const float2* xy,const float4* conic,const float* rgb,const uint32_t* keys,const GraphInputs* inputs) {
++  const int tid=threadIdx.x,tile=blockIdx.y*gridDim.x+blockIdx.x;
++  const int ox=blockIdx.x*16,oy=blockIdx.y*16,x=ox+tid%16,y=oy+tid/16;
++  const bool inside=x<W&&y<H;bool done=!inside;float T=1.f,C[3]={0.f};
++  const float2 pixel=make_float2(x,y);const float* bg=inputs->background;float* out=inputs->image;
++  if(keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    if(inside)for(int ch=0;ch<3;++ch)out[ch*H*W+y*W+x]=bg[ch];
++    return;
++  }
++  const int count=counts[tile];
++  if(count<=capacity) {
++    __shared__ float2 cached_xy[256];__shared__ float4 cached_co[256];__shared__ float3 cached_rgb[256];
++    __shared__ float alpha[Batch][256];
++    for(int j=tid;j<count;j+=256){int id=lists[tile*capacity+j];cached_xy[j]=xy[id];cached_co[j]=conic[id];
++      cached_rgb[j]={rgb[id*3],rgb[id*3+1],rgb[id*3+2]};}
++    __syncthreads();
++    for(int base=0;base<count;base+=Batch) {
++      const int valid=min(Batch,count-base);
++      #pragma unroll
++      for(int j=0;j<Batch;++j) {
++        const int member=Transpose?tid%Batch:j,p=Transpose?(tid/Batch+j*(256/Batch)):tid;
++        const float2 point=make_float2(ox+p%16,oy+p/16);
++        if(member<valid)alpha[member][p]=alphaValue(cached_xy[base+member],cached_co[base+member],point);
++      }
++      __syncthreads();
++      #pragma unroll
++      for(int j=0;j<Batch;++j)if(j<valid)compositeAlpha(alpha[j][tid],cached_rgb[base+j],done,T,C);
++      if(__syncthreads_count(done)==256)break;
++    }
++  } else {
++    for(int group=0;group<groups;++group) {
++      if(__all_sync(0xffffffff,done))break;
++      unsigned dir=directory[tile*groups+group];
++      while(dir){int word=group*32+__ffs(dir)-1;dir&=dir-1;unsigned mask=bits[tile*words+word];
++        while(mask){int rank=word*32+__ffs(mask)-1;mask&=mask-1;
++          compositeOne(sorted[rank],pixel,xy,conic,rgb,done,T,C);}}
++    }
++  }
++  if(inside)for(int ch=0;ch<3;++ch)out[ch*H*W+y*W+x]=C[ch]+T*bg[ch];
++}
+--- a/source/short_cache_pixels.cuh
++++ b/source/short_cache_pixels.cuh
+@@ -0,0 +1,64 @@
++template<int Cache,int Layout,int Unroll=32> __global__ void renderShortCachePixels(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,
++    const uint32_t* counts,int capacity,const float2* xy,const float4* conic,const float* colors,
++    const float* bg,float* out,const uint32_t* sorted_depth_keys,const GraphInputs* dynamic=nullptr) {
++  if(dynamic){bg=dynamic->background;out=dynamic->image;}
++  constexpr int Pixels=Layout==3?1:2,Rows=16/Pixels,Threads=256/Pixels;
++  int tile=blockIdx.y*gridDim.x+blockIdx.x,thread=threadIdx.y*blockDim.x+threadIdx.x;
++  int x=blockIdx.x*16+threadIdx.x,y=blockIdx.y*16+threadIdx.y;
++  if(Layout==1){x=blockIdx.x*16+(thread*2)%16;y=blockIdx.y*16+(thread*2)/16;}
++  if(Layout==2){x=blockIdx.x*16+thread%16;y=blockIdx.y*16+(thread/16)*2;}
++  float T[Pixels],C[Pixels][3];float2 pix[Pixels];bool done[Pixels],inside[Pixels];
++  #pragma unroll
++  for(int p=0;p<Pixels;++p) {
++    pix[p]={(float)(x+(Layout==1?p:0)),(float)(y+(Layout==1?0:Layout==2?p:p*Rows))};
++    inside[p]=pix[p].x<W&&pix[p].y<H;done[p]=!inside[p];
++    T[p]=1.f;C[p][0]=C[p][1]=C[p][2]=0.f;
++  }
++  if(sorted_depth_keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    #pragma unroll
++    for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+int(pix[p].y)*W+int(pix[p].x)]=bg[ch];
++    return;
++  }
++  int count=counts[tile];
++  if(count<=min(capacity,Cache)) {
++    __shared__ float2 cached_xy[Cache];__shared__ float4 cached_conic[Cache];__shared__ float3 cached_color[Cache];
++    for(int j=thread;j<count;j+=Threads) {
++      int id=lists[tile*capacity+j];cached_xy[j]=xy[id];cached_conic[j]=conic[id];
++      cached_color[j]={colors[id*3],colors[id*3+1],colors[id*3+2]};
++    }
++    __syncthreads();
++    #pragma unroll Unroll
++    for(int j=0;j<count;++j) {
++      if((j&31)==0) {
++        bool all_done=true;
++        #pragma unroll
++        for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++        if(__all_sync(0xffffffff,all_done))break;
++      }
++      float2 point=cached_xy[j];float4 co=cached_conic[j];float3 color=cached_color[j];
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++    }
++  } else {
++    for(int group=0;group<groups;++group) {
++      bool all_done=true;
++      #pragma unroll
++      for(int p=0;p<Pixels;++p)all_done=all_done&&done[p];
++      if(__all_sync(0xffffffff,all_done))break;
++      unsigned nonempty=directory[tile*groups+group];
++      while(nonempty) {
++        int w=group*32+__ffs(nonempty)-1;nonempty&=nonempty-1;unsigned members=bits[tile*words+w];
++        while(members) {
++          int rank=w*32+__ffs(members)-1;members&=members-1;int id=sorted[rank];
++          float2 point=xy[id];float4 co=conic[id];float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};
++          #pragma unroll
++      for(int p=0;p<Pixels;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<Pixels;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+int(pix[p].y)*W+int(pix[p].x)]=C[p][ch]+T[p]*bg[ch];
++}
++
+--- a/source/subtile_pixels.cuh
++++ b/source/subtile_pixels.cuh
+@@ -0,0 +1,158 @@
++// 只筛除保守证明Alpha无贡献的子块；原Pixel表达式和累加顺序不变。
++__device__ __forceinline__ float intervalProductLower(float a,float b,float c,float d) {
++  return fminf(fminf(__fmul_rd(a,c),__fmul_rd(a,d)),
++               fminf(__fmul_rd(b,c),__fmul_rd(b,d)));
++}
++__device__ __forceinline__ bool mayContributeRect(float2 mean,float4 co,
++    int xmin,int ymin,int xmax,int ymax) {
++  if(!(co.w>=0.f&&co.w<=1.f&&co.x>0.f&&co.z>0.f))return true;
++  const float lx=__fsub_rd(mean.x,float(xmax)),ux=__fsub_ru(mean.x,float(xmin));
++  const float ly=__fsub_rd(mean.y,float(ymax)),uy=__fsub_ru(mean.y,float(ymin));
++  const float ax=lx>0.f?lx:ux<0.f?-ux:0.f;
++  const float ay=ly>0.f?ly:uy<0.f?-uy:0.f;
++  const float xx=__fmul_rd(__fmul_rd(co.x,ax),ax);
++  const float yy=__fmul_rd(__fmul_rd(co.z,ay),ay);
++  const float lo=co.y>=0.f?__fmul_rd(co.y,lx):__fmul_rd(co.y,ux);
++  const float hi=co.y>=0.f?__fmul_ru(co.y,ux):__fmul_ru(co.y,lx);
++  const float cross=intervalProductLower(lo,hi,ly,uy);
++  const float upper=__fsub_ru(__fmul_ru(-.5f,__fadd_rd(xx,yy)),cross);
++  // 外扩误差覆盖原编译器FMA分组、乘法舍入和FTZ；不确定或overflow一律保留。
++  const float magnitude=fabsf(xx)+fabsf(yy)+fabsf(cross)+1.f;
++  const float margin=__fmul_ru(magnitude,0x1p-16f);
++  const float bound=__fadd_ru(upper,margin);
++  const float cutoff=co.w<=.00390625f?0.f:co.w<=.0078125f?-1.f:
++      co.w<=.015625f?-1.5f:co.w<=.0625f?-3.f:co.w<=.125f?-4.f:co.w<=.5f?-5.f:-6.f;
++  return !(isfinite(bound)&&bound<cutoff);
++}
++
++// Kind 0: 8x8子块每Warp稳定压缩；Kind 1: 4x4子块稳定压缩；
++// Kind 2: 不压缩，仅共享8x8掩码；Kind 3: 一次性精确扫描区域以作收益上界诊断。
++template<int Kind> __global__ void renderSubtilePixels(int W,int H,const uint32_t* bits,int words,
++    const uint32_t* directory,int groups,const uint32_t* sorted,const uint32_t* lists,
++    const uint32_t* counts,int capacity,const float2* xy,const float4* conic,const float* colors,
++    const uint32_t* keys,const GraphInputs* inputs) {
++  constexpr int Side=Kind==1?4:8;
++  constexpr int Regions=256/(Side*Side),PerRegion=Side*Side;
++  const int thread=threadIdx.x,lane=thread&31,warp=thread>>5;
++  const int tile=blockIdx.y*gridDim.x+blockIdx.x,ox=blockIdx.x*16,oy=blockIdx.y*16;
++  const float* bg=inputs->background;float* out=inputs->image;
++  const int pixel0=thread*2,pixel1=pixel0+1;
++  // 像素排列为连续子块，两条独立原始合成链。
++  int linear[2]={pixel0,pixel1};float2 pix[2];bool inside[2],done[2];float T[2]={1.f,1.f},C[2][3]={{0.f},{0.f}};
++  #pragma unroll
++  for(int p=0;p<2;++p) {
++    int r=linear[p]/PerRegion,j=linear[p]%PerRegion;
++    int x=ox+(r%(16/Side))*Side+j%Side,y=oy+(r/(16/Side))*Side+j/Side;
++    pix[p]={float(x),float(y)};inside[p]=x<W&&y<H;done[p]=!inside[p];
++  }
++  if(keys[0]==0xffffffff||bits[int64_t(gridDim.x)*gridDim.y*words+1]) {
++    #pragma unroll
++    for(int p=0;p<2;++p)if(inside[p])for(int ch=0;ch<3;++ch)out[ch*H*W+int(pix[p].y)*W+int(pix[p].x)]=bg[ch];
++    return;
++  }
++  const unsigned count=counts[tile];
++  if(count<=unsigned(capacity)) {
++    __shared__ float2 cached_xy[256];
++    __shared__ float4 cached_co[256];
++    __shared__ float3 cached_rgb[256];
++    __shared__ unsigned masks[256];
++    __shared__ uint16_t members[Regions][256];
++    __shared__ unsigned sizes[Regions];
++    for(int j=thread;j<int(count);j+=128) {
++      const int id=lists[tile*capacity+j];cached_xy[j]=xy[id];cached_co[j]=conic[id];
++      cached_rgb[j]={colors[id*3],colors[id*3+1],colors[id*3+2]};
++    }
++    __syncthreads();
++    if(Kind==2) {
++      for(int j=thread;j<int(count);j+=128) {
++        unsigned mask=0;
++        #pragma unroll
++        for(int r=0;r<4;++r) {
++          const int xmin=ox+(r&1)*8,ymin=oy+(r>>1)*8;
++          if(mayContributeRect(cached_xy[j],cached_co[j],xmin,ymin,xmin+7,ymin+7))mask|=1u<<r;
++        }
++        masks[j]=mask;
++      }
++    } else {
++      for(int r=warp;r<Regions;r+=4) {
++        const int xmin=ox+(r%(16/Side))*Side,ymin=oy+(r/(16/Side))*Side;
++        unsigned carry=0;
++        for(int base=0;base<int(count);base+=32) {
++          const int j=base+lane;
++          bool valid=j<int(count)&&mayContributeRect(cached_xy[j],cached_co[j],xmin,ymin,xmin+Side-1,ymin+Side-1);
++          if(Kind==3&&valid) {
++            // 只供诊断：精确是否存在有效像素，不作为预设速度候选。
++            valid=false;
++            for(int p=0;p<PerRegion;++p) {
++              float2 point={float(xmin+p%Side),float(ymin+p/Side)};
++              if(alphaValue(cached_xy[j],cached_co[j],point)>=0.f){valid=true;break;}
++            }
++          }
++          const unsigned active=__ballot_sync(0xffffffff,valid);
++          if(valid)members[r][carry+__popc(active&((1u<<lane)-1))]=j;
++          carry+=__popc(active);
++        }
++        if(!lane)sizes[r]=carry;
++      }
++    }
++    __syncthreads();
++    const int region=linear[0]/PerRegion;
++    const unsigned region_lanes=__match_any_sync(0xffffffff,region);
++    const int iterations=Kind==2?int(count):int(sizes[region]);
++    #pragma unroll 8
++    for(int i=0;i<iterations;++i) {
++      if((i&15)==0&&__all_sync(region_lanes,done[0]&&done[1]))break;
++      const int j=Kind==2?i:members[region][i];
++      if(Kind!=2||(masks[j]&(1u<<region))) {
++        const float2 point=cached_xy[j];const float4 co=cached_co[j];const float3 color=cached_rgb[j];
++        #pragma unroll
++        for(int p=0;p<2;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++      }
++    }
++  } else {
++    // 超过短列表容量时完整沿稳定目录枚举；不截断。
++    for(int group=0;group<groups;++group) {
++      if(__all_sync(0xffffffff,done[0]&&done[1]))break;
++      unsigned directory_word=directory[tile*groups+group];
++      while(directory_word) {
++        int word=group*32+__ffs(directory_word)-1;directory_word&=directory_word-1;
++        unsigned mask=bits[tile*words+word];
++        while(mask) {
++          int rank=word*32+__ffs(mask)-1;mask&=mask-1;int id=sorted[rank];
++          float2 point=xy[id];float4 co=conic[id];float3 color={colors[id*3],colors[id*3+1],colors[id*3+2]};
++          #pragma unroll
++          for(int p=0;p<2;++p)compositeValues(point,co,color,pix[p],done[p],T[p],C[p]);
++        }
++      }
++    }
++  }
++  #pragma unroll
++  for(int p=0;p<2;++p)if(inside[p])for(int ch=0;ch<3;++ch)
++    out[ch*H*W+int(pix[p].y)*W+int(pix[p].x)]=C[p][ch]+T[p]*bg[ch];
++}
++
++// 仅供计时外诊断，不影响render的任何执行节点。
++__global__ void subtileDiagnostics(int tiles,int side,int W,int H,const uint32_t* lists,const uint32_t* counts,
++    const float2* xy,const float4* conic,unsigned long long* counters,bool verify) {
++  int index=blockIdx.x*blockDim.x+threadIdx.x,tile=index/256,j=index%256;
++  if(tile>=tiles)return;
++  const unsigned count=counts[tile];
++  if(!j){atomicAdd(counters,static_cast<unsigned long long>(count));atomicAdd(counters+6,1ull);
++    if(count>256)atomicAdd(counters+7,1ull);}
++  if(count>256||unsigned(j)>=count)return;
++  const int id=lists[tile*256+j],tx=tile%((W+15)/16),ty=tile/((W+15)/16);
++  unsigned tests=0,keep=0,reject=0,wrong=0;
++  for(int y=0;y<16;y+=side)for(int x=0;x<16;x+=side) {
++    int xmin=tx*16+x,ymin=ty*16+y;
++    ++tests;
++    if(mayContributeRect(xy[id],conic[id],xmin,ymin,xmin+side-1,ymin+side-1)){++keep;continue;}
++    ++reject;
++    if(verify)for(int py=ymin;py<min(H,ymin+side);++py)for(int px=xmin;px<min(W,xmin+side);++px)
++      if(alphaValue(xy[id],conic[id],make_float2(px,py))>=0.f)++wrong;
++  }
++  atomicAdd(counters+1,static_cast<unsigned long long>(tests));
++  atomicAdd(counters+2,static_cast<unsigned long long>(keep));
++  atomicAdd(counters+3,static_cast<unsigned long long>(reject));
++  atomicAdd(counters+4,static_cast<unsigned long long>(wrong));
++  atomicAdd(counters+5,static_cast<unsigned long long>(keep*side*side));
++}

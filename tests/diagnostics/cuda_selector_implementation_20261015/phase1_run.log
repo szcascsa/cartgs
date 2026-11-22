@@ -1,0 +1,4 @@
+[ 50%] Building CXX object CMakeFiles/selector_parity.dir/selector_parity.cpp.o
+[100%] Linking CXX executable selector_parity
+[100%] Built target selector_parity
+candidate=legacy device=cuda steps=100 failures=0

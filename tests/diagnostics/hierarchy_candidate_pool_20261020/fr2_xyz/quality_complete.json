@@ -1,0 +1,8 @@
+{
+  "all_passed": true,
+  "baseline_renders": 624,
+  "new_pool_renders": 624,
+  "capacity_skips": [],
+  "optimizer_updates": 0,
+  "no_new_Progressive": true
+}

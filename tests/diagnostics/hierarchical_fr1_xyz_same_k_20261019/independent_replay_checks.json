@@ -1,0 +1,9 @@
+{
+  "all_passed": true,
+  "rows_gains_argmax_checked": 23643,
+  "max_gain_error": 0.0,
+  "all_frontiers_replayed_exact": true,
+  "ancestor_coverage_checked": true,
+  "global_unique_rows": true,
+  "algorithm_parameters_changed": false
+}

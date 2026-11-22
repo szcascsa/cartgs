@@ -1,0 +1,508 @@
+file,line,code
+include/change_management.h,75,std::vector<CorrectionGroup> correction_groups;
+include/change_management.h,94,std::vector<CorrectionGroup> corrections;
+include/change_management.h,108,std::vector<float> ratios;
+include/frozen_teacher_target_cache.h,10,": ready_(torch::zeros({population_count},"
+include/frozen_teacher_target_cache.h,16,"auto missing = indices.index({~ready_.index_select(0, indices)});"
+include/frozen_teacher_target_cache.h,22,"values_ = torch::empty(shape, target.options().requires_grad(false));"
+include/frozen_teacher_target_cache.h,27,"return values_.index_select(0, indices);"
+include/gaussian_transform_ops.h,21,"return {xyz.index_select(0, indices), log_scaling.index_select(0, indices),"
+include/gaussian_transform_ops.h,22,"rotation.index_select(0, indices)};"
+include/quaternion_utils.h,21,"return torch::cat({scalar, vector}, /*dim=*/1);"
+include/transform_field.h,76,std::vector<torch::Tensor> affectedParameters(const PlaneChangeMask& mask) const {
+include/transform_field.h,90,std::vector<torch::Tensor> gridParameters() const {
+include/transform_field.h,93,std::vector<torch::Tensor> mlpParameters() const;
+include/hexplane_field.h,15,"std::vector<int> multires = {1, 2, 4};"
+include/hexplane_field.h,30,std::vector<torch::Tensor> affectedParameters(
+include/hexplane_field.h,42,std::vector<torch::Tensor> gridParameters() const { return planes_; }
+include/hexplane_field.h,64,std::vector<torch::Tensor> planes_;
+include/aabb.h,22,"return defined() ? AABB3D{min_xyz.detach().clone(), max_xyz.detach().clone()}"
+include/selector_cuda.h,18,"std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,"
+include/selector_cuda.h,19,"const std::vector<torch::Tensor>& parameters, Candidate candidate);"
+include/selector_cuda.h,20,"std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,"
+include/selector_cuda.h,21,"const std::vector<torch::Tensor>& parameters,"
+include/selector_cuda.h,22,"const std::vector<torch::Tensor>& activations, const torch::Tensor& upstream,"
+include/selector_cuda.h,24,"torch::Tensor network(const std::vector<torch::Tensor>& inputs,"
+include/selector_cuda.h,25,"const std::vector<torch::Tensor>& parameters, Candidate candidate,"
+include/transform_field_cuda.h,17,const std::vector<torch::Tensor>& planes);
+include/transform_field_cuda.h,18,torch::Tensor queryForward(const std::vector<torch::Tensor>& inputs);
+include/transform_field_cuda.h,19,std::vector<torch::Tensor> queryBackward(
+include/transform_field_cuda.h,20,"const std::vector<torch::Tensor>& inputs, const torch::Tensor& gradient);"
+include/transform_field_cuda.h,25,std::vector<torch::Tensor> mlpForward(
+include/transform_field_cuda.h,26,"const torch::Tensor& feature, const std::vector<torch::Tensor>& parameters,"
+include/transform_field_cuda.h,28,std::vector<torch::Tensor> outputForward(
+include/transform_field_cuda.h,30,"const torch::Tensor& quaternion, const std::vector<torch::Tensor>& residual,"
+include/transform_field_cuda.h,33,std::vector<torch::Tensor> mlpBackward(
+include/transform_field_cuda.h,34,"const std::vector<torch::Tensor>& context,"
+include/transform_field_cuda.h,35,"const std::vector<torch::Tensor>& parameters,"
+include/transform_field_cuda.h,36,const std::vector<torch::Tensor>& gradients);
+include/transform_field_cuda.h,38,std::vector<torch::Tensor> outputBackward(
+include/transform_field_cuda.h,39,"const std::vector<torch::Tensor>& inputs,"
+include/transform_field_cuda.h,40,"const std::vector<torch::Tensor>& gradients, bool log_scale = false);"
+include/transform_field_cuda.h,41,"std::vector<torch::Tensor> neural(const torch::Tensor& feature,"
+include/transform_field_cuda.h,42,"const std::vector<torch::Tensor>& parameters,"
+include/transform_field_cuda.h,44,"std::vector<torch::Tensor> output(const torch::Tensor& xyz,"
+include/transform_field_cuda.h,46,"const std::vector<torch::Tensor>& residual, bool log_scale = false);"
+include/transform_field_cuda.h,47,"torch::Tensor regularization(const std::vector<torch::Tensor>& planes,"
+include/transform_field_cuda.h,49,"torch::Tensor regularizationForward(const std::vector<torch::Tensor>& planes,"
+include/transform_field_cuda.h,51,std::vector<torch::Tensor> regularizationBackward(
+include/transform_field_cuda.h,52,"const std::vector<torch::Tensor>& planes,const torch::Tensor& gradient,"
+include/transform_field_cuda_optimizer.h,13,void adamUpdate(const std::vector<AdamUpdate>& updates);
+include/transform_field_cuda_optimizer.h,15,const std::vector<std::size_t>& groups);
+include/transform_field_cuda_optimizer.h,17,"const std::vector<std::size_t>& groups,"
+include/transform_field_cuda_optimizer.h,26,using AdamPreparation = std::vector<AdamPreparedTensor>;
+include/transform_field_cuda_optimizer.h,28,const std::vector<std::size_t>& groups);
+include/transform_field_cuda_optimizer.h,30,const std::vector<torch::Tensor>& candidate);
+include/transform_field_cuda_optimizer.h,32,const std::vector<torch::Tensor>& candidate);
+include/transform_field_cuda_optimizer.h,34,"std::vector<torch::Tensor> adamCandidate(const std::vector<torch::Tensor>& parameters,"
+include/transform_field_cuda_optimizer.h,35,"const std::vector<torch::Tensor>& direction,double alpha);"
+include/transform_field_cuda_optimizer.h,36,"void adamCopy(const std::vector<torch::Tensor>& parameters,"
+include/transform_field_cuda_optimizer.h,37,const std::vector<torch::Tensor>& candidate);
+include/elastic_entry.h,25,"auto probability = torch::full_like(maturity, ratio, maturity.options().requires_grad(false));"
+include/elastic_entry.h,27,"const auto weight = elasticMaturity(maturity.index_select(0, eligible_indices), entry);"
+include/elastic_entry.h,28,"return probability.index_copy(0, eligible_indices,"
+improvements/selector/gumbel_network.h,60,"torch::full({1, 1}, ratio, position.options()));"
+improvements/selector/gumbel_network.h,74,"torch::full({1, 1}, ratio, position.options()));"
+improvements/selector/gumbel_network.h,92,auto hard = (uniform.reshape({-1}) < logit.sigmoid()).to(soft.scalar_type());
+improvements/selector/gumbel_network.h,110,"torch::full({1, 1}, ratio, position.options()), tau);"
+improvements/selector/gumbel_network.h,135,auto gumbel_input = torch::cat(
+improvements/selector/gumbel_network.h,152,auto gumbel_noise = -torch::empty_like(logits).exponential_().log();
+improvements/selector/gumbel_network.h,159,"auto one_hot = torch::zeros_like(logits).scatter_(-1, indices, 1.0);"
+src/change_distill.cpp,16,"torch::optim::Adam& source, const std::vector<double>& learning_rates) {"
+src/change_distill.cpp,20,std::vector<torch::optim::OptimizerParamGroup> groups;
+src/change_distill.cpp,35,return torch::nonzero(capture.mature_mask_before & (event.correction_group_id >= 0)).reshape({-1});
+src/change_distill.cpp,42,"auto ids = event.correction_group_id.index_select(0, indices);"
+src/change_distill.cpp,44,auto local = torch::nonzero(ids == static_cast<int64_t>(g)).reshape({-1});
+src/change_distill.cpp,48,"target = {target.xyz.index_copy(0, local, moved.xyz),"
+src/change_distill.cpp,49,"target.log_scaling.index_copy(0, local, moved.log_scaling),"
+src/change_distill.cpp,50,"target.rotation.index_copy(0, local, moved.rotation)};"
+src/change_distill.cpp,69,"auto ratios = torch::full({indices.numel(), 1}, ratio, after.xyz.options());"
+src/change_distill.cpp,72,"auto teacher_ratios = torch::full({missing.numel(), 1}, ratio, before.xyz.options());"
+src/change_distill.cpp,117,std::vector<int64_t> order(indices.numel());
+src/change_distill.cpp,121,.to(indices.device());
+src/change_distill.cpp,122,"return indices.index_select(0, permutation);"
+src/change_distill.cpp,165,std::vector<FrozenTeacherTargetCache> teacher_targets;
+src/change_distill.cpp,169,auto unaffected = torch::nonzero(capture.mature_mask_before &
+src/change_distill.cpp,184,"context.temperature, teacher_targets[r]).item<double>() * batch.numel();"
+src/change_distill.cpp,224,"auto total = torch::zeros({}, current.xyz.options());"
+src/change_distill.cpp,234,"TORCH_CHECK(torch::isfinite(total).item<bool>(), ""Nonfinite Selector CD loss"");"
+src/change_distill.cpp,235,if (total.item<double>() > 0.0) {
+src/change_distill.cpp,273,"auto inside = context.tf->insideMask(current.xyz.index_select(0, tf_indices));"
+src/change_distill.cpp,279,const double diagonal = capture.old_aabb.diagonal().item<double>();
+src/change_distill.cpp,281,std::vector<FrozenTeacherTargetCache> teacher_targets;
+src/change_distill.cpp,289,"return torch::cat({target.xyz, target.log_scaling, target.rotation}, 1);"
+src/change_distill.cpp,303,for (int j = 0; j < 3; ++j) sums[j] += loss[j].item<double>() * batch.numel();
+src/change_distill.cpp,331,auto audit = torch::nonzero(capture.mature_mask_before &
+src/change_distill.cpp,334,"audit = audit.index({context.tf->insideMask(current.xyz.index_select(0, audit))});"
+src/change_distill.cpp,349,"auto total = torch::zeros({}, current.xyz.options());"
+src/change_distill.cpp,355,"TORCH_CHECK(torch::isfinite(total).item<bool>(), ""Nonfinite TF CD loss"");"
+src/change_distill.cpp,356,if (total.item<double>() > 0.0) {
+src/change_management.cpp,11,return value.defined() ? value.detach().clone() : torch::Tensor();
+src/change_management.cpp,76,pressure.outside_total = pressure.outside_mask.sum().item<std::int64_t>();
+src/change_management.cpp,77,pressure.x_low_count = x_low.sum().item<std::int64_t>();
+src/change_management.cpp,78,pressure.x_high_count = x_high.sum().item<std::int64_t>();
+src/change_management.cpp,79,pressure.y_low_count = y_low.sum().item<std::int64_t>();
+src/change_management.cpp,80,pressure.y_high_count = y_high.sum().item<std::int64_t>();
+src/change_management.cpp,81,pressure.z_low_count = z_low.sum().item<std::int64_t>();
+src/change_management.cpp,82,pressure.z_high_count = z_high.sum().item<std::int64_t>();
+src/change_management.cpp,130,auto new_min = current_aabb.min_xyz.clone();
+src/change_management.cpp,131,auto new_max = current_aabb.max_xyz.clone();
+src/change_management.cpp,133,if (lower[axis].item<float>() < current_aabb.min_xyz[axis].item<float>())
+src/change_management.cpp,135,if (upper[axis].item<float>() > current_aabb.max_xyz[axis].item<float>())
+src/change_management.cpp,139,"torch::all(new_min <= current_aabb.min_xyz).item<bool>(),"
+src/change_management.cpp,141,"TORCH_CHECK(torch::all(new_max >= current_aabb.max_xyz).item<bool>(),"
+src/change_management.cpp,145,plan.x_min_changed = new_min[0].item<float>() < current_aabb.min_xyz[0].item<float>();
+src/change_management.cpp,146,plan.x_max_changed = new_max[0].item<float>() > current_aabb.max_xyz[0].item<float>();
+src/change_management.cpp,147,plan.y_min_changed = new_min[1].item<float>() < current_aabb.min_xyz[1].item<float>();
+src/change_management.cpp,148,plan.y_max_changed = new_max[1].item<float>() > current_aabb.max_xyz[1].item<float>();
+src/change_management.cpp,149,plan.z_min_changed = new_min[2].item<float>() < current_aabb.min_xyz[2].item<float>();
+src/change_management.cpp,150,plan.z_max_changed = new_max[2].item<float>() > current_aabb.max_xyz[2].item<float>();
+src/change_management.cpp,183,capture.mature_indices_before = torch::nonzero(mature_mask).reshape({-1});
+src/change_management.cpp,186,capture.old_aabb = old_aabb.clone();
+src/change_management.cpp,210,"TORCH_CHECK((indices >= 0).all().item<bool>(), ""Negative correction index"");"
+src/change_management.cpp,219,group.indices = indices.detach().clone();
+src/change_management.cpp,220,group.transform_4x4 = correction.transform_4x4.detach().clone();
+src/change_management.cpp,221,group.rotation_wxyz = correction.rotation_wxyz.detach().clone();
+src/change_management.cpp,237,"event.correction_group_id = torch::full({capture.snapshot_count}, -1,"
+src/change_management.cpp,241,"TORCH_CHECK((event.correction_group_id.index_select(0, indices) == -1).all().item<bool>(),"
+src/change_management.cpp,245,"(sorted.slice(0, 1) != sorted.slice(0, 0, -1)).all().item<bool>(),"
+src/change_management.cpp,247,"event.correction_group_id.index_put_({indices}, static_cast<int64_t>(g));"
+src/change_management.cpp,267,"auto xyz = context.current.xyz.index_select(0, capture.mature_indices_before);"
+src/transform_field.cpp,67,auto ratio_tensor = torch::full(
+src/transform_field.cpp,100,auto identity = torch::zeros_like(residual.delta_rotation_raw);
+src/transform_field.cpp,116,auto identity = torch::zeros_like(residual.delta_rotation_raw);
+src/transform_field.cpp,117,"identity.index_put_({torch::indexing::Slice(), 0}, 1.0f);"
+src/transform_field.cpp,144,"aabbMin().cpu(), aabbMax().cpu(), config_);"
+src/transform_field.cpp,153,? torch::nonzero(insideMask(state.xyz)).reshape({-1})
+src/transform_field.cpp,161,"return {state.xyz.index_copy(0, indices, output[0]),"
+src/transform_field.cpp,162,"state.log_scaling.index_copy(0, indices, output[1]),"
+src/transform_field.cpp,163,"state.rotation.index_copy(0, indices, output[2])};"
+src/transform_field.cpp,165,auto identity = torch::zeros_like(residual.delta_rotation_raw);
+src/transform_field.cpp,170,"return {state.xyz.index_copy(0, indices, selected.xyz + residual.delta_xyz),"
+src/transform_field.cpp,171,"state.log_scaling.index_copy(0, indices, selected.log_scaling + residual.delta_log_scale),"
+src/transform_field.cpp,172,"state.rotation.index_copy(0, indices, rotation)};"
+src/transform_field.cpp,175,std::vector<torch::Tensor> TransformFieldImpl::mlpParameters() const {
+src/transform_field.cpp,176,std::vector<torch::Tensor> result;
+src/hexplane_field.cpp,20,"aabb_min_ = register_buffer(""aabb_min"", aabb_min.reshape({3}).detach().clone());"
+src/hexplane_field.cpp,21,"aabb_max_ = register_buffer(""aabb_max"", aabb_max.reshape({3}).detach().clone());"
+src/hexplane_field.cpp,22,if (!(aabb_max_ > aabb_min_).all().item<bool>())
+src/hexplane_field.cpp,38,auto plane = torch::empty(
+src/hexplane_field.cpp,62,std::vector<torch::Tensor> HexPlaneFieldImpl::affectedParameters(
+src/hexplane_field.cpp,64,std::vector<torch::Tensor> result;
+src/hexplane_field.cpp,73,TORCH_CHECK(aabb.defined() && torch::isfinite(aabb.min_xyz).all().item<bool>() &&
+src/hexplane_field.cpp,74,torch::isfinite(aabb.max_xyz).all().item<bool>() &&
+src/hexplane_field.cpp,75,"(aabb.extent() > 0).all().item<bool>(), ""Invalid TF AABB"");"
+src/hexplane_field.cpp,85,TORCH_CHECK(torch::isfinite(new_aabb.min_xyz).all().item<bool>() &&
+src/hexplane_field.cpp,86,torch::isfinite(new_aabb.max_xyz).all().item<bool>() &&
+src/hexplane_field.cpp,87,"(new_aabb.extent() > 0).all().item<bool>(), ""Invalid new domain"");"
+src/hexplane_field.cpp,90,TORCH_CHECK((new_aabb.min_xyz <= old_aabb.min_xyz).all().item<bool>() &&
+src/hexplane_field.cpp,91,"(new_aabb.max_xyz >= old_aabb.max_xyz).all().item<bool>(),"
+src/hexplane_field.cpp,96,(old_aabb.max_xyz[axis] != new_aabb.max_xyz[axis])).item<bool>();
+src/hexplane_field.cpp,118,"auto grid = torch::stack({u, v}, -1).unsqueeze(0);"
+src/hexplane_field.cpp,125,auto initialized = torch::empty_like(plane);
+src/hexplane_field.cpp,138,auto grid = torch::stack(
+src/hexplane_field.cpp,159,"return torch::empty({0, outputDim()}, xyz.options());"
+src/hexplane_field.cpp,171,"auto coordinates = torch::cat({normalized_xyz, ratio_column}, /*dim=*/1);"
+src/hexplane_field.cpp,172,std::vector<torch::Tensor> level_features;
+src/hexplane_field.cpp,185,"return torch::cat(level_features, /*dim=*/1);"
+src/selector_cuda.cpp,30,"{saved.begin()+4,saved.begin()+22},{saved.begin()+22,saved.end()},gradients[0].contiguous(),"
+src/selector_cuda.cpp,39,"torch::Tensor network(const std::vector<torch::Tensor>& inputs,"
+src/selector_cuda.cpp,40,"const std::vector<torch::Tensor>& parameters, Candidate candidate, BackwardStrategy strategy) {"
+src/selector_cuda.cpp,41,std::vector<torch::Tensor> tensors=inputs;
+src/selector_cuda.cu,36,const auto* bias_pointer=bias.data_ptr<float>();
+src/selector_cuda.cu,44,"workspace=torch::empty({static_cast<int64_t>(bytes)},reference.options().dtype(torch::kUInt8).requires_grad(false));"
+src/selector_cuda.cu,66,const auto* pointer=bias.data_ptr<float>();
+src/selector_cuda.cu,69,"TORCH_CUDABLAS_CHECK(cublasLtMatmul(at::cuda::getCurrentCUDABlasLtHandle(),plan->desc,&alpha,w.data_ptr<float>(),plan->a,"
+src/selector_cuda.cu,70,"x.data_ptr<float>(),plan->b,&beta,y.data_ptr<float>(),plan->c,y.data_ptr<float>(),plan->c,&plan->algorithm.algo,"
+src/selector_cuda.cu,71,"plan->workspace.data_ptr(),plan->workspace.numel(),stream()));"
+src/selector_cuda.cu,77,"void validate(const std::vector<torch::Tensor>& x,const std::vector<torch::Tensor>& p) {"
+src/selector_cuda.cu,109,"fillBias<<<(n*32+255)/256,256,0,stream()>>>(y.data_ptr<float>(),b.data_ptr<float>(),n*32,32);"
+src/selector_cuda.cu,110,"gemm('n','n',32,n,1,1.0f,w.data_ptr<float>(),32,x.data_ptr<float>(),1,"
+src/selector_cuda.cu,111,"1.0f,y.data_ptr<float>(),32);"
+src/selector_cuda.cu,112,"relu<<<(n*32+255)/256,256,0,stream()>>>(y.data_ptr<float>(),n*32);"
+src/selector_cuda.cu,189,"auto partial=torch::empty({blocks,32},output.options());"
+src/selector_cuda.cu,190,"if(n)maskBias<<<blocks,256,0,stream()>>>(input.data_ptr<float>(),output.data_ptr<float>(),h.data_ptr<float>(),"
+src/selector_cuda.cu,191,"partial.data_ptr<float>(),n,input.stride(0),offset,h.size(0)==1?0:h.stride(0));"
+src/selector_cuda.cu,194,"void batchedGemm(char ta,char tb,int m,int n,int k,const std::vector<torch::Tensor>& a,int lda,"
+src/selector_cuda.cu,195,"const std::vector<torch::Tensor>& b,int ldb,std::vector<torch::Tensor>& c,int ldc) {"
+src/selector_cuda.cu,197,"auto host=torch::empty({count*3},torch::TensorOptions().dtype(torch::kInt64).pinned_memory(true));"
+src/selector_cuda.cu,198,auto ptr=host.data_ptr<int64_t>();
+src/selector_cuda.cu,199,for(int i=0;i<count;++i){ptr[i]=reinterpret_cast<int64_t>(a[i].data_ptr<float>());
+src/selector_cuda.cu,200,ptr[count+i]=reinterpret_cast<int64_t>(b[i].data_ptr<float>());ptr[2*count+i]=reinterpret_cast<int64_t>(c[i].data_ptr<float>());}
+src/selector_cuda.cu,201,"auto device=host.to(a[0].device(),true);auto base=device.data_ptr<int64_t>();"
+src/selector_cuda.cu,218,"auto db=torch::empty({dy.size(1)},dy.options());"
+src/selector_cuda.cu,219,"sumBias<<<dy.size(1),256,0,stream()>>>(dy.data_ptr<float>(),db.data_ptr<float>(),dy.size(0),dy.size(1));"
+src/selector_cuda.cu,226,"auto dx=torch::empty_like(x);dw=torch::empty_like(w);db=precomputed_db.defined()?precomputed_db:biasGradient(dy,legacy_reduction);"
+src/selector_cuda.cu,228,"gemm('n','n',in,rows,out,1.f,w.data_ptr<float>(),in,"
+src/selector_cuda.cu,229,"dy.data_ptr<float>(),out,0.f,dx.data_ptr<float>(),in);"
+src/selector_cuda.cu,230,"gemm('n','t',in,out,rows,1.f,x.data_ptr<float>(),in,"
+src/selector_cuda.cu,231,"dy.data_ptr<float>(),out,0.f,dw.data_ptr<float>(),in);"
+src/selector_cuda.cu,237,"std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,"
+src/selector_cuda.cu,238,"const std::vector<torch::Tensor>& p,Candidate candidate) {"
+src/selector_cuda.cu,240,std::vector<torch::Tensor> x;for(auto t:inputs)x.push_back(t.contiguous());
+src/selector_cuda.cu,242,std::vector<torch::Tensor> h;
+src/selector_cuda.cu,243,"for(int b=0;b<4;++b)for(int l=0;l<2;++l)h.push_back(torch::empty({x[b].size(0),32},options));"
+src/selector_cuda.cu,244,"h.push_back(torch::empty({n,2},options));"
+src/selector_cuda.cu,247,WarpArgs a{};for(int b=0;b<3;++b)a.x[b]=x[b].data_ptr<float>();
+src/selector_cuda.cu,248,for(int i=0;i<18;++i)a.p[i]=p[i].data_ptr<float>();
+src/selector_cuda.cu,249,for(int i=0;i<6;++i)a.h[i]=h[i].data_ptr<float>();
+src/selector_cuda.cu,250,a.ratio=h[7].data_ptr<float>();a.ratio_rows=h[7].size(0);a.out=h[8].data_ptr<float>();
+src/selector_cuda.cu,258,"auto packed=torch::empty({n,128},options);Features f{};"
+src/selector_cuda.cu,259,for(int b=0;b<4;++b)f.h[b]=h[b*2+1].data_ptr<float>();f.ratio_rows=h[7].size(0);
+src/selector_cuda.cu,261,"packFeatures<<<(n*32+255)/256,256,0,stream()>>>(f,reinterpret_cast<float4*>(packed.data_ptr<float>()),n);"
+src/selector_cuda.cu,266,"fillBias<<<(n*2+255)/256,256,0,stream()>>>(h[8].data_ptr<float>(),p[17].data_ptr<float>(),n*2,2);"
+src/selector_cuda.cu,270,"auto contribution=torch::empty({1,2},options);"
+src/selector_cuda.cu,271,"gemm('t','n',2,1,32,1.f,p[16].data_ptr<float>()+96,128,"
+src/selector_cuda.cu,272,"feature.data_ptr<float>(),32,0.f,contribution.data_ptr<float>(),2);"
+src/selector_cuda.cu,273,"addRatio<<<(n*2+255)/256,256,0,stream()>>>(h[8].data_ptr<float>(),contribution.data_ptr<float>(),n);"
+src/selector_cuda.cu,276,"gemm('t','n',2,n,32,1.f,p[16].data_ptr<float>()+b*32,128,"
+src/selector_cuda.cu,277,"feature.data_ptr<float>(),32,1.f,h[8].data_ptr<float>(),2);"
+src/selector_cuda.cu,283,"std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,"
+src/selector_cuda.cu,284,"const std::vector<torch::Tensor>& p,const std::vector<torch::Tensor>& h,"
+src/selector_cuda.cu,287,std::vector<torch::Tensor> x;for(auto t:inputs)x.push_back(t.contiguous());
+src/selector_cuda.cu,288,auto dy=upstream.contiguous();const int n=x[0].size(0);
+src/selector_cuda.cu,294,std::vector<torch::Tensor> result(22);
+src/selector_cuda.cu,295,"auto dw=torch::empty_like(p[16]);result[20]=dw;result[21]=biasGradient(dy,strict);"
+src/selector_cuda.cu,299,"if(!routed)full_dx=torch::empty({n,128},dy.options());"
+src/selector_cuda.cu,301,"if(full_dx.defined())gemm('n','n',128,n,2,1.f,p[16].data_ptr<float>(),128,dy.data_ptr<float>(),2,0.f,full_dx.data_ptr<float>(),128);"
+src/selector_cuda.cu,302,"gemm('n','t',128,2,n,1.f,h[8].data_ptr<float>(),128,dy.data_ptr<float>(),2,0.f,dw.data_ptr<float>(),128);"
+src/selector_cuda.cu,307,"std::vector<torch::Tensor> d2,d1,weights,first,dw2,dw1;"
+src/selector_cuda.cu,309,"d2.push_back(torch::empty({n,32},dy.options()));d1.push_back(torch::empty({n,32},dy.options()));"
+src/selector_cuda.cu,310,"splitRelu<<<(n*32+255)/256,256,0,stream()>>>(full_dx.data_ptr<float>(),d2[b].data_ptr<float>(),h[b*2+1].data_ptr<float>(),n,b*32,h[b*2+1].stride(0));"
+src/selector_cuda.cu,313,dw2.push_back(torch::empty_like(p[b*4+2]));dw1.push_back(torch::empty_like(p[b*4]));
+src/selector_cuda.cu,316,"else for(int b=0;b<3;++b)gemm('n','n',32,n,32,1.f,weights[b].data_ptr<float>(),32,d2[b].data_ptr<float>(),32,0.f,d1[b].data_ptr<float>(),32);"
+src/selector_cuda.cu,318,"reluVjp<<<(n*32+255)/256,256,0,stream()>>>(d1[b].data_ptr<float>(),first[b].data_ptr<float>(),n*32);"
+src/selector_cuda.cu,319,"result[4+b*4+1]=biasGradient(d1[b],true);result[b]=torch::empty_like(x[b]);"
+src/selector_cuda.cu,320,"gemm('n','n',x[b].size(1),n,32,1.f,p[b*4].data_ptr<float>(),x[b].size(1),d1[b].data_ptr<float>(),32,0.f,result[b].data_ptr<float>(),x[b].size(1));"
+src/selector_cuda.cu,324,"std::vector<torch::Tensor> xx{x[0],x[2]},dd{d1[0],d1[2]},ww{dw1[0],dw1[2]};"
+src/selector_cuda.cu,326,"gemm('n','t',4,32,n,1.f,x[1].data_ptr<float>(),4,d1[1].data_ptr<float>(),32,0.f,dw1[1].data_ptr<float>(),4);"
+src/selector_cuda.cu,330,"auto feature=h[b*2+1],dx=torch::empty({n,32},dy.options());"
+src/selector_cuda.cu,332,"auto expanded=torch::empty({n,32},dy.options());"
+src/selector_cuda.cu,333,"if(n)repeatRows<<<(n*32+255)/256,256,0,stream()>>>(feature.data_ptr<float>(),expanded.data_ptr<float>(),n);"
+src/selector_cuda.cu,341,"directFinal<true><<<(n*32+255)/256,256,0,stream()>>>(dy.data_ptr<float>(),p[16].data_ptr<float>(),dx.data_ptr<float>(),h[b*2+1].data_ptr<float>(),n,b*32,h[b*2+1].size(0)==1?0:h[b*2+1].stride(0));"
+src/selector_cuda.cu,342,"else if(n)directFinal<false><<<(n*32+255)/256,256,0,stream()>>>(dy.data_ptr<float>(),p[16].data_ptr<float>(),dx.data_ptr<float>(),nullptr,n,b*32,0);"
+src/selector_cuda.cu,345,"else if(n && fused)splitRelu<<<(n*32+255)/256,256,0,stream()>>>(full_dx.data_ptr<float>(),dx.data_ptr<float>(),h[b*2+1].data_ptr<float>(),n,b*32,h[b*2+1].size(0)==1?0:h[b*2+1].stride(0));"
+src/selector_cuda.cu,346,"else if(n)splitGradient<<<(n*32+255)/256,256,0,stream()>>>(full_dx.data_ptr<float>(),dx.data_ptr<float>(),n,b*32);"
+src/selector_cuda.cu,348,"gemm('n','n',32,n,2,1.f,p[16].data_ptr<float>()+b*32,128,"
+src/selector_cuda.cu,349,"dy.data_ptr<float>(),2,0.f,dx.data_ptr<float>(),32);"
+src/selector_cuda.cu,350,"gemm('n','t',32,2,n,1.f,feature.data_ptr<float>(),32,"
+src/selector_cuda.cu,351,"dy.data_ptr<float>(),2,0.f,dw.data_ptr<float>()+b*32,128);"
+src/selector_cuda.cu,355,"if(rows && !fused)reluVjp<<<(rows*32+255)/256,256,0,stream()>>>(dx.data_ptr<float>(),h[b*2+1].data_ptr<float>(),rows*32,h[b*2+1].stride(0));"
+src/selector_cuda.cu,358,"else if(rows)reluVjp<<<(rows*32+255)/256,256,0,stream()>>>(dh.data_ptr<float>(),h[b*2].data_ptr<float>(),rows*32);"
+src/transform_field_cuda.cpp,26,"return queryBackward(ctx->get_saved_variables(), gradients.at(0).contiguous());"
+src/transform_field_cuda.cpp,47,for(auto& g:gradients)if(g.defined())g=g.contiguous();
+src/transform_field_cuda.cpp,48,std::vector<torch::Tensor> context{saved[0]};
+src/transform_field_cuda.cpp,66,for(auto& g:gradients)if(g.defined())g=g.contiguous();
+src/transform_field_cuda.cpp,94,const std::vector<torch::Tensor>& planes) {
+src/transform_field_cuda.cpp,95,"std::vector<torch::Tensor> inputs{xyz, ratio, lo, hi};"
+src/transform_field_cuda.cpp,101,"std::vector<torch::Tensor> neural(const torch::Tensor& feature,"
+src/transform_field_cuda.cpp,102,"const std::vector<torch::Tensor>& parameters,MlpBackend backend) {"
+src/transform_field_cuda.cpp,103,"std::vector<torch::Tensor> in{feature};in.insert(in.end(),parameters.begin(),parameters.end());"
+src/transform_field_cuda.cpp,106,"std::vector<torch::Tensor> output(const torch::Tensor& xyz,const torch::Tensor& scale,"
+src/transform_field_cuda.cpp,107,"const torch::Tensor& quaternion,const std::vector<torch::Tensor>& residual,bool log_scale) {"
+src/transform_field_cuda.cpp,109,"std::vector<torch::Tensor> in{xyz,scale,quaternion};in.insert(in.end(),residual.begin(),residual.end());"
+src/transform_field_cuda.cpp,112,"torch::Tensor regularization(const std::vector<torch::Tensor>& planes,"
+src/transform_field_cuda.cu,26,"Planes describe(const std::vector<torch::Tensor>& in,"
+src/transform_field_cuda.cu,27,const std::vector<torch::Tensor>* grads = nullptr) {
+src/transform_field_cuda.cu,46,pack.p[i]=p.data_ptr<float>();pack.height[i]=p.size(2);pack.width[i]=p.size(3);
+src/transform_field_cuda.cu,47,if(grads)pack.g[i]=grads->at(i+4).data_ptr<float>();
+src/transform_field_cuda.cu,51,Inputs describeInputs(const std::vector<torch::Tensor>& in) {
+src/transform_field_cuda.cu,52,"return {in[0].data_ptr<float>(),in[1].data_ptr<float>(),in[2].data_ptr<float>(),"
+src/transform_field_cuda.cu,53,"in[3].data_ptr<float>(),in[0].stride(0),in[0].stride(1),"
+src/transform_field_cuda.cu,137,torch::Tensor queryForward(const std::vector<torch::Tensor>& inputs) {
+src/transform_field_cuda.cu,140,"auto out=torch::empty({n,f},inputs[0].options().requires_grad(false));"
+src/transform_field_cuda.cu,142,"queryKernel<<<(n*f+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(describeInputs(inputs),pack,out.data_ptr<float>(),n);"
+src/transform_field_cuda.cu,147,"std::vector<torch::Tensor> queryBackward(const std::vector<torch::Tensor>& inputs,"
+src/transform_field_cuda.cu,150,std::vector<torch::Tensor> result(inputs.size());
+src/transform_field_cuda.cu,151,"result[0]=torch::empty({inputs[0].size(0),3},inputs[0].options().requires_grad(false));"
+src/transform_field_cuda.cu,152,"result[1]=torch::zeros_like(inputs[1],inputs[1].options().requires_grad(false),torch::MemoryFormat::Contiguous);"
+src/transform_field_cuda.cu,153,for(size_t i=4;i<inputs.size();++i)result[i]=torch::zeros_like(inputs[i]);
+src/transform_field_cuda.cu,158,"queryGradKernel<<<(n+127)/128,128,0,c10::cuda::getCurrentCUDAStream()>>>(describeInputs(inputs),pack,gradient.data_ptr<float>(),result[0].data_ptr<float>(),result[1].data_ptr<float>(),n);"
+src/transform_field_cuda_neural.cu,44,"&one,w.data_ptr<float>(),in,x.data_ptr<float>(),in,&zero,y.data_ptr<float>(),out));"
+src/transform_field_cuda_neural.cu,46,"y.data_ptr<float>(),b.data_ptr<float>(),n*out,out,relu);"
+src/transform_field_cuda_neural.cu,132,"auto dx=torch::empty({n,in},options);dw=torch::empty_like(w);db=torch::empty({out},options);"
+src/transform_field_cuda_neural.cu,136,"&one,w.data_ptr<float>(),in,dy.data_ptr<float>(),out,&zero,dx.data_ptr<float>(),in));"
+src/transform_field_cuda_neural.cu,138,"&one,x.data_ptr<float>(),in,dy.data_ptr<float>(),out,&zero,dw.data_ptr<float>(),in));"
+src/transform_field_cuda_neural.cu,140,"biasGradKernel<<<out,256,0,c10::cuda::getCurrentCUDAStream()>>>(dy.data_ptr<float>(),db.data_ptr<float>(),n,out);"
+src/transform_field_cuda_neural.cu,190,"std::vector<torch::Tensor> mlpForward(const torch::Tensor& feature,"
+src/transform_field_cuda_neural.cu,191,"const std::vector<torch::Tensor>& parameters,MlpBackend backend) {"
+src/transform_field_cuda_neural.cu,206,std::vector<torch::Tensor> context{feature};
+src/transform_field_cuda_neural.cu,207,"for(int i=0;i<4;++i)context.push_back(torch::empty({n,h},options));"
+src/transform_field_cuda_neural.cu,208,"for(int i=0;i<3;++i)context.push_back(torch::empty({n,i==2?4:3},options));"
+src/transform_field_cuda_neural.cu,211,Neural a{};for(int i=0;i<14;++i)a.p[i]=parameters[i].data_ptr<float>();
+src/transform_field_cuda_neural.cu,212,a.shared=context[1].data_ptr<float>();
+src/transform_field_cuda_neural.cu,213,for(int i=0;i<3;++i){a.head[i]=context[2+i].data_ptr<float>();a.residual[i]=context[5+i].data_ptr<float>();}
+src/transform_field_cuda_neural.cu,214,"if(n){warpMlpKernel<<<(n+3)/4,128,0,c10::cuda::getCurrentCUDAStream()>>>(feature.data_ptr<float>(),a,n);C10_CUDA_KERNEL_LAUNCH_CHECK();}"
+src/transform_field_cuda_neural.cu,225,"std::vector<torch::Tensor> outputForward(const torch::Tensor& xyz,const torch::Tensor& scale,"
+src/transform_field_cuda_neural.cu,226,"const torch::Tensor& quaternion,const std::vector<torch::Tensor>& residual,bool log_scale) {"
+src/transform_field_cuda_neural.cu,235,"std::vector<torch::Tensor> out{torch::empty({n,3},options),torch::empty({n,3},options),torch::empty({n,4},options)};"
+src/transform_field_cuda_neural.cu,236,"Attr a{xyz.data_ptr<float>(),scale.data_ptr<float>(),quaternion.data_ptr<float>(),"
+src/transform_field_cuda_neural.cu,237,"residual[0].data_ptr<float>(),residual[1].data_ptr<float>(),residual[2].data_ptr<float>(),"
+src/transform_field_cuda_neural.cu,239,"if(n){outputKernel<<<(n+127)/128,128,0,c10::cuda::getCurrentCUDAStream()>>>(a,out[0].data_ptr<float>(),out[1].data_ptr<float>(),out[2].data_ptr<float>(),n,log_scale);C10_CUDA_KERNEL_LAUNCH_CHECK();}"
+src/transform_field_cuda_neural.cu,242,"std::vector<torch::Tensor> mlpBackward(const std::vector<torch::Tensor>& context,"
+src/transform_field_cuda_neural.cu,243,"const std::vector<torch::Tensor>& parameters,const std::vector<torch::Tensor>& gradients) {"
+src/transform_field_cuda_neural.cu,248,"std::vector<torch::Tensor> result(15),branches(3);"
+src/transform_field_cuda_neural.cu,256,"if(n){reluGradKernel<<<(n*h+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(dh.data_ptr<float>(),context[2+i].data_ptr<float>(),n*h);C10_CUDA_KERNEL_LAUNCH_CHECK();}"
+src/transform_field_cuda_neural.cu,260,auto dh=torch::empty_like(context[1]);
+src/transform_field_cuda_neural.cu,261,"if(n){sharedGradKernel<<<(n*h+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(dh.data_ptr<float>(),branches[0].defined()?branches[0].data_ptr<float>():nullptr,branches[1].defined()?branches[1].data_ptr<float>():nullptr,branches[2].defined()?branches[2].data_ptr<float>():nullptr,context[1].data_ptr<float>(),n*h);C10_CUDA_KERNEL_LAUNCH_CHECK();}"
+src/transform_field_cuda_neural.cu,265,"std::vector<torch::Tensor> outputBackward(const std::vector<torch::Tensor>& inputs,"
+src/transform_field_cuda_neural.cu,266,"const std::vector<torch::Tensor>& gradients,bool log_scale) {"
+src/transform_field_cuda_neural.cu,272,std::vector<torch::Tensor> result(6);
+src/transform_field_cuda_neural.cu,273,"for(int i=0;i<6;++i)if(gradients[i%3].defined())result[i]=torch::empty(inputs[i].sizes(),x.options().requires_grad(false));"
+src/transform_field_cuda_neural.cu,274,"Attr a{inputs[0].data_ptr<float>(),inputs[1].data_ptr<float>(),inputs[2].data_ptr<float>(),"
+src/transform_field_cuda_neural.cu,275,"inputs[3].data_ptr<float>(),inputs[4].data_ptr<float>(),inputs[5].data_ptr<float>(),"
+src/transform_field_cuda_neural.cu,277,"Upstream g{gradients[0].defined()?gradients[0].data_ptr<float>():nullptr,gradients[1].defined()?gradients[1].data_ptr<float>():nullptr,gradients[2].defined()?gradients[2].data_ptr<float>():nullptr};"
+src/transform_field_cuda_neural.cu,279,for(int i=0;i<6;++i)if(result[i].defined())*ptr[i]=result[i].data_ptr<float>();
+src/transform_field_cuda_regularization.cu,17,Regularizer describe(const std::vector<torch::Tensor>& planes) {
+src/transform_field_cuda_regularization.cu,25,a.data[i]=p.data_ptr<float>();a.height[i]=p.size(2);a.width[i]=p.size(3);
+src/transform_field_cuda_regularization.cu,99,"torch::Tensor regularizationForward(const std::vector<torch::Tensor>& planes,"
+src/transform_field_cuda_regularization.cu,103,"auto partial=torch::empty({a.count,a.blocks,2},opt),loss=torch::empty({},opt);"
+src/transform_field_cuda_regularization.cu,104,"regularizationPartialKernel<<<dim3(a.blocks,a.count),256,0,c10::cuda::getCurrentCUDAStream()>>>(a,partial.data_ptr<float>());"
+src/transform_field_cuda_regularization.cu,106,"regularizationReduceKernel<<<1,256,0,c10::cuda::getCurrentCUDAStream()>>>(a,partial.data_ptr<float>(),loss.data_ptr<float>(),spatial,ratio,l1);"
+src/transform_field_cuda_regularization.cu,109,"std::vector<torch::Tensor> regularizationBackward(const std::vector<torch::Tensor>& planes,"
+src/transform_field_cuda_regularization.cu,114,std::vector<torch::Tensor> out;for(const auto& p:planes)out.push_back(torch::empty_like(p));
+src/transform_field_cuda_regularization.cu,115,for(int i=0;i<a.count;++i)a.grad[i]=out[i].data_ptr<float>();
+src/transform_field_cuda_regularization.cu,116,"regularizationGradKernel<<<dim3(a.blocks,a.count),256,0,c10::cuda::getCurrentCUDAStream()>>>(a,gradient.data_ptr<float>(),spatial,ratio,l1);"
+src/transform_field_cuda_optimizer.cpp,8,"void validateGroups(torch::optim::Adam& optimizer,const std::vector<std::size_t>& groups) {"
+src/transform_field_cuda_optimizer.cpp,37,"void tfCudaAdamDirect(torch::optim::Adam& optimizer,const std::vector<std::size_t>& groups) {"
+src/transform_field_cuda_optimizer.cpp,39,std::vector<AdamUpdate> updates;
+src/transform_field_cuda_optimizer.cpp,40,std::vector<torch::optim::AdamParamState*> states;
+src/transform_field_cuda_optimizer.cpp,41,std::vector<std::unique_ptr<torch::optim::AdamParamState>> fresh;
+src/transform_field_cuda_optimizer.cpp,42,std::vector<int64_t> steps;
+src/transform_field_cuda_optimizer.cpp,56,state->exp_avg(torch::empty_like(p));state->exp_avg_sq(torch::empty_like(p));
+src/transform_field_cuda_optimizer.cpp,74,"AdamPreparation tfCudaAdamPrepare(torch::optim::Adam& optimizer,const std::vector<std::size_t>& groups) {"
+src/transform_field_cuda_optimizer.cpp,76,AdamPreparation result;std::vector<AdamUpdate> updates;
+src/transform_field_cuda_optimizer.cpp,91,next.state->step(step);next.state->exp_avg(torch::empty_like(p));next.state->exp_avg_sq(torch::empty_like(p));
+src/transform_field_cuda_optimizer.cpp,92,next.proposed=torch::empty_like(p);next.delta=torch::empty_like(p);
+src/transform_field_cuda_optimizer.cpp,99,"void tfCudaAdamMixedStep(torch::optim::Adam& optimizer,const std::vector<std::size_t>& groups,"
+src/transform_field_cuda_optimizer.cpp,106,"std::vector<std::pair<torch::Tensor,torch::Tensor>> values;"
+src/transform_field_cuda_optimizer.cpp,120,const std::vector<torch::Tensor>& candidate) {
+src/transform_field_cuda_optimizer.cpp,135,const std::vector<torch::Tensor>& candidate) {
+src/transform_field_cuda_optimizer.cpp,137,std::vector<torch::Tensor> parameters;for(const auto& t:prepared)parameters.push_back(t.parameter);
+src/transform_field_cuda_optimizer.cu,48,"void copy(const std::vector<torch::Tensor>& parameters,const std::vector<torch::Tensor>& direction,"
+src/transform_field_cuda_optimizer.cu,49,"const std::vector<torch::Tensor>& output,float alpha) {"
+src/transform_field_cuda_optimizer.cu,60,b.p[i]=parameters[first+i].data_ptr<float>();b.d[i]=direction[first+i].data_ptr<float>();b.out[i]=output[first+i].data_ptr<float>();
+src/transform_field_cuda_optimizer.cu,67,void adamUpdate(const std::vector<AdamUpdate>& updates) {
+src/transform_field_cuda_optimizer.cu,81,b.p[i]=u.parameter.data_ptr<float>();b.g[i]=u.gradient.data_ptr<float>();
+src/transform_field_cuda_optimizer.cu,82,b.old_m[i]=u.old_mean.defined()?u.old_mean.data_ptr<float>():nullptr;b.old_v[i]=u.old_variance.defined()?u.old_variance.data_ptr<float>():nullptr;
+src/transform_field_cuda_optimizer.cu,83,b.m[i]=u.mean.data_ptr<float>();b.v[i]=u.variance.data_ptr<float>();b.proposed[i]=u.proposed.data_ptr<float>();b.delta[i]=u.delta.defined()?u.delta.data_ptr<float>():nullptr;
+src/transform_field_cuda_optimizer.cu,90,"std::vector<torch::Tensor> adamCandidate(const std::vector<torch::Tensor>& parameters,"
+src/transform_field_cuda_optimizer.cu,91,"const std::vector<torch::Tensor>& direction,double alpha) {"
+src/transform_field_cuda_optimizer.cu,92,torch::NoGradGuard no_grad;std::vector<torch::Tensor> result;
+src/transform_field_cuda_optimizer.cu,93,for(const auto& p:parameters)result.push_back(torch::empty_like(p));
+src/transform_field_cuda_optimizer.cu,96,"void adamCopy(const std::vector<torch::Tensor>& parameters,const std::vector<torch::Tensor>& candidate) {"
+src/gaussian_mapper.cpp,112,std::vector<float> bg_color;
+src/gaussian_mapper.cpp,122,"torch::empty(0, torch::TensorOptions().device(device_type_));"
+src/gaussian_mapper.cpp,203,this->stereo_Q_ = pSLAM->getSettings()->Q().clone();
+src/gaussian_mapper.cpp,542,std::vector<float> configured_ratios;
+src/gaussian_mapper.cpp,656,std::vector<int> multires;
+src/gaussian_mapper.cpp,905,std::vector<float> ratio_weights;
+src/gaussian_mapper.cpp,946,std::vector<ORB_SLAM3::KeyFrame*> vpKFs;
+src/gaussian_mapper.cpp,947,std::vector<ORB_SLAM3::MapPoint*> vpMPs;
+src/gaussian_mapper.cpp,999,std::vector<float> pixels;
+src/gaussian_mapper.cpp,1000,std::vector<float> pointsLocal;
+src/gaussian_mapper.cpp,1410,gt_image = viewpoint_cam->original_image_.cuda();
+src/gaussian_mapper.cpp,1416,viewpoint_cam->gaus_pyramid_original_image_[training_level].cuda();
+src/gaussian_mapper.cpp,1616,gaussians_->max_radii2D_.index_put_(
+src/gaussian_mapper.cpp,1692,"<< "" loss="" << (full_step ? full_loss.item<double>() : lod.loss)"
+src/gaussian_mapper.cpp,1764,"<< "" full_loss="" << full_loss.item<double>() << "" lod_loss="" << lod.loss"
+src/gaussian_mapper.cpp,1813,std::vector<torch::Tensor> finite_checks;
+src/gaussian_mapper.cpp,1834,if (!finite_checks.empty() && !torch::stack(finite_checks).all().item<bool>()) {
+src/gaussian_mapper.cpp,1840,"? std::vector<std::size_t>{shared_transform_mlp_group_index_, shared_transform_grid_group_index_}"
+src/gaussian_mapper.cpp,1841,: std::vector<std::size_t>{};
+src/gaussian_mapper.cpp,1943,std::vector<ConflictReplayView> views;
+src/gaussian_mapper.cpp,1960,: std::vector<std::size_t>{};
+src/gaussian_mapper.cpp,1987,: std::vector<std::size_t>{};
+src/gaussian_mapper.cpp,2130,"? std::vector<std::size_t>{shared_transform_mlp_group_index_, shared_transform_grid_group_index_}"
+src/gaussian_mapper.cpp,2131,: std::vector<std::size_t>{};
+src/gaussian_mapper.cpp,2216,std::vector<std::shared_ptr<GaussianKeyframe>> all_keyframes;
+src/gaussian_mapper.cpp,2220,: std::vector<std::size_t>{};
+src/gaussian_mapper.cpp,2231,std::vector<GuardObjective> objectives;
+src/gaussian_mapper.cpp,2268,const std::vector<GuardObjective>& objectives) {
+src/gaussian_mapper.cpp,2273,std::vector<ViewLoss> views;
+src/gaussian_mapper.cpp,2296,"const auto gt = camera->resized_image_cache_.get(camera->original_image_.to(gaussians_->xyz_.device()), h, w);"
+src/gaussian_mapper.cpp,2300,"result.prepare_candidate = [this, state](const AdamStepPreview& preview, const std::vector<torch::Tensor>& candidate) {"
+src/gaussian_mapper.cpp,2306,const std::vector<torch::Tensor>* candidate) {
+src/gaussian_mapper.cpp,2323,"const auto finite = torch::stack({torch::isfinite(input.xyz).all(), torch::isfinite(input.opacity).all(),"
+src/gaussian_mapper.cpp,2326,"if (!finite.item<bool>()) return torch::full({}, std::numeric_limits<float>::quiet_NaN(),"
+src/gaussian_mapper.cpp,2385,: torch::ones(
+src/gaussian_mapper.cpp,2392,old_aabb.min_xyz = transform_field_->aabbMin().detach().clone();
+src/gaussian_mapper.cpp,2393,old_aabb.max_xyz = transform_field_->aabbMax().detach().clone();
+src/gaussian_mapper.cpp,2397,if (!needs_aabb && !mature_mask.any().item<bool>()) return capture;
+src/gaussian_mapper.cpp,2514,"<< plan.old_aabb.min_xyz[0].item<float>() << "", """
+src/gaussian_mapper.cpp,2515,"<< plan.old_aabb.max_xyz[0].item<float>() << ""; """
+src/gaussian_mapper.cpp,2516,"<< plan.old_aabb.min_xyz[1].item<float>() << "", """
+src/gaussian_mapper.cpp,2517,"<< plan.old_aabb.max_xyz[1].item<float>() << ""; """
+src/gaussian_mapper.cpp,2518,"<< plan.old_aabb.min_xyz[2].item<float>() << "", """
+src/gaussian_mapper.cpp,2519,"<< plan.old_aabb.max_xyz[2].item<float>() << ""] new=["""
+src/gaussian_mapper.cpp,2520,"<< plan.new_aabb.min_xyz[0].item<float>() << "", """
+src/gaussian_mapper.cpp,2521,"<< plan.new_aabb.max_xyz[0].item<float>() << ""; """
+src/gaussian_mapper.cpp,2522,"<< plan.new_aabb.min_xyz[1].item<float>() << "", """
+src/gaussian_mapper.cpp,2523,"<< plan.new_aabb.max_xyz[1].item<float>() << ""; """
+src/gaussian_mapper.cpp,2524,"<< plan.new_aabb.min_xyz[2].item<float>() << "", """
+src/gaussian_mapper.cpp,2525,"<< plan.new_aabb.max_xyz[2].item<float>() << ""]"""
+src/gaussian_mapper.cpp,2552,const auto xyz = gaussians_->getXYZ().detach().clone();
+src/gaussian_mapper.cpp,2556,: torch::ones(
+src/gaussian_mapper.cpp,2562,.clone();
+src/gaussian_mapper.cpp,2563,const auto mature_indices = torch::nonzero(mature_mask).reshape({-1});
+src/gaussian_mapper.cpp,2564,const auto probe_maturity = gaussians_->protection_.selectionMaturity(selector_protection_enabled_).clone();
+src/gaussian_mapper.cpp,2565,const auto probe_tf_maturity = gaussians_->protection_.maturity.detach().clone();
+src/gaussian_mapper.cpp,2582,const auto probe_log_scaling = gaussians_->scaling_.detach().clone();
+src/gaussian_mapper.cpp,2583,const auto probe_rotation = gaussians_->getRotationActivation().detach().clone();
+src/gaussian_mapper.cpp,2589,quality_uniform = gaussians_->protection_.cached_uniform.clone();
+src/gaussian_mapper.cpp,2595,"torch::full({xyz.size(0)}, static_cast<int64_t>(mapping_iter_),"
+src/gaussian_mapper.cpp,2598,std::vector<std::shared_ptr<GaussianKeyframe>> all_keyframes;
+src/gaussian_mapper.cpp,2604,: std::vector<std::size_t>{};
+src/gaussian_mapper.cpp,2608,: std::vector<HistoricalOutlierView>{};
+src/gaussian_mapper.cpp,2609,std::vector<HistoricalViewObservation> views;
+src/gaussian_mapper.cpp,2625,probe_opacity = gaussians_->getOpacityActivation().detach().clone();
+src/gaussian_mapper.cpp,2626,probe_features_dc = gaussians_->features_dc_.detach().clone();
+src/gaussian_mapper.cpp,2627,probe_features_rest = gaussians_->features_rest_.detach().clone();
+src/gaussian_mapper.cpp,2660,const auto entry_indices = entry > 0 ? torch::nonzero(probe_tf_maturity >= entry).reshape({-1}) : torch::Tensor{};
+src/gaussian_mapper.cpp,2663,"return selector.ptr()->forwardProbability(indices.defined() ? xyz.index_select(0, indices) : xyz,"
+src/gaussian_mapper.cpp,2664,"indices.defined() ? probe_rotation.index_select(0, indices) : probe_rotation,"
+src/gaussian_mapper.cpp,2665,"indices.defined() ? probe_scaling.index_select(0, indices) : probe_scaling, ratio, selector_temperature_);"
+src/gaussian_mapper.cpp,2666,"}) : mixSelectorProbability(torch::zeros({xyz.size(0)}, xyz.options()), probe_maturity, ratio);"
+src/gaussian_mapper.cpp,2672,const auto mask = keep.to(torch::kFloat32);
+src/gaussian_mapper.cpp,2676,"torch::stack({active.to(torch::kDouble), probability.sum().to(torch::kDouble)}))).first;"
+src/gaussian_mapper.cpp,2683,const auto indices = torch::nonzero(transform_mask).reshape({-1});
+src/gaussian_mapper.cpp,2687,"const auto state = field.ptr()->applyResidual(xyz.index_select(0, indices),"
+src/gaussian_mapper.cpp,2688,"probe_scaling.index_select(0, indices), probe_rotation.index_select(0, indices),"
+src/gaussian_mapper.cpp,2689,"ratio, elasticMaturity(probe_tf_maturity.index_select(0, indices), field.ptr()->config().elastic_entry_maturity));"
+src/gaussian_mapper.cpp,2690,"attrs.xyz = xyz.index_copy(0, indices, state.xyz);"
+src/gaussian_mapper.cpp,2691,"attrs.scaling = probe_scaling.index_copy(0, indices, state.scaling);"
+src/gaussian_mapper.cpp,2692,"attrs.rotation = probe_rotation.index_copy(0, indices, state.rotation);"
+src/gaussian_mapper.cpp,2705,"keyframe->original_image_.to(xyz.device()), height, width);"
+src/gaussian_mapper.cpp,2710,"const auto metrics = torch::stack({loss_utils::psnr(rendered.image, gt).to(torch::kDouble),"
+src/gaussian_mapper.cpp,2712,"selector_inputs.at({selector_id, ratio}).second[1]}).to(torch::kCPU);"
+src/gaussian_mapper.cpp,2714,"metrics[0].item<double>(), 0,"
+src/gaussian_mapper.cpp,2715,"static_cast<int64_t>(metrics[1].item<double>()),"
+src/gaussian_mapper.cpp,2717,"metrics[2].item<double>(),"
+src/gaussian_mapper.cpp,2718,"double(ratio) * xyz.size(0), metrics[2].item<double>()};"
+src/gaussian_mapper.cpp,2821,std::vector<GlobalGISnapshotCache::Metadata> metadata;
+src/gaussian_mapper.cpp,2838,"std::map<uint64_t, std::vector<uint64_t>> authoritative;"
+src/gaussian_mapper.cpp,2908,auto gt = camera->original_image_.to(gaussians_->xyz_.device());
+src/gaussian_mapper.cpp,2916,const double full_value = full_loss.detach().item<double>();
+src/gaussian_mapper.cpp,2926,"? std::vector<std::size_t>{shared_transform_mlp_group_index_, shared_transform_grid_group_index_}"
+src/gaussian_mapper.cpp,2927,: std::vector<std::size_t>{};
+src/gaussian_mapper.cpp,2945,"std::vector<GuardObjective> objectives{{""replay_full"", camera->fid_, true, 1.0f},"
+src/gaussian_mapper.cpp,2956,"std::vector<double> before, after;"
+src/gaussian_mapper.cpp,2958,"before.push_back(evaluation.evaluate(j, preview, nullptr).item<double>());"
+src/gaussian_mapper.cpp,2961,"after.push_back(evaluation.evaluate(j, preview, &candidate).item<double>());"
+src/gaussian_mapper.cpp,3074,"const auto positions = indices.defined() ? xyz.index_select(0, indices) : xyz;"
+src/gaussian_mapper.cpp,3075,"const auto rotations = indices.defined() ? rotation.index_select(0, indices) : rotation;"
+src/gaussian_mapper.cpp,3076,"const auto scales = indices.defined() ? scaling.index_select(0, indices) : scaling;"
+src/gaussian_mapper.cpp,3122,torch::nonzero(selector_mask.detach() > 0.0f).reshape({-1});
+src/gaussian_mapper.cpp,3129,"const auto compact_mask = selector_mask.index_select(0, compact_to_global);"
+src/gaussian_mapper.cpp,3135,"auto inside = torch::zeros({compact_count}, xyz.options().dtype(torch::kBool));"
+src/gaussian_mapper.cpp,3140,"const auto compact_maturity = tf_maturity.index_select(0, compact_to_global);"
+src/gaussian_mapper.cpp,3144,"const auto raw_compact = gaussians_->protection_.maturity.index_select(0, compact_to_global);"
+src/gaussian_mapper.cpp,3148,const auto tf_local_indices = torch::nonzero(transform_mask).reshape({-1});
+src/gaussian_mapper.cpp,3151,"candidate_maturity = elasticMaturity(compact_maturity.index_select(0, tf_local_indices), entry);"
+src/gaussian_mapper.cpp,3162,"selected_input.xyz.index_select(0, tf_local_indices),"
+src/gaussian_mapper.cpp,3163,"selected_input.scaling.index_select(0, tf_local_indices),"
+src/gaussian_mapper.cpp,3164,"selected_input.rotation.index_select(0, tf_local_indices),"
+src/gaussian_mapper.cpp,3166,selected_input.xyz = selected_input.xyz.index_copy(
+src/gaussian_mapper.cpp,3168,selected_input.scaling = selected_input.scaling.index_copy(
+src/gaussian_mapper.cpp,3170,selected_input.rotation = selected_input.rotation.index_copy(
+src/gaussian_mapper.cpp,3193,? viewpoint_cam->original_image_.to(gt_image.device()) : gt_image;
+src/gaussian_mapper.cpp,3211,const auto supervised_indices = compact_to_global.index_select(
+src/gaussian_mapper.cpp,3247,result.loss = selector_loss.detach().item<double>();
+src/gaussian_mapper.cpp,3260,"<< "" expected_active="" << mixed_probability.detach().sum().item<float>()"
+src/gaussian_mapper.cpp,3355,torch::Tensor point_not_transformed_flags = torch::full(
+src/gaussian_mapper.cpp,3372,"torch::cat({point_not_transformed_flags,"
+src/gaussian_mapper.cpp,3373,"torch::full({num_new_points}, true,"
+src/gaussian_mapper.cpp,3508,"std::vector<float>,"
+src/gaussian_mapper.cpp,3509,"std::vector<float>,"
+src/gaussian_mapper.cpp,3614,"std::vector<std::pair<std::size_t, float>> vec(kfs_loss_.begin(),"
+src/gaussian_mapper.cpp,3616,"// std::vector<std::pair<std::size_t, int>>"
+src/gaussian_mapper.cpp,3685,std::vector<unsigned long> kfids_to_erase;
+src/gaussian_mapper.cpp,3716,.to(device_type_);
+src/gaussian_mapper.cpp,3720,.to(device_type_);
+src/gaussian_mapper.cpp,3729,"colors = colors.permute({1, 2, 0}).flatten(0, 1).contiguous();"
+src/gaussian_mapper.cpp,3749,"torch::cat({depth_cache_points_, points3D_valid}, /*dim=*/0);"
+src/gaussian_mapper.cpp,3751,"torch::cat({depth_cache_colors_, colors_valid}, /*dim=*/0);"
+src/gaussian_mapper.cpp,3784,"disp = disp.flatten(0, 1).contiguous();"
+src/gaussian_mapper.cpp,3787,"points3D = points3D.permute({1, 2, 0}).flatten(0, 1).contiguous();"
+src/gaussian_mapper.cpp,3790,"colors = colors.permute({1, 2, 0}).flatten(0, 1).contiguous();"
+src/gaussian_mapper.cpp,3793,torch::Tensor point_valid_flags = torch::full(
+src/gaussian_mapper.cpp,3831,"torch::cat({depth_cache_points_, points3D_valid}, /*dim=*/0);"
+src/gaussian_mapper.cpp,3833,"torch::cat({depth_cache_colors_, colors_valid}, /*dim=*/0);"
+src/gaussian_mapper.cpp,3844,"rgb = rgb.permute({1, 2, 0}).flatten(0, 1).contiguous();"
+src/gaussian_mapper.cpp,3847,"depth = depth.flatten(0, 1).contiguous();"
+src/gaussian_mapper.cpp,3850,torch::Tensor point_valid_flags = torch::full(
+src/gaussian_mapper.cpp,3900,"torch::cat({depth_cache_points_, points3D_valid}, /*dim=*/0);"
+src/gaussian_mapper.cpp,3902,"torch::cat({depth_cache_colors_, colors_valid}, /*dim=*/0);"
+src/gaussian_mapper.cpp,4279,auto aabb_min = transform_field_->aabbMin().detach().cpu();
+src/gaussian_mapper.cpp,4280,auto aabb_max = transform_field_->aabbMax().detach().cpu();
+src/gaussian_mapper.cpp,4282,"state[""aabb_min""].append(aabb_min.index({i}).item<float>());"
+src/gaussian_mapper.cpp,4283,"state[""aabb_max""].append(aabb_max.index({i}).item<float>());"
+src/gaussian_mapper.cpp,4321,std::vector<std::size_t> recent_ids = recent_window_importance_
+src/gaussian_mapper.cpp,4322,? recent_window_importance_->keyframeIds() : std::vector<std::size_t>{};
+src/gaussian_mapper.cpp,4323,std::vector<std::shared_ptr<GaussianKeyframe>> all_keyframes;
+src/gaussian_mapper.cpp,4328,: std::vector<HistoricalOutlierView>{};
+src/gaussian_mapper.cpp,4330,"std::map<std::string, std::vector<uint64_t>> bank_ids;"
+src/gaussian_mapper.cpp,4331,"bank_ids[""RecentWindow""] = std::vector<uint64_t>(recent_ids.begin(), recent_ids.end());"
+src/gaussian_mapper.cpp,4334,"bank_ids[""GlobalGI anchor""] = std::vector<uint64_t>(bank.anchors().begin(), bank.anchors().end());"
+src/gaussian_mapper.cpp,4335,"bank_ids[""GlobalGI representative""] = std::vector<uint64_t>(bank.representatives().begin(), bank.representatives().end());"
+src/gaussian_mapper.cpp,4918,"std::vector<float> dist_coeff = {k1, k2, p1, p2, k3};"

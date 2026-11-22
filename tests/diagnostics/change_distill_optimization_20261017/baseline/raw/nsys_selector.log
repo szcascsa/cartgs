@@ -1,0 +1,45 @@
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=CORRECTED_MATURE tf_scope=NONE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=5 selector_epochs=5 tf_epochs=5 batch_size=8192 ratios=4 selector_scope=CORRECTED_MATURE tf_scope=NONE
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/5 loss=0.0036 primary_loss=0.0036 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/5 loss=0.0038 primary_loss=0.0035 anchor_loss=0.0003 delta_prev=0.0002 trend=UP steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/5 loss=0.0036 primary_loss=0.0032 anchor_loss=0.0005 delta_prev=-0.0002 trend=DOWN steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/5 loss=0.0035 primary_loss=0.0032 anchor_loss=0.0003 delta_prev=-0.0001 trend=DOWN steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/5 loss=0.0035 primary_loss=0.0032 anchor_loss=0.0003 delta_prev=-0.0001 trend=DOWN steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/5 loss=0.0034 primary_loss=0.0031 anchor_loss=0.0003 delta_prev=-0.0001 trend=DOWN steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD] event=1 count=29687 anchors=15202 pre=0.0036 post=0.0031 anchor_pre=0.0000 anchor_post=0.0003 steps=20 epochs=5 lr_micro=100.0000 time_ms=276.8849
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=20 tf_steps=0 skipped_outside=0
+[PERF RESULT] cold cpu_ms=349.679 cuda_ms=349.671
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=CORRECTED_MATURE tf_scope=NONE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=4 selector_scope=CORRECTED_MATURE tf_scope=NONE
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/1 loss=0.0036 primary_loss=0.0036 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/1 loss=0.0038 primary_loss=0.0035 anchor_loss=0.0003 delta_prev=0.0002 trend=UP steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD] event=1 count=29687 anchors=15202 pre=0.0036 post=0.0035 anchor_pre=0.0000 anchor_post=0.0003 steps=4 epochs=1 lr_micro=100.0000 time_ms=55.6965
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=4 tf_steps=0 skipped_outside=0
+[PERF RESULT] warmup cpu_ms=77.0681 cuda_ms=77.0616
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=CORRECTED_MATURE tf_scope=NONE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=1 selector_epochs=1 tf_epochs=1 batch_size=8192 ratios=4 selector_scope=CORRECTED_MATURE tf_scope=NONE
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/1 loss=0.0036 primary_loss=0.0036 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/1 loss=0.0038 primary_loss=0.0035 anchor_loss=0.0003 delta_prev=0.0002 trend=UP steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD] event=1 count=29687 anchors=15202 pre=0.0036 post=0.0035 anchor_pre=0.0000 anchor_post=0.0003 steps=4 epochs=1 lr_micro=100.0000 time_ms=55.3524
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=4 tf_steps=0 skipped_outside=0
+[PERF RESULT] warmup cpu_ms=76.5507 cuda_ms=76.544
+[ChangeCoordinator] event=1 type=LOCAL_GEOMETRY flags=1 mapping_iter=6207 snapshot_count=85653 corrected_groups=144 selector_scope=CORRECTED_MATURE tf_scope=NONE ratios=4 aabb_changed=0
+[CD BEGIN] event=1 type=LOCAL_GEOMETRY mapping_iter=6207 epochs=5 selector_epochs=5 tf_epochs=5 batch_size=8192 ratios=4 selector_scope=CORRECTED_MATURE tf_scope=NONE
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=0/5 loss=0.0036 primary_loss=0.0036 anchor_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=1/5 loss=0.0038 primary_loss=0.0035 anchor_loss=0.0003 delta_prev=0.0002 trend=UP steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=2/5 loss=0.0036 primary_loss=0.0032 anchor_loss=0.0005 delta_prev=-0.0002 trend=DOWN steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=3/5 loss=0.0035 primary_loss=0.0032 anchor_loss=0.0003 delta_prev=-0.0001 trend=DOWN steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=4/5 loss=0.0035 primary_loss=0.0032 anchor_loss=0.0003 delta_prev=-0.0001 trend=DOWN steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY epoch=5/5 loss=0.0034 primary_loss=0.0031 anchor_loss=0.0003 delta_prev=-0.0001 trend=DOWN steps=4 count=29687 audit_anchors=15202
+[SELECTOR CD] event=1 count=29687 anchors=15202 pre=0.0036 post=0.0031 anchor_pre=0.0000 anchor_post=0.0003 steps=20 epochs=5 lr_micro=100.0000 time_ms=318.7865
+[CD END] event=1 type=LOCAL_GEOMETRY selector_steps=20 tf_steps=0 skipped_outside=0
+Capture range started in the application.
+Generating '/tmp/nsys-report-7570.qdstrm'
+Capture range ended in the application.
+[1/1] [0%                          ] nsys_selector.nsys-rep[1/1] [0%                          ] nsys_selector.nsys-rep[1/1] [==========49%               ] nsys_selector.nsys-rep[1/1] [========================99% ] nsys_selector.nsys-rep[1/1] [0%                          ] nsys_selector.nsys-rep[1/1] [==19%                       ] nsys_selector.nsys-rep[1/1] [========41%                 ] nsys_selector.nsys-rep[1/1] [==============61%           ] nsys_selector.nsys-rep[1/1] [=================72%        ] nsys_selector.nsys-rep[1/1] [==================76%       ] nsys_selector.nsys-rep[1/1] [========================100%] nsys_selector.nsys-rep[1/1] [========================100%] nsys_selector.nsys-rep
+[PERF RESULT] profile cpu_ms=349.333 cuda_ms=349.323
+Generated:
+    /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/baseline/raw/nsys_selector.nsys-rep

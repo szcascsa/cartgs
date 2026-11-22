@@ -1,0 +1,6 @@
+Harness revision: near_tie+relu_zero+activation_chain+adam_defined_zero
+FAIL n1/scalar_ratio/near_tie/hard max_abs=1
+FAIL n1/row_ratio/near_tie/hard max_abs=1
+FAIL n31/scalar_ratio/near_tie/hard max_abs=1
+FAIL n31/row_ratio/near_tie/hard max_abs=1
+candidate=warp device=cuda steps=0 failures=4

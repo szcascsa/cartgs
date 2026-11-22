@@ -1,0 +1,72 @@
+{
+  "all_passed": true,
+  "files_verified": 281,
+  "scenes": {
+    "fr1_room": {
+      "all_passed": true,
+      "N_candidate": 50330,
+      "new_h_over_d50": 32.0,
+      "new_roots": 1221,
+      "aggregate_max_abs": 0.0,
+      "old_progressive_delta": [
+        0.10388745136142497,
+        0.0016367006005708618,
+        0.020476915821525665,
+        0.03905033917160594
+      ],
+      "new_progressive_delta": [
+        0.14137823093011548,
+        0.010755681103063353,
+        -0.0002510414360443747,
+        0.03863800238378445
+      ]
+    },
+    "fr1_xyz": {
+      "all_passed": true,
+      "N_candidate": 23643,
+      "new_h_over_d50": 32.0,
+      "new_roots": 440,
+      "aggregate_max_abs": 0.0,
+      "old_progressive_delta": [
+        0.250819700735585,
+        -0.11458529366387182,
+        -0.11967489454481495,
+        -0.04093247872811645
+      ],
+      "new_progressive_delta": [
+        -0.16581731372409436,
+        -0.04718241868195605,
+        -0.027867599769873408,
+        0.002827962239585702
+      ]
+    },
+    "fr2_xyz": {
+      "all_passed": true,
+      "N_candidate": 43059,
+      "new_h_over_d50": 32.0,
+      "new_roots": 4110,
+      "aggregate_max_abs": 0.0,
+      "old_progressive_delta": [
+        -0.0904697760557518,
+        -0.05778831090682601,
+        -0.04152865287585428,
+        0.028432308099208825
+      ],
+      "new_progressive_delta": [
+        -0.026396286793243462,
+        -0.051453712659004225,
+        -0.00026306739220416375,
+        -0.002381495940380063
+      ]
+    }
+  },
+  "primary_gates_recomputed": [
+    true,
+    true,
+    false,
+    true
+  ],
+  "strong_recomputed": false,
+  "independent_replay_rows": 234064,
+  "bundle_sha256": "6dcec8ab42a78d2a491f3120f52d923e474d9f0403cad73e7d781153b1db821a"
+}

@@ -1,0 +1,97 @@
+{
+  "all_passed": true,
+  "reference_exact_iterations": [
+    1000,
+    2000,
+    3000,
+    4000,
+    5000,
+    6000,
+    7000,
+    8000,
+    9000,
+    10000,
+    11000,
+    12000,
+    13000,
+    14000,
+    15000,
+    16000
+  ],
+  "raw_teacher_only": true,
+  "model": {
+    "scene": "fr1_room",
+    "seed": 2026,
+    "arm": "shadow",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model/16900_shutdown",
+    "N": 56996,
+    "training": {
+      "state": "success",
+      "exit_code": 0,
+      "elapsed_s": 181.89864419028163,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_orb.yaml",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_mapper.yaml",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/associations.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_shadow/model",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_shadow.yaml"
+      ],
+      "peak_ram_kib": 4624732,
+      "peak_vram_mib": 4869.0
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 1405,
+        "full_renders": 1405,
+        "gaussian_step_calls": 7029,
+        "gaussian_updates": 7029,
+        "lod_attempts": 5624,
+        "lod_nonfinite": 0,
+        "lod_renders": 5624,
+        "mappings": 7029,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          1406,
+          1406,
+          1406,
+          1406
+        ],
+        "selector_commits": 5624,
+        "stats": 1405,
+        "tf_commits": 3224,
+        "topology": 13
+      },
+      "selector_step": 15495,
+      "tail": {
+        "full_backwards": 9871,
+        "full_renders": 9871,
+        "gaussian_step_calls": 19742,
+        "gaussian_updates": 19742,
+        "lod_attempts": 9871,
+        "lod_nonfinite": 0,
+        "lod_renders": 9871,
+        "mappings": 9871,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          2468,
+          2468,
+          2468,
+          2467
+        ],
+        "selector_commits": 9871,
+        "stats": 9871,
+        "tf_commits": 9871,
+        "topology": 19
+      },
+      "tf_updates": 13095,
+      "ultra_light_mode": 1
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "src/selector_cuda.cu": "127037d009d9ba091e4b0ae8657a4cfd35ed9d27df99f4a3b7b68ac7b418db75",
+  "src/selector_cuda.cpp": "1890228a4161c78c5140b46409a4082d2d04828e510f2391d6a12708caee57a0",
+  "include/selector_cuda.h": "9b9b02c2f56b9a37777070b49125ad366a82f6d5bf0124247606ddaf0bb4da8c"
+}

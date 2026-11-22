@@ -1,0 +1,52 @@
+{
+  "scenes": [
+    "fr1_room",
+    "fr1_xyz",
+    "fr2_xyz"
+  ],
+  "arms": [
+    "A",
+    "B",
+    "C0",
+    "P0",
+    "C32",
+    "P32"
+  ],
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "lambda_value": 32,
+  "lambda_sweep": false,
+  "world_origin": [
+    0,
+    0,
+    0
+  ],
+  "candidate": "valid AND observed",
+  "maturity": 1,
+  "K": "floor(ratio*N+.5)",
+  "root32": "h_L1=32*d50, h_L2=16*d50, h_L3=8*d50; d50=median(2*cbrt(activated scale product)) over candidates; no search or occupied-count target",
+  "unchanged": "Raw SI/Bank/geometry/3 reps/Q=.80/maxL3/octree/C score/P ancestor-conditioned unlock/independent residual/TF/Master/renderer/metrics/eval views",
+  "baseline_gate": "rebuild full A/B/C0/P0 ranking, same-K and selected sets exact; rerender all baseline views; per-view and aggregate max_abs<=1e-6; ALL scenes pass before any C32/P32 quality",
+  "primary_gate_A": "fr2_xyz 1% (P32-C32)-(P0-C0)>=+.05 dB",
+  "primary_gate_B": "fr1_xyz mean5/10% (P32-C32)-(P0-C0)>=+.05 dB",
+  "primary_gate_C": "fr1_xyz 1% P32-C32>=+.10 dB",
+  "primary_gate_D": "fr1_room four-ratio mean(P32-C32)>=mean(P0-C0)-.03 dB",
+  "primary_support": "all A/B/C/D pass",
+  "strong": "each of3 scenes mean(P32-C32)>=0; >=2 scenes positive1%; no ratio P32-C32<-.05; report primary gate separately",
+  "C_preservation_diagnostic": "PSNR ±.02 dB equivalence: YES if all12 C32-C0>=-.02; NO if all12<-.02; MIXED otherwise; report SSIM/LPIPS/photo tradeoffs separately",
+  "Q3_Q4": "YES if respective A/B gate passes; PARTIAL if positive recovery below+.05; NO otherwise",
+  "Q5": "YES iff gate C passes",
+  "Q6": "YES iff all primary gates pass, NO iff no reduction in negative-outside-equivalence cases and gate A/B fail; otherwise MIXED; report all signed deltas, std and worst loss",
+  "no_new_F1_F3": true,
+  "raw_contribution_renders": 0,
+  "optimizer_updates": 0,
+  "runtime_is_gate": false,
+  "production_changed": false,
+  "commit": false,
+  "stage": false,
+  "push": false
+}

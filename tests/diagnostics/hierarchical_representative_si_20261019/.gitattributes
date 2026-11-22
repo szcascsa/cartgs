@@ -1,0 +1,2 @@
+# Keep archived evidence bytes stable across Windows/Linux checkouts.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

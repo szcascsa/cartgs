@@ -1,0 +1,275 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -65,6 +65,7 @@
+ endif()
+ 
+ add_library(transform_field_cuda STATIC
++    src/change_distill_transport.cu
+     src/transform_field_cuda.cpp src/transform_field_cuda.cu
+     src/transform_field_cuda_neural.cu src/transform_field_cuda_regularization.cu
+     src/transform_field_cuda_optimizer.cpp src/transform_field_cuda_optimizer.cu
+diff --git a/src/change_distill.cpp b/src/change_distill.cpp
+--- a/src/change_distill.cpp
++++ b/src/change_distill.cpp
+@@ -1,6 +1,7 @@
+ #include "include/change_management.h"
+ #include "include/frozen_teacher_target_cache.h"
+ #include "include/transform_field_cuda_optimizer.h"
++#include "include/change_distill_transport_cuda.h"
+ 
+ #include <algorithm>
+ #include <array>
+@@ -36,37 +37,97 @@
+   return capture.mature_indices_before.slice(0, 0, 0);
+ }
+ 
+-// Resolve membership on the host from one event-local ID table. Keep each
+-// group's original GEMM shape and arithmetic, including its point ordering.
++// Event-local batch plans preserve the original group order, GEMM shape and rows.
++struct TransportBatchPlan {
++  struct Segment { size_t group; int64_t begin, end; };
++  torch::Tensor positions, group_indices;
++  std::vector<Segment> segments;
++};
++
+ class TargetTransport {
+  public:
+   explicit TargetTransport(const ChangeEvent& event) : groups_(event.correction_groups) {
+     if (!groups_.empty()) group_ids_ = event.correction_group_id.cpu().contiguous();
++    if (!groups_.empty() && event.correction_group_id.is_cuda()) {
++      const auto options=event.correction_groups.front().indices.options().dtype(torch::kFloat32);
++      std::vector<torch::Tensor> matrices, rotations;
++      std::vector<float> constants;
++      for (const auto& g : groups_) {
++        matrices.push_back(g.transform_4x4.defined() ? g.transform_4x4.reshape({16}) : torch::empty({16},options));
++        rotations.push_back(g.rotation_wxyz.defined() ? g.rotation_wxyz.reshape({4}) : torch::empty({4},options));
++        constants.insert(constants.end(),{g.scale,std::log(g.scale),static_cast<float>(g.changed_attributes)});
++      }
++      metadata_=torch::cat({torch::stack(matrices),torch::stack(rotations),
++          torch::tensor(constants,torch::kFloat32).reshape({static_cast<int64_t>(groups_.size()),3}).to(options.device())},1).contiguous();
++    }
+   }
+ 
+-  GaussianAttrState apply(GaussianAttrState target, const torch::Tensor& indices) const {
++  // Called once for each initial evaluation population, before the ratio loop.
++  // One population D2H and one packed H2D, never a per-miss roundtrip.
++  std::vector<TransportBatchPlan> prepare(const torch::Tensor& indices, int64_t batch_size) const {
++    std::vector<TransportBatchPlan> plans((indices.numel() + batch_size - 1) / batch_size);
++    if (groups_.empty() || indices.numel() == 0) return plans;
++    const auto host = indices.cpu().contiguous();
++    const auto* ids = host.data_ptr<int64_t>();
++    const auto* groups = group_ids_.data_ptr<int64_t>();
++    std::vector<int64_t> packed, packed_groups;
++    packed.reserve(indices.numel());
++    for (size_t b = 0; b < plans.size(); ++b) {
++      const auto begin = static_cast<int64_t>(b) * batch_size;
++      const auto end = std::min(begin + batch_size, indices.numel());
++      std::vector<std::vector<int64_t>> local(groups_.size());
++      for (int64_t i = begin; i < end; ++i) {
++        const auto g = groups[ids[i]];
++        if (g >= 0) local[g].push_back(i - begin);
++      }
++      for (size_t g = 0; g < local.size(); ++g) {
++        if (local[g].empty()) continue;
++        const auto offset = static_cast<int64_t>(packed.size());
++        packed.insert(packed.end(), local[g].begin(), local[g].end());
++        packed_groups.insert(packed_groups.end(),local[g].size(),g);
++        plans[b].segments.push_back({g, offset, static_cast<int64_t>(packed.size())});
++      }
++    }
++    if (!packed.empty()) {
++      const auto count=static_cast<int64_t>(packed.size());
++      packed.insert(packed.end(),packed_groups.begin(),packed_groups.end());
++      const auto data=torch::tensor(packed,torch::kLong).reshape({2,count}).to(indices.device());
++      for (auto& plan : plans) { plan.positions=data[0]; plan.group_indices=data[1]; }
++    }
++    return plans;
++  }
++
++  GaussianAttrState apply(GaussianAttrState target, const torch::Tensor& indices,
++                          const TransportBatchPlan* plan = nullptr) const {
+     if (groups_.empty() || indices.numel() == 0) return target;
+     torch::NoGradGuard no_grad;
+-    const auto host_indices = indices.cpu().contiguous();
+-    const auto* ids = host_indices.data_ptr<int64_t>();
+-    const auto* group_ids = group_ids_.data_ptr<int64_t>();
+-    std::vector<std::vector<int64_t>> local(groups_.size());
+-    for (int64_t i = 0; i < indices.numel(); ++i) {
+-      const auto g = group_ids[ids[i]];
+-      if (g >= 0) local[g].push_back(i);
+-    }
+-    std::vector<int64_t> packed;
+-    packed.reserve(indices.numel());
+-    for (const auto& group : local) packed.insert(packed.end(), group.begin(), group.end());
+-    if (packed.empty()) return target;
+-    // A single H2D copy, instead of one dynamic nonzero/synchronization per group.
+-    const auto positions = torch::tensor(packed, torch::kLong).to(indices.device());
+-    int64_t offset = 0;
+-    for (size_t g = 0; g < groups_.size(); ++g) {
+-      if (local[g].empty()) continue;
+-      const auto positions_g = positions.slice(0, offset, offset + local[g].size());
+-      offset += local[g].size();
+-      const auto moved = applyGaussianTransform(target.select(positions_g), groups_[g]);
++    std::vector<TransportBatchPlan> fallback;
++    if (!plan) { fallback = prepare(indices, indices.numel()); plan = &fallback.front(); }
++    if (plan->segments.empty()) return target;
++    if (target.xyz.is_cuda() && target.xyz.scalar_type() == torch::kFloat32) {
++      GaussianAttrState output{target.xyz.contiguous().clone(),
++          target.log_scaling.contiguous().clone(), target.rotation.contiguous().clone()};
++      const auto base=plan->segments.front().begin, end=plan->segments.back().end;
++      const auto positions=plan->positions.slice(0,base,end);
++      const auto groups=plan->group_indices.slice(0,base,end);
++      const auto scaled=cd_transport_cuda::compactXYZ(target.xyz,positions,groups,metadata_);
++      auto product=torch::empty_like(scaled);
++      for (const auto& segment : plan->segments) {
++        const auto& correction=groups_[segment.group];
++        TORCH_CHECK(std::isfinite(correction.scale) && correction.scale > 0.0f,
++                    "Gaussian correction requires a positive finite scale");
++        if (correction.changed_attributes & toBits(GaussianAttrFlag::XYZ)) {
++          auto result=product.slice(0,segment.begin-base,segment.end-base);
++          torch::mm_out(result,scaled.slice(0,segment.begin-base,segment.end-base),
++              correction.transform_4x4.slice(0,0,3).slice(1,0,3));
++        }
++      }
++      cd_transport_cuda::scatterCompact(target,output,positions,groups,metadata_,product);
++      return output;
++    }
++    for (const auto& segment : plan->segments) {
++      const auto positions_g = plan->positions.slice(0, segment.begin, segment.end);
++      const auto moved = applyGaussianTransform(target.select(positions_g), groups_[segment.group]);
+       target = {target.xyz.index_copy(0, positions_g, moved.xyz),
+                 target.log_scaling.index_copy(0, positions_g, moved.log_scaling),
+                 target.rotation.index_copy(0, positions_g, moved.rotation)};
+@@ -76,12 +137,13 @@
+ 
+  private:
+   const std::vector<CorrectionGroup>& groups_;
+-  torch::Tensor group_ids_;
++  torch::Tensor group_ids_, metadata_;
+ };
+ 
+ GaussianAttrState transportTarget(GaussianAttrState target, const torch::Tensor& indices,
+-                                  const TargetTransport& transport) {
+-  return transport.apply(std::move(target), indices);
++                                  const TargetTransport& transport,
++                                  const TransportBatchPlan* plan = nullptr) {
++  return transport.apply(std::move(target), indices, plan);
+ }
+ 
+ std::array<torch::Tensor, 3> tfErrors(const GaussianAttrState& student,
+@@ -330,11 +392,15 @@
+     std::vector<FrozenTeacherTargetCache> teacher_targets;
+     for (std::size_t r = 0; r < context.ratios.size(); ++r)
+       teacher_targets.emplace_back(capture.snapshot_count, current.xyz.options());
+-    auto errors = [&](const torch::Tensor& batch, std::size_t r, bool fully_cached = false) {
++    auto errors = [&](const torch::Tensor& batch, std::size_t r, bool fully_cached = false, const TransportBatchPlan* plan = nullptr) {
+       const auto ratio = context.ratios[r];
+       auto packed = teacher_targets[r].get(batch, [&](const torch::Tensor& missing) {
+         auto target = transportTarget(capture.teacher_tf.ptr()->applyLogResidual(
+-            capture.old_state.select(missing), ratio), missing, transport);
++            capture.old_state.select(missing), ratio), missing, transport,
++            // Boolean missing filtering preserves order. Equal lengths prove
++            // the callback sees the complete planned batch; partial misses use
++            // the generic plan builder instead.
++            missing.numel() == batch.numel() ? plan : nullptr);
+         return torch::cat({target.xyz, target.log_scaling, target.rotation}, 1);
+       }, fully_cached);
+       GaussianAttrState target{packed.slice(1, 0, 3), packed.slice(1, 3, 6),
+@@ -345,10 +411,13 @@
+       torch::NoGradGuard no_grad;
+       std::array<double, 3> sums{};
+       if (indices.numel() == 0) return sums;
++      const auto plans = fully_cached ? std::vector<TransportBatchPlan>{}
++                                     : transport.prepare(indices, batch_size);
+       for (int64_t begin = 0; begin < indices.numel(); begin += batch_size) {
+         auto batch = indices.slice(0, begin, std::min(begin + batch_size, indices.numel()));
+         for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+-          auto loss = errors(batch, r, fully_cached);
++          auto loss = errors(batch, r, fully_cached,
++              fully_cached ? nullptr : &plans[begin / batch_size]);
+           for (int j = 0; j < 3; ++j) sums[j] += loss[j].item<double>() * batch.numel();
+         }
+       }
+diff --git a/include/change_distill_transport_cuda.h b/include/change_distill_transport_cuda.h
+new file mode 100644
+--- /dev/null
++++ b/include/change_distill_transport_cuda.h
+@@ -0,0 +1,11 @@
++#pragma once
++#include "include/gaussian_transform_ops.h"
++
++namespace cd_transport_cuda {
++// positions and groups are aligned contiguous int64 vectors in stable group order.
++torch::Tensor compactXYZ(const torch::Tensor& xyz, const torch::Tensor& positions,
++                         const torch::Tensor& groups, const torch::Tensor& metadata);
++void scatterCompact(const GaussianAttrState& input, const GaussianAttrState& output,
++                    const torch::Tensor& positions, const torch::Tensor& groups,
++                    const torch::Tensor& metadata, const torch::Tensor& product);
++}
+diff --git a/src/change_distill_transport.cu b/src/change_distill_transport.cu
+new file mode 100644
+--- /dev/null
++++ b/src/change_distill_transport.cu
+@@ -0,0 +1,61 @@
++#include "include/change_distill_transport_cuda.h"
++#include <c10/cuda/CUDAGuard.h>
++#include <c10/cuda/CUDAException.h>
++#include <c10/cuda/CUDAStream.h>
++#include <cmath>
++
++namespace cd_transport_cuda {
++namespace {
++struct ReadState {
++  const float *x, *s, *q;
++  int64_t xs0, xs1, ss0, ss1, qs0, qs1;
++};
++// Float metadata rows: matrix[16], wxyz[4], scale, log(scale), flags.
++// The reduction trees and explicit cross-product FMAs match LibTorch 2.3.1.
++// Keep --fmad=false: only the original cross product uses explicit FMA.
++__global__ void compactXYZKernel(const float* x, int64_t s0, int64_t s1,
++    const int64_t* pos, const int64_t* groups, const float* meta, int64_t n, float* out) {
++  const int64_t i=blockIdx.x*blockDim.x+threadIdx.x;
++  if(i<n*3) out[i]=x[pos[i/3]*s0+(i%3)*s1]*meta[groups[i/3]*23+20];
++}
++__global__ void scatterCompactKernel(ReadState in, float* x, float* s, float* q,
++    const int64_t* pos, const int64_t* groups, const float* meta,
++    const float* product, int64_t n) {
++  const int64_t i=blockIdx.x*blockDim.x+threadIdx.x;
++  if(i>=n) return;
++  const auto p=pos[i]; const auto* m=meta+groups[i]*23;
++  const auto flags=static_cast<unsigned>(m[22]);
++  if(flags&1) for(int j=0;j<3;++j) x[p*3+j]=product[i*3+j]+m[12+j];
++  if(flags&2) for(int j=0;j<3;++j) s[p*3+j]=in.s[p*in.ss0+j*in.ss1]+m[21];
++  if(flags&4) {
++    const float a=m[16], b=m[17], c=m[18], d=m[19];
++    const float w=in.q[p*in.qs0], u=in.q[p*in.qs0+in.qs1];
++    const float v=in.q[p*in.qs0+2*in.qs1], z=in.q[p*in.qs0+3*in.qs1];
++    const float o0=a*w-((b*u+d*z)+c*v);
++    const float o1=(a*u+w*b)+__fmaf_rn(c,z,-(d*v));
++    const float o2=(a*v+w*c)+__fmaf_rn(d,u,-(b*z));
++    const float o3=(a*z+w*d)+__fmaf_rn(b,v,-(c*u));
++    const float norm=fmaxf(sqrtf((o0*o0+o1*o1)+(o2*o2+o3*o3)),1e-12f);
++    q[p*4]=o0/norm;q[p*4+1]=o1/norm;q[p*4+2]=o2/norm;q[p*4+3]=o3/norm;
++  }
++}
++}
++torch::Tensor compactXYZ(const torch::Tensor& x,const torch::Tensor& pos,
++                         const torch::Tensor& groups,const torch::Tensor& meta) {
++  const c10::cuda::CUDAGuard guard(x.device());
++  auto out=torch::empty({pos.numel(),3},x.options().requires_grad(false));
++  if(pos.numel()) compactXYZKernel<<<(pos.numel()*3+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(
++      x.data_ptr<float>(),x.stride(0),x.stride(1),pos.data_ptr<int64_t>(),groups.data_ptr<int64_t>(),meta.data_ptr<float>(),pos.numel(),out.data_ptr<float>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
++}
++void scatterCompact(const GaussianAttrState& input,const GaussianAttrState& output,
++                    const torch::Tensor& pos,const torch::Tensor& groups,
++                    const torch::Tensor& meta,const torch::Tensor& product) {
++  const c10::cuda::CUDAGuard guard(input.xyz.device());
++  const ReadState in{input.xyz.data_ptr<float>(),input.log_scaling.data_ptr<float>(),input.rotation.data_ptr<float>(),
++      input.xyz.stride(0),input.xyz.stride(1),input.log_scaling.stride(0),input.log_scaling.stride(1),input.rotation.stride(0),input.rotation.stride(1)};
++  if(pos.numel()) scatterCompactKernel<<<(pos.numel()+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(
++      in,output.xyz.data_ptr<float>(),output.log_scaling.data_ptr<float>(),output.rotation.data_ptr<float>(),pos.data_ptr<int64_t>(),groups.data_ptr<int64_t>(),meta.data_ptr<float>(),product.data_ptr<float>(),pos.numel());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();
++}
++}

@@ -1,0 +1,23 @@
+{
+  "baseline_git": "63a7bf9",
+  "algorithm_seeds": [0, 1, 2, 42, 123],
+  "algorithm_seed_scope": "GaussianMapper constructor: initialization_seed, std::srand and torch::manual_seed. ORB-SLAM3 internal RNG initialization is unchanged; asynchronous scheduling is not deterministic.",
+  "scenes": {
+    "room": {"committed_updates": 5000, "mapping_work_seconds": 50},
+    "desk": {"committed_updates": 3000, "mapping_work_seconds": 22},
+    "xyz": {"committed_updates": 15000, "mapping_work_seconds": 130},
+    "long": {"committed_updates": 8000, "mapping_work_seconds": 75}
+  },
+  "mapping_time_budget_reason": "Pre-registered below the old legacy Mapping work totals, so both backends can reach the same work-time budget before natural SLAM shutdown.",
+  "fixed_map_updates": 1000,
+  "fixed_map_quality_margins": {"psnr": 0.02, "ssim": 0.0002, "lpips": 0.0002},
+  "online_noninferiority_margins": {"psnr": 0.10, "ssim": 0.002, "lpips": 0.005, "trajectory_relative": 0.05, "translation_epsilon_m": 0.0001, "rotation_epsilon_unitless": 0.0001},
+  "bootstrap": {"resamples": 20000, "seed": 20261015, "primary": "paired by algorithm seed", "sensitivity": "independent backend resampling", "interval": "two-sided percentile 95% CI"},
+  "evaluation_ratios": ["full", 0.01, 0.05, 0.10, 0.15],
+  "full_online_runs_per_backend_scene": 5,
+  "equal_work_and_time_runs_per_backend_scene": 1,
+  "order": "alternate backend order within matched seed pairs",
+  "all_tie": "diagnostic_only",
+  "legacy_minmax": "descriptive_only_never_a_gate",
+  "default_backend": "legacy_until_all_new_gates_pass"
+}

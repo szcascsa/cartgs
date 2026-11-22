@@ -1,0 +1,166 @@
+--- a/python/distill_compensation.py
++++ b/python/distill_compensation.py
+@@ -106,23 +106,46 @@
+     return train, valid
+ 
+ 
++def attribute_objective(losses, residual_weight=1.):
++    return sum(value * (residual_weight if name == 'residual' else 1.)
++        for name, value in losses.items())
++
++
++def training_ratio(ratios, index, modes, seed, jitter=0.):
++    pair = index // modes
++    ratio = ratios[pair % len(ratios)]
++    if jitter:
++        generator = torch.Generator().manual_seed(seed + (pair+1)*104729)
++        probability, interval, phase = torch.rand(3, generator=generator).tolist()
++        if probability < jitter:
++            interval = min(int(interval*(len(ratios)-1)), len(ratios)-2)
++            low, high = ratios[interval:interval+2]
++            ratio = math.exp(math.log(low) + phase*(math.log(high)-math.log(low)))
++    return ratio
++
++
+ @torch.no_grad()
+-def validation_loss(student, source, views, ratios, seed, image_weight=0.):
++def validation_loss(student, source, views, ratios, seed, image_weight=0.,
++                    residual_weight=1., metric='combined'):
+     from renderer import render_prepared
+     generator = torch.Generator().manual_seed(seed)
+     rows = []
+     for frame in views:
+         for ratio in ratios:
+             for local in source.local_modes:
+-                case = source.sample(frame, ratio, local, 0 if image_weight else 2048, generator)
++                render_image = bool(image_weight or metric == 'image_mse')
++                case = source.sample(frame, ratio, local, 0 if render_image else 2048, generator)
+                 losses = distillation_loss(student, case, student_residual(student, case))
+                 if any(not torch.isfinite(v) for v in losses.values()):
+                     raise RuntimeError('Nonfinite validation loss')
+-                score = sum(losses.values())
+-                if image_weight:
++                score = attribute_objective(losses, residual_weight)
++                if render_image:
+                     teacher_image = render_prepared(case['camera'],case['packet'],source.scene.background)['render']
+                     image = render_student(student,case,source.scene.background,source.runtime._base.pc.active_sh_degree)
+-                    score = score + image_weight*(image-teacher_image).square().mean()
++                    image_mse = (image-teacher_image).square().mean()
++                    score = image_mse if metric == 'image_mse' else score + image_weight*image_mse
++                if not torch.isfinite(score):
++                    raise RuntimeError('Nonfinite validation objective')
+                 rows.append(float(score))
+     return float(np.mean(rows))
+ 
+@@ -139,12 +162,16 @@
+     valid_views = [valid_views[int(i)] for i in np.linspace(0, len(valid_views)-1, min(3, len(valid_views)), dtype=int)]
+     config = dict(seed=args.seed, ratios=args.ratios, learning_rate=args.lr, batch_points=args.batch_points,
+         image_every=args.image_every, image_weight=args.image_weight, calibration_cases=args.calibration_cases,
+-        validation_views=valid_views, validation_ratios=list(args.ratios),
++        validation_views=valid_views, validation_ratios=list(args.validation_ratios or args.ratios),
+         architecture='51+ratio3+view8 -> 32 -> 32 -> four direct Heads',
+         teacher_fingerprint=source.fingerprint, teacher_checkpoint=str(source.scene.checkpoint),
+         frozen=['Master', 'Selector', 'Anchor Feature', 'normalization', 'topology'],
+         target_backend='deployment_fp32_v31_teacher', teacher_binding='tensor_content_sha256')
+     config['validation_image_weight'] = args.image_weight/args.image_every if args.image_every else 0.
++    config['residual_weight'] = args.residual_weight
++    config['validation_metric'] = args.validation_metric
++    config['ratio_jitter'] = args.ratio_jitter
++    config['paired_view_sampling'] = args.paired_view_sampling
+     config['initial_student'] = str(args.initialize) if args.initialize is not None else None
+     first_step = 0
+     best = float('inf')
+@@ -155,6 +182,10 @@
+             if key not in saved:
+                 raise ValueError('Resume validation objective changed. Start a new run with --initialize instead')
+             if saved[key] != config[key]:
++                raise ValueError('Resume configuration changed at ' + key)
++        for key, default in [('residual_weight', 1.), ('validation_metric', 'combined'),
++                ('ratio_jitter', 0.), ('paired_view_sampling', False), ('validation_ratios', list(args.ratios))]:
++            if saved.get(key, default) != config[key]:
+                 raise ValueError('Resume configuration changed at ' + key)
+         first_step = previous['step']
+         config['initial_student'] = saved.get('initial_student')
+@@ -186,8 +217,8 @@
+         if steps and max(steps) > first_step:
+             raise ValueError('Output contains steps newer than this checkpoint. Resume into a new output directory')
+     (output/'configuration.json').write_text(json.dumps(config, indent=2, ensure_ascii=False))
+-    start_validation = validation_loss(student, source, valid_views, args.ratios, args.seed ^ 761,
+-        config['validation_image_weight'])
++    start_validation = validation_loss(student, source, valid_views, config['validation_ratios'], args.seed ^ 761,
++        config['validation_image_weight'], args.residual_weight, args.validation_metric)
+     best = start_validation
+     if args.resume is not None and (output/'best.pt').exists():
+         _, prior_best = load_student(output/'best.pt', 'cpu', source.fingerprint)
+@@ -205,21 +236,22 @@
+         if log.tell() == 0:
+             writer.writeheader()
+         for step in range(first_step, args.steps):
+-            frame = train_views[int(torch.randint(len(train_views), (), generator=generator))]
+-            cycle = len(args.ratios)*len(source.local_modes)
++            frame_generator = (torch.Generator().manual_seed(args.seed+(step+1)*19349663)
++                if args.paired_view_sampling else generator)
++            frame = train_views[int(torch.randint(len(train_views), (), generator=frame_generator))]
+             local = source.local_modes[step % len(source.local_modes)]
+-            ratio = args.ratios[(step % cycle) // len(source.local_modes)]
++            ratio = training_ratio(args.ratios, step, len(source.local_modes), args.seed, args.ratio_jitter)
+             image_step = bool(args.image_every and (step+1) % args.image_every == 0)
+             case = source.sample(frame, ratio, local, args.batch_points, generator)
+             optimizer.zero_grad(set_to_none=True)
+             residual = student_residual(student, case)
+             losses = distillation_loss(student, case, residual)
+-            loss = sum(losses.values())
++            loss = attribute_objective(losses, args.residual_weight)
+             image_loss = loss.new_zeros(())
+             image_ratio = image_local = None
+             if image_step:
+                 image_index = (step+1)//args.image_every-1
+-                image_ratio = args.ratios[(image_index//len(source.local_modes)) % len(args.ratios)]
++                image_ratio = training_ratio(args.ratios, image_index, len(source.local_modes), args.seed, args.ratio_jitter)
+                 image_local = source.local_modes[image_index % len(source.local_modes)]
+                 image_case = source.sample(frame, image_ratio, image_local)
+                 with torch.no_grad():
+@@ -237,8 +269,8 @@
+                 raise RuntimeError('Nonfinite student parameters at step ' + str(step+1))
+             value = None
+             if (step+1) % args.validate_every == 0 or step+1 == args.steps:
+-                value = validation_loss(student, source, valid_views, args.ratios, args.seed ^ 761,
+-                    config['validation_image_weight'])
++                value = validation_loss(student, source, valid_views, config['validation_ratios'], args.seed ^ 761,
++                    config['validation_image_weight'], args.residual_weight, args.validation_metric)
+                 improved = value < best
+                 best = min(best, value)
+                 metadata.update(best_validation=best, latest_validation=value)
+@@ -341,6 +373,11 @@
+     p.add_argument('--calibration-cases', type=int, default=12)
+     p.add_argument('--image-every', type=int, default=5)
+     p.add_argument('--image-weight', type=float, default=1000.)
++    p.add_argument('--residual-weight', type=float, default=1., help='原始14D残差监督权重，解码后属性项保持原权重')
++    p.add_argument('--validation-metric', choices=['combined', 'image_mse'], default='combined')
++    p.add_argument('--validation-ratios', nargs='+', type=float)
++    p.add_argument('--ratio-jitter', type=float, default=0., help='区间内对数均匀 Ratio 替换概率，0为原固定轮转')
++    p.add_argument('--paired-view-sampling', action='store_true', help='视角由seed和步号独立生成，隔离不同K对采样RNG的影响')
+     p.add_argument('--validate-every', type=int, default=500)
+     restart = p.add_mutually_exclusive_group()
+     restart.add_argument('--resume', type=Path)
+@@ -351,10 +388,19 @@
+     args = parser.parse_args()
+     if any(not math.isfinite(r) or not 0<r<=1 for r in args.ratios) or len(set(args.ratios)) != len(args.ratios):
+         parser.error('ratios must be distinct values in (0,1]')
++    if args.command == 'train' and args.validation_ratios is not None and (
++            any(not math.isfinite(r) or not 0<r<=1 for r in args.validation_ratios) or
++            len(set(args.validation_ratios)) != len(args.validation_ratios)):
++        parser.error('validation ratios must be distinct values in (0,1]')
+     if args.command=='train' and (min(args.steps,args.batch_points,args.calibration_cases,args.validate_every)<=0 or
+             args.image_every<0 or not math.isfinite(args.lr) or args.lr<=0 or
+-            not math.isfinite(args.image_weight) or args.image_weight<0):
++            not math.isfinite(args.image_weight) or args.image_weight<0 or
++            not math.isfinite(args.residual_weight) or args.residual_weight<0 or
++            not math.isfinite(args.ratio_jitter) or not 0<=args.ratio_jitter<=1):
+         parser.error('Invalid distillation budget or loss parameters')
++    if args.command == 'train' and args.ratio_jitter and (
++            len(args.ratios)<2 or args.ratios != sorted(args.ratios)):
++        parser.error('ratio jitter requires at least two increasing ratios')
+     if args.command=='evaluate' and args.frames<0:
+         parser.error('frames must be nonnegative')
+     torch.set_num_threads(2)

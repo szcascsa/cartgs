@@ -1,0 +1,38 @@
+{
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "source_run_sha256": "7bacc980c155cf66ce0941a1c81b899e66aa1cb98bbdc7f23d35b88e4d8556e4",
+  "source": "each seed's existing trained48D four-head SharedE16Split4NoRaw step12000 checkpoint; no retraining SI or map; identical A/B initial compensation function",
+  "baseline": "A: fixed copy of existing11->32 ReLU encoder; train four heads and four per-Anchor ratio latent16 tables",
+  "candidate": "B: independently copied11->32 ReLU encoder with same initial values, train only through compensation photo; heads and latent trained exactly as A",
+  "capacity": "same encoder shape, input11 and output32; same48->32->32->3/3/4/4 heads. B adds384 trainable degrees while original Selector encoder remains frozen; both compensation modules store identical parameter counts",
+  "frozen": "Master all attributes, topology, Gaussian IDs, Anchor owners centers scales, original Encoder/Selector, cameras, candidate population, all seven ratio selected sets",
+  "selection": "precompute source cached Bernoulli sets once for training and primary evaluation; same source-specific actualK across A/B; also fixed exact floor-ratio K sets sorted original logit(p)-logit(u) as secondary; never resample or change identities",
+  "loss": "original0.8L1+.2(1-fast_ssim)+.01 source expected-budget penalty; budget is frozen constant and sends no gradient. No new loss/regularizer",
+  "optimizer": "both use fresh Adam fused lr=.001 eps1e-15, no weight decay; matched head/latent state resets;12000 head steps,3000 per ratio table; private encoder12000 steps, frozen encoder0",
+  "data": "same N6838 M2066 fr1_xyz frozen map;54 Bank train at320x240,13 internal Bank holdout and45 historical nonBank at640x480",
+  "evaluation": "step0 plus final12000 all4 metrics, both cached-fixed and source same-K-fixed; no test-based LR/step/architecture selection; save4000/8000/12000 validation curve",
+  "interpolation": "unchanged per-Anchor latent interpolation at unseen2.5/7.5/12.5%; continuous logratio into same private encoder, no unseen fitting",
+  "gradient": "source Selector/Encoder have no grads and exact invariant; independent encoder only in B receives photo; other three latent tables grad=None per training step; compact K-row encoding and decoding",
+  "interpretation": "controlled continued compensation optimization, not prior from-scratch joint training. A/B difference measures adaptable private encoding freedom, does not prove harmful shared gradient competition or information loss. Two seeds share one frozen map",
+  "production_change": false,
+  "no_hparam_search": true,
+  "no_early_stop": true,
+  "no_stage_commit_push": true
+}

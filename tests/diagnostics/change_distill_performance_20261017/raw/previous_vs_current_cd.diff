@@ -1,0 +1,67 @@
+--- previous
++++ current
+@@ -97,6 +97,8 @@
+ ChangeDistillManager::ChangeDistillManager(ChangeDistillConfig config)
+     : config_(std::move(config)), rng_(config_.seed) {
+   TORCH_CHECK(config_.batch_size > 0 && config_.epochs > 0, "Invalid CD batch size or epochs");
++  TORCH_CHECK(config_.selectorEpochs() > 0 && config_.tfEpochs() > 0,
++              "CD Selector and TF epochs must be positive");
+   TORCH_CHECK(std::isfinite(config_.anchor_ratio_to_corrected) &&
+                   config_.anchor_ratio_to_corrected >= 0 && config_.anchor_max_count >= 0,
+               "Invalid CD anchor sampling parameters");
+@@ -148,7 +150,9 @@
+   const auto event_type = changeEventTypeName(event.flags);
+   std::cout << "[CD BEGIN] event=" << event.id << " type=" << event_type
+             << " mapping_iter=" << event.mapping_iter
+-            << " epochs=" << config_.epochs << " batch_size=" << batch_size
++            << " epochs=" << config_.epochs
++            << " selector_epochs=" << config_.selectorEpochs()
++            << " tf_epochs=" << config_.tfEpochs() << " batch_size=" << batch_size
+             << " ratios=" << context.ratios.size()
+             << " selector_scope=" << distillScopeName(event.selector_scope)
+             << " tf_scope=" << distillScopeName(event.tf_scope) << std::endl;
+@@ -191,7 +195,7 @@
+       std::ostringstream line;
+       line << std::fixed << std::setprecision(4)
+            << "[SELECTOR CD EPOCH] event=" << event.id << " type=" << event_type
+-           << " epoch=" << epoch << "/" << config_.epochs
++           << " epoch=" << epoch << "/" << config_.selectorEpochs()
+            << " loss=" << weighted_loss(primary, anchor)
+            << " primary_loss=" << primary << " anchor_loss=" << anchor
+            << " delta_prev=" << delta
+@@ -207,7 +211,7 @@
+     auto optimizer = independentAdam(
+         *context.normal_selector_optimizer,
+         {static_cast<double>(config_.selector_learning_rate)});
+-    for (int64_t epoch = 0; epoch < config_.epochs; ++epoch) {
++    for (int64_t epoch = 0; epoch < config_.selectorEpochs(); ++epoch) {
+       const auto steps_before = report.selector_steps;
+       if (epoch > 0 && local) anchors = sampleAnchors(unaffected, selector_indices.numel());
+       report.anchor_count = anchors.numel();
+@@ -250,7 +254,7 @@
+               << " anchors=" << report.anchor_count << " pre=" << report.selector_pre
+               << " post=" << report.selector_post << " anchor_pre=" << report.anchor_pre
+               << " anchor_post=" << report.anchor_post << " steps=" << report.selector_steps
+-              << " epochs=" << config_.epochs
++              << " epochs=" << config_.selectorEpochs()
+               << " lr_micro=" << config_.selector_learning_rate * 1000000.0
+               << " time_ms=" << elapsedMs(start);
+     std::cout << summary.str() << std::endl;
+@@ -311,7 +315,7 @@
+       std::ostringstream line;
+       line << std::fixed << std::setprecision(4)
+            << "[TF CD EPOCH] event=" << event.id << " type=" << event_type
+-           << " epoch=" << epoch << "/" << config_.epochs
++           << " epoch=" << epoch << "/" << config_.tfEpochs()
+            << " loss=" << weighted_loss(loss)
+            << " position_loss=" << loss[0] << " log_scale_loss=" << loss[1]
+            << " rotation_loss=" << loss[2] << " delta_prev=" << delta
+@@ -336,7 +340,7 @@
+           *context.normal_tf_optimizer,
+           {static_cast<double>(config_.tf_mlp_learning_rate),
+            static_cast<double>(config_.tf_grid_learning_rate)});
+-      for (int64_t epoch = 0; epoch < config_.epochs; ++epoch) {
++      for (int64_t epoch = 0; epoch < config_.tfEpochs(); ++epoch) {
+         const auto steps_before = report.tf_steps;
+         auto indices = shuffle(tf_indices);
+         for (int64_t begin = 0; begin < indices.numel(); begin += batch_size) {

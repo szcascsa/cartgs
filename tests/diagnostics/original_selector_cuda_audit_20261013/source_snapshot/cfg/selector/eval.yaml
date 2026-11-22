@@ -1,0 +1,122 @@
+%YAML:1.0
+
+
+
+Selector.enabled: 1
+Selector.target_ratios: [0.5,0.8]
+Selector.protection_enabled: 1
+Selector.temperature: 1.0
+Selector.learning_rate: 0.001
+Selector.render_loss_weight: 1.0
+Selector.gi_loss_weight: 1.0
+Selector.ratio_loss_weight: 0.01
+
+Selector.lod_render_scale: 0.5
+# 0: normal LOD loss also updates Gaussian attributes; 1: detach them.
+# Replay is disabled by the recent-window/outlier distillation design.
+Selector.detach_gaussian_parameters: 0
+Selector.replay_enabled: 0
+# 0: preserve the original CaRtGS stopping policy; non-zero: target normal KF mappings.
+Selector.max_mapping_iterations: 16400
+
+# 1: record per-mapping and final keyframe usage files; 0: disable file writes.
+Mapping.record_keyframe_used_times: 0
+
+RecentWindow.enable: 1
+RecentWindow.size: 16
+RecentWindow.ema_decay: 0.9
+Importance.ratio_aware_weight: 1
+Importance.ratio_weights: [1.0, 1.0, 1.0, 1.0]
+
+TransformField.enable: 1
+TransformField.start_iter: 3000
+TransformField.aabb_scale: 1
+TransformField.spatial_resolution: 64
+TransformField.ratio_resolution: 150
+TransformField.feature_dim: 8
+TransformField.multires: [1, 2]
+TransformField.hidden_dim: 32
+TransformField.grid_lr_init: 0.0016
+TransformField.grid_lr_final: 0.00016
+TransformField.mlp_lr_init: 0.00016
+TransformField.mlp_lr_final: 0.000016
+TransformField.lr_delay_mult: 0.01
+TransformField.lr_max_steps: 20000
+TransformField.spatial_smooth_weight: 0.0002
+TransformField.ratio_smooth_weight: 0.001
+TransformField.ratio_l1_weight: 0.0001
+TransformField.outside_identity: 1
+TransformField.mature_only: 1
+TransformField.dynamic_aabb: 1
+TransformField.aabb_check_interval: 1000
+TransformField.outside_count_threshold: 100
+TransformField.expand_margin_ratio: 0.2
+TransformField.bound_quantile_low: 0.001
+TransformField.bound_quantile_high: 0.999
+TransformField.fixed_resolution: 1
+
+ChangeDistill.enable: 1
+ChangeDistill.distill_selector_on_geometry_change: 1
+ChangeDistill.distill_tf_on_geometry_change: 1
+ChangeDistill.distill_tf_on_aabb_change: 1
+ChangeDistill.position_weight: 1.0
+ChangeDistill.scale_weight: 1.0
+ChangeDistill.rotation_weight: 1.0
+ChangeDistill.selector_weight: 1.0
+ChangeDistill.selector_learning_rate: 0.0001
+ChangeDistill.tf_grid_learning_rate: 0.00016
+ChangeDistill.tf_mlp_learning_rate: 0.000016
+ChangeDistill.batch_size: 8192
+ChangeDistill.epochs: 5
+ChangeDistill.seed: 0
+ChangeDistill.enable_unaffected_anchors: 1
+ChangeDistill.anchor_ratio_to_corrected: 1.0
+ChangeDistill.anchor_max_count: 32768
+ChangeDistill.anchor_loss_weight: 1.0
+# Event-local Adam uses the fixed CD learning rates above, with weight_decay=0.
+# Normal mapping/replay clocks do not advance during CD.
+ChangeDistill.post_change_replay: 0
+
+DriftStability.enable: 1
+DriftStability.probe_interval: 1000
+DriftStability.min_bad_views: 2
+DriftStability.max_gaussians: 32768
+DriftStability.batch_size: 8192
+DriftStability.consecutive_trigger_count: 2
+DriftStability.reference_horizon: 5000
+DriftStability.reference_min_age: 3000
+DriftStability.reference_max_age: 10000
+DriftStability.reference_ema_decay: 0.5
+DriftStability.non_regression_refresh_count: 3
+DriftStability.function_threshold: 0.02
+DriftStability.psnr_regression_threshold: 0.1
+DriftStability.position_weight: 1.0
+DriftStability.scale_weight: 1.0
+DriftStability.rotation_weight: 1.0
+DriftStability.selector_learning_rate: 0.00005
+DriftStability.tf_grid_learning_rate: 0.00008
+DriftStability.tf_mlp_learning_rate: 0.000008
+DriftStability.epochs: 5
+DriftStability.seed: 0
+
+HistoricalOutlier.diversity_enabled: 1
+HistoricalOutlier.count: 4
+HistoricalOutlier.translation_weight: 1.0
+HistoricalOutlier.rotation_weight: 0.5
+HistoricalOutlier.diversity_recent_weight: 0.5
+
+Protection.age_ready: 100
+
+Protection.optimization_ready: 80
+
+Protection.unique_keyframe_ready: 4
+
+Protection.stale_age: 1000
+
+Protection.max_budget_fraction: 0.35
+
+Protection.weighted_bernoulli: 1
+
+Protection.clone_split_inherit_keyframe_support: 1
+
+Protection.performance_logging: 1

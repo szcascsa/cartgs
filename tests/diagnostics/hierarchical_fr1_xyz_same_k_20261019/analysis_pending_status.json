@@ -1,0 +1,4 @@
+{
+  "state": "failed",
+  "failure": "Traceback (most recent call last):\n  File \"/home/prmi/zwj/hierarchical-fr1-xyz-same-k-20261019/pipeline.py\", line 11, in <module>\n    with open(ROOT/(stage+'.log'),'w')as log:subprocess.run([sys.executable,str(ROOT/(stage+'.py'))],stdout=log,stderr=subprocess.STDOUT,check=True)\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/prmi/anaconda3/envs/zwj/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/home/prmi/anaconda3/envs/zwj/bin/python', '/home/prmi/zwj/hierarchical-fr1-xyz-same-k-20261019/analyze.py']' returned non-zero exit status 2.\n"
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "time": 1792246677.1375403,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792246677.4192324,
+    "compute_processes": ""
+  },
+  {
+    "time": 1792246677.6809118,
+    "compute_processes": "889068, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 482"
+  },
+  {
+    "time": 1792246677.9434001,
+    "compute_processes": "889068, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 924"
+  },
+  {
+    "time": 1792246678.2050285,
+    "compute_processes": "889068, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 994"
+  },
+  {
+    "time": 1792246678.4864872,
+    "compute_processes": "889068, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 994"
+  },
+  {
+    "time": 1792246678.7477984,
+    "compute_processes": "889068, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 994"
+  },
+  {
+    "time": 1792246679.0267358,
+    "compute_processes": "889068, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 994"
+  },
+  {
+    "time": 1792246679.2884395,
+    "compute_processes": "889068, /home/prmi/zwj/mycartgs/results/change_distill_performance_audit/20261017/benchmark_native, 994"
+  },
+  {
+    "time": 1792246679.549866,
+    "compute_processes": "889068, [No data], 994"
+  }
+]

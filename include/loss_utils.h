@@ -25,12 +25,19 @@
 #include <vector>
 
 #include "cuda_rasterizer/rasterize_points.h"
+#include "cuda_rasterizer/ssim_backend.h"
+#include "kernel_fusion.h"
 
 namespace loss_utils {
 
 inline torch::Tensor l1_loss(torch::Tensor &network_output,
                              torch::Tensor &gt,
                              const float beta = 1.0f) {
+#ifdef CARTGS_FUSED_MAPPING_CUDA
+  if(mapping_cuda::l1FusionEnabled()&&network_output.is_cuda()&&network_output.scalar_type()==torch::kFloat32&&
+      gt.device()==network_output.device()&&gt.scalar_type()==torch::kFloat32&&gt.sizes()==network_output.sizes())
+    return mapping_cuda::fusedL1Loss(network_output,gt);
+#endif
   return torch::abs(network_output - gt).mean();
 }
 
@@ -170,10 +177,14 @@ class FusedSSIMMap : public torch::autograd::Function<FusedSSIMMap> {
       const float C2,
       const torch::Tensor &img1,
       const torch::Tensor &img2) {
-    auto ssim_map = fusedssim(C1, C2, img1, img2);
-    ctx->save_for_backward({img1, img2});
+    // Custom Function forward runs with GradMode off; requires_grad records caller demand.
+    const bool keep_cache=ssim_backend::cached()&&img1.requires_grad();
+    auto values=keep_cache?fusedssim_cached(C1,C2,img1,img2):std::vector<torch::Tensor>{fusedssim(C1,C2,img1,img2)};
+    auto ssim_map=values[0];
+    ctx->save_for_backward(keep_cache?torch::autograd::variable_list{img1,img2,values[1]}:torch::autograd::variable_list{img1,img2});
     ctx->saved_data["C1"] = C1;
     ctx->saved_data["C2"] = C2;
+    ctx->saved_data["optimized_backward"] = ssim_backend::optimized();
     return {ssim_map};
   }
 
@@ -185,7 +196,9 @@ class FusedSSIMMap : public torch::autograd::Function<FusedSSIMMap> {
     auto img2 = saved[1];
     auto C1 = static_cast<float>(ctx->saved_data["C1"].toDouble());
     auto C2 = static_cast<float>(ctx->saved_data["C2"].toDouble());
-    auto grad = fusedssim_backward(C1, C2, img1, img2, grad_outputs[0]);
+    ssim_backend::Scope backend(ctx->saved_data["optimized_backward"].toBool());
+    auto grad = saved.size()==3?fusedssim_cached_backward(C1,C2,img1,img2,grad_outputs[0],saved[2]):
+        fusedssim_backward(C1, C2, img1, img2, grad_outputs[0]);
     return {torch::Tensor(), torch::Tensor(), grad, torch::Tensor()};
   }
 };

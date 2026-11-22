@@ -1,0 +1,105 @@
+{
+  "archive_scope": "source, scripts, reports and bounded diagnostic evidence; original full artifacts retained locally and on server",
+  "server_root": "/home/prmi/zwj/hierarchical-representative-si-20261019",
+  "local_root": "H:\\AIProjects\\cartgs优化更细致版\\hierarchical-representative-si-20261019",
+  "full_bundle": "hierarchical_si_validation_bundle.tar.gz",
+  "tracked_evidence": [
+    {
+      "path": ".gitattributes",
+      "bytes": 142,
+      "sha256": "b72afba14f61791595fbfa620cf4b4d665722e15e153f03ca3340d492ef1a7c7"
+    },
+    {
+      "path": "audit_before.json",
+      "bytes": 2215,
+      "sha256": "72add7a8a29f7993641385418c2dbbfaa070e3e1297cf132d0a7e84a81065aea"
+    },
+    {
+      "path": "config_parse_validation.json",
+      "bytes": 343,
+      "sha256": "d1563ca2877492b8ab01708d97b6a3adb2e261de799a2bf8b390985e69c63a5e"
+    },
+    {
+      "path": "final_validation_complete.json",
+      "bytes": 1177,
+      "sha256": "1bf98ce0cb0337b562ab4b402f41339ed61d4c8e7167a906f064279bb700e0f0"
+    },
+    {
+      "path": "fr1_room_smoke.log",
+      "bytes": 107,
+      "sha256": "50c801ea626aa659cec2b395bdd884facb1194f625e7640d62b2d3f207a1264e"
+    },
+    {
+      "path": "fr1_room_telemetry.json",
+      "bytes": 946,
+      "sha256": "45e4ad81173a3a27f7ed06cb6cd46e7db9ba012459a98b23ba8c14aa6c9ffcd4"
+    },
+    {
+      "path": "fr1_room_tree.csv",
+      "bytes": 35198,
+      "sha256": "cef5199248961542be229787e5826da97385e9be807c155ef76cefcae5369b22"
+    },
+    {
+      "path": "global_gi_regression.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hierarchical_si_results.json",
+      "bytes": 4293,
+      "sha256": "00aa42e7c636aa00f441f6f8a89c336154779e1226b48bcebdc1122a139ba501"
+    },
+    {
+      "path": "independent_smoke_verification.json",
+      "bytes": 677,
+      "sha256": "47a7eb7ced9db463a6dc7aa2ef5fc7a27ff831baebd180112877914e0e3fa7f8"
+    },
+    {
+      "path": "input_manifest.json",
+      "bytes": 55243,
+      "sha256": "3693421e8c2230877a0fa31d7bb385831cacd3a920e80e37e60d1799ccb96aa6"
+    },
+    {
+      "path": "mapper_compile_check.json",
+      "bytes": 1777,
+      "sha256": "769946efa6a1627fbddd8d872b178f95b354dece87822c3cdb1d84439acbc41f"
+    },
+    {
+      "path": "positive_fixture_unchanged.json",
+      "bytes": 177,
+      "sha256": "27dd8434ffc518b83f215715200f750c85f7fb941291c609fb4acfa6357c193b"
+    },
+    {
+      "path": "protocol_2048.json",
+      "bytes": 684,
+      "sha256": "94c7ced1dd632244afcf852430e906f0299c535ccb9d91181834baa91744799b"
+    },
+    {
+      "path": "server_baseline_integrity.json",
+      "bytes": 90,
+      "sha256": "b8e8b509614cfe66e44bd24ba11004e96e7ec455dac4650496dd8187b969a8f0"
+    },
+    {
+      "path": "SOURCE_AUDIT.md",
+      "bytes": 2722,
+      "sha256": "cff8167bb4f51c16016bb46dfb8b794f5b5cb943e7c3cffaa502182d6875a4b4"
+    },
+    {
+      "path": "synthetic_cpu.log",
+      "bytes": 333,
+      "sha256": "fcd96657fe8c784db6aa5bcfb4638194cf0012c86c7b3c63e5b86c89083a8e14"
+    },
+    {
+      "path": "synthetic_cuda.log",
+      "bytes": 334,
+      "sha256": "119beb3765ede892c369f7b255b7ec10c1fd612b0f09be6a8e086e148480f38c"
+    },
+    {
+      "path": "verify_smoke.py",
+      "bytes": 4914,
+      "sha256": "975e215d37cb0b4fb425ff8424e6c7f1a05af064b0afc7ebb4bf5fdc535c187b"
+    }
+  ],
+  "external_evidence": [],
+  "historical_reports": "Validation reports and manifests retain their original pre-commit HEAD and no-commit statements as provenance."
+}

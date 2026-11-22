@@ -1,0 +1,16 @@
+mode,N,parameters_outputs_gradients_states_finite
+core_adam,1000,1
+core_adam,5000,1
+core_adam,10000,1
+core_adam,20000,1
+core_adam,50000,1
+regularized_adam,1000,1
+regularized_adam,5000,1
+regularized_adam,10000,1
+regularized_adam,20000,1
+regularized_adam,50000,1
+regularized_preview,1000,1
+regularized_preview,5000,1
+regularized_preview,10000,1
+regularized_preview,20000,1
+regularized_preview,50000,1

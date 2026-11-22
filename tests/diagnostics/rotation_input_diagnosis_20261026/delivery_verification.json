@@ -1,0 +1,14 @@
+{
+  "archive_sha256": "91e7fab217f6440ef40bb0df989a454e1afd79525e704c8ec3b5d07809418988",
+  "new_models": 4,
+  "reference_models": 4,
+  "quality_rows": 14000,
+  "finite": true,
+  "source_scripts_exact": true,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "tracked_and_staged_state_unchanged": true,
+  "no_production_change": true,
+  "online_slam": false,
+  "report_sha256": "560e6d7db052557f0f5feb63fac7ab777d5e12d95fb06ac50dbdf82c6809887c"
+}

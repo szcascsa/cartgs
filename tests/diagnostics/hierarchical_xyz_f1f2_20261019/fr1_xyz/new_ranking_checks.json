@@ -1,0 +1,42 @@
+{
+  "all_passed": true,
+  "tree_SHA256": "7a296f65a278cdd202b67a0bae8a9c679f69989a4cb62f05b92ad2633c2a34eb",
+  "nodes": 5611,
+  "final_leaves": 4889,
+  "N_candidate": 23643,
+  "checks": {
+    "F1_MarginalTail": {
+      "complete_permutation": true,
+      "unique_rows": 23643,
+      "deterministic_repeat_exact": true,
+      "nested_prefixes": true,
+      "tree_SHA_unchanged": true,
+      "ordinal_order_exact": true,
+      "first3_C_exact": true
+    },
+    "F2_ProgressiveResidual": {
+      "complete_permutation": true,
+      "unique_rows": 23643,
+      "deterministic_repeat_exact": true,
+      "nested_prefixes": true,
+      "tree_SHA_unchanged": true,
+      "ordinal_order_exact": true,
+      "first3_C_exact": "ancestor-conditioned recomputation; frozen structure"
+    },
+    "F3_ProgressiveMarginal": {
+      "complete_permutation": true,
+      "unique_rows": 23643,
+      "deterministic_repeat_exact": true,
+      "nested_prefixes": true,
+      "tree_SHA_unchanged": true,
+      "ordinal_order_exact": true,
+      "first3_C_exact": "ancestor-conditioned recomputation; frozen structure"
+    }
+  },
+  "runtime_ms": {
+    "F1_MarginalTail": 1222.2430929541588,
+    "F2_ProgressiveResidual": 751.5126280486584,
+    "F3_ProgressiveMarginal": 926.5162274241447
+  },
+  "production_modified": false
+}

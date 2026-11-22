@@ -1,0 +1,164 @@
+#include <torch/extension.h>
+#include <ATen/Functions.h>
+#include <c10/cuda/CUDAGuard.h>
+#include <c10/cuda/CUDAException.h>
+#include <c10/cuda/CUDAStream.h>
+#include <chrono>
+#include <cmath>
+#include <climits>
+#include "deployment_device_control.h"
+
+torch::Tensor frustum_planes(const torch::Tensor&);
+torch::Tensor frustum_test(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
+std::vector<torch::Tensor> visible_candidates(const torch::Tensor&,const torch::Tensor&,
+    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
+void deployment_frame_controls(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+    const DeploymentKnots&,int64_t,double,bool);
+int64_t deployment_select_scan_bytes(int64_t);
+void deployment_device_forward(const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,
+    const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,
+    const std::vector<torch::Tensor>&,const torch::Tensor&,const std::vector<torch::Tensor>&,
+    const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,double,double,int64_t,bool,bool,bool);
+
+std::vector<torch::Tensor> deployment_selector(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+    const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,double,bool,int64_t);
+std::vector<torch::Tensor> deployment_compensate_checked(const torch::Tensor&,const torch::Tensor&,
+    const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,
+    const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,const torch::Tensor&,
+    const torch::Tensor&,const std::vector<double>&,const std::vector<double>&,bool,int64_t,bool,const torch::Tensor&);
+
+namespace {
+struct Prepared {
+  std::vector<torch::Tensor> parts;
+  torch::Tensor ids;
+  int64_t n,visible,available,budget,k;
+  double ratio,ms;
+  bool has_ratio;
+};
+}
+
+// Per-frame scheduling is native C++; no Python callback or result cache is used.
+class DeploymentPipeline {
+  std::vector<torch::Tensor> state_,selector_,compensator_,tables_,master_,base_,buffers_;
+  torch::Tensor view_weight_,rows_,counts_,candidate_workspace_,host_control_,empty_;
+  DeploymentKnots control_knots_;
+  std::vector<std::vector<int64_t>> shapes_;
+  int64_t schema_,sh_degree_,total_,width_;
+  bool softplus_;
+
+  void readback(const torch::Tensor& from,const torch::Tensor& to) {
+    const auto stream=c10::cuda::getCurrentCUDAStream();
+    C10_CUDA_CHECK(cudaMemcpyAsync(to.data_ptr(),from.data_ptr(),from.nbytes(),cudaMemcpyDeviceToHost,stream));
+    C10_CUDA_CHECK(cudaStreamSynchronize(stream));
+  }
+public:
+  DeploymentPipeline(std::vector<torch::Tensor> state,std::vector<torch::Tensor> selector,
+      std::vector<torch::Tensor> compensator,std::vector<torch::Tensor> tables,
+      std::vector<torch::Tensor> master,std::vector<torch::Tensor> base,torch::Tensor view_weight,
+      std::vector<double> knots,std::vector<double> bounds,int64_t schema,int64_t degree,bool softplus):
+      state_(std::move(state)),selector_(std::move(selector)),compensator_(std::move(compensator)),
+      tables_(std::move(tables)),master_(std::move(master)),base_(std::move(base)),view_weight_(view_weight),
+      schema_(schema),sh_degree_(degree),softplus_(softplus) {
+    TORCH_CHECK(state_.size()==13 && bounds.size()==2 && knots.size()==tables_.size() && knots.size()>=2 && knots.size()<=6,"Frozen pipeline state");
+    total_=state_[3].numel();TORCH_CHECK(total_<=INT_MAX,"Deployment map capacity");
+    control_knots_={};control_knots_.count=knots.size();
+    for(size_t j=0;j<knots.size();++j)control_knots_.values[j]=knots[j];
+    control_knots_.log_lo=std::log(bounds[0]);control_knots_.log_span=std::log(bounds[1])-control_knots_.log_lo;
+    c10::cuda::CUDAGuard guard(state_[3].device());
+    rows_=torch::empty_like(state_[3]);counts_=torch::empty({3},state_[3].options());
+    candidate_workspace_=torch::empty({0},state_[3].options().dtype(at::kByte));
+    empty_=torch::empty({0},state_[0].options());
+    host_control_=torch::empty({sizeof(DeploymentFrame)},torch::TensorOptions().dtype(at::kByte).device(at::kCPU).pinned_memory(true));
+    const auto floats=state_[0].options(),ints=state_[3].options().dtype(at::kInt);
+    const int64_t blocks=(total_+255)/256;
+    const int64_t hist_blocks=total_>16384?std::min(int64_t(64),(total_+1023)/1024):0;
+    buffers_={torch::empty({sizeof(DeploymentFrame)},floats.dtype(at::kByte)),rows_,
+        torch::empty({schema_?state_[0].size(0):0,7},floats),torch::empty({total_},floats),
+        torch::empty({total_,2},floats),torch::empty({0},rows_.options()),torch::empty({0},floats),
+        torch::empty({2+4*blocks},ints),torch::empty({hist_blocks*2048},ints),
+        torch::empty({deployment_select_scan_bytes(total_)},floats.dtype(at::kByte))};
+    width_=17;int64_t rest=1;for(int j=1;j<base_[5].dim();++j)rest*=base_[5].size(j);width_+=rest;
+    // Validate immutable layouts once using the original checked entry points.
+    auto check_rows=rows_.slice(0,0,0);
+    auto checked=deployment_selector(state_[6],check_rows,state_[3],empty_,state_[9],selector_,knots[0],false,schema_);
+    deployment_compensate_checked(state_[7],check_rows,state_[3],state_[8],tables_,compensator_,master_,empty_,
+        view_weight_,std::vector<double>(knots.size(),0.),{0.,0.,1.},false,schema_,softplus_,checked[2]);
+    TORCH_CHECK(!schema_ || view_weight_.sizes()==at::IntArrayRef({8,64}),"View projection layout");
+    for(int j=0;j<6;++j)shapes_.push_back(base_[j].sizes().vec());
+    shapes_.push_back({total_,3});
+  }
+
+  Prepared prepare_native(const torch::Tensor& vm,const torch::Tensor& pm,const torch::Tensor& camera,
+      int64_t width,int64_t height,double near,int64_t requested_budget,double requested_ratio,
+      bool use_ratio,bool local,bool compensation) {
+    TORCH_CHECK(!torch::GradMode::is_enabled(),"Deployment pipeline is inference-only");
+    TORCH_CHECK(width>0 && height>0 && near>0 && requested_budget>=0 &&
+        (!use_ratio || (std::isfinite(requested_ratio) && requested_ratio>=0 && requested_ratio<=1)),"Invalid deployment request");
+    TORCH_CHECK(!local || schema_,"Checkpoint has no view-conditioned branch");
+    c10::cuda::CUDAGuard guard(state_[0].device());
+    const auto start=std::chrono::steady_clock::now();
+    auto planes=frustum_planes(pm);
+    auto distance=at::matmul(state_[0],planes.slice(1,0,3).t());
+    auto visible=frustum_test(distance,planes,state_[1],state_[2]);
+    auto candidates=visible_candidates(visible,state_[3],state_[4],rows_,counts_,candidate_workspace_);
+    candidate_workspace_=candidates[2];
+    const int64_t capacity=use_ratio?int64_t(std::floor(requested_ratio*total_)):std::min(requested_budget,total_);
+    buffers_[5]=torch::empty({capacity},rows_.options());
+    buffers_[6]=torch::empty({capacity*width_},state_[0].options());
+    deployment_frame_controls(counts_,buffers_[0],buffers_[7],control_knots_,requested_budget,requested_ratio,use_ratio);
+    if(capacity) {
+      auto center=(local && schema_!=1)?camera.contiguous():camera;
+      TORCH_CHECK(!local || schema_==1 || (camera.device()==state_[0].device() && camera.scalar_type()==at::kFloat &&
+          camera.numel()==3 && vm.device()==camera.device() && vm.scalar_type()==at::kFloat &&
+          vm.sizes()==at::IntArrayRef({4,4})),"Frozen camera layout");
+      deployment_device_forward(state_,selector_,compensator_,tables_,master_,base_,view_weight_,buffers_,
+          vm,pm,center,double(width)/height,near,schema_,softplus_,local,compensation);
+    }
+    readback(buffers_[0],host_control_);
+    const auto& frame=*reinterpret_cast<const DeploymentFrame*>(host_control_.data_ptr<uint8_t>());
+    TORCH_CHECK(frame.status!=1,"Nonfinite deployment Selector logits");
+    TORCH_CHECK(!frame.status,"Nonfinite deployment compensated attributes");
+    Prepared output;output.n=frame.n;output.visible=frame.visible;output.available=frame.available;
+    output.budget=frame.budget;output.k=frame.k;output.ratio=frame.ratio;output.has_ratio=frame.has_ratio;
+    TORCH_CHECK(output.k<=capacity,"Deployment output capacity");
+    output.ids=buffers_[5].slice(0,0,output.k);auto flat=buffers_[6];
+    int64_t offset=0;
+    for(auto shape:shapes_) {
+      shape[0]=output.k;int64_t length=1;for(auto dim:shape)length*=dim;
+      output.parts.push_back(flat.slice(0,offset,offset+length).view(shape));offset+=length;
+    }
+    output.ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
+    return output;
+  }
+
+  torch::Tensor debug_control() const {return buffers_[0].clone();}
+
+  pybind11::tuple prepare(const torch::Tensor& vm,const torch::Tensor& pm,const torch::Tensor& camera,
+      int64_t width,int64_t height,double near,int64_t budget,double ratio,bool use_ratio,bool local,bool compensation) {
+    namespace py=pybind11;
+    Prepared result;
+    {py::gil_scoped_release release;result=prepare_native(vm,pm,camera,width,height,near,budget,ratio,use_ratio,local,compensation);}
+    py::dict inputs,packet,stats;
+    const char* names[] = {"means3D","opacities","scales","rotations","dc","shs","means2D"};
+    for(int j=0;j<7;++j)inputs[names[j]]=result.parts[j];
+    inputs["colors_precomp"]=py::none();inputs["cov3D_precomp"]=py::none();
+    packet["sh_degree"]=sh_degree_;packet["inputs"]=inputs;
+    stats["total_gaussians"]=total_;stats["visible_anchors"]=result.visible;stats["candidate_gaussians"]=result.n;
+    stats["eligible_candidates"]=result.available;stats["requested_budget"]=result.budget;
+    stats["effective_budget"]=result.k;stats["active_gaussians"]=result.k;
+    stats["ratio"]=result.has_ratio?py::cast(result.ratio):py::none();
+    stats["budget_shortfall"]=std::max(int64_t(0),result.budget-result.k);stats["inference_backend"]="deployment_cpp";
+    stats["prepare_ms"]=result.ms;stats["cache_hit"]=false;stats["view_conditioned"]=local;stats["compensation_enabled"]=compensation;
+    return py::make_tuple(packet,result.ids,stats);
+  }
+};
+
+void bind_deployment_prepare(pybind11::module_& module) {
+  namespace py=pybind11;
+  py::class_<DeploymentPipeline>(module,"Pipeline",py::module_local())
+    .def(py::init<std::vector<torch::Tensor>,std::vector<torch::Tensor>,std::vector<torch::Tensor>,
+        std::vector<torch::Tensor>,std::vector<torch::Tensor>,std::vector<torch::Tensor>,torch::Tensor,
+        std::vector<double>,std::vector<double>,int64_t,int64_t,bool>())
+    .def("prepare",&DeploymentPipeline::prepare)
+    .def("_control",&DeploymentPipeline::debug_control);
+}

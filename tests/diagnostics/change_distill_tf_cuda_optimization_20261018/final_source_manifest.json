@@ -1,0 +1,18 @@
+{
+  "CMakeLists.txt": {
+    "sha256": "3450783ae441ad19ed2705bb74b39f6869f14bef5c45a6fb9df75a12d9307f3c",
+    "normalized_sha256": "485dcd8a5e21f953443e9585cd448401d8fdb2b051e6fc544072ea0dfa88281c"
+  },
+  "src/change_distill.cpp": {
+    "sha256": "1b07fdbad5ede15864218c77044211cb8d40c45afea67d02b196bbd1a6421768",
+    "normalized_sha256": "66dbf8135898f1373b10c805d48f7aeb5f9ced34a8b9f4c1ad659f5d4665edb7"
+  },
+  "include/change_distill_transport_cuda.h": {
+    "sha256": "d0fae453196c264630bf3a91800a0766500a3b5d8a0772a2c44ff57edc6badee",
+    "normalized_sha256": "d0fae453196c264630bf3a91800a0766500a3b5d8a0772a2c44ff57edc6badee"
+  },
+  "src/change_distill_transport.cu": {
+    "sha256": "ab6a7894a4d28a027ad306447be00529ec6c227c34cd789849cfe1581dd9e793",
+    "normalized_sha256": "ab6a7894a4d28a027ad306447be00529ec6c227c34cd789849cfe1581dd9e793"
+  }
+}

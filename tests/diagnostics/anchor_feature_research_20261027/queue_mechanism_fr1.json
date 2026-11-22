@@ -1,0 +1,99 @@
+{
+  "tier": "mechanism_continue",
+  "scene": "fr1_xyz",
+  "jobs": [
+    {
+      "config": {
+        "id": "FakeMatchedHead8",
+        "feature": "fake",
+        "fusion": "head",
+        "dim": 8,
+        "grouping": "signature"
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "GlobalHead8",
+        "feature": "global",
+        "fusion": "head",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "MultiOnlyHead8",
+        "feature": "multi_only",
+        "fusion": "head",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseHead8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FakeMatchedHead8",
+        "feature": "fake",
+        "fusion": "head",
+        "dim": 8,
+        "grouping": "signature"
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "GlobalHead8",
+        "feature": "global",
+        "fusion": "head",
+        "dim": 8
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "MultiOnlyHead8",
+        "feature": "multi_only",
+        "fusion": "head",
+        "dim": 8
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "FrozenBaseHead8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8,
+        "freeze_base": true
+      },
+      "seed": 7201,
+      "route": "continue",
+      "steps": 12000
+    }
+  ],
+  "decision": "controls selected from Bank-only discovery: few Anchor rows actually supervised; preserve four-ratio access frequencies for fake grouping; no nonBank metric used"
+}

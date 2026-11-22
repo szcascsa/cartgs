@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "protected_files": 328,
+  "changed": [
+    "CMakeLists.txt",
+    "cfg/selector/selector_config.yaml",
+    "cfg/selector/spatial_offset3_residual48.yaml",
+    "improvements/selector/anchor_bank.h",
+    "improvements/selector/spatial_compensation.h",
+    "include/gaussian_mapper.h",
+    "src/gaussian_mapper.cpp",
+    "bin/replica_mono",
+    "bin/replica_rgbd",
+    "lib/libgaussian_mapper.so"
+  ],
+  "unrelated_changed": [],
+  "source_files": 226,
+  "source_all_match": true
+}

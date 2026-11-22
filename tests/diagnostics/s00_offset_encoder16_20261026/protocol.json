@@ -1,0 +1,39 @@
+{
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "previous_run_sha256": "1b6e994cf457f6202808f2260eaa3ad54ad6c9289e8a6ee1db468dbae0e0580c",
+  "runtime_sha256": "9ae25a86d702050c55db2255e6f6cc1f65b4cccd359341166f855f7bcb822025",
+  "renderer_binary": "/home/prmi/zwj/mycartgs/python/diff-gaussian-rasterization/diff_gaussian_rasterization/_C.cpython-311-x86_64-linux-gnu.so",
+  "renderer_sha256": "27b5b468cf385dd1c96aeabdd65426da38a938a38d52d8181b1b1da485090c86",
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "gaussian_input": "raw globalXYZ3,activated Scale3,sigmoid Opacity1,Anchor-local Offset3,logratio1=11",
+  "encoder": "Linear11->16,ReLU,Linear16->32,Linear32->32,ReLU; output32 shared between Selector and four compensation heads; no ReLU between final two Linear layers, no additional output Linear",
+  "compensation": "raw11+per-Anchor per-ratio latent16+h32=59; four unchanged59->32 ReLU->32 ReLU->3/3/4/4 heads",
+  "offset": "(Gaussian XYZ - associated Anchor center)/associated frozen offset_scale, exact existing convention",
+  "initialization": "first16 previous shallow Encoder coordinate/scale/opacity/logratio weights and biases, new Offset columns0; two new projection layers deterministic seeds+110/+120; head common columns copied,newOffset columns0; initial p and delta exact, hidden function differs due16 bottleneck",
+  "references": "immediately previous XYZ+Scale+Opacity shallow8->32 two locked seeds; original59 raw11/localOffset+SHDC baseline two locked seeds; matched map/final12000, no best repetition selection",
+  "unchanged": "latent16 and ratio interpolation,shared output32,Selector head,Compensation heads and14D meaning,Loss,Adam,frame/ratio order,Cached Bernoulli,frozen Master andRenderer",
+  "optimizer": "fresh fused Adam lr=.001 eps1e-15,12000 all common parameters and3000 per ratio table",
+  "loss": "original photo .8L1+.2(1-fast_ssim) plus .01 relative expected-budget L1",
+  "evaluation": "same-K rank logit(p)-logit(cached uniform),floor ratio*N with eligibility cap; also original cached actualK; all4 metrics,train1/5/10/15 andunseen2.5/7.5/12.5; final12000 only",
+  "limits": "input and Encoder changed together, hence cannot separately attribute Offset vs depth/bottleneck; consecutive16->32->32 Linear layers affine-composable but factorized optimization differs; no hidden function equivalence claim; two seeds one frozen map",
+  "source": "N6838/M2066 frozen fr1xyz,54 Bank train320x240,13 holdout and45 historic nonBank640x480",
+  "no_hparam_search": true,
+  "no_production_change": true,
+  "no_stage_commit_push": true
+}

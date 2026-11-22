@@ -1,0 +1,14 @@
+{
+  "all_passed": true,
+  "files_SHA_verified": 238,
+  "independent_local_pool_sort_prefix_exact": true,
+  "archive_sha256": "01ca4844995b22b3287af45ecd88ef0c411efb65da0eb4163ff35026daae48c1",
+  "HEAD": "3cfccc4a92c8e1ec6c3d491dac1c9efbf151daeb",
+  "tracked_diff_empty": true,
+  "index_diff_empty": true,
+  "no_commit": true,
+  "no_stage": true,
+  "no_push": true,
+  "report": "H:\\AIProjects\\cartgs优化更细致版\\mycartgs\\HIERARCHY_CANDIDATE_POOL_AUDIT.md",
+  "diagnostics": "H:\\AIProjects\\cartgs优化更细致版\\mycartgs\\tests\\diagnostics\\hierarchy_candidate_pool_20261020"
+}

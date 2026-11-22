@@ -1,0 +1,37 @@
+{
+  "scene": "fr1_xyz",
+  "seeds": [
+    3100,
+    3101
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "xyz_run_sha256": "043d81a92c4b96f682517cb1e84a4d7756226f5fe38748b826e19f6b0fbe13fa",
+  "runtime_sha256": "9ae25a86d702050c55db2255e6f6cc1f65b4cccd359341166f855f7bcb822025",
+  "renderer_binary": "/home/prmi/zwj/mycartgs/python/diff-gaussian-rasterization/diff_gaussian_rasterization/_C.cpython-311-x86_64-linux-gnu.so",
+  "renderer_sha256": "27b5b468cf385dd1c96aeabdd65426da38a938a38d52d8181b1b1da485090c86",
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "candidate": "raw worldXYZ3+activated Scale3+sigmoid Opacity1+logratio1=8; shared Encoder8->32; compensation raw8+Anchor-ratio latent16+h32=56, four56->32->32->3/3/4/4 heads",
+  "references": "locked previous XYZ-only seeds and original raw11/local-offset Baseline seeds, all same source map and final12000 budget",
+  "initialization": "copy XYZ-only common XYZ/logratio/latent/h32 weights,bias and later layers exactly; added Scale/Opacity columns zero; initial hidden close,p and zero compensation exact",
+  "exclusions": "no local Offset,SH DC,Rotation,view feature,additional normalization or hidden Gaussian property inputs",
+  "unchanged": "raw world frame,Anchor ratio latent16 and interpolation,shared h32,Selector head,14D output meanings,Loss,Adam,ratio/frame schedule,Cached Bernoulli,Renderer,frozen Master",
+  "controls": "same per-seed initialization and Bank order,12000 common Adam steps and3000 per ratio table, no LR or step search; new2 models only",
+  "optimizer": "fresh fused Adam lr=.001 eps1e-15",
+  "loss": "original .8L1+.2(1-fast_ssim)+.01 relative expected-budget L1",
+  "selection": "cached Bernoulli training, primary same-K logit(p)-logit(cached uniform) order and floor(r*N), actual cachedK separately",
+  "evaluation": "final12000 four metrics,54 Bank train/13 Bank holdout/45 historical nonBank and7 ratios; no test-based tuning",
+  "limitations": "Scale and Opacity added together so individual effects not isolated; added640 input weights; compared with original baseline also changes coordinate reference and removesSH; two seeds one frozen map",
+  "no_production_change": true,
+  "no_stage_commit_push": true
+}

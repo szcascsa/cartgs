@@ -1,0 +1,19 @@
+{
+  "source_files_verified": 591,
+  "source_mismatches": [],
+  "selector_configs": {
+    "cfg/selector/ablation_full_20261010.yaml": "legacy",
+    "cfg/selector/ablation_no_change_distill_20261010.yaml": "legacy",
+    "cfg/selector/ablation_no_protection_20261010.yaml": "legacy",
+    "cfg/selector/ablation_no_transform_field_20261010.yaml": "legacy",
+    "cfg/selector/eval.yaml": "legacy",
+    "cfg/selector/fast.yaml": "legacy",
+    "cfg/selector/og.yaml": "legacy",
+    "cfg/selector/selector_config.yaml": "legacy",
+    "cfg/selector/slower.yaml": "legacy",
+    "cfg/selector/smallaabb.yaml": "legacy"
+  },
+  "binary_files_unchanged": 63,
+  "backup": "/home/prmi/zwj/mycartgs-source-backup-20261015T063223Z",
+  "compiled": false
+}

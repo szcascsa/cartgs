@@ -1,0 +1,27 @@
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+CMake Warning at /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/share/cmake/Caffe2/public/utils.cmake:385 (message):
+  In the future we will require one to explicitly pass TORCH_CUDA_ARCH_LIST
+  to cmake instead of implicitly setting it as an env variable.  This will
+  become a FATAL_ERROR in future version of pytorch.
+Call Stack (most recent call first):
+  /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/share/cmake/Caffe2/public/cuda.cmake:342 (torch_cuda_get_nvcc_gencode_flag)
+  /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:87 (include)
+  /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)
+  CMakeLists.txt:6 (find_package)
+
+
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/prmi/zwj/mycartgs/tests/diagnostics/cuda_tf_implementation_20261013/build
+[ 14%] Building CUDA object CMakeFiles/tf_cuda.dir/home/prmi/zwj/mycartgs/src/transform_field_cuda.cu.o
+[ 28%] Linking CXX static library libtf_cuda.a
+[ 42%] Built target tf_cuda
+[ 57%] Linking CXX executable cuda_transform_field_test
+[100%] Built target cuda_transform_field_test

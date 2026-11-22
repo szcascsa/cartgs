@@ -1,0 +1,494 @@
+{
+  "protocol": {
+    "N": 8491,
+    "warmup": 100,
+    "captured_iterations": 10,
+    "mode": "regularized_adam",
+    "trace": "cuda,nvtx",
+    "cpu_sampling": false
+  },
+  "stages": {
+    "backward": {
+      "cpu_nvtx_mean_ms": 0.993734,
+      "kernels_per_iteration": 66.0,
+      "kernel_active_ms_per_iteration": 0.465462,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 0.928154,
+          "device_work_active_ms": 0.470974,
+          "gap_fraction": 0.49256912107258066
+        },
+        {
+          "span_ms": 0.802395,
+          "device_work_active_ms": 0.46524,
+          "gap_fraction": 0.4201858187052512
+        },
+        {
+          "span_ms": 0.859706,
+          "device_work_active_ms": 0.476576,
+          "gap_fraction": 0.4456523509199657
+        },
+        {
+          "span_ms": 0.799387,
+          "device_work_active_ms": 0.461916,
+          "gap_fraction": 0.42216223181012447
+        },
+        {
+          "span_ms": 0.808027,
+          "device_work_active_ms": 0.465694,
+          "gap_fraction": 0.42366529831305144
+        },
+        {
+          "span_ms": 0.873402,
+          "device_work_active_ms": 0.471067,
+          "gap_fraction": 0.46065271203867175
+        },
+        {
+          "span_ms": 0.793499,
+          "device_work_active_ms": 0.45744,
+          "gap_fraction": 0.42351534154422377
+        },
+        {
+          "span_ms": 0.798746,
+          "device_work_active_ms": 0.46268,
+          "gap_fraction": 0.42074201310554293
+        },
+        {
+          "span_ms": 0.802715,
+          "device_work_active_ms": 0.459036,
+          "gap_fraction": 0.42814573042736215
+        },
+        {
+          "span_ms": 0.794107,
+          "device_work_active_ms": 0.463997,
+          "gap_fraction": 0.41569964752860755
+        }
+      ]
+    },
+    "forward": {
+      "cpu_nvtx_mean_ms": 0.1254643,
+      "kernels_per_iteration": 4.0,
+      "kernel_active_ms_per_iteration": 0.2677454,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 0.346782,
+          "device_work_active_ms": 0.265151,
+          "gap_fraction": 0.23539572411486176
+        },
+        {
+          "span_ms": 0.317693,
+          "device_work_active_ms": 0.268029,
+          "gap_fraction": 0.15632702011060995
+        },
+        {
+          "span_ms": 0.316062,
+          "device_work_active_ms": 0.268638,
+          "gap_fraction": 0.15004650986198909
+        },
+        {
+          "span_ms": 0.317374,
+          "device_work_active_ms": 0.268606,
+          "gap_fraction": 0.1536609804205764
+        },
+        {
+          "span_ms": 0.316254,
+          "device_work_active_ms": 0.267519,
+          "gap_fraction": 0.15410081769716744
+        },
+        {
+          "span_ms": 0.316926,
+          "device_work_active_ms": 0.269375,
+          "gap_fraction": 0.15003817925951168
+        },
+        {
+          "span_ms": 0.316094,
+          "device_work_active_ms": 0.26771,
+          "gap_fraction": 0.15306839104823244
+        },
+        {
+          "span_ms": 0.316702,
+          "device_work_active_ms": 0.26755,
+          "gap_fraction": 0.15519952510561974
+        },
+        {
+          "span_ms": 0.316734,
+          "device_work_active_ms": 0.267198,
+          "gap_fraction": 0.1563962189092425
+        },
+        {
+          "span_ms": 0.317086,
+          "device_work_active_ms": 0.267678,
+          "gap_fraction": 0.15581892609575954
+        }
+      ]
+    },
+    "loss": {
+      "cpu_nvtx_mean_ms": 0.116006,
+      "kernels_per_iteration": 7.0,
+      "kernel_active_ms_per_iteration": 0.0315679,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 0.035808,
+          "device_work_active_ms": 0.03136,
+          "gap_fraction": 0.12421805183199286
+        },
+        {
+          "span_ms": 0.03536,
+          "device_work_active_ms": 0.030976,
+          "gap_fraction": 0.12398190045248869
+        },
+        {
+          "span_ms": 0.035616,
+          "device_work_active_ms": 0.0312,
+          "gap_fraction": 0.12398921832884102
+        },
+        {
+          "span_ms": 0.035744,
+          "device_work_active_ms": 0.031295,
+          "gap_fraction": 0.12446844225604292
+        },
+        {
+          "span_ms": 0.035456,
+          "device_work_active_ms": 0.030944,
+          "gap_fraction": 0.12725631768953072
+        },
+        {
+          "span_ms": 0.035263,
+          "device_work_active_ms": 0.03088,
+          "gap_fraction": 0.12429458639367041
+        },
+        {
+          "span_ms": 0.035648,
+          "device_work_active_ms": 0.031232,
+          "gap_fraction": 0.12387791741472176
+        },
+        {
+          "span_ms": 0.035296,
+          "device_work_active_ms": 0.030816,
+          "gap_fraction": 0.12692656391659107
+        },
+        {
+          "span_ms": 0.04016,
+          "device_work_active_ms": 0.03568,
+          "gap_fraction": 0.11155378486055778
+        },
+        {
+          "span_ms": 0.035744,
+          "device_work_active_ms": 0.031296,
+          "gap_fraction": 0.12444046553267685
+        }
+      ]
+    },
+    "optimizer": {
+      "cpu_nvtx_mean_ms": 0.0400275,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0447322,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 0.044768,
+          "device_work_active_ms": 0.044768,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044672,
+          "device_work_active_ms": 0.044672,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044895,
+          "device_work_active_ms": 0.044895,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044671,
+          "device_work_active_ms": 0.044671,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044351,
+          "device_work_active_ms": 0.044351,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044704,
+          "device_work_active_ms": 0.044704,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044735,
+          "device_work_active_ms": 0.044735,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044864,
+          "device_work_active_ms": 0.044864,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044927,
+          "device_work_active_ms": 0.044927,
+          "gap_fraction": 0.0
+        },
+        {
+          "span_ms": 0.044735,
+          "device_work_active_ms": 0.044735,
+          "gap_fraction": 0.0
+        }
+      ]
+    },
+    "regularization": {
+      "cpu_nvtx_mean_ms": 0.0436123,
+      "kernels_per_iteration": 3.0,
+      "kernel_active_ms_per_iteration": 0.058799699999999996,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": [
+        {
+          "span_ms": 0.060704,
+          "device_work_active_ms": 0.059168,
+          "gap_fraction": 0.02530311017395892
+        },
+        {
+          "span_ms": 0.061248,
+          "device_work_active_ms": 0.05888,
+          "gap_fraction": 0.03866248693834906
+        },
+        {
+          "span_ms": 0.06032,
+          "device_work_active_ms": 0.058752,
+          "gap_fraction": 0.025994694960212228
+        },
+        {
+          "span_ms": 0.060256,
+          "device_work_active_ms": 0.058752,
+          "gap_fraction": 0.024960169941582566
+        },
+        {
+          "span_ms": 0.060255,
+          "device_work_active_ms": 0.058687,
+          "gap_fraction": 0.026022736702348337
+        },
+        {
+          "span_ms": 0.061056,
+          "device_work_active_ms": 0.05872,
+          "gap_fraction": 0.0382599580712788
+        },
+        {
+          "span_ms": 0.060256,
+          "device_work_active_ms": 0.058785,
+          "gap_fraction": 0.024412506638343046
+        },
+        {
+          "span_ms": 0.060191,
+          "device_work_active_ms": 0.058783,
+          "gap_fraction": 0.02339220149191734
+        },
+        {
+          "span_ms": 0.060159,
+          "device_work_active_ms": 0.058687,
+          "gap_fraction": 0.024468491829983896
+        },
+        {
+          "span_ms": 0.061279,
+          "device_work_active_ms": 0.058783,
+          "gap_fraction": 0.04073173517844608
+        }
+      ]
+    },
+    "synchronize": {
+      "cpu_nvtx_mean_ms": 0.0483786,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": []
+    },
+    "zero_grad": {
+      "cpu_nvtx_mean_ms": 0.0286907,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "per_iteration_gpu": []
+    }
+  },
+  "per_iteration": [
+    {
+      "instrumented_wall_ms": 1.630337,
+      "device_work_active_ms": 0.871421,
+      "gap_fraction": 0.465496397370605
+    },
+    {
+      "instrumented_wall_ms": 1.366376,
+      "device_work_active_ms": 0.867797,
+      "gap_fraction": 0.36489150863305564
+    },
+    {
+      "instrumented_wall_ms": 1.422765,
+      "device_work_active_ms": 0.880061,
+      "gap_fraction": 0.38144317578799025
+    },
+    {
+      "instrumented_wall_ms": 1.363236,
+      "device_work_active_ms": 0.86524,
+      "gap_fraction": 0.3653043200150231
+    },
+    {
+      "instrumented_wall_ms": 1.362472,
+      "device_work_active_ms": 0.867195,
+      "gap_fraction": 0.36351352541556814
+    },
+    {
+      "instrumented_wall_ms": 1.42675,
+      "device_work_active_ms": 0.874746,
+      "gap_fraction": 0.3868960925179604
+    },
+    {
+      "instrumented_wall_ms": 1.361383,
+      "device_work_active_ms": 0.859902,
+      "gap_fraction": 0.3683614383314615
+    },
+    {
+      "instrumented_wall_ms": 1.35962,
+      "device_work_active_ms": 0.864693,
+      "gap_fraction": 0.36401862285050235
+    },
+    {
+      "instrumented_wall_ms": 1.373267,
+      "device_work_active_ms": 0.865528,
+      "gap_fraction": 0.3697307224305252
+    },
+    {
+      "instrumented_wall_ms": 1.357617,
+      "device_work_active_ms": 0.866489,
+      "gap_fraction": 0.3617574028610425
+    }
+  ],
+  "kernels_per_iteration": 81.0,
+  "short_kernel_fraction": 0.9234567901234568,
+  "copy_kinds": {},
+  "kernel_counts": {
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<float>, at::detail::Array<char *, (int)1>>(int, T2, T3)": 150,
+    "tf_cuda::<unnamed>::queryKernel(tf_cuda::<unnamed>::Inputs, tf_cuda::<unnamed>::Planes, float *, int)": 10,
+    "tf_cuda::<unnamed>::warpMlpKernel(const float *, tf_cuda::<unnamed>::Neural, int)": 10,
+    "tf_cuda::<unnamed>::outputKernel(tf_cuda::<unnamed>::Attr, float *, float *, float *, int, bool)": 10,
+    "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, float>, unsigned int, float, (int)4>>(T3)": 30,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float>>, at::detail::Array<char *, (int)3>>(int, T2, T3)": 20,
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<float>, at::detail::Array<char *, (int)3>>(int, T2, T3)": 170,
+    "tf_cuda::<unnamed>::regularizationPartialKernel(tf_cuda::<unnamed>::Regularizer, float *)": 10,
+    "tf_cuda::<unnamed>::regularizationReduceKernel(tf_cuda::<unnamed>::Regularizer, const float *, float *, float, float, float)": 10,
+    "tf_cuda::<unnamed>::regularizationGradKernel(tf_cuda::<unnamed>::Regularizer, const float *, float, float, float)": 10,
+    "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 30,
+    "tf_cuda::<unnamed>::outputGradKernel(tf_cuda::<unnamed>::Attr, tf_cuda::<unnamed>::Upstream, tf_cuda::<unnamed>::OutputGrad, int, bool)": 10,
+    "ampere_sgemm_32x128_nn": 70,
+    "ampere_sgemm_32x32_sliced1x4_nt": 70,
+    "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)": 70,
+    "tf_cuda::<unnamed>::biasGradKernel(const float *, float *, int, int)": 70,
+    "tf_cuda::<unnamed>::reluGradKernel(float *, const float *, int)": 30,
+    "tf_cuda::<unnamed>::sharedGradKernel(float *, const float *, const float *, const float *, const float *, int)": 10,
+    "tf_cuda::<unnamed>::queryGradKernel(tf_cuda::<unnamed>::Inputs, tf_cuda::<unnamed>::Planes, const float *, float *, float *, int)": 10,
+    "tf_cuda::<unnamed>::adamKernel(tf_cuda::<unnamed>::Batch, long)": 10
+  },
+  "top20_kernels": [
+    {
+      "name": "tf_cuda::<unnamed>::warpMlpKernel(const float *, tf_cuda::<unnamed>::Neural, int)",
+      "total_ms": 2.410255
+    },
+    {
+      "name": "tf_cuda::<unnamed>::queryGradKernel(tf_cuda::<unnamed>::Inputs, tf_cuda::<unnamed>::Planes, const float *, float *, float *, int)",
+      "total_ms": 1.496246
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<float>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+      "total_ms": 0.598072
+    },
+    {
+      "name": "ampere_sgemm_32x32_sliced1x4_nt",
+      "total_ms": 0.539165
+    },
+    {
+      "name": "tf_cuda::<unnamed>::regularizationPartialKernel(tf_cuda::<unnamed>::Regularizer, float *)",
+      "total_ms": 0.493277
+    },
+    {
+      "name": "tf_cuda::<unnamed>::biasGradKernel(const float *, float *, int, int)",
+      "total_ms": 0.483546
+    },
+    {
+      "name": "tf_cuda::<unnamed>::adamKernel(tf_cuda::<unnamed>::Batch, long)",
+      "total_ms": 0.447322
+    },
+    {
+      "name": "ampere_sgemm_32x128_nn",
+      "total_ms": 0.418047
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<float>, at::detail::Array<char *, (int)1>>(int, T2, T3)",
+      "total_ms": 0.355098
+    },
+    {
+      "name": "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+      "total_ms": 0.34112
+    },
+    {
+      "name": "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, float>, unsigned int, float, (int)4>>(T3)",
+      "total_ms": 0.209279
+    },
+    {
+      "name": "tf_cuda::<unnamed>::queryKernel(tf_cuda::<unnamed>::Inputs, tf_cuda::<unnamed>::Planes, float *, int)",
+      "total_ms": 0.191615
+    },
+    {
+      "name": "tf_cuda::<unnamed>::regularizationGradKernel(tf_cuda::<unnamed>::Regularizer, const float *, float, float, float)",
+      "total_ms": 0.190943
+    },
+    {
+      "name": "tf_cuda::<unnamed>::reluGradKernel(float *, const float *, int)",
+      "total_ms": 0.112127
+    },
+    {
+      "name": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "total_ms": 0.097122
+    },
+    {
+      "name": "tf_cuda::<unnamed>::regularizationReduceKernel(tf_cuda::<unnamed>::Regularizer, const float *, float *, float, float, float)",
+      "total_ms": 0.06912
+    },
+    {
+      "name": "tf_cuda::<unnamed>::outputGradKernel(tf_cuda::<unnamed>::Attr, tf_cuda::<unnamed>::Upstream, tf_cuda::<unnamed>::OutputGrad, int, bool)",
+      "total_ms": 0.066718
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float>>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+      "total_ms": 0.059391
+    },
+    {
+      "name": "tf_cuda::<unnamed>::sharedGradKernel(float *, const float *, const float *, const float *, const float *, int)",
+      "total_ms": 0.054176
+    },
+    {
+      "name": "tf_cuda::<unnamed>::outputKernel(tf_cuda::<unnamed>::Attr, float *, float *, float *, int, bool)",
+      "total_ms": 0.050433
+    }
+  ],
+  "runtime_api_counts": {
+    "cudaEventRecord_v3020": 60,
+    "cudaLaunchKernel_v7000": 810,
+    "cudaOccupancyMaxActiveBlocksPerMultiprocessor_v6050": 110,
+    "cudaEventSynchronize_v3020": 10
+  },
+  "forbidden_kernel_counts": {
+    "grid_sampler": 0,
+    "CatArrayBatchedCopy": 0,
+    "elementwise_kernel": 370
+  },
+  "limitation": "Nsight instrumented wall and span gaps are not uninstrumented Mapping performance."
+}

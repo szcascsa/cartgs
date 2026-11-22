@@ -1,0 +1,37 @@
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+CMake Warning at /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/share/cmake/Caffe2/public/utils.cmake:385 (message):
+  In the future we will require one to explicitly pass TORCH_CUDA_ARCH_LIST
+  to cmake instead of implicitly setting it as an env variable.  This will
+  become a FATAL_ERROR in future version of pytorch.
+Call Stack (most recent call first):
+  /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/share/cmake/Caffe2/public/cuda.cmake:342 (torch_cuda_get_nvcc_gencode_flag)
+  /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:87 (include)
+  /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)
+  CMakeLists.txt:4 (find_package)
+
+
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/prmi/zwj/mycartgs/tests/diagnostics/original_selector_cuda_audit_20261013/build
+[ 16%] Built target optimizer_benchmark
+Scanning dependencies of target isolated_costs
+[ 25%] Building CXX object CMakeFiles/isolated_costs.dir/isolated_costs.cpp.o
+Scanning dependencies of target gradient_paths
+[ 33%] Building CXX object CMakeFiles/gradient_paths.dir/gradient_paths.cpp.o
+[ 41%] Building CXX object CMakeFiles/isolated_costs.dir/home/prmi/zwj/mycartgs/src/protection_profiler.cpp.o
+[ 50%] Building CXX object CMakeFiles/isolated_costs.dir/home/prmi/zwj/mycartgs/src/gi_teacher.cpp.o
+[ 58%] Linking CXX executable gradient_paths
+[ 58%] Built target gradient_paths
+Scanning dependencies of target native_benchmark
+[ 66%] Building CXX object CMakeFiles/native_benchmark.dir/native_benchmark.cpp.o
+[ 75%] Linking CXX executable isolated_costs
+[ 75%] Built target isolated_costs
+[ 83%] Linking CXX executable native_benchmark
+[100%] Built target native_benchmark

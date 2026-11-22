@@ -1,0 +1,4 @@
+{
+  "direct_executed_sha256": "dc909ed841debaf58c0b15bb81ad4214b53cb6cbc7feaf7642a0217c0a388a42",
+  "note": "The initial run also passed stronger ST/exact and historical Native diagnostic checks. The published harness removes those extra vetoes; mathematical execution and all measured errors remain unchanged."
+}

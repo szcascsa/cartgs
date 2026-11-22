@@ -1,0 +1,44 @@
+[
+  {
+    "stage": "baseline",
+    "branch": "tf",
+    "kernel_calls": 61479,
+    "gpu_kernel_ms": 243.579381,
+    "tiny_lt_10us": 60779
+  },
+  {
+    "stage": "stage_a_grouped",
+    "branch": "tf",
+    "kernel_calls": 49939,
+    "gpu_kernel_ms": 210.998713,
+    "tiny_lt_10us": 49282
+  },
+  {
+    "stage": "stage_b",
+    "branch": "tf",
+    "kernel_calls": 49119,
+    "gpu_kernel_ms": 200.648756,
+    "tiny_lt_10us": 48451
+  },
+  {
+    "stage": "baseline",
+    "branch": "selector",
+    "kernel_calls": 23073,
+    "gpu_kernel_ms": 175.72691,
+    "tiny_lt_10us": 20930
+  },
+  {
+    "stage": "stage_b",
+    "branch": "selector",
+    "kernel_calls": 21673,
+    "gpu_kernel_ms": 172.352231,
+    "tiny_lt_10us": 19509
+  },
+  {
+    "stage": "stage_c",
+    "branch": "selector",
+    "kernel_calls": 18025,
+    "gpu_kernel_ms": 154.105682,
+    "tiny_lt_10us": 15874
+  }
+]

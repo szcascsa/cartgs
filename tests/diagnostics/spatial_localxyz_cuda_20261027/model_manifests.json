@@ -1,0 +1,36 @@
+[
+  {
+    "scene": "fr1_xyz",
+    "N": 6838,
+    "M": 2066,
+    "K": {
+      "0.01": 68,
+      "0.025": 170,
+      "0.05": 341,
+      "0.075": 512,
+      "0.1": 683,
+      "0.125": 854,
+      "0.15": 1025
+    },
+    "checkpoint": "/home/prmi/zwj/neural-v1-20261027/results/controls/fr1_xyz/SpatialLocalXYZ/5100/step_12000.pt",
+    "checkpoint_sha256": "4a2f19e3a70fdf6a0b6bc9b3b58d6357c03ab4e2d8dafd712fdf97663bfb1d6d",
+    "parameters": 33806
+  },
+  {
+    "scene": "fr2_xyz",
+    "N": 9275,
+    "M": 2724,
+    "K": {
+      "0.01": 92,
+      "0.025": 231,
+      "0.05": 463,
+      "0.075": 695,
+      "0.1": 927,
+      "0.125": 1159,
+      "0.15": 1391
+    },
+    "checkpoint": "/home/prmi/zwj/neural-v1-20261027/results/fr2_local_followup/fr2_xyz/SpatialLocalXYZ/6100/step_12000.pt",
+    "checkpoint_sha256": "ab006ce873ce7e12f2641af33f28557e2cb22a9eb11ac0ebebe8c08a1a5af61f",
+    "parameters": 33806
+  }
+]

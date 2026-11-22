@@ -1,0 +1,20 @@
+{
+  "all_passed": true,
+  "population": 52635,
+  "candidate_N": 50330,
+  "nodes": 110,
+  "leaves": 92,
+  "representatives": 202,
+  "mass_error_max_leaf": 1.1641532182693481e-10,
+  "independent_gain_max_abs": 7.275957614183426e-12,
+  "independent_Q_max_abs": 3.3306690738754696e-16,
+  "reconstructed_output_max_abs": 6.821210263296962e-13,
+  "sampled_alternative_gain_checks": 2605,
+  "parent_scores_discarded": true,
+  "invalid_rows_not_promoted": true,
+  "leaf_output_reconstruction": true,
+  "unresolved_L3_count": 28,
+  "unresolved_L3_fraction": 0.5833333333333334,
+  "unresolved_L3_raw_mass_fraction": 0.9770477255803753,
+  "raw_mass_weighted_leaf_Q": 0.1184372551948944
+}

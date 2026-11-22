@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/cs0XGqe1N5M5w4r3CEPqvmsJUz4</id>
+  <title>arXiv Query: search_query=ti:RadiK&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-11-07T03:51:11Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:RadiK&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2501.14336v1</id>
+    <title>RadiK: Scalable and Optimized GPU-Parallel Radix Top-K Selection</title>
+    <updated>2025-01-24T09:00:51Z</updated>
+    <link href="https://arxiv.org/abs/2501.14336v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2501.14336v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Top-k selection, which identifies the largest or smallest k elements from a data set, is a fundamental operation in data-intensive domains such as databases and deep learning, so its scalability and efficiency are critical for these high-performance systems. However, previous studies on its efficient GPU implementation are mostly merge-based and rely heavily on the fast but size-limited on-chip memory, thereby limiting the scalability with a restricted upper bound on k. This work introduces a scalable and optimized GPU-parallel radix top-k selection that supports significantly larger k values than existing methods without compromising efficiency, regardless of input length and batch size. Our method incorporates a novel optimization framework tailored for high memory bandwidth and resource utilization, achieving up to 2.5x speedup over the prior art for non-batch queries and up to 4.8x speedup for batch queries. In addition, we propose an adaptive scaling technique that strengthens the robustness, which further provides up to 2.7x speedup on highly adversarial input distributions.</summary>
+    <category term="cs.DS" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-01-24T09:00:51Z</published>
+    <arxiv:comment>Published at the 38th ACM International Conference on Supercomputing (ICS '24)</arxiv:comment>
+    <arxiv:primary_category term="cs.DS"/>
+    <arxiv:journal_ref>ICS '24: Proceedings of the 38th ACM International Conference on Supercomputing, 2024, Pages 537-548</arxiv:journal_ref>
+    <author>
+      <name>Yifei Li</name>
+    </author>
+    <author>
+      <name>Bole Zhou</name>
+    </author>
+    <author>
+      <name>Jiejing Zhang</name>
+    </author>
+    <author>
+      <name>Xuechao Wei</name>
+    </author>
+    <author>
+      <name>Yinghan Li</name>
+    </author>
+    <author>
+      <name>Yingda Chen</name>
+    </author>
+    <arxiv:doi>10.1145/3650200.3656596</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1145/3650200.3656596" title="doi"/>
+  </entry>
+</feed>

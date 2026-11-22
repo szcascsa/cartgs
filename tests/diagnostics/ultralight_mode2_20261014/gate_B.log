@@ -1,0 +1,12 @@
+Internal ctest changing into directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+Test project /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+    Start 22: ultralight_mode2_stages
+1/3 Test #22: ultralight_mode2_stages ..........   Passed    0.81 sec
+    Start 23: ultralight_mode2_clocks
+2/3 Test #23: ultralight_mode2_clocks ..........   Passed    0.79 sec
+    Start 24: ultralight_mode2_special
+3/3 Test #24: ultralight_mode2_special .........   Passed    0.74 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   2.34 sec

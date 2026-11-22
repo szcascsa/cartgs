@@ -1,0 +1,10 @@
+terminate called after throwing an instance of 'c10::Error'
+  what():  output/log=0/gradient_5 max_abs=nan
+Exception raised from compare at /home/prmi/zwj/mycartgs/tests/cuda_tf_backward_test.cpp:21 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7fb6ba2aa2ac in /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0xfa (0x7fb6ba253cbc in /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/lib/libc10.so)
+frame #2: <unknown function> + 0x17c66 (0x55b8878d1c66 in build/cuda_tf_backward_test)
+frame #3: <unknown function> + 0x151e1 (0x55b8878cf1e1 in build/cuda_tf_backward_test)
+frame #4: __libc_start_main + 0xf3 (0x7fb6b3d23083 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #5: <unknown function> + 0x1730e (0x55b8878d130e in build/cuda_tf_backward_test)
+

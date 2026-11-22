@@ -1,0 +1,2 @@
+
+Usage: /home/prmi/zwj/mycartgs/bin/replica_rgbd path_to_vocabulary path_to_ORB_SLAM3_settings path_to_gaussian_mapping_settings path_to_sequence path_to_trajectory_output_directory/ (optional)no_viewer --selector-config path [--selector-enabled 0|1]

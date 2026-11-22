@@ -1,0 +1,62 @@
+{
+  "primary_decision": "QUALITY INCONCLUSIVE",
+  "Strong_GO": false,
+  "quantitative_primary_before_user_mixed_guard": "QUALITY GO",
+  "quantitative_Strong_criteria_pass": true,
+  "primary_gates": {
+    "A": true,
+    "B": true,
+    "C_no_joint_systematic_tradeoff": true,
+    "quantitative_mixed_downgrade": false,
+    "user_required_direction_mixed_downgrade": true
+  },
+  "strong_gates": {
+    "all_PSNR_nonnegative_or_equivalent": true,
+    "low_ratio_gain": true,
+    "LPIPS_majority_improved": true,
+    "paired_low_bias_positive": true,
+    "redundancy_reduced": true,
+    "near_or_above_FixedMarginal": true
+  },
+  "cases": {
+    "A": "CONDITIONAL",
+    "B": false,
+    "C": false,
+    "D": false,
+    "E": false,
+    "F": false
+  },
+  "case_label": "Case A (conditional: mixed metrics)",
+  "Q1": "INCONCLUSIVE",
+  "Q2": "YES",
+  "Q3": "MATCHES",
+  "Q4": "YES",
+  "Q5": "YES",
+  "Q6": "Case A (conditional: mixed metrics)",
+  "Q7": "QUALITY INCONCLUSIVE",
+  "low_mean_delta_PSNR": 0.6200235171347686,
+  "mean_C_minus_B_PSNR": -0.017225308447891052,
+  "diagnostic_D_minus_C_PSNR": [
+    0.006890930744431145,
+    -0.02453746558716574,
+    -0.10630360597409094,
+    -0.24163971184203348
+  ],
+  "diagnostic_C_minus_E_PSNR": [
+    -0.09920282541594894,
+    0.12678316957461888,
+    0.036454224438401184,
+    0.07970387595040407
+  ],
+  "mixed_ratios": [
+    0.1,
+    0.15
+  ],
+  "decision_correction": "Original user clause requires downgrade on mixed PSNR/SSIM/LPIPS direction. Initial quantitative implementation was too narrow; retain original preregistration and all numerical gates, apply stricter original clause. No parameter, ranking or quality result changed.",
+  "interpretation_limits": [
+    "Q3 MATCHES means predefined PSNR proximity, not exact selected-set or all-metric equivalence",
+    "Q5 YES is ratio-dependent observed value; report 1% regression explicitly",
+    "Single frozen scene; archived views participated in original SLAM; no online or production claim",
+    "Case E is not supported by these data; do not change residual"
+  ]
+}

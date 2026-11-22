@@ -1,0 +1,76 @@
+{
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "candidate": "valid AND observed",
+  "N_expected": 23643,
+  "K": "floor(ratio*N+.5)",
+  "maturity": 1,
+  "frozen_tree": {
+    "target_roots": 2048,
+    "representatives_per_node": 3,
+    "Q": 0.8,
+    "max_level": 3,
+    "origin": [
+      0,
+      0,
+      0
+    ],
+    "h_search": "unchanged current rule"
+  },
+  "baseline": [
+    "A_Raw",
+    "B_FixedMarginal",
+    "C_Hierarchical"
+  ],
+  "new_arms": [
+    "F1_MarginalTail",
+    "F2_ProgressiveResidual",
+    "F3_ProgressiveMarginal"
+  ],
+  "baseline_gate": "all A/B/C/F3 complete rankings exact; rerender all old arm/ratio/view cases; per-view and aggregate max abs<=1e-6; then generate F1/F2",
+  "F1": "frozen final leaves, first three reps identical to C; complete conditional marginal sequence; head-only predecessor-preserving merge",
+  "progressive_semantics": {
+    "initial": "all occupied roots active",
+    "coarse_capacity": "up to 3 NEW globally unselected representatives; if fewer remain, finish immediately",
+    "objective_population": "all original node members, including already emitted rows (self coverage makes their residual zero)",
+    "inherited_coverage": "max kappa over all emitted ancestors on path, including ancestors outside the child bounds; no sibling/cross-root coverage",
+    "internal_unlock": "after min(3,remaining) NEW reps emitted, activate every nonempty child with all ancestor coverage; node with no remaining rows is exhausted and its descendants still traversed as necessary",
+    "leaf_F2": "fixed independent residual after inherited+leaf coarse cover; never update residual coverage",
+    "leaf_F3": "continue conditional marginal tail and update coverage",
+    "no_final_resort": true,
+    "ordinal_score": "N-rank0, not physical SI mass"
+  },
+  "heap_tie": "descending gain/priority; lexicographic (root gx,gy,gz,octree path) stable node key; source row ascending; one exposed item per active node/leaf",
+  "local_tie": "exact equal maximum marginal gain, then source row ascending; no quantization",
+  "gain_checks": "nonnegative >=-1e-12 and local diminishing returns tolerance 1e-10*max(1,node_raw_mass); no gain reordering repair",
+  "geometry_diagnostic": "unchanged fixed-h8 cell metric, max offdiagonal selected kappa per row, singleton0; unordered thresholds .8/.9/.95",
+  "evaluation": "same 54 fixed non-Bank archived views; same 18 Bank frozen contribution; no export/update",
+  "F1_gate": "10% and15% mean redundancy at least10% below C and >.9 pairs nonincreasing, mean high-ratio delta PSNR>=-.03",
+  "F2_gate": "1% delta PSNR>=+.05 and each5/10/15% delta PSNR>=-.03",
+  "F3_gate": "four-ratio mean delta PSNR>=0; 1% delta PSNR>0; both10/15% mean redundancy<C",
+  "F3_strong": "F3_gate plus mean PSNR>=B-.02, mean-of-four redundancy<=1.10*B mean and total >.9 pair counts<=1.10*B (integer ceiling, minimum allowance1 for zero)",
+  "Q5_Fixed_comparison": "EXCEEDS if mean deltaPSNR>=+.02; MATCHES if mean>=-.02; otherwise BELOW; include each metric separately",
+  "high_budget_metrics": "report SSIM/photo direction; no additional overall gate or tuning from these metrics; not optimize",
+  "runtime_gate": false,
+  "performance_optimization": false,
+  "production_integration": false,
+  "commit": false,
+  "push": false,
+  "scene": "fr1_xyz",
+  "render_new_arms": [
+    "F1_MarginalTail",
+    "F2_ProgressiveResidual"
+  ],
+  "baseline_reproduction_arms": [
+    "A_Raw",
+    "B_FixedMarginal",
+    "C_Hierarchical",
+    "F3_ProgressiveMarginal"
+  ],
+  "previous_experiment": "/home/prmi/zwj/hierarchical-fr1-xyz-same-k-20261019",
+  "new_raw_contribution_renders": 0
+}

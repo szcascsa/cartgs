@@ -1,0 +1,2 @@
+candidate=legacy device=cuda steps=1000 failures=0
+candidate=legacy device=cuda steps=0 failures=0

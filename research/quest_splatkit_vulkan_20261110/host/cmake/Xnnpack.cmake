@@ -1,0 +1,5 @@
+foreach(name XNNPACK pthreadpool cpuinfo)
+  add_library(${name} INTERFACE)
+endforeach()
+target_include_directories(XNNPACK INTERFACE Q:/third_party/XNNPACK/include Q:/third_party/pthreadpool/include Q:/third_party/cpuinfo/include)
+target_link_libraries(XNNPACK INTERFACE -Wl,--start-group Q:/build-device/xnnpack/libXNNPACK.a Q:/build-device/xnnpack/libxnnpack-microkernels-prod.a Q:/build-device/pthreadpool/libpthreadpool.a Q:/build-device/cpuinfo/libcpuinfo.a -Wl,--end-group)

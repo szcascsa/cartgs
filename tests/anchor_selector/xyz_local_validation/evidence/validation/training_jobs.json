@@ -1,0 +1,30 @@
+[
+  {
+    "seed": 2026,
+    "arm": "fixed",
+    "output": "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2026",
+    "exit_code": 0,
+    "wall_seconds": 68.93199535831809
+  },
+  {
+    "seed": 2026,
+    "arm": "adaptive",
+    "output": "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2026",
+    "exit_code": 0,
+    "wall_seconds": 70.47088948637247
+  },
+  {
+    "seed": 2027,
+    "arm": "fixed",
+    "output": "/home/prmi/zwj/anchor-xyz-local-20261020/fixed_seed2027",
+    "exit_code": 0,
+    "wall_seconds": 68.72874074801803
+  },
+  {
+    "seed": 2027,
+    "arm": "adaptive",
+    "output": "/home/prmi/zwj/anchor-xyz-local-20261020/adaptive_seed2027",
+    "exit_code": 0,
+    "wall_seconds": 69.51677406579256
+  }
+]

@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.22)
+project(official_method_probe LANGUAGES CXX)
+add_subdirectory(../source/SplatSample/app/src/main/cpp method EXCLUDE_FROM_ALL)
+add_executable(method_device_probe method_device_probe.cpp)
+target_link_libraries(method_device_probe PRIVATE method_core)

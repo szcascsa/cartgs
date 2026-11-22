@@ -1,0 +1,57 @@
+{
+  "baseline_commit": "27b9439",
+  "branch": "anchor-si",
+  "source_checkpoint": "/home/prmi/zwj/private-compensation-online-20261022/r3_independent14_seed2026/7465_shutdown/ply",
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "seeds": [
+    2026,
+    2027
+  ],
+  "photo": "unchanged 0.8 L1 + 0.2 SSIM",
+  "si_loss": "mean Anchor probability MSE; head-only gradients",
+  "si_weight": 0.01,
+  "ema_decay": 0.9,
+  "temperature": 1.0,
+  "minimum_visits": 4,
+  "collect_every_full": 4,
+  "maximum_age_full": 128,
+  "selected_policy": "cached Bernoulli; deterministic cached-margin exact same-K also evaluated",
+  "tuned_on_nonbank": false,
+  "production_default_enabled": false,
+  "frozen_steps": 1600,
+  "frozen_updates_per_ratio": 400,
+  "frozen_arms": [
+    "off",
+    "gaussian",
+    "anchor"
+  ],
+  "frozen_bank_views": 72,
+  "frozen_optimization": "only existing Selector private head; Master/Encoder/Anchor Feature/R3 fixed",
+  "online_runs": [
+    [
+      "off",
+      2026
+    ],
+    [
+      "anchor",
+      2026
+    ],
+    [
+      "anchor",
+      2027
+    ],
+    [
+      "off",
+      2027
+    ]
+  ],
+  "online_budget": "natural stop, no forced10000, unchanged half-resolution online/native tail",
+  "online_evaluation": "same predeclared64 RGB IDs; union-Bank exclusion; same-K and Cached; own final poses/topology reported",
+  "statistics_member_order": "Gaussian UID ascending, invalid padding last; correctness fix, no learning hyperparameter changes",
+  "implementation_revision": "uid_canonical_v2"
+}

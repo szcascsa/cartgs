@@ -72,7 +72,10 @@ void render(const dim3 grid,
             uint32_t* max_contrib,
             const float* bg_color,
             float* out_color,
-            bool collect_importance,
+            int collect_importance,
             float* frame_importance,
-            int* contribution_count);
+            int* contribution_count,
+            bool inference_only = false,
+            float* alpha_contribution = nullptr,
+            int contribution_stride = 1,int contribution_x = 0,int contribution_y = 0);
 }  // namespace FORWARD

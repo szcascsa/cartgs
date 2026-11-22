@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.18)
+project(frozen_coverage_export LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+find_package(Torch REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
+add_executable(coverage_fixture coverage_fixture.cpp)
+target_include_directories(coverage_fixture PRIVATE /home/prmi/zwj/sparse-hash-root-grid-20261019/source)
+target_link_libraries(coverage_fixture PRIVATE /home/prmi/zwj/sparse-hash-root-grid-20261019/build/libhierarchy.a ${TORCH_LIBRARIES})

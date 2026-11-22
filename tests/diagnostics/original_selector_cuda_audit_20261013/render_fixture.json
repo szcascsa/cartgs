@@ -1,0 +1,37 @@
+{
+  "camera": {
+    "fx": 535.4000854492188,
+    "fy": 539.2000122070312,
+    "height": 480,
+    "id": 0,
+    "img_name": "rgb/1341847980.722988.png",
+    "position": [
+      -0.0,
+      0.0,
+      -0.0
+    ],
+    "rotation": [
+      [
+        1.0,
+        -0.0,
+        0.0
+      ],
+      [
+        -0.0,
+        1.0,
+        -0.0
+      ],
+      [
+        0.0,
+        -0.0,
+        1.0
+      ]
+    ],
+    "width": 640
+  },
+  "image": "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household/rgb/1341847980.722988.png",
+  "width": 320,
+  "height": 240,
+  "resize": "PIL bilinear; native Mapping image-cache resize parity not asserted",
+  "loss": "native 0.8 L1 + 0.2 (1-fast_ssim)"
+}

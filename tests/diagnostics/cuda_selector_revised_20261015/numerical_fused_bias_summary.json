@@ -1,0 +1,9 @@
+{
+  "mode": "numerical",
+  "cases": 192,
+  "records": 8064,
+  "failures": 19,
+  "strategy": 3,
+  "source_sha256": "127037d009d9ba091e4b0ae8657a4cfd35ed9d27df99f4a3b7b68ac7b418db75",
+  "tf32": false
+}

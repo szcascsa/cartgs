@@ -1,0 +1,3089 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 81ebfdc..db3aed7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -479,6 +479,18 @@ if(CARTGS_BUILD_TESTS)
+     add_test(NAME historical_probe_cache COMMAND historical_probe_cache_test)
+ 
+     add_executable(selector_handoff_test tests/selector_handoff_test.cpp)
++    add_executable(maturity_ablation_test tests/maturity_ablation_test.cpp)
++    add_executable(maturity_module_test tests/maturity_module_test.cpp)
++    target_link_libraries(maturity_module_test gaussian_mapper)
++    add_test(NAME maturity_module COMMAND maturity_module_test)
++    add_test(NAME maturity_module_cuda COMMAND maturity_module_test --cuda)
++    target_link_libraries(maturity_ablation_test gaussian_mapper)
++    add_test(NAME maturity_ablation COMMAND maturity_ablation_test)
++    add_test(NAME maturity_ablation_cuda COMMAND maturity_ablation_test --cuda)
++    if(Python3_Interpreter_FOUND)
++        add_test(NAME maturity_module_python COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tests/maturity_module_python_test.py)
++        add_test(NAME maturity_ablation_python COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tests/maturity_ablation_python_test.py)
++    endif()
+     target_link_libraries(selector_handoff_test gaussian_mapper)
+     add_test(NAME selector_handoff COMMAND selector_handoff_test)
+     add_test(NAME selector_handoff_cuda COMMAND selector_handoff_test --cuda)
+@@ -571,6 +583,11 @@ target_link_libraries(
+ 
+ # TUM RGBD
+ add_executable(tum_rgbd examples/tum_rgbd.cpp)
++if(CARTGS_BUILD_TESTS)
++    add_executable(tum_rgbd_maturity_ablation examples/tum_rgbd.cpp)
++    target_compile_definitions(tum_rgbd_maturity_ablation PRIVATE CARTGS_MATURITY_ABLATION)
++    target_link_libraries(tum_rgbd_maturity_ablation gaussian_viewer gaussian_mapper ${ORB_SLAM3_SOURCE_DIR}/lib/libORB_SLAM3.so)
++endif()
+ target_link_libraries(
+     tum_rgbd
+     gaussian_viewer
+diff --git a/cfg/selector/fast.yaml b/cfg/selector/fast.yaml
+index 00147a7..1086561 100644
+--- a/cfg/selector/fast.yaml
++++ b/cfg/selector/fast.yaml
+@@ -1,8 +1,11 @@
+ %YAML:1.0
+ 
+ # 1：固定 1%/5%/10%/15%/Full 轮转，LoD 联合更新主 Gaussian。
++# mode1 尾部：每轮 GausPyramid Full 更新及成熟度计算后，执行一个 native 联合 LoD。
+ # 2：每轮 Full 后执行 detached LoD；Full 遵循 GausPyramid，成熟度在 Full 提交后更新。
+ Training.ultra_light_mode: 1
++# 0 disables per-iteration update logs and their synchronized CUDA timing.
++Mapping.iteration_logging: 0
+ 
+ # 强制覆写尾优化默认关闭；所有在线训练模式均生效，开启后忽略 Selector.max_mapping_iterations。
+ # -1: SLAM 结束时 iteration 的一半（向下取整）；>=0: 固定尾部 Mapping 步数。
+@@ -13,17 +16,20 @@ Selector.enabled: 1
+ # legacy | cuda；默认 cuda，构建默认启用 CARTGS_EXPERIMENTAL_SELECTOR_CUDA。
+ Selector.backend: "cuda"
+ Selector.target_ratios: [0.01, 0.05, 0.10, 0.15]
++# Global Protection/Maturity switch for Selector, TransformField, GI and ChangeDistill.
+ Selector.protection_enabled: 1
+ # Full-to-Full geometric maturity; updated after committed Full in mode1/2.
+ Protection.drift_temperature: 0.10
+ Protection.beta_fast: 0.60
+ Protection.beta_slow: 0.15
+ Protection.maturity_rise_rate: 0.05
++# 默认仅 streaming GI Teacher 使用 maturity；Selector/TF 使用完整强度。
++Protection.maturity_ablation_mode: "g_real"
+ Protection.maturity_fall_rate: 0.50
+ Protection.maturity_diagnostics: 1
+ # Compatibility only for TF/GI/ChangeDistill; never a Selector eligibility gate.
+ Protection.compatibility_mature_threshold: 0.80
+-Protection.performance_logging: 1
++Protection.performance_logging: 0
+ Selector.temperature: 1.0
+ Selector.learning_rate: 0.001
+ Selector.render_loss_weight: 1.0
+@@ -35,7 +41,7 @@ Selector.lod_render_scale: 0.5
+ # mode1 always joint; mode2 always detached.
+ # Joint Full/LoD Replay consumes only conflict-source remote views; no random fallback.
+ Selector.detach_gaussian_parameters: 0
+-Selector.replay_enabled: 1
++Selector.replay_enabled: 0
+ Selector.replay_interval: 300
+ Selector.replay_num_frames: 2
+ ConflictReplay.trigger_cancel_count: 1000
+@@ -57,7 +63,7 @@ GlobalGI.coverage_anchor_fraction: 0.80
+ GlobalGI.sampling_seed: 0
+ GlobalGI.refresh_interval: 1000
+ GlobalGI.max_views: 0
+-GlobalGI.performance_logging: 1
++GlobalGI.performance_logging: 0
+ # 0: 仅周期摘要；1: 打印逐次 Bank/拓扑详情，用于调试。
+ GlobalGI.verbose_logging: 0
+ Importance.ratio_aware_weight: 0
+diff --git a/cfg/selector/selector_config.yaml b/cfg/selector/selector_config.yaml
+index 537a247..bde40bd 100644
+--- a/cfg/selector/selector_config.yaml
++++ b/cfg/selector/selector_config.yaml
+@@ -5,7 +5,8 @@
+ # mode2: 每轮 Full(P顺序) → detached LoD；Full 遵循 GausPyramid。
+ # LoD 不等待 TF 启动；TF 按自己的启动条件加入，两种模式均在 Full 提交后更新成熟度。
+ # Selector.enabled=0 可做 mode2 Full-only。
+-# 模式1固定 1%/5%/10%/15%/Full 轮转，在线结束后按尾部配置继续；需要 Selector.enabled: 1。
++# 模式1在线固定 1%/5%/10%/15%/Full 轮转；尾部每轮 GausPyramid Full 后执行一个 native 联合 LoD。
++# 模式1需要 Selector.enabled: 1。
+ Training.ultra_light_mode: 1
+ 
+ # 强制覆写尾优化默认关闭；所有在线训练模式均生效，开启后忽略 Selector.max_mapping_iterations。
+@@ -23,6 +24,8 @@ Protection.drift_temperature: 0.10
+ Protection.beta_fast: 0.60
+ Protection.beta_slow: 0.15
+ Protection.maturity_rise_rate: 0.05
++# 默认仅 streaming GI Teacher 使用 maturity；Selector/TF 使用完整强度。
++Protection.maturity_ablation_mode: "g_real"
+ Protection.maturity_fall_rate: 0.50
+ Protection.maturity_diagnostics: 1
+ # TF/GI/ChangeDistill compatibility only; does not restrict Selector candidates.
+diff --git a/cuda_rasterizer/rasterize_points.cu b/cuda_rasterizer/rasterize_points.cu
+index 4271803..69ed097 100644
+--- a/cuda_rasterizer/rasterize_points.cu
++++ b/cuda_rasterizer/rasterize_points.cu
+@@ -206,6 +206,35 @@ RasterizeGaussiansCUDA(const torch::Tensor& background,
+                          std::get<8>(result), std::get<9>(result));
+ }
+ 
++std::tuple<torch::Tensor, torch::Tensor> RasterizeGaussiansInferenceCUDA(
++    const torch::Tensor& background,
++    const torch::Tensor& means3D,
++    const torch::Tensor& colors,
++    const torch::Tensor& opacity,
++    const torch::Tensor& scales,
++    const torch::Tensor& rotations,
++    const float scale_modifier,
++    const torch::Tensor& cov3D_precomp,
++    const torch::Tensor& viewmatrix,
++    const torch::Tensor& projmatrix,
++    const float tan_fovx,
++    const float tan_fovy,
++    const int image_height,
++    const int image_width,
++    const torch::Tensor& dc,
++    const torch::Tensor& sh,
++    const int degree,
++    const torch::Tensor& campos,
++    const bool prefiltered,
++    const bool debug) {
++  auto result = RasterizeGaussiansCUDAWithImportance(
++      background, means3D, colors, opacity, scales, rotations, scale_modifier,
++      cov3D_precomp, viewmatrix, projmatrix, tan_fovx, tan_fovy, image_height,
++      image_width, dc, sh, degree, campos, prefiltered, debug, false,
++      RasterizeMode::Inference);
++  return std::make_tuple(std::get<2>(result), std::get<3>(result));
++}
++
+ std::tuple<torch::Tensor,
+            torch::Tensor,
+            torch::Tensor,
+diff --git a/cuda_rasterizer/rasterize_points.h b/cuda_rasterizer/rasterize_points.h
+index f36c807..3f694f5 100644
+--- a/cuda_rasterizer/rasterize_points.h
++++ b/cuda_rasterizer/rasterize_points.h
+@@ -83,6 +83,28 @@ RasterizeGaussiansCUDA(const torch::Tensor& background,
+                        const bool prefiltered,
+                        const bool debug);
+ 
++std::tuple<torch::Tensor, torch::Tensor> RasterizeGaussiansInferenceCUDA(
++    const torch::Tensor& background,
++    const torch::Tensor& means3D,
++    const torch::Tensor& colors,
++    const torch::Tensor& opacity,
++    const torch::Tensor& scales,
++    const torch::Tensor& rotations,
++    const float scale_modifier,
++    const torch::Tensor& cov3D_precomp,
++    const torch::Tensor& viewmatrix,
++    const torch::Tensor& projmatrix,
++    const float tan_fovx,
++    const float tan_fovy,
++    const int image_height,
++    const int image_width,
++    const torch::Tensor& dc,
++    const torch::Tensor& sh,
++    const int degree,
++    const torch::Tensor& campos,
++    const bool prefiltered,
++    const bool debug);
++
+ std::tuple<torch::Tensor,
+            torch::Tensor,
+            torch::Tensor,
+diff --git a/examples/replica_rgbd.cpp b/examples/replica_rgbd.cpp
+index c8b2e07..d08a118 100644
+--- a/examples/replica_rgbd.cpp
++++ b/examples/replica_rgbd.cpp
+@@ -177,6 +177,8 @@ int main(int argc, char **argv) {
+         std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1)
+             .count();
+     vTimesTrack[ni] = ttrack;
++    if ((ni + 1) % 100 == 0 || ni + 1 == nImages)
++      std::cout << "[Experiment PROGRESS] frames=" << ni + 1 << "/" << nImages << std::endl;
+   }
+ 
+   // Stop all threads
+diff --git a/examples/tum_mono.cpp b/examples/tum_mono.cpp
+index e16a818..f638bc5 100644
+--- a/examples/tum_mono.cpp
++++ b/examples/tum_mono.cpp
+@@ -164,6 +164,8 @@ int main(int argc, char **argv) {
+         std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1)
+             .count();
+     vTimesTrack[ni] = ttrack;
++    if ((ni + 1) % 100 == 0 || ni + 1 == nImages)
++      std::cout << "[Experiment PROGRESS] frames=" << ni + 1 << "/" << nImages << std::endl;
+ 
+     // Wait to load the next frame
+     double T = 0;
+diff --git a/examples/tum_rgbd.cpp b/examples/tum_rgbd.cpp
+index 04fd66c..d1ff9d8 100644
+--- a/examples/tum_rgbd.cpp
++++ b/examples/tum_rgbd.cpp
+@@ -106,6 +106,17 @@ int main(int argc, char **argv) {
+ 
+   // Create SLAM system. It initializes all system threads and gets ready to
+   // process frames.
++  int mapper_seed = 0;
++#ifdef CARTGS_MATURITY_ABLATION
++  cv::FileStorage experiment_config(*selector_config_path, cv::FileStorage::READ);
++  int experiment_steps = 6000;
++  if (!experiment_config["Experiment.seed"].empty()) experiment_config["Experiment.seed"] >> mapper_seed;
++  if (!experiment_config["Experiment.mapping_steps"].empty()) experiment_config["Experiment.mapping_steps"] >> experiment_steps;
++  TORCH_CHECK(experiment_steps > 3000 && mapper_seed >= 0, "Invalid maturity ablation budget/seed");
++  std::srand(mapper_seed); cv::setRNGSeed(mapper_seed); torch::manual_seed(mapper_seed);
++  std::cout << "[Maturity ABLATION] seed=" << mapper_seed << " fixed_mapping_steps=" << experiment_steps
++            << " input_pacing=online_mapping_credits tail_steps=0\n";
++#endif
+   std::shared_ptr<ORB_SLAM3::System> pSLAM =
+       std::make_shared<ORB_SLAM3::System>(argv[1], argv[2],
+                                           ORB_SLAM3::System::RGBD);
+@@ -115,9 +126,12 @@ int main(int argc, char **argv) {
+   // Create GaussianMapper
+   std::filesystem::path gaussian_cfg_path(argv[3]);
+   std::shared_ptr<GaussianMapper> pGausMapper =
+-      std::make_shared<GaussianMapper>(pSLAM, gaussian_cfg_path, output_dir, 0,
++      std::make_shared<GaussianMapper>(pSLAM, gaussian_cfg_path, output_dir, mapper_seed,
+                                        device_type, selector_enabled_override,
+                                        *selector_config_path);
++#ifdef CARTGS_MATURITY_ABLATION
++  pGausMapper->setExperimentMappingBudget(experiment_steps);
++#endif
+   std::thread training_thd(&GaussianMapper::run, pGausMapper.get());
+ 
+   // Create Gaussian Viewer
+@@ -183,6 +197,23 @@ int main(int argc, char **argv) {
+             .count();
+ 
+     vTimesTrack[ni] = ttrack;
++#ifdef CARTGS_MATURITY_ABLATION
++    const auto quota = std::uint64_t(experiment_steps) * (ni + 1) / nImages;
++    pGausMapper->grantExperimentMappings(quota);
++    // Before initial map creation Tracking must continue to supply keyframes.
++    // The last frame always waits: all steps complete while SLAM is still online.
++    if (pGausMapper->completedExperimentMappings() || ni + 1 == nImages) {
++      const auto wait_start = std::chrono::steady_clock::now();
++      while (pGausMapper->completedExperimentMappings() < quota) {
++        TORCH_CHECK(!pGausMapper->isStopped(), "Mapper stopped before its fixed online budget");
++        TORCH_CHECK(std::chrono::steady_clock::now() - wait_start < std::chrono::minutes(5),
++            "Fixed online Mapping progress timed out");
++        std::this_thread::sleep_for(std::chrono::milliseconds(1));
++      }
++    }
++#endif
++    if ((ni + 1) % 100 == 0 || ni + 1 == nImages)
++      std::cout << "[Experiment PROGRESS] frames=" << ni + 1 << "/" << nImages << std::endl;
+ 
+     // Wait to load the next frame
+     double T = 0;
+@@ -195,8 +226,17 @@ int main(int argc, char **argv) {
+   }
+ 
+   // Stop all threads
++#ifdef CARTGS_MATURITY_ABLATION
++  TORCH_CHECK(pGausMapper->completedExperimentMappings() == std::uint64_t(experiment_steps),
++      "Fixed online Mapping budget mismatch");
++  std::cout << "[Maturity ABLATION COMPLETE] mapping_steps=" << pGausMapper->completedExperimentMappings()
++            << " slam_online=" << !pSLAM->isShutDown() << " tail_steps=0\n";
++#endif
+   pSLAM->Shutdown();
+   training_thd.join();
++#ifdef CARTGS_MATURITY_ABLATION
++  pGausMapper->reportExperimentMappings();
++#endif
+   if (use_viewer) viewer_thd.join();
+   std::chrono::steady_clock::time_point end_point =
+       std::chrono::steady_clock::now();
+diff --git a/examples/vector_mono.cpp b/examples/vector_mono.cpp
+index dbc8c08..26a1faf 100644
+--- a/examples/vector_mono.cpp
++++ b/examples/vector_mono.cpp
+@@ -193,6 +193,8 @@ int main(int argc, char **argv) {
+         std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1)
+             .count();
+     vTimesTrack[ni] = ttrack;
++    if ((ni + 1) % 100 == 0 || ni + 1 == nImages)
++      std::cout << "[Experiment PROGRESS] frames=" << ni + 1 << "/" << nImages << std::endl;
+ 
+     // Wait to load the next frame
+     double T = 0;
+diff --git a/examples/vector_stereo.cpp b/examples/vector_stereo.cpp
+index 83982ec..506d5a5 100644
+--- a/examples/vector_stereo.cpp
++++ b/examples/vector_stereo.cpp
+@@ -190,6 +190,8 @@ int main(int argc, char **argv) {
+         std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1)
+             .count();
+     vTimesTrack[ni] = ttrack;
++    if ((ni + 1) % 100 == 0 || ni + 1 == nImages)
++      std::cout << "[Experiment PROGRESS] frames=" << ni + 1 << "/" << nImages << std::endl;
+ 
+     // Wait to load the next frame
+     double T = 0;
+diff --git a/improvements/selector/gumbel_network.h b/improvements/selector/gumbel_network.h
+index 0d83778..aafb939 100644
+--- a/improvements/selector/gumbel_network.h
++++ b/improvements/selector/gumbel_network.h
+@@ -119,6 +119,27 @@ class GumbelNetworkImpl : public torch::nn::Module {
+     return teacher;
+   }
+ 
++  std::vector<torch::Tensor> forwardProbabilities(const torch::Tensor& position,
++      const torch::Tensor& rotation, const torch::Tensor& scale,
++      const std::vector<float>& ratios, double tau = 1.0) {
++    std::vector<torch::Tensor> result;
++#ifdef CARTGS_EXPERIMENTAL_SELECTOR_CUDA
++    if (selector_backend_ == "cuda" && ratios.size() > 1) {
++      std::vector<torch::Tensor> ratio_inputs;
++      for (float ratio : ratios)
++        ratio_inputs.push_back(torch::full({position.size(0), 1}, ratio, position.options()));
++      for (const auto& logits : selector_cuda::networkMany(
++               {position, rotation, scale}, ratio_inputs, parameters()))
++        result.push_back((logits / tau).softmax(-1).select(1, 1));
++      return result;
++    }
++#endif
++    for (float ratio : ratios)
++      result.push_back(forwardProbability(position, rotation, scale,
++          torch::full({position.size(0), 1}, ratio, position.options()), tau));
++    return result;
++  }
++
+  private:
+   torch::Tensor logitsFor(const torch::Tensor& position,
+                           const torch::Tensor& rotation,
+diff --git a/improvements/ultra_light_training.md b/improvements/ultra_light_training.md
+index 8838d4b..f0f63dd 100644
+--- a/improvements/ultra_light_training.md
++++ b/improvements/ultra_light_training.md
+@@ -14,7 +14,7 @@ Selector.enabled: 1
+ 
+ ## Mode1：五步轮转，LoD 联合更新主地图
+ 
+-正常 Mapping 固定按 `LoD 1% → LoD 5% → LoD 10% → LoD 15% → Full` 轮转。
++在线正常 Mapping 固定按 `LoD 1% → LoD 5% → LoD 10% → LoD 15% → Full` 轮转。
+ LoD 步不 detach 主 Gaussian，可共同更新 Gaussian、Selector 和已启动的 TF；
+ Full 步只更新 Gaussian。Selector 必须启用。此路径不使用配置中的
+ `Selector.detach_gaussian_parameters`，也不允许 target_ratios 改写固定轮转。
+@@ -23,6 +23,21 @@ Full 使用现有 GausPyramid 图像选择。Full 成功提交后，按已有 Fu
+ 几何漂移计算成熟度，再处理到期的 densify/prune 和 opacity reset；LoD
+ 及联合 Replay 的实际 Gaussian 更新可登记本周期 touched 点。
+ 
++SLAM 实际 shutdown 后，每轮尾部 Mapping 改为：
++
++1. 同一次 KF 采样，Full 继续按 GausPyramid 选层并执行 backward。
++2. 提交 Gaussian 更新、计算一次成熟度并清梯度；Full loss/EMA、统计、到期
++   densify/prune/opacity reset 保持 mode1 的 after-step 顺序。
++3. 从最新 Gaussian/topology 建图，使用 native 原图执行一个 ratio 的 LoD。
++   不 detach Gaussian，联合提交 Gaussian、Selector 和已经运行的 TF 更新。
++4. LoD 仅登记 touched 点，不重算成熟度；相邻 Full 快照的漂移包含前一 LoD 的影响。
++
++尾部从在线尚未执行的下一个 LoD ratio 接续，仅在四个 ratio 间轮转。
++未进入 LoD 不消费 ratio，已尝试但被拒绝的 LoD 仍消费一次。尾部每轮最多
++两次 Gaussian Adam 提交，但 iteration、Mapping 和尾部预算只前进一次；
++LoD 被拒绝不回退已成功 Full 的学习率时钟。在线五 slot 计数在 shutdown
++边界冻结，尾部 Full、LoD、ratio 及实际提交分别统计。
++
+ ## Mode2：每轮 Full，然后执行独立 LoD
+ 
+ 每次有效 Mapping 使用同一个 KF，按以下顺序执行：
+@@ -52,8 +67,8 @@ Full-only；TF 关闭不阻塞 Selector-only LoD。mode2 当前要求
+ `Selector.lod_render_scale` 在 mode1 中仅在线生效，尾部使用 native 图像；
+ mode2 在线和尾部均使用该 scale，相对 native 图像缩放。
+ 
+-两种模式均保留现有尾优化配置。mode1 尾部继续五步轮转，mode2 尾部继续
+-Full 后执行独立 LoD。GI、AABB、Replay、CD、DSD 的周期和特殊训练语义
++两种模式均保留现有尾优化配置。mode1 尾部每轮 Full 后执行联合 LoD，
++mode2 尾部继续 Full 后执行独立 LoD。GI、AABB、Replay、CD、DSD 的周期和特殊训练语义
+ 保持原调用链；mode2 的 detach 仅用于正常 LoD，不改变联合 Replay。
+ 
+ ## 回归验证
+@@ -63,3 +78,7 @@ Full-only 原调度/native/pyramid 对照、两阶段梯度及 Adam 状态隔离
+ TF 启动前 Selector LoD、TF 独立启动、成熟度从零建立、topology 空提交、
+ ratio/预算/尾部及 Replay/CD/DSD 隔离。真实 renderer 和状态检查需要
+ 目标 CUDA 11.8 / LibTorch 环境，静态检查不能替代运行验证。
++
++`ultrafast_mapping_test` 另外验证 mode1 尾部两次真实 Gaussian backward/Adam
++提交、Full 提交先于 LoD backward、maturity 只在 Full 边界更新、GausPyramid
++Full 与 native LoD、固定/零步/旧尾预算及非有限 LoD 保留 Full 更新。
+diff --git a/include/change_management.h b/include/change_management.h
+index 1628d09..a3f1665 100644
+--- a/include/change_management.h
++++ b/include/change_management.h
+@@ -3,6 +3,7 @@
+ #include <torch/torch.h>
+ #include <cstdint>
+ #include <memory>
++#include <optional>
+ #include <random>
+ #include <string>
+ #include <vector>
+@@ -46,6 +47,10 @@ struct ChangeDistillConfig {
+   float tf_grid_learning_rate = 1.6e-4f;
+   float tf_mlp_learning_rate = 1.6e-5f;
+   int64_t batch_size = 8192, epochs = 1;
++  // Unset branch counts preserve the legacy shared epoch count.
++  std::optional<int64_t> selector_epochs, tf_epochs;
++  int64_t selectorEpochs() const { return selector_epochs.value_or(epochs); }
++  int64_t tfEpochs() const { return tf_epochs.value_or(epochs); }
+   uint64_t seed = 0;
+   bool enable_unaffected_anchors = true;
+   float anchor_ratio_to_corrected = 1.0f;
+diff --git a/include/continuous_tf_statistics.h b/include/continuous_tf_statistics.h
+index ad3b766..8b05c8f 100644
+--- a/include/continuous_tf_statistics.h
++++ b/include/continuous_tf_statistics.h
+@@ -66,6 +66,14 @@ struct ContinuousTFStatistics {
+           << " elastic_eligible_fraction=" << sums[6] / std::max(1.0, sums[7])
+           << " selector_candidate_count=" << sums[6]
+           << " selector_skipped_low_maturity_count=" << sums[7] - sums[6] << '\n';
++      out << "[Maturity MODULE] ratio=" << entry.first
++          << " selector_total_rows=" << sums[7] << " selector_gate_rows=" << sums[6]
++          << " selector_skipped_rows=" << sums[7] - sums[6]
++          << " selector_gate_fraction=" << sums[6] / std::max(1.0, sums[7])
++          << " selected_total=" << sums[0] << " tf_inside_aabb=" << sums[1]
++          << " tf_gate_candidates=" << sums[8]
++          << " tf_skipped_low_maturity=" << sums[1] - sums[8]
++          << " tf_gate_fraction=" << sums[8] / std::max(1.0, sums[1]) << '\n';
+       row.selector_profiler.reportSelector(out, entry.first);
+     }
+   }
+diff --git a/include/frozen_teacher_target_cache.h b/include/frozen_teacher_target_cache.h
+index 08d32c5..6900d64 100644
+--- a/include/frozen_teacher_target_cache.h
++++ b/include/frozen_teacher_target_cache.h
+@@ -11,7 +11,10 @@ class FrozenTeacherTargetCache {
+                            options.dtype(torch::kBool).requires_grad(false))) {}
+ 
+   template <typename Evaluate>
+-  torch::Tensor get(const torch::Tensor& indices, Evaluate evaluate) {
++  torch::Tensor get(const torch::Tensor& indices, Evaluate evaluate, bool fully_cached = false) {
++    // The caller must have populated this complete set (or a superset) through
++    // get() earlier in this event. Unknown/resampled coverage stays lazy.
++    if (fully_cached) return getCached(indices);
+     torch::NoGradGuard no_grad;
+     auto missing = indices.index({~ready_.index_select(0, indices)});
+     if (missing.numel() > 0) {
+@@ -27,6 +30,12 @@ class FrozenTeacherTargetCache {
+     return values_.index_select(0, indices);
+   }
+ 
++  torch::Tensor getCached(const torch::Tensor& indices) const {
++    torch::NoGradGuard no_grad;
++    TORCH_CHECK(values_.defined(), "Teacher cache has not been populated");
++    return values_.index_select(0, indices);
++  }
++
+  private:
+   torch::Tensor ready_;
+   torch::Tensor values_;
+diff --git a/include/gaussian_mapper.h b/include/gaussian_mapper.h
+index c309bc2..78006c3 100644
+--- a/include/gaussian_mapper.h
++++ b/include/gaussian_mapper.h
+@@ -75,6 +75,7 @@
+ #include "ultrafast_rotation.h"
+ #include "ultrafast_training_timer.h"
+ #include "tail_optimization_schedule.h"
++#include "online_mapping_budget.h"
+ 
+ #define CHECK_DIRECTORY_AND_CREATE_IF_NOT_EXISTS(dir)                 \
+   if (!dir.empty() && !std::filesystem::exists(dir))                  \
+@@ -129,6 +130,25 @@ class GaussianMapper {
+   void run();
+   void trainColmap();
+   void trainForOneIteration();
++  void setExperimentMappingBudget(std::uint64_t steps) {
++    TORCH_CHECK(ultrafast_rotation_.enabled && !tail_optimization_schedule_.enabled,
++        "Fixed online ablation requires mode1 and no forced tail");
++    TORCH_CHECK(!selector_max_mapping_iterations_ || selector_max_mapping_iterations_ == steps,
++        "Conflicting fixed Mapping budgets");
++    selector_max_mapping_iterations_ = steps;
++    experiment_budget_.configure(steps);
++  }
++  void grantExperimentMappings(std::uint64_t steps) { experiment_budget_.grant(steps); }
++  std::uint64_t completedExperimentMappings() const { return experiment_budget_.committed.load(); }
++  void reportExperimentMappings() const {
++    auto times = experiment_budget_.training_ms;
++    TORCH_CHECK(times.size() == experiment_budget_.target, "Invalid fixed-budget timing population");
++    std::sort(times.begin(), times.end());
++    double sum = 0; for (const auto t : times) sum += t;
++    std::cout << "[Maturity ABLATION TRAINING] samples=" << times.size()
++              << " mean_ms=" << sum / times.size()
++              << " p95_ms=" << times[(times.size() * 95 + 99) / 100 - 1] << '\n';
++  }
+ 
+   bool isStopped();
+   void signalStop(const bool going_to_stop = true);
+@@ -228,7 +248,8 @@ class GaussianMapper {
+                            bool detach_gaussian_parameters,
+                            bool record_supervision,
+                            UltrafastTrainingTimer* rotation_timer = nullptr,
+-                           bool normal_mode2 = false);
++                           bool normal_mode2 = false,
++                           bool native_lod = false);
+   struct MappingStageCommit {
+     bool gaussian = false, selector = false, tf = false, finite = true;
+   };
+@@ -237,7 +258,9 @@ class GaussianMapper {
+   void initializeTransformFieldIfNeeded();
+   void prepareElasticEntryState();
+   void ensureSharedMappingOptimizer();
+-  bool stepWithHistoricalGuard(const std::shared_ptr<GaussianKeyframe>& current);  // Already render-locked.
++  bool stepWithHistoricalGuard(const std::shared_ptr<GaussianKeyframe>& current,
++                               bool count_rejection = true,
++                               bool* stage_committed = nullptr);  // Already render-locked.
+   GuardEvaluation makeHistoricalEvaluation(const std::vector<GuardObjective>& objectives);
+   void updateTransformLearningRate();
+   ChangeCapture captureGeometryChange(ChangeFlag flag);
+@@ -405,6 +428,7 @@ class GaussianMapper {
+   // Mode1 scales online LoD only; mode2 scales LoD in both online and tail.
+   float selector_lod_render_scale_ = 1.0f;
+   int ultra_light_mode_ = 1;
++  bool mapping_iteration_logging_ = false;
+   std::uint64_t normal_lod_branch_count_ = 0;
+   struct Mode2MappingCounts {
+     std::uint64_t mappings = 0, full_renders = 0, full_backwards = 0;
+@@ -462,6 +486,26 @@ class GaussianMapper {
+   MappingProfiler mapping_profiler_;
+   ContinuousTFStatistics continuous_tf_statistics_;
+   int initialization_seed_ = 0;
++  OnlineMappingBudget experiment_budget_;
++  void trainExperimentMapping() {
++    if (!experiment_budget_.target) { trainForOneIteration(); return; }
++    const auto before = mapping_iter_;
++    const auto start = std::chrono::steady_clock::now();
++    trainForOneIteration();
++    if (mapping_iter_ > before) {
++      TORCH_CHECK(mapping_iter_ == before + 1, "Experiment must count effective KF Mapping steps");
++      experiment_budget_.training_ms.push_back(std::chrono::duration<double, std::milli>(
++          std::chrono::steady_clock::now() - start).count());
++    }
++    experiment_budget_.committed.store(mapping_iter_);
++  }
++  bool waitExperimentMappingCredit() {
++    while (!experiment_budget_.permitted()) {
++      if (isStopped() || (pSLAM_ && pSLAM_->isShutDown())) return false;
++      std::this_thread::sleep_for(std::chrono::milliseconds(1));
++    }
++    return true;
++  }
+ 
+   improvements::selector::GumbelNetwork selector_network_ = nullptr;
+   std::shared_ptr<torch::optim::Adam> selector_optimizer_;
+diff --git a/include/gaussian_protection.h b/include/gaussian_protection.h
+index a4f9729..2b9c7a8 100644
+--- a/include/gaussian_protection.h
++++ b/include/gaussian_protection.h
+@@ -35,6 +35,14 @@ class GaussianProtection {
+           torch::nonzero(maturity >= threshold).reshape({-1})).first;
+     return found->second;
+   }
++  const torch::Tensor& gate06Indices() const {
++    if (!gate_cache_source_.defined() || !gate_cache_source_.is_same(maturity) ||
++        gate_cache_version_ != maturity._version()) {
++      gate_indices_ = torch::nonzero(maturityExecutionGate(maturity)).reshape({-1});
++      gate_cache_source_ = maturity; gate_cache_version_ = maturity._version();
++    }
++    return gate_indices_;
++  }
+ 
+   void reset(int64_t count, const torch::TensorOptions& options) {
+     torch::NoGradGuard guard;
+@@ -43,7 +51,7 @@ class GaussianProtection {
+     entry_indices_.clear(); entry_cache_source_ = torch::Tensor{};
+     const auto floats = options.dtype(torch::kFloat32).requires_grad(false);
+     const auto bools = floats.dtype(torch::kBool);
+-    maturity = torch::zeros({count}, floats);
++    maturity = config.maturity_enabled ? torch::zeros({count}, floats) : torch::ones({count}, floats);
+     drift_ema = torch::zeros({count}, floats);
+     prev_full_xyz = torch::zeros({count, 3}, floats);
+     prev_full_log_scale = torch::zeros({count, 3}, floats);
+@@ -52,7 +60,7 @@ class GaussianProtection {
+     touched_in_cycle = torch::zeros({count}, bools);
+     drift_initialized = torch::zeros({count}, bools);
+     cached_uniform = torch::rand({count}, floats);
+-    dynamics.enabled = config.maturity_diagnostics;
++    dynamics.enabled = config.maturity_enabled && config.maturity_diagnostics;
+     dynamics.reset(count, floats, mapping_iteration);
+   }
+   void assertAligned(int64_t count) const {
+@@ -78,7 +86,7 @@ class GaussianProtection {
+       return parents.defined() ? value.index_select(0, parents) : torch::zeros({count}, value.options());
+     };
+     if (parents.defined()) TORCH_CHECK(parents.numel() == count, "Maturity parent mapping size mismatch");
+-    maturity = torch::cat({maturity, inherit(maturity)});
++    maturity = torch::cat({maturity, config.maturity_enabled ? inherit(maturity) : torch::ones({count}, maturity.options())});
+     drift_ema = torch::cat({drift_ema, inherit(drift_ema)});
+     drift_initialized = torch::cat({drift_initialized, inherit(drift_initialized)});
+     prev_full_xyz = torch::cat({prev_full_xyz, torch::zeros({count, 3}, prev_full_xyz.options())});
+@@ -102,6 +110,13 @@ class GaussianProtection {
+   torch::Tensor selectionMaturity(bool enabled) const {
+     return enabled ? maturity.detach() : torch::ones_like(maturity);
+   }
++  // Consumer-only ablation: observation, snapshots, diagnostics and CD stay raw.
++  torch::Tensor effectiveMaturity(bool enabled = true) const {
++    return effectiveMaturity(MaturityConsumer::Selector, enabled);
++  }
++  torch::Tensor effectiveMaturity(MaturityConsumer consumer, bool enabled = true) const {
++    return consumerMaturity(maturity, config.maturity_ablation_mode, consumer, enabled);
++  }
+   torch::Tensor matureMask() const { return maturity >= config.compatibility_mature_threshold; }
+   void markTouched(const torch::Tensor& indices) {
+     torch::NoGradGuard guard;
+@@ -112,6 +127,13 @@ class GaussianProtection {
+     torch::NoGradGuard guard;
+     assertAligned(xyz.size(0));
+     if (!xyz.size(0)) return;
++    if (!config.maturity_enabled) {
++      maturity.fill_(1);
++      touched_in_cycle.zero_();
++      if (first_valid_maturity_cycle_iteration < 0)
++        first_valid_maturity_cycle_iteration = mapping_iteration;
++      return;
++    }
+     const auto previous = dynamics.enabled ? maturity.clone() : torch::Tensor{};
+     torch::Tensor valid, stability, drift;
+     {
+@@ -206,6 +228,8 @@ class GaussianProtection {
+     if (config.performance_logging) profiler->report(out, metadataMB());
+   }
+  private:
++  mutable torch::Tensor gate_cache_source_, gate_indices_;
++  mutable int64_t gate_cache_version_ = -1;
+   mutable torch::Tensor entry_cache_source_;
+   mutable int64_t entry_cache_version_ = -1;
+   mutable std::map<float, torch::Tensor> entry_indices_;
+diff --git a/include/gradient_constraint_clock.h b/include/gradient_constraint_clock.h
+index 888bed9..4d97d9f 100644
+--- a/include/gradient_constraint_clock.h
++++ b/include/gradient_constraint_clock.h
+@@ -10,9 +10,9 @@ struct MappingUpdateClock {
+   bool guardReady(bool tf_initialized, int warmup_steps) const {
+     return tf_initialized && tf_updates >= static_cast<std::uint64_t>(warmup_steps);
+   }
+-  void record(bool committed, bool tf_trained) {
+-    if (!committed) ++rejected_updates;
+-    else if (tf_trained) ++tf_updates;
++  void record(bool committed, bool tf_trained, bool count_rejection = true) {
++    if (!committed && count_rejection) ++rejected_updates;
++    else if (committed && tf_trained) ++tf_updates;
+   }
+   std::uint64_t gaussianLRStep(std::uint64_t iteration) const {
+     return iteration > rejected_updates ? iteration - rejected_updates : 0;
+diff --git a/include/mapping_profiler.h b/include/mapping_profiler.h
+index 836bdc0..baf5136 100644
+--- a/include/mapping_profiler.h
++++ b/include/mapping_profiler.h
+@@ -18,6 +18,7 @@
+ // kernel profiler. Event intervals include host launch gaps on that stream.
+ class MappingProfiler {
+  public:
++  bool enabled = true;
+   enum Stage { Operations, FullRender, GI, FullBackward, LOD, Densify,
+                Optimizer, AABB, Historical, MaturePreparation, GITeacher,
+                GILoss, LodRender, LodBackward, GaussianOptimizer, LodOptimizer,
+@@ -40,7 +41,7 @@ class MappingProfiler {
+     for (auto& sample : idle_) destroy(sample);
+   }
+   void begin(bool cuda) {
+-    if (active_) return;
++    if (!enabled || active_) return;
+     harvest();
+     active_ = true;
+     cpu_.fill(0.0);
+@@ -96,6 +97,7 @@ class MappingProfiler {
+     wall_.clear(); cpu_sum_.fill(0.0); gpu_sum_.fill(0.0); gpu_count_.fill(0);
+   }
+   void report(uint64_t iteration) {
++    if (!enabled) return;
+     harvest();
+     if (all_wall_.empty()) return;
+     auto sorted = all_wall_;
+diff --git a/include/protection_config.h b/include/protection_config.h
+index 5233009..0fcd0c6 100644
+--- a/include/protection_config.h
++++ b/include/protection_config.h
+@@ -1,8 +1,13 @@
+ #pragma once
+ #include <cmath>
+ #include <stdexcept>
++#include <string>
++#include "maturity_ablation.h"
+ 
+ struct ProtectionConfig {
++  bool maturity_enabled = true;
++  // Default: only streaming GI Teacher consumes maturity; Selector/TF use full strength.
++  std::string maturity_ablation_mode = "g_real";
+   float drift_temperature = 0.10f;
+   float beta_fast = 0.60f;
+   float beta_slow = 0.15f;
+@@ -13,6 +18,8 @@ struct ProtectionConfig {
+   float compatibility_mature_threshold = 0.80f;
+   bool performance_logging = true;
+   void validate() const {
++    if (!validMaturityMode(maturity_ablation_mode))
++      throw std::invalid_argument("Invalid Protection.maturity_ablation_mode");
+     if (!std::isfinite(drift_temperature) || drift_temperature <= 0 ||
+         !std::isfinite(beta_fast) || !std::isfinite(beta_slow) ||
+         beta_slow <= 0 || beta_fast > 1 || beta_fast <= beta_slow ||
+diff --git a/include/selector_cuda.h b/include/selector_cuda.h
+index 0720e46..e7e6f44 100644
+--- a/include/selector_cuda.h
++++ b/include/selector_cuda.h
+@@ -16,7 +16,10 @@ enum class BackwardStrategy : int64_t {
+ // Parameter order is the existing module registration order, never packed copies.
+ // Forward returns the eight ReLU activations followed by two-class logits.
+ std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,
+-    const std::vector<torch::Tensor>& parameters, Candidate candidate);
++    const std::vector<torch::Tensor>& parameters, Candidate candidate,
++    const std::vector<torch::Tensor>& spatial = {});
++std::vector<torch::Tensor> spatialForward(const std::vector<torch::Tensor>& inputs,
++    const std::vector<torch::Tensor>& parameters);
+ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     const std::vector<torch::Tensor>& parameters,
+     const std::vector<torch::Tensor>& activations, const torch::Tensor& upstream,
+@@ -25,4 +28,9 @@ torch::Tensor network(const std::vector<torch::Tensor>& inputs,
+     const std::vector<torch::Tensor>& parameters, Candidate candidate,
+     BackwardStrategy strategy = BackwardStrategy::DirectFinalRelu);
+ 
++// Reuse only this call's spatial forward activations. Each ratio retains the
++// existing strict final GEMM and backward, including parameter-gradient sums.
++std::vector<torch::Tensor> networkMany(const std::vector<torch::Tensor>& inputs,
++    const std::vector<torch::Tensor>& ratios, const std::vector<torch::Tensor>& parameters);
++
+ }  // namespace selector_cuda
+diff --git a/include/ultrafast_rotation.h b/include/ultrafast_rotation.h
+index 571e9d2..51f8777 100644
+--- a/include/ultrafast_rotation.h
++++ b/include/ultrafast_rotation.h
+@@ -23,6 +23,8 @@ struct UltrafastRotation {
+   bool online_ended = false;
+   std::uint64_t online_end_mapping_iteration = 0, online_end_rotation_step = 0;
+   std::uint64_t online_end_selector_updates = 0, online_end_tf_updates = 0;
++  std::array<std::uint64_t, 4> tail_ratio_counts{};
++  std::uint64_t tail_lod_attempts = 0, tail_lod_renders = 0;
+ 
+   std::size_t phase() const { return step % names.size(); }
+   bool full() const { return phase() == ratios.size(); }
+@@ -38,13 +40,29 @@ struct UltrafastRotation {
+   std::uint64_t tailSteps() const {
+     return online_ended ? step - online_end_rotation_step : 0;
+   }
++  std::size_t tailRatioIndex() const {
++    const auto next = online_end_rotation_step % names.size();
++    return ((next == ratios.size() ? 0 : next) + tail_lod_attempts) % ratios.size();
++  }
++  void completeTail(double ms, bool lod_attempted, bool lod_rendered,
++                    bool selector_updated, bool tf_updated, bool record_timing = true) {
++    if (lod_attempted) { ++tail_ratio_counts[tailRatioIndex()]; ++tail_lod_attempts; }
++    ++full_render_count;
++    if (lod_rendered) { ++lod_render_count; ++tail_lod_renders; }
++    selector_updates += selector_updated;
++    tf_updates += tf_updated;
++    if (record_timing) elapsed.push_back(ms);
++    ++step;
++  }
+   void complete(double ms, double render_ms, bool rendered,
+-                bool selector_updated, bool tf_updated) {
++                bool selector_updated, bool tf_updated, bool record_timing = true) {
+     const auto index = phase();
+     ++counts[index];
+-    elapsed_sum[index] += ms;
+-    render_sum[index] += render_ms;
+-    elapsed.push_back(ms);
++    if (record_timing) {
++      elapsed_sum[index] += ms;
++      render_sum[index] += render_ms;
++      elapsed.push_back(ms);
++    }
+     if (rendered) ++(full() ? full_render_count : lod_render_count);
+     selector_updates += selector_updated;
+     tf_updates += tf_updated;
+@@ -53,7 +71,9 @@ struct UltrafastRotation {
+   bool balanced() const {
+     const auto range = std::minmax_element(counts.begin(), counts.end());
+     return *range.second - *range.first <= 1 &&
+-        std::accumulate(counts.begin(), counts.end(), std::uint64_t{0}) == step;
++        std::accumulate(counts.begin(), counts.end(), std::uint64_t{0}) ==
++            (online_ended ? online_end_rotation_step : step) &&
++        std::accumulate(tail_ratio_counts.begin(), tail_ratio_counts.end(), std::uint64_t{0}) == tail_lod_attempts;
+   }
+   double mean() const {
+     return elapsed.empty() ? 0.0 :
+diff --git a/include/ultrafast_training_timer.h b/include/ultrafast_training_timer.h
+index b56cfd6..827bf10 100644
+--- a/include/ultrafast_training_timer.h
++++ b/include/ultrafast_training_timer.h
+@@ -11,8 +11,8 @@
+ // streams; event intervals include host launch gaps, wall time includes host work.
+ class UltrafastTrainingTimer {
+  public:
+-  explicit UltrafastTrainingTimer(bool cuda) : cuda_(cuda) {
+-    if (!cuda_) return;
++  explicit UltrafastTrainingTimer(bool cuda, bool enabled = true) : cuda_(cuda), enabled_(enabled) {
++    if (!enabled_ || !cuda_) return;
+     check(cudaEventCreate(&begin_));
+     check(cudaEventCreate(&end_));
+     check(cudaEventCreate(&render_begin_));
+@@ -25,8 +25,9 @@ class UltrafastTrainingTimer {
+   UltrafastTrainingTimer(const UltrafastTrainingTimer&) = delete;
+   UltrafastTrainingTimer& operator=(const UltrafastTrainingTimer&) = delete;
+   void begin() {
++    if (!enabled_) return;
+     rendered_ = false;
+-    wall_ms = render_ms = cuda_elapsed_ms = 0.0;
++    wall_ms = render_ms = cuda_elapsed_ms = completed_render_ms_ = 0.0;
+     if (cuda_) {
+       check(cudaDeviceSynchronize());
+       check(cudaEventRecord(begin_, c10::cuda::getCurrentCUDAStream()));
+@@ -35,15 +36,22 @@ class UltrafastTrainingTimer {
+     start_ = Clock::now();
+   }
+   void beginRender() {
+-    rendered_ = true;
++    if (!enabled_) return;
+     if (cuda_) {
+       check(cudaDeviceSynchronize());
++      if (rendered_) {
++        float value = 0.0f;
++        check(cudaEventElapsedTime(&value, render_begin_, render_end_));
++        completed_render_ms_ += value;
++      }
+       check(cudaEventRecord(render_begin_, c10::cuda::getCurrentCUDAStream()));
+       check(cudaEventSynchronize(render_begin_));
+-    }
++    } else if (rendered_) completed_render_ms_ += render_ms;
++    rendered_ = true;
+     render_start_ = Clock::now();
+   }
+   void endRender() {
++    if (!enabled_) return;
+     if (cuda_) {
+       check(cudaDeviceSynchronize());
+       check(cudaEventRecord(render_end_, c10::cuda::getCurrentCUDAStream()));
+@@ -51,6 +59,7 @@ class UltrafastTrainingTimer {
+     render_ms = std::chrono::duration<double, std::milli>(Clock::now() - render_start_).count();
+   }
+   void end() {
++    if (!enabled_) return;
+     if (cuda_) {
+       check(cudaDeviceSynchronize());
+       check(cudaEventRecord(end_, c10::cuda::getCurrentCUDAStream()));
+@@ -63,6 +72,7 @@ class UltrafastTrainingTimer {
+         render_ms = value;
+       }
+     }
++    render_ms += completed_render_ms_;
+     wall_ms = std::chrono::duration<double, std::milli>(Clock::now() - start_).count();
+   }
+   double wall_ms = 0.0, render_ms = 0.0, cuda_elapsed_ms = 0.0;
+@@ -72,7 +82,8 @@ class UltrafastTrainingTimer {
+     if (status != cudaSuccess)
+       throw std::runtime_error(std::string("Ultrafast timing: ") + cudaGetErrorString(status));
+   }
+-  bool cuda_, rendered_ = false;
++  bool cuda_, enabled_, rendered_ = false;
++  double completed_render_ms_ = 0.0;
+   Clock::time_point start_, render_start_;
+   cudaEvent_t begin_ = nullptr, end_ = nullptr, render_begin_ = nullptr, render_end_ = nullptr;
+ };
+diff --git a/python/diff-gaussian-rasterization/diff_gaussian_rasterization/__init__.py b/python/diff-gaussian-rasterization/diff_gaussian_rasterization/__init__.py
+index d83d509..5138785 100644
+--- a/python/diff-gaussian-rasterization/diff_gaussian_rasterization/__init__.py
++++ b/python/diff-gaussian-rasterization/diff_gaussian_rasterization/__init__.py
+@@ -34,7 +34,19 @@ def rasterize_gaussians(
+     rotations,
+     cov3Ds_precomp,
+     raster_settings,
++    inference_only=False,
+ ):
++    if inference_only:
++        with torch.no_grad():
++            return _C.rasterize_gaussians_inference(
++                raster_settings.bg, means3D, colors_precomp, opacities, scales,
++                rotations, raster_settings.scale_modifier, cov3Ds_precomp,
++                raster_settings.viewmatrix, raster_settings.projmatrix,
++                raster_settings.tanfovx, raster_settings.tanfovy,
++                raster_settings.image_height, raster_settings.image_width,
++                dc, sh, raster_settings.sh_degree, raster_settings.campos,
++                raster_settings.prefiltered, raster_settings.debug,
++            )
+     return _RasterizeGaussians.apply(
+         means3D,
+         means2D,
+@@ -262,9 +274,14 @@ class GaussianRasterizationSettings(NamedTuple):
+ 
+ 
+ class GaussianRasterizer(nn.Module):
+-    def __init__(self, raster_settings):
++    def __init__(self, raster_settings, inference_only=False):
+         super().__init__()
+         self.raster_settings = raster_settings
++        self.inference_only = inference_only
++        if inference_only and not hasattr(_C, "rasterize_gaussians_inference"):
++            raise RuntimeError(
++                "Rebuild diff_gaussian_rasterization: the loaded extension has no inference entry point"
++            )
+ 
+     def markVisible(self, positions):
+         # Mark visible points (based on frustum culling for camera) with a boolean
+@@ -336,6 +353,7 @@ class GaussianRasterizer(nn.Module):
+             rotations,
+             cov3D_precomp,
+             raster_settings,
++            inference_only=self.inference_only,
+         )
+ 
+ 
+diff --git a/python/diff-gaussian-rasterization/ext.cpp b/python/diff-gaussian-rasterization/ext.cpp
+index 6f7670c..310faec 100644
+--- a/python/diff-gaussian-rasterization/ext.cpp
++++ b/python/diff-gaussian-rasterization/ext.cpp
+@@ -15,6 +15,7 @@
+ 
+ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+   m.def("rasterize_gaussians", &RasterizeGaussiansCUDA);
++  m.def("rasterize_gaussians_inference", &RasterizeGaussiansInferenceCUDA);
+   m.def("rasterize_gaussians_backward", &RasterizeGaussiansBackwardCUDA);
+   m.def("mark_visible", &markVisible);
+   m.def("adamUpdate", &adamUpdate);
+diff --git a/python/diff-gaussian-rasterization/setup.py b/python/diff-gaussian-rasterization/setup.py
+index 07f824a..1ee9a04 100644
+--- a/python/diff-gaussian-rasterization/setup.py
++++ b/python/diff-gaussian-rasterization/setup.py
+@@ -13,7 +13,8 @@ from setuptools import setup
+ from torch.utils.cpp_extension import CUDAExtension, BuildExtension
+ import os
+ 
+-include_dir = os.path.abspath("../../cuda_rasterizer/")
++source_dir = os.path.dirname(os.path.abspath(__file__))
++include_dir = os.path.abspath(os.path.join(source_dir, "../../cuda_rasterizer"))
+ 
+ 
+ setup(
+@@ -23,13 +24,13 @@ setup(
+         CUDAExtension(
+             name="diff_gaussian_rasterization._C",
+             sources=[
+-                "../../cuda_rasterizer/rasterizer_impl.cu",
+-                "../../cuda_rasterizer/forward.cu",
+-                "../../cuda_rasterizer/backward.cu",
+-                "../../cuda_rasterizer/rasterize_points.cu",
+-                "../../cuda_rasterizer/adam.cu",
+-                "../../cuda_rasterizer/conv.cu",
+-                "ext.cpp",
++                os.path.join(include_dir, "rasterizer_impl.cu"),
++                os.path.join(include_dir, "forward.cu"),
++                os.path.join(include_dir, "backward.cu"),
++                os.path.join(include_dir, "rasterize_points.cu"),
++                os.path.join(include_dir, "adam.cu"),
++                os.path.join(include_dir, "conv.cu"),
++                os.path.join(source_dir, "ext.cpp"),
+             ],
+             extra_compile_args=["-I" + include_dir],
+         )
+diff --git a/python/elastic_entry.py b/python/elastic_entry.py
+index bbf96f6..c892217 100644
+--- a/python/elastic_entry.py
++++ b/python/elastic_entry.py
+@@ -1,6 +1,21 @@
+ """Elastic compute entry; raw maturity and global admission budget stay unchanged."""
+ import math
+ import torch
++
++def effective_maturity(maturity, mode="real", consumer="selector"):
++    if mode not in ("real", "all_one", "s_real", "t_real", "g_real", "st_gate06"):
++        raise ValueError("Invalid Protection.maturity_ablation_mode")
++    continuous = mode == "real" or mode == {"selector":"s_real", "tf":"t_real", "gi":"g_real"}[consumer]
++    return maturity.detach() if continuous else torch.ones_like(maturity)
++
++def maturity_execution_gate(maturity):
++    return maturity.detach() > 0.60
++
++def gated_selector_probability(maturity, ratio, forward):
++    rows=torch.nonzero(maturity_execution_gate(maturity),as_tuple=False).flatten()
++    probability=torch.full_like(maturity,ratio,requires_grad=False)
++    if rows.numel():probability=probability.index_copy(0,rows,forward(rows))
++    return probability
+ from elastic_budget import mix_selector_probability
+ 
+ def elastic_maturity(maturity, entry):
+diff --git a/python/eval_lod.py b/python/eval_lod.py
+index 1370500..8d103b4 100644
+--- a/python/eval_lod.py
++++ b/python/eval_lod.py
+@@ -1,7 +1,8 @@
+ """Evaluate selector LOD ratios by reusing the standard ``run.py`` pipeline.
+ 
+ The source result directory is never modified. Each ratio gets an independent
+-output directory containing rendered images and the standard metric files.
++output directory containing a compensated PLY, provenance, rendered images,
++and the standard metric files. Full evaluation uses the original PLY.
+ """
+ 
+ import argparse
+diff --git a/python/gaussian_model.py b/python/gaussian_model.py
+index 010088a..2b5b589 100644
+--- a/python/gaussian_model.py
++++ b/python/gaussian_model.py
+@@ -12,7 +12,7 @@
+ import numpy as np
+ import torch
+ from torch import nn
+-from plyfile import PlyData
++from plyfile import PlyData, PlyElement
+ 
+ 
+ class GaussianModel:
+@@ -107,7 +107,47 @@ class GaussianModel:
+             self.get_scaling, scaling_modifier, self._rotation
+         )
+ 
+-    def load_ply(self, path):
++    @torch.no_grad()
++    def save_ply(self, path, selector_mask=None, elastic_attributes=None):
++        """Write selected, compensated Gaussians in the standard binary 3DGS format."""
++        xyz = self._xyz if elastic_attributes is None else elastic_attributes["xyz"]
++        scaling = self._scaling if elastic_attributes is None else torch.log(elastic_attributes["scaling"])
++        rotation = self._rotation if elastic_attributes is None else elastic_attributes["rotation"]
++        attributes = {
++            "": xyz,
++            "n": torch.zeros_like(xyz),
++            "f_dc_": self._features_dc.transpose(1, 2).flatten(1),
++            "f_rest_": self._features_rest.transpose(1, 2).flatten(1),
++            "opacity": self._opacity,
++            "scale_": scaling,
++            "rot_": rotation,
++        }
++        total = self._xyz.shape[0]
++        if any(value.shape[0] != total for value in attributes.values()):
++            raise ValueError("export attributes must match Gaussian count")
++        active_mask = None
++        if selector_mask is not None:
++            if selector_mask.ndim != 1 or selector_mask.shape[0] != total:
++                raise ValueError("selector mask must have one value per Gaussian")
++            active_mask = selector_mask.to(device=xyz.device, dtype=torch.bool)
++        columns = {}
++        for prefix, value in attributes.items():
++            if active_mask is not None:
++                value = value[active_mask]
++            array = value.detach().cpu().numpy()
++            for index in range(array.shape[1]):
++                name = prefix + "xyz"[index] if prefix in ("", "n") else prefix + str(index)
++                if prefix == "opacity":
++                    name = "opacity"
++                columns[name] = array[:, index]
++        count = len(columns["x"])
++        vertices = np.empty(count, dtype=[(name, "<f4") for name in columns])
++        for name, values in columns.items():
++            vertices[name] = values
++        PlyData([PlyElement.describe(vertices, "vertex")], text=False, byte_order="<").write(str(path))
++        return count
++
++    def load_ply(self, path, device="cuda"):
+         plydata = PlyData.read(path)
+ 
+         xyz = np.stack(
+@@ -163,35 +203,35 @@ class GaussianModel:
+             rots[:, idx] = np.asarray(plydata.elements[0][attr_name])
+ 
+         self._xyz = nn.Parameter(
+-            torch.tensor(xyz, dtype=torch.float, device="cuda").requires_grad_(
++            torch.tensor(xyz, dtype=torch.float, device=device).requires_grad_(
+                 True
+             )
+         )
+         self._features_dc = nn.Parameter(
+-            torch.tensor(features_dc, dtype=torch.float, device="cuda")
++            torch.tensor(features_dc, dtype=torch.float, device=device)
+             .transpose(1, 2)
+             .contiguous()
+             .requires_grad_(True)
+         )
+         self._features_rest = nn.Parameter(
+-            torch.tensor(features_extra, dtype=torch.float, device="cuda")
++            torch.tensor(features_extra, dtype=torch.float, device=device)
+             .transpose(1, 2)
+             .contiguous()
+             .requires_grad_(True)
+         )
+         self._opacity = nn.Parameter(
+             torch.tensor(
+-                opacities, dtype=torch.float, device="cuda"
++                opacities, dtype=torch.float, device=device
+             ).requires_grad_(True)
+         )
+         self._scaling = nn.Parameter(
+             torch.tensor(
+-                scales, dtype=torch.float, device="cuda"
++                scales, dtype=torch.float, device=device
+             ).requires_grad_(True)
+         )
+         self._rotation = nn.Parameter(
+             torch.tensor(
+-                rots, dtype=torch.float, device="cuda"
++                rots, dtype=torch.float, device=device
+             ).requires_grad_(True)
+         )
+ 
+diff --git a/python/renderer.py b/python/renderer.py
+index 6a76630..28d448c 100644
+--- a/python/renderer.py
++++ b/python/renderer.py
+@@ -11,6 +11,7 @@
+ 
+ import torch
+ import math
++import time
+ from diff_gaussian_rasterization import (
+     GaussianRasterizationSettings,
+     GaussianRasterizer,
+@@ -18,6 +19,78 @@ from diff_gaussian_rasterization import (
+ from gaussian_model import GaussianModel
+ 
+ 
++def _make_rasterizer(viewpoint_camera, sh_degree, bg_color, scaling_modifier, inference_only=False):
++    raster_settings = GaussianRasterizationSettings(
++        image_height=int(viewpoint_camera.image_height),
++        image_width=int(viewpoint_camera.image_width),
++        tanfovx=math.tan(viewpoint_camera.FoVx * 0.5),
++        tanfovy=math.tan(viewpoint_camera.FoVy * 0.5),
++        bg=bg_color,
++        scale_modifier=scaling_modifier,
++        viewmatrix=viewpoint_camera.world_view_transform,
++        projmatrix=viewpoint_camera.full_proj_transform,
++        sh_degree=sh_degree,
++        campos=viewpoint_camera.camera_center,
++        prefiltered=False,
++        debug=False,
++    )
++    return GaussianRasterizer(raster_settings=raster_settings, inference_only=inference_only)
++
++
++@torch.no_grad()
++def prepare_render_data(pc: GaussianModel, selector_mask=None, elastic_attributes=None):
++    """Cache view-independent, compact inference inputs after Selector/Transform."""
++    attributes = {
++        "means3D": pc.get_xyz if elastic_attributes is None else elastic_attributes["xyz"],
++        "opacities": pc.get_opacity,
++        "scales": pc.get_scaling if elastic_attributes is None else elastic_attributes["scaling"],
++        "rotations": pc.get_rotation if elastic_attributes is None else elastic_attributes["rotation"],
++        "dc": pc.get_features_dc,
++        "shs": pc.get_features_rest,
++    }
++    total = pc.get_xyz.shape[0]
++    if any(attribute.shape[0] != total for attribute in attributes.values()):
++        raise ValueError("render attributes must match Gaussian count")
++    active_mask = None
++    if selector_mask is not None:
++        if selector_mask.ndim != 1 or selector_mask.shape[0] != total:
++            raise ValueError("selector mask must have one value per Gaussian")
++        active_mask = selector_mask.to(device=attributes["means3D"].device, dtype=torch.bool)
++    for name, attribute in attributes.items():
++        if active_mask is not None:
++            attribute = attribute[active_mask]
++        attributes[name] = attribute.detach().contiguous()
++    attributes["means2D"] = torch.zeros_like(attributes["means3D"])
++    attributes["colors_precomp"] = None
++    attributes["cov3D_precomp"] = None
++    return {"sh_degree": pc.active_sh_degree, "inputs": attributes}
++
++
++@torch.no_grad()
++def render_prepared(viewpoint_camera, render_data, bg_color, scaling_modifier=1.0,
++                    measure_time=False):
++    """Render cached inputs; optionally time only the synchronized rasterizer call."""
++    rasterizer = _make_rasterizer(
++        viewpoint_camera, render_data["sh_degree"], bg_color, scaling_modifier, inference_only=True
++    )
++    inputs = render_data["inputs"]
++    device = inputs["means3D"].device
++    if measure_time:
++        torch.cuda.synchronize(device)
++        start = time.perf_counter()
++    if inputs["means3D"].shape[0] == 0:
++        rendered_image = bg_color[:, None, None].expand(
++            -1, int(viewpoint_camera.image_height), int(viewpoint_camera.image_width)
++        ).clone()
++    else:
++        rendered_image, _ = rasterizer(**inputs)
++    elapsed_ms = None
++    if measure_time:
++        torch.cuda.synchronize(device)
++        elapsed_ms = (time.perf_counter() - start) * 1000.0
++    return {"render": rendered_image, "rendering_ms": elapsed_ms}
++
++
+ def render(
+     viewpoint_camera,
+     pc: GaussianModel,
+@@ -49,26 +122,10 @@ def render(
+         pass
+ 
+     # Set up rasterization configuration
+-    tanfovx = math.tan(viewpoint_camera.FoVx * 0.5)
+-    tanfovy = math.tan(viewpoint_camera.FoVy * 0.5)
+-
+-    raster_settings = GaussianRasterizationSettings(
+-        image_height=int(viewpoint_camera.image_height),
+-        image_width=int(viewpoint_camera.image_width),
+-        tanfovx=tanfovx,
+-        tanfovy=tanfovy,
+-        bg=bg_color,
+-        scale_modifier=scaling_modifier,
+-        viewmatrix=viewpoint_camera.world_view_transform,
+-        projmatrix=viewpoint_camera.full_proj_transform,
+-        sh_degree=pc.active_sh_degree,
+-        campos=viewpoint_camera.camera_center,
+-        prefiltered=False,
+-        debug=False,
++    rasterizer = _make_rasterizer(
++        viewpoint_camera, pc.active_sh_degree, bg_color, scaling_modifier
+     )
+ 
+-    rasterizer = GaussianRasterizer(raster_settings=raster_settings)
+-
+     means3D = pc.get_xyz if elastic_attributes is None else elastic_attributes["xyz"]
+     means2D = screenspace_points
+     opacity = pc.get_opacity
+diff --git a/python/run.py b/python/run.py
+index 0161668..3189445 100644
+--- a/python/run.py
++++ b/python/run.py
+@@ -1,14 +1,14 @@
+ import os
+-import time
+ import numpy as np
+ import torch
+ from tqdm import trange
+ import json
+ import glob
+-from renderer import render
++from renderer import prepare_render_data, render_prepared
+ from argparse import ArgumentParser
+ from gaussian_model import GaussianModel
+ from selector import build_selector_mask, load_selector, load_selector_metadata
++from elastic_entry import effective_maturity, maturity_execution_gate
+ from transform_field import (
+     load_transform_field,
+     transformed_attributes,
+@@ -136,6 +136,7 @@ def load_selector_config(config_path):
+         return node.real() if isinstance(default, float) else int(node.real())
+ 
+     config = {
++        "maturity_ablation_mode": storage.getNode("Protection.maturity_ablation_mode").string() if not storage.getNode("Protection.maturity_ablation_mode").empty() else "real",
+         "backend": storage.getNode("Selector.backend").string() if not storage.getNode("Selector.backend").empty() else "cuda",
+         "drift_temperature": read_value("Protection.drift_temperature", 0.10),
+         "beta_fast": read_value("Protection.beta_fast", 0.60),
+@@ -161,6 +162,8 @@ if __name__ == "__main__":
+         help="write metrics/images to this directory while reading the model from result_path",
+     )
+     parser.add_argument("--selector", type=str, default=None)
++    parser.add_argument("--ply", type=str, default=None,
++                        help="render a standalone PLY without Selector or Transform; use result_path for cameras/trajectory")
+     parser.add_argument("--shutdown-model", default=None,
+                         help="select a specific shutdown checkpoint for Full evaluation")
+     parser.add_argument("--selector-ratio", type=float, default=None)
+@@ -174,12 +177,18 @@ if __name__ == "__main__":
+     parser.add_argument("--selector-temperature", type=float, default=None)
+     parser.add_argument("--correct_scale", action="store_true")
+     parser.add_argument("--show_plot", action="store_true")
++    parser.add_argument("--evaluation-frame-set", default=None,
++                        help="JSON gt_indices shared by paired ablations; never selects frames by quality")
++    parser.add_argument("--no-save-images", action="store_true",
++                        help="compute metrics without writing rendered or ground-truth images")
+     args = parser.parse_args()
+     source_result_path = os.path.abspath(args.result_path)
+     output_result_path = os.path.abspath(args.output_path or args.result_path)
+     os.makedirs(output_result_path, exist_ok=True)
+     if args.selector and args.selector_ratio is None:
+         parser.error("--selector requires --selector-ratio")
++    if args.ply and args.selector:
++        parser.error("--ply cannot be combined with --selector; exported PLYs are already compensated")
+     sh_degree = 3
+     gaussians = GaussianModel(sh_degree)
+     bg_color = [0, 0, 0]
+@@ -225,18 +234,18 @@ if __name__ == "__main__":
+     selector_config_path = args.selector_config or os.path.join(
+         shutdown_ply_dir, "selector_config.yaml"
+     )
+-    selector_config = load_selector_config(selector_config_path)
++    selector_config = load_selector_config(selector_config_path) if selector_model is not None else {}
+     if selector_model is not None:
+         selector_model.set_backend(selector_config["backend"])
+     selector_protection_enabled = (
+         args.selector_protection_enabled
+         if args.selector_protection_enabled is not None
+-        else selector_config["protection_enabled"]
++        else selector_config.get("protection_enabled", True)
+     )
+     selector_temperature = (
+         args.selector_temperature
+         if args.selector_temperature is not None
+-        else selector_config["temperature"]
++        else selector_config.get("temperature", 1.0)
+     )
+     transform_model = (
+         load_transform_field(shutdown_ply_dir, "cuda")
+@@ -246,7 +255,6 @@ if __name__ == "__main__":
+     width, height, fovx, fovy = 0, 0, 0, 0
+     ts = []
+     Rs = []
+-    render_time = 0
+     for file_name in (shutdown_dir,):
+         if "shutdown" in file_name:
+             iter = file_name.split("_")[0]
+@@ -256,7 +264,8 @@ if __name__ == "__main__":
+                 "ply/point_cloud/iteration_{}".format(iter),
+                 "point_cloud.ply",
+             )
+-            gaussians.load_ply(ply_path)
++            render_ply_path = os.path.abspath(args.ply or ply_path)
++            gaussians.load_ply(render_ply_path)
+             with open(
+                 os.path.join(
+                     source_result_path, file_name, "ply", "cameras.json"
+@@ -274,16 +283,9 @@ if __name__ == "__main__":
+             fovx = focal2fov(fx, width)
+             fovy = focal2fov(fy, height)
+ 
+-            render_time = np.loadtxt(
+-                os.path.join(source_result_path, file_name, "render_time.txt"),
+-                delimiter=" ",
+-                dtype=np.str_,
+-            )
+-            render_time = render_time[:, 1].astype(np.float32)
+-
+             selector_mask = None
+             selector_stats = None
+-            if args.shutdown_model and selector_model is None:
++            if selector_model is None:
+                 total = int(gaussians.get_xyz.shape[0])
+                 selector_stats = {"active_gaussians": total, "total_gaussians": total,
+                                   "target_total_gaussians": total, "actual_vs_target": 1.0,
+@@ -306,11 +308,49 @@ if __name__ == "__main__":
+                     selector_model, gaussians, metadata, args.selector_ratio, selector_config,
+                     selector_temperature, protection_enabled=bool(selector_protection_enabled))
+                 if transform_model is not None:
+-                    maturity = metadata["maturity"].detach()
++                    maturity = metadata["maturity"].detach() if selector_protection_enabled else torch.ones_like(metadata["maturity"])
++                    mode = selector_config.get("maturity_ablation_mode", "real")
++                    eligibility = maturity_execution_gate(metadata["maturity"]) if mode == "st_gate06" else None
++                    maturity = effective_maturity(maturity, mode, "tf")
+                     elastic_attributes = transformed_attributes(
+-                        transform_model, gaussians, selector_mask, maturity, args.selector_ratio)
++                        transform_model, gaussians, selector_mask, maturity, args.selector_ratio, eligibility)
+                     selector_stats["transform_applied"] = elastic_attributes is not None
+ 
++                selector_stats.setdefault("transform_applied", False)
++                render_ply_path = os.path.join(output_result_path, "point_cloud.ply")
++                exported_count = gaussians.save_ply(
++                    render_ply_path, selector_mask=selector_mask, elastic_attributes=elastic_attributes
++                )
++                manifest = {
++                    "ply_file": "point_cloud.ply",
++                    "ratio": args.selector_ratio,
++                    "source_ply": os.path.abspath(ply_path),
++                    "selector_checkpoint": os.path.abspath(args.selector),
++                    "selector_config": os.path.abspath(selector_config_path),
++                    "selector_temperature": selector_temperature,
++                    "protection_enabled": bool(selector_protection_enabled),
++                    "transform_checkpoint": os.path.join(shutdown_ply_dir, "transform_field.pt")
++                        if transform_model is not None else None,
++                    "active_gaussians": exported_count,
++                    "total_gaussians": selector_stats["total_gaussians"],
++                    "transform_applied": elastic_attributes is not None,
++                }
++                with open(os.path.join(output_result_path, "ply_manifest.json"), "w") as fout:
++                    json.dump(manifest, fout, indent=2)
++                gaussians = GaussianModel(sh_degree)
++                gaussians.load_ply(render_ply_path)
++                if gaussians.get_xyz.shape[0] != exported_count:
++                    raise RuntimeError("reloaded PLY count does not match exported selection")
++                selector_mask = None
++                elastic_attributes = None
++                selector_model = None
++                transform_model = None
++                metadata = None
++
++    selector_stats.update(ply_path=render_ply_path,
++                          render_gaussians=int(gaussians.get_xyz.shape[0]), rasterizer_mode="inference")
++    render_data = prepare_render_data(gaussians)
++
+     # load gt
+     if "replica" in args.gt_path.lower():
+         gt_color_paths, gt_tstamp = loadReplica(args.gt_path)
+@@ -434,9 +474,21 @@ if __name__ == "__main__":
+     ## render and evaluation
+     tstamp = traj_est.timestamps
+     associations = associate_frames(tstamp, gt_tstamp)
+-
+-    os.makedirs(os.path.join(output_result_path, "image"), exist_ok=True)
+-    if "_0" in output_result_path:
++    if args.evaluation_frame_set:
++        with open(args.evaluation_frame_set, encoding="utf-8") as stream:
++            requested = set(json.load(stream)["gt_indices"])
++        associations = [pair for pair in associations if pair[1] in requested]
++        if len(associations) != len(requested) or {pair[1] for pair in associations} != requested:
++            raise ValueError("run does not cover the exact shared evaluation frame set")
++    if not associations:
++        raise ValueError("no associated frames available for rendering evaluation")
++    with open(os.path.join(output_result_path, "evaluation_frames.json"), "w", encoding="utf-8") as stream:
++        json.dump({"gt_indices": [int(pair[1]) for pair in associations],
++                   "rgb_paths": [gt_color_paths[pair[1]] for pair in associations]}, stream, indent=2)
++
++    if not args.no_save_images:
++        os.makedirs(os.path.join(output_result_path, "image"), exist_ok=True)
++    if not args.no_save_images and "_0" in output_result_path:
+         os.makedirs(os.path.join(output_result_path, "gt"), exist_ok=True)
+     psnr_list, ssim_list, lpips_list, time_list = [], [], [], []
+     for index in trange(
+@@ -446,12 +498,11 @@ if __name__ == "__main__":
+         (result_indx, gt_indx) = associations[index]
+         w2c = np.linalg.inv(poses[result_indx])
+         cam = MiniCam(width, height, fovx, fovy, w2c)
+-        t0 = time.time()
+-        render_image = render(
+-            cam, gaussians, background, selector_mask=selector_mask,
+-            elastic_attributes=elastic_attributes,
+-        )["render"]
+-        t1 = time.time() - t0
++        if index == 0:
++            for _ in range(10):
++                render_prepared(cam, render_data, background)
++        render_result = render_prepared(cam, render_data, background, measure_time=True)
++        render_image = render_result["render"]
+         render_image = render_image.permute(1, 2, 0)
+         gt_image = cv2.imread(gt_color_paths[gt_indx], cv2.IMREAD_COLOR)
+         gt_image = cv2.cvtColor(gt_image, cv2.COLOR_BGR2RGB)
+@@ -461,9 +512,10 @@ if __name__ == "__main__":
+             )
+ 
+         render_image = torch.clamp(render_image, 0.0, 1.0)
+-        predict_image_np = render_image.detach().cpu().numpy()
+-        predict_image_img = np.uint8(predict_image_np * 255)
+-        predict_image_img = cv2.cvtColor(predict_image_img, cv2.COLOR_BGR2RGB)
++        if not args.no_save_images:
++            predict_image_np = render_image.detach().cpu().numpy()
++            predict_image_img = np.uint8(predict_image_np * 255)
++            predict_image_img = cv2.cvtColor(predict_image_img, cv2.COLOR_BGR2RGB)
+ 
+         gt_image_torch = (
+             torch.from_numpy(np.array(gt_image))
+@@ -477,7 +529,7 @@ if __name__ == "__main__":
+         val_lpips = calc_lpips(render_image_torch, gt_image_torch).item()
+ 
+         gt_image = cv2.cvtColor(gt_image, cv2.COLOR_BGR2RGB)
+-        if "_0" in output_result_path:
++        if not args.no_save_images and "_0" in output_result_path:
+             cv2.imwrite(
+                 os.path.join(
+                     output_result_path,
+@@ -486,19 +538,20 @@ if __name__ == "__main__":
+                 ),
+                 gt_image,
+             )
+-        cv2.imwrite(
+-            os.path.join(
+-                output_result_path,
+-                "image",
+-                gt_color_paths[gt_indx].split("/")[-1],
+-            ),
+-            predict_image_img,
+-        )
++        if not args.no_save_images:
++            cv2.imwrite(
++                os.path.join(
++                    output_result_path,
++                    "image",
++                    gt_color_paths[gt_indx].split("/")[-1],
++                ),
++                predict_image_img,
++            )
+ 
+         psnr_list.append(val_psnr)
+         ssim_list.append(val_ssim)
+         lpips_list.append(val_lpips)
+-        time_list.append(t1)
++        time_list.append(render_result["rendering_ms"])
+ 
+     psnr_list = np.array(psnr_list)
+     ssim_list = np.array(ssim_list)
+@@ -507,6 +560,12 @@ if __name__ == "__main__":
+     np.savetxt(os.path.join(output_result_path, "psnr.txt"), psnr_list)
+     np.savetxt(os.path.join(output_result_path, "ssim.txt"), ssim_list)
+     np.savetxt(os.path.join(output_result_path, "lpips.txt"), lpips_list)
++    np.savetxt(
++        os.path.join(output_result_path, "render_time.txt"),
++        np.column_stack(([pair[0] for pair in associations], time_list)),
++        fmt=("%d", "%.8f"),
++        header="trajectory frame index, render time(milliseconds); synchronized rasterizer, 10 warmup renders excluded",
++    )
+ 
+     with open(os.path.join(source_result_path, "TrackingTime.txt"), "r") as fin:
+         tracking_time = fin.readlines()
+@@ -519,8 +578,8 @@ if __name__ == "__main__":
+         fout.write("tracking s: {}\n".format(np.mean(tracking_time)))
+         fout.write("tracking FPS: {}\n".format(1 / np.mean(tracking_time)))
+ 
+-        fout.write("rendering ms: {}\n".format(np.mean(render_time)))
+-        fout.write("rendering FPS: {}\n".format(1000 / np.mean(render_time)))
++        fout.write("rendering ms: {}\n".format(np.mean(time_list)))
++        fout.write("rendering FPS: {}\n".format(1000 / np.mean(time_list)))
+ 
+     if selector_stats is not None:
+         with open(
+diff --git a/python/selector.py b/python/selector.py
+index 7223ef6..562c7ec 100644
+--- a/python/selector.py
++++ b/python/selector.py
+@@ -7,7 +7,7 @@ import torch
+ from torch import nn
+ from plyfile import PlyData
+ from elastic_budget import classify_protection, protection_statistics
+-from elastic_entry import elastic_selector_probability
++from elastic_entry import elastic_selector_probability, effective_maturity, gated_selector_probability, maturity_execution_gate
+ 
+ 
+ class SelectorNetwork(nn.Module):
+@@ -126,7 +126,10 @@ def build_selector_mask(model, gaussians, metadata, ratio, config, temperature=1
+             return model(gaussians.get_xyz, gaussians.get_rotation, gaussians.get_scaling, target_ratio, tau=temperature)
+         return model(gaussians.get_xyz[rows], gaussians.get_rotation[rows], gaussians.get_scaling[rows],
+                      target_ratio[rows], tau=temperature)
+-    probability = elastic_selector_probability(metadata["maturity"], c["maturity"], ratio, entry, forward)
++    mode = config.get("maturity_ablation_mode", "real")
++    effective = effective_maturity(metadata["maturity"], mode)
++    probability = gated_selector_probability(metadata["maturity"], ratio, forward) if mode == "st_gate06" else \
++        elastic_selector_probability(effective, effective_maturity(c["maturity"], mode), ratio, entry, forward)
+     mask = metadata["cached_uniform"] < probability
+     active, target = int(mask.sum().item()), ratio*total
+     stats = protection_statistics(metadata, c)
+@@ -135,7 +138,8 @@ def build_selector_mask(model, gaussians, metadata, ratio, config, temperature=1
+         actual_vs_target=active/max(1.0, target), ratio=float(ratio),
+         protection_enabled=bool(protection_enabled),
+         current_mapping_iteration=metadata["mapping_iteration"])
+-    eligible = int((metadata["maturity"] >= entry).sum().item())
++    stats["maturity_ablation_mode"] = mode
++    eligible = int((maturity_execution_gate(metadata["maturity"]) if mode == "st_gate06" else effective >= entry).sum().item())
+     stats.update(elastic_entry_threshold=entry, elastic_eligible_count=eligible,
+         elastic_eligible_fraction=eligible/max(1,total), selector_candidate_count=eligible,
+         selector_skipped_low_maturity_count=total-eligible,
+diff --git a/python/transform_field.py b/python/transform_field.py
+index 9a0fc79..50ada18 100644
+--- a/python/transform_field.py
++++ b/python/transform_field.py
+@@ -152,12 +152,14 @@ def load_transform_field(ply_directory, device):
+ 
+ 
+ @torch.no_grad()
+-def transformed_attributes(model, gaussians, selected_mask, maturity, ratio):
++def transformed_attributes(model, gaussians, selected_mask, maturity, ratio, eligibility=None):
+     """Apply the field using the checkpoint's maturity/AABB policy."""
+     xyz_base = gaussians.get_xyz.detach()
+     if selected_mask.numel() != xyz_base.shape[0] or maturity.numel() != xyz_base.shape[0]:
+         raise ValueError("selection and maturity masks must match Gaussian count")
+     transform_mask = selected_mask.bool() & model.grid.inside_mask(xyz_base)
++    if eligibility is not None:
++        transform_mask &= eligibility
+     transform_mask &= maturity.detach() >= model.maturity_compute_epsilon
+     entry = getattr(model, "entry_maturity", 0.0)
+     if entry > 0:
+diff --git a/src/change_distill.cpp b/src/change_distill.cpp
+index c6bc1e2..b84cdb1 100644
+--- a/src/change_distill.cpp
++++ b/src/change_distill.cpp
+@@ -36,20 +36,52 @@ torch::Tensor scopeIndices(DistillScope scope, const ChangeEvent& event,
+   return capture.mature_indices_before.slice(0, 0, 0);
+ }
+ 
+-GaussianAttrState transportTarget(GaussianAttrState target, const torch::Tensor& indices,
+-                                  const ChangeEvent& event) {
+-  torch::NoGradGuard no_grad;
+-  auto ids = event.correction_group_id.index_select(0, indices);
+-  for (std::size_t g = 0; g < event.correction_groups.size(); ++g) {
+-    auto local = torch::nonzero(ids == static_cast<int64_t>(g)).reshape({-1});
+-    if (local.numel() == 0) continue;
+-    auto moved = applyGaussianTransform(target.select(local), event.correction_groups[g]);
+-    // index_copy is out-of-place: never modify the frozen snapshot via aliases.
+-    target = {target.xyz.index_copy(0, local, moved.xyz),
+-              target.log_scaling.index_copy(0, local, moved.log_scaling),
+-              target.rotation.index_copy(0, local, moved.rotation)};
++// Resolve membership on the host from one event-local ID table. Keep each
++// group's original GEMM shape and arithmetic, including its point ordering.
++class TargetTransport {
++ public:
++  explicit TargetTransport(const ChangeEvent& event) : groups_(event.correction_groups) {
++    if (!groups_.empty()) group_ids_ = event.correction_group_id.cpu().contiguous();
+   }
+-  return target;
++
++  GaussianAttrState apply(GaussianAttrState target, const torch::Tensor& indices) const {
++    if (groups_.empty() || indices.numel() == 0) return target;
++    torch::NoGradGuard no_grad;
++    const auto host_indices = indices.cpu().contiguous();
++    const auto* ids = host_indices.data_ptr<int64_t>();
++    const auto* group_ids = group_ids_.data_ptr<int64_t>();
++    std::vector<std::vector<int64_t>> local(groups_.size());
++    for (int64_t i = 0; i < indices.numel(); ++i) {
++      const auto g = group_ids[ids[i]];
++      if (g >= 0) local[g].push_back(i);
++    }
++    std::vector<int64_t> packed;
++    packed.reserve(indices.numel());
++    for (const auto& group : local) packed.insert(packed.end(), group.begin(), group.end());
++    if (packed.empty()) return target;
++    // A single H2D copy, instead of one dynamic nonzero/synchronization per group.
++    const auto positions = torch::tensor(packed, torch::kLong).to(indices.device());
++    int64_t offset = 0;
++    for (size_t g = 0; g < groups_.size(); ++g) {
++      if (local[g].empty()) continue;
++      const auto positions_g = positions.slice(0, offset, offset + local[g].size());
++      offset += local[g].size();
++      const auto moved = applyGaussianTransform(target.select(positions_g), groups_[g]);
++      target = {target.xyz.index_copy(0, positions_g, moved.xyz),
++                target.log_scaling.index_copy(0, positions_g, moved.log_scaling),
++                target.rotation.index_copy(0, positions_g, moved.rotation)};
++    }
++    return target;
++  }
++
++ private:
++  const std::vector<CorrectionGroup>& groups_;
++  torch::Tensor group_ids_;
++};
++
++GaussianAttrState transportTarget(GaussianAttrState target, const torch::Tensor& indices,
++                                  const TargetTransport& transport) {
++  return transport.apply(std::move(target), indices);
+ }
+ 
+ std::array<torch::Tensor, 3> tfErrors(const GaussianAttrState& student,
+@@ -61,23 +93,27 @@ std::array<torch::Tensor, 3> tfErrors(const GaussianAttrState& student,
+           (1.0 - (qs * qt).sum(1).abs().clamp(0.0, 1.0)).mean()};
+ }
+ 
+-torch::Tensor selectorLoss(improvements::selector::GumbelNetwork& student,
+-    const ChangeCapture& capture, const GaussianAttrState& current,
++torch::Tensor selectorLoss(const ChangeCapture& capture,
+     const torch::Tensor& indices, float ratio, double temperature,
+-    FrozenTeacherTargetCache& targets) {
+-  auto after = current.select(indices);
+-  auto ratios = torch::full({indices.numel(), 1}, ratio, after.xyz.options());
++    FrozenTeacherTargetCache& targets, bool fully_cached,
++    const torch::Tensor& probability) {
+   auto teacher = targets.get(indices, [&](const torch::Tensor& missing) {
+     auto before = capture.old_state.select(missing);
+     auto teacher_ratios = torch::full({missing.numel(), 1}, ratio, before.xyz.options());
+     return capture.teacher_selector.ptr()->forwardProbability(
+         before.xyz, before.rotation, before.log_scaling.exp(), teacher_ratios, temperature);
+-  });
+-  auto probability = student->forwardProbability(
+-      after.xyz, after.rotation, after.log_scaling.exp(), ratios, temperature);
++  }, fully_cached);
+   return (probability - teacher).abs().mean();
+ }
+ 
++std::vector<torch::Tensor> selectorProbabilities(
++    improvements::selector::GumbelNetwork& student, const GaussianAttrState& current,
++    const torch::Tensor& indices, const std::vector<float>& ratios, double temperature) {
++  auto after = current.select(indices);
++  return student->forwardProbabilities(
++      after.xyz, after.rotation, after.log_scaling.exp(), ratios, temperature);
++}
++
+ // Stratified batches preserve separate population means. Tiny strata are reused
+ // in full; otherwise every member is visited once, with population-size weights.
+ std::pair<torch::Tensor, double> stratumBatch(
+@@ -97,6 +133,8 @@ double elapsedMs(std::chrono::steady_clock::time_point start) {
+ ChangeDistillManager::ChangeDistillManager(ChangeDistillConfig config)
+     : config_(std::move(config)), rng_(config_.seed) {
+   TORCH_CHECK(config_.batch_size > 0 && config_.epochs > 0, "Invalid CD batch size or epochs");
++  TORCH_CHECK(config_.selectorEpochs() > 0 && config_.tfEpochs() > 0,
++              "CD Selector and TF epochs must be positive");
+   TORCH_CHECK(std::isfinite(config_.anchor_ratio_to_corrected) &&
+                   config_.anchor_ratio_to_corrected >= 0 && config_.anchor_max_count >= 0,
+               "Invalid CD anchor sampling parameters");
+@@ -148,7 +186,9 @@ ChangeDistillReport ChangeDistillManager::execute(
+   const auto event_type = changeEventTypeName(event.flags);
+   std::cout << "[CD BEGIN] event=" << event.id << " type=" << event_type
+             << " mapping_iter=" << event.mapping_iter
+-            << " epochs=" << config_.epochs << " batch_size=" << batch_size
++            << " epochs=" << config_.epochs
++            << " selector_epochs=" << config_.selectorEpochs()
++            << " tf_epochs=" << config_.tfEpochs() << " batch_size=" << batch_size
+             << " ratios=" << context.ratios.size()
+             << " selector_scope=" << distillScopeName(event.selector_scope)
+             << " tf_scope=" << distillScopeName(event.tf_scope) << std::endl;
+@@ -169,15 +209,19 @@ ChangeDistillReport ChangeDistillManager::execute(
+     // Keep exactly the same anchor audit set for pre/post metrics, even when
+     // later epochs resample their training anchors.
+     const auto audit_anchors = anchors;
+-    auto evaluate = [&](const torch::Tensor& indices) {
++    const bool all_anchors_cached = anchors.numel() == unaffected.numel();
++    auto evaluate = [&](const torch::Tensor& indices, bool fully_cached = false) {
+       torch::NoGradGuard no_grad;
+       if (indices.numel() == 0) return 0.0;
+       double total = 0.0;
+       for (int64_t begin = 0; begin < indices.numel(); begin += batch_size) {
+         auto batch = indices.slice(0, begin, std::min(begin + batch_size, indices.numel()));
++        const auto probabilities = selectorProbabilities(
++            context.selector, current, batch, context.ratios, context.temperature);
+         for (std::size_t r = 0; r < context.ratios.size(); ++r)
+-          total += selectorLoss(context.selector, capture, current, batch, context.ratios[r],
+-                                context.temperature, teacher_targets[r]).item<double>() * batch.numel();
++          total += selectorLoss(capture, batch, context.ratios[r],
++                                context.temperature, teacher_targets[r], fully_cached,
++                                probabilities[r]).item<double>() * batch.numel();
+       }
+       return total / (indices.numel() * ratio_count);
+     };
+@@ -191,7 +235,7 @@ ChangeDistillReport ChangeDistillManager::execute(
+       std::ostringstream line;
+       line << std::fixed << std::setprecision(4)
+            << "[SELECTOR CD EPOCH] event=" << event.id << " type=" << event_type
+-           << " epoch=" << epoch << "/" << config_.epochs
++           << " epoch=" << epoch << "/" << config_.selectorEpochs()
+            << " loss=" << weighted_loss(primary, anchor)
+            << " primary_loss=" << primary << " anchor_loss=" << anchor
+            << " delta_prev=" << delta
+@@ -207,7 +251,7 @@ ChangeDistillReport ChangeDistillManager::execute(
+     auto optimizer = independentAdam(
+         *context.normal_selector_optimizer,
+         {static_cast<double>(config_.selector_learning_rate)});
+-    for (int64_t epoch = 0; epoch < config_.epochs; ++epoch) {
++    for (int64_t epoch = 0; epoch < config_.selectorEpochs(); ++epoch) {
+       const auto steps_before = report.selector_steps;
+       if (epoch > 0 && local) anchors = sampleAnchors(unaffected, selector_indices.numel());
+       report.anchor_count = anchors.numel();
+@@ -217,14 +261,22 @@ ChangeDistillReport ChangeDistillManager::execute(
+         optimizer->zero_grad();
+         auto main = stratumBatch(corrected, b, batches);
+         auto anchor = stratumBatch(anchors, b, batches);
++        const auto primary_probabilities = selectorProbabilities(
++            context.selector, current, main.first, context.ratios, context.temperature);
++        std::vector<torch::Tensor> anchor_probabilities;
++        if (anchor.first.numel() > 0 && config_.anchor_loss_weight > 0)
++          anchor_probabilities = selectorProbabilities(
++              context.selector, current, anchor.first, context.ratios, context.temperature);
+         auto total = torch::zeros({}, current.xyz.options());
+         for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+-          total = total + main.second * selectorLoss(context.selector, capture, current,
+-                          main.first, context.ratios[r], context.temperature, teacher_targets[r]);
++          total = total + main.second * selectorLoss(capture,
++                          main.first, context.ratios[r], context.temperature, teacher_targets[r], true,
++                          primary_probabilities[r]);
+           if (anchor.first.numel() > 0 && config_.anchor_loss_weight > 0)
+             total = total + config_.anchor_loss_weight * anchor.second *
+-                selectorLoss(context.selector, capture, current, anchor.first,
+-                             context.ratios[r], context.temperature, teacher_targets[r]);
++                selectorLoss(capture, anchor.first,
++                             context.ratios[r], context.temperature, teacher_targets[r],
++                             epoch == 0 || all_anchors_cached, anchor_probabilities[r]);
+         }
+         total = total * (config_.selector_weight / ratio_count);
+         TORCH_CHECK(torch::isfinite(total).item<bool>(), "Nonfinite Selector CD loss");
+@@ -236,8 +288,8 @@ ChangeDistillReport ChangeDistillManager::execute(
+           ++report.selector_steps;
+         }
+       }
+-      report.selector_post = evaluate(selector_indices);
+-      report.anchor_post = evaluate(audit_anchors);
++      report.selector_post = evaluate(selector_indices, true);
++      report.anchor_post = evaluate(audit_anchors, true);
+       const double loss = weighted_loss(report.selector_post, report.anchor_post);
+       log_epoch(epoch + 1, report.selector_post, report.anchor_post,
+                 loss - previous_loss, report.selector_steps - steps_before);
+@@ -250,7 +302,7 @@ ChangeDistillReport ChangeDistillManager::execute(
+               << " anchors=" << report.anchor_count << " pre=" << report.selector_pre
+               << " post=" << report.selector_post << " anchor_pre=" << report.anchor_pre
+               << " anchor_post=" << report.anchor_post << " steps=" << report.selector_steps
+-              << " epochs=" << config_.epochs
++              << " epochs=" << config_.selectorEpochs()
+               << " lr_micro=" << config_.selector_learning_rate * 1000000.0
+               << " time_ms=" << elapsedMs(start);
+     std::cout << summary.str() << std::endl;
+@@ -274,28 +326,29 @@ ChangeDistillReport ChangeDistillManager::execute(
+     report.tf_count = tf_indices.numel();
+     const double diagonal = capture.old_aabb.diagonal().item<double>();
+     const std::array<double, 3> weights = {config_.position_weight, config_.scale_weight, config_.rotation_weight};
++    const TargetTransport transport(event);
+     std::vector<FrozenTeacherTargetCache> teacher_targets;
+     for (std::size_t r = 0; r < context.ratios.size(); ++r)
+       teacher_targets.emplace_back(capture.snapshot_count, current.xyz.options());
+-    auto errors = [&](const torch::Tensor& batch, std::size_t r) {
++    auto errors = [&](const torch::Tensor& batch, std::size_t r, bool fully_cached = false) {
+       const auto ratio = context.ratios[r];
+       auto packed = teacher_targets[r].get(batch, [&](const torch::Tensor& missing) {
+         auto target = transportTarget(capture.teacher_tf.ptr()->applyLogResidual(
+-            capture.old_state.select(missing), ratio), missing, event);
++            capture.old_state.select(missing), ratio), missing, transport);
+         return torch::cat({target.xyz, target.log_scaling, target.rotation}, 1);
+-      });
++      }, fully_cached);
+       GaussianAttrState target{packed.slice(1, 0, 3), packed.slice(1, 3, 6),
+                                packed.slice(1, 6, 10)};
+       return tfErrors(context.tf->applyLogResidual(current.select(batch), ratio), target, diagonal);
+     };
+-    auto evaluate = [&](const torch::Tensor& indices) {
++    auto evaluate = [&](const torch::Tensor& indices, bool fully_cached = false) {
+       torch::NoGradGuard no_grad;
+       std::array<double, 3> sums{};
+       if (indices.numel() == 0) return sums;
+       for (int64_t begin = 0; begin < indices.numel(); begin += batch_size) {
+         auto batch = indices.slice(0, begin, std::min(begin + batch_size, indices.numel()));
+         for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+-          auto loss = errors(batch, r);
++          auto loss = errors(batch, r, fully_cached);
+           for (int j = 0; j < 3; ++j) sums[j] += loss[j].item<double>() * batch.numel();
+         }
+       }
+@@ -311,7 +364,7 @@ ChangeDistillReport ChangeDistillManager::execute(
+       std::ostringstream line;
+       line << std::fixed << std::setprecision(4)
+            << "[TF CD EPOCH] event=" << event.id << " type=" << event_type
+-           << " epoch=" << epoch << "/" << config_.epochs
++           << " epoch=" << epoch << "/" << config_.tfEpochs()
+            << " loss=" << weighted_loss(loss)
+            << " position_loss=" << loss[0] << " log_scale_loss=" << loss[1]
+            << " rotation_loss=" << loss[2] << " delta_prev=" << delta
+@@ -336,7 +389,7 @@ ChangeDistillReport ChangeDistillManager::execute(
+           *context.normal_tf_optimizer,
+           {static_cast<double>(config_.tf_mlp_learning_rate),
+            static_cast<double>(config_.tf_grid_learning_rate)});
+-      for (int64_t epoch = 0; epoch < config_.epochs; ++epoch) {
++      for (int64_t epoch = 0; epoch < config_.tfEpochs(); ++epoch) {
+         const auto steps_before = report.tf_steps;
+         auto indices = shuffle(tf_indices);
+         for (int64_t begin = 0; begin < indices.numel(); begin += batch_size) {
+@@ -344,7 +397,7 @@ ChangeDistillReport ChangeDistillManager::execute(
+           auto batch = indices.slice(0, begin, std::min(begin + batch_size, indices.numel()));
+           auto total = torch::zeros({}, current.xyz.options());
+           for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+-            auto loss = errors(batch, r);
++            auto loss = errors(batch, r, true);
+             for (int j = 0; j < 3; ++j) total = total + weights[j] * loss[j];
+           }
+           total = total / ratio_count;
+@@ -357,7 +410,7 @@ ChangeDistillReport ChangeDistillManager::execute(
+             ++report.tf_steps;
+           }
+         }
+-        post = evaluate(tf_indices);
++        post = evaluate(tf_indices, true);
+         const double loss = weighted_loss(post);
+         log_epoch(epoch + 1, post, loss - previous_loss, report.tf_steps - steps_before);
+         previous_loss = loss;
+@@ -368,7 +421,7 @@ ChangeDistillReport ChangeDistillManager::execute(
+                 << " reason=no_in_domain_gaussians skipped_outside=" << report.skipped_outside
+                 << std::endl;
+     }
+-    const auto audit_post = evaluate(audit);
++    const auto audit_post = evaluate(audit, true);
+     report.tf_pre = weighted_loss(pre);
+     report.tf_post = weighted_loss(post);
+     std::ostringstream summary;
+diff --git a/src/gaussian_mapper.cpp b/src/gaussian_mapper.cpp
+index 6381dac..a38771a 100644
+--- a/src/gaussian_mapper.cpp
++++ b/src/gaussian_mapper.cpp
+@@ -493,6 +493,13 @@ void GaussianMapper::readSelectorConfigFromFile(
+     if (!node.empty()) value = node.operator float();
+   };
+ 
++  int iteration_logging = 0;
++  readInt("Mapping.iteration_logging", iteration_logging);
++  mapping_iteration_logging_ = iteration_logging != 0;
++  mapping_profiler_.enabled = mapping_iteration_logging_;
++  std::cout << "[Mapping LOGGING] iteration_logging=" << mapping_iteration_logging_
++            << " synchronized_timing=" << mapping_iteration_logging_ << std::endl;
++
+   ultra_light_mode_ = 1;
+   const auto mode_node = settings_file["Training.ultra_light_mode"];
+   if (!mode_node.empty()) {
+@@ -551,6 +558,9 @@ void GaussianMapper::readSelectorConfigFromFile(
+   int protection_enabled = selector_protection_enabled_ ? 1 : 0;
+   readInt("Selector.protection_enabled", protection_enabled);
+   selector_protection_enabled_ = protection_enabled != 0;
++  protection_config_.maturity_enabled = selector_protection_enabled_;
++  const auto ablation_mode = settings_file["Protection.maturity_ablation_mode"];
++  if (!ablation_mode.empty()) ablation_mode >> protection_config_.maturity_ablation_mode;
+   readFloat("Protection.drift_temperature", protection_config_.drift_temperature);
+   readFloat("Protection.beta_fast", protection_config_.beta_fast);
+   readFloat("Protection.beta_slow", protection_config_.beta_slow);
+@@ -565,6 +575,8 @@ void GaussianMapper::readSelectorConfigFromFile(
+   protection_config_.performance_logging = performance_logging != 0;
+   protection_config_.validate();
+   std::cout << "[Protection CONFIG] schema=continuous_cycle_geometric drift_temperature=" << protection_config_.drift_temperature
++            << " maturity_enabled=" << protection_config_.maturity_enabled
++            << " maturity_ablation_mode=" << protection_config_.maturity_ablation_mode
+             << " beta_fast=" << protection_config_.beta_fast << " beta_slow=" << protection_config_.beta_slow
+             << " maturity_rise_rate=" << protection_config_.maturity_rise_rate
+             << " maturity_fall_rate=" << protection_config_.maturity_fall_rate
+@@ -725,6 +737,16 @@ void GaussianMapper::readSelectorConfigFromFile(
+   int cd_epochs = static_cast<int>(change_distill_config_.epochs);
+   readInt("ChangeDistill.epochs", cd_epochs);
+   change_distill_config_.epochs = cd_epochs;
++  if (!settings_file["ChangeDistill.selector_epochs"].empty()) {
++    int selector_epochs = cd_epochs;
++    readInt("ChangeDistill.selector_epochs", selector_epochs);
++    change_distill_config_.selector_epochs = selector_epochs;
++  }
++  if (!settings_file["ChangeDistill.tf_epochs"].empty()) {
++    int tf_epochs = cd_epochs;
++    readInt("ChangeDistill.tf_epochs", tf_epochs);
++    change_distill_config_.tf_epochs = tf_epochs;
++  }
+   int cd_seed = static_cast<int>(change_distill_config_.seed);
+   readInt("ChangeDistill.seed", cd_seed);
+   if (cd_seed < 0) throw std::invalid_argument("ChangeDistill.seed must be nonnegative");
+@@ -1028,8 +1050,9 @@ void GaussianMapper::run() {
+         gaussians_->trainingSetup(opt_params_);
+       }
+ 
+-      // Invoke training once
+-      trainForOneIteration();
++      // Experiment credits only pause the outer online driver, never a step.
++      if (!waitExperimentMappingCredit()) break;
++      trainExperimentMapping();
+ 
+       // Finish initial mapping loop
+       initial_mapped_ = true;
+@@ -1046,6 +1069,7 @@ void GaussianMapper::run() {
+   int SLAM_stop_iter = 0;
+   while (!isStopped() &&
+          !(normalMappingLimit() > 0 && mapping_iter_ >= normalMappingLimit())) {
++    if (!waitExperimentMappingCredit()) break;
+     if (ultrafast_rotation_.enabled && pSLAM_->isShutDown()) {
+       SLAM_stop_iter = getIteration();
+       SLAM_ended_ = true;
+@@ -1064,7 +1088,7 @@ void GaussianMapper::run() {
+     }
+ 
+     // Invoke training once
+-    trainForOneIteration();
++    trainExperimentMapping();
+ 
+     if (pSLAM_->isShutDown()) {
+       SLAM_stop_iter = getIteration();
+@@ -1081,7 +1105,7 @@ void GaussianMapper::run() {
+ 
+   // Third loop: Tail gaussian optimization. A forced mapping budget counts
+   // only completed KF mappings, so replay updates never affect the limit.
+-  // Freeze the online boundary; the normal ratio rotation continues in tail.
++  // Freeze the online boundary; mode1 tail runs Full then one joint LoD.
+   if (pSLAM_->isShutDown()) {
+     if (ultrafast_rotation_.enabled) markUltrafastOnlineEnd();
+     renderAndRecordAllKeyframes("_online_end");
+@@ -1266,7 +1290,8 @@ void GaussianMapper::trainForOneIteration() {
+     return;
+   }
+ 
+-  mapping_profiler_.setPhase(!slam_online && pSLAM_ != nullptr);
++  const bool mode1_tail = ultrafast_rotation_.enabled && ultrafast_rotation_.online_ended;
++  mapping_profiler_.setPhase((!slam_online && pSLAM_ != nullptr) || mode1_tail);
+   // A finite online optimization cap may have left uncommitted gradients.
+   // Clear them before Replay/full/LOD backward; preserve all Adam state/clocks.
+   if (tail_optimization_schedule_.active &&
+@@ -1348,20 +1373,24 @@ void GaussianMapper::trainMappingIteration(
+   auto iter_start_timing = std::chrono::steady_clock::now();
+   const bool rotation = ultrafast_rotation_.enabled;
+   const bool mode2 = ultra_light_mode_ == 2;
+-  const bool post_slam = resumed_after_slam || (pSLAM_ && pSLAM_->isShutDown());
++  const bool post_slam = resumed_after_slam || (pSLAM_ && pSLAM_->isShutDown()) ||
++      (rotation && ultrafast_rotation_.online_ended);
++  const bool mode1_tail = rotation && post_slam;
++  if (mode1_tail) markUltrafastOnlineEnd();
+   auto& mode2_counts = post_slam ? mode2_tail_ : mode2_online_;
+   ++mode2_counts.mappings;
+-  const bool full_step = !rotation || ultrafast_rotation_.full();
++  const bool full_step = mode1_tail || !rotation || ultrafast_rotation_.full();
+   const auto render_total_gaussians = gaussians_->getXYZ().size(0);
+-  const auto phase = ultrafast_rotation_.phase();
++  const auto phase = mode1_tail ? ultrafast_rotation_.tailRatioIndex() : ultrafast_rotation_.phase();
+   if (rotation) {
+     if (!ultrafast_training_timer_)
+-      ultrafast_training_timer_ = std::make_unique<UltrafastTrainingTimer>(device_type_ == torch::kCUDA);
++      ultrafast_training_timer_ = std::make_unique<UltrafastTrainingTimer>(device_type_ == torch::kCUDA, mapping_iteration_logging_);
+     ultrafast_training_timer_->begin();
+   }
+   auto* rotation_timer = rotation ? ultrafast_training_timer_.get() : nullptr;
+   bool densify_stats_updated = false, densify_triggered = false;
+   bool selector_committed = false, tf_committed = false;
++  bool tail_full_committed = false, tail_lod_committed = false, tail_lod_attempted = false;
+   LodGradientResult lod;
+ 
+   writeKeyframeUsedTimes(result_dir_ / "used_times");
+@@ -1515,7 +1544,7 @@ void GaussianMapper::trainMappingIteration(
+         if (static_cast<const torch::optim::AdamOptions&>(group.options()).lr() == 0.0) continue;
+         for (const auto& p : group.params()) gaussian_had_gradient |= p.numel() > 0 && p.grad().defined();
+       }
+-      auto timing = mapping_profiler_.scope(MappingProfiler::Optimizer);
++      auto timing = mapping_profiler_.scope(mode1_tail ? MappingProfiler::GaussianOptimizer : MappingProfiler::Optimizer);
+       bool has_gaussian_gradient = !rotation;
+       if (rotation)
+         for (size_t group_index = 0; group_index < 6; ++group_index) {
+@@ -1531,13 +1560,14 @@ void GaussianMapper::trainMappingIteration(
+         if (static_cast<const torch::optim::AdamOptions&>(group.options()).lr() != 0.0)
+           for (const auto& parameter : group.params()) selector_had_gradient |= parameter.grad().defined();
+       }
+-      if (enhanced) gaussian_committed = stepWithHistoricalGuard(viewpoint_cam);
++      if (enhanced) gaussian_committed = stepWithHistoricalGuard(viewpoint_cam, !mode1_tail);
+       else {
+         gaussians_->optimizer_->step();
+         normal_update_clock_.record(true, false);
+         gaussian_committed = true;
+       }
+       gaussian_committed &= has_gaussian_gradient;
++      if (mode1_tail) tail_full_committed = gaussian_committed;
+       if (rotation && gaussian_committed) {
+         gaussians_->protection_.markTouched(full_step ? render_pkg.visibility_indices : lod.supervised_indices);
+         // Observe after the actual Gaussian commit, before Full topology changes.
+@@ -1641,29 +1671,32 @@ void GaussianMapper::trainMappingIteration(
+     // Non-rotation modes preserve the original optimizer/topology ordering.
+     if (!rotation) commit_optimizer();
+     if (full_step) prepareElasticEntryState();
+-    if (!mode2 && protection_config_.performance_logging) gaussians_->protection_.profiler->endIteration();
+-    if (rotation) {
++    if (!mode2 && !mode1_tail && protection_config_.performance_logging) gaussians_->protection_.profiler->endIteration();
++    if (rotation && !mode1_tail) {
+       rotation_timer->end();
+-      std::ostringstream line;
+-      line << std::fixed << std::setprecision(4) << "[UltrafastRotation] normal_training_step="
+-           << ultrafast_rotation_.step << " mapping_iteration=" << mapping_iter_ + 1
+-           << " phase=" << UltrafastRotation::names[phase]
+-           << " ratio=" << ultrafast_rotation_.ratio() << " keyframe_id=" << viewpoint_cam->fid_
+-           << " is_lod_step=" << !full_step << " is_full_step=" << full_step
+-           << " gaussian_optimizer_step=" << gaussian_committed
+-           << " selector_optimizer_step=" << selector_committed << " tf_optimizer_step=" << tf_committed
+-           << " kfs_loss_updated=" << full_step << " densify_stats_updated=" << densify_stats_updated
+-           << " densify_triggered=" << densify_triggered << " prune_triggered=" << densify_triggered
+-           << " active_gaussians=" << (full_step ? render_total_gaussians : lod.active_gaussians)
+-           << " tf_transformed_gaussians=" << lod.transformed_gaussians
+-           << " total_gaussians=" << render_total_gaussians
+-           << " post_topology_gaussians=" << gaussians_->getXYZ().size(0)
+-           << " loss=" << (full_step ? full_loss.item<double>() : lod.loss)
+-           << " training_ms=" << rotation_timer->wall_ms << " render_ms=" << rotation_timer->render_ms
+-           << " cuda_elapsed_ms=" << rotation_timer->cuda_elapsed_ms;
+-      std::cout << line.str() << '\n';
++      if (mapping_iteration_logging_) {
++        std::ostringstream line;
++        line << std::fixed << std::setprecision(4) << "[UltrafastRotation] normal_training_step="
++             << ultrafast_rotation_.step << " mapping_iteration=" << mapping_iter_ + 1
++             << " phase=" << UltrafastRotation::names[phase]
++             << " ratio=" << ultrafast_rotation_.ratio() << " keyframe_id=" << viewpoint_cam->fid_
++             << " is_lod_step=" << !full_step << " is_full_step=" << full_step
++             << " gaussian_optimizer_step=" << gaussian_committed
++             << " selector_optimizer_step=" << selector_committed << " tf_optimizer_step=" << tf_committed
++             << " kfs_loss_updated=" << full_step << " densify_stats_updated=" << densify_stats_updated
++             << " densify_triggered=" << densify_triggered << " prune_triggered=" << densify_triggered
++             << " active_gaussians=" << (full_step ? render_total_gaussians : lod.active_gaussians)
++             << " tf_transformed_gaussians=" << lod.transformed_gaussians
++             << " total_gaussians=" << render_total_gaussians
++             << " post_topology_gaussians=" << gaussians_->getXYZ().size(0)
++             << " loss=" << (full_step ? full_loss.item<double>() : lod.loss)
++             << " training_ms=" << rotation_timer->wall_ms << " render_ms=" << rotation_timer->render_ms
++             << " cuda_elapsed_ms=" << rotation_timer->cuda_elapsed_ms;
++        std::cout << line.str() << '\n';
++      }
+       ultrafast_rotation_.complete(rotation_timer->wall_ms, rotation_timer->render_ms,
+-                                  full_step || lod.rendered, selector_committed, tf_committed);
++                                  full_step || lod.rendered, selector_committed, tf_committed,
++                                  mapping_iteration_logging_);
+       if (all_keyframes_record_interval_ && getIteration() % all_keyframes_record_interval_ == 0) {
+         renderAndRecordAllKeyframes();
+         savePly(result_dir_ / std::to_string(getIteration()) / "ply");
+@@ -1672,6 +1705,71 @@ void GaussianMapper::trainMappingIteration(
+   }
+   // Full's NoGrad scope is over, but the same render mutex remains held.
+   // Re-read all attributes/indices after topology and Full evidence finish.
++  if (mode1_tail) {
++    tail_lod_attempted = selector_enabled_ && selector_network_ && selector_optimizer_ &&
++        hasNormalOptimizationBudget() && !selector_target_ratios_.empty() &&
++        gaussians_->getXYZ().size(0) > 0;
++    if (tail_lod_attempted) {
++      ++mode2_counts.lod_attempts;
++      ++mode2_counts.ratios.at(phase);
++      {
++        auto timing = mapping_profiler_.scope(MappingProfiler::LOD);
++        lod = accumulateLodGradients(viewpoint_cam, image_height, image_width, gt_image,
++                                    phase, false, true, rotation_timer, false, true);
++      }
++      mode2_counts.lod_renders += lod.rendered;
++      if (lod.finite_loss) {
++        torch::NoGradGuard no_grad;
++        bool gaussian_had_gradient = false, selector_had_gradient = false;
++        for (std::size_t g = 0; g < gaussians_->optimizer_->param_groups().size(); ++g) {
++          const auto& group = gaussians_->optimizer_->param_groups()[g];
++          if (static_cast<const torch::optim::AdamOptions&>(group.options()).lr() == 0.0) continue;
++          for (const auto& p : group.params()) if (p.numel() && p.grad().defined()) {
++            gaussian_had_gradient |= g < 6;
++            selector_had_gradient |= shared_selector_optimizer_configured_ && g == shared_selector_group_index_;
++          }
++        }
++        const auto tf_before = normal_update_clock_.tf_updates;
++        auto timing = mapping_profiler_.scope(MappingProfiler::LodOptimizer);
++        bool committed = false;
++        tail_lod_committed = stepWithHistoricalGuard(viewpoint_cam, false, &committed) && gaussian_had_gradient;
++        selector_committed = committed && selector_had_gradient;
++        tf_committed = normal_update_clock_.tf_updates > tf_before;
++        if (tail_lod_committed) gaussians_->protection_.markTouched(lod.supervised_indices);
++        selector_step_ += selector_committed;
++        mode2_counts.gaussian_updates += tail_lod_committed;
++        ++mode2_counts.gaussian_step_calls;
++        mode2_counts.selector_commits += selector_committed;
++        mode2_counts.tf_commits += tf_committed;
++      } else {
++        ++mode2_counts.lod_nonfinite;
++      }
++      gaussians_->optimizer_->zero_grad(true);
++    }
++    // Both stages share one Mapping LR decision; a rejected LoD cannot undo Full.
++    if (hasNormalOptimizationBudget())
++      normal_update_clock_.record(tail_full_committed || tail_lod_committed, false);
++    if (protection_config_.performance_logging) gaussians_->protection_.profiler->endIteration();
++    rotation_timer->end();
++    if (mapping_iteration_logging_)
++      std::cout << "[UltrafastRotation] normal_training_step=" << ultrafast_rotation_.step
++                << " mapping_iteration=" << mapping_iter_ + 1 << " phase=FULL_LOD"
++                << " ratio=" << selector_target_ratios_.at(phase) << " keyframe_id=" << viewpoint_cam->fid_
++                << " is_full_step=1 is_lod_step=" << lod.rendered
++                << " full_gaussian_optimizer_step=" << tail_full_committed
++                << " lod_gaussian_optimizer_step=" << tail_lod_committed
++                << " selector_optimizer_step=" << selector_committed << " tf_optimizer_step=" << tf_committed
++                << " full_height=" << image_height << " full_width=" << image_width
++                << " lod_height=" << lod.render_height << " lod_width=" << lod.render_width
++                << " full_loss=" << full_loss.item<double>() << " lod_loss=" << lod.loss
++                << " training_ms=" << rotation_timer->wall_ms << " render_ms=" << rotation_timer->render_ms << '\n';
++    ultrafast_rotation_.completeTail(rotation_timer->wall_ms, tail_lod_attempted, lod.rendered,
++                                    selector_committed, tf_committed, mapping_iteration_logging_);
++    if (all_keyframes_record_interval_ && getIteration() % all_keyframes_record_interval_ == 0) {
++      renderAndRecordAllKeyframes();
++      savePly(result_dir_ / std::to_string(getIteration()) / "ply");
++    }
++  }
+   if (mode2) {
+     const bool lod_ready = selector_enabled_ && selector_network_ &&
+         hasNormalOptimizationBudget() && !selector_target_ratios_.empty() &&
+@@ -1787,30 +1885,41 @@ void GaussianMapper::reportUltrafastRotation(const char* event) const {
+   if (!ultrafast_rotation_.enabled) return;
+   const auto& r = ultrafast_rotation_;
+   TORCH_CHECK(r.balanced() &&
+-              r.full_render_count + r.lod_render_count == r.step,
++              r.full_render_count + r.lod_render_count == r.step + r.tail_lod_renders,
+               "Ultrafast rotation invariant failed: balance/render count");
+   const char* keys[] = {"lod_001", "lod_005", "lod_010", "lod_015", "full"};
+   std::ostringstream line;
+   line << std::fixed << std::setprecision(4) << "[UltrafastRotation SUMMARY] event=" << event;
+-  for (std::size_t i = 0; i < r.counts.size(); ++i)
+-    line << " ultrafast_" << keys[i] << "_steps=" << r.counts[i]
+-         << ' ' << keys[i] << "_mean_ms=" << (r.counts[i] ? r.elapsed_sum[i] / r.counts[i] : 0.0)
+-         << ' ' << keys[i] << "_render_mean_ms=" << (r.counts[i] ? r.render_sum[i] / r.counts[i] : 0.0);
++  for (std::size_t i = 0; i < r.counts.size(); ++i) {
++    line << " ultrafast_" << keys[i] << "_steps=" << r.counts[i];
++    if (mapping_iteration_logging_)
++      line << ' ' << keys[i] << "_mean_ms=" << (r.counts[i] ? r.elapsed_sum[i] / r.counts[i] : 0.0)
++           << ' ' << keys[i] << "_render_mean_ms=" << (r.counts[i] ? r.render_sum[i] / r.counts[i] : 0.0);
++  }
++  if (mapping_iteration_logging_)
++    line << " mean_mapping_training_ms=" << r.mean() << " p95_mapping_training_ms=" << r.p95();
+   line << " ultrafast_total_normal_steps=" << r.step << " balanced=" << r.balanced()
+-       << " mean_mapping_training_ms=" << r.mean() << " p95_mapping_training_ms=" << r.p95()
+        << " full_render_count=" << r.full_render_count << " lod_render_count=" << r.lod_render_count
+        << " online_ended=" << r.online_ended
+        << " online_end_mapping_iteration=" << r.online_end_mapping_iteration
+        << " online_end_rotation_step=" << r.online_end_rotation_step
+        << " tail_training_steps=" << r.tailSteps()
++       << " tail_full_render_count=" << r.tailSteps() << " tail_lod_render_count=" << r.tail_lod_renders
++       << " tail_lod_attempts=" << r.tail_lod_attempts
+        << " selector_online_lod_update_count=" << (r.online_ended ? r.online_end_selector_updates : r.selector_updates)
+        << " tf_online_lod_update_count=" << (r.online_ended ? r.online_end_tf_updates : r.tf_updates)
+        << " selector_tail_lod_update_count=" << (r.online_ended ? r.selector_updates - r.online_end_selector_updates : 0)
+        << " tf_tail_lod_update_count=" << (r.online_ended ? r.tf_updates - r.online_end_tf_updates : 0)
+        << " tf_first_initialized_mapping_iteration=" << ultrafast_tf_first_initialized_
+        << " tf_first_applied_lod_iteration=" << ultrafast_tf_first_applied_
+-       << " timing=" << (device_type_ == torch::kCUDA ? "synchronized_wall_and_cuda_event_render" : "cpu_wall");
++       << " timing=" << (!mapping_iteration_logging_ ? "disabled" :
++          (device_type_ == torch::kCUDA ? "synchronized_wall_and_cuda_event_render" : "cpu_wall"));
+   std::cout << line.str() << '\n';
++  if (r.online_ended) {
++    std::cout << "[UltrafastRotation TAIL] policy=full_then_joint_lod ratio_counts=";
++    for (auto n : r.tail_ratio_counts) std::cout << n << ',';
++    std::cout << '\n';
++  }
+ }
+ 
+ void GaussianMapper::beginForcedTail(std::uint64_t iteration) {
+@@ -2013,7 +2122,9 @@ void GaussianMapper::ensureSharedMappingOptimizer() {
+   }
+ }
+ 
+-bool GaussianMapper::stepWithHistoricalGuard(const std::shared_ptr<GaussianKeyframe>& current) {
++bool GaussianMapper::stepWithHistoricalGuard(const std::shared_ptr<GaussianKeyframe>& current,
++                                            bool count_rejection, bool* stage_committed) {
++  if (stage_committed) *stage_committed = false;
+   auto cuda_tf_groups = transform_field_ && transform_field_->config().backend == "cuda" &&
+       shared_transform_optimizer_configured_
+       ? std::vector<std::size_t>{shared_transform_mlp_group_index_, shared_transform_grid_group_index_}
+@@ -2031,7 +2142,8 @@ bool GaussianMapper::stepWithHistoricalGuard(const std::shared_ptr<GaussianKeyfr
+     cuda_tf_groups.push_back(shared_selector_group_index_);
+   if (!gradient_constraint_config_.enabled) {
+     tf_cuda::tfCudaAdamMixedStep(*gaussians_->optimizer_, cuda_tf_groups, gaussians_->protection_.timing());
+-    normal_update_clock_.record(true, tf_had_gradient); return true;
++    if (stage_committed) *stage_committed = true;
++    normal_update_clock_.record(true, tf_had_gradient, count_rejection); return true;
+   }
+   const auto start = std::chrono::steady_clock::now();
+   ++gradient_guard_attempt_;
+@@ -2087,7 +2199,8 @@ bool GaussianMapper::stepWithHistoricalGuard(const std::shared_ptr<GaussianKeyfr
+   };
+   auto unprotected = [&](const char* reason, const char* status = "UNPROTECTED") {
+     tf_cuda::tfCudaAdamMixedStep(*gaussians_->optimizer_, cuda_tf_groups);
+-    normal_update_clock_.record(true, tf_had_gradient);
++    if (stage_committed) *stage_committed = true;
++    normal_update_clock_.record(true, tf_had_gradient, count_rejection);
+     report.status = status; report.reason = reason; log();
+   };
+   if (!normal_update_clock_.guardReady(static_cast<bool>(transform_field_),
+@@ -2142,7 +2255,8 @@ bool GaussianMapper::stepWithHistoricalGuard(const std::shared_ptr<GaussianKeyfr
+   const bool tf_updated = tf_had_gradient && report.committed &&
+       (report.update_ratio_by_group[shared_transform_mlp_group_index_] > 0.0 ||
+        report.update_ratio_by_group[shared_transform_grid_group_index_] > 0.0);
+-  normal_update_clock_.record(report.committed, tf_updated);
++  normal_update_clock_.record(report.committed, tf_updated, count_rejection);
++  if (stage_committed) *stage_committed = report.committed;
+   log();
+   if (!report.committed) return false;
+   for (size_t group = 0; group < std::min<size_t>(6, report.update_ratio_by_group.size()); ++group)
+@@ -2891,7 +3005,8 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+     bool detach_gaussian_parameters,
+     bool record_supervision,
+     UltrafastTrainingTimer* rotation_timer,
+-    bool normal_mode2) {
++    bool normal_mode2,
++    bool native_lod) {
+   if (normal_mode2) detach_gaussian_parameters = true;
+   LodGradientResult result;
+   if (!viewpoint_cam || !selector_network_ || !selector_optimizer_ ||
+@@ -2906,19 +3021,30 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+     recent_window_importance_->assertAligned(gaussians_->getXYZ());
+   if (global_gi_) global_gi_->assertAligned(gaussians_->getXYZ());
+ 
+-  const auto maturity = gaussians_->protection_.maturity.detach();
++  const auto maturity = gaussians_->protection_.effectiveMaturity();
++  const auto& maturity_mode = protection_config_.maturity_ablation_mode;
++  const bool gate_mode = maturity_mode == "st_gate06";
++  const bool shared_maturity = maturity_mode == "real" || maturity_mode == "all_one";
++  const auto tf_maturity = shared_maturity ? maturity :
++      gaussians_->protection_.effectiveMaturity(MaturityConsumer::TF);
++  const auto gi_maturity = shared_maturity ? maturity :
++      gaussians_->protection_.effectiveMaturity(MaturityConsumer::GI);
+   const float entry = transform_field_config_.elastic_entry_maturity;
+-  const auto entry_indices = entry > 0 ? gaussians_->protection_.indicesAbove(entry) : torch::Tensor{};
+-  const int64_t selector_candidates = entry > 0 ? entry_indices.numel() : num_gaussians;
++  const auto entry_indices = gate_mode
++      ? gaussians_->protection_.gate06Indices()
++      : entry > 0 ? (maturity_mode != "real" && maturity_mode != "s_real"
++          ? torch::arange(num_gaussians, maturity.options().dtype(torch::kLong))
++          : gaussians_->protection_.indicesAbove(entry)) : torch::Tensor{};
++  const int64_t selector_candidates = gate_mode || entry > 0 ? entry_indices.numel() : num_gaussians;
+   // Log a complete ratio rotation; multiples of 1000 alone land on Full.
+-  const bool log_budget = record_supervision && (mapping_iter_ % 1000 < 5 ||
++  const bool log_budget = mapping_iteration_logging_ && record_supervision && (mapping_iter_ % 1000 < 5 ||
+       (training_report_interval_ > 0 && mapping_iter_ % training_report_interval_ < 5));
+   ratio_index %= selector_target_ratios_.size();
+   const float target_ratio = selector_target_ratios_[ratio_index];
+ 
+   initializeTransformFieldIfNeeded();
+   ensureSharedMappingOptimizer();
+-  if (transform_field_config_.elastic_entry_maturity > 0) selector_optimizer_->zero_grad(true);
++  if (gate_mode || transform_field_config_.elastic_entry_maturity > 0) selector_optimizer_->zero_grad(true);
+   else selector_optimizer_->zero_grad();
+   if (transform_optimizer_) {
+     updateTransformLearningRate();
+@@ -2944,9 +3070,7 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+                            : gaussians_->features_rest_;
+   auto& selector_profile = continuous_tf_statistics_.ratios[target_ratio].selector_profiler;
+   if (protection_config_.performance_logging) selector_profile.beginIteration();
+-  const auto mixed_probability = elasticSelectorProbability(maturity,
+-      gaussians_->protection_.selectionMaturity(selector_protection_enabled_), entry, target_ratio, entry_indices,
+-      [&](const torch::Tensor& indices) {
++  const auto selector_forward = [&](const torch::Tensor& indices) {
+         const auto positions = indices.defined() ? xyz.index_select(0, indices) : xyz;
+         const auto rotations = indices.defined() ? rotation.index_select(0, indices) : rotation;
+         const auto scales = indices.defined() ? scaling.index_select(0, indices) : scaling;
+@@ -2954,11 +3078,14 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+         ProtectionProfiler::Scope ratio_timer(protection_config_.performance_logging ? &selector_profile : nullptr,
+             ProtectionProfiler::SelectorAllRows, xyz.is_cuda());
+         return selector_network_->forwardProbability(positions, rotations, scales, target_ratio, selector_temperature_);
+-      });
++      };
++  const auto mixed_probability = gate_mode
++      ? gatedSelectorProbability(gaussians_->protection_.maturity, target_ratio, entry_indices, selector_forward)
++      : elasticSelectorProbability(maturity,
++          gaussians_->protection_.effectiveMaturity(selector_protection_enabled_), entry, target_ratio, entry_indices,
++          selector_forward);
+   if (protection_config_.performance_logging) selector_profile.endIteration();
+   const auto selector_mask = sampleSelectorST(mixed_probability, gaussians_->protection_.cached_uniform);
+-  const auto expected_active = mixed_probability.sum();
+-  const double target_active = static_cast<double>(target_ratio) * num_gaussians;
+   const auto ratio_loss = selectorRatioLoss(mixed_probability, target_ratio);
+ 
+   GITeacher gi_teacher;
+@@ -2967,7 +3094,7 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+   if (global_gi_) {
+     // Valid cache estimates and actual observation are independent conditions.
+     gi_teacher = gi_teacher_builder_.build(global_gi_->importance(), global_gi_->validMask(),
+-        global_gi_->observedMask(), maturity, target_ratio, global_gi_->version(), global_gi_->topologyVersion(), entry);
++        global_gi_->observedMask(), gi_maturity, target_ratio, global_gi_->version(), global_gi_->topologyVersion(), entry);
+   } else if (recent_window_importance_ && recent_window_config_.collect_importance &&
+              recent_window_importance_->enabled()) {
+     auto combined_gi = recent_window_importance_->getImportance();
+@@ -2975,7 +3102,7 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+         combined_gi.defined() && combined_gi.size(0) == num_gaussians)
+       gi_teacher = gi_teacher_builder_.build(
+           combined_gi, torch::isfinite(combined_gi),
+-          recent_window_importance_->observedMask(), maturity, target_ratio,
++          recent_window_importance_->observedMask(), gi_maturity, target_ratio,
+           recent_window_importance_->version(), recent_window_importance_->topologyVersion(), entry);
+   }
+   }
+@@ -3010,9 +3137,14 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+   auto tf_before_epsilon = inside;
+   if (transform_field_ && compact_count > 0) {
+     inside = transform_field_->insideMask(selected_input.xyz);
+-    const auto compact_maturity = maturity.index_select(0, compact_to_global);
++    const auto compact_maturity = tf_maturity.index_select(0, compact_to_global);
+     tf_before_epsilon = entry > 0 ? inside & (compact_maturity >= entry) : inside;
+-    const auto transform_mask = transform_field_->candidateMask(selected_input.xyz, compact_maturity);
++    auto transform_mask = transform_field_->candidateMask(selected_input.xyz, compact_maturity);
++    if (gate_mode) {
++      const auto raw_compact = gaussians_->protection_.maturity.index_select(0, compact_to_global);
++      tf_before_epsilon = tfMaturityGate(tf_before_epsilon, raw_compact, maturity_mode);
++      transform_mask = tfMaturityGate(transform_mask, raw_compact, maturity_mode);
++    }
+     const auto tf_local_indices = torch::nonzero(transform_mask).reshape({-1});
+     transform_count = tf_local_indices.numel();
+     if (transform_count > 0) {
+@@ -3043,20 +3175,21 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+   torch::Tensor selector_loss;
+   result.transformed_gaussians = transform_count;
+   int64_t visible_count = 0;
+-  if (compact_count > 0 || rotation_timer || normal_mode2) {
++  if (compact_count > 0 || rotation_timer || normal_mode2 || native_lod) {
+     const bool slam_online = pSLAM_ && !pSLAM_->isShutDown();
+     const bool post_slam = pSLAM_ && !slam_online;
+-    const float lod_render_scale = (normal_mode2 || slam_online) ? selector_lod_render_scale_ : 1.0f;
++    const float lod_render_scale = native_lod ? 1.0f :
++        ((normal_mode2 || slam_online) ? selector_lod_render_scale_ : 1.0f);
+     // Tail optimization uses native images even if a KF still has pyramid uses.
+-    const int source_height = (normal_mode2 || post_slam) ? viewpoint_cam->image_height_ : image_height;
+-    const int source_width = (normal_mode2 || post_slam) ? viewpoint_cam->image_width_ : image_width;
++    const int source_height = (native_lod || normal_mode2 || post_slam) ? viewpoint_cam->image_height_ : image_height;
++    const int source_width = (native_lod || normal_mode2 || post_slam) ? viewpoint_cam->image_width_ : image_width;
+     const int lod_height = std::max(
+         1, static_cast<int>(source_height * lod_render_scale));
+     const int lod_width = std::max(
+         1, static_cast<int>(source_width * lod_render_scale));
+     result.render_height = lod_height;
+     result.render_width = lod_width;
+-    auto lod_gt_image = (normal_mode2 || post_slam)
++    auto lod_gt_image = (native_lod || normal_mode2 || post_slam)
+         ? viewpoint_cam->original_image_.to(gt_image.device()) : gt_image;
+     lod_gt_image = viewpoint_cam->resized_image_cache_.get(
+         lod_gt_image, lod_height, lod_width);
+@@ -3110,7 +3243,7 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+       inside, candidate_maturity, gi_teacher.supervised_k, gi_teacher.weight,
+       selector_candidates, num_gaussians, tf_before_epsilon);
+ 
+-  if (!record_supervision || rotation_timer || normal_mode2) {
++  if (!record_supervision || rotation_timer || normal_mode2 || native_lod) {
+     result.loss = selector_loss.detach().item<double>();
+     result.finite_loss = std::isfinite(result.loss);
+     if (!result.finite_loss) return result;
+@@ -3120,10 +3253,11 @@ GaussianMapper::LodGradientResult GaussianMapper::accumulateLodGradients(
+     selector_loss.backward();
+   }
+   if (log_budget) {
++    const double target_active = static_cast<double>(target_ratio) * num_gaussians;
+     std::cout << "[LOD Compact] mapping_iter=" << gaussians_->protection_.mapping_iteration
+               << " ratio=" << target_ratio << " active_gaussians=" << compact_count
+               << " target_active=" << target_active
+-              << " expected_active=" << expected_active.detach().item<float>()
++              << " expected_active=" << mixed_probability.detach().sum().item<float>()
+               << " actual_active=" << compact_count
+               << " actual_vs_target=" << compact_count / std::max(1.0, target_active)
+               << " tf=" << transform_count << " visible=" << visible_count << '\n';
+@@ -4012,28 +4146,35 @@ void GaussianMapper::savePly(std::filesystem::path result_dir) {
+     const char* keys[] = {"lod_001", "lod_005", "lod_010", "lod_015", "full"};
+     for (std::size_t i = 0; i < r.counts.size(); ++i) {
+       state[std::string("ultrafast_") + keys[i] + "_steps"] = Json::UInt64(r.counts[i]);
+-      if (r.counts[i]) {
++      if (r.counts[i] && mapping_iteration_logging_) {
+         state[std::string(keys[i]) + "_mean_ms"] = r.elapsed_sum[i] / r.counts[i];
+         state[std::string(keys[i]) + "_render_mean_ms"] = r.render_sum[i] / r.counts[i];
+       }
+     }
+     state["ultrafast_total_normal_steps"] = Json::UInt64(r.step);
+     state["balanced"] = r.balanced();
+-    state["mean_mapping_training_ms"] = r.mean();
+-    state["p95_mapping_training_ms"] = r.p95();
++    state["iteration_logging"] = mapping_iteration_logging_;
++    state["mean_mapping_training_ms"] = mapping_iteration_logging_ ? Json::Value(r.mean()) : Json::Value(Json::nullValue);
++    state["p95_mapping_training_ms"] = mapping_iteration_logging_ ? Json::Value(r.p95()) : Json::Value(Json::nullValue);
+     state["full_render_count"] = Json::UInt64(r.full_render_count);
+     state["lod_render_count"] = Json::UInt64(r.lod_render_count);
+     state["online_ended"] = r.online_ended;
+     state["online_end_mapping_iteration"] = Json::UInt64(r.online_end_mapping_iteration);
+     state["online_end_rotation_step"] = Json::UInt64(r.online_end_rotation_step);
+     state["tail_training_steps"] = Json::UInt64(r.tailSteps());
++    state["tail_policy"] = "full_then_joint_lod";
++    state["tail_full_render_count"] = Json::UInt64(r.tailSteps());
++    state["tail_lod_render_count"] = Json::UInt64(r.tail_lod_renders);
++    state["tail_lod_attempts"] = Json::UInt64(r.tail_lod_attempts);
++    for (auto n : r.tail_ratio_counts) state["tail_ratio_counts"].append(Json::UInt64(n));
+     state["selector_online_lod_update_count"] = Json::UInt64(r.online_ended ? r.online_end_selector_updates : r.selector_updates);
+     state["tf_online_lod_update_count"] = Json::UInt64(r.online_ended ? r.online_end_tf_updates : r.tf_updates);
+     state["selector_tail_lod_update_count"] = Json::UInt64(r.online_ended ? r.selector_updates - r.online_end_selector_updates : 0);
+     state["tf_tail_lod_update_count"] = Json::UInt64(r.online_ended ? r.tf_updates - r.online_end_tf_updates : 0);
+     state["tf_first_initialized_mapping_iteration"] = Json::Int64(ultrafast_tf_first_initialized_);
+     state["tf_first_applied_lod_iteration"] = Json::Int64(ultrafast_tf_first_applied_);
+-    state["timing"] = device_type_ == torch::kCUDA ? "synchronized_wall_and_cuda_event_render" : "cpu_wall";
++    state["timing"] = !mapping_iteration_logging_ ? "disabled" :
++        (device_type_ == torch::kCUDA ? "synchronized_wall_and_cuda_event_render" : "cpu_wall");
+     std::ofstream output(result_dir / "ultrafast_rotation_state.json");
+     output << state;
+   }
+@@ -4049,6 +4190,7 @@ void GaussianMapper::savePly(std::filesystem::path result_dir) {
+   Json::Value protection_state;
+   protection_state["schema"] = "continuous_cycle_geometric";
+   protection_state["maturity_dynamics"] = "temporal_trust";
++  protection_state["maturity_ablation_mode"] = protection_config_.maturity_ablation_mode;
+   protection_state["maturity_rise_rate"] = protection_config_.maturity_rise_rate;
+   protection_state["maturity_fall_rate"] = protection_config_.maturity_fall_rate;
+   protection_state["protection_enabled"] = selector_protection_enabled_;
+@@ -4254,6 +4396,7 @@ void GaussianMapper::saveSelectorConfig(std::filesystem::path result_dir) {
+ 
+   settings_file << std::setprecision(9) << "%YAML:1.0\n\n";
+   settings_file << "Training.ultra_light_mode: " << ultra_light_mode_ << '\n';
++  settings_file << "Mapping.iteration_logging: " << int(mapping_iteration_logging_) << '\n';
+   settings_file << "Training.force_tail_optimization_enabled: "
+                 << static_cast<int>(tail_optimization_schedule_.enabled) << '\n';
+   settings_file << "Training.tail_optimization_steps: "
+@@ -4272,6 +4415,7 @@ void GaussianMapper::saveSelectorConfig(std::filesystem::path result_dir) {
+   settings_file << "Protection.beta_fast: " << protection_config_.beta_fast << '\n';
+   settings_file << "Protection.beta_slow: " << protection_config_.beta_slow << '\n';
+   settings_file << "Protection.maturity_rise_rate: " << protection_config_.maturity_rise_rate << '\n';
++  settings_file << "Protection.maturity_ablation_mode: \"" << protection_config_.maturity_ablation_mode << "\"\n";
+   settings_file << "Protection.maturity_fall_rate: " << protection_config_.maturity_fall_rate << '\n';
+   settings_file << "Protection.maturity_diagnostics: " << int(protection_config_.maturity_diagnostics) << '\n';
+   settings_file << "Protection.compatibility_mature_threshold: " << protection_config_.compatibility_mature_threshold << '\n';
+@@ -4422,6 +4566,12 @@ void GaussianMapper::saveSelectorConfig(std::filesystem::path result_dir) {
+                 << static_cast<int>(change_distill_config_.post_change_replay)
+                 << '\n';
+   settings_file << "ChangeDistill.epochs: " << change_distill_config_.epochs << std::endl;
++  if (change_distill_config_.selector_epochs)
++    settings_file << "ChangeDistill.selector_epochs: "
++                  << *change_distill_config_.selector_epochs << '\n';
++  if (change_distill_config_.tf_epochs)
++    settings_file << "ChangeDistill.tf_epochs: "
++                  << *change_distill_config_.tf_epochs << '\n';
+   settings_file << "ChangeDistill.seed: " << change_distill_config_.seed << std::endl;
+   settings_file << "ChangeDistill.enable_unaffected_anchors: "
+                 << static_cast<int>(change_distill_config_.enable_unaffected_anchors) << std::endl;
+diff --git a/src/maturity_dynamics.cpp b/src/maturity_dynamics.cpp
+index 4c7ea3d..5d16526 100644
+--- a/src/maturity_dynamics.cpp
++++ b/src/maturity_dynamics.cpp
+@@ -56,7 +56,7 @@ const std::vector<std::string>& curveKeys() {
+     "maturity_mean","maturity_median","maturity_p10","maturity_p50","maturity_p90","maturity_p95",
+     "fraction_m_ge_0.1","fraction_m_ge_0.3","fraction_m_ge_0.5","fraction_m_ge_0.8","fraction_m_ge_0.95",
+     "drop_gt_0.1_count","drop_gt_0.2_count","m_ge_0.3_count",
+-    "drift_ema_mean","drift_ema_median","drift_ema_p10","drift_ema_p90","drift_ema_p95"};
++    "drift_ema_mean","drift_ema_median","drift_ema_p10","drift_ema_p90","drift_ema_p95","fraction_m_gt_0.6"};
+   return keys;
+ }
+ }
+@@ -153,6 +153,7 @@ void MaturityDynamics::observe(int64_t iteration,const torch::Tensor& valid,cons
+   row.push_back(torch::nanmean(evidence_ema));
+   const auto eq=quantiles(evidence_ema,{.5,.1,.9,.95},true);
+   for(int i=0;i<4;++i)row.push_back(eq[i]);
++  row.push_back((m>0.60f).to(m.dtype()).mean());
+   curve_.push_back(torch::stack(row));
+ }
+ 
+diff --git a/src/selector_cuda.cpp b/src/selector_cuda.cpp
+index 44ab185..25e564f 100644
+--- a/src/selector_cuda.cpp
++++ b/src/selector_cuda.cpp
+@@ -8,9 +8,13 @@ class NetworkFunction : public torch::autograd::Function<NetworkFunction> {
+   static torch::Tensor forward(torch::autograd::AutogradContext* ctx,
+                                at::TensorList tensors, int64_t candidate, int64_t strategy) {
+     auto in=tensors.vec();
+-    TORCH_CHECK(in.size()==22,"Selector expects four inputs and eighteen parameters");
++    TORCH_CHECK(in.size()==22 || in.size()==28,"Selector expects inputs, parameters and optional spatial features");
++    const auto extra=in.size()-22;
++    const std::vector<torch::Tensor> spatial(in.begin()+22,in.end());
++    in.resize(22);
+     auto stages=selector_cuda::forward({in.begin(),in.begin()+4},
+-        {in.begin()+4,in.end()},static_cast<Candidate>(candidate));
++        {in.begin()+4,in.end()},static_cast<Candidate>(candidate),spatial);
++    ctx->saved_data["extra"]=static_cast<int64_t>(extra);
+     ctx->saved_data["strategy"]=strategy;
+     for(int i=0;i<8;++i) {
+       // Second-layer activations are already present in the packed features.
+@@ -29,6 +33,9 @@ class NetworkFunction : public torch::autograd::Function<NetworkFunction> {
+     auto result=selector_cuda::backward({saved.begin(),saved.begin()+4},
+         {saved.begin()+4,saved.begin()+22},{saved.begin()+22,saved.end()},gradients[0].contiguous(),
+         static_cast<BackwardStrategy>(ctx->saved_data["strategy"].toInt()));
++    // The shared activations are internal saved values, with derivatives routed
++    // through the original parameter inputs of each ratio's custom Function.
++    for(int64_t i=0;i<ctx->saved_data["extra"].toInt();++i) result.push_back(torch::Tensor());
+     result.push_back(torch::Tensor()); // Candidate enum has no gradient.
+     result.push_back(torch::Tensor()); // Backward strategy has no gradient.
+     return result;
+@@ -42,4 +49,21 @@ torch::Tensor network(const std::vector<torch::Tensor>& inputs,
+   tensors.insert(tensors.end(),parameters.begin(),parameters.end());
+   return NetworkFunction::apply(at::TensorList(tensors),static_cast<int64_t>(candidate),static_cast<int64_t>(strategy));
+ }
++
++std::vector<torch::Tensor> networkMany(const std::vector<torch::Tensor>& inputs,
++    const std::vector<torch::Tensor>& ratios,const std::vector<torch::Tensor>& parameters) {
++  TORCH_CHECK(inputs.size()==3 && !ratios.empty(),"Selector shared inputs/ratios mismatch");
++  auto first=inputs;first.push_back(ratios.front());
++  std::vector<torch::Tensor> spatial;
++  { torch::NoGradGuard no_grad; spatial=spatialForward(first,parameters); }
++  std::vector<torch::Tensor> result;
++  for(const auto& ratio:ratios) {
++    auto tensors=inputs;tensors.push_back(ratio);
++    tensors.insert(tensors.end(),parameters.begin(),parameters.end());
++    tensors.insert(tensors.end(),spatial.begin(),spatial.end());
++    result.push_back(NetworkFunction::apply(at::TensorList(tensors),
++        static_cast<int64_t>(Candidate::CublasStrict),static_cast<int64_t>(BackwardStrategy::DirectFinalRelu)));
++  }
++  return result;
++}
+ }  // namespace selector_cuda
+diff --git a/src/selector_cuda.cu b/src/selector_cuda.cu
+index 416fc20..938b4b1 100644
+--- a/src/selector_cuda.cu
++++ b/src/selector_cuda.cu
+@@ -235,12 +235,16 @@ torch::Tensor linearVjp(const torch::Tensor& x,const torch::Tensor& w,const torc
+ }  // namespace
+ 
+ std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,
+-    const std::vector<torch::Tensor>& p,Candidate candidate) {
++    const std::vector<torch::Tensor>& p,Candidate candidate,
++    const std::vector<torch::Tensor>& spatial) {
+   validate(inputs,p);c10::cuda::CUDAGuard guard(inputs[0].device());
++  TORCH_CHECK(spatial.empty() || (spatial.size()==6 && candidate==Candidate::CublasStrict),
++              "Shared Selector features require CublasStrict");
+   std::vector<torch::Tensor> x;for(auto t:inputs)x.push_back(t.contiguous());
+   const int n=x[0].size(0);auto options=x[0].options().requires_grad(false);
+   std::vector<torch::Tensor> h;
+-  for(int b=0;b<4;++b)for(int l=0;l<2;++l)h.push_back(torch::empty({x[b].size(0),32},options));
++  for(int b=0;b<4;++b)for(int l=0;l<2;++l)
++    h.push_back(b<3 && !spatial.empty() ? spatial[b*2+l] : torch::empty({x[b].size(0),32},options));
+   h.push_back(torch::empty({n,2},options));
+   linear(x[3],p[12],p[13],h[6]);linear(h[6],p[14],p[15],h[7]);
+   if(candidate==Candidate::Warp) {
+@@ -250,7 +254,8 @@ std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,
+     a.ratio=h[7].data_ptr<float>();a.ratio_rows=h[7].size(0);a.out=h[8].data_ptr<float>();
+     if(n)warpNetwork<<<(n+3)/4,128,0,stream()>>>(a,n);
+   } else {
+-    for(int b=0;b<3;++b){linear(x[b],p[b*4],p[b*4+1],h[b*2]);linear(h[b*2],p[b*4+2],p[b*4+3],h[b*2+1]);}
++    if(spatial.empty())
++      for(int b=0;b<3;++b){linear(x[b],p[b*4],p[b*4+1],h[b*2]);linear(h[b*2],p[b*4+2],p[b*4+3],h[b*2+1]);}
+     if(candidate==Candidate::CublasStrict) {
+       // Split final GEMMs failed the exact tie fixture. Preserve the legacy
+       // 128-term GEMM and its reduction layout. This candidate intentionally
+@@ -280,6 +285,20 @@ std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,
+   }
+   C10_CUDA_KERNEL_LAUNCH_CHECK();return h;
+ }
++std::vector<torch::Tensor> spatialForward(const std::vector<torch::Tensor>& inputs,
++    const std::vector<torch::Tensor>& p) {
++  validate(inputs,p);c10::cuda::CUDAGuard guard(inputs[0].device());
++  std::vector<torch::Tensor> h;
++  for(int b=0;b<3;++b) {
++    auto x=inputs[b].contiguous();
++    h.push_back(torch::empty({x.size(0),32},x.options().requires_grad(false)));
++    h.push_back(torch::empty_like(h.back()));
++    linear(x,p[b*4],p[b*4+1],h[b*2]);
++    linear(h[b*2],p[b*4+2],p[b*4+3],h[b*2+1]);
++  }
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return h;
++}
++
+ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     const std::vector<torch::Tensor>& p,const std::vector<torch::Tensor>& h,
+     const torch::Tensor& upstream,BackwardStrategy strategy) {
+diff --git a/tests/change_distill_test.cpp b/tests/change_distill_test.cpp
+index e559cec..4890977 100644
+--- a/tests/change_distill_test.cpp
++++ b/tests/change_distill_test.cpp
+@@ -491,6 +491,95 @@ void geometryScopes() {
+   }
+ }
+ 
++void splitEpochCompatibility() {
++  struct Result {
++    ChangeDistillReport report;
++    std::vector<torch::Tensor> selector, tf;
++  };
++  const auto run = [&](ChangeDistillConfig config) {
++    torch::manual_seed(37);
++    auto selector = makeSelector();
++    auto field = makeTF();
++    {
++      torch::NoGradGuard no_grad;
++      for (const auto& p : selector->parameters()) p.fill_(0.02);
++      auto weights = selector->named_parameters()["soft_net.weight"];
++      weights.select(0, 0).fill_(-0.05);
++      weights.select(0, 1).fill_(0.05);
++      field->named_parameters()["position_out.bias"].fill_(0.05);
++    }
++    torch::optim::Adam selector_optimizer(selector->parameters(), torch::optim::AdamOptions(1e-4));
++    torch::optim::Adam tf_optimizer(field->mlpParameters(), torch::optim::AdamOptions(1e-4));
++    tf_optimizer.add_param_group(field->gridParameters());
++    ChangeDistillManager distiller(config);
++    ChangeCoordinator coordinator(nullptr, &distiller);
++    auto state = master();
++    const auto mask = torch::tensor({true, true, true, true, true, false}, bools);
++    const AABB3D domain{field->aabbMin(), field->aabbMax()};
++    auto capture = coordinator.captureBeforeGeometryChange(
++        ChangeFlag::LOCAL_GEOMETRY, mask, state, domain, 1, 1, 1000);
++    capture.teacher_selector = improvements::selector::GumbelNetwork(selector->cloneFrozen());
++    capture.teacher_tf = TransformField(field->cloneFrozen());
++    const auto move = correction(torch::tensor({0, 2}, longs));
++    coordinator.addCorrection(capture, move);
++    state.xyz = state.xyz.clone();
++    state.xyz.index_put_({0, 0}, 0.5f);
++    state.xyz.index_put_({2, 0}, 0.8f);
++    ChangeTrainingContext context;
++    context.current = state;
++    context.selector = selector;
++    context.tf = field;
++    context.normal_selector_optimizer = &selector_optimizer;
++    context.normal_tf_optimizer = &tf_optimizer;
++    context.ratios = {0.1f, 0.5f};
++    Result result;
++    std::string log;
++    {
++      StdoutCapture output;
++      result.report = coordinator.finalizeGeometryChange(std::move(capture), context, 1);
++      log = output.str();
++    }
++    checkEpochLogs(log, "[SELECTOR CD EPOCH] event=1 type=LOCAL_GEOMETRY",
++                   config.selectorEpochs(), result.report.selector_pre + result.report.anchor_pre,
++                   result.report.selector_post + result.report.anchor_post, result.report.selector_steps);
++    checkEpochLogs(log, "[TF CD EPOCH] event=1 type=LOCAL_GEOMETRY",
++                   config.tfEpochs(), result.report.tf_pre, result.report.tf_post, result.report.tf_steps);
++    for (const auto& p : selector->parameters()) result.selector.push_back(p.detach().clone());
++    for (const auto& p : field->parameters()) result.tf.push_back(p.detach().clone());
++    return result;
++  };
++  ChangeDistillConfig legacy;
++  legacy.epochs = 5;
++  legacy.batch_size = 1;
++  legacy.seed = 123;
++  check(legacy.selectorEpochs() == 5 && legacy.tfEpochs() == 5, "Legacy epoch fallback changed");
++  auto explicit_counts = legacy;
++  explicit_counts.selector_epochs = 5;
++  explicit_counts.tf_epochs = 5;
++  const auto before = run(legacy), after = run(explicit_counts);
++  check(before.report.selector_steps == after.report.selector_steps &&
++        before.report.tf_steps == after.report.tf_steps, "Explicit S5T5 changed optimizer steps");
++  for (std::size_t i = 0; i < before.selector.size(); ++i) close(before.selector[i], after.selector[i]);
++  for (std::size_t i = 0; i < before.tf.size(); ++i) close(before.tf[i], after.tf[i]);
++  explicit_counts.selector_epochs = 2;
++  explicit_counts.tf_epochs = 3;
++  const auto asymmetric = run(explicit_counts);
++  check(asymmetric.report.selector_steps == 4 && asymmetric.report.tf_steps == 6,
++        "Branch epochs did not control their own optimizer steps");
++  auto partial = legacy;
++  partial.selector_epochs = 20;
++  check(partial.selectorEpochs() == 20 && partial.tfEpochs() == 5, "Per-branch fallback changed");
++  for (bool selector_branch : {false, true}) {
++    auto invalid = legacy;
++    if (selector_branch) invalid.selector_epochs = 0;
++    else invalid.tf_epochs = -1;
++    bool rejected = false;
++    try { ChangeDistillManager manager(invalid); }
++    catch (const c10::Error&) { rejected = true; }
++    check(rejected, "Invalid branch epoch count accepted");
++  }
++}
++
+ void skippedDistillLogging() {
+   for (bool outside : {false, true}) {
+     auto field = makeTF();
+@@ -720,6 +809,7 @@ int main() {
+   pressurePlanning();
+   robustPressurePlanning();
+   geometryScopes();
++  splitEpochCompatibility();
+   skippedDistillLogging();
+   globalCorrectionPopulation();
+   expansionWithoutDistill();
+diff --git a/tests/frozen_teacher_target_cache_test.cpp b/tests/frozen_teacher_target_cache_test.cpp
+index e1847d7..005d770 100644
+--- a/tests/frozen_teacher_target_cache_test.cpp
++++ b/tests/frozen_teacher_target_cache_test.cpp
+@@ -31,6 +31,19 @@ int main() {
+   check(evaluated == 3 && torch::equal(repeated, input.detach().index_select(
+       0, torch::tensor({2, 0}, ids)) * 2.0), "Cache aliases returned batches");
+ 
++  auto duplicates = torch::tensor({2, 0, 2, 3}, ids);
++  const auto direct = cache.getCached(duplicates);
++  const auto generic = cache.get(duplicates, teacher);
++  check(torch::equal(direct, generic) && evaluated == 3,
++        "Proven cache hits differ for repeated IDs");
++  auto fast = cache.get(duplicates, [&](const torch::Tensor&) -> torch::Tensor {
++    throw std::runtime_error("Fully cached path evaluated teacher");
++  }, true);
++  check(torch::equal(fast, direct), "Explicit coverage contract mismatch");
++  auto partial = cache.get(torch::tensor({1, 2, 1}, ids), teacher);
++  check(evaluated == 5 && torch::equal(partial, input.detach().index_select(
++      0, torch::tensor({1, 2, 1}, ids)) * 2.0), "Duplicate lazy misses mismatch");
++
+   // Cached teacher targets must preserve the uncached Student loss and gradient.
+   auto student = torch::ones_like(second).set_requires_grad(true);
+   auto cached_loss = (student - second).abs().mean();
+diff --git a/tests/gaussian_protection_test.cpp b/tests/gaussian_protection_test.cpp
+index 2aaa9bc..5966515 100644
+--- a/tests/gaussian_protection_test.cpp
++++ b/tests/gaussian_protection_test.cpp
+@@ -89,5 +89,19 @@ int main(int argc, char** argv) {
+   check(mask.scalar_type()==torch::kBool && mask.dim()==1 && mask.numel()==4 && mask.device()==p.maturity.device(),
+         "M: invalid compatibility mask");
+   check(p.selectionMaturity(false).eq(1).all().item<bool>(), "Disabled protection did not force selection maturity one");
++  GaussianProtection disabled;
++  disabled.config.performance_logging = false;
++  disabled.config.maturity_enabled = false;
++  disabled.reset(2, opts);
++  check(disabled.maturity.eq(1).all().item<bool>() && !disabled.dynamics.enabled,
++        "Disabled maturity must initialize all consumers to one");
++  disabled.markTouched(rows);
++  disabled.observeFull(xyz, scale, q);
++  disabled.append(1);
++  disabled.append(1, rows.slice(0, 0, 1));
++  disabled.prune(torch::tensor({true, false, true, true}, opts.dtype(torch::kBool)));
++  check(disabled.maturity.eq(1).all().item<bool>() && disabled.matureMask().all().item<bool>() &&
++        !disabled.touched_in_cycle.any().item<bool>(),
++        "Disabled maturity changed during observation or topology updates");
+   std::cout << "PASS A/B/C/D/E/F/K/L/M snapshot/freeze/stability/instability/topology/transport/compatibility\n";
+ }
+diff --git a/tests/gradient_constraint_clock_test.cpp b/tests/gradient_constraint_clock_test.cpp
+index 8668833..4e085d0 100644
+--- a/tests/gradient_constraint_clock_test.cpp
++++ b/tests/gradient_constraint_clock_test.cpp
+@@ -20,4 +20,17 @@ int main() {
+   check(clock.guardReady(true, 1000));
+   clock.tf_updates = 0; // Only creating a new TF resets its warmup clock.
+   check(!clock.guardReady(true, 1000));
++  MappingUpdateClock tail;
++  tail.record(true,false,false);  // Full commits.
++  tail.record(false,true,false);  // LoD rejected, with no Mapping rejection yet.
++  tail.record(true,false);        // Full makes the Mapping successful.
++  check(tail.rejected_updates == 0 && tail.tf_updates == 0 && tail.gaussianLRStep(1) == 1);
++  tail.record(false,false,false);
++  tail.record(false,true,false);
++  tail.record(false,false);       // Both stages rejected: count exactly once.
++  check(tail.rejected_updates == 1 && tail.tf_updates == 0 && tail.gaussianLRStep(2) == 1);
++  tail.record(true,false,false);
++  tail.record(true,true,false);
++  tail.record(true,false);
++  check(tail.rejected_updates == 1 && tail.tf_updates == 1 && tail.gaussianLRStep(3) == 2);
+ }
+diff --git a/tests/mapping_profiler_test.cpp b/tests/mapping_profiler_test.cpp
+index b163c4a..3a772b7 100644
+--- a/tests/mapping_profiler_test.cpp
++++ b/tests/mapping_profiler_test.cpp
+@@ -33,4 +33,19 @@ int main() {
+       log.find("gaussian_optimizer:") == std::string::npos ||
+       log.find("lod_optimizer:") == std::string::npos)
+     throw std::runtime_error("Mapping profiler omitted full-cycle/stage metrics");
++  std::ostringstream quiet;
++  original = std::cout.rdbuf(quiet.rdbuf());
++  {
++    MappingProfiler profiler;
++    profiler.enabled = false;
++    for (int i = 0; i < 1000; ++i) {
++      profiler.begin(true);
++      { auto stage = profiler.scope(MappingProfiler::Operations); }
++      profiler.end(i);
++    }
++    profiler.report(1000);
++  }
++  std::cout.rdbuf(original);
++  if (!quiet.str().empty())
++    throw std::runtime_error("Disabled Mapping profiler still produced output");
+ }
+diff --git a/tests/ultra_light_schedule_test.cpp b/tests/ultra_light_schedule_test.cpp
+index d6e285c..e323103 100644
+--- a/tests/ultra_light_schedule_test.cpp
++++ b/tests/ultra_light_schedule_test.cpp
+@@ -18,9 +18,10 @@ void cadenceAndShutdown() {
+   }
+   schedule.endOnline(12);
+   check(schedule.tailSteps() == 0, "Online boundary already contains tail steps");
+-  schedule.complete(1.0, 0.5, true, !schedule.full(), !schedule.full());
+-  check(schedule.tailSteps() == 1 && schedule.phase() == 13 % 5 &&
+-        schedule.online_end_mapping_iteration == 12, "Tail failed to continue the normal rotation");
++  schedule.completeTail(1.0, true, true, true, true);
++  check(schedule.tailSteps() == 1 && schedule.tailRatioIndex() == 3 && schedule.balanced() &&
++        schedule.full_render_count == 3 && schedule.lod_render_count == 11 &&
++        schedule.online_end_mapping_iteration == 12, "Tail failed to run Full plus the next LoD ratio");
+ }
+ void periodicMappingClocks() {
+   DeferredMappingTask task;
+diff --git a/tests/ultrafast_mapping_test.cpp b/tests/ultrafast_mapping_test.cpp
+index 58a60f8..bb1f6d5 100644
+--- a/tests/ultrafast_mapping_test.cpp
++++ b/tests/ultrafast_mapping_test.cpp
+@@ -3,6 +3,7 @@
+ #include <chrono>
+ #include <filesystem>
+ #include <iostream>
++#include <limits>
+ #include <stdexcept>
+ 
+ namespace {
+@@ -22,7 +23,7 @@ bool changed(const std::vector<torch::Tensor>& parameters,
+ 
+ // Exercise the production KF sampler and Mapping body with real shared Adam.
+ class RotationMapper : public GaussianMapper {
+-  static std::filesystem::path selectorConfig(const std::filesystem::path& output) {
++  static std::filesystem::path selectorConfig(const std::filesystem::path& output, bool verbose) {
+     std::filesystem::create_directories(output);
+     std::ifstream input(std::filesystem::path(CARTGS_TEST_SOURCE_DIR) / "cfg/selector/fast.yaml");
+     check(input.is_open(), "Cannot read existing fast config");
+@@ -30,6 +31,7 @@ class RotationMapper : public GaussianMapper {
+     std::ofstream fixture(path);
+     check(fixture.is_open(), "Cannot write test config");
+     const std::map<std::string, std::string> overrides = {
++        {"Mapping.iteration_logging:", verbose ? "1" : "0"},
+         {"Training.ultra_light_mode:", "1"}, {"GlobalGI.mode:", "recent"},
+         {"Protection.drift_temperature:", "0.1"}};
+     for (std::string line; std::getline(input, line);) {
+@@ -42,11 +44,12 @@ class RotationMapper : public GaussianMapper {
+     return path;
+   }
+  public:
+-  explicit RotationMapper(const std::filesystem::path& output)
++  std::vector<torch::Tensor> first_cycle_parameters;
++  explicit RotationMapper(const std::filesystem::path& output, bool verbose)
+       : GaussianMapper(nullptr,
+           std::filesystem::path(CARTGS_TEST_SOURCE_DIR) / "cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+           output, 0, torch::kCUDA, true,
+-          selectorConfig(output)) {}
++          selectorConfig(output, verbose)) {}
+ 
+   void verify() {
+     const auto opts = torch::TensorOptions().dtype(torch::kFloat32).device(torch::kCUDA);
+@@ -190,6 +193,10 @@ class RotationMapper : public GaussianMapper {
+               continuous_tf_statistics_.ratios.at(.15f).executed,
+           "Five normal mappings did not produce exactly 4 LOD + 1 Full");
+ 
++    for (const auto& group : model.optimizer_->param_groups())
++      for (const auto& parameter : group.params())
++        first_cycle_parameters.push_back(parameter.detach().cpu().clone());
++
+     // Ordinary deadlines land on LOD; clone/split/prune wait for Full.
+     opt_params_.densify_from_iter_ = 0;
+     opt_params_.densification_interval_ = 3;
+@@ -231,6 +238,20 @@ class RotationMapper : public GaussianMapper {
+     ensureSharedMappingOptimizer();
+     markUltrafastOnlineEnd();
+     const auto mappings = mapping_iter_, slots = ultrafast_rotation_.step;
++    const auto online_counts = ultrafast_rotation_.counts;
++    const auto full_renders = ultrafast_rotation_.full_render_count;
++    const auto lod_renders = ultrafast_rotation_.lod_render_count;
++    opt_params_.densify_from_iter_ = 100000;
++    do_gaus_pyramid_training_ = true;
++    num_gaus_pyramid_sub_levels_ = 1;
++    scene_->cameras_[0].gaus_pyramid_undistort_mask_ = {torch::ones({16,20},opts)};
++    for (auto& entry : scene_->keyframes()) {
++      auto& c = entry.second;
++      c->num_gaus_pyramid_sub_levels_ = 1;
++      c->gaus_pyramid_times_of_use_ = {100};
++      c->gaus_pyramid_height_ = {16}; c->gaus_pyramid_width_ = {20};
++      c->gaus_pyramid_original_image_ = {torch::full({3,16,20},0.3f,opts)};
++    }
+     const auto color_before_tail = model.features_dc_.detach().clone();
+     const auto tf_before_tail = snapshot(transform_field_->parameters());
+     tail_optimization_schedule_.enabled = true;
+@@ -238,7 +259,45 @@ class RotationMapper : public GaussianMapper {
+     opt_params_.iterations_ = 1; // Forced tail must bypass the optimizer cap.
+     beginForcedTail(getIteration());
+     check(hasNormalOptimizationBudget(), "Mode1 forced tail retained the optimizer cap");
+-    for (int i = 0; i < 9; ++i) trainForOneIteration();
++    for (int i = 0; i < 9; ++i) {
++      auto& color = model.features_dc_;
++      const auto before = color.detach().clone();
++      const auto& old_state = static_cast<const torch::optim::AdamParamState&>(*model.optimizer_->state().at(color.unsafeGetTensorImpl()));
++      const auto adam_step = old_state.step();
++      int backwards = 0;
++      torch::Tensor after_full, maturity_after_full, snapshot_after_full;
++      const auto hook = color.register_hook([&](torch::Tensor gradient) {
++        if (++backwards == 2) {
++          after_full = color.detach().clone();
++          maturity_after_full = model.protection_.maturity.clone();
++          snapshot_after_full = model.protection_.prev_full_xyz.clone();
++          check(!after_full.equal(before),"LoD backward ran before Full committed its Gaussian update");
++          check(snapshot_after_full.equal(model.xyz_.detach()),"Maturity snapshot was not captured after Full commit");
++        }
++        return gradient;
++      });
++      trainForOneIteration();
++      color.remove_hook(hook);
++      const auto& state = static_cast<const torch::optim::AdamParamState&>(*model.optimizer_->state().at(color.unsafeGetTensorImpl()));
++      if (i < 7) {
++        check(backwards == 2 && state.step() == adam_step+2,"Tail failed to execute two Gaussian backwards/Adam commits");
++        check(!color.equal(after_full),"Joint tail LoD detached Gaussian parameters or failed to commit");
++        check(model.protection_.maturity.equal(maturity_after_full) &&
++              model.protection_.prev_full_xyz.equal(snapshot_after_full),"LoD recomputed Full maturity/snapshots");
++      } else check(backwards == 0 && state.step() == adam_step,"Completed tail still trained");
++    }
++    check(ultrafast_rotation_.full_render_count == full_renders+7 &&
++          ultrafast_rotation_.lod_render_count == lod_renders+7 && ultrafast_rotation_.counts == online_counts &&
++          mode2_tail_.full_renders == 7 && mode2_tail_.lod_renders == 7 && mode2_tail_.gaussian_updates == 14,
++          "Tail did not execute Full plus LoD every Mapping or changed online slot counts");
++    int remaining_pyramid_uses = 0;
++    for (const auto& entry : scene_->keyframes()) remaining_pyramid_uses += entry.second->gaus_pyramid_times_of_use_[0];
++    check(remaining_pyramid_uses == 493,"Tail Full skipped GausPyramid or LoD consumed a pyramid level");
++    // Native LoD uses original GT even when the Full input is a pyramid image.
++    auto pyramid_gt = camera->gaus_pyramid_original_image_[0];
++    auto native_lod = accumulateLodGradients(camera,16,20,pyramid_gt,0,false,true,nullptr,false,true);
++    check(native_lod.render_height == 32 && native_lod.render_width == 40,"Tail LoD did not render native dimensions");
++    model.optimizer_->zero_grad(true);
+     check(mapping_iter_ == mappings + 7 && ultrafast_rotation_.step == slots + 7 &&
+           ultrafast_rotation_.tailSteps() == 7 && tail_optimization_schedule_.completed(mapping_iter_) == 7,
+           "Mode1 fixed tail did not execute exactly seven real mappings");
+@@ -264,17 +323,70 @@ class RotationMapper : public GaussianMapper {
+     for (int i = 0; i < 3; ++i) trainForOneIteration();
+     check(mapping_iter_ == zero_mapping + 3 && ultrafast_rotation_.tailSteps() == 10 &&
+           !tail_optimization_schedule_.active, "Mode1 legacy tail was blocked by online end");
++    const auto rejected = normal_update_clock_.rejected_updates;
++    const auto selector_steps = selector_step_, tf_steps = normal_update_clock_.tf_updates;
++    const auto attempts = ultrafast_rotation_.tail_lod_attempts;
++    const auto color_step = [&] {
++      return static_cast<const torch::optim::AdamParamState&>(
++          *model.optimizer_->state().at(model.features_dc_.unsafeGetTensorImpl())).step();
++    };
++    const auto before_nonfinite = color_step();
++    selector_render_loss_weight_ = std::numeric_limits<float>::quiet_NaN();
++    trainForOneIteration();
++    check(color_step() == before_nonfinite+1 && normal_update_clock_.rejected_updates == rejected &&
++          selector_step_ == selector_steps && normal_update_clock_.tf_updates == tf_steps &&
++          ultrafast_rotation_.tail_lod_attempts == attempts+1,
++          "Rejected LoD rolled back Full, changed Mapping LR, or advanced auxiliary updates");
++    selector_render_loss_weight_ = 1.0f;
++    selector_enabled_ = false;
++    const auto before_disabled = color_step();
++    trainForOneIteration();
++    check(color_step() == before_disabled+1 && ultrafast_rotation_.tail_lod_attempts == attempts+1,
++          "Disabled LoD consumed a ratio or prevented tail Full");
++    selector_enabled_ = true;
+     reportUltrafastRotation("tail_test");
++    check(mapping_profiler_.enabled == mapping_iteration_logging_ &&
++          ultrafast_rotation_.elapsed.empty() == !mapping_iteration_logging_,
++          "Iteration logging switch did not disable profiler/timing collection");
+     std::cout << "PASS: production KF independence, one branch, KF loss/EMA, topology statistics/decisions, "
+-                 "G/S/TF updates, Full Adam freeze, fixed/zero/legacy mode1 tail, frozen online boundary\n";
++                 "G/S/TF updates, Full Adam freeze, pyramid Full then native joint LoD, two Gaussian commits, "
++                 "Full-only maturity, fixed/zero/legacy mode1 tail, frozen online boundary\n";
+   }
+ };
+ } // namespace
+ 
+-int main() {
++int main(int argc, char** argv) {
+   if (!torch::cuda::is_available()) { std::cout << "SKIP: CUDA unavailable\n"; return 77; }
+   const auto output = std::filesystem::temp_directory_path() /
+       ("cartgs-ultrafast-test-" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+-  RotationMapper mapper(output);
+-  mapper.verify();
++  const bool verbose = argc > 1 && std::string(argv[1]) == "--verbose";
++  const bool parity = argc > 1 && std::string(argv[1]) == "--parity";
++  std::ostringstream output_log;
++  auto* previous = std::cout.rdbuf(output_log.rdbuf());
++  try {
++    torch::manual_seed(20261016);
++    RotationMapper mapper(output, verbose);
++    mapper.verify();
++    if (parity) {
++      torch::manual_seed(20261016);
++      RotationMapper measured(output / "verbose", true);
++      measured.verify();
++      check(mapper.first_cycle_parameters.size() == measured.first_cycle_parameters.size(),
++            "Disabling logging changed optimizer parameter groups");
++      for (std::size_t i = 0; i < mapper.first_cycle_parameters.size(); ++i)
++        check(torch::allclose(mapper.first_cycle_parameters[i], measured.first_cycle_parameters[i], 1e-5, 1e-6),
++              "Disabling iteration logging/timing changed Gaussian/Selector/TF updates");
++    }
++  } catch (...) {
++    std::cout.rdbuf(previous);
++    std::cerr << output_log.str();
++    throw;
++  }
++  std::cout.rdbuf(previous);
++  check((output_log.str().find("[UltrafastRotation] normal_training_step=") != std::string::npos) == (verbose || parity),
++        "Production iteration log output does not match the configured switch");
++  if (verbose || parity)
++    check(output_log.str().find("full_height=16 full_width=20 lod_height=32 lod_width=40") != std::string::npos,
++          "Production tail failed to pair pyramid Full with native LoD");
++  std::cout << output_log.str();
+ }
+diff --git a/tests/ultrafast_rotation_test.cpp b/tests/ultrafast_rotation_test.cpp
+index 5ac0245..ebc2d3e 100644
+--- a/tests/ultrafast_rotation_test.cpp
++++ b/tests/ultrafast_rotation_test.cpp
+@@ -22,6 +22,14 @@ int main() {
+   check(rotation.step == 12 && rotation.full_render_count == 2 &&
+         rotation.lod_render_count == 10, "Wrong render counts");
+   check(rotation.p95() == 5.0, "Wrong nearest-rank P95");
++  UltrafastRotation quiet;
++  for (auto phase : expected)
++    quiet.complete(phase + 1.0, .5, true, phase != 4, phase != 4, false);
++  check(quiet.counts == rotation.counts && quiet.step == rotation.step &&
++        quiet.full_render_count == rotation.full_render_count &&
++        quiet.lod_render_count == rotation.lod_render_count &&
++        quiet.selector_updates == rotation.selector_updates && quiet.tf_updates == rotation.tf_updates &&
++        quiet.elapsed.empty(), "Disabling timing changed training counters or retained timing samples");
+ 
+   rotation.endOnline(12);
+   rotation.endOnline(999);
+@@ -29,14 +37,33 @@ int main() {
+         "Online boundary changed");
+   const auto online_selector = rotation.online_end_selector_updates;
+   const auto online_tf = rotation.online_end_tf_updates;
++  const auto online_counts = rotation.counts;
+   for (int i = 0; i < 7; ++i) {
+-    const auto phase = rotation.phase();
+-    rotation.complete(1.0, .5, true, phase != 4, phase != 4);
++    check(rotation.tailRatioIndex() == (2+i)%4, "Tail did not continue the next LoD ratio");
++    rotation.completeTail(1.0, true, true, true, true);
+     check(rotation.balanced(), "Tail changed ratio rotation");
+   }
+   check(rotation.tailSteps() == 7 && rotation.online_end_rotation_step == 12 &&
+-        rotation.online_end_selector_updates == online_selector && rotation.online_end_tf_updates == online_tf,
++        rotation.online_end_selector_updates == online_selector && rotation.online_end_tf_updates == online_tf &&
++        rotation.counts == online_counts && rotation.full_render_count == 9 && rotation.lod_render_count == 17,
+         "Tail moved the frozen online boundary/counters");
++  for (std::uint64_t boundary = 0; boundary < 5; ++boundary) {
++    UltrafastRotation partial;
++    for (std::uint64_t i = 0; i < boundary; ++i) partial.complete(0,0,true,true,false,false);
++    partial.endOnline(boundary);
++    const auto first = boundary == 4 ? 0 : boundary;
++    check(partial.tailRatioIndex() == first,"Incorrect tail entry from a partial online cycle");
++    partial.completeTail(0,false,false,false,false,false);
++    check(partial.tailRatioIndex() == first && partial.tailSteps() == 1 && partial.tail_lod_attempts == 0,
++          "Skipped LoD consumed a ratio or omitted Full");
++    for (std::size_t i = 0; i < 8; ++i) {
++      check(partial.tailRatioIndex() == (first+i)%4,"Tail ratio order changed");
++      partial.completeTail(0,true,true,false,false,false); // Rejected updates still consume the attempted ratio.
++    }
++    for (auto n : partial.tail_ratio_counts) check(n == 2,"Tail ratios not balanced");
++    check(partial.balanced() && partial.elapsed.empty() && partial.tail_lod_renders == 8,
++          "Tail bookkeeping changed online balance or disabled timing");
++  }
+ 
+   // A deadline falling on LOD is executed at the next Full, on the original clock.
+   DeferredMappingTask topology;

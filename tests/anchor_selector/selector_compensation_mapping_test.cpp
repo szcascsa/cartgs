@@ -1,0 +1,3 @@
+#define CARTGS_TEST_SELECTOR_COMPENSATION
+#define CARTGS_TEST_VARIABLE_ANCHORS
+#include "explicit_anchor_mapping_test.cpp"

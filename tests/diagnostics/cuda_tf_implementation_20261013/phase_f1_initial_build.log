@@ -1,0 +1,48 @@
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+-- Autodetected CUDA architecture(s):  8.6
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+-- Configuring done (0.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/prmi/zwj/mycartgs/tests/diagnostics/cuda_tf_implementation_20261013/build
+[ 18%] Building CXX object CMakeFiles/tf_cuda.dir/home/prmi/zwj/mycartgs/src/transform_field_cuda_optimizer.cpp.o
+[ 18%] Building CUDA object CMakeFiles/tf_cuda.dir/home/prmi/zwj/mycartgs/src/transform_field_cuda_optimizer.cu.o
+[ 27%] Linking CXX static library libtf_cuda.a
+[ 63%] Built target tf_cuda
+[ 72%] Building CXX object CMakeFiles/cuda_tf_adam_test.dir/home/prmi/zwj/mycartgs/tests/cuda_tf_adam_test.cpp.o
+[ 81%] Building CXX object CMakeFiles/cuda_tf_adam_test.dir/home/prmi/zwj/mycartgs/src/hexplane_field.cpp.o
+/home/prmi/zwj/mycartgs/tests/cuda_tf_adam_test.cpp: In function ‘void {anonymous}::sequence(double, double, const string&)’:
+/home/prmi/zwj/mycartgs/tests/cuda_tf_adam_test.cpp:39:39: error: cannot convert ‘<brace-enclosed initializer list>’ to ‘const torch::optim::OptimizerParamGroup&’
+   39 |   old.add_param_group({a[3],a[4],a[5]});cuda.add_param_group({b[3],b[4],b[5]});
+      |                                       ^
+In file included from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/optim/adagrad.h:4,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/optim.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/all.h:17,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/torch.h:3,
+                 from /home/prmi/zwj/mycartgs/include/transform_field.h:3,
+                 from /home/prmi/zwj/mycartgs/tests/cuda_tf_adam_test.cpp:1:
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/optim/optimizer.h:133:51: note:   initializing argument 1 of ‘void torch::optim::Optimizer::add_param_group(const torch::optim::OptimizerParamGroup&)’
+  133 |   void add_param_group(const OptimizerParamGroup& param_group);
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+/home/prmi/zwj/mycartgs/tests/cuda_tf_adam_test.cpp:39:78: error: cannot convert ‘<brace-enclosed initializer list>’ to ‘const torch::optim::OptimizerParamGroup&’
+   39 |   old.add_param_group({a[3],a[4],a[5]});cuda.add_param_group({b[3],b[4],b[5]});
+      |                                                                              ^
+In file included from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/optim/adagrad.h:4,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/optim.h:3,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/all.h:17,
+                 from /home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/torch.h:3,
+                 from /home/prmi/zwj/mycartgs/include/transform_field.h:3,
+                 from /home/prmi/zwj/mycartgs/tests/cuda_tf_adam_test.cpp:1:
+/home/prmi/zwj/mycartgs/third_party/libtorch-cu118/libtorch/include/torch/csrc/api/include/torch/optim/optimizer.h:133:51: note:   initializing argument 1 of ‘void torch::optim::Optimizer::add_param_group(const torch::optim::OptimizerParamGroup&)’
+  133 |   void add_param_group(const OptimizerParamGroup& param_group);
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+make[3]: *** [CMakeFiles/cuda_tf_adam_test.dir/build.make:76：CMakeFiles/cuda_tf_adam_test.dir/home/prmi/zwj/mycartgs/tests/cuda_tf_adam_test.cpp.o] 错误 1
+make[3]: *** 正在等待未完成的任务....
+make[2]: *** [CMakeFiles/Makefile2:279：CMakeFiles/cuda_tf_adam_test.dir/all] 错误 2
+make[1]: *** [CMakeFiles/Makefile2:286：CMakeFiles/cuda_tf_adam_test.dir/rule] 错误 2
+make: *** [Makefile:215：cuda_tf_adam_test] 错误 2

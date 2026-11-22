@@ -1,0 +1,16 @@
+-- Caffe2: CUDA detected: 11.8
+-- Caffe2: CUDA nvcc is: /usr/local/cuda-11.8/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /usr/local/cuda-11.8
+-- Caffe2: Header version is: 11.8
+-- /usr/local/cuda-11.8/lib64/libnvrtc.so shorthash is 672ee683
+-- USE_CUDNN is set to 0. Compiling without cuDNN support
+-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support
+-- Autodetected CUDA architecture(s):  8.6
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+-- Configuring done (0.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/prmi/zwj/mycartgs/tests/diagnostics/cuda_tf_implementation_20261013/build
+[ 50%] Built target tf_cuda
+[ 62%] Building CXX object CMakeFiles/cuda_tf_neural_test.dir/home/prmi/zwj/mycartgs/tests/cuda_tf_neural_test.cpp.o
+[ 75%] Linking CXX executable cuda_tf_neural_test
+[100%] Built target cuda_tf_neural_test

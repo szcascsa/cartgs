@@ -1,0 +1,22 @@
+[ 14%] Building CUDA object CMakeFiles/selector_cuda.dir/src/selector_cuda.cu.o
+[ 14%] Linking CXX static library libselector_cuda.a
+[ 14%] Built target selector_cuda
+[ 71%] Built target transform_field_cuda
+[ 71%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/change_distill_selector_cuda_test
+[100%] Built target change_distill_selector_cuda_test
+[ 14%] Built target selector_cuda
+[ 71%] Built target transform_field_cuda
+[ 71%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/drift_stability_selector_cuda_test
+[100%] Built target drift_stability_selector_cuda_test
+[  4%] Built target selector_cuda
+[ 24%] Built target cuda_rasterizer
+[ 32%] Built target simple_knn
+[ 48%] Built target transform_field_cuda
+[ 52%] Linking CXX shared library /home/prmi/zwj/selector-cuda-20261015/lib/libgaussian_mapper.so
+[ 96%] Built target gaussian_mapper
+[100%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/joint_replay_selector_cuda_test
+[100%] Built target joint_replay_selector_cuda_test
+[ 14%] Built target selector_cuda
+[ 71%] Built target transform_field_cuda
+[ 85%] Linking CXX executable /home/prmi/zwj/selector-cuda-20261015/bin/gradient_constraint_test
+[100%] Built target gradient_constraint_test

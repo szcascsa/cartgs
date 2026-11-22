@@ -1,0 +1,65 @@
+ M CMakeLists.txt
+ M cfg/selector/fast.yaml
+ M cfg/selector/selector_config.yaml
+ M cuda_rasterizer/rasterize_points.cu
+ M cuda_rasterizer/rasterize_points.h
+ M examples/replica_rgbd.cpp
+ M examples/tum_mono.cpp
+ M examples/tum_rgbd.cpp
+ M examples/vector_mono.cpp
+ M examples/vector_stereo.cpp
+ M improvements/ultra_light_training.md
+ M include/change_management.h
+ M include/continuous_tf_statistics.h
+ M include/frozen_teacher_target_cache.h
+ M include/gaussian_mapper.h
+ M include/gaussian_protection.h
+ M include/gradient_constraint_clock.h
+ M include/mapping_profiler.h
+ M include/protection_config.h
+ M include/ultrafast_rotation.h
+ M include/ultrafast_training_timer.h
+ M python/diff-gaussian-rasterization/diff_gaussian_rasterization/__init__.py
+ M python/diff-gaussian-rasterization/ext.cpp
+ M python/diff-gaussian-rasterization/setup.py
+ M python/elastic_entry.py
+ M python/eval_lod.py
+ M python/gaussian_model.py
+ M python/renderer.py
+ M python/run.py
+ M python/selector.py
+ M python/transform_field.py
+ M src/change_distill.cpp
+ M src/gaussian_mapper.cpp
+ M src/maturity_dynamics.cpp
+ M tests/change_distill_test.cpp
+ M tests/frozen_teacher_target_cache_test.cpp
+ M tests/gaussian_protection_test.cpp
+ M tests/gradient_constraint_clock_test.cpp
+ M tests/mapping_profiler_test.cpp
+ M tests/ultra_light_schedule_test.cpp
+ M tests/ultrafast_mapping_test.cpp
+ M tests/ultrafast_rotation_test.cpp
+?? ABLATION_VARIANCE_ANALYSIS.md
+?? CHANGE_DISTILL_PERFORMANCE_AUDIT.md
+?? LOD_PLY_EVALUATION.md
+?? improvements/change_distill_epochs.md
+?? include/maturity_ablation.h
+?? include/online_mapping_budget.h
+?? scripts/analyze_ablation_variance.py
+?? tests/__pycache__/
+?? tests/diagnostics/change_distill_optimization_20261017/
+?? tests/diagnostics/change_distill_performance_20261017/
+?? tests/diagnostics/cuda_selector_backward_20261015/__pycache__/
+?? tests/diagnostics/cuda_selector_direct_parity_20261015/__pycache__/
+?? tests/diagnostics/cuda_selector_implementation_20261015/__pycache__/
+?? tests/diagnostics/cuda_selector_revised_20261015/__pycache__/
+?? tests/diagnostics/original_tf_cuda_audit_20261013/__pycache__/
+?? tests/diagnostics/ultralight_mode2_20261014/__pycache__/
+?? tests/maturity_ablation_python_test.py
+?? tests/maturity_ablation_test.cpp
+?? tests/maturity_module_python_test.py
+?? tests/maturity_module_test.cpp
+?? tests/ply_render_python_test.py
+?? tests/python_rasterizer_dispatch_test.py
+?? tests/render_timing_python_test.py

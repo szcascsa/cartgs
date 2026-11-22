@@ -1,0 +1,1003 @@
+{
+  "N": 52635,
+  "candidate_N": 50330,
+  "bank_views": 69,
+  "raw_source_dtype": "float64",
+  "input_sha": "e54e055fd9be3a211ba87cf6997fd088960659ff3f415d2affeebc7636d09a55",
+  "frozen_sources": {
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/point_cloud/iteration_16900/point_cloud.ply": {
+      "sha256": "73f23088aab5c39c9864cf3a0b0fb1fab6384ae162bc848dadeefec5f0b1c4bb",
+      "bytes": 13055010
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/transform_field.pt": {
+      "sha256": "a01c7b908dee8a9fd29603babe49fb5a2c99e8e0010072d8ef13b85429cfa4bd",
+      "bytes": 4762325
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/selector_config.yaml": {
+      "sha256": "f6453a80643323f7e579b78787da5b19208db4a7f0ba2f2a9aafe6fa29381953",
+      "bytes": 3482
+    },
+    "/home/prmi/zwj/second-scene-strong-go-20261018/inputs/fr1_room/cameras.pt": {
+      "sha256": "90e74ad824dddcdd2a740d004082d747f170ce912aaaff07e99f6c1c9e5caabf",
+      "bytes": 847911459
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/view_bank_orb.json": {
+      "sha256": "0dda186704c1567546bdd8bf398c6d85f888ce7ed5fb03ca6132ca1e584f747d",
+      "bytes": 1491176
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/cameras.json": {
+      "sha256": "fb591c3be1df54d4bf28a108665608f76606b02e7a2f4f3d0f158a95f2cea1c5",
+      "bytes": 121750
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031910.765238.png": {
+      "sha256": "94afe78f6c0efac7e2f268392a8014c7f5da3b763524eb098cd44265dded94c2",
+      "bytes": 485922
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031910.865025.png": {
+      "sha256": "b65b003f027e91742e119e7029d96bfb39fa50dc1a50061dcfd50cfe2943d645",
+      "bytes": 478013
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031910.897222.png": {
+      "sha256": "ac1a7d3040d2f28c51be2021fb79f27c3d3126db18da984e60b8fa5178f37792",
+      "bytes": 482607
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031910.965249.png": {
+      "sha256": "8380f80874cad901ae9d5b18cd634e2458b49dbd3fb1f0a9d29371077bf858f9",
+      "bytes": 477337
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.035050.png": {
+      "sha256": "197bb15d9714d00bb37f6ea48b128884ba8fc1c4000c5fcf62fd908b3c3210fa",
+      "bytes": 469279
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.065269.png": {
+      "sha256": "67f6cce0ae65e75d2eb6016c1a83b559116f955d83d047b7abf41ab1886ebed1",
+      "bytes": 459698
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.165177.png": {
+      "sha256": "0220c3f04182b0b602f64529d78ad03bd60c2bbd2c297d5b63e7eba1d31a1ee4",
+      "bytes": 467324
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.297334.png": {
+      "sha256": "8ae190dbb945682cc22d64b31b74edc3374d57eb431df5e55f4b381e2d4a2c2f",
+      "bytes": 468409
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.465250.png": {
+      "sha256": "dc5d0993b657ad5b577e90bedf44f0facb891c349799fb6d44b25daee3dcd552",
+      "bytes": 460039
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.597302.png": {
+      "sha256": "feb28a8d401a678b73302a1a1260d80a63665c923ff3f72f2e6ef04b0e523af9",
+      "bytes": 445870
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.733203.png": {
+      "sha256": "2f2f4241c12d92d55d5f60fa64f13568872b7270ab28344b9c88d51c5c8dc755",
+      "bytes": 456862
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.897159.png": {
+      "sha256": "cba6cdb871a2ac264d89d58eafc9d25f5f122f2426d76a4793a385110a988c84",
+      "bytes": 441197
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.965140.png": {
+      "sha256": "df06c6a9c69ddd81e3c78af54eeb537feb63abc59085cfeca4e79a6faaff4517",
+      "bytes": 429067
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031912.065365.png": {
+      "sha256": "ed4f2d3c57956d21a847755f277418c0981879d82c416ba0ebdfbd915d561947",
+      "bytes": 436734
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031912.233265.png": {
+      "sha256": "53fa7f1e996a9cbf6b46454c6442bf1e12fcb6a6d8d415b1f3cec269638e4fdd",
+      "bytes": 444861
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031912.797155.png": {
+      "sha256": "d01d9a164a0976de9952f7f758b0b103c67f5bc7bc8403984354595d998a1e07",
+      "bytes": 448021
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.197113.png": {
+      "sha256": "e18ac953a8d9fcf625c22cd472accfb1b0c9ea6be0126991b51de23093ddc13c",
+      "bytes": 433498
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.297160.png": {
+      "sha256": "3ece062c76e866b2609134cf187ab4ae0466802e9814db24c1785fe35641a159",
+      "bytes": 427847
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.397099.png": {
+      "sha256": "ff58581ff4749752a711e7fe5691497a077512853ef3d6c3213a89b7d71ace76",
+      "bytes": 432041
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.497227.png": {
+      "sha256": "8c560c768a55ced46b4b610fc364462b966b3fb9901dd64da7dee55c2ac37350",
+      "bytes": 425817
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.633293.png": {
+      "sha256": "c56b4291a7eaeeb81e160947d7a6d0697833e35f8533fa392cc0d7718155a222",
+      "bytes": 434857
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.765028.png": {
+      "sha256": "ac991440fd8e213ab6dcb3915fd2ce8d7a4d23e60ed8a8c8956dade0733dc425",
+      "bytes": 435073
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.897116.png": {
+      "sha256": "d69999899636de9ae97bf2913b61281ad1943abaab8b814da04735656a995d5d",
+      "bytes": 440033
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.033441.png": {
+      "sha256": "b1f796329f20fa1115bbd3269e37955ca1c084cf9b6093569518bc531782d2f9",
+      "bytes": 446808
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.165013.png": {
+      "sha256": "b02a031097d8221d40f4c0c7a77cc85d81f446d67ea5f69ccf98685b6291fc5e",
+      "bytes": 452719
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.265074.png": {
+      "sha256": "626b0f470084e3c56346745fd3a1261c271a434bd2d4ea81d895eff39d675d52",
+      "bytes": 455983
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.365058.png": {
+      "sha256": "107a6954fc205a6dc28f1327add39dcb3f53157f586ef808f0e229e53cc3d703",
+      "bytes": 472154
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.533107.png": {
+      "sha256": "66f488497814a0683404bbbd8ce79977627df4539126353193e81272082348e4",
+      "bytes": 473565
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.665019.png": {
+      "sha256": "f9e9abbe1ea52a8a4cd52572fd69d1c22927873e3a1ae738dfcf2ecc7b619e9b",
+      "bytes": 455731
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.797119.png": {
+      "sha256": "d37ecec3d4d3c7546db6310bc68902c34ec2fa19426dd08d810ea233ba8a7f1f",
+      "bytes": 467857
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.033152.png": {
+      "sha256": "dbd85a97fc050c089a8b89c728cc7fe3f9642f202a6b7c46e6a36d4fa37abf30",
+      "bytes": 485820
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.165021.png": {
+      "sha256": "cc0321aa543ff7eb833b03eedc9de59ffbba2e5b4b633fd8443366335b6d2df2",
+      "bytes": 470405
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.297152.png": {
+      "sha256": "bc07a3c8babb16fc1a6ec5943581a27cfd2910bb4d3945e548427bd37ea6cf23",
+      "bytes": 497122
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.432960.png": {
+      "sha256": "442f3401fb37b0c28a2489261fde23e201fd8f2c8105772b76367368e9cc6e4e",
+      "bytes": 494731
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.601161.png": {
+      "sha256": "162f3ac06a359cf0a6e028278c178d1aef438bf210b0946fac9b9dbf060e3468",
+      "bytes": 498028
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.765010.png": {
+      "sha256": "2ddcda262615514b200a69ac4296e946ec234ea51ddd9aaf1985a7a7e95745ca",
+      "bytes": 481650
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.933056.png": {
+      "sha256": "81ab07249b9eb4cc9c46f3692a1ba3603f2ba20b0c3101311466a97d0576d64b",
+      "bytes": 511376
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.101115.png": {
+      "sha256": "09605869eee41912c1bba4da299365baa8ec47485fbc33555948d81c41679ee5",
+      "bytes": 486204
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.265060.png": {
+      "sha256": "888a0b61eb5f302cd4bf7944cf146e6fd9ec0bd3069572ba0aab6d1212282e8d",
+      "bytes": 494710
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.465124.png": {
+      "sha256": "af079cebf0cf0d5b5d01b739acc5acfc130ad2fc9536222b4338ef6567fd1dcd",
+      "bytes": 460456
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.701048.png": {
+      "sha256": "38633b1d8d8ae9d356a08cd30944bed5f38d167cbf0bb86836af75233125d51f",
+      "bytes": 445399
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.901017.png": {
+      "sha256": "f0599aac748a7c616bcbe0b48d19457bef8716b8d7b6767da84af8d622ede4df",
+      "bytes": 428397
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.065136.png": {
+      "sha256": "bbccb81b77d2a48ca75bbd8236a89ee7480ba47c906bcf04e82bc27ff316849e",
+      "bytes": 402357
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.201175.png": {
+      "sha256": "c5cd5afce017016f40d29261f542dc5f05fb15d3711940356135ee74815821b0",
+      "bytes": 371990
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.265163.png": {
+      "sha256": "8fb73d7406d1f66dfa17e6ed32ca04377c667b17c75c1e2c2c2cca4daca88781",
+      "bytes": 363449
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.301107.png": {
+      "sha256": "cec916d3045a645df743f14dc3458501499b1d5bbae9390c2334ee1e570f0d65",
+      "bytes": 368287
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.365138.png": {
+      "sha256": "17f8ac0d062c871a3158315d6241739ee3f0ec6a67c2d82a7b064706141be406",
+      "bytes": 384899
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.465076.png": {
+      "sha256": "ad2fe90a839f1d03d579a0b01cbd35d46d1a3b3379f89e8ab00e7992eaf82ee3",
+      "bytes": 360448
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.533057.png": {
+      "sha256": "fc37c82da3d011932d19c86112f173af971fd92904cd864cf238a1f8011efadc",
+      "bytes": 360867
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.601069.png": {
+      "sha256": "3b4ab9de8518ef3a9d4f7e926201a307fd8d02ca0b9df2fa4c5464c79029cf24",
+      "bytes": 369265
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.701096.png": {
+      "sha256": "8294b4132c2337bd1fe60f7df6a33ff8549347a9a8b54e668af021db39503930",
+      "bytes": 382632
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.833090.png": {
+      "sha256": "0d0e151eb47b6143185561f1ca13484e4b1aacbed0c4cc23d384b1d572453abb",
+      "bytes": 409741
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.965346.png": {
+      "sha256": "b5c7dd93104d84bf4b01f1e1ffff58c63ed67cf66e66a6cf127137b38beac848",
+      "bytes": 440377
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031918.165017.png": {
+      "sha256": "29d839d1302ba9b644ed1124fa7a8e68038a0328a98a30ac7e73a654dfa02ed1",
+      "bytes": 486043
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031918.365072.png": {
+      "sha256": "4b0a1722f29ae412e5691f9c03f049d38e567d759c7329c7dd70d84f44aeb491",
+      "bytes": 505838
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031918.633027.png": {
+      "sha256": "31c68eba3834e60db89e23443558c4ea0943dad20ddc9b16e077abc9bd38748e",
+      "bytes": 493133
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031918.901084.png": {
+      "sha256": "b99a0ce4a5bfd8a5092e2cb8984c3c9a4b4fe9441f0ec80841ac096e74897b88",
+      "bytes": 511160
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031919.233093.png": {
+      "sha256": "271458909d75729140b7eb8670917d238f72971afaa73d851b1a9c16a4204664",
+      "bytes": 484201
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031919.533110.png": {
+      "sha256": "279dace0c6c61dffd1e316e11226aad237f733e07920697ad2da39f7404aca51",
+      "bytes": 489948
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031919.801129.png": {
+      "sha256": "af56128527faab2822aac4976f1736afe4b1455846e1f0a10f23ea84e6bae331",
+      "bytes": 468331
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.033118.png": {
+      "sha256": "52a90922cd5f2249eab912d9f359a289fde25a9b46d3fa820af1bee26cb55ba1",
+      "bytes": 461810
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.132987.png": {
+      "sha256": "309c731570d0fc0acacf73bfd589affda6889e9c7652cda0a80b59e0d8520663",
+      "bytes": 482752
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.233083.png": {
+      "sha256": "5b3f46366e6227d35bbc73a3f0e55d580b55dceec66a10fbb70332912ec67c7f",
+      "bytes": 464479
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.301096.png": {
+      "sha256": "d8e03157d339bbea498561e38e55b5c8adcaeb8b42ee9d072cc5530adce2bacc",
+      "bytes": 454624
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.401115.png": {
+      "sha256": "9e81a175f4b07475d6e612743ef08e1f12b00ab59cc288f8f9b55029f6146974",
+      "bytes": 455135
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.533105.png": {
+      "sha256": "a88006b4a0de038557885dc0e63a402c6b1f213d1b80ca12f246f3255e5ef50b",
+      "bytes": 483071
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.701147.png": {
+      "sha256": "618e570aa970e6261ee5316f7ebefdd86c6183c936f60931c2f163331a61a3a1",
+      "bytes": 442126
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.901037.png": {
+      "sha256": "075b9e0719d40e7f712572dacbdedd44105db58c2add712e096fc5f5ab262de4",
+      "bytes": 447440
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031921.133159.png": {
+      "sha256": "f3bd599719dc9eca50d806e26d633e24307aedc9793bc29768b9037c3d35d128",
+      "bytes": 437814
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031921.501096.png": {
+      "sha256": "2b8f042ced7a13f08a6d948a873b0520db5161426183c3c25c9d58c5ed5a424f",
+      "bytes": 418501
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031921.701068.png": {
+      "sha256": "8b0e4985296e177c9d88db5b43cb0c400061c286ea50cfe65f83a5ad7be12dd7",
+      "bytes": 381742
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031921.865148.png": {
+      "sha256": "ca2cf2173094c4cc09bd54d191d728806ebad087344f683ee7b189bfe2097d09",
+      "bytes": 387847
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031922.301137.png": {
+      "sha256": "6115dbd724060a4358dddc536835003a39258c0b8bd933d751eeee36c75248b7",
+      "bytes": 390152
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031922.765373.png": {
+      "sha256": "e475237f3b0cd576345e0d081fd2e5544840aa483a6fd90be554d9cfbe331159",
+      "bytes": 444081
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031923.265159.png": {
+      "sha256": "6036b6663d138f77b4f4c03545fc3ad7e0b5fe54e0f4053f018a7f1caeecf37f",
+      "bytes": 462086
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031923.501145.png": {
+      "sha256": "1f682de0531854cddf41d48240b647a7b7fba8501a77d1d542213c265cb1ff29",
+      "bytes": 494311
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031923.765175.png": {
+      "sha256": "236a14e40b2a4f2ddf7301ad93521cdc57f05b127c3b8bba9fe5a5e81127050c",
+      "bytes": 505067
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031923.965198.png": {
+      "sha256": "f4d9c54dd3178e12a2cfb5e939ec1e2e309133c23ccfea22599cc42cc8747fc2",
+      "bytes": 505466
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031924.233238.png": {
+      "sha256": "da903dd643a6e85f3435d4a39e93015966bd603ec1fe51b03a4d4390b83cd832",
+      "bytes": 523316
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031924.533245.png": {
+      "sha256": "ccaf9e8057d3799f7f19ae1ce27555416f293b6404383dd9dd4fa4232103e42b",
+      "bytes": 498373
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031924.865165.png": {
+      "sha256": "6f161309aa0c507b80641b8f1f85fd63ba7d0cb877e6b740fd1e89d643fa2e8c",
+      "bytes": 504704
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031925.333142.png": {
+      "sha256": "bb9116fd298c4cc7f409bf3ea6514cdbccbfa4c7f81d442a919b900308d124a2",
+      "bytes": 508891
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031925.601218.png": {
+      "sha256": "f76c33c454395475cdbd7e1402449fe34dd49538575e5575465e1923d59cc050",
+      "bytes": 492245
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031925.801208.png": {
+      "sha256": "9cf8d7e928ac14238808d977f7ae624259213a9e5c32f6864200065f5aba4fad",
+      "bytes": 502687
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031925.969198.png": {
+      "sha256": "2dcd5615f79b189b42bdb80c6087c63a467fe1e7bb18ded09972c4b41eef64eb",
+      "bytes": 521736
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.169101.png": {
+      "sha256": "f25a60b87a0d27608e1cecfd5387479b1736c205019b6ad830b3be1976dbe8ef",
+      "bytes": 515857
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.333164.png": {
+      "sha256": "f86400056522a9ad61a389ed7c816e42a1a0c1439c25e3a61d4423ffc0dfb4f1",
+      "bytes": 496625
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.601166.png": {
+      "sha256": "0b4baa9e842b0affdebbe76b6267733dcb8d5a9ca59789b70dd486d21531afbe",
+      "bytes": 468807
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.801342.png": {
+      "sha256": "cf2bbe4ce8136bc5fcfdb729841dba4c08ccb6f2197eeb9dbd9b38aa620f8158",
+      "bytes": 440313
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.969122.png": {
+      "sha256": "1d63b0f779c383e03af4f10a0330313257baa78e2a346584bfab57896be7022f",
+      "bytes": 424695
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031927.101272.png": {
+      "sha256": "5cd5b6c42bd8a6f3e018cbd17bfeb895b42853a532020c4e8ca4fd7acc14093c",
+      "bytes": 445116
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031927.233491.png": {
+      "sha256": "15a50a9c9e74ccbaaa129e52b00276d5324911b328b27475458082fd8e9908b6",
+      "bytes": 474913
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031927.433274.png": {
+      "sha256": "ed786afcd0327e8e0db6f5a2a413a08f1696ac81c1a7955ca038c6474685ab08",
+      "bytes": 511380
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031927.633201.png": {
+      "sha256": "540b3c0863bdc86a8d41d7ea17d12b2e7334e58add87776a6b2582023140214c",
+      "bytes": 535355
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.133202.png": {
+      "sha256": "9db93121f8afbc192ac0cf7925e719f4704ce7b66378a8088456a2cc5d5ea92a",
+      "bytes": 526955
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.369520.png": {
+      "sha256": "bb4fbf35194dc52e78fa478c8cf8ec6d28e9c8ea4e632f785da324a6c3ed15b2",
+      "bytes": 524956
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.533982.png": {
+      "sha256": "6f5b767abf6facbd74fcf2663df0ccb15afe898a432dcbac26fb806d02be9471",
+      "bytes": 519336
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.633595.png": {
+      "sha256": "7cc343e7ea61789cbc73e9de8d53bcb1d2c16ef4f9baf7230f4b0dac8c8aa0f4",
+      "bytes": 516963
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.733185.png": {
+      "sha256": "3ac62ce8d86a68ba9fbc5510d423ef7ce01256fa592caf294806855f6b01b202",
+      "bytes": 522508
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.869148.png": {
+      "sha256": "62f4cab7dfd4b9dd251a9bb7d4c3863e0cd8055bdb7392b9940a5d59fc15c92e",
+      "bytes": 516535
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.001155.png": {
+      "sha256": "387b2b32f4690ab4384535d4ec0ea003eb130670845004580d0c7c5b96a8929a",
+      "bytes": 492282
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.101213.png": {
+      "sha256": "aba94a1fb549ae5e43eb45c1b59399ac9f01c4b90dde84e2a20bf96d0a55665d",
+      "bytes": 463091
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.269214.png": {
+      "sha256": "c1f4835eab6019f4dd2d671f09642cc2e6ebca6d71ab284b3f08e3f0f2c179d5",
+      "bytes": 460440
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.401369.png": {
+      "sha256": "32279a0cd6a92d128176e1429c86892bcebb01cea3959f0ae4ff0c970f49bfc0",
+      "bytes": 479455
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.634447.png": {
+      "sha256": "beceb0909defe51ae69ab65129b1caca8efc15cd197c3a9ee21ee116ae525b1b",
+      "bytes": 482759
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.969176.png": {
+      "sha256": "03989e50edf927689025bc72f0e7ecb97a28682fa4d9b234c2d49678191c5dd1",
+      "bytes": 498059
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031930.301105.png": {
+      "sha256": "c66312b425180ca4487989cf2408eeb4b30a4ac0893a24adaa00c2e48d4790e1",
+      "bytes": 448173
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031930.469130.png": {
+      "sha256": "79bf98279f27a6e059f9221afa660d3bbc50d863176ff95c5a9310ad9859d905",
+      "bytes": 447510
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031930.668925.png": {
+      "sha256": "1bf252ffe5e68ed064413a55f9b04285bfaa60ac4f8ccfb68e8e85d535b17881",
+      "bytes": 462418
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031931.000795.png": {
+      "sha256": "ccc3c3ea128830656266c292238b93147828ca66c6d3fcb67f13b897bf198e89",
+      "bytes": 501793
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031931.200696.png": {
+      "sha256": "0966521e108bc9244e54dab89daa8e047007034eaa9cb04a437288d87f72ae55",
+      "bytes": 505112
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031931.332991.png": {
+      "sha256": "061ab38e31abecacf0af3d54cc5e1db4a0d1e9e8aef608c4549406f7911c90ea",
+      "bytes": 485518
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031931.569726.png": {
+      "sha256": "4495b5aef9bb2b8b71a02d0a6b8afbbad7ad803205ffaf403d9a9f8d0fd5f2b8",
+      "bytes": 491959
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.200948.png": {
+      "sha256": "00990606616d470ce988012e98f57edecf9a51f641f990f6fc4097b89d137b8f",
+      "bytes": 468180
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.532959.png": {
+      "sha256": "e04f5c62e686a31432a87865fc68532f7927a78e3b75dd1d55f14e21812cb8d5",
+      "bytes": 491053
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.669236.png": {
+      "sha256": "2f1f47a07814105eeacbb46743238094402c7f992c66ec7c3050caa5ae026f1d",
+      "bytes": 496120
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.800821.png": {
+      "sha256": "cccee0319b205da36a2d51d35bb3f600aa7aab7015f822a82b123330210ac2ff",
+      "bytes": 506261
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.901214.png": {
+      "sha256": "d1ae1843c40a7b6b048289fd5d49b7ecd1bf77db4b59ff6192326538ba3f8de5",
+      "bytes": 514525
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.001958.png": {
+      "sha256": "ae187afd9943a13c404880e45cebbb0248a5434c552d49eb2f1f08c4857d4bd2",
+      "bytes": 526995
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.100908.png": {
+      "sha256": "551c7213b72021374340b8b08053f114b1c492a9468ec99f2f970c62e976567e",
+      "bytes": 519391
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.233374.png": {
+      "sha256": "820be46e49e009d5a951a1dffb6de6fd761e4a2806381b41aff9a607fe9d04eb",
+      "bytes": 506450
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.432912.png": {
+      "sha256": "d9b157b12179a20bcf27995034d759d4d71e0d3a7662d2590c5e326ccfef6265",
+      "bytes": 524369
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.600899.png": {
+      "sha256": "4c27d94c27846d9832f98c58acad80bde978da695d17bd82cb1cbf8ca359c255",
+      "bytes": 504352
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.700931.png": {
+      "sha256": "69629f26ae0b8a6b9d325cf914015aaae657c8106702ab51a9a46230329fdb16",
+      "bytes": 496156
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.833132.png": {
+      "sha256": "4ac69f3766329ae831644e24fca0596388fb37db8f5dba28e094e5dff0f50a67",
+      "bytes": 500233
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.968843.png": {
+      "sha256": "66303cc497a3408447b5fa596c3196ebb1c91e37f0bfb938816869ca904bed36",
+      "bytes": 513151
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.100917.png": {
+      "sha256": "b6509e855ab1d85aa47f01b9f2a03f58d218cfb94123396722b2d95ec72062a3",
+      "bytes": 503494
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.200808.png": {
+      "sha256": "e66bce455e8bbc87a031ce1f75cc234ff45fab64926432b2e831e9f8848def78",
+      "bytes": 498180
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.336871.png": {
+      "sha256": "b07127be59260d347e2773c17517ffe44d36157a7373f134c80a77b88735b6c2",
+      "bytes": 497621
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.536876.png": {
+      "sha256": "b893ec06c0e01b53531c2473d8c63a9855b8df5e7cf24680da7553ea930a70bd",
+      "bytes": 484681
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.668984.png": {
+      "sha256": "13213772f8cfdb54a2100b1b3e4f77067b097bd1e97bbe6ac3727388cb9df95a",
+      "bytes": 484910
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.801627.png": {
+      "sha256": "93aab0be2a70380c94de323ad45f3484bac7e8fe2a0b61483545fab4106c25c6",
+      "bytes": 493514
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.937234.png": {
+      "sha256": "43db5b4af23f381278c3897bc47924f96538bc5998704474e04734999ee055bb",
+      "bytes": 491185
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.100912.png": {
+      "sha256": "e693af121bfb1361e3e648666bf26e8fbeecd45eb25bcd77a9732e7c8a05a1f5",
+      "bytes": 525802
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.336810.png": {
+      "sha256": "538a8cec5e39ae62f6b56121b2b09796d44663ed4d6bc26bb98f53504e883541",
+      "bytes": 532927
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.500863.png": {
+      "sha256": "bf5baa31078eee6bd8c4bb57c591f67640f4143d50d78ade0cf361ddde5b2397",
+      "bytes": 544070
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.669100.png": {
+      "sha256": "10fcb3a008be3a1af220be3ca75af7b464ad87b6cc95d769b63ec325b8a31a25",
+      "bytes": 541861
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.836877.png": {
+      "sha256": "b2ededae5a2dc3f020b003b558f07e36779518498d05c99a435485119c044c8e",
+      "bytes": 540193
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031936.000820.png": {
+      "sha256": "3dc083ba6cbc06aa09ab747318f0057cb75d53a99c4a643d4b3812fcded6e843",
+      "bytes": 543255
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031936.368927.png": {
+      "sha256": "a981b6122d4d8f338a19557a5fe5853e774b30527b3bcefbc6f97fc184dd29c5",
+      "bytes": 533167
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031936.900833.png": {
+      "sha256": "36314d1dc257158e62d4971c90692f4c713581d2f954ddfef8da82eef5ab85e8",
+      "bytes": 524755
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.068765.png": {
+      "sha256": "9da5c71193231db80b1d5106777e288d33754fb0b7489612af20d7cd7f5173e4",
+      "bytes": 503496
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.200813.png": {
+      "sha256": "87d5295bd8c6fea01861ef56f9bc173abe5ed819969f0eeccd72c15e56099840",
+      "bytes": 531723
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.336862.png": {
+      "sha256": "fefbb8e63174e11467f10cd4a95e4b7249747901af079f1cf2e70c1673836f60",
+      "bytes": 555455
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.536931.png": {
+      "sha256": "310884a73de50c25ca90614890f20dadccbc5929af3b92ed5297fb1793ad6927",
+      "bytes": 560289
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.700837.png": {
+      "sha256": "e3f0967ef91021c35b45fb8bb27abb8b6bb724bacfafa1840cdcd1543e3fe21e",
+      "bytes": 561647
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.936960.png": {
+      "sha256": "023ecb9f144fb728d41934737d5f140a3419144f2e26a7ccb68a8825216a683c",
+      "bytes": 536444
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.200883.png": {
+      "sha256": "791cc46dc1f71eab3dd0e28905d97f680d8c644f15f7d7cad4414f54fe6ea0ed",
+      "bytes": 507916
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.400842.png": {
+      "sha256": "095c76504e7b22a86760baf96093ab85e2094be07e948ded96c2f4bc955d2e2c",
+      "bytes": 485845
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.537028.png": {
+      "sha256": "51c2c236dfc6e75acaf43b87077f242eb3376e72967a3af19dacf2fc732f445e",
+      "bytes": 462716
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.637299.png": {
+      "sha256": "f614a623fa46240894b66edc66223ff81fd61c6015248814974250d19b5d172a",
+      "bytes": 444089
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.700851.png": {
+      "sha256": "111526cccf7fb3d4c08a48199cafd5215c66ef26cf3ec131ad0ac07fd13bf5cf",
+      "bytes": 438231
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.769073.png": {
+      "sha256": "05df2d44555b1b92d06bebeb7462a0a789b5b4904b1e6add53c55811b96cd962",
+      "bytes": 427834
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.836754.png": {
+      "sha256": "e0ea75a6a414bc9fd73e8fe9b11cdf007761a98ac353b26bdb0042744cfb1cbb",
+      "bytes": 421343
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.900976.png": {
+      "sha256": "294408ddc7df836a7de6216edfbf0705cc42f04e834b94cf1a7b25c1f670734f",
+      "bytes": 414600
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.936828.png": {
+      "sha256": "b92336e8705cdf59fbdea669bee6759d5a574c782549d770d6ce6eac73c3c96f",
+      "bytes": 432134
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.001030.png": {
+      "sha256": "63b5fd65447598a7da2f6450766cca7caba626aae64aaefea9f9319ff4e12a0d",
+      "bytes": 502472
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.200865.png": {
+      "sha256": "2d170f3012b133820ed4dd100282e6410eeb2ffba432145ea86ada28322d8fa6",
+      "bytes": 508056
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.468851.png": {
+      "sha256": "bdb6324a147095a0d2d4ffb06cfe6d647e4545ce755600ed9a63bbe7679b5f5f",
+      "bytes": 507234
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.768919.png": {
+      "sha256": "88ded25095e9a86e4ab378d35f8e68bf946f4a10c82d1e67f83549565e77e410",
+      "bytes": 481768
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.968904.png": {
+      "sha256": "d73596f0f5be3375f4cb0327603fb870c949300a611637d153ea560ef360acdc",
+      "bytes": 464242
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031940.136746.png": {
+      "sha256": "8733815540dc140f5ce567401522c1d1e002fb62268ba5ea3131b334480b19cb",
+      "bytes": 465309
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031940.336732.png": {
+      "sha256": "f28a89774edfcd430a46419fc0fbb0dc710c2ebac0b7414de3f82711f142936b",
+      "bytes": 451176
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031940.503804.png": {
+      "sha256": "8846e1814539b4a226e9b94757b6fa0312b6bf0b588e606770d20f774a4bdf96",
+      "bytes": 439583
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031940.803047.png": {
+      "sha256": "aab8bc0c33358020e81d8a3375c8c654b6f4ef49402e6b7986b98be0ea8d163d",
+      "bytes": 463025
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031941.003160.png": {
+      "sha256": "e0d98622325ca5a052df8799dcc4d495e40a532b58aa01d662352e9bede67a18",
+      "bytes": 490204
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031941.570287.png": {
+      "sha256": "6df8d2e45e14ea48e7a2516a703612cd43e2012585f8f8e5014e4bfdade52cd7",
+      "bytes": 488793
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031941.800820.png": {
+      "sha256": "bb7adfa8d63aebc367120d40a2c6847461d06c9c01a06c4cad3ccc9f9faec518",
+      "bytes": 510931
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.036729.png": {
+      "sha256": "327fd52a5c3c07a3a83f99091a81a58fbd2e64ccfd7a709a07c019e26ea42aa8",
+      "bytes": 485891
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.100691.png": {
+      "sha256": "042e2274a4265695523cb324303b57dc310ff6b20291e7be8a7db9c9c33cfe25",
+      "bytes": 484487
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.271105.png": {
+      "sha256": "123465a5b2fc2398cba5a1228ca4880fcfc55bb4d3b9862a9a21fe392f472267",
+      "bytes": 499209
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.370761.png": {
+      "sha256": "46dc83dddf8fd55297f4c4006519b5b6e1af0565637fe52db2ec8bd0532ece14",
+      "bytes": 508941
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.439262.png": {
+      "sha256": "52729ef5b270715bd2d5c1f860deacbe193bd008dfeeb187d454925b8cf021f7",
+      "bytes": 526227
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.669006.png": {
+      "sha256": "bca4baebeeefb78b33f140450ba41aacf30a06d3863463746c63dcbdf2b4422c",
+      "bytes": 513202
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.936816.png": {
+      "sha256": "1cb9136e6fc8151be453125262d19409a8474b748db49551a319f35dc7758d3f",
+      "bytes": 537690
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.240004.png": {
+      "sha256": "125eb0f90b29aab7ce8d9a81f0f64247dc041836dc9eb16255e5ec7c57543628",
+      "bytes": 529487
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.303965.png": {
+      "sha256": "759aa2e2ac324ca13a5170864fc24f4050d2808a37f40e336c554bf190c179ab",
+      "bytes": 512764
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.404245.png": {
+      "sha256": "338f5e6f65791b1a96de28a08d1394a06462919225052dc386b3da28d58527c2",
+      "bytes": 497735
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.501108.png": {
+      "sha256": "f8bd53e19a5626adf070ca632aa0ebeca3aa7994532ed0689e163fb6f454001f",
+      "bytes": 477637
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.607467.png": {
+      "sha256": "6cfdd96954ae7060422ba82f30c61cfb92d328f40852666e8ff22ff9c5cae84b",
+      "bytes": 467774
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.707251.png": {
+      "sha256": "622febd0e3a77decbaf36c3302117b49ef663665bc5470318cbb6a88a1d8c4cb",
+      "bytes": 447823
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.837754.png": {
+      "sha256": "e729554a4bc85c073d66a4a88c6b543f4bc15e3127e6ca6b3fde1cb355ecd65e",
+      "bytes": 430894
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.007760.png": {
+      "sha256": "070f9cba6fc2b02666e2e1d669911a3c4394805fc775c6c216f7910d3e6b1aa9",
+      "bytes": 420316
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.206998.png": {
+      "sha256": "b9a8e125b06e4a1039851853e46ca17022cb4ac39e94fd7727d99f0a124ecebf",
+      "bytes": 412313
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.339308.png": {
+      "sha256": "57c507782dab191171e0992375ec5aa3ae96190348794eb2be426b2153e47ffd",
+      "bytes": 399351
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.471304.png": {
+      "sha256": "c117c951cfac4e0faa9a7072a27ad4f86457801b9e22f5049da0345b0ae9da6e",
+      "bytes": 402561
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.639625.png": {
+      "sha256": "a44f462ebcd84979998c219a93e91805409b8a3501db53124b6a5debc60e6430",
+      "bytes": 433532
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.069177.png": {
+      "sha256": "c23a094cc790f324dfb3a7431062a2cd34fcd8da5bfb46b402b9c058a674ed09",
+      "bytes": 459040
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.469167.png": {
+      "sha256": "978076bacfee2bce368b0832407ff6fb54b7faef8fbe7c00e855ec0ab389cc93",
+      "bytes": 470521
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.506438.png": {
+      "sha256": "62029735eb2d4a624135d9a572aed19f0904a8c6206e568100306d01c6216192",
+      "bytes": 471317
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.806240.png": {
+      "sha256": "d116e5b450361a9e4a70ffffe9d29eccf04df42d7a0934ee3ecdef682ce795d4",
+      "bytes": 403794
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.969300.png": {
+      "sha256": "5247ccf0290ab0a4722c0b3728e8ec7749763e61777375b4f4171bf75506bf2b",
+      "bytes": 391423
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031946.369021.png": {
+      "sha256": "274bb88aa847c67712a357934d5567f51b2ae0dda95816f4041d7cea41b39ee6",
+      "bytes": 488914
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031946.869090.png": {
+      "sha256": "0a5d23bb4bcceb85472320082cbe7ed3718993d7b35971d15bcb4941dd7558b3",
+      "bytes": 506401
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031947.304951.png": {
+      "sha256": "8c5677018279faadbd79e8ab1e83a8535734e5a124cdfae6ce855bb04bce5054",
+      "bytes": 475237
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031947.568989.png": {
+      "sha256": "0dcc858567481e545e54b0012e02d3f6bdbfa7fb084dc10d819dd6ec67d5977d",
+      "bytes": 475129
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031947.837022.png": {
+      "sha256": "014c220e81045b523c3505ec49363db669d7dde5c386a8012dbc17bfd4c124c3",
+      "bytes": 490659
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031948.269041.png": {
+      "sha256": "100c0f24231ba887ffc76b87eb69b8bdd5ed594bd72460145740b17840ad9e06",
+      "bytes": 513233
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031948.636912.png": {
+      "sha256": "b24e34aa850821bc0428227245b6551b338cc0942f0191ca6dbd7d91beef326a",
+      "bytes": 493290
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.005006.png": {
+      "sha256": "f04f38f2f903ef22aff52ac5ce818b4a9ed9fc4fe512cfb00a70596466d42cbc",
+      "bytes": 481697
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.237011.png": {
+      "sha256": "3d876756e8cc38ea39b9f0f23036b172e3c6de68cc249d63532468972e785412",
+      "bytes": 457895
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.604798.png": {
+      "sha256": "8532a681617807bf9a33c4bef8e5cc629ab2ab48dd1cb0d9456156d500edadc7",
+      "bytes": 467129
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.768985.png": {
+      "sha256": "c4f615863d5e34b075fd08a35cdfe4c55cb8c2c5bccdf36d2f27c9703b1f9231",
+      "bytes": 490575
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.968881.png": {
+      "sha256": "072086fa7b39e69a33e1fdd02be7f1230992355900437b36c6ac12f01eeee096",
+      "bytes": 521329
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.104966.png": {
+      "sha256": "eb24459a6eeb1b4205c9e91c59fe90cf70a9f65d41361cf2f1008615fc250a1c",
+      "bytes": 491345
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.204933.png": {
+      "sha256": "12ff4f6890324832cf30c76076374d19bb38e21be5118f4e2e1608ccf5db32f7",
+      "bytes": 445104
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.304978.png": {
+      "sha256": "d146238f87be21331d421b4d1893b139db22289f9de5ce7591eb19e272b64a76",
+      "bytes": 440743
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.404939.png": {
+      "sha256": "44aa41cc4f8afbb44f17f27bcdde1ef9fb73867acec9beb79b250a2fea0da85a",
+      "bytes": 444808
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.568883.png": {
+      "sha256": "933dec90d98fde879caafdeaa49f52721aa0d0e1858105249e8cde1b94a0c90e",
+      "bytes": 443178
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.004836.png": {
+      "sha256": "2cbc192e553ad22fd0600adeb2cda380c9aa9afabe3cba327d0eda205ff26446",
+      "bytes": 452954
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.204914.png": {
+      "sha256": "0c1b1e0744eac75efaaacf0f5310829d84b53d56dd48e6bde90511b1d7a5e83f",
+      "bytes": 490519
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.336937.png": {
+      "sha256": "6b95ff641554a8c69ffde014c2605b92c10752b1994a89913f17018e9922d112",
+      "bytes": 503738
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.468857.png": {
+      "sha256": "268b9d4636873cdc12117045146de24874122bd415c0ab92f02838767fa07f7b",
+      "bytes": 519622
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.668929.png": {
+      "sha256": "c891d18202c1b0248c68239240c425536b322ef77fff2581efb954c75bc26808",
+      "bytes": 495278
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.936962.png": {
+      "sha256": "584002ef1c785d96c6003705c18050e2c54fc33fe27c22ee4a72839db88ceb9d",
+      "bytes": 457978
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.068888.png": {
+      "sha256": "e706c0d6576e8dc5daa421284abca70fedad516af25f78c28f148285ee064cfc",
+      "bytes": 483563
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.204914.png": {
+      "sha256": "cac3e0c523ef0bf7bc6d2eb39a98a0a217cbbffdbd3241d7be6013c7d5b133ae",
+      "bytes": 467404
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.336993.png": {
+      "sha256": "83a8b9a2ea104575c7f4c191532d78cd1328898868536dac70d3c8ec21cd06c2",
+      "bytes": 476265
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.468939.png": {
+      "sha256": "7a2694978ed18d40156b2990804d298857aee0bccf084ba662d4785c1e352881",
+      "bytes": 478089
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.636992.png": {
+      "sha256": "90ad6cd70919bf96800c61de370075e04952264df287455fb3084ebc27b9fe2e",
+      "bytes": 475086
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.804919.png": {
+      "sha256": "fc66de9c474297148140e0d03faa3262a85c62578906be5df01ad39ff8f120ac",
+      "bytes": 451450
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031953.137098.png": {
+      "sha256": "cd21867d175fb169184b134d89cb589712c8c06ab72c5fac357f2a430e0e8434",
+      "bytes": 498606
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031953.404920.png": {
+      "sha256": "bd2947ac68db680d82662d1925e1281ad0bd381acfb60022513d943f3d7ef3de",
+      "bytes": 485801
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031953.636962.png": {
+      "sha256": "9ba1b2d2bff70ef9db4eae2a5f6611365462a9f9e45b6dd09639f251e8a2d793",
+      "bytes": 508488
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031953.904912.png": {
+      "sha256": "ea6484ad80911f81d2256f9966572ec7edafe3f8eb9018784b93ad83154a8a21",
+      "bytes": 481323
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031954.136939.png": {
+      "sha256": "088f90e337b95bf767e6f62f38c8b0eb9a26ff137173432a543b15c2fdfac208",
+      "bytes": 473648
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031954.372872.png": {
+      "sha256": "b0d55b0e3a654ac3061310593d332da299351000f77ee11c50f9b2adcf3fa2f8",
+      "bytes": 518317
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031954.604885.png": {
+      "sha256": "d60e3e8d5e1df38b514e04c17e763c0064f321adf5c260c965595f362bbf8894",
+      "bytes": 507694
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031954.873001.png": {
+      "sha256": "43683f6768633c2386ab798b61865077217367f6605d7cf566aa60b7e12c9523",
+      "bytes": 539634
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031955.173003.png": {
+      "sha256": "a344617b22c73543cd1c1b1c57aa88fea2d110772d6cd5b7701473c45333ad05",
+      "bytes": 522176
+    }
+  },
+  "historical_unused_software_drift": [
+    {
+      "path": "/home/prmi/zwj/mycartgs/lib/libgaussian_mapper.so",
+      "historical": "523bba9fea150989e07f93eb4977e95bbd91cafb4c58cc0ed3fcdb2964345b1c",
+      "current": "2f381f6512a4ebca1347375c453027a80526928388d8fea2440c3c8b3b24a0e0",
+      "consumed_by_smoke": false
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/src/gaussian_renderer.cpp",
+      "historical": "394b4125eb7c81ea46ee23e42e7764321f64a5a9375d8c481adc15f88c7ef205",
+      "current": "199b57ca97f5c063b1cf8bbbe95bdac9dfd6e5473de9f513c8f64fc9f2d18337",
+      "consumed_by_smoke": false
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/include/gaussian_renderer.h",
+      "historical": "06535f123bccf92b92831cdf76d817d0ca2c473583a12bd67029a48163a34b9e",
+      "current": "4e7830d413827716f38da9520f68b4acbcf83e4e38c000a191cdeb99054dabb0",
+      "consumed_by_smoke": false
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/src/global_gi.cpp",
+      "historical": "c204543e9c2d196f4004ad95593809a831306701708c221c022946a8bdfb0f1e",
+      "current": "93a22b400142381d3390d820aa989b3cbe9013898218f0c5a4e6a27ee6a5bd8d",
+      "consumed_by_smoke": false
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/include/global_gi.h",
+      "historical": "a3e7081033a16845cf03bc758a4e70aa4642ba9c64c102ab4d9d4af5822c3e6f",
+      "current": "a9fd5c75a04a8bacc1177ddae01174fb904c2a8ed50a7d9651c7fc4c9aadce9d",
+      "consumed_by_smoke": false
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/src/transform_field.cpp",
+      "historical": "6734dfdf587dc3f3beb524c670726701c24cbcb02b6bb18d61173a4b251ae137",
+      "current": "7c8e58501299ebda4027699b2eec362c30b114ea944b109d3caf39bf17508f47",
+      "consumed_by_smoke": false
+    },
+    {
+      "path": "/home/prmi/zwj/mycartgs/include/transform_field.h",
+      "historical": "9f6e37259fe20d5fb2b0c4f6f54f0585d9c043d11601b596cc0b81d39a506e7a",
+      "current": "0f35390f1c13315e3faec1f5e6d6a023ca2d73b2e98a0ea991c6dccb720fd1a8",
+      "consumed_by_smoke": false
+    }
+  ],
+  "ranking_arrays_sha": "c89a9e157e3dde1eaca80a17153f68821e5e7ae7a71d7383304ef608dafaece4",
+  "master": "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/point_cloud/iteration_16900/point_cloud.ply",
+  "maturity": 1,
+  "optimizer_updates": 0,
+  "raw_contribution_unchanged": true,
+  "server_production_unchanged": true
+}

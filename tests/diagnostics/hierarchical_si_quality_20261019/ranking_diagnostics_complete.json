@@ -1,0 +1,10 @@
+{
+  "all_passed": true,
+  "same_geometry_metric": true,
+  "geometry_partition": "frozen Fixed-h8",
+  "geometry_only": true,
+  "quality_read": false,
+  "Spearman_Delta_vs_Raw": 0.8910980699215904,
+  "representatives": 13715,
+  "non_representatives": 36615
+}

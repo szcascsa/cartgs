@@ -1,0 +1,10 @@
+{
+  "all_passed": true,
+  "independent_aggregate_and_paired_checks": true,
+  "complete_ranking_K_nested": true,
+  "frozen_local_source_unchanged": true,
+  "low_ratio_four_metrics_improve": true,
+  "high_ratio_SSIM_photo_regress": true,
+  "verdict": "QUALITY INCONCLUSIVE",
+  "staged_files": 0
+}

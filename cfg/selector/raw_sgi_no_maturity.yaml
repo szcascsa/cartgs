@@ -1,0 +1,17 @@
+%YAML:1.0
+# 参数片段：合并进完整Anchor Selector + Compensation配置，不自动修改生产默认。
+Selector.protection_enabled: 0
+MaturityV2.enabled: 0
+MaturityV2.selector_loss_weight: 0.0
+MaturityV2.compensation_gate: 0
+AnchorSI.enabled: 0
+GlobalGI.mode: "streaming"
+GlobalGI.view_ratio: 0.30
+GlobalGI.coverage_anchor_fraction: 0.80
+GlobalGI.sampling_seed: 0
+GlobalGI.refresh_interval: 1000
+GlobalGI.max_views: 0
+GlobalGI.marginal_shadow: 0
+GlobalGI.marginal_diagnostics: 0
+GlobalGI.HierarchicalRepresentative.enable: 0
+Selector.gi_loss_weight: 1.0

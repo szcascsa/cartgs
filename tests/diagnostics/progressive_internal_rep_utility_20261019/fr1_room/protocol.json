@@ -1,0 +1,42 @@
+{
+  "scenes": [
+    "fr1_room",
+    "fr1_xyz",
+    "fr2_xyz"
+  ],
+  "arms": [
+    "A",
+    "B",
+    "C",
+    "P0",
+    "S",
+    "L",
+    "G"
+  ],
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "backend": "sparse_hash_target_2048 ONLY",
+  "candidate": "valid AND observed",
+  "maturity": 1,
+  "K": "floor(ratio*N+.5)",
+  "frozen": "grid/h search/origin/3reps/Q=.80/maxL3/radius/kappa/Raw/Bank/Master/TF/cameras/GT/metrics/renderer",
+  "baseline_gate": "full A/B/C/P0 rankings and selected sets exact; rebuilt C binary/tree exact; all baseline per-view and aggregate metrics EXACT; all scenes pass before diagnostic rendering",
+  "S": "stable filter ALL internal_rep entries from complete P0; compact non-internal ranking; prefixes K",
+  "L": "per ratio sequential P0 rank; replace internal not in C TopK by best C-ranked currently unselected and never-used replacement in SAME node.members subtree; otherwise retain original; no GT access",
+  "G": "per ratio remove internal not in C TopK, then global missing C-rank refill to K",
+  "secondary_Q_probes": "L_Q0..3 apply L only to bad internal rows in each fixed Q bin: <.25, .25-.50, .50-.65, .65-.80. Joint rendering effect, not additive per-row utility. No tuning.",
+  "S_nested": true,
+  "L_G_ratio_specific_not_nested": true,
+  "verdict": "SUPPORTED if S and/or same-subtree L consistently restore main failed cases toward C without opposite systematic evidence in successful cases; PARTIAL for only some scenes/ratios; NOT SUPPORTED if no stable restoration. No new dB threshold.",
+  "no_algorithm_change": true,
+  "no_d50_backend": true,
+  "raw_contribution_renders": 0,
+  "optimizer_updates": 0,
+  "commit": false,
+  "stage": false,
+  "push": false
+}

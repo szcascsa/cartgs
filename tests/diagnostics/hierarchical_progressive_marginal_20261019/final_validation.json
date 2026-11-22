@@ -1,0 +1,19 @@
+{
+  "all_passed": true,
+  "frozen_input_count": 240,
+  "prior_consumed_artifact_SHA_checked": true,
+  "pre_registration_SHA256": "a094f25781f8f5834beab3b21880fa16a01b4facababb12c3d526218505d4021",
+  "complete_rankings_repeat_and_replay": true,
+  "same_K_nested": true,
+  "mean_and_per_view_consistent": true,
+  "optimizer_updates": 0,
+  "production_runtime_unchanged": true,
+  "quality_cases": 24,
+  "view_renders": 3864,
+  "baseline_metrics_max_abs": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "photo": 0.0
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "selector": {
+    "aten::contiguous": 0,
+    "aten::clone": 3,
+    "aten::cat": 0,
+    "aten::index_select": 618,
+    "aten::nonzero": 82
+  },
+  "tf": {
+    "aten::contiguous": 0,
+    "aten::clone": 3,
+    "aten::cat": 1268,
+    "aten::index_select": 4528,
+    "aten::nonzero": 3016
+  }
+}

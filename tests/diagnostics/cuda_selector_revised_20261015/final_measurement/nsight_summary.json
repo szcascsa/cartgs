@@ -1,0 +1,349 @@
+{
+  "legacy": {
+    "captured_iterations": 10,
+    "M": 219969,
+    "stages": {
+      "network_forward": {
+        "kernels_per_iteration": 18.0,
+        "kernel_active_ms": 3.9290176,
+        "copies_per_iteration": {
+          "8": 10
+        },
+        "spans": [
+          {
+            "device_span_ms": 4.122063,
+            "active_ms": 3.92908,
+            "gap_ms": 0.192983
+          },
+          {
+            "device_span_ms": 4.048433,
+            "active_ms": 3.924021,
+            "gap_ms": 0.124412
+          },
+          {
+            "device_span_ms": 4.059217,
+            "active_ms": 3.939701,
+            "gap_ms": 0.119516
+          },
+          {
+            "device_span_ms": 4.068048,
+            "active_ms": 3.927667,
+            "gap_ms": 0.140381
+          },
+          {
+            "device_span_ms": 4.0884,
+            "active_ms": 3.935574,
+            "gap_ms": 0.152826
+          },
+          {
+            "device_span_ms": 4.047794,
+            "active_ms": 3.923097,
+            "gap_ms": 0.124697
+          },
+          {
+            "device_span_ms": 4.048658,
+            "active_ms": 3.927223,
+            "gap_ms": 0.121435
+          },
+          {
+            "device_span_ms": 4.043025,
+            "active_ms": 3.921876,
+            "gap_ms": 0.121149
+          },
+          {
+            "device_span_ms": 4.054865,
+            "active_ms": 3.931992,
+            "gap_ms": 0.122873
+          },
+          {
+            "device_span_ms": 4.086065,
+            "active_ms": 3.953592,
+            "gap_ms": 0.132473
+          }
+        ]
+      },
+      "network_backward": {
+        "kernels_per_iteration": 42.0,
+        "kernel_active_ms": 2.2095372999999996,
+        "copies_per_iteration": {},
+        "spans": [
+          {
+            "device_span_ms": 2.267536,
+            "active_ms": 2.216307,
+            "gap_ms": 0.051229
+          },
+          {
+            "device_span_ms": 2.266001,
+            "active_ms": 2.216663,
+            "gap_ms": 0.049338
+          },
+          {
+            "device_span_ms": 2.27176,
+            "active_ms": 2.220464,
+            "gap_ms": 0.051296
+          },
+          {
+            "device_span_ms": 2.271888,
+            "active_ms": 2.222608,
+            "gap_ms": 0.04928
+          },
+          {
+            "device_span_ms": 2.268336,
+            "active_ms": 2.217745,
+            "gap_ms": 0.050591
+          },
+          {
+            "device_span_ms": 2.26584,
+            "active_ms": 2.217265,
+            "gap_ms": 0.048575
+          },
+          {
+            "device_span_ms": 2.26488,
+            "active_ms": 2.214354,
+            "gap_ms": 0.050526
+          },
+          {
+            "device_span_ms": 2.27784,
+            "active_ms": 2.228753,
+            "gap_ms": 0.049087
+          },
+          {
+            "device_span_ms": 2.2684,
+            "active_ms": 2.21851,
+            "gap_ms": 0.04989
+          },
+          {
+            "device_span_ms": 2.261841,
+            "active_ms": 2.213648,
+            "gap_ms": 0.048193
+          }
+        ]
+      }
+    },
+    "kernel_names": {
+      "void gemmk1_kernel<int, float, (int)256, (int)5, (bool)0, (bool)0, (bool)0, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float, (int)0>(cublasGemmk1Params<T2, T9, T10, T11, T12, biasType<T11::value_type, T12>::type>)": 20,
+      "void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::launch_clamp_scalar(at::TensorIteratorBase &, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)": 80,
+      "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)1, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)": 10,
+      "ampere_sgemm_64x64_tn": 60,
+      "void at::native::<unnamed>::CatArrayBatchedCopy<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsigned int, (int)2, (int)64, (int)64>(T1 *, at::native::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::native::<unnamed>::TensorSizeStride<T2, (unsigned int)4>, int, T2)": 10,
+      "ampere_sgemm_32x128_tn": 10,
+      "void cutlass::Kernel<cutlass_80_simt_sgemm_128x32_8x5_nn_align1>(T1::Params)": 10,
+      "void cutlass::Kernel<cutlass_80_simt_sgemm_128x32_8x5_nt_align1>(T1::Params)": 10,
+      "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)": 70,
+      "void at::native::reduce_kernel<(int)256, (int)2, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4>>(T3)": 10,
+      "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, void at::native::<unnamed>::threshold_kernel_impl<float>(at::TensorIteratorBase &, T1, T1)::[lambda(float, float) (instance 1)]>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)": 30,
+      "ampere_sgemm_64x64_nn": 30,
+      "ampere_sgemm_32x32_sliced1x4_nt": 60,
+      "void at::native::reduce_kernel<(int)128, (int)4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4>>(T3)": 90,
+      "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, void at::native::<unnamed>::threshold_kernel_impl<float>(at::TensorIteratorBase &, T1, T1)::[lambda(float, float) (instance 1)]>, at::detail::Array<char *, (int)3>>(int, T2, T3)": 50,
+      "ampere_sgemm_32x128_nn": 30,
+      "void gemvNSP_kernel<float, float, float, float, (int)1, (int)32, (int)4, (int)1024, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T10)": 10,
+      "void gemmk1_kernel<int, float, (int)256, (int)5, (bool)1, (bool)0, (bool)0, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float, (int)0>(cublasGemmk1Params<T2, T9, T10, T11, T12, biasType<T11::value_type, T12>::type>)": 10
+    },
+    "runtime_apis": {
+      "cudaEventRecord_v3020": {
+        "count": 20,
+        "cpu_ms": 0.07631399999999999
+      },
+      "cudaMemcpyAsync_v3020": {
+        "count": 10,
+        "cpu_ms": 0.141124
+      },
+      "cudaLaunchKernel_v7000": {
+        "count": 600,
+        "cpu_ms": 3.189052999999999
+      },
+      "cudaOccupancyMaxActiveBlocksPerMultiprocessor_v6050": {
+        "count": 80,
+        "cpu_ms": 0.07047599999999996
+      },
+      "cudaMemsetAsync_v3020": {
+        "count": 80,
+        "cpu_ms": 0.31320600000000004
+      },
+      "cudaEventSynchronize_v3020": {
+        "count": 10,
+        "cpu_ms": 46.780583
+      },
+      "cudaDeviceSynchronize_v3020": {
+        "count": 9,
+        "cpu_ms": 0.021661000000000003
+      }
+    },
+    "launch_gap_mean_ms": 0.021047467796610177,
+    "launch_gap_max_ms": 0.13451,
+    "scope": "MLP forward and all input/18-parameter VJP only; excludes ST/caller/optimizer/renderer/Mapping"
+  },
+  "cublas_strict": {
+    "captured_iterations": 10,
+    "M": 219969,
+    "stages": {
+      "network_forward": {
+        "kernels_per_iteration": 18.0,
+        "kernel_active_ms": 2.0897213999999997,
+        "copies_per_iteration": {},
+        "spans": [
+          {
+            "device_span_ms": 2.169203,
+            "active_ms": 2.08354,
+            "gap_ms": 0.085663
+          },
+          {
+            "device_span_ms": 2.142804,
+            "active_ms": 2.095542,
+            "gap_ms": 0.047262
+          },
+          {
+            "device_span_ms": 2.119509,
+            "active_ms": 2.072503,
+            "gap_ms": 0.047006
+          },
+          {
+            "device_span_ms": 2.130549,
+            "active_ms": 2.083223,
+            "gap_ms": 0.047326
+          },
+          {
+            "device_span_ms": 2.143253,
+            "active_ms": 2.094998,
+            "gap_ms": 0.048255
+          },
+          {
+            "device_span_ms": 2.136085,
+            "active_ms": 2.089112,
+            "gap_ms": 0.046973
+          },
+          {
+            "device_span_ms": 2.127253,
+            "active_ms": 2.080056,
+            "gap_ms": 0.047197
+          },
+          {
+            "device_span_ms": 2.137301,
+            "active_ms": 2.090422,
+            "gap_ms": 0.046879
+          },
+          {
+            "device_span_ms": 2.143221,
+            "active_ms": 2.095444,
+            "gap_ms": 0.047777
+          },
+          {
+            "device_span_ms": 2.159316,
+            "active_ms": 2.112374,
+            "gap_ms": 0.046942
+          }
+        ]
+      },
+      "network_backward": {
+        "kernels_per_iteration": 43.0,
+        "kernel_active_ms": 2.1871937000000004,
+        "copies_per_iteration": {},
+        "spans": [
+          {
+            "device_span_ms": 2.256176,
+            "active_ms": 2.207572,
+            "gap_ms": 0.048604
+          },
+          {
+            "device_span_ms": 2.241905,
+            "active_ms": 2.190803,
+            "gap_ms": 0.051102
+          },
+          {
+            "device_span_ms": 2.250225,
+            "active_ms": 2.199473,
+            "gap_ms": 0.050752
+          },
+          {
+            "device_span_ms": 2.247729,
+            "active_ms": 2.198706,
+            "gap_ms": 0.049023
+          },
+          {
+            "device_span_ms": 2.24008,
+            "active_ms": 2.190132,
+            "gap_ms": 0.049948
+          },
+          {
+            "device_span_ms": 2.234097,
+            "active_ms": 2.182451,
+            "gap_ms": 0.051646
+          },
+          {
+            "device_span_ms": 2.255441,
+            "active_ms": 2.204624,
+            "gap_ms": 0.050817
+          },
+          {
+            "device_span_ms": 2.244241,
+            "active_ms": 2.1941,
+            "gap_ms": 0.050141
+          },
+          {
+            "device_span_ms": 2.251376,
+            "active_ms": 2.201526,
+            "gap_ms": 0.04985
+          },
+          {
+            "device_span_ms": 2.248593,
+            "active_ms": 2.195924,
+            "gap_ms": 0.052669
+          }
+        ]
+      }
+    },
+    "kernel_names": {
+      "selector_cuda::<unnamed>::fillBias(float *, const float *, int, int)": 10,
+      "void gemmk1_kernel<int, float, (int)256, (int)5, (bool)0, (bool)0, (bool)0, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float, (int)0>(cublasGemmk1Params<T2, T9, T10, T11, T12, biasType<T11::value_type, T12>::type>)": 20,
+      "selector_cuda::<unnamed>::relu(float *, int)": 10,
+      "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)1, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)": 10,
+      "ampere_sgemm_64x64_tn": 60,
+      "void cublasLt::epilogue::impl::globalKernel<(int)8, (int)32, float, float, float, (bool)1, (bool)1>(int, int, long, T3 *, cublasLtEpilogue_t, int, T4 *, long, void *, long, long, long, T5 *, long, int *)": 60,
+      "selector_cuda::<unnamed>::packFeatures(selector_cuda::<unnamed>::Features, float4 *, int)": 10,
+      "ampere_sgemm_32x128_tn": 10,
+      "void at::native::reduce_kernel<(int)256, (int)2, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4>>(T3)": 10,
+      "void cutlass::Kernel<cutlass_80_simt_sgemm_128x32_8x5_nn_align1>(T1::Params)": 10,
+      "void cutlass::Kernel<cutlass_80_simt_sgemm_128x32_8x5_nt_align1>(T1::Params)": 10,
+      "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)": 70,
+      "selector_cuda::<unnamed>::splitRelu(const float *, float *, const float *, int, int, int)": 40,
+      "void at::native::reduce_kernel<(int)128, (int)4, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4>>(T3)": 90,
+      "ampere_sgemm_64x64_nn": 30,
+      "ampere_sgemm_32x32_sliced1x4_nt": 60,
+      "selector_cuda::<unnamed>::reluVjp(float *, const float *, int, int)": 40,
+      "ampere_sgemm_32x128_nn": 30,
+      "void gemvNSP_kernel<float, float, float, float, (int)1, (int)32, (int)4, (int)1024, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T10)": 10,
+      "void gemmk1_kernel<int, float, (int)256, (int)5, (bool)0, (bool)0, (bool)1, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float, (int)0>(cublasGemmk1Params<T2, T9, T10, T11, T12, biasType<T11::value_type, T12>::type>)": 10,
+      "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)7, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)": 10
+    },
+    "runtime_apis": {
+      "cudaEventRecord_v3020": {
+        "count": 20,
+        "cpu_ms": 0.07507500000000002
+      },
+      "cudaLaunchKernel_v7000": {
+        "count": 610,
+        "cpu_ms": 2.2325000000000017
+      },
+      "cudaOccupancyMaxActiveBlocksPerMultiprocessor_v6050": {
+        "count": 20,
+        "cpu_ms": 0.015525
+      },
+      "cudaMemsetAsync_v3020": {
+        "count": 80,
+        "cpu_ms": 0.258871
+      },
+      "cudaEventSynchronize_v3020": {
+        "count": 10,
+        "cpu_ms": 35.179981000000005
+      },
+      "cudaDeviceSynchronize_v3020": {
+        "count": 9,
+        "cpu_ms": 0.01942
+      }
+    },
+    "launch_gap_mean_ms": 0.008681956666666664,
+    "launch_gap_max_ms": 0.175617,
+    "scope": "MLP forward and all input/18-parameter VJP only; excludes ST/caller/optimizer/renderer/Mapping"
+  }
+}

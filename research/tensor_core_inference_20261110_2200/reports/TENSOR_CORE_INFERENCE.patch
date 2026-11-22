@@ -1,0 +1,655 @@
+--- a/python/deployment_prepare.cpp
++++ b/python/deployment_prepare.cpp
+@@ -22,7 +22,8 @@
+     const std::vector<torch::Tensor>&,const torch::Tensor&,const std::vector<torch::Tensor>&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,double,double,int64_t,bool,bool,bool,int64_t,
+     bool,const std::vector<torch::Tensor>&,bool,bool,const torch::Tensor&,bool,bool,
+-    const torch::Tensor&,const torch::Tensor&);
++    const torch::Tensor&,const torch::Tensor&,const std::vector<torch::Tensor>&,int64_t,int64_t,int64_t,int64_t);
++std::vector<torch::Tensor> deployment_tensor_pack(const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,const torch::Tensor&,int64_t,int64_t);
+ std::vector<torch::Tensor> deployment_fused_candidates(const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&);
+@@ -59,6 +60,18 @@
+ torch::Tensor deployment_view_masked(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,double,double,const torch::Tensor&);
+ 
++std::vector<torch::Tensor> deployment_tensor_selector(const torch::Tensor& physical,const torch::Tensor& rows,
++    const torch::Tensor& owners,const torch::Tensor& view,const torch::Tensor& noise,
++    const std::vector<torch::Tensor>& weights,double ratio,bool local,int64_t schema,
++    const torch::Tensor& prefix,const std::vector<torch::Tensor>& packed,int64_t mode,int64_t warps);
++
++std::vector<torch::Tensor> deployment_tensor_compensate(const torch::Tensor& offset,const torch::Tensor& rows,
++    const torch::Tensor& owners,const torch::Tensor& reference,const std::vector<torch::Tensor>& tables,
++    const std::vector<torch::Tensor>& weights,const std::vector<torch::Tensor>& attributes,
++    const torch::Tensor& view,const torch::Tensor& view_weight,const std::vector<double>& residual_weights,
++    const std::vector<double>& ratio,bool local,int64_t schema,bool softplus,
++    const std::vector<torch::Tensor>& packed,int64_t mode,int64_t warps,const torch::Tensor& shared_status);
++
+ namespace {
+ // Preparation uses fixed Gumbel keys and has no RNG nodes. Keep LibTorch's
+ // graph allocator ownership, and avoid its two seed/offset fills per replay.
+@@ -85,7 +98,7 @@
+ }
+ 
+ // Per-frame scheduling is native C++; no Python callback or result cache is used.
+-class DeploymentPipeline {
++class TensorDeploymentPipeline {
+   std::vector<torch::Tensor> state_,selector_,compensator_,tables_,master_,base_,buffers_,sort_,radix_;
+   torch::Tensor view_weight_,rows_,counts_,candidate_workspace_,host_control_,empty_,host_counts_,host_status_,select_workspace_;
+   DeploymentKnots control_knots_;
+@@ -102,6 +115,8 @@
+   bool fused_selection_=false,fused_candidates_=false;
+   torch::Tensor anchor_partials_,selector_prefix_;
+   bool visible_view_=false;
++  int64_t tensor_selector_=0,tensor_compensator_=0,tensor_warps_=4,tensor_comp_warps_=4;
++  std::vector<torch::Tensor> tensor_weights_;
+   bool small_compensation_tile_=false;
+   struct GraphPlan {
+     int64_t capacity;
+@@ -146,7 +161,7 @@
+         vm,pm,center,1.,1.,schema_,softplus_,plan.local,plan.compensation,
+         plan.tile,shrinking_radix_ && total_>=4096,radix_,selector_tiled_,
+         saturated_selection_,plan.request,unroll_compensation_,fused_selection_,selector_prefix_,
+-        visible_view_?plan.visible:torch::Tensor());
++        visible_view_?plan.visible:torch::Tensor(),tensor_weights_,tensor_selector_,tensor_compensator_,tensor_warps_,tensor_comp_warps_);
+   }
+ 
+   Prepared prepare_graph(const torch::Tensor& vm,const torch::Tensor& pm,const torch::Tensor& center,
+@@ -239,7 +254,7 @@
+     return output;
+   }
+ public:
+-  DeploymentPipeline(std::vector<torch::Tensor> state,std::vector<torch::Tensor> selector,
++  TensorDeploymentPipeline(std::vector<torch::Tensor> state,std::vector<torch::Tensor> selector,
+       std::vector<torch::Tensor> compensator,std::vector<torch::Tensor> tables,
+       std::vector<torch::Tensor> master,std::vector<torch::Tensor> base,torch::Tensor view_weight,
+       std::vector<double> knots,std::vector<double> bounds,int64_t schema,int64_t degree,bool softplus):
+@@ -322,7 +337,7 @@
+           vm,pm,center,double(width)/height,near,schema_,softplus_,local,compensation,
+           compensation_tile_for(capacity,capacity>=1024),shrinking_radix_ && total_>=4096,radix_,selector_tiled_,
+           saturated_selection_,torch::Tensor(),unroll_compensation_,fused_selection_,selector_prefix_,
+-          visible_view_?visible:torch::Tensor());
++          visible_view_?visible:torch::Tensor(),tensor_weights_,tensor_selector_,tensor_compensator_,tensor_warps_,tensor_comp_warps_);
+     }
+     readback(buffers_[0],host_control_);
+     const auto& frame=*reinterpret_cast<const DeploymentFrame*>(host_control_.data_ptr<uint8_t>());
+@@ -374,7 +389,8 @@
+         else code=deployment_view(state_[0],state_[10],state_[11],camera.contiguous(),vm,pm,
+             state_[12],double(width)/height,near);
+       }
+-      auto scores=deployment_selector_impl(state_[6],rows,state_[3],code,state_[9],selector_,output.ratio,local,schema_,selector_tiled_,selector_prefix_);
++      auto scores=tensor_selector_?deployment_tensor_selector(state_[6],rows,state_[3],code,state_[9],selector_,output.ratio,local,schema_,selector_prefix_,tensor_weights_,tensor_selector_,tensor_warps_):
++          deployment_selector_impl(state_[6],rows,state_[3],code,state_[9],selector_,output.ratio,local,schema_,selector_tiled_,selector_prefix_);
+       output.selector_tiled=selector_tiled_;
+       if(!compensation) {
+         readback(scores[2],host_status_);
+@@ -393,7 +409,9 @@
+         const double t=2*(std::log(output.ratio)-std::log(bounds_[0]))/(std::log(bounds_[1])-std::log(bounds_[0]))-1;
+         std::vector<double> ratio={t,std::sin(M_PI*t/2),std::cos(M_PI*t/2)};
+         output.compensation_tile=compensation_tile_for(output.k,output.k>=1024);
+-        auto result=deployment_compensate_impl(state_[7],output.ids,state_[3],state_[8],tables_,compensator_,master_,code,
++        auto result=tensor_compensator_?deployment_tensor_compensate(state_[7],output.ids,state_[3],state_[8],tables_,compensator_,master_,code,
++            view_weight_,weights,ratio,local&&schema_,schema_,softplus_,tensor_weights_,tensor_compensator_,tensor_comp_warps_,scores[2]):
++            deployment_compensate_impl(state_[7],output.ids,state_[3],state_[8],tables_,compensator_,master_,code,
+             view_weight_,weights,ratio,local&&schema_,schema_,softplus_,scores[2],output.compensation_tile);
+         readback(result[2],host_status_);
+         TORCH_CHECK(host_status_.data_ptr<int>()[0]!=1,"Nonfinite deployment Selector logits");
+@@ -447,6 +465,7 @@
+   }
+ 
+   void static_options(bool prefix,bool visible_view,bool small_tile) {
++    TORCH_CHECK(prefix||!tensor_selector_,"Disable Tensor Selector before disabling frozen prefix");
+     c10::cuda::CUDAGuard guard(state_[0].device());
+     graphs_.clear();
+     if(prefix && !selector_prefix_.defined())selector_prefix_=deployment_selector_prefix(state_[6],selector_[0]);
+@@ -454,6 +473,17 @@
+     visible_view_=visible_view;small_compensation_tile_=small_tile;
+   }
+ 
++  void tensor_options(int64_t selector_mode,int64_t compensator_mode,int64_t warps,int64_t comp_warps=0) {
++    if(!comp_warps)comp_warps=warps;
++    TORCH_CHECK(comp_warps==1||comp_warps==2||comp_warps==4,"Compensator Tensor warps must be 1,2 or 4");
++    TORCH_CHECK(selector_mode>=0&&selector_mode<=2&&compensator_mode>=0&&compensator_mode<=2,"Tensor mode: 0=CUDA,1=TF32,2=FP16");
++    TORCH_CHECK(warps==1||warps==2||warps==4,"Tensor warps must be 1,2 or 4");
++    c10::cuda::CUDAGuard guard(state_[0].device());graphs_.clear();
++    TORCH_CHECK(!selector_mode||selector_prefix_.defined(),"Tensor Selector requires frozen static prefix");
++    tensor_weights_=deployment_tensor_pack(selector_,compensator_,view_weight_,selector_mode,compensator_mode);
++    tensor_selector_=selector_mode;tensor_compensator_=compensator_mode;tensor_warps_=warps;tensor_comp_warps_=comp_warps;
++  }
++  int64_t tensor_bytes() const {int64_t n=0;for(const auto& x:tensor_weights_)if(x.defined())n+=x.nbytes();return n;}
+   int64_t prefix_bytes() const {return selector_prefix_.defined()?selector_prefix_.nbytes():0;}
+ 
+   pybind11::tuple prepare(const torch::Tensor& vm,const torch::Tensor& pm,const torch::Tensor& camera,
+@@ -486,16 +516,18 @@
+ 
+ void bind_deployment_prepare(pybind11::module_& module) {
+   namespace py=pybind11;
+-  py::class_<DeploymentPipeline>(module,"Pipeline",py::module_local())
++  py::class_<TensorDeploymentPipeline>(module,"Pipeline",py::module_local())
+     .def(py::init<std::vector<torch::Tensor>,std::vector<torch::Tensor>,std::vector<torch::Tensor>,
+         std::vector<torch::Tensor>,std::vector<torch::Tensor>,std::vector<torch::Tensor>,torch::Tensor,
+         std::vector<double>,std::vector<double>,int64_t,int64_t,bool>())
+-    .def("prepare",&DeploymentPipeline::prepare)
+-    .def("_tuning",&DeploymentPipeline::tuning,py::arg("radix"),py::arg("tile"),py::arg("selector_tiled")=true)
+-    .def("_optimization_controls",&DeploymentPipeline::optimization_controls)
+-    .def("_graph_enabled",&DeploymentPipeline::graph_enabled)
+-    .def("_kernel_options",&DeploymentPipeline::kernel_options)
+-    .def("_static_options",&DeploymentPipeline::static_options)
+-    .def("_prefix_bytes",&DeploymentPipeline::prefix_bytes)
+-    .def("_control",&DeploymentPipeline::debug_control);
++    .def("prepare",&TensorDeploymentPipeline::prepare)
++    .def("_tuning",&TensorDeploymentPipeline::tuning,py::arg("radix"),py::arg("tile"),py::arg("selector_tiled")=true)
++    .def("_optimization_controls",&TensorDeploymentPipeline::optimization_controls)
++    .def("_graph_enabled",&TensorDeploymentPipeline::graph_enabled)
++    .def("_kernel_options",&TensorDeploymentPipeline::kernel_options)
++    .def("_static_options",&TensorDeploymentPipeline::static_options)
++    .def("_tensor_options",&TensorDeploymentPipeline::tensor_options,py::arg("selector"),py::arg("compensator"),py::arg("warps"),py::arg("comp_warps")=0)
++    .def("_tensor_bytes",&TensorDeploymentPipeline::tensor_bytes)
++    .def("_prefix_bytes",&TensorDeploymentPipeline::prefix_bytes)
++    .def("_control",&TensorDeploymentPipeline::debug_control);
+ }
+--- a/python/deployment_runtime.py
++++ b/python/deployment_runtime.py
+@@ -12,11 +12,11 @@
+ def deployment_extension():
+     from torch.utils.cpp_extension import load
+     root = Path(__file__).resolve().parent
+-    return load(name='mycartgs_deployment_fp32_v31',
++    return load(name='mycartgs_tensor_deployment_v1',
+         sources=[str(root/'deployment_runtime_bindings.cpp'), str(root/'deployment_runtime_kernels.cu'),
+                  str(root/'deployment_prepare.cpp'), str(root/'deployment_selection.cu'),str(root/'deployment_radix.cu'),str(root/'deployment_candidates.cu'),
+                  str(root/'frozen_inference_kernels.cu')],
+-        extra_cflags=['-O3'], extra_cuda_cflags=['-O3'], verbose=False)
++        extra_cflags=['-O3'], extra_cuda_cflags=['-O3','-lineinfo'], build_directory=str(root.parent/'build'), verbose=True)
+ 
+ 
+ class DeploymentRenderer:
+@@ -29,7 +29,7 @@
+     @torch.no_grad()
+     def __init__(self, model, gaussians, config, seed=0, *, shrinking_radix=True, compensation_tile=16, selector_tiled=True,
+                  saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True,
+-                 selector_static_prefix=True,visible_view=True,small_compensation_tile=True,student=None):
++                 selector_static_prefix=True,visible_view=True,small_compensation_tile=True,student=None,tensor_selector=2,tensor_compensator=2,tensor_warps=4,tensor_compensator_warps=2):
+         from anchor_budget import FixedBudgetRenderer
+         if (not isinstance(shrinking_radix,bool) or not isinstance(selector_tiled,bool) or
+                 isinstance(compensation_tile,bool) or compensation_tile not in (0,4,8,16)):
+@@ -91,13 +91,15 @@
+         self._pipeline._graph_enabled(prepare_graph)
+         self._pipeline._kernel_options(unroll_compensation,fused_selection,fused_candidates)
+         self._pipeline._static_options(selector_static_prefix,visible_view,small_compensation_tile)
++        self._pipeline._tensor_options(tensor_selector,tensor_compensator,tensor_warps,tensor_compensator_warps or tensor_warps)
++        self.tensor_config=dict(selector=tensor_selector,compensator=tensor_compensator,warps=tensor_warps,comp_warps=tensor_compensator_warps or tensor_warps)
+ 
+     @classmethod
+     @torch.inference_mode(False)
+     @torch.no_grad()
+     def from_checkpoint(cls, checkpoint, seed=0, *, shrinking_radix=True, compensation_tile=16, selector_tiled=True,
+                         saturated_selection=True,prepare_graph=True,unroll_compensation=True,fused_selection=True,fused_candidates=True,
+-                        selector_static_prefix=True,visible_view=True,small_compensation_tile=True,student_checkpoint=None):
++                        selector_static_prefix=True,visible_view=True,small_compensation_tile=True,student_checkpoint=None,tensor_selector=2,tensor_compensator=2,tensor_warps=4,tensor_compensator_warps=2):
+         from budget_viewer import read_config
+         from gaussian_model import GaussianModel
+         from selector import load_selector
+@@ -121,7 +123,7 @@
+             saturated_selection=saturated_selection,prepare_graph=prepare_graph,unroll_compensation=unroll_compensation,
+             fused_selection=fused_selection,fused_candidates=fused_candidates,
+             selector_static_prefix=selector_static_prefix,visible_view=visible_view,small_compensation_tile=small_compensation_tile,
+-            student=student)
++            student=student,tensor_selector=tensor_selector,tensor_compensator=tensor_compensator,tensor_warps=tensor_warps,tensor_compensator_warps=tensor_compensator_warps)
+ 
+     def _packet(self, flat, n):
+         pc = self._base.pc
+--- a/python/deployment_runtime_bindings.cpp
++++ b/python/deployment_runtime_bindings.cpp
+@@ -44,8 +44,25 @@
+ torch::Tensor deployment_view_masked(const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,
+     const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,const torch::Tensor&,double,double,const torch::Tensor&);
+ 
++std::vector<torch::Tensor> deployment_tensor_selector(const torch::Tensor& physical,const torch::Tensor& rows,
++    const torch::Tensor& owners,const torch::Tensor& view,const torch::Tensor& noise,
++    const std::vector<torch::Tensor>& weights,double ratio,bool local,int64_t schema,
++    const torch::Tensor& prefix,const std::vector<torch::Tensor>& packed,int64_t mode,int64_t warps);
++
++std::vector<torch::Tensor> deployment_tensor_compensate(const torch::Tensor& offset,const torch::Tensor& rows,
++    const torch::Tensor& owners,const torch::Tensor& reference,const std::vector<torch::Tensor>& tables,
++    const std::vector<torch::Tensor>& weights,const std::vector<torch::Tensor>& attributes,
++    const torch::Tensor& view,const torch::Tensor& view_weight,const std::vector<double>& residual_weights,
++    const std::vector<double>& ratio,bool local,int64_t schema,bool softplus,
++    const std::vector<torch::Tensor>& packed,int64_t mode,int64_t warps,const torch::Tensor& shared_status);
++
++std::vector<torch::Tensor> deployment_tensor_pack(const std::vector<torch::Tensor>&,const std::vector<torch::Tensor>&,const torch::Tensor&,int64_t,int64_t);
++
+ PYBIND11_MODULE(TORCH_EXTENSION_NAME, module) {
+   bind_deployment_prepare(module);
++  module.def("_tensor_pack",&deployment_tensor_pack);
++  module.def("_tensor_selector",&deployment_tensor_selector);
++  module.def("_tensor_compensate",&deployment_tensor_compensate);
+   module.def("_selector_prefix", &deployment_selector_prefix);
+   module.def("_selector_prefixed", &deployment_selector_impl);
+   module.def("_view_masked", &deployment_view_masked);
+--- a/python/deployment_runtime_kernels.cu
++++ b/python/deployment_runtime_kernels.cu
+@@ -1,4 +1,6 @@
+ #include <torch/extension.h>
++#include <mma.h>
++#include <cuda_fp16.h>
+ #include <type_traits>
+ #include <cub/block/block_reduce.cuh>
+ #include <c10/cuda/CUDAGuard.h>
+@@ -185,7 +187,7 @@
+   float n=0.f;for(int j=0;j<4;++j)n=fmaf(q[j],q[j],n);
+   n=fmaxf(sqrtf(n),1e-12f);for(int j=0;j<4;++j)q[j]/=n;
+ }
+-template<bool Direct=false> __device__ void publishPoint(int64_t row,int64_t n,int64_t id,const float* d,
++template<bool Direct=false,bool Rest=true> __device__ void publishPoint(int64_t row,int64_t n,int64_t id,const float* d,
+     Master master,bool softplus,float* output,int* status,int lane,int stride,
+     const DeploymentRequest* request=nullptr) {
+   if(Direct) {
+@@ -200,7 +202,7 @@
+   rotation[0]=q[0]*b[0]-((q[1]*b[1]+q[3]*b[3])+q[2]*b[2]);
+   for(int j=1;j<4;++j){int k=j%3+1,l=(j+1)%3+1;rotation[j]=(q[0]*b[j]+b[0]*q[j])+fmaf(q[k],b[l],-q[l]*b[k]);}
+   normalize(rotation);normalize(rotation);
+-  const int width=17+master.rest;
++  const int width=Rest?17+master.rest:17;
+   for(int col=lane;col<width;col+=stride) {
+     float value;int64_t dest;
+     if(col<3){value=master.p[0][id*3+col]+d[col];dest=row*3+col;}
+@@ -208,8 +210,8 @@
+     else if(col<7){int j=col-4;float factor=d[3+j];if(softplus){float z=factor+.5413248546129181f;factor=z>20.f?z:log1pf(expf(z));value=fmaxf(master.p[2][id*3+j]*factor,1.1754943508222875e-38f);}else value=master.p[2][id*3+j]+factor;value=expf(logf(value));dest=n*4+row*3+j;}
+     else if(col<11){value=rotation[col-7];dest=n*7+row*4+col-7;}
+     else if(col<14){value=master.p[4][id*3+col-11]+d[11+col-11];dest=n*11+row*3+col-11;}
+-    else if(col<14+master.rest){value=master.p[5][id*master.rest+col-14];dest=n*14+row*master.rest+col-14;}
+-    else{value=0.f;dest=n*(14+master.rest)+row*3+col-14-master.rest;}
++    else if(Rest && col<14+master.rest){value=master.p[5][id*master.rest+col-14];dest=n*14+row*master.rest+col-14;}
++    else{value=0.f;dest=n*(14+master.rest)+row*3+col-14-(Rest?master.rest:0);}
+     output[dest]=value;if(!isfinite(value))atomicExch(status,2);
+   }
+ }
+@@ -543,7 +545,41 @@
+       tid%(128/Points),128/Points,request);
+ }
+ 
+-}
++#include "tensor_networks.cuh"
++}
++
++template<class Launch> void dispatchTensor(int64_t mode,int64_t warps,Launch launch){
++  auto block=[&](auto m){
++    if(warps==1)launch(m,std::integral_constant<int,1>{});
++    else if(warps==2)launch(m,std::integral_constant<int,2>{});
++    else launch(m,std::integral_constant<int,4>{});
++  };
++  if(mode==1)block(std::integral_constant<int,1>{});
++  else block(std::integral_constant<int,2>{});
++}
++
++std::vector<torch::Tensor> deployment_tensor_pack(const std::vector<torch::Tensor>& selector,
++    const std::vector<torch::Tensor>& student,const torch::Tensor& view_weight,int64_t selector_mode,int64_t compensation_mode){
++  TORCH_CHECK(selector.size()==6,"Tensor Selector snapshot");
++  TORCH_CHECK(!compensation_mode||student.size()==13,"Tensor Compensation requires a 32/32 student");
++  c10::cuda::CUDAGuard guard(selector[0].device());
++  cudaDeviceProp prop{};C10_CUDA_CHECK(cudaGetDeviceProperties(&prop,selector[0].get_device()));
++  TORCH_CHECK((!selector_mode&&!compensation_mode)||prop.major>=8,"Tensor inference requires Ampere or newer");
++  Weights sw{},cw{};for(int j=0;j<6;++j)sw.p[j]=selector[j].data_ptr<float>();
++  for(size_t j=0;j<student.size();++j)cw.p[j]=student[j].data_ptr<float>();
++  std::vector<torch::Tensor> result(5);
++  for(int which=0;which<5;++which){
++    int mode=(which==0||which==4)?selector_mode:compensation_mode;if(!mode)continue;
++    int size=which==1?64*32:which==3||which==4?32*16:32*32;
++    result[which]=torch::empty({size},selector[0].options().dtype(mode==1?at::kFloat:at::kHalf));
++    if(mode==1)packTensorWeights<1><<<(size+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(sw,cw,view_weight.numel()?view_weight.data_ptr<float>():nullptr,selector[0].size(0),which,result[which].data_ptr<float>());
++    else packTensorWeights<2><<<(size+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(sw,cw,view_weight.numel()?view_weight.data_ptr<float>():nullptr,selector[0].size(0),which,reinterpret_cast<__half*>(result[which].data_ptr<at::Half>()));
++  }
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return result;
++}
++
++
++#include "tensor_components.inc"
+ 
+ torch::Tensor deployment_view(const torch::Tensor& centers,const torch::Tensor& centers4,
+     const torch::Tensor& corners,const torch::Tensor& camera,const torch::Tensor& vm,
+@@ -837,7 +873,8 @@
+     bool radix,const std::vector<torch::Tensor>& radix_workspace,bool selector_tiled,
+     bool saturated_selection,
+     const torch::Tensor& request,bool unroll_compensation,bool fused_selection,
+-    const torch::Tensor& prefix,const torch::Tensor& visible) {
++    const torch::Tensor& prefix,const torch::Tensor& visible,
++    const std::vector<torch::Tensor>& tensor_weights,int64_t selector_mode,int64_t compensation_mode,int64_t tensor_warps,int64_t tensor_comp_warps) {
+   // buffers: frame, candidate rows, view, scores, logits, selected IDs, attributes,
+   // selection counts. Large maps retain the original C++ path.
+   const auto n=state[3].numel(),capacity=buffers[5].numel(),anchors=state[0].size(0);
+@@ -856,7 +893,14 @@
+   for(int j=0;j<6;++j){sw.p[j]=selector[j].data_ptr<float>();m.p[j]=master[j].data_ptr<float>();b.p[j]=base[j].data_ptr<float>();}
+   m.rest=b.rest=base[5].numel()/std::max(int64_t(1),n);
+   const auto rows=buffers[1].data_ptr<int64_t>();
+-  if(prefix.defined()) {
++  if(selector_mode) {
++    auto launch=[&](auto mode,auto warps){
++      constexpr int Mode=decltype(mode)::value,Warps=decltype(warps)::value;
++      if(selector[0].size(0)==19)selectorTensor<Mode,Warps,19><<<(n+Warps*16-1)/(Warps*16),(Mode==2?Warps*32:128),0,stream>>>(n,state[6].data_ptr<float>(),rows,state[3].data_ptr<int64_t>(),buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,schema==2||schema==3,buffers[3].data_ptr<float>(),buffers[4].data_ptr<float>(),status,frame,prefix.defined()?prefix.data_ptr<float>():nullptr,tensor_weights[0].data_ptr(),tensor_weights[4].data_ptr());
++      else selectorTensor<Mode,Warps,11><<<(n+Warps*16-1)/(Warps*16),(Mode==2?Warps*32:128),0,stream>>>(n,state[6].data_ptr<float>(),rows,state[3].data_ptr<int64_t>(),buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,false,buffers[3].data_ptr<float>(),buffers[4].data_ptr<float>(),status,frame,prefix.defined()?prefix.data_ptr<float>():nullptr,tensor_weights[0].data_ptr(),tensor_weights[4].data_ptr());
++    };
++    dispatchTensor(selector_mode,tensor_warps,launch);
++  } else if(prefix.defined()) {
+   if(selector_tiled) {
+     if(selector[0].size(0)==19)selectorRegisterTile<19,true><<<(n+15)/16,128,0,stream>>>(n,state[6].data_ptr<float>(),rows,
+         state[3].data_ptr<int64_t>(),buffers[2].data_ptr<float>(),state[9].data_ptr<float>(),sw,0.f,local,
+@@ -892,7 +936,13 @@
+     t.count=tables.size();for(int j=0;j<t.count;++j)t.p[j]=tables[j].data_ptr<float>();
+     auto launch_compensation=[&](auto direct) {
+       constexpr bool Direct=decltype(direct)::value;
+-      if(compensation.size()==13) {
++      if(compensation_mode) {
++        TORCH_CHECK(compensation.size()==13,"Tensor Compensation requires the frozen 32/32 student");
++        TensorWeights tw{};for(int i=1;i<4;++i)tw.p[i]=tensor_weights[i].data_ptr();
++        auto launch=[&](auto mode,auto warps){constexpr int Mode=decltype(mode)::value,Warps=decltype(warps)::value;
++          compensationTensor<Mode,Warps,Direct><<<(capacity+Warps*16-1)/(Warps*16),Warps*128,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,buffers[6].data_ptr<float>(),nullptr,status,frame,destination,tw);
++        };dispatchTensor(compensation_mode,tensor_comp_warps,launch);
++      } else if(compensation.size()==13) {
+         if(tile==16)compensationStudent<16,Direct><<<(capacity+15)/16,128,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,buffers[6].data_ptr<float>(),nullptr,status,frame,destination);
+         else if(tile==8208 || tile==8)compensationStudent<8,Direct><<<(capacity+7)/8,128,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,buffers[6].data_ptr<float>(),nullptr,status,frame,destination);
+         else compensationStudent<4,Direct><<<(capacity+3)/4,128,0,stream>>>(capacity,state[7].data_ptr<float>(),buffers[5].data_ptr<int64_t>(),state[3].data_ptr<int64_t>(),state[8].data_ptr<float>(),t,c,cw,buffers[2].data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local&&schema,schema==2||schema==4,m,softplus,buffers[6].data_ptr<float>(),nullptr,status,frame,destination);
+--- /dev/null
++++ b/python/tensor_components.inc
+@@ -0,0 +1,41 @@
++std::vector<torch::Tensor> deployment_tensor_selector(const torch::Tensor& physical,const torch::Tensor& rows,
++    const torch::Tensor& owners,const torch::Tensor& view,const torch::Tensor& noise,
++    const std::vector<torch::Tensor>& weights,double ratio,bool local,int64_t schema,
++    const torch::Tensor& prefix,const std::vector<torch::Tensor>& packed,int64_t mode,int64_t warps){
++  TORCH_CHECK(!torch::GradMode::is_enabled()&&weights.size()==6&&packed.size()==5&&ratio>0&&ratio<=1,"Tensor Selector inputs");
++  TORCH_CHECK((mode==1||mode==2)&&(warps==1||warps==2||warps==4),"Tensor mode/block");
++  c10::cuda::CUDAGuard guard(physical.device());check(rows,physical,at::kLong);check(owners,physical,at::kLong);check(view,physical);check(noise,physical);
++  check(packed[0],physical,mode==1?at::kFloat:at::kHalf);TORCH_CHECK(packed[0].numel()==1024,"Tensor Selector weights");
++  TORCH_CHECK(mode!=2||(prefix.defined()&&prefix.numel()),"FP16 Tensor Selector requires frozen prefix");
++  Weights w{};for(int j=0;j<6;++j){check(weights[j],physical);w.p[j]=weights[j].data_ptr<float>();}
++  auto n=rows.numel();auto scores=torch::empty({n},physical.options()),logits=torch::empty({n,2},physical.options()),status=torch::zeros({1},rows.options().dtype(at::kInt));
++  if(n){auto launch=[&](auto mode,auto warps){constexpr int Mode=decltype(mode)::value,Warps=decltype(warps)::value;
++    auto stream=c10::cuda::getCurrentCUDAStream();
++    if(weights[0].size(0)==19)selectorTensor<Mode,Warps,19><<<(n+Warps*16-1)/(Warps*16),(Mode==2?Warps*32:128),0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,logf(float(ratio)),local,schema==2||schema==3,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr,prefix.defined()&&prefix.numel()?prefix.data_ptr<float>():nullptr,packed[0].data_ptr(),packed[4].data_ptr());
++    else selectorTensor<Mode,Warps,11><<<(n+Warps*16-1)/(Warps*16),(Mode==2?Warps*32:128),0,stream>>>(n,physical.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),view.data_ptr<float>(),noise.data_ptr<float>(),w,logf(float(ratio)),local,false,scores.data_ptr<float>(),logits.data_ptr<float>(),status.data_ptr<int>(),nullptr,prefix.defined()&&prefix.numel()?prefix.data_ptr<float>():nullptr,packed[0].data_ptr(),packed[4].data_ptr());
++  };dispatchTensor(mode,warps,launch);}
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return {scores,logits,status};
++}
++
++std::vector<torch::Tensor> deployment_tensor_compensate(const torch::Tensor& offset,const torch::Tensor& rows,
++    const torch::Tensor& owners,const torch::Tensor& reference,const std::vector<torch::Tensor>& tables,
++    const std::vector<torch::Tensor>& weights,const std::vector<torch::Tensor>& attributes,
++    const torch::Tensor& view,const torch::Tensor& view_weight,const std::vector<double>& residual_weights,
++    const std::vector<double>& ratio,bool local,int64_t schema,bool softplus,
++    const std::vector<torch::Tensor>& packed,int64_t mode,int64_t warps,const torch::Tensor& shared_status){
++  TORCH_CHECK(!torch::GradMode::is_enabled()&&weights.size()==13&&attributes.size()==6&&packed.size()==5&&ratio.size()==3&&tables.size()==residual_weights.size()&&tables.size()<=6,"Tensor Compensation inputs");
++  TORCH_CHECK((mode==1||mode==2)&&(warps==1||warps==2||warps==4),"Tensor mode/block");
++  c10::cuda::CUDAGuard guard(offset.device());check(rows,offset,at::kLong);check(owners,offset,at::kLong);check(reference,offset);check(view,offset);
++  Weights w{};Tables t{};Controls c{};Master m{};TensorWeights tw{};
++  for(int j=0;j<13;++j){check(weights[j],offset);w.p[j]=weights[j].data_ptr<float>();}
++  for(int j=1;j<4;++j){check(packed[j],offset,mode==1?at::kFloat:at::kHalf);tw.p[j]=packed[j].data_ptr();}
++  t.count=tables.size();for(int j=0;j<t.count;++j){check(tables[j],offset);t.p[j]=tables[j].data_ptr<float>();c.weights[j]=residual_weights[j];}
++  for(int j=0;j<3;++j)c.ratio[j]=ratio[j];for(int j=0;j<6;++j){check(attributes[j],offset);m.p[j]=attributes[j].data_ptr<float>();}
++  if(local)check(view_weight,offset);m.rest=attributes[5].numel()/std::max(int64_t(1),owners.numel());
++  auto n=rows.numel();auto output=torch::empty({n*(17+m.rest)},offset.options()),residual=torch::empty({n,14},offset.options()),status=(shared_status.defined()&&shared_status.numel())?shared_status:torch::zeros({1},rows.options().dtype(at::kInt));
++  check(status,offset,at::kInt);TORCH_CHECK(status.numel()==1,"Tensor Compensation finite status");
++  if(n){auto launch=[&](auto mode,auto warps){constexpr int Mode=decltype(mode)::value,Warps=decltype(warps)::value;
++    compensationTensor<Mode,Warps,false><<<(n+Warps*16-1)/(Warps*16),Warps*128,0,c10::cuda::getCurrentCUDAStream()>>>(n,offset.data_ptr<float>(),rows.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),reference.data_ptr<float>(),t,c,w,view.data_ptr<float>(),local?view_weight.data_ptr<float>():nullptr,local,schema==2||schema==4,m,softplus,output.data_ptr<float>(),residual.data_ptr<float>(),status.data_ptr<int>(),nullptr,nullptr,tw);
++  };dispatchTensor(mode,warps,launch);}
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return {output,residual,status};
++}
+--- /dev/null
++++ b/python/tensor_networks.cuh
+@@ -0,0 +1,171 @@
++// 仅冻结推理。MMA乘法采用TF32或FP16，累加与物理解码仍为FP32。
++struct TensorWeights { const void* p[5]; };
++template<int Mode> struct TensorMath;
++template<> struct TensorMath<1> {
++  using Scalar=float;
++  using Operand=nvcuda::wmma::precision::tf32;
++  static constexpr int Inner=8;
++  __device__ static float convert(float x){return nvcuda::wmma::__float_to_tf32(x);}
++};
++template<> struct TensorMath<2> {
++  using Scalar=__half;
++  using Operand=__half;
++  static constexpr int Inner=16;
++  __device__ static __half convert(float x){return __float2half_rn(x);}
++};
++
++template<int Mode,int Inner,int Columns>
++__device__ void tensorMultiply(const typename TensorMath<Mode>::Scalar* a,
++    const typename TensorMath<Mode>::Scalar* b,float* out,int output_stride){
++  namespace wm=nvcuda::wmma;
++  using Kind=typename TensorMath<Mode>::Operand;
++  constexpr int Step=TensorMath<Mode>::Inner;
++  wm::fragment<wm::accumulator,16,16,Step,float> c[Columns/16];
++  #pragma unroll
++  for(int j=0;j<Columns/16;++j)wm::fill_fragment(c[j],0.f);
++  #pragma unroll
++  for(int k=0;k<Inner;k+=Step){
++    wm::fragment<wm::matrix_a,16,16,Step,Kind,wm::row_major> x;
++    wm::load_matrix_sync(x,a+k,Inner);
++    #pragma unroll
++    for(int j=0;j<Columns/16;++j){
++      wm::fragment<wm::matrix_b,16,16,Step,Kind,wm::row_major> w;
++      wm::load_matrix_sync(w,b+k*Columns+j*16,Columns);
++      wm::mma_sync(c[j],x,w,c[j]);
++    }
++  }
++  #pragma unroll
++  for(int j=0;j<Columns/16;++j)wm::store_matrix_sync(out+j*16,c[j],output_stride,wm::mem_row_major);
++}
++
++template<int Mode> __global__ void packTensorWeights(Weights selector,Weights student,
++    const float* view_weight,int selector_width,int which,typename TensorMath<Mode>::Scalar* out){
++  int i=blockIdx.x*blockDim.x+threadIdx.x;
++  const int size=which==1?64*32:which==3||which==4?32*16:32*32;
++  if(i>=size)return;
++  float x=0.f;
++  if(which==0)x=selector.p[2][i];
++  else if(which==1){int row=i/32,col=i%32;
++    if(row<51)x=student.p[0][i];
++    else if(row<54)x=student.p[4][(row-51)*32+col];
++    else if(row<62&&view_weight)x=view_weight[(row-54)*32+col];}
++  else if(which==2)x=student.p[2][i];
++  else if(which==3){
++    int row=i/16,c=i%16,head=c<3?0:c<6?1:c<10?2:3;
++    int first=head==0?0:head==1?3:head==2?6:10,width=head<2?3:4;
++    if(c<14)x=student.p[5+2*head][row*width+c-first];
++  }else if(i/32+10<selector_width)x=selector.p[0][(i/32+10)*32+i%32];
++  if constexpr(Mode==2){int columns=which==3?16:32,inner=which==1?64:which==4?16:32;
++    out[(which==0||which==4)?(i%columns)*inner+i/columns:i]=TensorMath<Mode>::convert(x);}
++  else out[i]=TensorMath<Mode>::convert(x);
++}
++
++#include "tensor_register.cuh"
++
++template<int Mode,int Warps,int Width>
++__global__ void selectorTensor(int64_t n,const float* physical,const int64_t* rows,
++    const int64_t* owners,const float* view,const float* noise,Weights w,float log_ratio,
++    bool local,bool real_view,float* scores,float* logits,int* status,
++    const DeploymentFrame* frame,const float* prefix,const void* packed_weight,const void* dynamic_weight){
++  if constexpr(Mode==2){selectorRegisterCore<Warps,Width>(n,rows,owners,view,noise,w,log_ratio,local,real_view,scores,logits,status,frame,prefix,packed_weight,dynamic_weight);return;}
++  if(frame){if(!frame->k)return;n=frame->n;log_ratio=frame->log_ratio;}
++  constexpr int Points=Warps*16;
++  int tid=threadIdx.x,warp=tid/32,begin=blockIdx.x*Points;
++  if(begin>=n)return;
++  using Math=TensorMath<Mode>;using Scalar=typename Math::Scalar;
++  __shared__ __align__(32) Scalar h0[Points][32];
++  __shared__ __align__(32) float h1[Points][36];
++  __shared__ float result[Points][2];
++  if(prefix){
++    Scalar* input=&h0[0][0];
++    for(int i=tid;i<Points*16;i+=blockDim.x){int p=i/16,c=i%16,j=c+10;float x=0.f;
++      if(begin+p<n&&j<Width){int64_t id=rows[begin+p];x=j==10?log_ratio:j<18?(local&&real_view?view[owners[id]*7+j-11]:0.f):(local?1.f:0.f);}
++      input[i]=Math::convert(x);}
++    __syncthreads();
++    if(warp<Warps)tensorMultiply<Mode,16,32>(input+warp*16*16,static_cast<const Scalar*>(dynamic_weight),&h1[warp*16][0],36);
++    __syncthreads();
++    for(int i=tid;i<Points*32;i+=blockDim.x){int p=i/32,c=i%32;float x=begin+p<n?prefix[rows[begin+p]*32+c]:0.f;
++      h0[p][c]=Math::convert(relu((x+h1[p][c])+w.p[1][c]));}
++  }else for(int i=tid;i<Points*32;i+=blockDim.x){
++    int p=i/32,col=i%32;float sum=0.f;
++    if(begin+p<n){
++      int64_t id=rows[begin+p];
++      if(prefix)sum=prefix[id*32+col];
++      for(int j=prefix?10:0;j<Width;++j){
++        float x=j<10?physical[id*10+j]:j==10?log_ratio:
++            j<18?(local&&real_view?view[owners[id]*7+j-11]:0.f):(local?1.f:0.f);
++        sum=fmaf(x,w.p[0][j*32+col],sum);
++      }
++      sum=relu(sum+w.p[1][col]);
++    }
++    h0[p][col]=Math::convert(sum);
++  }
++  __syncthreads();
++  if(warp<Warps)tensorMultiply<Mode,32,32>(&h0[warp*16][0],static_cast<const Scalar*>(packed_weight),&h1[warp*16][0],36);
++  __syncthreads();
++  for(int i=tid;i<Points*32;i+=blockDim.x)h1[i/32][i%32]=relu(h1[i/32][i%32]+w.p[3][i%32]);
++  __syncthreads();
++  // 2列输出与概率仍FP32；隐藏层微差可能改变分数排序，必须另行量化。
++  int point=tid/2,column=tid%2;
++  if(point<Points && begin+point<n){float sum=0.f;for(int j=0;j<32;++j)sum=fmaf(h1[point][j],w.p[4][j*2+column],sum);
++    result[point][column]=sum+w.p[5][column];if(logits)logits[(begin+point)*2+column]=result[point][column];if(!isfinite(result[point][column]))atomicExch(status,1);}
++  __syncthreads();
++  for(int p=tid;p<Points;p+=blockDim.x)if(begin+p<n){
++    int64_t id=rows[begin+p];float a=result[p][0]+noise[id*2],b=result[p][1]+noise[id*2+1];
++    float mx=fmaxf(a,b),ea=expf(a-mx),eb=expf(b-mx);scores[begin+p]=eb/(ea+eb);
++    if(!isfinite(scores[begin+p]))atomicExch(status,1);
++  }
++}
++
++template<int Mode,int Warps,bool Direct=false>
++__global__ void compensationTensor(int64_t n,const float* offset,const int64_t* rows,
++    const int64_t* owners,const float* reference,Tables tables,Controls controls,Weights w,
++    const float* view,const float* view_weight,bool local,bool real_view,Master master,
++    bool softplus,float* output,float* residual,int* status,const DeploymentFrame* frame,
++    const DeploymentRequest* request,TensorWeights packed){
++  if(status[0]==1)return;
++  constexpr int Points=Warps*16;
++  int tid=threadIdx.x,warp=tid/32,begin=blockIdx.x*Points;
++  if(frame)n=frame->k;
++  if(begin>=n)return;
++  if(frame){for(int j=0;j<6;++j)controls.weights[j]=frame->weights[j];
++    for(int j=0;j<3;++j)controls.ratio[j]=frame->ratio_code[j];}
++  using Math=TensorMath<Mode>;using Scalar=typename Math::Scalar;
++  __shared__ __align__(32) Scalar inputs[Points][64];
++  __shared__ __align__(32) float values[Points][36];
++  Scalar* hidden=&inputs[0][0];
++  __shared__ int64_t ids[Points],anchors[Points];
++  if(tid<Points){ids[tid]=begin+tid<n?rows[begin+tid]:0;anchors[tid]=begin+tid<n?owners[ids[tid]]:0;}
++  __syncthreads();
++  for(int i=tid;i<Points*64;i+=blockDim.x){
++    int p=i/64,c=i%64;float x=0.f;
++    if(begin+p<n){if(c<3)x=offset[ids[p]*3+c];else if(c<51){int64_t index=anchors[p]*48+c-3;x=tables.p[0][index];
++      for(int j=1;j<tables.count;++j){if(controls.weights[j]<0.f)break;x=__fadd_rn(x,__fmul_rn(controls.weights[j],tables.p[j][index]));}}
++      else if(c<54)x=controls.ratio[c-51];
++      else if(c<61)x=local&&real_view?view[anchors[p]*7+c-54]:0.f;
++      else if(c==61)x=local?1.f:0.f;}
++    inputs[p][c]=Math::convert(x);
++  }
++  __syncthreads();
++  if(warp<Warps)tensorMultiply<Mode,64,32>(&inputs[warp*16][0],static_cast<const Scalar*>(packed.p[1]),&values[warp*16][0],36);
++  __syncthreads();
++  for(int i=tid;i<Points*32;i+=blockDim.x)hidden[i]=Math::convert(relu(values[i/32][i%32]+w.p[1][i%32]));
++  __syncthreads();
++  if(warp<Warps)tensorMultiply<Mode,32,32>(hidden+warp*16*32,static_cast<const Scalar*>(packed.p[2]),&values[warp*16][0],36);
++  __syncthreads();
++  for(int i=tid;i<Points*32;i+=blockDim.x)hidden[i]=Math::convert(relu(values[i/32][i%32]+w.p[3][i%32]));
++  __syncthreads();
++  if(warp<Warps)tensorMultiply<Mode,32,16>(hidden+warp*16*32,static_cast<const Scalar*>(packed.p[3]),&values[warp*16][0],36);
++  __syncthreads();
++  for(int i=tid;i<Points*14;i+=blockDim.x){int p=i/14,c=i%14,head=c<3?0:c<6?1:c<10?2:3;
++    int first=head==0?0:head==1?3:head==2?6:10;float value=values[p][c]+w.p[6+2*head][c-first];
++    if(!head)value*=reference[ids[p]];values[p][c]=value;
++    if(begin+p<n){if(residual)residual[(begin+p)*14+c]=value;if(!isfinite(value))atomicExch(status,2);}}
++  __syncthreads();
++  // 与原实现共用物理发布函数：FP32 Scale/Quaternion/Opacity及SH、ID顺序不变。
++  const int p=tid/8;
++  if(begin+p<n)publishPoint<Direct,false>(begin+p,n,ids[p],values[p],master,softplus,output,status,tid%8,8,request);
++  float* destination=Direct?request->attributes:output;
++  for(int i=tid;i<Points*master.rest;i+=blockDim.x){int p=i/master.rest,c=i%master.rest;
++    if(begin+p<n){float x=master.p[5][ids[p]*master.rest+c];destination[n*14+int64_t(begin+p)*master.rest+c]=x;if(!isfinite(x))atomicExch(status,2);}}
++}
+--- /dev/null
++++ b/python/tensor_register.cuh
+@@ -0,0 +1,82 @@
++// PTX m16n8k16布局：每线程持有2行各2列的FP32 accumulator。
++// 上一层C直接打包为下一层A，隐藏激活不经过共享内存。
++__device__ __forceinline__ unsigned halfPair(float a,float b){
++  return unsigned(__half_as_ushort(__float2half_rn(a)))|(unsigned(__half_as_ushort(__float2half_rn(b)))<<16);
++}
++__device__ __forceinline__ unsigned halfPair(const __half* x,int a,int b){
++  return unsigned(__half_as_ushort(x[a]))|(unsigned(__half_as_ushort(x[b]))<<16);
++}
++__device__ __forceinline__ void registerMma(const unsigned* a,unsigned b0,unsigned b1,float* c){
++  asm volatile("mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 "
++      "{%0,%1,%2,%3},{%4,%5,%6,%7},{%8,%9},{%0,%1,%2,%3};"
++      : "+f"(c[0]),"+f"(c[1]),"+f"(c[2]),"+f"(c[3])
++      : "r"(a[0]),"r"(a[1]),"r"(a[2]),"r"(a[3]),"r"(b0),"r"(b1));
++}
++template<int Columns,int Inner=32> __device__ __forceinline__ void registerProduct(const unsigned* a,
++    const __half* weights,int k,int output_block,float* c){
++  int lane=threadIdx.x%32,group=lane/4,t=lane%4,col=output_block*8+group,row=k+t*2;
++  const unsigned* source=reinterpret_cast<const unsigned*>(weights+col*Inner+row);
++  unsigned b0=source[0],b1=source[4];
++  registerMma(a,b0,b1,c);
++}
++__device__ __forceinline__ void activationA(const float c[4][4],const float* bias,int k,unsigned* a){
++  int t=threadIdx.x%4,j=k/8,col=k+t*2;
++  float b0=bias[col],b1=bias[col+1],b8=bias[col+8],b9=bias[col+9];
++  a[0]=halfPair(relu(c[j][0]+b0),relu(c[j][1]+b1));
++  a[1]=halfPair(relu(c[j][2]+b0),relu(c[j][3]+b1));
++  a[2]=halfPair(relu(c[j+1][0]+b8),relu(c[j+1][1]+b9));
++  a[3]=halfPair(relu(c[j+1][2]+b8),relu(c[j+1][3]+b9));
++}
++template<int Width> __device__ __forceinline__ float selectorDynamic(int64_t row,int64_t n,int col,
++    const int64_t* rows,const int64_t* owners,const float* view,float ratio,bool local,bool real){
++  int j=col+10;if(row>=n||j>=Width)return 0.f;
++  if(j==10)return ratio;if(j==18)return local?1.f:0.f;
++  return local&&real?view[owners[rows[row]]*7+j-11]:0.f;
++}
++template<int Warps,int Width> __device__ __forceinline__ void selectorRegisterCore(int64_t n,
++    const int64_t* rows,const int64_t* owners,const float* view,const float* noise,Weights w,float log_ratio,
++    bool local,bool real,float* scores,float* logits,int* status,const DeploymentFrame* frame,
++    const float* prefix,const void* body_weight,const void* dynamic_weight){
++  if(frame){if(!frame->k)return;n=frame->n;log_ratio=frame->log_ratio;}
++  int warp=threadIdx.x/32,lane=threadIdx.x%32,group=lane/4,t=lane%4;
++  if(warp>=Warps)return;
++  int64_t begin=(int64_t(blockIdx.x)*Warps+warp)*16,r0=begin+group,r1=r0+8;
++  if(begin>=n)return;
++  unsigned a[4];int j=t*2;
++  a[0]=halfPair(selectorDynamic<Width>(r0,n,j,rows,owners,view,log_ratio,local,real),selectorDynamic<Width>(r0,n,j+1,rows,owners,view,log_ratio,local,real));
++  a[1]=halfPair(selectorDynamic<Width>(r1,n,j,rows,owners,view,log_ratio,local,real),selectorDynamic<Width>(r1,n,j+1,rows,owners,view,log_ratio,local,real));
++  a[2]=halfPair(selectorDynamic<Width>(r0,n,j+8,rows,owners,view,log_ratio,local,real),selectorDynamic<Width>(r0,n,j+9,rows,owners,view,log_ratio,local,real));
++  a[3]=halfPair(selectorDynamic<Width>(r1,n,j+8,rows,owners,view,log_ratio,local,real),selectorDynamic<Width>(r1,n,j+9,rows,owners,view,log_ratio,local,real));
++  float first[4][4]{};
++  #pragma unroll
++  for(int ob=0;ob<4;++ob){
++    registerProduct<32,16>(a,static_cast<const __half*>(dynamic_weight),0,ob,first[ob]);
++    int c=ob*8+t*2;int64_t id0=r0<n?rows[r0]:0,id1=r1<n?rows[r1]:0;
++    first[ob][0]=(r0<n?prefix[id0*32+c]:0.f)+first[ob][0];
++    first[ob][1]=(r0<n?prefix[id0*32+c+1]:0.f)+first[ob][1];
++    first[ob][2]=(r1<n?prefix[id1*32+c]:0.f)+first[ob][2];
++    first[ob][3]=(r1<n?prefix[id1*32+c+1]:0.f)+first[ob][3];
++  }
++  float second[4][4]{};
++  #pragma unroll
++  for(int k=0;k<32;k+=16){activationA(first,w.p[1],k,a);
++    #pragma unroll
++    for(int ob=0;ob<4;++ob)registerProduct<32>(a,static_cast<const __half*>(body_weight),k,ob,second[ob]);}
++  float head[4]{};
++  #pragma unroll
++  for(int k=0;k<32;k+=16){activationA(second,w.p[3],k,a);
++    int kr=k+t*2;unsigned b0=0,b1=0;
++    if(group<2){b0=halfPair(w.p[4][kr*2+group],w.p[4][(kr+1)*2+group]);b1=halfPair(w.p[4][(kr+8)*2+group],w.p[4][(kr+9)*2+group]);}
++    registerMma(a,b0,b1,head);}
++  if(t==0){
++    #pragma unroll
++    for(int q=0;q<2;++q){int64_t row=q?r1:r0;if(row>=n)continue;
++      float x=head[q*2]+w.p[5][0],y=head[q*2+1]+w.p[5][1];
++      if(logits){logits[row*2]=x;logits[row*2+1]=y;}
++      if(!isfinite(x)||!isfinite(y))atomicExch(status,1);
++      int64_t id=rows[row];x+=noise[id*2];y+=noise[id*2+1];float mx=fmaxf(x,y),ea=expf(x-mx),eb=expf(y-mx);
++      scores[row]=eb/(ea+eb);if(!isfinite(scores[row]))atomicExch(status,1);
++    }
++  }
++}
++

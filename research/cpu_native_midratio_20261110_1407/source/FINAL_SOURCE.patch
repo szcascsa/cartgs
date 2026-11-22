@@ -1,0 +1,312 @@
+--- previous/source/cpu_small.cpp
++++ current/source/cpu_mid.cpp
+@@ -90,7 +90,7 @@
+ inline void apply_pair(const float* x,int xs,float* y,int ys,bool activation)const{
+   const int inputs=Inputs?Inputs:in;
+   for(int o=0;o<out;o+=16){
+-    __m256 a00=_mm256_setzero_ps(),a01=a00,a10=a00,a11=a00,a20=a00,a21=a00,a30=a00,a31=a00;
++    __m256 a00=_mm256_setzero_ps(),a01=a00,a10=a00,a11=a00,a20=a00,a21=a00,a30=a00,a31=a00,a40=a00,a41=a00,a50=a00,a51=a00;
+     const float* w0=weights_ptr+(o/8)*inputs*8;const float* w1=w0+inputs*8;
+     #pragma GCC unroll 4
+     for(int j=0;j<inputs;++j){
+@@ -99,8 +99,10 @@
+       if constexpr(Rows>1){t=_mm256_set1_ps(x[xs+j]);a10=_mm256_fmadd_ps(t,v0,a10);a11=_mm256_fmadd_ps(t,v1,a11);}
+       if constexpr(Rows>2){t=_mm256_set1_ps(x[xs*2+j]);a20=_mm256_fmadd_ps(t,v0,a20);a21=_mm256_fmadd_ps(t,v1,a21);}
+       if constexpr(Rows>3){t=_mm256_set1_ps(x[xs*3+j]);a30=_mm256_fmadd_ps(t,v0,a30);a31=_mm256_fmadd_ps(t,v1,a31);}
+-    }
+-    __m256 lo[4]={a00,a10,a20,a30},hi[4]={a01,a11,a21,a31};
++      if constexpr(Rows>4){t=_mm256_set1_ps(x[xs*4+j]);a40=_mm256_fmadd_ps(t,v0,a40);a41=_mm256_fmadd_ps(t,v1,a41);}
++      if constexpr(Rows>5){t=_mm256_set1_ps(x[xs*5+j]);a50=_mm256_fmadd_ps(t,v0,a50);a51=_mm256_fmadd_ps(t,v1,a51);}
++    }
++    __m256 lo[6]={a00,a10,a20,a30,a40,a50},hi[6]={a01,a11,a21,a31,a41,a51};
+     __m256 b0=_mm256_loadu_ps(bias_ptr+o),b1=_mm256_loadu_ps(bias_ptr+o+8);
+     #pragma GCC unroll 4
+     for(int r=0;r<Rows;++r){
+@@ -119,7 +121,7 @@
+ // 专用2/3/4输出：保留原输入顺序和FMA链，去掉无消费者的上半AVX通道。
+ template<int Rows,int Inputs,int Outputs>
+ inline void apply_small(const float* x,int xs,float* y,int ys,bool activation)const{
+-  __m128 a0=_mm_setzero_ps(),a1=a0,a2=a0,a3=a0;
++  __m128 a0=_mm_setzero_ps(),a1=a0,a2=a0,a3=a0,a4=a0,a5=a0;
+   #pragma GCC unroll 4
+   for(int j=0;j<Inputs;++j){
+     __m128 w=_mm_loadu_ps(weights_ptr+j*8);
+@@ -127,8 +129,10 @@
+     if constexpr(Rows>1)a1=_mm_fmadd_ps(_mm_set1_ps(x[xs+j]),w,a1);
+     if constexpr(Rows>2)a2=_mm_fmadd_ps(_mm_set1_ps(x[xs*2+j]),w,a2);
+     if constexpr(Rows>3)a3=_mm_fmadd_ps(_mm_set1_ps(x[xs*3+j]),w,a3);
+-  }
+-  __m128 values[4]={a0,a1,a2,a3},bias=_mm_loadu_ps(bias_ptr);
++    if constexpr(Rows>4)a4=_mm_fmadd_ps(_mm_set1_ps(x[xs*4+j]),w,a4);
++    if constexpr(Rows>5)a5=_mm_fmadd_ps(_mm_set1_ps(x[xs*5+j]),w,a5);
++  }
++  __m128 values[6]={a0,a1,a2,a3,a4,a5},bias=_mm_loadu_ps(bias_ptr);
+   #pragma GCC unroll 4
+   for(int r=0;r<Rows;++r){__m128 v=_mm_add_ps(values[r],bias);
+     if(activation)v=_mm_max_ps(_mm_setzero_ps(),v);
+@@ -146,13 +150,14 @@
+ 
+   inline void apply(const float* x,int rows,int xs,float* y,int ys,bool activation=false)const{
+     if(small&&out>=2&&out<=4&&(in==32||in==64)){
+-      if(rows==4)small_rows<4>(x,xs,y,ys,activation);else if(rows==3)small_rows<3>(x,xs,y,ys,activation);
++      if(rows==6)small_rows<6>(x,xs,y,ys,activation);else if(rows==5)small_rows<5>(x,xs,y,ys,activation);else if(rows==4)small_rows<4>(x,xs,y,ys,activation);else if(rows==3)small_rows<3>(x,xs,y,ys,activation);
+       else if(rows==2)small_rows<2>(x,xs,y,ys,activation);else small_rows<1>(x,xs,y,ys,activation);return;
+     }
+     if(fast==1&&out%16==0){
+-      if(rows==4)fast_rows<4>(x,xs,y,ys,activation);else if(rows==3)fast_rows<3>(x,xs,y,ys,activation);
++      if(rows==6)fast_rows<6>(x,xs,y,ys,activation);else if(rows==5)fast_rows<5>(x,xs,y,ys,activation);else if(rows==4)fast_rows<4>(x,xs,y,ys,activation);else if(rows==3)fast_rows<3>(x,xs,y,ys,activation);
+       else if(rows==2)fast_rows<2>(x,xs,y,ys,activation);else fast_rows<1>(x,xs,y,ys,activation);return;
+     }
++    if(rows>4){apply(x,4,xs,y,ys,activation);apply(x+4*xs,rows-4,xs,y+4*ys,ys,activation);return;}
+     if(rows==4)apply_rows<4>(x,xs,y,ys,activation);else if(rows==3)apply_rows<3>(x,xs,y,ys,activation);
+     else if(rows==2)apply_rows<2>(x,xs,y,ys,activation);else apply_rows<1>(x,xs,y,ys,activation);
+   }
+@@ -162,8 +167,9 @@
+ struct Key {float score;uint32_t id;};
+ struct Better {bool operator()(const Key& a,const Key& b)const{return a.score>b.score||(a.score==b.score&&a.id<b.id);}};
+ 
+-class CpuPipelineSmall {
+-  bool fused_schedule_;int kernel_mode_,ordered_mode_;
++class CpuPipelineMid {
++  bool fused_schedule_;int kernel_mode_,ordered_mode_,selection_mode_,comp_batch_;bool histogram_active_=false;
++  std::vector<int> histogram_;std::vector<Key> boundary_;
+   Pool pool_;std::mutex call_;std::vector<T> s_,tables_;std::vector<double> knots_,bounds_;
+   Dense sel0_,sel1_,sel2_,comp0_,comp1_,ratio_,view_;
+   std::vector<Dense> hh_,ho_;Dense combined_head_;std::vector<float> activated_scale_,activated_opacity_;bool student_,softplus_,selector_prefix_,factored_,diagnose_;
+@@ -235,7 +241,8 @@
+     pool_.run(N_,0,[&](int begin,int end,int thread){int out=offsets_[thread];for(int i=begin;i<end;++i)if(visible_[owners()[i]])rows_[out++]=i;});
+   }
+   void selector(float log_ratio,bool local,bool real_view){
+-    pool_.run((M_+3)/4,16,[&](int begin,int end,int){
++    if(histogram_active_)std::fill(histogram_.begin(),histogram_.end(),0);
++    pool_.run((M_+3)/4,16,[&](int begin,int end,int worker){
+       alignas(32) float x[4][24],h0[4][32],h1[4][32],logits[4][2];
+       const float* w=sel0_.weights_ptr;const float* bias=sel0_.bias_ptr;
+       for(int block=begin;block<end;++block){int base=block*4,R=std::min(4,M_-base);
+@@ -251,7 +258,8 @@
+         }
+         sel1_.apply(h0[0],R,32,h1[0],32,true);sel2_.apply(h1[0],R,32,logits[0],2);
+         for(int r=0;r<R;++r){int id=rows_[base+r];float a=logits[r][0]+f(12)[id*2],b=logits[r][1]+f(12)[id*2+1],max=std::max(a,b);float ea,eb;if(fused_schedule_&&std::isfinite(a)&&std::isfinite(b)){if(a>=b){ea=1.f;eb=std::exp(b-a);}else{ea=std::exp(a-b);eb=1.f;}}else{ea=std::exp(a-max);eb=std::exp(b-max);}scores_[base+r]=eb/(ea+eb);if(fused_schedule_)keys_[base+r]={eligible()[id]?scores_[base+r]:-INFINITY,uint32_t(id)};
+-          if(!std::isfinite(logits[r][0])||!std::isfinite(logits[r][1])||!std::isfinite(scores_[base+r]))bad_.store(2,std::memory_order_relaxed);}
++          if(!std::isfinite(logits[r][0])||!std::isfinite(logits[r][1])||!std::isfinite(scores_[base+r]))bad_.store(2,std::memory_order_relaxed);
++          else if(histogram_active_&&eligible()[id])++histogram_[worker*256+std::min(255,int(scores_[base+r]*256.f))];}
+       }
+     });
+   }
+@@ -264,6 +272,22 @@
+       for(int thread=0;thread<pool_.count();++thread){int begin=int(int64_t(M_)*thread/pool_.count()),n=counts_[thread];std::memmove(selected_.data()+count,selected_.data()+begin,n*sizeof(int64_t));count+=n;}
+     }
+     TORCH_CHECK(global||count==expected,"Ordered compaction violated strict K");K_=count;selected_.resize(count);
++  }
++  bool histogram_select(){
++    int bins[256]={};for(int worker=0;worker<pool_.count();++worker)for(int b=0;b<256;++b)bins[b]+=histogram_[worker*256+b];
++    int bucket=255,above=0;for(;bucket>=0;--bucket){if(above+bins[bucket]>=K_)break;above+=bins[bucket];}
++    TORCH_CHECK(bucket>=0,"Histogram selection count mismatch");
++    // Saturated scores do not benefit: preserve original exact partition path.
++    if(bins[bucket]>M_/4)return false;
++    boundary_.resize(M_);
++    pool_.run(M_,0,[&](int begin,int end,int worker){int n=0;for(int i=begin;i<end;++i){int id=rows_[i];
++      if(eligible()[id]&&std::min(255,int(scores_[i]*256.f))==bucket)boundary_[begin+n++]={scores_[i],uint32_t(id)};
++    }counts_[worker]=n;});
++    int size=0;for(int worker=0;worker<pool_.count();++worker){int begin=int(int64_t(M_)*worker/pool_.count()),n=counts_[worker];std::memmove(boundary_.data()+size,boundary_.data()+begin,n*sizeof(Key));size+=n;}
++    TORCH_CHECK(size==bins[bucket]&&K_>above&&K_-above<=size,"Histogram boundary size mismatch");
++    int rank=K_-above-1;std::nth_element(boundary_.begin(),boundary_.begin()+rank,boundary_.begin()+size,Better{});
++    Key cutoff=boundary_[rank];++cutoff.id; // IDs < INT_MAX; strict Better includes exactly the worst selected ID.
++    ordered_compact(cutoff,false,0,K_);return true;
+   }
+   void controls(double ratio,int& full,int& partial,float& weight,float* code){
+     full=0;partial=-1;weight=0;
+@@ -308,9 +332,9 @@
+     if(!enabled){pool_.run(K_,128,[&](int begin,int end,int){for(int i=begin;i<end;++i)publish(i,selected_[i],nullptr,output,false);});return;}
+     comp_context(ratio,local,real);
+     int full,partial;float weight,code[3];controls(ratio,full,partial,weight,code);
+-    pool_.run((K_+3)/4,16,[&](int begin,int end,int){
+-      alignas(32) float h0[4][64],h1[4][64],hidden[4][256],small[4][4],delta[4][14],input[4][56],rp[64],vp[64];
+-      for(int block=begin;block<end;++block){int base=block*4,R=std::min(4,K_-base);
++    int batch=comp_batch_;pool_.run((K_+batch-1)/batch,16,[&](int begin,int end,int){
++      alignas(32) float h0[6][64],h1[6][64],hidden[6][256],small[6][4],delta[6][14],input[6][56],rp[64],vp[64];
++      for(int block=begin;block<end;++block){int base=block*batch,R=std::min(batch,K_-base);
+         if(factored_){for(int r=0;r<R;++r){int id=selected_[base+r],a=owners()[id];for(int o=0;o<H_;o+=8){__m256 v=_mm256_add_ps(_mm256_loadu_ps(poffset_+id*H_+o),_mm256_loadu_ps(comp_dynamic_.data()+a*H_+o));_mm256_store_ps(h0[r]+o,_mm256_max_ps(_mm256_setzero_ps(),v));}}}
+         else{
+           for(int r=0;r<R;++r){int id=selected_[base+r],a=owners()[id];std::copy_n(f(11)+id*3,3,input[r]);
+@@ -331,10 +355,10 @@
+     });
+   }
+ public:
+-  CpuPipelineSmall(std::vector<T> state,std::vector<T> selector,std::vector<T> comp,std::vector<T> tables,T view_weight,
++  CpuPipelineMid(std::vector<T> state,std::vector<T> selector,std::vector<T> comp,std::vector<T> tables,T view_weight,
+       std::vector<double> knots,std::vector<double> bounds,int schema,float scene_scale,bool softplus,int threads,
+-      bool selector_prefix=true,bool factored=true,bool diagnose=false,bool fused_schedule=false,int kernel_mode=0,bool small_kernel=false,int ordered_mode=0)
+-      :fused_schedule_(fused_schedule),kernel_mode_(kernel_mode),ordered_mode_(ordered_mode),pool_(threads),knots_(knots),bounds_(bounds),student_(comp.size()==13),softplus_(softplus),selector_prefix_(selector_prefix),factored_(factored),diagnose_(diagnose),schema_(schema),scene_scale_(scene_scale){
++      bool selector_prefix=true,bool factored=true,bool diagnose=false,bool fused_schedule=false,int kernel_mode=0,bool small_kernel=false,int ordered_mode=0,int selection_mode=0,int comp_batch=4)
++      :fused_schedule_(fused_schedule),kernel_mode_(kernel_mode),ordered_mode_(ordered_mode),selection_mode_(selection_mode),comp_batch_(comp_batch),pool_(threads),knots_(knots),bounds_(bounds),student_(comp.size()==13),softplus_(softplus),selector_prefix_(selector_prefix),factored_(factored),diagnose_(diagnose),schema_(schema),scene_scale_(scene_scale){
+     TORCH_CHECK(state.size()==13&&selector.size()==6&&(comp.size()==21||student_),"Unsupported CPU snapshot layout");
+     TORCH_CHECK(schema>=0&&schema<=4&&std::isfinite(scene_scale)&&scene_scale>0,"Joint view schema/scale");
+     for(int i=0;i<13;++i)s_.push_back(own(state[i],i==2?at::kLong:i==3?at::kBool:at::kFloat));
+@@ -353,6 +377,8 @@
+     sel0_.fast=sel1_.fast=sel2_.fast=comp0_.fast=comp1_.fast=ratio_.fast=combined_head_.fast=kernel_mode;
+     for(auto& h:ho_){h.fast=kernel_mode;h.small=small_kernel;}sel2_.small=small_kernel;
+     TORCH_CHECK(ordered_mode>=0&&ordered_mode<=3,"Small kernel/ordered mode");
++    TORCH_CHECK(selection_mode>=0&&selection_mode<=1&&(comp_batch==4||comp_batch==6),"Midratio optimization modes");
++    if(selection_mode_){histogram_.resize(threads*256);boundary_.resize(N_);}
+     activated_scale_.resize(N_*3);activated_opacity_.resize(N_);
+     pool_.run(N_,128,[&](int begin,int end,int){for(int id=begin;id<end;++id){for(int j=0;j<3;++j)activated_scale_[id*3+j]=std::exp(f(5)[id*3+j]);activated_opacity_[id]=1.f/(1.f+std::exp(-f(7)[id]));}});
+     if(schema_){view_=Dense(view_weight,at::zeros({H_},view_weight.options()));view_.fast=kernel_mode;}
+@@ -380,7 +406,7 @@
+     }});
+     for(auto& t:s_)bytes_+=t.nbytes();for(auto& t:tables_)bytes_+=t.nbytes();for(auto& t:{selector_prefix_data_,offset_prefix_,feature_projected_,feature_prefix_})bytes_+=t.nbytes();
+     bytes_+=int64_t(centers_soa_.size()+corners_.size()+view_code_.size()+sel_dynamic_.size()+comp_dynamic_.size()+scores_.size()+residual_.size())*4;
+-    bytes_+=int64_t(activated_scale_.size()+activated_opacity_.size())*4;
++    bytes_+=int64_t(activated_scale_.size()+activated_opacity_.size()+histogram_.size())*4+int64_t(boundary_.size())*sizeof(Key);
+     bytes_+=int64_t(N_)*(sizeof(int64_t)*2+sizeof(Key))+int64_t(A_)*(sizeof(int)*2+sizeof(uint32_t)+2);
+   }
+   std::tuple<T,T,std::vector<double>,std::vector<double>> prepare(T vm,T pm,T camera,int width,int height,float near,
+@@ -404,13 +430,13 @@
+     else if(K_){
+       bool selector_real=schema_==2||schema_==3,comp_real=schema_==2||schema_==4;
+       if(!fused_schedule_)pool_.run(A_,128,[&](int begin,int end,int){for(int a=begin;a<end;++a)if(visible_[a])anchor_context(a,vm.data_ptr<float>(),pm.data_ptr<float>(),camera.data_ptr<float>(),float(width)/height,near,local,compensation);});checkpoint();
+-      keys_.resize(M_);selector(float(std::log(ratio)),local,selector_real);TORCH_CHECK(!bad_.load(),"Nonfinite view/Selector output");checkpoint();
++      histogram_active_=selection_mode_&&kind<2&&M_>=2048;keys_.resize(M_);selector(float(std::log(ratio)),local,selector_real);TORCH_CHECK(!bad_.load(),"Nonfinite view/Selector output");checkpoint();
+       if(!fused_schedule_)pool_.run(M_,1024,[&](int begin,int end,int){for(int i=begin;i<end;++i)keys_[i]={eligible()[rows_[i]]?scores_[i]:-INFINITY,uint32_t(rows_[i])};});
+       if(kind==2){int rank=int((1-ratio)*(M_-1));float threshold=-INFINITY;
+         if(rank>=0){std::nth_element(keys_.begin(),keys_.begin()+rank,keys_.end(),[](const Key& a,const Key& b){return a.score<b.score;});threshold=keys_[rank].score;}
+         if(ordered_mode_)ordered_compact(Key{},true,threshold,-1);
+         else{for(auto& k:keys_)if(eligible()[k.id]&&k.score>=threshold)selected_.push_back(k.id);K_=selected_.size();}
+-      }else{
++      }else if(!(histogram_active_&&histogram_select())){
+         if(K_<int(keys_.size()))std::nth_element(keys_.begin(),keys_.begin()+K_,keys_.end(),Better{});
+         bool compact=ordered_mode_&&(ordered_mode_!=3||double(K_)*std::log2(std::max(2,K_))>M_+4096);
+         if(compact)ordered_compact(K_<M_?keys_[K_]:Key{-INFINITY,uint32_t(-1)},false,0,K_);
+@@ -441,11 +467,11 @@
+ #include "native_handoff.h"
+ 
+ PYBIND11_MODULE(TORCH_EXTENSION_NAME,m){
+-  pybind11::class_<CpuPipelineSmall,std::shared_ptr<CpuPipelineSmall>>(m,"CpuPipeline")
+-    .def(pybind11::init<std::vector<T>,std::vector<T>,std::vector<T>,std::vector<T>,T,std::vector<double>,std::vector<double>,int,float,bool,int,bool,bool,bool,bool,int,bool,int>(),
+-      pybind11::arg("state"),pybind11::arg("selector"),pybind11::arg("compensator"),pybind11::arg("tables"),pybind11::arg("view_weight"),pybind11::arg("knots"),pybind11::arg("bounds"),pybind11::arg("schema"),pybind11::arg("scene_scale"),pybind11::arg("softplus"),pybind11::arg("threads"),pybind11::arg("selector_prefix")=true,pybind11::arg("factored")=true,pybind11::arg("diagnose")=false,pybind11::arg("fused_schedule")=false,pybind11::arg("kernel_mode")=0,pybind11::arg("small_kernel")=false,pybind11::arg("ordered_mode")=0)
+-    .def("prepare",&CpuPipelineSmall::prepare,pybind11::call_guard<pybind11::gil_scoped_release>(),pybind11::arg("view"),pybind11::arg("projection"),pybind11::arg("camera"),pybind11::arg("width"),pybind11::arg("height"),pybind11::arg("near"),pybind11::arg("kind"),pybind11::arg("ratio"),pybind11::arg("budget"),pybind11::arg("local")=true,pybind11::arg("compensation")=true,pybind11::arg("timing")=false,pybind11::arg("output")=pybind11::none(),pybind11::arg("id_output")=pybind11::none())
++  pybind11::class_<CpuPipelineMid,std::shared_ptr<CpuPipelineMid>>(m,"CpuPipeline")
++    .def(pybind11::init<std::vector<T>,std::vector<T>,std::vector<T>,std::vector<T>,T,std::vector<double>,std::vector<double>,int,float,bool,int,bool,bool,bool,bool,int,bool,int,int,int>(),
++      pybind11::arg("state"),pybind11::arg("selector"),pybind11::arg("compensator"),pybind11::arg("tables"),pybind11::arg("view_weight"),pybind11::arg("knots"),pybind11::arg("bounds"),pybind11::arg("schema"),pybind11::arg("scene_scale"),pybind11::arg("softplus"),pybind11::arg("threads"),pybind11::arg("selector_prefix")=true,pybind11::arg("factored")=true,pybind11::arg("diagnose")=false,pybind11::arg("fused_schedule")=false,pybind11::arg("kernel_mode")=0,pybind11::arg("small_kernel")=false,pybind11::arg("ordered_mode")=0,pybind11::arg("selection_mode")=0,pybind11::arg("comp_batch")=4)
++    .def("prepare",&CpuPipelineMid::prepare,pybind11::call_guard<pybind11::gil_scoped_release>(),pybind11::arg("view"),pybind11::arg("projection"),pybind11::arg("camera"),pybind11::arg("width"),pybind11::arg("height"),pybind11::arg("near"),pybind11::arg("kind"),pybind11::arg("ratio"),pybind11::arg("budget"),pybind11::arg("local")=true,pybind11::arg("compensation")=true,pybind11::arg("timing")=false,pybind11::arg("output")=pybind11::none(),pybind11::arg("id_output")=pybind11::none())
+     .def("prepare_packet",&prepare_cpu,pybind11::arg("camera"),pybind11::arg("kind"),pybind11::arg("ratio"),pybind11::arg("budget"),pybind11::arg("local"),pybind11::arg("compensation"),pybind11::arg("timing"),pybind11::arg("output"),pybind11::arg("id_output"),pybind11::arg("sh_degree"))
+-    .def("packet_views",&CpuPipelineSmall::packet_views).def("diagnostics",&CpuPipelineSmall::diagnostics).def("workspace_bytes",&CpuPipelineSmall::bytes);
++    .def("packet_views",&CpuPipelineMid::packet_views).def("diagnostics",&CpuPipelineMid::diagnostics).def("workspace_bytes",&CpuPipelineMid::bytes);
+   bind_handoff(m);
+ }
+--- previous/source/native_handoff.h
++++ current/source/native_handoff.h
+@@ -14,7 +14,7 @@
+   for(int i=0;i<7;++i)inputs[names[i]]=v[i];inputs["colors_precomp"]=py::none();inputs["cov3D_precomp"]=py::none();
+   py::dict packet;packet["sh_degree"]=degree;packet["inputs"]=inputs;return packet;
+ }
+-static py::tuple prepare_cpu(std::shared_ptr<CpuPipelineSmall> pipeline,py::object camera,int kind,double ratio,int budget,bool local,bool compensation,bool timing,std::optional<T> output,std::optional<T> ids,int degree){
++static py::tuple prepare_cpu(std::shared_ptr<CpuPipelineMid> pipeline,py::object camera,int kind,double ratio,int budget,bool local,bool compensation,bool timing,std::optional<T> output,std::optional<T> ids,int degree){
+   T vm=camera.attr("world_view_transform").cast<T>().contiguous(),pm=camera.attr("full_proj_transform").cast<T>().contiguous(),center=camera.attr("camera_center").cast<T>().contiguous();
+   int width=camera.attr("image_width").cast<int>(),height=camera.attr("image_height").cast<int>();float near=camera.attr("znear").cast<float>();
+   std::tuple<T,T,std::vector<double>,std::vector<double>> result;
+@@ -22,17 +22,17 @@
+   auto selected=std::get<1>(result);auto stats=stats_dict(std::get<2>(result));if(timing)stats["stage_ms"]=std::get<3>(result);
+   return py::make_tuple(packet_dict(pipeline->packet_views(std::get<0>(result),selected.numel()),degree),selected,stats);
+ }
+-class NativeHandoffSmall;
+-struct NativeTicketSmall {
+-  std::shared_ptr<NativeHandoffSmall> owner;int slot;uint64_t generation;py::dict packet,stats;py::object camera;T ids;bool released=false;
++class NativeHandoffMid;
++struct NativeTicketMid {
++  std::shared_ptr<NativeHandoffMid> owner;int slot;uint64_t generation;py::dict packet,stats;py::object camera;T ids;bool released=false;
+   py::dict wait();void finish();
+ };
+-class NativeHandoffSmall:public std::enable_shared_from_this<NativeHandoffSmall>{
++class NativeHandoffMid:public std::enable_shared_from_this<NativeHandoffMid>{
+   struct Slot {T host,gpu,ids;cudaEvent_t ready=nullptr,done=nullptr;uint64_t generation=0;bool busy=false,has_done=false;};
+-  std::shared_ptr<CpuPipelineSmall> pipeline_;std::vector<Slot> slots_;cudaStream_t copy_=nullptr;
++  std::shared_ptr<CpuPipelineMid> pipeline_;std::vector<Slot> slots_;cudaStream_t copy_=nullptr;
+   int device_,degree_,cursor_=0;int64_t capacity_;std::atomic<bool> submitting_{false};py::object namespace_type_;
+ public:
+-  NativeHandoffSmall(std::shared_ptr<CpuPipelineSmall> pipeline,int degree,int slots=3,int device=0)
++  NativeHandoffMid(std::shared_ptr<CpuPipelineMid> pipeline,int degree,int slots=3,int device=0)
+       :pipeline_(pipeline),device_(device),degree_(degree),capacity_(pipeline->total()*pipeline->width()),namespace_type_(py::module_::import("types").attr("SimpleNamespace")){
+     TORCH_CHECK(slots==2||slots==3,"Use two or three bounded handoff slots");
+     c10::cuda::CUDAGuard guard(device_);cuda_ok(cudaStreamCreateWithFlags(&copy_,cudaStreamNonBlocking));slots_.resize(slots);
+@@ -43,14 +43,14 @@
+       cuda_ok(cudaEventCreateWithFlags(&s.ready,cudaEventDisableTiming));cuda_ok(cudaEventCreateWithFlags(&s.done,cudaEventDisableTiming));
+     }}catch(...){release_cuda();throw;}
+   }
+-  ~NativeHandoffSmall(){release_cuda();}
++  ~NativeHandoffMid(){release_cuda();}
+   void release_cuda()noexcept{
+     int old=0;cudaGetDevice(&old);cudaSetDevice(device_);
+     if(copy_)cudaStreamSynchronize(copy_);
+     for(auto& s:slots_){if(s.has_done&&s.done)cudaEventSynchronize(s.done);if(s.ready)cudaEventDestroy(s.ready);if(s.done)cudaEventDestroy(s.done);s.ready=nullptr;s.done=nullptr;}
+     if(copy_)cudaStreamDestroy(copy_);copy_=nullptr;cudaSetDevice(old);
+   }
+-  std::shared_ptr<NativeTicketSmall> prepare(py::object camera,std::optional<int64_t> budget,std::optional<double> ratio_budget,std::optional<double> global_ratio,bool local=true,bool compensation=true){
++  std::shared_ptr<NativeTicketMid> prepare(py::object camera,std::optional<int64_t> budget,std::optional<double> ratio_budget,std::optional<double> global_ratio,bool local=true,bool compensation=true){
+     TORCH_CHECK(int(budget.has_value())+int(ratio_budget.has_value())+int(global_ratio.has_value())==1,"Use one CPU budget request");
+     TORCH_CHECK(!submitting_.exchange(true),"Native handoff requires one submitting thread");
+     struct Reset{std::atomic<bool>& value;~Reset(){value=false;}}reset{submitting_};
+@@ -74,7 +74,7 @@
+       cuda_ok(cudaMemcpyAsync(s.gpu.data_ptr<float>(),s.host.data_ptr<float>(),(n+51)*sizeof(float),cudaMemcpyHostToDevice,copy_));cuda_ok(cudaEventRecord(s.ready,copy_));
+       ++s.generation;s.busy=true;cursor_=(cursor_+1)%slots_.size();
+     }
+-    auto ticket=std::make_shared<NativeTicketSmall>();ticket->owner=shared_from_this();ticket->slot=index;ticket->generation=s.generation;
++    auto ticket=std::make_shared<NativeTicketMid>();ticket->owner=shared_from_this();ticket->slot=index;ticket->generation=s.generation;
+     ticket->ids=std::get<1>(result);ticket->stats=stats_dict(std::get<2>(result));
+     ticket->packet=packet_dict(pipeline_->packet_views(s.gpu.narrow(0,0,n),ticket->ids.numel()),degree_);
+     ticket->camera=namespace_type_();
+@@ -95,15 +95,15 @@
+   void synchronize(){py::gil_scoped_release release;c10::cuda::CUDAGuard guard(device_);cuda_ok(cudaStreamSynchronize(copy_));for(auto& s:slots_)if(s.has_done)cuda_ok(cudaEventSynchronize(s.done));}
+   py::dict bytes()const{py::dict d;d["host"]=slots_.size()*((capacity_+51)*4+pipeline_->total()*8);d["device"]=slots_.size()*(capacity_+51)*4;d["slots"]=slots_.size();return d;}
+ };
+-py::dict NativeTicketSmall::wait(){TORCH_CHECK(!released,"CPU preparation ticket already released");owner->wait(slot,generation);return packet;}
+-void NativeTicketSmall::finish(){TORCH_CHECK(!released,"CPU preparation ticket released twice");owner->finish(slot,generation);released=true;}
++py::dict NativeTicketMid::wait(){TORCH_CHECK(!released,"CPU preparation ticket already released");owner->wait(slot,generation);return packet;}
++void NativeTicketMid::finish(){TORCH_CHECK(!released,"CPU preparation ticket released twice");owner->finish(slot,generation);released=true;}
+ static void bind_handoff(py::module_& m){
+-  py::class_<NativeTicketSmall,std::shared_ptr<NativeTicketSmall>>(m,"PreparedTicket")
+-    .def("wait",&NativeTicketSmall::wait).def("finish",&NativeTicketSmall::finish)
+-    .def_readonly("packet",&NativeTicketSmall::packet).def_readonly("camera",&NativeTicketSmall::camera).def_readonly("ids",&NativeTicketSmall::ids)
+-    .def_readonly("stats",&NativeTicketSmall::stats).def_readonly("released",&NativeTicketSmall::released);
+-  py::class_<NativeHandoffSmall,std::shared_ptr<NativeHandoffSmall>>(m,"NativeHandoff")
+-    .def(py::init<std::shared_ptr<CpuPipelineSmall>,int,int,int>(),py::arg("pipeline"),py::arg("sh_degree"),py::arg("slots")=3,py::arg("device")=0)
+-    .def("prepare",&NativeHandoffSmall::prepare,py::arg("camera"),py::arg("budget")=py::none(),py::arg("ratio_budget")=py::none(),py::arg("global_ratio")=py::none(),py::arg("view_conditioned")=true,py::arg("compensation")=true)
+-    .def("synchronize",&NativeHandoffSmall::synchronize).def("bytes",&NativeHandoffSmall::bytes);
++  py::class_<NativeTicketMid,std::shared_ptr<NativeTicketMid>>(m,"PreparedTicket")
++    .def("wait",&NativeTicketMid::wait).def("finish",&NativeTicketMid::finish)
++    .def_readonly("packet",&NativeTicketMid::packet).def_readonly("camera",&NativeTicketMid::camera).def_readonly("ids",&NativeTicketMid::ids)
++    .def_readonly("stats",&NativeTicketMid::stats).def_readonly("released",&NativeTicketMid::released);
++  py::class_<NativeHandoffMid,std::shared_ptr<NativeHandoffMid>>(m,"NativeHandoff")
++    .def(py::init<std::shared_ptr<CpuPipelineMid>,int,int,int>(),py::arg("pipeline"),py::arg("sh_degree"),py::arg("slots")=3,py::arg("device")=0)
++    .def("prepare",&NativeHandoffMid::prepare,py::arg("camera"),py::arg("budget")=py::none(),py::arg("ratio_budget")=py::none(),py::arg("global_ratio")=py::none(),py::arg("view_conditioned")=true,py::arg("compensation")=true)
++    .def("synchronize",&NativeHandoffMid::synchronize).def("bytes",&NativeHandoffMid::bytes);
+ }
+--- previous/small_runtime.py
++++ current/mid_runtime.py
+@@ -11,7 +11,7 @@
+     os.environ['PATH']='/home/prmi/anaconda3/envs/zwj/bin:'+os.environ.get('PATH','')
+     os.environ.setdefault('MAX_JOBS','1')
+     (HERE/'build').mkdir(exist_ok=True)
+-    return load(name='mycartgs_cpu_small',sources=[str(HERE/'source/cpu_small.cpp')],
++    return load(name='mycartgs_cpu_mid',sources=[str(HERE/'source/cpu_mid.cpp')],
+         extra_cflags=['-O3','-mavx2','-mfma','-fno-math-errno','-pthread','-I/usr/local/cuda/include'],
+         extra_ldflags=['-pthread','-L/usr/local/cuda/lib64','-lcudart','-lc10_cuda','-ltorch_cuda'],
+         build_directory=str(HERE/'build'),verbose=True)
+@@ -45,7 +45,7 @@
+ 
+     @torch.no_grad()
+     def __init__(self,model,pc,noise,threads=6,student=None,selector_prefix=True,factored=True,diagnose=False,
+-                 fused_schedule=True,kernel_mode=1,native_wrapper=True,small_kernel=True,ordered_mode=3):
++                 fused_schedule=True,kernel_mode=1,native_wrapper=True,small_kernel=True,ordered_mode=3,selection_mode=1,comp_batch=6):
+         from selector import slot_eligibility
+         if pc.get_xyz.device.type!='cpu' or next(model.parameters()).device.type!='cpu':raise ValueError('Load map/network directly on CPU')
+         a=model.anchors;s=model.spatial_compensation;schema=int(getattr(model,'joint_view_conditioning_schema',0))
+@@ -67,7 +67,7 @@
+         vw=comp.view_projection.weight if schema else pc.get_xyz.new_empty(0)
+         self.native=extension().CpuPipeline(state,selector,params,tables,vw,list(a.compensation_values),list(s.ratio_encoding_values),
+             schema,float(model.selector_view_scene_scale) if schema else 1.,hasattr(s,'softplus_scale_schema'),threads,
+-            selector_prefix,factored,diagnose,fused_schedule,kernel_mode,small_kernel,ordered_mode)
++            selector_prefix,factored,diagnose,fused_schedule,kernel_mode,small_kernel,ordered_mode,selection_mode,comp_batch)
+         self.native_wrapper=native_wrapper
+         self.rest=pc.get_features_rest.shape[1:];self.sh_degree=pc.active_sh_degree;self.total=len(pc.get_xyz)
+         self.width=17+pc.get_features_rest[0].numel()

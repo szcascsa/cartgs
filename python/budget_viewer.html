@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>realLOD · 渲染工作台</title>
+  <link rel="stylesheet" href="/budget_viewer.css">
+  <script src="/budget_viewer.js" defer></script>
+</head>
+<body>
+<header class="app-header">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">rL</span><div><h1>realLOD <span>渲染工作台</span></h1><div id="totalLabel" class="muted">正在加载地图…</div></div></div>
+  <div class="header-actions"><span id="backendBadge" class="badge">推理加载中</span><span id="status" role="status" aria-live="polite">正在连接…</span><button id="refresh" title="重新请求当前设置">刷新</button><button id="saveImage" disabled>保存画面</button><button id="saveMetrics" disabled>导出指标</button></div>
+</header>
+<div id="error" class="error" role="alert" hidden><span id="errorText"></span><button id="dismissError" aria-label="关闭错误提示">×</button></div>
+<main class="workspace">
+  <aside class="controls panel" aria-label="渲染设置">
+    <section class="control-section">
+      <h2>渲染模式</h2>
+      <div class="mode-grid" role="group" aria-label="渲染模式">
+        <button data-mode="budget" aria-pressed="true">可见预算</button><button data-mode="global_ratio" aria-pressed="false">全图训练 ratio</button>
+        <button data-mode="full" aria-pressed="false">Full Master</button><button data-mode="ranked_lod" aria-pressed="false">Anchor 分档</button>
+      </div>
+      <p id="modeHelp" class="hint">仅从当前视锥内的 Anchor 成员中选择。</p>
+      <div id="budgetControls">
+        <div class="segmented" role="group" aria-label="预算单位"><button data-unit="points" aria-pressed="true">点数预算</button><button data-unit="ratio" aria-pressed="false">比例预算</button></div>
+        <div id="pointControls"><label for="budget">目标 Gaussian 数</label><input id="budget" type="number" min="0" step="100" value="5000" class="primary-input"><input id="budgetRange" type="range" min="0" max="100000" step="1" value="5000" aria-label="点数预算滑块"><div class="presets"><button data-budget="1000">1k</button><button data-budget="5000">5k</button><button data-budget="10000">10k</button><button id="allBudget">全部</button></div></div>
+        <div id="ratioControls" hidden><label for="ratioBudget">可见候选中的保留比例</label><div class="input-unit"><input id="ratioBudget" type="number" min="0" max="1" step="0.01" value="0.4"><span>ratio</span></div><input id="ratioRange" type="range" min="0" max="1" step="0.001" value="0.4" aria-label="比例预算滑块"><p class="hint">K = floor(ratio × 可见候选 N)</p></div>
+      </div>
+      <div id="globalControls" hidden><label for="trainingRatio">训练 ratio</label><select id="trainingRatio"></select><p class="hint">先按训练方式在全图选择，再隐藏关闭的 Anchor 层级。</p></div>
+      <p id="fullHelp" class="hint" hidden>显示启用层级的原始 Master，跳过 Selector 与 Compensation。</p>
+    </section>
+    <section id="rankedControls" class="control-section" hidden>
+      <h2>空间分档</h2>
+      <label class="check"><input id="lodMixed" type="checkbox">使用 mixed ratio</label>
+      <div id="lodFixedControls">
+        <label for="lodSorting">Anchor 排序方式</label><select id="lodSorting"><option value="projection">投影尺寸 · 从大到小</option><option value="depth">相机深度 · 从近到远</option></select>
+        <div class="field-grid three"><label>高档 ratio<input id="lodHighRatio" type="number" min="0.001" max="1" step="0.01" value="0.5"></label><label>中档 ratio<input id="lodMiddleRatio" type="number" min="0.001" max="1" step="0.01" value="0.3"></label><label>低档 ratio<input id="lodLowRatio" type="number" min="0.001" max="1" step="0.01" value="0.1"></label></div>
+        <div class="field-grid"><label>高档成员占比<input id="lodHighShare" type="number" min="0" max="1" step="0.01" value="0.2"></label><label>中档成员占比<input id="lodMiddleShare" type="number" min="0" max="1" step="0.01" value="0.3"></label></div><p id="lodLowShare" class="hint">低档 50%；按 Gaussian 数量累计，整 Anchor 不拆分。</p>
+        <label class="check"><input id="lodHysteresis" type="checkbox">排序滞回 · 2 个百分点</label>
+      </div>
+      <div id="lodMixedControls" hidden><label for="lodEquivalentRatio">目标等效 ratio</label><input id="lodEquivalentRatio" type="number" min="0.01" max="1" step="0.01" value="0.3"><div class="field-grid"><label>随机种子<input id="lodMixedSeed" type="number" min="0" step="1" value="0"></label><div class="align-bottom"><button id="lodResample">重新采样</button></div></div><p class="hint">sample <span id="mixedSample">0</span> · 固定 seed / sample 保持相同视角结果稳定。</p></div>
+      <label class="check"><input id="lodColorize" type="checkbox">分档着色 <span class="cost">额外渲染</span></label><button id="lodResetHistory" class="quiet">重置分档历史</button>
+    </section>
+    <section class="control-section" id="ablationControls">
+      <h2>选择与补偿</h2><div class="ablation-grid" role="group" aria-label="消融组合">
+        <button data-ablation="0" aria-pressed="true"><b>A</b><span>学习选择<br>启用补偿</span></button><button data-ablation="1" aria-pressed="false"><b>B</b><span>学习选择<br>关闭补偿</span></button>
+        <button data-ablation="2" aria-pressed="false"><b>C</b><span>随机选择<br>启用补偿</span></button><button data-ablation="3" aria-pressed="false"><b>D</b><span>随机选择<br>关闭补偿</span></button>
+      </div><label class="check" id="viewConditionControls" hidden><input id="viewConditioned" type="checkbox"><span id="viewConditionLabel">视角条件 Selector</span></label>
+    </section>
+    <section class="control-section">
+      <h2>Anchor 层级</h2><p class="hint">地图层级，可任意组合。</p>
+      <div class="level-switch"><label class="check"><input id="anchorLevel0" type="checkbox" checked><span class="level-dot level0"></span>Anchor 0</label><span id="anchorLevel0Count" class="muted">—</span></div>
+      <div class="level-switch"><label class="check"><input id="anchorLevel1" type="checkbox" checked><span class="level-dot level1"></span>Anchor 1</label><span id="anchorLevel1Count" class="muted">—</span></div>
+      <div class="level-switch"><label class="check"><input id="anchorLevel2" type="checkbox" checked><span class="level-dot level2"></span>Anchor 2</label><span id="anchorLevel2Count" class="muted">—</span></div>
+    </section>
+    <details class="control-section"><summary>相机操作与灵敏度</summary>
+      <p class="hint">在画面内操作；输入框中的按键不会移动相机。</p>
+      <div class="field-grid"><label>移动速度<input id="moveSpeed" type="number" min="0.001" max="10" step="0.05" value="0.3"></label><label>旋转速度<input id="rotationSpeed" type="number" min="0.01" max="5" step="0.05" value="0.7"></label></div>
+      <div class="field-grid three"><label>左键旋转<input id="mouseRotate" type="number" min="0.01" max="5" step="0.05" value="0.8"></label><label>右键滚转<input id="mouseRoll" type="number" min="0.01" max="5" step="0.05" value="0.8"></label><label>中键平移<input id="mousePan" type="number" min="0.01" max="5" step="0.05" value="0.5"></label></div>
+      <dl class="shortcuts"><dt>左键 / 右键 / 中键拖动</dt><dd>旋转 / 滚转 / 平移</dd><dt>滚轮</dt><dd>沿相机前后移动</dd><dt>W A S D · Q E</dt><dd>前后左右 · 上下</dd><dt>I K · J L · U O</dt><dd>俯仰 · 偏航 · 滚转</dd><dt>Shift / R / F</dt><dd>加速 / 复位 / 全屏</dd></dl>
+    </details>
+    <details class="control-section"><summary>显示与诊断</summary>
+      <label for="imageFormat">传输图像</label><select id="imageFormat"><option value="jpeg">JPEG 95 · 默认，传输较快</option><option value="png">PNG · 无损 8-bit 显示</option></select><p class="hint">始终按原分辨率渲染。PSNR 在编码前计算。</p>
+      <label class="check"><input id="profileBrowser" type="checkbox">显示浏览器逐帧计时</label>
+      <p id="backendNote" class="hint"></p><p id="gpuName" class="hint"></p><div id="modelPath" class="model-path"></div>
+    </details>
+  </aside>
+  <section class="stage" id="stage" aria-label="渲染画面">
+    <div class="stage-toolbar"><div class="view-heading"><span id="viewKind" class="badge">数据集相机</span><span id="viewTitle">等待第一帧</span></div><div class="row"><button id="compare" aria-pressed="false" title="显示匹配RGB或Full参考图">参考对照</button><select id="displayScale" aria-label="画面显示缩放"><option value="fit">适应窗口</option><option value="native">1:1 像素</option></select><button id="fullscreen" title="全屏 (F)">全屏</button></div></div>
+    <div class="render-grid" id="renderGrid">
+      <div id="view" tabindex="0" role="region" aria-label="交互渲染画面，鼠标拖动或使用WASD移动"><div class="empty-state" id="renderEmpty"><span class="empty-icon">◇</span><span>等待模型渲染</span><small>画面加载后，点击此处进入自由观察</small></div><img id="renderImage" alt="当前渲染画面" draggable="false" hidden><div class="image-overlay"><span id="imageNote">原分辨率 · 服务器渲染</span><span id="displayPending" hidden>下一帧准备中</span></div></div>
+      <div id="referencePane" class="reference-pane" hidden><span id="referenceLabel" class="reference-label">参考图</span><img id="referenceImage" alt="对应视角参考图" hidden><div id="referenceEmpty" class="empty-state"><span>当前没有参考图</span><small>自由相机可启用下方 Full 对照</small></div></div>
+    </div>
+    <div class="stage-bottom"><label class="check"><input id="fullReference" type="checkbox">计算 Full 对照 PSNR <span class="cost">额外渲染</span></label><span id="referenceNote" class="muted">RGB真值只与数据集相机配对</span></div>
+    <div class="headline-metrics" aria-label="关键渲染指标">
+      <div><span>实际提交 K</span><strong id="actualK">—</strong><small id="budgetDetail">等待渲染</small></div><div><span>PSNR · RGB</span><strong id="psnr">—</strong><small id="psnrDetail">匹配当前数据集帧</small></div><div><span>PSNR · Full</span><strong id="fullPsnr">—</strong><small>同视角、同启用层级</small></div><div><span>准备 + 光栅化</span><strong id="latency">—</strong><small>不含统计、参考、编码与传输</small></div>
+    </div>
+    <div class="warnings"><p id="ratioWarning" hidden>当前 ratio 超出训练区间，效果未经验证。</p><p id="budgetWarning" hidden></p></div>
+    <section class="timeline-panel panel" aria-label="相机轨迹">
+      <div class="timeline-top"><div class="row"><button id="previous" title="上一帧">上一帧</button><button id="play" aria-pressed="false">播放</button><button id="next" title="下一帧">下一帧</button><button id="reset" title="复位到所选数据集相机 (R)">相机复位</button></div><label class="inline-label">播放上限<select id="playRate"><option value="2">2 帧/秒</option><option value="5">5 帧/秒</option><option value="10" selected>10 帧/秒</option></select></label><span id="frameCounter" class="mono">— / —</span></div>
+      <input id="timeline" type="range" min="0" max="0" value="0" aria-label="数据集轨迹帧"><div class="timeline-select"><select id="frameSelect" aria-label="选择数据集相机"></select><label class="inline-label">跳转<input id="frameNumber" type="number" min="1" value="1" aria-label="跳转到帧号"></label></div>
+    </section>
+    <div class="stage-footer"><span id="activityText">操作后自动渲染；空闲时停止请求</span><span id="browserTiming" class="mono" hidden></span></div>
+  </section>
+  <aside class="inspector panel" aria-label="渲染统计">
+    <div class="inspector-tabs" role="group" aria-label="统计面板"><button data-tab="overview" aria-pressed="true">概览</button><button data-tab="performance" aria-pressed="false">性能</button><button data-tab="groups" aria-pressed="false">分组</button></div>
+    <section id="overviewPanel" class="inspector-content">
+      <h2>点数与选择</h2><dl class="stats"><dt>选择范围</dt><dd id="selectionScope">—</dd><dt>消融组合</dt><dd id="ablationValue">—</dd><dt>网络条件 ratio</dt><dd id="ratioValue">—</dd><dt>实际保留比例</dt><dd id="retentionValue">—</dd></dl>
+      <div class="point-progress" aria-hidden="true"><span id="pointBar"></span></div>
+      <dl class="stats"><dt>候选成员 N</dt><dd id="candidateN">—</dd><dt>可选成员</dt><dd id="eligibleN">—</dd><dt>请求 / 有效预算</dt><dd id="budgetValues">—</dd><dt>预算缺口</dt><dd id="shortfall">—</dd><dt>投影有效点</dt><dd id="projectedN">—</dd></dl>
+      <hr><h2>Anchor 范围</h2><dl class="stats"><dt>启用 Anchor / 成员</dt><dd id="enabledAnchors">—</dd><dt>其中视锥可见</dt><dd id="enabledViewAnchors">—</dd><dt>提交 / 投影 Anchor</dt><dd id="submittedAnchors">—</dd></dl><p class="hint">投影有效指 radii &gt; 0，不等于非零 Alpha 贡献。</p>
+      <hr><h2>相机位姿</h2><div id="cameraPosition" class="mono pose">—</div><p id="cameraMatch" class="hint">—</p>
+    </section>
+    <section id="performancePanel" class="inspector-content" hidden>
+      <h2>真实请求耗时 <span class="unit">ms</span></h2><div id="timingBars" class="timing-bars"></div><dl class="stats"><dt>Selector</dt><dd id="selectorMs">—</dd><dt>Compensator</dt><dd id="compensationMs">—</dd><dt>分组 / 预算校准</dt><dd id="groupingMs">—</dd><dt>准备总计</dt><dd id="prepareMs">—</dd><dt>光栅化</dt><dd id="rasterMs">—</dd><dt>Anchor 统计</dt><dd id="summaryMs">—</dd><dt>质量计算与 Full 参考</dt><dd id="qualityMs">—</dd><dt>其中 Full 光栅化</dt><dd id="referenceMs">—</dd><dt>分档着色渲染</dt><dd id="colorMs">—</dd><dt>主图 / 参考编码</dt><dd id="encodeMs">—</dd></dl>
+      <p class="hint">Selector、Compensator、分组包含在准备总计中；Full 光栅化包含在质量与参考中，不能重复相加。</p>
+      <hr><dl class="stats"><dt>服务端处理</dt><dd id="serverMs">—</dd><dt>HTTP 往返</dt><dd id="roundtripMs">—</dd><dt>浏览器解码</dt><dd id="decodeMs">—</dd><dt>请求到画面更新</dt><dd id="displayMs">—</dd><dt>本次响应大小</dt><dd id="responseBytes">—</dd></dl>
+      <hr><h2>推理与缓存</h2><dl class="stats"><dt>实际后端</dt><dd id="backendValue">—</dd><dt>全图结果缓存</dt><dd id="cacheValue">—</dd><dt>参考图传输</dt><dd id="referenceCacheValue">—</dd><dt>Graph 数 / 占用</dt><dd id="graphValue">—</dd><dt>显存已用 / 保留</dt><dd id="memoryValue">—</dd></dl><p class="hint">HTTP和浏览器开销独立统计；不能将准备 + 光栅化倒数当作网页FPS。</p>
+    </section>
+    <section id="groupsPanel" class="inspector-content" hidden>
+      <h2>地图 Anchor 层级</h2><div class="table-scroll"><table><thead><tr><th>层级</th><th>Anchor</th><th>成员</th><th>可见成员</th><th>提交</th></tr></thead><tbody id="anchorRows"></tbody></table></div>
+      <hr><h2>空间 ratio 分组</h2><p id="groupSummary" class="hint">Anchor 分档模式下显示。</p><div class="table-scroll"><table><thead><tr><th>ratio</th><th>占比</th><th>Anchor</th><th>N</th><th>K</th></tr></thead><tbody id="lodRows"></tbody></table></div><p class="hint">地图层级 0 / 1 / 2 与动态 ratio 分档是两种不同的分组。</p>
+    </section>
+  </aside>
+</main>
+</body>
+</html>

@@ -1,0 +1,142 @@
+{
+  "legacy_repeat/probability": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "legacy_repeat/hard": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "legacy_repeat/compact_ids": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "legacy_repeat/gradient/gaussian": {
+    "checks": 72,
+    "failures": 32,
+    "max_abs": 0.000140188,
+    "max_rms": 2.82397e-07,
+    "max_p99": 1.13687e-13
+  },
+  "legacy_repeat/gradient/selector": {
+    "checks": 216,
+    "failures": 0,
+    "max_abs": 7.45058e-09,
+    "max_rms": 1.51843e-09,
+    "max_p99": 6.29574e-09
+  },
+  "legacy_repeat/gradient/tf": {
+    "checks": 312,
+    "failures": 18,
+    "max_abs": 8.24854e-05,
+    "max_rms": 5.92816e-05,
+    "max_p99": 8.24036e-05
+  },
+  "legacy_repeat/before_selector_forward": {
+    "checks": 24,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "legacy_repeat/before_selector_gradient": {
+    "checks": 72,
+    "failures": 34,
+    "max_abs": 8.9106e-05,
+    "max_rms": 1.76754e-07,
+    "max_p99": 2.84217e-14
+  },
+  "legacy_repeat/lod_image": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "legacy_repeat/lod_total_loss": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "cuda/probability": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "cuda/hard": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "cuda/compact_ids": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "cuda/gradient/gaussian": {
+    "checks": 72,
+    "failures": 35,
+    "max_abs": 8.56072e-05,
+    "max_rms": 1.67821e-07,
+    "max_p99": 6.72795e-14
+  },
+  "cuda/gradient/selector": {
+    "checks": 216,
+    "failures": 0,
+    "max_abs": 3.72529e-09,
+    "max_rms": 9.80987e-10,
+    "max_p99": 3.72529e-09
+  },
+  "cuda/gradient/tf": {
+    "checks": 312,
+    "failures": 14,
+    "max_abs": 8.31895e-05,
+    "max_rms": 5.99623e-05,
+    "max_p99": 8.3126e-05
+  },
+  "cuda/before_selector_forward": {
+    "checks": 24,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "cuda/before_selector_gradient": {
+    "checks": 72,
+    "failures": 35,
+    "max_abs": 8.9106e-05,
+    "max_rms": 1.75416e-07,
+    "max_p99": 2.13163e-14
+  },
+  "cuda/lod_image": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  },
+  "cuda/lod_total_loss": {
+    "checks": 12,
+    "failures": 0,
+    "max_abs": 0,
+    "max_rms": 0,
+    "max_p99": 0
+  }
+}

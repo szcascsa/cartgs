@@ -1,0 +1,1178 @@
+{
+  "baseline": {
+    "kernel_calls": 49119,
+    "gpu_kernel_ms": 218.48793,
+    "tiny_lt_10us": 48414,
+    "scopes": {
+      "geometry_transport": {
+        "kernel_calls": 30024,
+        "gpu_kernel_ms": 95.624531,
+        "tiny_lt_10us": 29975,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            1,
+            16,
+            949856,
+            0.28733
+          ],
+          [
+            2,
+            20,
+            1212000,
+            0.386175
+          ],
+          [
+            8,
+            3744,
+            352180640,
+            9.580802
+          ]
+        ],
+        "runtime_api_calls": 34604,
+        "runtime_api_ms": 151.896747,
+        "inter_kernel_gap_ms": 385.117817,
+        "between_launch_api_gap_ms": 356.364121,
+        "kernels": [
+          [
+            "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+            4904,
+            14.547574
+          ],
+          [
+            "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::index_copy_kernel_impl<at::native::OpaqueType<(int)4>>(at::TensorIterator &, long, long, long)::[lambda(int) (instance 1)]>(long, T3)",
+            3744,
+            12.80374
+          ],
+          [
+            "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<float>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+            3788,
+            9.665999
+          ],
+          [
+            "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4>>(T3)",
+            2496,
+            9.286852
+          ],
+          [
+            "void at::native::<unnamed>::indexSelectLargeIndex<float, long, unsigned int, (int)2, (int)2, (int)-2, (bool)1>(at::cuda::detail::TensorInfo<T1, T3>, at::cuda::detail::TensorInfo<const T1, T3>, at::cuda::detail::TensorInfo<const T2, T3>, int, int, T3, T3, long)",
+            2388,
+            8.122823
+          ],
+          [
+            "void at::native::<unnamed>::indexSelectSmallIndex<float, long, unsigned int, (int)2, (int)2, (int)-2>(at::cuda::detail::TensorInfo<T1, T3>, at::cuda::detail::TensorInfo<const T1, T3>, at::cuda::detail::TensorInfo<const T2, T3>, int, int, T3, long)",
+            1356,
+            7.744129
+          ],
+          [
+            "void at::native::<unnamed>::CatArrayBatchedCopy_aligned16_contig<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsigned int, (int)2, (int)128, (int)1>(T1 *, at::native::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::native::<unnamed>::TensorSizeStride<T2, (unsigned int)4>, int, T2)",
+            1248,
+            4.122926
+          ],
+          [
+            "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float>>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+            1248,
+            3.754533
+          ],
+          [
+            "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float>>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+            1204,
+            3.644071
+          ],
+          [
+            "void at::native::cross_kernel<float, OffsetCalculator<(int)3, unsigned int, (bool)0>, int>(int, T1 *, const T1 *, const T1 *, T2, T3, T3, T3)",
+            1248,
+            3.638879
+          ],
+          [
+            "void at::native::vectorized_elementwise_kernel<(int)4, at::native::sqrt_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 2)]::operator ()() const::[lambda() (instance 2)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)",
+            1248,
+            3.292535
+          ],
+          [
+            "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)3>>(int, T2, T3)",
+            1292,
+            3.263668
+          ],
+          [
+            "void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::launch_clamp_scalar(at::TensorIteratorBase &, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], at::detail::Array<char *, (int)2>>(int, T2, T3)",
+            1248,
+            3.219248
+          ],
+          [
+            "void at::native::vectorized_elementwise_kernel<(int)4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)2>>(int, T2, T3)",
+            1248,
+            3.139744
+          ],
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.956043
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.527874
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.380738
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.367106
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.221987
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.183424
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.180639
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.154433
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.138752
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.135646
+          ],
+          [
+            "void at::native::unrolled_elementwise_kernel<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float>>, at::detail::Array<char *, (int)3>, TrivialOffsetCalculator<(int)2, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithoutCast, at::native::memory::StoreWithoutCast>(int, T1, T2, T3, T4, T5, T6)",
+            44,
+            0.11376
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.017408
+          ]
+        ]
+      },
+      "transport_plan_population": {
+        "kernel_calls": 0,
+        "gpu_kernel_ms": null,
+        "tiny_lt_10us": null,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 0,
+        "runtime_api_ms": null,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": []
+      },
+      "transport_compact_gather": {
+        "kernel_calls": 0,
+        "gpu_kernel_ms": null,
+        "tiny_lt_10us": null,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 0,
+        "runtime_api_ms": null,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": []
+      },
+      "transport_xyz_gemm": {
+        "kernel_calls": 0,
+        "gpu_kernel_ms": null,
+        "tiny_lt_10us": null,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 0,
+        "runtime_api_ms": null,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": []
+      },
+      "transport_fused_postprocess_scatter": {
+        "kernel_calls": 0,
+        "gpu_kernel_ms": null,
+        "tiny_lt_10us": null,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 0,
+        "runtime_api_ms": null,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": []
+      }
+    },
+    "all_memcpy": [
+      [
+        1,
+        166,
+        2259920,
+        0.943428
+      ],
+      [
+        2,
+        890,
+        1899776,
+        1.899371
+      ],
+      [
+        8,
+        4784,
+        414532352,
+        12.40999
+      ]
+    ]
+  },
+  "phase2_exact": {
+    "kernel_calls": 22911,
+    "gpu_kernel_ms": 134.259891,
+    "tiny_lt_10us": 22285,
+    "scopes": {
+      "geometry_transport": {
+        "kernel_calls": 3816,
+        "gpu_kernel_ms": 12.766177,
+        "tiny_lt_10us": 3813,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            8,
+            48,
+            4749280,
+            0.120991
+          ]
+        ],
+        "runtime_api_calls": 4628,
+        "runtime_api_ms": 17.547128,
+        "inter_kernel_gap_ms": 43.879339,
+        "between_launch_api_gap_ms": 40.862438,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::postprocess(cd_transport_cuda::<unnamed>::ReadState, float *, float *, float *, const long *, long, const float *, const float *, long, long, const float *, long, float, unsigned int)",
+            1248,
+            4.101463
+          ],
+          [
+            "cd_transport_cuda::<unnamed>::gatherXYZ(const float *, long, long, const long *, long, float, float *)",
+            1248,
+            3.503021
+          ],
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.921335
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.513089
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.366337
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.359559
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.207262
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.180253
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.179039
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.149408
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.134785
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.13341
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.017216
+          ]
+        ]
+      },
+      "transport_plan_population": {
+        "kernel_calls": 0,
+        "gpu_kernel_ms": null,
+        "tiny_lt_10us": null,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            1,
+            1,
+            237464,
+            0.080863
+          ],
+          [
+            2,
+            2,
+            303000,
+            0.091808
+          ]
+        ],
+        "runtime_api_calls": 6,
+        "runtime_api_ms": 0.28752,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": []
+      },
+      "transport_compact_gather": {
+        "kernel_calls": 1248,
+        "gpu_kernel_ms": 3.503021,
+        "tiny_lt_10us": 1247,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 1248,
+        "runtime_api_ms": 5.401294,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::gatherXYZ(const float *, long, long, const long *, long, float, float *)",
+            1248,
+            3.503021
+          ]
+        ]
+      },
+      "transport_xyz_gemm": {
+        "kernel_calls": 1320,
+        "gpu_kernel_ms": 5.161693,
+        "tiny_lt_10us": 1319,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 2084,
+        "runtime_api_ms": 6.94871,
+        "inter_kernel_gap_ms": 0.064959,
+        "between_launch_api_gap_ms": 0.057855,
+        "kernels": [
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.921335
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.513089
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.366337
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.359559
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.207262
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.180253
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.179039
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.149408
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.134785
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.13341
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.017216
+          ]
+        ]
+      },
+      "transport_fused_postprocess_scatter": {
+        "kernel_calls": 1248,
+        "gpu_kernel_ms": 4.101463,
+        "tiny_lt_10us": 1247,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 1248,
+        "runtime_api_ms": 4.916852,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::postprocess(cd_transport_cuda::<unnamed>::ReadState, float *, float *, float *, const long *, long, const float *, const float *, long, long, const float *, long, float, unsigned int)",
+            1248,
+            4.101463
+          ]
+        ]
+      }
+    },
+    "all_memcpy": [
+      [
+        1,
+        151,
+        1547528,
+        0.713731
+      ],
+      [
+        2,
+        872,
+        990776,
+        1.572795
+      ],
+      [
+        8,
+        1088,
+        67100992,
+        2.876633
+      ]
+    ]
+  },
+  "phase3": {
+    "kernel_calls": 20452,
+    "gpu_kernel_ms": 120.862446,
+    "tiny_lt_10us": 19801,
+    "scopes": {
+      "geometry_transport": {
+        "kernel_calls": 1352,
+        "gpu_kernel_ms": 5.018678,
+        "tiny_lt_10us": 1349,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            8,
+            48,
+            4749280,
+            0.112351
+          ]
+        ],
+        "runtime_api_calls": 2164,
+        "runtime_api_ms": 6.192275,
+        "inter_kernel_gap_ms": 18.181911,
+        "between_launch_api_gap_ms": 18.638517,
+        "kernels": [
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.780925
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.489183
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.354401
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.34179
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.191964
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.168606
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.162051
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.148639
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.126785
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.125535
+          ],
+          [
+            "cd_transport_cuda::<unnamed>::scatterCompactKernel(cd_transport_cuda::<unnamed>::ReadState, float *, float *, float *, const long *, const long *, const float *, const float *, long)",
+            16,
+            0.064512
+          ],
+          [
+            "cd_transport_cuda::<unnamed>::compactXYZKernel(const float *, long, long, const long *, const long *, const float *, long, float *)",
+            16,
+            0.047775
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.016512
+          ]
+        ]
+      },
+      "transport_plan_population": {
+        "kernel_calls": 0,
+        "gpu_kernel_ms": null,
+        "tiny_lt_10us": null,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            1,
+            1,
+            474928,
+            0.161503
+          ],
+          [
+            2,
+            2,
+            303000,
+            0.09184
+          ]
+        ],
+        "runtime_api_calls": 6,
+        "runtime_api_ms": 0.376859,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": []
+      },
+      "transport_compact_gather": {
+        "kernel_calls": 16,
+        "gpu_kernel_ms": 0.047775,
+        "tiny_lt_10us": 16,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 16,
+        "runtime_api_ms": 0.078062,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::compactXYZKernel(const float *, long, long, const long *, const long *, const float *, long, float *)",
+            16,
+            0.047775
+          ]
+        ]
+      },
+      "transport_xyz_gemm": {
+        "kernel_calls": 1320,
+        "gpu_kernel_ms": 4.906391,
+        "tiny_lt_10us": 1317,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 2084,
+        "runtime_api_ms": 5.788333,
+        "inter_kernel_gap_ms": 0.053123,
+        "between_launch_api_gap_ms": 0.042047,
+        "kernels": [
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.780925
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.489183
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.354401
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.34179
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.191964
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.168606
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.162051
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.148639
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.126785
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.125535
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.016512
+          ]
+        ]
+      },
+      "transport_fused_postprocess_scatter": {
+        "kernel_calls": 16,
+        "gpu_kernel_ms": 0.064512,
+        "tiny_lt_10us": 16,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 16,
+        "runtime_api_ms": 0.066,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::scatterCompactKernel(cd_transport_cuda::<unnamed>::ReadState, float *, float *, float *, const long *, const long *, const float *, const float *, long)",
+            16,
+            0.064512
+          ]
+        ]
+      }
+    },
+    "all_memcpy": [
+      [
+        1,
+        152,
+        1786720,
+        0.778036
+      ],
+      [
+        2,
+        872,
+        990776,
+        1.486392
+      ],
+      [
+        8,
+        1088,
+        67100992,
+        2.667995
+      ]
+    ]
+  },
+  "phase3_strict": {
+    "kernel_calls": 20452,
+    "gpu_kernel_ms": 124.568512,
+    "tiny_lt_10us": 19834,
+    "scopes": {
+      "geometry_transport": {
+        "kernel_calls": 1352,
+        "gpu_kernel_ms": 5.164399,
+        "tiny_lt_10us": 1352,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            8,
+            48,
+            4749280,
+            0.117695
+          ]
+        ],
+        "runtime_api_calls": 2164,
+        "runtime_api_ms": 6.392153,
+        "inter_kernel_gap_ms": 18.199202,
+        "between_launch_api_gap_ms": 18.628705,
+        "kernels": [
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.851189
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.505474
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.361241
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.355453
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.201698
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.176286
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.169249
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.144705
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.131488
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.131485
+          ],
+          [
+            "cd_transport_cuda::<unnamed>::scatterCompactKernel(cd_transport_cuda::<unnamed>::ReadState, float *, float *, float *, const long *, const long *, const float *, const float *, long)",
+            16,
+            0.066977
+          ],
+          [
+            "cd_transport_cuda::<unnamed>::compactXYZKernel(const float *, long, long, const long *, const long *, const float *, long, float *)",
+            16,
+            0.052129
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.017025
+          ]
+        ]
+      },
+      "transport_plan_population": {
+        "kernel_calls": 0,
+        "gpu_kernel_ms": null,
+        "tiny_lt_10us": null,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            1,
+            1,
+            474928,
+            0.161568
+          ],
+          [
+            2,
+            2,
+            303000,
+            0.091776
+          ]
+        ],
+        "runtime_api_calls": 6,
+        "runtime_api_ms": 0.376513,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": []
+      },
+      "transport_compact_gather": {
+        "kernel_calls": 16,
+        "gpu_kernel_ms": 0.052129,
+        "tiny_lt_10us": 16,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 16,
+        "runtime_api_ms": 0.077824,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::compactXYZKernel(const float *, long, long, const long *, const long *, const float *, long, float *)",
+            16,
+            0.052129
+          ]
+        ]
+      },
+      "transport_xyz_gemm": {
+        "kernel_calls": 1320,
+        "gpu_kernel_ms": 5.045293,
+        "tiny_lt_10us": 1320,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 2084,
+        "runtime_api_ms": 5.989453,
+        "inter_kernel_gap_ms": 0.058012,
+        "between_launch_api_gap_ms": 0.042913,
+        "kernels": [
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.851189
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.505474
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.361241
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.355453
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.201698
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.176286
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.169249
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.144705
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.131488
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.131485
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.017025
+          ]
+        ]
+      },
+      "transport_fused_postprocess_scatter": {
+        "kernel_calls": 16,
+        "gpu_kernel_ms": 0.066977,
+        "tiny_lt_10us": 16,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 16,
+        "runtime_api_ms": 0.065517,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::scatterCompactKernel(cd_transport_cuda::<unnamed>::ReadState, float *, float *, float *, const long *, const long *, const float *, const float *, long)",
+            16,
+            0.066977
+          ]
+        ]
+      }
+    },
+    "all_memcpy": [
+      [
+        1,
+        152,
+        1786720,
+        0.788616
+      ],
+      [
+        2,
+        872,
+        990776,
+        1.578655
+      ],
+      [
+        8,
+        1088,
+        67100992,
+        2.781321
+      ]
+    ]
+  },
+  "final": {
+    "kernel_calls": 20452,
+    "gpu_kernel_ms": 119.799407,
+    "tiny_lt_10us": 19813,
+    "scopes": {
+      "geometry_transport": {
+        "kernel_calls": 1352,
+        "gpu_kernel_ms": 4.940699,
+        "tiny_lt_10us": 1352,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            8,
+            48,
+            4749280,
+            0.110239
+          ]
+        ],
+        "runtime_api_calls": 2164,
+        "runtime_api_ms": 6.097891,
+        "inter_kernel_gap_ms": 17.445865,
+        "between_launch_api_gap_ms": 17.908335,
+        "kernels": [
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.740379
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.487424
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.341786
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.336933
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.191454
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.166787
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.161023
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.13696
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.125216
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.12483
+          ],
+          [
+            "cd_transport_cuda::<unnamed>::scatterCompactKernel(cd_transport_cuda::<unnamed>::ReadState, float *, float *, float *, const long *, const long *, const float *, const float *, long)",
+            16,
+            0.063968
+          ],
+          [
+            "cd_transport_cuda::<unnamed>::compactXYZKernel(const float *, long, long, const long *, const long *, const float *, long, float *)",
+            16,
+            0.047553
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.016386
+          ]
+        ]
+      },
+      "transport_plan_population": {
+        "kernel_calls": 0,
+        "gpu_kernel_ms": null,
+        "tiny_lt_10us": null,
+        "memcpy_kind_count_bytes_ms": [
+          [
+            1,
+            1,
+            474928,
+            0.160832
+          ],
+          [
+            2,
+            2,
+            303000,
+            0.091552
+          ]
+        ],
+        "runtime_api_calls": 6,
+        "runtime_api_ms": 0.375064,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": []
+      },
+      "transport_compact_gather": {
+        "kernel_calls": 16,
+        "gpu_kernel_ms": 0.047553,
+        "tiny_lt_10us": 16,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 16,
+        "runtime_api_ms": 0.0758,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::compactXYZKernel(const float *, long, long, const long *, const long *, const float *, long, float *)",
+            16,
+            0.047553
+          ]
+        ]
+      },
+      "transport_xyz_gemm": {
+        "kernel_calls": 1320,
+        "gpu_kernel_ms": 4.829178,
+        "tiny_lt_10us": 1320,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 2084,
+        "runtime_api_ms": 5.705499,
+        "inter_kernel_gap_ms": 0.049443,
+        "between_launch_api_gap_ms": 0.044933,
+        "kernels": [
+          [
+            "ampere_sgemm_128x32_nn",
+            684,
+            2.740379
+          ],
+          [
+            "ampere_sgemm_32x32_sliced1x4_nn",
+            108,
+            0.487424
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)4, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            112,
+            0.341786
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)5, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            108,
+            0.336933
+          ],
+          [
+            "void splitKreduce_kernel<(int)32, (int)16, int, float, float, float, float, (bool)1, (bool)0, (bool)0>(cublasSplitKParams<T6>, const T4 *, const T5 *, T5 *, const T6 *, const T6 *, const T7 *, const T4 *, T7 *, void *, long, T6 *, int *)",
+            72,
+            0.191454
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)7, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.166787
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)3, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            52,
+            0.161023
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)6, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            44,
+            0.13696
+          ],
+          [
+            "std::enable_if<!T7, void>::type internal::gemvx::kernel<int, int, float, float, float, float, (bool)0, (bool)1, (bool)0, (bool)0, (int)6, (bool)0, cublasGemvParams<cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>, float>>(T13)",
+            44,
+            0.125216
+          ],
+          [
+            "void gemmSN_NN_kernel<float, (int)256, (int)4, (int)2, (int)8, (int)2, (int)4, (bool)0, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<const float>, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<T9, T10, T11, T1>)",
+            40,
+            0.12483
+          ],
+          [
+            "ampere_sgemm_32x128_nn",
+            4,
+            0.016386
+          ]
+        ]
+      },
+      "transport_fused_postprocess_scatter": {
+        "kernel_calls": 16,
+        "gpu_kernel_ms": 0.063968,
+        "tiny_lt_10us": 16,
+        "memcpy_kind_count_bytes_ms": [],
+        "runtime_api_calls": 16,
+        "runtime_api_ms": 0.062828,
+        "inter_kernel_gap_ms": 0.0,
+        "between_launch_api_gap_ms": 0.0,
+        "kernels": [
+          [
+            "cd_transport_cuda::<unnamed>::scatterCompactKernel(cd_transport_cuda::<unnamed>::ReadState, float *, float *, float *, const long *, const long *, const float *, const float *, long)",
+            16,
+            0.063968
+          ]
+        ]
+      }
+    },
+    "all_memcpy": [
+      [
+        1,
+        152,
+        1786720,
+        0.779481
+      ],
+      [
+        2,
+        872,
+        990776,
+        1.491616
+      ],
+      [
+        8,
+        1088,
+        67100992,
+        2.655418
+      ]
+    ]
+  }
+}

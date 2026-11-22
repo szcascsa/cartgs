@@ -1,0 +1,596 @@
+[
+  {
+    "scene": "fr1_room",
+    "seed": 2026,
+    "arm": "raw",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw/model/16900_shutdown",
+    "N": 50739,
+    "training": {
+      "state": "success",
+      "pid": 2965290,
+      "directory": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_raw",
+      "kind": "training",
+      "elapsed_s": 172.43208560347557,
+      "exit_code": null,
+      "recovered_completed_output": true,
+      "elapsed_lower_bound_s": 172.43208560347557,
+      "peak_ram_kib": null,
+      "peak_vram_mib": null,
+      "resource_monitor_failure": "exited process has no VmRSS; native final checkpoint and complete trajectory verified; original result reused, no retraining"
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 1509,
+        "full_renders": 1509,
+        "gaussian_step_calls": 7547,
+        "gaussian_updates": 7547,
+        "lod_attempts": 6038,
+        "lod_nonfinite": 0,
+        "lod_renders": 6038,
+        "mappings": 7547,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          1510,
+          1510,
+          1509,
+          1509
+        ],
+        "selector_commits": 6038,
+        "stats": 1509,
+        "tf_commits": 3638,
+        "topology": 14
+      },
+      "selector_step": 15391,
+      "tail": {
+        "full_backwards": 9353,
+        "full_renders": 9353,
+        "gaussian_step_calls": 18706,
+        "gaussian_updates": 18706,
+        "lod_attempts": 9353,
+        "lod_nonfinite": 0,
+        "lod_renders": 9353,
+        "mappings": 9353,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          2338,
+          2338,
+          2339,
+          2338
+        ],
+        "selector_commits": 9353,
+        "stats": 9353,
+        "tf_commits": 9353,
+        "topology": 18
+      },
+      "tf_updates": 12991,
+      "ultra_light_mode": 1
+    }
+  },
+  {
+    "scene": "fr1_room",
+    "seed": 2026,
+    "arm": "marginal",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model/16900_shutdown",
+    "N": 56753,
+    "training": {
+      "state": "success",
+      "exit_code": 0,
+      "elapsed_s": 178.65235709398985,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_orb.yaml",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_mapper.yaml",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/associations.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2026_marginal/model",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_marginal.yaml"
+      ],
+      "peak_ram_kib": 4677952,
+      "peak_vram_mib": 2395.0
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 1476,
+        "full_renders": 1476,
+        "gaussian_step_calls": 7383,
+        "gaussian_updates": 7383,
+        "lod_attempts": 5907,
+        "lod_nonfinite": 0,
+        "lod_renders": 5907,
+        "mappings": 7383,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          1477,
+          1477,
+          1477,
+          1476
+        ],
+        "selector_commits": 5907,
+        "stats": 1476,
+        "tf_commits": 3507,
+        "topology": 13
+      },
+      "selector_step": 15424,
+      "tail": {
+        "full_backwards": 9517,
+        "full_renders": 9517,
+        "gaussian_step_calls": 19034,
+        "gaussian_updates": 19034,
+        "lod_attempts": 9517,
+        "lod_nonfinite": 0,
+        "lod_renders": 9517,
+        "mappings": 9517,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          2379,
+          2379,
+          2379,
+          2380
+        ],
+        "selector_commits": 9517,
+        "stats": 9517,
+        "tf_commits": 9517,
+        "topology": 19
+      },
+      "tf_updates": 13024,
+      "ultra_light_mode": 1
+    }
+  },
+  {
+    "scene": "fr1_room",
+    "seed": 2027,
+    "arm": "marginal",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model/16900_shutdown",
+    "N": 54297,
+    "training": {
+      "state": "success",
+      "exit_code": 0,
+      "elapsed_s": 178.74373883381486,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_orb.yaml",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_mapper.yaml",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/associations.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_marginal/model",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_marginal.yaml"
+      ],
+      "peak_ram_kib": 4606884,
+      "peak_vram_mib": 2411.0
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 1460,
+        "full_renders": 1460,
+        "gaussian_step_calls": 7303,
+        "gaussian_updates": 7303,
+        "lod_attempts": 5843,
+        "lod_nonfinite": 0,
+        "lod_renders": 5843,
+        "mappings": 7303,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          1461,
+          1461,
+          1461,
+          1460
+        ],
+        "selector_commits": 5843,
+        "stats": 1460,
+        "tf_commits": 3443,
+        "topology": 13
+      },
+      "selector_step": 15440,
+      "tail": {
+        "full_backwards": 9597,
+        "full_renders": 9597,
+        "gaussian_step_calls": 19194,
+        "gaussian_updates": 19194,
+        "lod_attempts": 9597,
+        "lod_nonfinite": 0,
+        "lod_renders": 9597,
+        "mappings": 9597,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          2399,
+          2399,
+          2399,
+          2400
+        ],
+        "selector_commits": 9597,
+        "stats": 9597,
+        "tf_commits": 9597,
+        "topology": 19
+      },
+      "tf_updates": 13040,
+      "ultra_light_mode": 1
+    }
+  },
+  {
+    "scene": "fr1_room",
+    "seed": 2027,
+    "arm": "raw",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model/16900_shutdown",
+    "N": 53697,
+    "training": {
+      "state": "success",
+      "exit_code": 0,
+      "elapsed_s": 172.85188410058618,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_orb.yaml",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_mapper.yaml",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/associations.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_room_2027_raw/model",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_room_raw.yaml"
+      ],
+      "peak_ram_kib": 4442780,
+      "peak_vram_mib": 2325.0
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 1542,
+        "full_renders": 1542,
+        "gaussian_step_calls": 7712,
+        "gaussian_updates": 7712,
+        "lod_attempts": 6170,
+        "lod_nonfinite": 0,
+        "lod_renders": 6170,
+        "mappings": 7712,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          1543,
+          1543,
+          1542,
+          1542
+        ],
+        "selector_commits": 6170,
+        "stats": 1542,
+        "tf_commits": 3770,
+        "topology": 14
+      },
+      "selector_step": 15358,
+      "tail": {
+        "full_backwards": 9188,
+        "full_renders": 9188,
+        "gaussian_step_calls": 18376,
+        "gaussian_updates": 18376,
+        "lod_attempts": 9188,
+        "lod_nonfinite": 0,
+        "lod_renders": 9188,
+        "mappings": 9188,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          2297,
+          2297,
+          2297,
+          2297
+        ],
+        "selector_commits": 9188,
+        "stats": 9188,
+        "tf_commits": 9188,
+        "topology": 18
+      },
+      "tf_updates": 12958,
+      "ultra_light_mode": 1
+    }
+  },
+  {
+    "scene": "fr1_desk",
+    "seed": 2026,
+    "arm": "raw",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model/7400_shutdown",
+    "N": 24049,
+    "training": {
+      "state": "success",
+      "exit_code": 0,
+      "elapsed_s": 63.50381559506059,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_orb.yaml",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_mapper.yaml",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_desk",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_desk/associations.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_raw/model",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_raw.yaml"
+      ],
+      "peak_ram_kib": 2540644,
+      "peak_vram_mib": 1263.0
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 913,
+        "full_renders": 913,
+        "gaussian_step_calls": 4568,
+        "gaussian_updates": 4568,
+        "lod_attempts": 3655,
+        "lod_nonfinite": 0,
+        "lod_renders": 3655,
+        "mappings": 4568,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          914,
+          914,
+          914,
+          913
+        ],
+        "selector_commits": 3655,
+        "stats": 913,
+        "tf_commits": 1255,
+        "topology": 8
+      },
+      "selector_step": 6487,
+      "tail": {
+        "full_backwards": 2832,
+        "full_renders": 2832,
+        "gaussian_step_calls": 5664,
+        "gaussian_updates": 5664,
+        "lod_attempts": 2832,
+        "lod_nonfinite": 0,
+        "lod_renders": 2832,
+        "mappings": 2832,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          708,
+          708,
+          708,
+          708
+        ],
+        "selector_commits": 2832,
+        "stats": 2832,
+        "tf_commits": 2832,
+        "topology": 5
+      },
+      "tf_updates": 4087,
+      "ultra_light_mode": 1
+    }
+  },
+  {
+    "scene": "fr1_desk",
+    "seed": 2026,
+    "arm": "marginal",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model/7400_shutdown",
+    "N": 26403,
+    "training": {
+      "state": "success",
+      "exit_code": 0,
+      "elapsed_s": 64.47272220626473,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_orb.yaml",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_mapper.yaml",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_desk",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_desk/associations.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2026_marginal/model",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_marginal.yaml"
+      ],
+      "peak_ram_kib": 2539652,
+      "peak_vram_mib": 1305.0
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 887,
+        "full_renders": 887,
+        "gaussian_step_calls": 4437,
+        "gaussian_updates": 4437,
+        "lod_attempts": 3550,
+        "lod_nonfinite": 0,
+        "lod_renders": 3550,
+        "mappings": 4437,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          888,
+          888,
+          887,
+          887
+        ],
+        "selector_commits": 3550,
+        "stats": 887,
+        "tf_commits": 1150,
+        "topology": 7
+      },
+      "selector_step": 6513,
+      "tail": {
+        "full_backwards": 2963,
+        "full_renders": 2963,
+        "gaussian_step_calls": 5926,
+        "gaussian_updates": 5926,
+        "lod_attempts": 2963,
+        "lod_nonfinite": 0,
+        "lod_renders": 2963,
+        "mappings": 2963,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          741,
+          740,
+          741,
+          741
+        ],
+        "selector_commits": 2963,
+        "stats": 2963,
+        "tf_commits": 2963,
+        "topology": 6
+      },
+      "tf_updates": 4113,
+      "ultra_light_mode": 1
+    }
+  },
+  {
+    "scene": "fr1_desk",
+    "seed": 2027,
+    "arm": "marginal",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model/7400_shutdown",
+    "N": 25526,
+    "training": {
+      "state": "success",
+      "exit_code": 0,
+      "elapsed_s": 64.5275925770402,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_orb.yaml",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_mapper.yaml",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_desk",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_desk/associations.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_marginal/model",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_marginal.yaml"
+      ],
+      "peak_ram_kib": 2506560,
+      "peak_vram_mib": 1281.0
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 891,
+        "full_renders": 891,
+        "gaussian_step_calls": 4455,
+        "gaussian_updates": 4455,
+        "lod_attempts": 3564,
+        "lod_nonfinite": 0,
+        "lod_renders": 3564,
+        "mappings": 4455,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          891,
+          891,
+          891,
+          891
+        ],
+        "selector_commits": 3564,
+        "stats": 891,
+        "tf_commits": 1164,
+        "topology": 7
+      },
+      "selector_step": 6509,
+      "tail": {
+        "full_backwards": 2945,
+        "full_renders": 2945,
+        "gaussian_step_calls": 5890,
+        "gaussian_updates": 5890,
+        "lod_attempts": 2945,
+        "lod_nonfinite": 0,
+        "lod_renders": 2945,
+        "mappings": 2945,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          737,
+          736,
+          736,
+          736
+        ],
+        "selector_commits": 2945,
+        "stats": 2945,
+        "tf_commits": 2945,
+        "topology": 6
+      },
+      "tf_updates": 4109,
+      "ultra_light_mode": 1
+    }
+  },
+  {
+    "scene": "fr1_desk",
+    "seed": 2027,
+    "arm": "raw",
+    "model": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model",
+    "checkpoint": "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model/7400_shutdown",
+    "N": 33290,
+    "training": {
+      "state": "success",
+      "exit_code": 0,
+      "elapsed_s": 71.82012819871306,
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_orb.yaml",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_mapper.yaml",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_desk",
+        "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_desk/associations.txt",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/online_runs/fr1_desk_2027_raw/model",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/geometry-marginal-online-20261019/configs/fr1_desk_raw.yaml"
+      ],
+      "peak_ram_kib": 3365832,
+      "peak_vram_mib": 1677.0
+    },
+    "state": {
+      "normal_lod_branch_count": 0,
+      "online": {
+        "full_backwards": 818,
+        "full_renders": 818,
+        "gaussian_step_calls": 4091,
+        "gaussian_updates": 4091,
+        "lod_attempts": 3273,
+        "lod_nonfinite": 0,
+        "lod_renders": 3273,
+        "mappings": 4091,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          819,
+          818,
+          818,
+          818
+        ],
+        "selector_commits": 3273,
+        "stats": 818,
+        "tf_commits": 873,
+        "topology": 7
+      },
+      "selector_step": 6582,
+      "tail": {
+        "full_backwards": 3309,
+        "full_renders": 3309,
+        "gaussian_step_calls": 6618,
+        "gaussian_updates": 6618,
+        "lod_attempts": 3309,
+        "lod_nonfinite": 0,
+        "lod_renders": 3309,
+        "mappings": 3309,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          827,
+          828,
+          827,
+          827
+        ],
+        "selector_commits": 3309,
+        "stats": 3309,
+        "tf_commits": 3309,
+        "topology": 6
+      },
+      "tf_updates": 4182,
+      "ultra_light_mode": 1
+    }
+  }
+]

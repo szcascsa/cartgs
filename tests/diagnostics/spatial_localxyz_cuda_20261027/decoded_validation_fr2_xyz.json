@@ -1,0 +1,8 @@
+{
+  "scene": "fr2_xyz",
+  "direct_rows": 421,
+  "step_rows": 1152,
+  "failures": [],
+  "step_max_abs": 0.0,
+  "full_master_joint": false
+}

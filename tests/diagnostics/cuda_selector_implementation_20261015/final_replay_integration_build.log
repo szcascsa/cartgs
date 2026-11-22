@@ -1,0 +1,6 @@
+[  8%] Built target selector_cuda
+[ 25%] Built target cuda_rasterizer
+[ 29%] Built target simple_knn
+[ 45%] Built target transform_field_cuda
+[ 95%] Built target gaussian_mapper
+[100%] Built target joint_replay_selector_cuda_test

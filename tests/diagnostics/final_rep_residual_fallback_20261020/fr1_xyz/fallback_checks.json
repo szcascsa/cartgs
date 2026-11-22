@@ -1,0 +1,100 @@
+{
+  "all_passed": true,
+  "N_candidate": 23643,
+  "F_exact_final_mask": true,
+  "U_complement": true,
+  "residual_row_exact": true,
+  "D_nested_and_prefix_exact": true,
+  "D15_RES_exact": true,
+  "RF_C_all_selected_order_and_sets_exact": true,
+  "proxy_pool_sizes_equal": true,
+  "unique": true,
+  "nested": true,
+  "repeated_exact": true,
+  "construct_no_GT_quality": true,
+  "m15": 379,
+  "requirements": [
+    {
+      "ratio": 0.01,
+      "K": 236,
+      "representative_rows": 236,
+      "residual_rows": 0,
+      "residual_fraction_of_K": 0.0,
+      "residual_fraction_of_N": 0.0,
+      "hit_residual_leaves": 0
+    },
+    {
+      "ratio": 0.05,
+      "K": 1182,
+      "representative_rows": 1155,
+      "residual_rows": 27,
+      "residual_fraction_of_K": 0.02284263959390863,
+      "residual_fraction_of_N": 0.0011419870574800152,
+      "hit_residual_leaves": 17
+    },
+    {
+      "ratio": 0.1,
+      "K": 2364,
+      "representative_rows": 2194,
+      "residual_rows": 170,
+      "residual_fraction_of_K": 0.07191201353637902,
+      "residual_fraction_of_N": 0.007190288880429725,
+      "hit_residual_leaves": 76
+    },
+    {
+      "ratio": 0.15,
+      "K": 3546,
+      "representative_rows": 3167,
+      "residual_rows": 379,
+      "residual_fraction_of_K": 0.1068809926677947,
+      "residual_fraction_of_N": 0.016030114621663916,
+      "hit_residual_leaves": 150
+    }
+  ],
+  "pool_summary": [
+    {
+      "arm": "F",
+      "full_N": 23643,
+      "Final_reps": 10889,
+      "Added_residual": 0,
+      "total_candidate": 10889,
+      "F_fraction": 0.46055915069999576,
+      "residual_fallback_fraction": 0.0,
+      "retained_fraction": 0.46055915069999576,
+      "compression_ratio": 2.1712737625126275
+    },
+    {
+      "arm": "RF-C",
+      "full_N": 23643,
+      "Final_reps": 10889,
+      "Added_residual": 379,
+      "total_candidate": 11268,
+      "F_fraction": 0.46055915069999576,
+      "residual_fallback_fraction": 0.016030114621663916,
+      "retained_fraction": 0.4765892653216597,
+      "compression_ratio": 2.0982428115015974
+    },
+    {
+      "arm": "RF-Raw",
+      "full_N": 23643,
+      "Final_reps": 10889,
+      "Added_residual": 379,
+      "total_candidate": 11268,
+      "F_fraction": 0.46055915069999576,
+      "residual_fallback_fraction": 0.016030114621663916,
+      "retained_fraction": 0.4765892653216597,
+      "compression_ratio": 2.0982428115015974
+    },
+    {
+      "arm": "RF-Gap",
+      "full_N": 23643,
+      "Final_reps": 10889,
+      "Added_residual": 379,
+      "total_candidate": 11268,
+      "F_fraction": 0.46055915069999576,
+      "residual_fallback_fraction": 0.016030114621663916,
+      "retained_fraction": 0.4765892653216597,
+      "compression_ratio": 2.0982428115015974
+    }
+  ]
+}

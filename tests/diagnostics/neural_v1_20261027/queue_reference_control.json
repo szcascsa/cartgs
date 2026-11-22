@@ -1,0 +1,23 @@
+{
+  "tier": "reference_control",
+  "jobs": [
+    {
+      "config": {
+        "id": "Reference59TrainEncoder",
+        "kind": "reference59",
+        "train_encoder": true
+      },
+      "seed": 5100,
+      "steps": 12000
+    },
+    {
+      "config": {
+        "id": "Reference59TrainEncoder",
+        "kind": "reference59",
+        "train_encoder": true
+      },
+      "seed": 5101,
+      "steps": 12000
+    }
+  ]
+}

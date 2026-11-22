@@ -1,0 +1,19 @@
+{
+  "scene": "fr1_xyz",
+  "seed": 2026,
+  "training_runs": 1,
+  "mapping_steps": 10000,
+  "si_mode": "disabled",
+  "si_loss_weight": 0,
+  "new_input": "feature16, offset3, activated scale3, SH DC RGB3, activated opacity1, log ratio1",
+  "network": "27->32 ReLU->32 ReLU->2; 2018 shared parameters plus anchor features",
+  "new_attribute_gradients": "preserve existing joint LoD semantics: no extra detach; Full updates Master only; Change Distill attributes detached",
+  "scale": "exp(raw log scale), pre-TF",
+  "sh_dc": "features_dc[:,0,:], three SH coefficients; no RGB conversion",
+  "opacity": "sigmoid(raw opacity), pre-TF",
+  "reference_seed": 2026,
+  "reference": "/home/prmi/zwj/anchor-si-ablation-20261020",
+  "evaluation": "final checkpoint only; same 792 frames; production cached Bernoulli primary; old fixed common-K (202,1010,2020,3031) probability-ranking diagnostic; reference no-SI and SI metrics reused",
+  "unchanged": ["h=0.1", "feature dim 16", "width 32", "Adam lr 0.001", "ratio rotation", "cached uniform", "ratio loss 0.01", "photo loss", "TF", "ChangeDistill", "maturity=1"],
+  "limitations": "Single training run; asynchronous SLAM/maps/pose and online/tail mix not frozen. Additional input weights change RNG consumption. No claim of stable causal or cross-scene benefit."
+}

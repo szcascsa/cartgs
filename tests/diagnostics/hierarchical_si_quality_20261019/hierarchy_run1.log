@@ -1,0 +1,3 @@
+STRUCTURAL_FIXTURE_PASS legacy_aabb_2048 candidates=50330 h=0 mass_relative=0 ms=4165.59
+STRUCTURAL_FIXTURE_PASS sparse_hash_target_2048 candidates=50330 h=0.299868 mass_relative=1.60284e-16 ms=8951.45
+SPARSE_ROOT_TEST_PASS

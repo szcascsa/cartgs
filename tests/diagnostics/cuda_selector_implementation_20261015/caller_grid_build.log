@@ -1,0 +1,3 @@
+[ 50%] Building CXX object CMakeFiles/caller_replay.dir/caller_replay.cpp.o
+[100%] Linking CXX executable caller_replay
+[100%] Built target caller_replay

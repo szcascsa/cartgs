@@ -1,0 +1,11 @@
+[ChangeCoordinator] event=1 type=FIELD_DOMAIN flags=4 mapping_iter=4000 snapshot_count=63514 corrected_groups=0 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE ratios=4 aabb_changed=1
+[CD BEGIN] event=1 type=FIELD_DOMAIN mapping_iter=4000 epochs=5 selector_epochs=5 tf_epochs=5 batch_size=8192 ratios=4 selector_scope=NONE tf_scope=ALL_SNAPSHOT_MATURE
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=0/5 loss=0.0000 position_loss=0.0000 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=BASELINE steps=0 count=26691 skipped_outside=2
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=1/5 loss=0.0000 position_loss=0.0000 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=0.0000 trend=UP steps=4 count=26691 skipped_outside=2
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=2/5 loss=0.0000 position_loss=0.0000 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=26691 skipped_outside=2
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=3/5 loss=0.0000 position_loss=0.0000 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=26691 skipped_outside=2
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=4/5 loss=0.0000 position_loss=0.0000 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=26691 skipped_outside=2
+[TF CD EPOCH] event=1 type=FIELD_DOMAIN epoch=5/5 loss=0.0000 position_loss=0.0000 log_scale_loss=0.0000 rotation_loss=0.0000 delta_prev=-0.0000 trend=DOWN steps=4 count=26691 skipped_outside=2
+[TF CD] event=1 count=26691 skipped_outside=2 pre_xyz/log_scale/rotation=0.0000,0.0000,0.0000 post_xyz/log_scale/rotation=0.0000,0.0000,0.0000 untouched_pre=0.0000,0.0000,0.0000 untouched_post=0.0000,0.0000,0.0000 steps=20 mlp_lr_micro=16.0000 grid_lr_micro=160.0000 time_ms=261.8019
+[CD END] event=1 type=FIELD_DOMAIN selector_steps=0 tf_steps=20 skipped_outside=2
+[PERF RESULT] cold cpu_ms=288.503 cuda_ms=288.489

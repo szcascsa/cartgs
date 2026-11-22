@@ -233,5 +233,6 @@ cmake -S "$workdir" -B "$CARTGS_BUILD_DIR" -G Ninja \
       -DEigen3_DIR="$EIGEN_CONFIG_DIR" \
       -Djsoncpp_DIR="$JSONCPP_CONFIG_DIR" \
       -DTorch_DIR="$LIBTORCH_DIR/share/cmake/Torch" \
+      -DCARTGS_EXPERIMENTAL_SELECTOR_CUDA="${CARTGS_EXPERIMENTAL_SELECTOR_CUDA:-ON}" \
       -DOpenCV_DIR="$OPENCV_INSTALL_DIR/lib/cmake/opencv4"
 cmake --build "$CARTGS_BUILD_DIR"

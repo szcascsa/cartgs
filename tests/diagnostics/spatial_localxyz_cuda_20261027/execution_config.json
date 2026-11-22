@@ -1,0 +1,21 @@
+{
+  "model": "SpatialLocalXYZ",
+  "default_backend": "optimized",
+  "backends": {
+    "reference": "reference",
+    "optimized": "graph_cached55_fused",
+    "experimental": "fused"
+  },
+  "default_render_backend": "optimized",
+  "render_backends": {
+    "reference": "reference",
+    "optimized": "decoded_graph",
+    "experimental": "graph_cached55_fused"
+  },
+  "scope": "Frozen Master, sequential forward/backward, stable shapes and parameter storage",
+  "dtype": "float32",
+  "tf32": false,
+  "approximate_math": false,
+  "production_default_changed": false,
+  "dynamic_mapping_policy": "not integrated; explicit graph invalidation at safe boundaries; reference fallback"
+}

@@ -1,0 +1,18 @@
+{
+  "all_passed": true,
+  "RF_C_real_render_per_view_max_abs": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "photo": 0.0
+  },
+  "RF_C_aggregate_max_abs": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "photo": 0.0
+  },
+  "baseline_renders": 624,
+  "new_fallback_renders": 468,
+  "training_updates": 0
+}

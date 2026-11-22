@@ -1,0 +1,17 @@
+{
+  "prior_dir": "H:\\AIProjects\\cartgs\u4f18\u5316\u66f4\u7ec6\u81f4\u7248\\hierarchical-fr1-xyz-same-k-20261019",
+  "source_files": {
+    "prepare.py": "a164ccb612ea0782fe6f30cdf70c73b286c5684db7db8d06a4b86e95bde13d08",
+    "hierarchy_fixture.cpp": "855a33e8793b3d709f779a08786fe411a7513fa26f7be136de0a4bdafd7e9eb0",
+    "CMakeLists.txt": "7accc5d3102118a435f2c88ee324f3a19e209c9597dc8167dcf4c938b7421cf9",
+    "build_and_export.py": "71367b39fd83a5f4bac709749559234e4db9b8d691fdebd6eeb8a0d3e1ae5072",
+    "pipeline.py": "972152648d896b8074c0343f9c9456f23f898dc133b719f6c1c3fc5f0bcdd35b",
+    "rankings.py": "9b005d810bc1fd679e9d18afd7a5824111255180d3b76453ee69ae78f3fbabfd",
+    "replay_f3.py": "7b71c8dbf68511af4ef75d47f33d296892150ef72642acc40f04b70b80b1900b",
+    "quality.py": "ac5313a0aa899e65a093e0eea33ebe88077980d29ab42e9c3b2e2329a943cdd7",
+    "analyze.py": "2ce582c3690ea015e3dd771a302195cca697deb47799a43aa0993665d618ea3c",
+    "pack.py": "66559f8d758bd5e8be6ea80b771d260585abccf42ffbb295bd69b1c5a2a79e3a",
+    "collect_and_verify.py": "8c5c5a144e6b71a54c30275732eb6a006240ac164284028b22ee0b2de305ead7"
+  },
+  "algorithm_source_changes": false
+}

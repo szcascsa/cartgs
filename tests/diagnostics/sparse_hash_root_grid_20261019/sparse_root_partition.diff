@@ -1,0 +1,560 @@
+--- before/include/hierarchical_representative_si.h
++++ after/include/hierarchical_representative_si.h
+@@ -5,14 +5,16 @@
+ #include <filesystem>
+ #include <string>
+ #include <vector>
++#include "sparse_hash_root_grid.h"
+ 
+ namespace hierarchical_si {
+ constexpr int kGridBits = 11;
+-constexpr int kInitialCells = 1 << kGridBits;  // User-fixed total: 2048 cells.
++constexpr int kInitialCells = 1 << kGridBits;  // Legacy bin count; sparse backend targets occupied roots.
+ constexpr int kRepresentatives = 3;
+ constexpr int kMaxLevel = 3;
+ constexpr double kSplitCoverage = 0.80;
+ constexpr double kEpsilon = 1e-12;
++enum class RootBackend { LegacyAabb2048, SparseHashTarget2048 };
+ 
+ struct CellSelection {
+   std::vector<int64_t> representatives;  // Local indices, in greedy order.
+@@ -22,7 +24,9 @@
+ };
+ 
+ struct Node {
+-  int level = 1, root = 0;
++  int level = 1;
++  int64_t root = 0;  // Diagnostic root ordinal; identity is root_key for sparse mode.
++  RootKey root_key{};
+   std::string path;
+   std::array<double, 3> lower{}, upper{};
+   int64_t occupancy = 0;
+@@ -34,6 +38,7 @@
+ };
+ 
+ struct Result {
++  RootBackend backend = RootBackend::SparseHashTarget2048;
+   torch::Tensor importance, leaf_assignment;
+   std::array<int, 3> dimensions{1, 1, kInitialCells};
+   std::array<double, 3> lower{}, upper{}, cell_size{};
+@@ -41,6 +46,10 @@
+   int64_t population = 0, candidates = 0;
+   double raw_sum = 0, output_sum = 0, conservation_absolute = 0, conservation_relative = 0;
+   double build_ms = 0, similarity_ms = 0, selection_ms = 0;
++  double h_search_ms = 0, root_grouping_ms = 0, recursive_split_ms = 0;
++  double h_root = 0, d50 = 0, h_seed = 0, bracket_low = 0, bracket_high = 0;
++  bool crossing_bracketed = false;
++  std::vector<RootSearchSample> search_samples;
+ };
+ 
+ // FP64 cell-level tensor operations, with bounded candidate-row blocks. No N*N scene matrix.
+@@ -50,7 +59,8 @@
+ 
+ // Stateless: every invocation rebuilds from current geometry/scale/raw/masks.
+ Result build(const torch::Tensor& xyz, const torch::Tensor& activated_scale,
+-    const torch::Tensor& raw, const torch::Tensor& valid, const torch::Tensor& observed);
++    const torch::Tensor& raw, const torch::Tensor& valid, const torch::Tensor& observed,
++    RootBackend backend = RootBackend::SparseHashTarget2048);
+ 
+ // Disabled path returns the original Tensor handle without accessing geometry or masks.
+ torch::Tensor score(bool enabled, const torch::Tensor& xyz, const torch::Tensor& activated_scale,
+--- before/src/hierarchical_representative_si.cpp
++++ after/src/hierarchical_representative_si.cpp
+@@ -93,7 +93,7 @@
+ }
+ 
+ Result build(const torch::Tensor& xyz, const torch::Tensor& activated_scale,
+-    const torch::Tensor& raw, const torch::Tensor& valid, const torch::Tensor& observed) {
++    const torch::Tensor& raw, const torch::Tensor& valid, const torch::Tensor& observed, RootBackend backend) {
+   torch::NoGradGuard guard;
+   TORCH_CHECK(raw.dim() == 1 && raw.is_floating_point() && xyz.dim() == 2 && xyz.size(1) == 3 &&
+       xyz.size(0) == raw.numel() && activated_scale.sizes() == xyz.sizes() &&
+@@ -103,7 +103,8 @@
+   for (const auto& tensor : {xyz, activated_scale, valid, observed})
+     TORCH_CHECK(tensor.device() == raw.device(), "Hierarchical SI device mismatch");
+   sync(raw); auto start = Clock::now();
+-  Result result; result.population = raw.numel();
++  Result result; result.backend = backend; result.population = raw.numel();
++  if (backend == RootBackend::SparseHashTarget2048) result.dimensions = {0,0,0};
+   result.importance = torch::zeros_like(raw);
+   result.leaf_assignment = torch::full({raw.numel()}, -1, raw.options().dtype(torch::kLong).device(torch::kCPU));
+   auto x = xyz.detach().to(torch::kFloat64);
+@@ -116,7 +117,8 @@
+     TORCH_CHECK(!result.candidates, "Observed GI rows have no finite geometry");
+     result.build_ms = elapsed(start); return result;
+   }
+-  auto finite_x = x.index({finite});
++  auto finite_x = backend == RootBackend::LegacyAabb2048 ? x.index({finite}) : x.index_select(0, indices);
++  if (!finite_x.size(0)) { result.dimensions = {0,0,0}; result.build_ms = elapsed(start); return result; }
+   auto minimum = std::get<0>(finite_x.min(0)).to(torch::kCPU);
+   auto maximum = std::get<0>(finite_x.max(0)).to(torch::kCPU);
+   double largest_extent = (maximum - minimum).max().item<double>();
+@@ -126,9 +128,10 @@
+         std::max(std::abs(lo), std::abs(hi)) * 32 * std::numeric_limits<double>::epsilon()});
+     result.lower[axis] = lo - pad; result.upper[axis] = hi + pad;
+   }
+-  // Exhaust all power-of-two factorizations of 2048, minimizing log-size variance.
++  // Diagnostic legacy backend only: preserve the previous AABB factorization exactly.
+   // Equal objectives retain lexicographically first (nx,ny,nz).
+   double best_shape = std::numeric_limits<double>::infinity();
++  if (backend == RootBackend::LegacyAabb2048)
+   for (int ex = 0; ex <= kGridBits; ++ex) for (int ey = 0; ey <= kGridBits - ex; ++ey) {
+     std::array<int, 3> dims{1 << ex, 1 << ey, 1 << (kGridBits - ex - ey)};
+     std::array<double, 3> logs{}; double average = 0;
+@@ -136,9 +139,11 @@
+     double objective = 0; for (double value : logs) objective += (value - average) * (value - average);
+     if (objective < best_shape - 1e-12) { best_shape = objective; result.dimensions = dims; }
+   }
+-  for (int a = 0; a < 3; ++a) result.cell_size[a] = (result.upper[a] - result.lower[a]) / result.dimensions[a];
+-  TORCH_CHECK(result.dimensions[0] * result.dimensions[1] * result.dimensions[2] == kInitialCells,
+-      "Hierarchical SI initial cell count must equal 2048");
++  if (backend == RootBackend::LegacyAabb2048) {
++    for (int a = 0; a < 3; ++a) result.cell_size[a] = (result.upper[a] - result.lower[a]) / result.dimensions[a];
++    TORCH_CHECK(result.dimensions[0] * result.dimensions[1] * result.dimensions[2] == kInitialCells,
++        "Legacy initial cell count must equal 2048");
++  }
+   if (result.candidates) {
+     TORCH_CHECK(finite.index_select(0, indices).all().item<bool>() &&
+         torch::isfinite(scale.index_select(0, indices)).all().item<bool>() &&
+@@ -151,14 +156,29 @@
+   auto cpu_x = x.to(torch::kCPU).contiguous();
+   auto cpu_rows = indices.to(torch::kCPU).contiguous();
+   auto positions = cpu_x.accessor<double, 2>(); auto rows = cpu_rows.accessor<int64_t, 1>();
+-  std::map<int, std::vector<int64_t>> roots;
+-  for (int64_t k = 0; k < result.candidates; ++k) {
++  std::map<RootKey, std::vector<int64_t>> roots;
++  auto grouping_start = Clock::now();
++  if (backend == RootBackend::SparseHashTarget2048) {
++    std::vector<Position> candidate_xyz; std::vector<double> candidate_radius; std::vector<int64_t> source_rows;
++    auto cpu_radius = radius.to(torch::kCPU).contiguous(); auto radii = cpu_radius.accessor<double,1>();
++    for (int64_t k = 0; k < result.candidates; ++k) {
++      auto row = rows[k]; candidate_xyz.push_back({positions[row][0],positions[row][1],positions[row][2]});
++      candidate_radius.push_back(radii[row]); source_rows.push_back(row);
++    }
++    auto sparse = makeSparseRootGrid(candidate_xyz, candidate_radius, source_rows);
++    result.h_search_ms = sparse.search_ms; result.root_grouping_ms = sparse.grouping_ms;
++    result.h_root = sparse.h; result.d50 = sparse.d50; result.h_seed = sparse.h_seed;
++    result.bracket_low = sparse.bracket_low; result.bracket_high = sparse.bracket_high;
++    result.crossing_bracketed = sparse.crossing_bracketed; result.search_samples = std::move(sparse.samples);
++    roots = std::move(sparse.roots); result.cell_size = {result.h_root,result.h_root,result.h_root};
++    result.dimensions = {0,0,0};  // Sparse triplets are never interpreted as a dense shape.
++  } else for (int64_t k = 0; k < result.candidates; ++k) {
+     int coordinate[3];
+     for (int a = 0; a < 3; ++a) coordinate[a] = std::clamp(static_cast<int>(std::floor(
+         (positions[rows[k]][a] - result.lower[a]) / result.cell_size[a])), 0, result.dimensions[a] - 1);
+-    int root = (coordinate[0] * result.dimensions[1] + coordinate[1]) * result.dimensions[2] + coordinate[2];
+-    roots[root].push_back(rows[k]);
+-  }
++    roots[{coordinate[0], coordinate[1], coordinate[2]}].push_back(rows[k]);
++  }
++  if (backend == RootBackend::LegacyAabb2048) result.root_grouping_ms = elapsed(grouping_start);
+   auto output = torch::zeros_like(weight);
+   auto assignment = result.leaf_assignment.accessor<int64_t, 1>();
+   std::function<void(const std::vector<int64_t>&, Node)> visit;
+@@ -176,6 +196,7 @@
+     node.leaf = node.level == kMaxLevel || node.quality >= kSplitCoverage;
+     int64_t node_id = result.nodes.size(); result.nodes.push_back(node);
+     if (!node.leaf) {
++      auto split_start = Clock::now();
+       std::array<std::vector<int64_t>, 8> children;
+       std::array<double, 3> midpoint;
+       for (int a = 0; a < 3; ++a) midpoint[a] = node.lower[a] + .5 * (node.upper[a] - node.lower[a]);
+@@ -184,8 +205,11 @@
+         for (int a = 0; a < 3; ++a) child |= int(positions[row][a] >= midpoint[a]) << a;
+         children[child].push_back(row);
+       }
++      int64_t child_count = 0; for (const auto& child : children) child_count += child.size();
++      TORCH_CHECK(child_count == node.occupancy, "Hierarchy children must exactly partition parent rows");
++      result.recursive_split_ms += elapsed(split_start);
+       for (int child = 0; child < 8; ++child) if (!children[child].empty()) {
+-        Node next; next.level = node.level + 1; next.root = node.root; next.path = node.path + char('0' + child);
++        Node next; next.level = node.level + 1; next.root = node.root; next.root_key = node.root_key; next.path = node.path + char('0' + child);
+         for (int a = 0; a < 3; ++a) {
+           next.lower[a] = child & (1 << a) ? midpoint[a] : node.lower[a];
+           next.upper[a] = child & (1 << a) ? node.upper[a] : midpoint[a];
+@@ -208,13 +232,22 @@
+     output.index_copy_(0, local_rows, local_output);
+     for (auto row : members) { TORCH_CHECK(assignment[row] == -1, "Duplicate hierarchy leaf assignment"); assignment[row] = node_id; }
+   };
++  int64_t root_ordinal = 0;
+   for (const auto& item : roots) {
+-    Node root; root.root = item.first;
+-    int coordinate[3]{item.first / (result.dimensions[1] * result.dimensions[2]),
+-        (item.first / result.dimensions[2]) % result.dimensions[1], item.first % result.dimensions[2]};
++    Node root; root.root_key = item.first;
++    root.root = backend == RootBackend::LegacyAabb2048 ?
++        (item.first[0] * result.dimensions[1] + item.first[1]) * result.dimensions[2] + item.first[2] : root_ordinal;
++    ++root_ordinal;
+     for (int a = 0; a < 3; ++a) {
+-      root.lower[a] = result.lower[a] + coordinate[a] * result.cell_size[a];
+-      root.upper[a] = result.lower[a] + (coordinate[a] + 1) * result.cell_size[a];
++      if (backend == RootBackend::LegacyAabb2048) {
++        root.lower[a] = result.lower[a] + item.first[a] * result.cell_size[a];
++        root.upper[a] = result.lower[a] + (item.first[a] + 1) * result.cell_size[a];
++      } else {
++        root.lower[a] = static_cast<double>(item.first[a]) * result.h_root;
++        root.upper[a] = root.lower[a] + result.h_root;
++        TORCH_CHECK(std::isfinite(root.lower[a]) && std::isfinite(root.upper[a]) && root.upper[a] > root.lower[a],
++            "Sparse cube bounds cannot be resolved in FP64 at this coordinate scale");
++      }
+     }
+     visit(item.second, root);
+   }
+@@ -246,7 +279,7 @@
+   std::array<std::vector<double>, 3> occupancy;
+   std::vector<double> quality; int64_t unresolved = 0;
+   std::ofstream csv(directory / (stem + "_tree.csv"));
+-  csv << std::setprecision(17) << "node,leaf,level,root,path,xmin,ymin,zmin,xmax,ymax,zmax,occupancy,raw_mass,covered_mass,Q,residual_mass,conservation_absolute,conservation_relative,rep1,raw1,delta1,rep2,raw2,delta2,rep3,raw3,delta3\n";
++  csv << std::setprecision(17) << "node,leaf,level,root,path,key_x,key_y,key_z,xmin,ymin,zmin,xmax,ymax,zmax,occupancy,raw_mass,covered_mass,Q,residual_mass,conservation_absolute,conservation_relative,rep1,raw1,delta1,rep2,raw2,delta2,rep3,raw3,delta3\n";
+   for (size_t i = 0; i < result.nodes.size(); ++i) {
+     const auto& node = result.nodes[i]; auto level = node.level - 1;
+     ++counts[level]; occupancy[level].push_back(node.occupancy);
+@@ -254,6 +287,7 @@
+       if (node.level == 3 && node.quality < kSplitCoverage) ++unresolved;
+     } else ++splits[level];
+     csv << i << ',' << node.leaf << ',' << node.level << ',' << node.root << ',' << node.path;
++    for (auto value : node.root_key) csv << ',' << value;
+     for (double value : node.lower) csv << ',' << value;
+     for (double value : node.upper) csv << ',' << value;
+     csv << ',' << node.occupancy << ',' << node.mass << ',' << node.covered_mass << ',' << node.quality << ',' << node.residual_mass
+@@ -268,6 +302,13 @@
+   std::ofstream json(directory / (stem + "_telemetry.json")); json << std::setprecision(17);
+   json << "{\"population\":" << result.population << ",\"candidates\":" << result.candidates << ",\"initial_cells\":" << kInitialCells << ",\"dimensions\":";
+   array(json, result.dimensions); json << ",\"AABB_min\":"; array(json, result.lower); json << ",\"AABB_max\":"; array(json, result.upper);
++  json << ",\"root_backend\":\"" << (result.backend == RootBackend::LegacyAabb2048 ? "legacy_aabb_2048" : "sparse_hash_target_2048") << '"';
++  json << ",\"origin\":";
++  array(json, result.backend == RootBackend::LegacyAabb2048 ? result.lower : std::array<double,3>{0,0,0});
++  json << ",\"target_occupied_roots\":" << kTargetOccupiedRoots << ",\"achieved_occupied_roots\":" << counts[0];
++  json << ",\"h_root\":" << result.h_root << ",\"d50\":" << result.d50 << ",\"h_seed\":" << result.h_seed
++       << ",\"bracket_low\":" << result.bracket_low << ",\"bracket_high\":" << result.bracket_high
++       << ",\"crossing_bracketed\":" << result.crossing_bracketed << ",\"search_evaluations\":" << result.search_samples.size();
+   json << ",\"cell_size\":"; array(json, result.cell_size); json << ",\"cells_by_level\":"; array(json, counts);
+   json << ",\"splits_by_level\":"; array(json, splits); json << ",\"leaves_by_level\":"; array(json, leaves);
+   json << ",\"representatives_by_level\":"; array(json, representatives);
+@@ -280,7 +321,16 @@
+   json << "],\"raw_sum\":" << result.raw_sum << ",\"hierarchical_sum\":" << result.output_sum
+        << ",\"conservation_absolute\":" << result.conservation_absolute << ",\"conservation_relative\":" << result.conservation_relative
+        << ",\"build_ms\":" << result.build_ms << ",\"similarity_ms\":" << result.similarity_ms
+-       << ",\"selection_ms\":" << result.selection_ms << "}\n";
++       << ",\"selection_ms\":" << result.selection_ms << ",\"h_search_ms\":" << result.h_search_ms
++       << ",\"root_grouping_ms\":" << result.root_grouping_ms << ",\"recursive_split_ms\":" << result.recursive_split_ms << "}\n";
+   TORCH_CHECK(bool(json), "Hierarchy telemetry diagnostic write failed");
++  if (!result.search_samples.empty()) {
++    std::ofstream search(directory / (stem + "_h_search.csv")); search << std::setprecision(17) << "evaluation,h,occupied,absolute_error\n";
++    for (size_t i = 0; i < result.search_samples.size(); ++i) {
++      const auto& sample = result.search_samples[i];
++      search << i << ',' << sample.h << ',' << sample.occupied << ',' << std::abs(sample.occupied - kTargetOccupiedRoots) << '\n';
++    }
++    TORCH_CHECK(bool(search), "Sparse root search diagnostic write failed");
++  }
+ }
+ }  // namespace hierarchical_si
+--- before/tests/hierarchical_representative_si_test.cpp
++++ after/tests/hierarchical_representative_si_test.cpp
+@@ -21,7 +21,7 @@
+   auto w = torch::cat({weights.to(options()), torch::zeros({2}, options())});
+   auto valid = torch::ones({w.numel()}, options().dtype(torch::kBool));
+   auto observed = valid.clone(); observed.slice(0, weights.numel()).fill_(false);
+-  return h::build(x, torch::full_like(x, radius), w, valid, observed);
++  return h::build(x, torch::full_like(x, radius), w, valid, observed, h::RootBackend::LegacyAabb2048);
+ }
+ int leaves(const h::Result& result, int level) {
+   int count = 0; for (const auto& node : result.nodes) count += node.leaf && node.level == level;
+@@ -154,7 +154,7 @@
+   auto W=torch::from_blob(w.data(),{n},cpu).clone().to(device);
+   auto V=torch::from_blob(valid.data(),{n},cpu.dtype(torch::kUInt8)).to(device,torch::kBool);
+   auto O=torch::from_blob(observed.data(),{n},cpu.dtype(torch::kUInt8)).to(device,torch::kBool);
+-  auto result=h::build(X,S,W,V,O);conserved(result);h::writeDiagnostics(result,out,"fr1_room");
++  auto result=h::build(X,S,W,V,O,h::RootBackend::LegacyAabb2048);conserved(result);h::writeDiagnostics(result,out,"fr1_room");
+   auto importance=result.importance.to(torch::kCPU,torch::kFloat64).contiguous();auto leaf=result.leaf_assignment.contiguous();
+   std::ofstream output(out/"fr1_room_output.bin",std::ios::binary);output.write(reinterpret_cast<char*>(&n),8);
+   output.write(reinterpret_cast<char*>(importance.data_ptr<double>()),n*8);output.write(reinterpret_cast<char*>(leaf.data_ptr<int64_t>()),n*8);
+--- /dev/null
++++ after/include/sparse_hash_root_grid.h
+@@ -0,0 +1,33 @@
++#pragma once
++
++#include <array>
++#include <cstdint>
++#include <map>
++#include <vector>
++
++namespace hierarchical_si {
++using RootKey = std::array<int64_t, 3>;
++using Position = std::array<double, 3>;
++constexpr int64_t kTargetOccupiedRoots = 2048;
++
++struct RootSearchSample {
++  double h = 0;
++  int64_t occupied = 0;
++};
++
++struct SparseRootGrid {
++  double h = 0, h_seed = 0, d50 = 0, bracket_low = 0, bracket_high = 0;
++  double search_ms = 0, grouping_ms = 0;
++  bool crossing_bracketed = false;
++  int64_t unique_positions = 0;
++  std::vector<RootSearchSample> samples;
++  // Only occupied triplets are allocated. Map order defines deterministic traversal.
++  std::map<RootKey, std::vector<int64_t>> roots;
++};
++
++RootKey sparseRootKey(const Position& xyz, double h);
++
++// This API deliberately accepts no importance, coverage, GT or quality information.
++SparseRootGrid makeSparseRootGrid(const std::vector<Position>& candidate_xyz,
++    const std::vector<double>& candidate_radius, const std::vector<int64_t>& source_rows);
++}  // namespace hierarchical_si
+--- /dev/null
++++ after/src/sparse_hash_root_grid.cpp
+@@ -0,0 +1,124 @@
++#include "include/sparse_hash_root_grid.h"
++#include <algorithm>
++#include <chrono>
++#include <cmath>
++#include <limits>
++#include <stdexcept>
++
++namespace hierarchical_si {
++namespace {
++using Clock = std::chrono::steady_clock;
++double milliseconds(Clock::time_point start) {
++  return std::chrono::duration<double, std::milli>(Clock::now() - start).count();
++}
++void require(bool condition, const char* message) {
++  if (!condition) throw std::runtime_error(message);
++}
++int64_t countOccupied(const std::vector<Position>& xyz, double h) {
++  std::vector<RootKey> keys; keys.reserve(xyz.size());
++  for (const auto& point : xyz) keys.push_back(sparseRootKey(point, h));
++  std::sort(keys.begin(), keys.end());
++  return std::unique(keys.begin(), keys.end()) - keys.begin();
++}
++}  // namespace
++
++RootKey sparseRootKey(const Position& xyz, double h) {
++  require(h > 0 && std::isfinite(h), "Sparse root h must be finite and positive");
++  RootKey result;
++  for (int a = 0; a < 3; ++a) {
++    require(std::isfinite(xyz[a]), "Sparse root xyz must be finite");
++    const double value = std::floor(xyz[a] / h);  // Origin is always (0,0,0).
++    // Use long double bounds to avoid INT64_MAX rounding up when converted to double.
++    require(std::isfinite(value) && static_cast<long double>(value) >= std::numeric_limits<int64_t>::min() &&
++        static_cast<long double>(value) <= std::numeric_limits<int64_t>::max(), "Sparse root key exceeds int64 range");
++    result[a] = static_cast<int64_t>(value);
++  }
++  return result;
++}
++
++SparseRootGrid makeSparseRootGrid(const std::vector<Position>& xyz,
++    const std::vector<double>& radius, const std::vector<int64_t>& rows) {
++  require(xyz.size() == radius.size() && xyz.size() == rows.size(), "Sparse root candidate arrays mismatch");
++  SparseRootGrid result;
++  if (xyz.empty()) return result;
++  auto start = Clock::now();
++  std::vector<double> sorted_radius = radius;
++  double max_coordinate = 0;
++  for (size_t i = 0; i < xyz.size(); ++i) {
++    require(radius[i] > 0 && std::isfinite(radius[i]), "Sparse root radius must be finite and positive");
++    for (double coordinate : xyz[i]) {
++      require(std::isfinite(coordinate), "Sparse root xyz must be finite");
++      max_coordinate = std::max(max_coordinate, std::abs(coordinate));
++    }
++  }
++  std::sort(sorted_radius.begin(), sorted_radius.end());
++  size_t middle = sorted_radius.size() / 2;
++  double median = sorted_radius.size() % 2 ? sorted_radius[middle] :
++      sorted_radius[middle - 1] * .5 + sorted_radius[middle] * .5;
++  result.d50 = 2 * median; result.h_seed = 8 * result.d50;
++  require(std::isfinite(result.h_seed) && result.h_seed > 0, "Sparse root numerical seed outside supported range");
++  // Safety bounds protect int64 keys and FP64 divisions; never allocate by coordinate span.
++  const double min_h = std::max(std::numeric_limits<double>::min() * 1024, std::ldexp(max_coordinate, -61));
++  const double max_h = std::numeric_limits<double>::max() / 1024;
++  require(min_h <= max_h, "Sparse root coordinate range outside supported FP64 scale");
++  auto distinct = xyz;
++  std::sort(distinct.begin(), distinct.end());
++  result.unique_positions = std::unique(distinct.begin(), distinct.end()) - distinct.begin();
++  double best_h = 0; int64_t best_error = std::numeric_limits<int64_t>::max();
++  std::map<double, int64_t> evaluated;
++  auto evaluate = [&](double h) {
++    auto it = evaluated.find(h);
++    if (it != evaluated.end()) return it->second;
++    int64_t count = countOccupied(xyz, h);
++    evaluated.emplace(h, count); result.samples.push_back({h, count});
++    int64_t error = std::abs(count - kTargetOccupiedRoots);
++    if (error < best_error || (error == best_error && h > best_h)) { best_error = error; best_h = h; }
++    return count;
++  };
++  double current = std::clamp(result.h_seed, min_h, max_h);
++  int64_t count = evaluate(current);
++  double low = current, high = current;
++  if (count > kTargetOccupiedRoots) {
++    for (int step = 0; step < 256; ++step) {
++      double next = std::min(current * 2, max_h);
++      if (next <= current) break;
++      low = current; high = next; current = next; count = evaluate(current);
++      if (count <= kTargetOccupiedRoots) { result.crossing_bracketed = true; break; }
++    }
++  } else if (count < kTargetOccupiedRoots) {
++    for (int step = 0; step < 256; ++step) {
++      if (count == result.unique_positions) break;  // Target unattainable: every distinct xyz already has a cell.
++      double next = std::max(current * .5, min_h);
++      if (next >= current) break;
++      low = next; high = current; current = next; count = evaluate(current);
++      if (count >= kTargetOccupiedRoots) { result.crossing_bracketed = true; break; }
++    }
++  } else {
++    low = std::max(current * .5, min_h); high = std::min(current * 2, max_h);
++    evaluate(low); evaluate(high); result.crossing_bracketed = true;
++  }
++  // If target exceeds all unique xyz, still search around the seed for the coarsest tested optimum.
++  if (low == high) { low = std::max(current * .5, min_h); high = std::min(current * 2, max_h); }
++  result.bracket_low = low; result.bracket_high = high;
++  auto log_samples = [&](double lo, double hi) {
++    for (int i = 0; i < 128; ++i) {
++      double h = i == 0 ? lo : i == 127 ? hi : std::exp(std::log(lo) +
++          (std::log(hi) - std::log(lo)) * (static_cast<double>(i) / 127));
++      evaluate(h);
++    }
++  };
++  log_samples(low, high);
++  // One fixed refinement over tested neighbors of the current winner; never inspect hierarchy.
++  auto winner = evaluated.find(best_h);
++  auto left = winner == evaluated.begin() ? winner : std::prev(winner);
++  auto right = std::next(winner); if (right == evaluated.end()) right = winner;
++  log_samples(left->first, right->first);
++  result.h = best_h; result.search_ms = milliseconds(start);
++  start = Clock::now();
++  for (size_t i = 0; i < xyz.size(); ++i) result.roots[sparseRootKey(xyz[i], result.h)].push_back(rows[i]);
++  for (auto& root : result.roots) std::sort(root.second.begin(), root.second.end());
++  result.grouping_ms = milliseconds(start);
++  require(static_cast<int64_t>(result.roots.size()) == evaluated.at(best_h), "Sparse occupied count/grouping mismatch");
++  return result;
++}
++}  // namespace hierarchical_si
+--- /dev/null
++++ after/tests/sparse_hash_root_grid_test.cpp
+@@ -0,0 +1,123 @@
++#include "include/hierarchical_representative_si.h"
++#include <fstream>
++#include <iostream>
++#include <random>
++#include <stdexcept>
++#include <set>
++
++namespace h = hierarchical_si;
++namespace {
++void check(bool value, const char* message) { if (!value) throw std::runtime_error(message); }
++void sameGrid(const h::SparseRootGrid& a, const h::SparseRootGrid& b) {
++  check(a.h == b.h && a.roots == b.roots && a.samples.size() == b.samples.size(), "Sparse search/membership nondeterministic");
++  for (size_t i=0;i<a.samples.size();++i) check(a.samples[i].h==b.samples[i].h && a.samples[i].occupied==b.samples[i].occupied,"Search trace nondeterministic");
++}
++void partition(const h::Result& r) {
++  int64_t leaf_count=0;
++  for(const auto& n:r.nodes){
++    check(n.level>=1&&n.level<=3,"Sparse depth exceeds L3");
++    if(n.leaf){leaf_count+=n.occupancy;continue;}
++    int64_t children=0;
++    for(const auto& c:r.nodes) if(c.root_key==n.root_key && c.path.size()==n.path.size()+1 &&
++        c.path.compare(0,n.path.size(),n.path)==0) children+=c.occupancy;
++    check(children==n.occupancy,"Child occupancy lost/duplicated rows");
++  }
++  check(leaf_count==r.candidates,"Final leaves do not partition candidates");
++  check(r.conservation_relative<1e-6,"Sparse hierarchy mass not conserved");
++}
++void synthetic(){
++  auto empty=torch::empty({0},torch::kFloat64);
++  auto empty_mask=torch::empty({0},torch::kBool);
++  auto empty_result=h::build(torch::empty({0,3},torch::kFloat64),torch::empty({0,3},torch::kFloat64),empty,empty_mask,empty_mask);
++  check(empty_result.nodes.empty()&&empty_result.dimensions==std::array<int,3>{0,0,0},"Empty sparse grid has dense dimensions");
++  check(h::sparseRootKey({-.1,0.,-1.},1.)==h::RootKey({-1,0,-1}),"Negative floor/truncation bug");
++  check(h::sparseRootKey({1e6,-1e6,0.},1e-6)[0]>int64_t(2147483647),"Hash key must use int64");
++  bool overflow=false;try{h::sparseRootKey({1e300,0,0},1e-12);}catch(const std::exception&){overflow=true;}
++  check(overflow,"Unrepresentable key must fail explicitly");
++  std::vector<h::Position> two{{.01,.01,.01},{.02,.02,.02},{1e6,1e6,1e6},{1e6+.01,1e6,1e6}};
++  auto sparse=h::makeSparseRootGrid(two,std::vector<double>(4,.01),{0,1,2,3});
++  check(sparse.roots.size()<=4,"Empty space created root cells");
++  size_t entries=0;for(auto& item:sparse.roots) entries+=item.second.size();check(entries==4,"Sparse membership failed");
++  std::mt19937_64 rng(20261019);std::uniform_real_distribution<double> random(-1,1);
++  std::vector<h::Position> body;std::vector<double>radius;std::vector<int64_t>rows;
++  for(int64_t i=0;i<6000;++i){body.push_back({random(rng),random(rng),random(rng)});radius.push_back(.01);rows.push_back(i);}
++  auto first=h::makeSparseRootGrid(body,radius,rows);auto repeated=h::makeSparseRootGrid(body,radius,rows);sameGrid(first,repeated);
++  body.push_back({1e6,-1e6,1e6});radius.push_back(.01);rows.push_back(6000);
++  auto outlier=h::makeSparseRootGrid(body,radius,rows);double change=outlier.h/first.h;
++  check(change>.1 && change<10,"One outlier changed body cell scale by an order of magnitude");
++  check(outlier.roots.size()<=body.size(),"Sparse memory depends on key span");
++  std::cout<<"SPARSE_TEST_PASS A_empty_space C_negative_key D_determinism E_huge_key_range B_outlier_h_ratio="<<change
++           <<" body_h="<<first.h<<" outlier_h="<<outlier.h<<" roots="<<outlier.roots.size()<<'\n';
++
++  auto options=torch::TensorOptions().dtype(torch::kFloat64);torch::set_num_threads(2);
++  std::vector<double>points;
++  for(int x=0;x<16;++x)for(int y=0;y<16;++y)for(int z=0;z<16;++z)
++    {points.push_back(.1*x-.8);points.push_back(.1*y-.8);points.push_back(.1*z-.8);}
++  auto X=torch::from_blob(points.data(),{4096,3},options).clone(),S=torch::full_like(X,1e-4),W=torch::ones({4096},options);
++  auto mask=torch::ones({4096},options.dtype(torch::kBool));
++  auto result=h::build(X,S,W,mask,mask);partition(result);
++  int split=0;for(auto& n:result.nodes)split+=!n.leaf;check(split>0,"Octree partition fixture must exercise split");
++  auto second=h::build(X,S,W,mask,mask);
++  check(result.importance.equal(second.importance)&&result.leaf_assignment.equal(second.leaf_assignment),"Sparse tree/output nondeterministic");
++  auto changed_mass=h::build(X,S,W*7,mask,mask);
++  check(result.h_root==changed_mass.h_root&&result.search_samples.size()==changed_mass.search_samples.size(),
++      "Raw SI changed root search");
++  for(size_t i=0;i<result.search_samples.size();++i)
++    check(result.search_samples[i].h==changed_mass.search_samples[i].h&&
++        result.search_samples[i].occupied==changed_mass.search_samples[i].occupied,"Raw SI changed search trace");
++  auto noncandidate=mask.clone();noncandidate[4095]=false;
++  auto excluded=h::build(X,S,W,noncandidate,mask);
++  auto changed_x=X.clone();changed_x[4095]=torch::tensor({1e200,-1e200,1e200},options);
++  auto changed_scale=S.clone();changed_scale[4095]=torch::tensor({1e100,1e100,1e100},options);
++  auto excluded_repeat=h::build(changed_x,changed_scale,W,noncandidate,mask);
++  check(excluded.h_root==excluded_repeat.h_root&&excluded.leaf_assignment.equal(excluded_repeat.leaf_assignment)&&
++      excluded.importance.equal(excluded_repeat.importance),"Invalid row changed sparse grid/search/tree");
++  auto unobserved=h::build(changed_x,changed_scale,W,mask,noncandidate);
++  check(excluded.importance.equal(unobserved.importance),"Unobserved row changed hierarchy population");
++  // One completely identical leaf has identical geometry/rows under both backends.
++  auto duplicate=torch::full({5,3},.123,options),weights=torch::tensor({10.,9.,8.,7.,6.},options);
++  auto five=torch::ones({5},options.dtype(torch::kBool));
++  auto legacy=h::build(duplicate,torch::ones_like(duplicate),weights,five,five,h::RootBackend::LegacyAabb2048);
++  auto modern=h::build(duplicate,torch::ones_like(duplicate),weights,five,five);
++  check(legacy.nodes.size()==1&&modern.nodes.size()==1,"Parity fixture must use same leaf");
++  check(legacy.nodes[0].representatives==modern.nodes[0].representatives&&legacy.nodes[0].gains==modern.nodes[0].gains&&
++      legacy.nodes[0].quality==modern.nodes[0].quality&&legacy.importance.equal(modern.importance),"Same leaf representative backend parity failed");
++  std::cout<<"SPARSE_TEST_PASS F_octree_partition G_same_leaf_representative_parity masks_and_no_mass_in_search\n";
++}
++void smoke(const std::string& file,const std::filesystem::path& output){
++  std::ifstream stream(file,std::ios::binary);int64_t n;stream.read(reinterpret_cast<char*>(&n),8);check(n>0&&n<10000000,"Bad fixture N");
++  auto options=torch::TensorOptions().dtype(torch::kFloat64);
++  auto x=torch::empty({n,3},options),s=torch::empty({n,3},options),w=torch::empty({n},options);
++  auto valid=torch::empty({n},options.dtype(torch::kUInt8)),observed=torch::empty_like(valid);
++  for(int64_t i=0;i<n;++i){
++    stream.read(reinterpret_cast<char*>(x.data_ptr<double>()+3*i),24);stream.read(reinterpret_cast<char*>(s.data_ptr<double>()+3*i),24);
++    stream.read(reinterpret_cast<char*>(w.data_ptr<double>()+i),8);stream.read(reinterpret_cast<char*>(valid.data_ptr<uint8_t>()+i),1);
++    stream.read(reinterpret_cast<char*>(observed.data_ptr<uint8_t>()+i),1);
++  }
++  check(bool(stream),"Incomplete fixture");
++  check(torch::cuda::is_available(),"Fixture validation requires existing CUDA device");
++  x=x.cuda();s=s.cuda();w=w.cuda();valid=valid.to(torch::kCUDA,torch::kBool);observed=observed.to(torch::kCUDA,torch::kBool);
++  for(auto backend:{h::RootBackend::LegacyAabb2048,h::RootBackend::SparseHashTarget2048}){
++    auto result=h::build(x,s,w,valid,observed,backend);partition(result);
++    std::string stem=backend==h::RootBackend::LegacyAabb2048?"legacy_aabb_2048":"sparse_hash_target_2048";
++    h::writeDiagnostics(result,output,stem);
++    auto out=result.importance.to(torch::kCPU).contiguous();auto leaf=result.leaf_assignment.contiguous();
++    std::ofstream binary(output/(stem+".bin"),std::ios::binary);binary.write(reinterpret_cast<char*>(&n),8);
++    binary.write(reinterpret_cast<char*>(out.data_ptr<double>()),8*n);binary.write(reinterpret_cast<char*>(leaf.data_ptr<int64_t>()),8*n);
++    check(bool(binary),"Smoke export failed");
++    if(backend==h::RootBackend::SparseHashTarget2048){
++      auto repeat=h::build(x,s,w,valid,observed,backend);
++      check(repeat.h_root==result.h_root&&repeat.nodes.size()==result.nodes.size()&&repeat.leaf_assignment.equal(result.leaf_assignment)&&
++          repeat.importance.equal(result.importance),"Real sparse repeat not deterministic");
++      for(size_t i=0;i<result.nodes.size();++i){const auto&a=result.nodes[i];const auto&b=repeat.nodes[i];
++        check(a.root_key==b.root_key&&a.path==b.path&&a.representatives==b.representatives&&a.quality==b.quality&&a.gains==b.gains,"Real tree/greedy repeat not deterministic");}
++    }
++    std::cout<<"STRUCTURAL_FIXTURE_PASS "<<stem<<" candidates="<<result.candidates<<" h="<<result.h_root<<" mass_relative="<<result.conservation_relative<<" ms="<<result.build_ms<<'\n';
++  }
++}
++}  // namespace
++int main(int argc,char**argv){try{
++  torch::set_num_threads(2);torch::manual_seed(20261019);
++  if(argc==1)synthetic();else{check(argc==3,"Expected input/output arguments");smoke(argv[1],argv[2]);}
++  std::cout<<"SPARSE_ROOT_TEST_PASS\n";return 0;
++}catch(const std::exception&e){std::cerr<<e.what()<<'\n';return 1;}}

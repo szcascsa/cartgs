@@ -1,0 +1,105 @@
+{
+  "F1": "NOT SUPPORTED",
+  "F2": "PROGRESSIVE SUPPORTED",
+  "F3": "COMBINED SUPPORTED",
+  "strong_improvement": false,
+  "gates": {
+    "F1_high_redundancy": false,
+    "F1_high_mean_PSNR": true,
+    "F2_1percent_PSNR": true,
+    "F2_high_no_regression": true,
+    "F3_mean_PSNR": true,
+    "F3_1percent_PSNR": true,
+    "F3_high_redundancy": true,
+    "strong_B_PSNR": true,
+    "strong_B_redundancy": false
+  },
+  "delta_PSNR_vs_C": {
+    "F1_MarginalTail": [
+      0.0,
+      -0.005792274238160644,
+      0.05828532224856531,
+      0.04482739608480557
+    ],
+    "F2_ProgressiveResidual": [
+      0.10388745136142497,
+      0.0016367006005708618,
+      0.020476915821525665,
+      0.03905033917160594
+    ],
+    "F3_ProgressiveMarginal": [
+      0.10388745136142497,
+      0.012905215624694932,
+      0.059142598454254625,
+      0.06243494282598405
+    ]
+  },
+  "delta_PSNR_F3_vs_B": [
+    0.055951225091211754,
+    0.07948761104796986,
+    0.017016701076340013,
+    0.017013437259272735
+  ],
+  "F3_mean_delta_C_PSNR": 0.059592552066589644,
+  "F3_mean_delta_B_PSNR": 0.04236724361869859,
+  "redundancy_reduction_vs_C": {
+    "F1_MarginalTail": [
+      0.0,
+      -0.03003301516602419,
+      0.0017647431329430585,
+      0.05377822132093324
+    ],
+    "F2_ProgressiveResidual": [
+      0.28346596597934937,
+      0.10177302873165572,
+      0.045523291098181096,
+      0.0660961585262847
+    ],
+    "F3_ProgressiveMarginal": [
+      0.28346596597934937,
+      0.09012993031967509,
+      0.05755979535218214,
+      0.08313591290840894
+    ]
+  },
+  "strong_B_redundancy_detail": {
+    "B_mean_of_four": 0.12152077957396168,
+    "F3_mean_of_four": 0.14910853735469562,
+    "B_pairs_gt09_total": 127,
+    "F3_pairs_gt09_total": 231,
+    "allowed_multiplier": 1.1
+  },
+  "Q1": "MIXED",
+  "Q2": "YES",
+  "Q3": "NO",
+  "Q4": "YES",
+  "Q5": "EXCEEDS",
+  "Q6": "depth scheduling",
+  "Q7": "ADOPT BOTH",
+  "recommendation_scope": "offline mechanism only; no production change or online claim",
+  "F2_vs_prior_L1only_1pct_PSNR": 0.004684625945476029,
+  "one_percent_spatial": {
+    "C_Hierarchical": {
+      "selected_roots": 331.0,
+      "selected_final_leaves": 459.0,
+      "hit_root_Raw_mass_fraction": 0.7370395035840067,
+      "hit_leaf_Raw_mass_fraction": 0.5459407685496873
+    },
+    "F2_ProgressiveResidual": {
+      "selected_roots": 333.0,
+      "selected_final_leaves": 461.0,
+      "hit_root_Raw_mass_fraction": 0.7443634250234521,
+      "hit_leaf_Raw_mass_fraction": 0.5361168962709189
+    },
+    "F3_ProgressiveMarginal": {
+      "selected_roots": 333.0,
+      "selected_final_leaves": 461.0,
+      "hit_root_Raw_mass_fraction": 0.7443634250234521,
+      "hit_leaf_Raw_mass_fraction": 0.5361168962709189
+    }
+  },
+  "high_budget_metric_policy": "Current task records SSIM/photo without a new universal downgrade gate; all differences saved. Previous overall QUALITY INCONCLUSIVE baseline remains historically correct.",
+  "no_parameter_search": true,
+  "no_commit": true,
+  "no_push": true
+}

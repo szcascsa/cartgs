@@ -1,0 +1,980 @@
+{
+  "all_passed": true,
+  "checked": {
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/point_cloud/iteration_16900/point_cloud.ply": {
+      "expected": "73f23088aab5c39c9864cf3a0b0fb1fab6384ae162bc848dadeefec5f0b1c4bb",
+      "actual": "73f23088aab5c39c9864cf3a0b0fb1fab6384ae162bc848dadeefec5f0b1c4bb"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/transform_field.pt": {
+      "expected": "a01c7b908dee8a9fd29603babe49fb5a2c99e8e0010072d8ef13b85429cfa4bd",
+      "actual": "a01c7b908dee8a9fd29603babe49fb5a2c99e8e0010072d8ef13b85429cfa4bd"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/selector_config.yaml": {
+      "expected": "f6453a80643323f7e579b78787da5b19208db4a7f0ba2f2a9aafe6fa29381953",
+      "actual": "f6453a80643323f7e579b78787da5b19208db4a7f0ba2f2a9aafe6fa29381953"
+    },
+    "/home/prmi/zwj/second-scene-strong-go-20261018/inputs/fr1_room/cameras.pt": {
+      "expected": "90e74ad824dddcdd2a740d004082d747f170ce912aaaff07e99f6c1c9e5caabf",
+      "actual": "90e74ad824dddcdd2a740d004082d747f170ce912aaaff07e99f6c1c9e5caabf"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/view_bank_orb.json": {
+      "expected": "0dda186704c1567546bdd8bf398c6d85f888ce7ed5fb03ca6132ca1e584f747d",
+      "actual": "0dda186704c1567546bdd8bf398c6d85f888ce7ed5fb03ca6132ca1e584f747d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261018_tum_aligned/jobs/tum/rgbd/fr1_room/full/attempt_1/model/16900_shutdown/ply/cameras.json": {
+      "expected": "fb591c3be1df54d4bf28a108665608f76606b02e7a2f4f3d0f158a95f2cea1c5",
+      "actual": "fb591c3be1df54d4bf28a108665608f76606b02e7a2f4f3d0f158a95f2cea1c5"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031910.765238.png": {
+      "expected": "94afe78f6c0efac7e2f268392a8014c7f5da3b763524eb098cd44265dded94c2",
+      "actual": "94afe78f6c0efac7e2f268392a8014c7f5da3b763524eb098cd44265dded94c2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031910.865025.png": {
+      "expected": "b65b003f027e91742e119e7029d96bfb39fa50dc1a50061dcfd50cfe2943d645",
+      "actual": "b65b003f027e91742e119e7029d96bfb39fa50dc1a50061dcfd50cfe2943d645"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031910.897222.png": {
+      "expected": "ac1a7d3040d2f28c51be2021fb79f27c3d3126db18da984e60b8fa5178f37792",
+      "actual": "ac1a7d3040d2f28c51be2021fb79f27c3d3126db18da984e60b8fa5178f37792"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031910.965249.png": {
+      "expected": "8380f80874cad901ae9d5b18cd634e2458b49dbd3fb1f0a9d29371077bf858f9",
+      "actual": "8380f80874cad901ae9d5b18cd634e2458b49dbd3fb1f0a9d29371077bf858f9"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.035050.png": {
+      "expected": "197bb15d9714d00bb37f6ea48b128884ba8fc1c4000c5fcf62fd908b3c3210fa",
+      "actual": "197bb15d9714d00bb37f6ea48b128884ba8fc1c4000c5fcf62fd908b3c3210fa"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.065269.png": {
+      "expected": "67f6cce0ae65e75d2eb6016c1a83b559116f955d83d047b7abf41ab1886ebed1",
+      "actual": "67f6cce0ae65e75d2eb6016c1a83b559116f955d83d047b7abf41ab1886ebed1"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.165177.png": {
+      "expected": "0220c3f04182b0b602f64529d78ad03bd60c2bbd2c297d5b63e7eba1d31a1ee4",
+      "actual": "0220c3f04182b0b602f64529d78ad03bd60c2bbd2c297d5b63e7eba1d31a1ee4"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.297334.png": {
+      "expected": "8ae190dbb945682cc22d64b31b74edc3374d57eb431df5e55f4b381e2d4a2c2f",
+      "actual": "8ae190dbb945682cc22d64b31b74edc3374d57eb431df5e55f4b381e2d4a2c2f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.465250.png": {
+      "expected": "dc5d0993b657ad5b577e90bedf44f0facb891c349799fb6d44b25daee3dcd552",
+      "actual": "dc5d0993b657ad5b577e90bedf44f0facb891c349799fb6d44b25daee3dcd552"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.597302.png": {
+      "expected": "feb28a8d401a678b73302a1a1260d80a63665c923ff3f72f2e6ef04b0e523af9",
+      "actual": "feb28a8d401a678b73302a1a1260d80a63665c923ff3f72f2e6ef04b0e523af9"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.733203.png": {
+      "expected": "2f2f4241c12d92d55d5f60fa64f13568872b7270ab28344b9c88d51c5c8dc755",
+      "actual": "2f2f4241c12d92d55d5f60fa64f13568872b7270ab28344b9c88d51c5c8dc755"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.897159.png": {
+      "expected": "cba6cdb871a2ac264d89d58eafc9d25f5f122f2426d76a4793a385110a988c84",
+      "actual": "cba6cdb871a2ac264d89d58eafc9d25f5f122f2426d76a4793a385110a988c84"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031911.965140.png": {
+      "expected": "df06c6a9c69ddd81e3c78af54eeb537feb63abc59085cfeca4e79a6faaff4517",
+      "actual": "df06c6a9c69ddd81e3c78af54eeb537feb63abc59085cfeca4e79a6faaff4517"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031912.065365.png": {
+      "expected": "ed4f2d3c57956d21a847755f277418c0981879d82c416ba0ebdfbd915d561947",
+      "actual": "ed4f2d3c57956d21a847755f277418c0981879d82c416ba0ebdfbd915d561947"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031912.233265.png": {
+      "expected": "53fa7f1e996a9cbf6b46454c6442bf1e12fcb6a6d8d415b1f3cec269638e4fdd",
+      "actual": "53fa7f1e996a9cbf6b46454c6442bf1e12fcb6a6d8d415b1f3cec269638e4fdd"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031912.797155.png": {
+      "expected": "d01d9a164a0976de9952f7f758b0b103c67f5bc7bc8403984354595d998a1e07",
+      "actual": "d01d9a164a0976de9952f7f758b0b103c67f5bc7bc8403984354595d998a1e07"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.197113.png": {
+      "expected": "e18ac953a8d9fcf625c22cd472accfb1b0c9ea6be0126991b51de23093ddc13c",
+      "actual": "e18ac953a8d9fcf625c22cd472accfb1b0c9ea6be0126991b51de23093ddc13c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.297160.png": {
+      "expected": "3ece062c76e866b2609134cf187ab4ae0466802e9814db24c1785fe35641a159",
+      "actual": "3ece062c76e866b2609134cf187ab4ae0466802e9814db24c1785fe35641a159"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.397099.png": {
+      "expected": "ff58581ff4749752a711e7fe5691497a077512853ef3d6c3213a89b7d71ace76",
+      "actual": "ff58581ff4749752a711e7fe5691497a077512853ef3d6c3213a89b7d71ace76"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.497227.png": {
+      "expected": "8c560c768a55ced46b4b610fc364462b966b3fb9901dd64da7dee55c2ac37350",
+      "actual": "8c560c768a55ced46b4b610fc364462b966b3fb9901dd64da7dee55c2ac37350"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.633293.png": {
+      "expected": "c56b4291a7eaeeb81e160947d7a6d0697833e35f8533fa392cc0d7718155a222",
+      "actual": "c56b4291a7eaeeb81e160947d7a6d0697833e35f8533fa392cc0d7718155a222"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.765028.png": {
+      "expected": "ac991440fd8e213ab6dcb3915fd2ce8d7a4d23e60ed8a8c8956dade0733dc425",
+      "actual": "ac991440fd8e213ab6dcb3915fd2ce8d7a4d23e60ed8a8c8956dade0733dc425"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031913.897116.png": {
+      "expected": "d69999899636de9ae97bf2913b61281ad1943abaab8b814da04735656a995d5d",
+      "actual": "d69999899636de9ae97bf2913b61281ad1943abaab8b814da04735656a995d5d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.033441.png": {
+      "expected": "b1f796329f20fa1115bbd3269e37955ca1c084cf9b6093569518bc531782d2f9",
+      "actual": "b1f796329f20fa1115bbd3269e37955ca1c084cf9b6093569518bc531782d2f9"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.165013.png": {
+      "expected": "b02a031097d8221d40f4c0c7a77cc85d81f446d67ea5f69ccf98685b6291fc5e",
+      "actual": "b02a031097d8221d40f4c0c7a77cc85d81f446d67ea5f69ccf98685b6291fc5e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.265074.png": {
+      "expected": "626b0f470084e3c56346745fd3a1261c271a434bd2d4ea81d895eff39d675d52",
+      "actual": "626b0f470084e3c56346745fd3a1261c271a434bd2d4ea81d895eff39d675d52"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.365058.png": {
+      "expected": "107a6954fc205a6dc28f1327add39dcb3f53157f586ef808f0e229e53cc3d703",
+      "actual": "107a6954fc205a6dc28f1327add39dcb3f53157f586ef808f0e229e53cc3d703"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.533107.png": {
+      "expected": "66f488497814a0683404bbbd8ce79977627df4539126353193e81272082348e4",
+      "actual": "66f488497814a0683404bbbd8ce79977627df4539126353193e81272082348e4"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.665019.png": {
+      "expected": "f9e9abbe1ea52a8a4cd52572fd69d1c22927873e3a1ae738dfcf2ecc7b619e9b",
+      "actual": "f9e9abbe1ea52a8a4cd52572fd69d1c22927873e3a1ae738dfcf2ecc7b619e9b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031914.797119.png": {
+      "expected": "d37ecec3d4d3c7546db6310bc68902c34ec2fa19426dd08d810ea233ba8a7f1f",
+      "actual": "d37ecec3d4d3c7546db6310bc68902c34ec2fa19426dd08d810ea233ba8a7f1f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.033152.png": {
+      "expected": "dbd85a97fc050c089a8b89c728cc7fe3f9642f202a6b7c46e6a36d4fa37abf30",
+      "actual": "dbd85a97fc050c089a8b89c728cc7fe3f9642f202a6b7c46e6a36d4fa37abf30"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.165021.png": {
+      "expected": "cc0321aa543ff7eb833b03eedc9de59ffbba2e5b4b633fd8443366335b6d2df2",
+      "actual": "cc0321aa543ff7eb833b03eedc9de59ffbba2e5b4b633fd8443366335b6d2df2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.297152.png": {
+      "expected": "bc07a3c8babb16fc1a6ec5943581a27cfd2910bb4d3945e548427bd37ea6cf23",
+      "actual": "bc07a3c8babb16fc1a6ec5943581a27cfd2910bb4d3945e548427bd37ea6cf23"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.432960.png": {
+      "expected": "442f3401fb37b0c28a2489261fde23e201fd8f2c8105772b76367368e9cc6e4e",
+      "actual": "442f3401fb37b0c28a2489261fde23e201fd8f2c8105772b76367368e9cc6e4e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.601161.png": {
+      "expected": "162f3ac06a359cf0a6e028278c178d1aef438bf210b0946fac9b9dbf060e3468",
+      "actual": "162f3ac06a359cf0a6e028278c178d1aef438bf210b0946fac9b9dbf060e3468"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.765010.png": {
+      "expected": "2ddcda262615514b200a69ac4296e946ec234ea51ddd9aaf1985a7a7e95745ca",
+      "actual": "2ddcda262615514b200a69ac4296e946ec234ea51ddd9aaf1985a7a7e95745ca"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031915.933056.png": {
+      "expected": "81ab07249b9eb4cc9c46f3692a1ba3603f2ba20b0c3101311466a97d0576d64b",
+      "actual": "81ab07249b9eb4cc9c46f3692a1ba3603f2ba20b0c3101311466a97d0576d64b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.101115.png": {
+      "expected": "09605869eee41912c1bba4da299365baa8ec47485fbc33555948d81c41679ee5",
+      "actual": "09605869eee41912c1bba4da299365baa8ec47485fbc33555948d81c41679ee5"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.265060.png": {
+      "expected": "888a0b61eb5f302cd4bf7944cf146e6fd9ec0bd3069572ba0aab6d1212282e8d",
+      "actual": "888a0b61eb5f302cd4bf7944cf146e6fd9ec0bd3069572ba0aab6d1212282e8d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.465124.png": {
+      "expected": "af079cebf0cf0d5b5d01b739acc5acfc130ad2fc9536222b4338ef6567fd1dcd",
+      "actual": "af079cebf0cf0d5b5d01b739acc5acfc130ad2fc9536222b4338ef6567fd1dcd"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.701048.png": {
+      "expected": "38633b1d8d8ae9d356a08cd30944bed5f38d167cbf0bb86836af75233125d51f",
+      "actual": "38633b1d8d8ae9d356a08cd30944bed5f38d167cbf0bb86836af75233125d51f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031916.901017.png": {
+      "expected": "f0599aac748a7c616bcbe0b48d19457bef8716b8d7b6767da84af8d622ede4df",
+      "actual": "f0599aac748a7c616bcbe0b48d19457bef8716b8d7b6767da84af8d622ede4df"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.065136.png": {
+      "expected": "bbccb81b77d2a48ca75bbd8236a89ee7480ba47c906bcf04e82bc27ff316849e",
+      "actual": "bbccb81b77d2a48ca75bbd8236a89ee7480ba47c906bcf04e82bc27ff316849e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.201175.png": {
+      "expected": "c5cd5afce017016f40d29261f542dc5f05fb15d3711940356135ee74815821b0",
+      "actual": "c5cd5afce017016f40d29261f542dc5f05fb15d3711940356135ee74815821b0"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.265163.png": {
+      "expected": "8fb73d7406d1f66dfa17e6ed32ca04377c667b17c75c1e2c2c2cca4daca88781",
+      "actual": "8fb73d7406d1f66dfa17e6ed32ca04377c667b17c75c1e2c2c2cca4daca88781"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.301107.png": {
+      "expected": "cec916d3045a645df743f14dc3458501499b1d5bbae9390c2334ee1e570f0d65",
+      "actual": "cec916d3045a645df743f14dc3458501499b1d5bbae9390c2334ee1e570f0d65"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.365138.png": {
+      "expected": "17f8ac0d062c871a3158315d6241739ee3f0ec6a67c2d82a7b064706141be406",
+      "actual": "17f8ac0d062c871a3158315d6241739ee3f0ec6a67c2d82a7b064706141be406"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.465076.png": {
+      "expected": "ad2fe90a839f1d03d579a0b01cbd35d46d1a3b3379f89e8ab00e7992eaf82ee3",
+      "actual": "ad2fe90a839f1d03d579a0b01cbd35d46d1a3b3379f89e8ab00e7992eaf82ee3"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.533057.png": {
+      "expected": "fc37c82da3d011932d19c86112f173af971fd92904cd864cf238a1f8011efadc",
+      "actual": "fc37c82da3d011932d19c86112f173af971fd92904cd864cf238a1f8011efadc"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.601069.png": {
+      "expected": "3b4ab9de8518ef3a9d4f7e926201a307fd8d02ca0b9df2fa4c5464c79029cf24",
+      "actual": "3b4ab9de8518ef3a9d4f7e926201a307fd8d02ca0b9df2fa4c5464c79029cf24"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.701096.png": {
+      "expected": "8294b4132c2337bd1fe60f7df6a33ff8549347a9a8b54e668af021db39503930",
+      "actual": "8294b4132c2337bd1fe60f7df6a33ff8549347a9a8b54e668af021db39503930"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.833090.png": {
+      "expected": "0d0e151eb47b6143185561f1ca13484e4b1aacbed0c4cc23d384b1d572453abb",
+      "actual": "0d0e151eb47b6143185561f1ca13484e4b1aacbed0c4cc23d384b1d572453abb"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031917.965346.png": {
+      "expected": "b5c7dd93104d84bf4b01f1e1ffff58c63ed67cf66e66a6cf127137b38beac848",
+      "actual": "b5c7dd93104d84bf4b01f1e1ffff58c63ed67cf66e66a6cf127137b38beac848"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031918.165017.png": {
+      "expected": "29d839d1302ba9b644ed1124fa7a8e68038a0328a98a30ac7e73a654dfa02ed1",
+      "actual": "29d839d1302ba9b644ed1124fa7a8e68038a0328a98a30ac7e73a654dfa02ed1"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031918.365072.png": {
+      "expected": "4b0a1722f29ae412e5691f9c03f049d38e567d759c7329c7dd70d84f44aeb491",
+      "actual": "4b0a1722f29ae412e5691f9c03f049d38e567d759c7329c7dd70d84f44aeb491"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031918.633027.png": {
+      "expected": "31c68eba3834e60db89e23443558c4ea0943dad20ddc9b16e077abc9bd38748e",
+      "actual": "31c68eba3834e60db89e23443558c4ea0943dad20ddc9b16e077abc9bd38748e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031918.901084.png": {
+      "expected": "b99a0ce4a5bfd8a5092e2cb8984c3c9a4b4fe9441f0ec80841ac096e74897b88",
+      "actual": "b99a0ce4a5bfd8a5092e2cb8984c3c9a4b4fe9441f0ec80841ac096e74897b88"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031919.233093.png": {
+      "expected": "271458909d75729140b7eb8670917d238f72971afaa73d851b1a9c16a4204664",
+      "actual": "271458909d75729140b7eb8670917d238f72971afaa73d851b1a9c16a4204664"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031919.533110.png": {
+      "expected": "279dace0c6c61dffd1e316e11226aad237f733e07920697ad2da39f7404aca51",
+      "actual": "279dace0c6c61dffd1e316e11226aad237f733e07920697ad2da39f7404aca51"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031919.801129.png": {
+      "expected": "af56128527faab2822aac4976f1736afe4b1455846e1f0a10f23ea84e6bae331",
+      "actual": "af56128527faab2822aac4976f1736afe4b1455846e1f0a10f23ea84e6bae331"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.033118.png": {
+      "expected": "52a90922cd5f2249eab912d9f359a289fde25a9b46d3fa820af1bee26cb55ba1",
+      "actual": "52a90922cd5f2249eab912d9f359a289fde25a9b46d3fa820af1bee26cb55ba1"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.132987.png": {
+      "expected": "309c731570d0fc0acacf73bfd589affda6889e9c7652cda0a80b59e0d8520663",
+      "actual": "309c731570d0fc0acacf73bfd589affda6889e9c7652cda0a80b59e0d8520663"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.233083.png": {
+      "expected": "5b3f46366e6227d35bbc73a3f0e55d580b55dceec66a10fbb70332912ec67c7f",
+      "actual": "5b3f46366e6227d35bbc73a3f0e55d580b55dceec66a10fbb70332912ec67c7f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.301096.png": {
+      "expected": "d8e03157d339bbea498561e38e55b5c8adcaeb8b42ee9d072cc5530adce2bacc",
+      "actual": "d8e03157d339bbea498561e38e55b5c8adcaeb8b42ee9d072cc5530adce2bacc"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.401115.png": {
+      "expected": "9e81a175f4b07475d6e612743ef08e1f12b00ab59cc288f8f9b55029f6146974",
+      "actual": "9e81a175f4b07475d6e612743ef08e1f12b00ab59cc288f8f9b55029f6146974"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.533105.png": {
+      "expected": "a88006b4a0de038557885dc0e63a402c6b1f213d1b80ca12f246f3255e5ef50b",
+      "actual": "a88006b4a0de038557885dc0e63a402c6b1f213d1b80ca12f246f3255e5ef50b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.701147.png": {
+      "expected": "618e570aa970e6261ee5316f7ebefdd86c6183c936f60931c2f163331a61a3a1",
+      "actual": "618e570aa970e6261ee5316f7ebefdd86c6183c936f60931c2f163331a61a3a1"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031920.901037.png": {
+      "expected": "075b9e0719d40e7f712572dacbdedd44105db58c2add712e096fc5f5ab262de4",
+      "actual": "075b9e0719d40e7f712572dacbdedd44105db58c2add712e096fc5f5ab262de4"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031921.133159.png": {
+      "expected": "f3bd599719dc9eca50d806e26d633e24307aedc9793bc29768b9037c3d35d128",
+      "actual": "f3bd599719dc9eca50d806e26d633e24307aedc9793bc29768b9037c3d35d128"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031921.501096.png": {
+      "expected": "2b8f042ced7a13f08a6d948a873b0520db5161426183c3c25c9d58c5ed5a424f",
+      "actual": "2b8f042ced7a13f08a6d948a873b0520db5161426183c3c25c9d58c5ed5a424f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031921.701068.png": {
+      "expected": "8b0e4985296e177c9d88db5b43cb0c400061c286ea50cfe65f83a5ad7be12dd7",
+      "actual": "8b0e4985296e177c9d88db5b43cb0c400061c286ea50cfe65f83a5ad7be12dd7"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031921.865148.png": {
+      "expected": "ca2cf2173094c4cc09bd54d191d728806ebad087344f683ee7b189bfe2097d09",
+      "actual": "ca2cf2173094c4cc09bd54d191d728806ebad087344f683ee7b189bfe2097d09"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031922.301137.png": {
+      "expected": "6115dbd724060a4358dddc536835003a39258c0b8bd933d751eeee36c75248b7",
+      "actual": "6115dbd724060a4358dddc536835003a39258c0b8bd933d751eeee36c75248b7"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031922.765373.png": {
+      "expected": "e475237f3b0cd576345e0d081fd2e5544840aa483a6fd90be554d9cfbe331159",
+      "actual": "e475237f3b0cd576345e0d081fd2e5544840aa483a6fd90be554d9cfbe331159"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031923.265159.png": {
+      "expected": "6036b6663d138f77b4f4c03545fc3ad7e0b5fe54e0f4053f018a7f1caeecf37f",
+      "actual": "6036b6663d138f77b4f4c03545fc3ad7e0b5fe54e0f4053f018a7f1caeecf37f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031923.501145.png": {
+      "expected": "1f682de0531854cddf41d48240b647a7b7fba8501a77d1d542213c265cb1ff29",
+      "actual": "1f682de0531854cddf41d48240b647a7b7fba8501a77d1d542213c265cb1ff29"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031923.765175.png": {
+      "expected": "236a14e40b2a4f2ddf7301ad93521cdc57f05b127c3b8bba9fe5a5e81127050c",
+      "actual": "236a14e40b2a4f2ddf7301ad93521cdc57f05b127c3b8bba9fe5a5e81127050c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031923.965198.png": {
+      "expected": "f4d9c54dd3178e12a2cfb5e939ec1e2e309133c23ccfea22599cc42cc8747fc2",
+      "actual": "f4d9c54dd3178e12a2cfb5e939ec1e2e309133c23ccfea22599cc42cc8747fc2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031924.233238.png": {
+      "expected": "da903dd643a6e85f3435d4a39e93015966bd603ec1fe51b03a4d4390b83cd832",
+      "actual": "da903dd643a6e85f3435d4a39e93015966bd603ec1fe51b03a4d4390b83cd832"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031924.533245.png": {
+      "expected": "ccaf9e8057d3799f7f19ae1ce27555416f293b6404383dd9dd4fa4232103e42b",
+      "actual": "ccaf9e8057d3799f7f19ae1ce27555416f293b6404383dd9dd4fa4232103e42b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031924.865165.png": {
+      "expected": "6f161309aa0c507b80641b8f1f85fd63ba7d0cb877e6b740fd1e89d643fa2e8c",
+      "actual": "6f161309aa0c507b80641b8f1f85fd63ba7d0cb877e6b740fd1e89d643fa2e8c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031925.333142.png": {
+      "expected": "bb9116fd298c4cc7f409bf3ea6514cdbccbfa4c7f81d442a919b900308d124a2",
+      "actual": "bb9116fd298c4cc7f409bf3ea6514cdbccbfa4c7f81d442a919b900308d124a2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031925.601218.png": {
+      "expected": "f76c33c454395475cdbd7e1402449fe34dd49538575e5575465e1923d59cc050",
+      "actual": "f76c33c454395475cdbd7e1402449fe34dd49538575e5575465e1923d59cc050"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031925.801208.png": {
+      "expected": "9cf8d7e928ac14238808d977f7ae624259213a9e5c32f6864200065f5aba4fad",
+      "actual": "9cf8d7e928ac14238808d977f7ae624259213a9e5c32f6864200065f5aba4fad"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031925.969198.png": {
+      "expected": "2dcd5615f79b189b42bdb80c6087c63a467fe1e7bb18ded09972c4b41eef64eb",
+      "actual": "2dcd5615f79b189b42bdb80c6087c63a467fe1e7bb18ded09972c4b41eef64eb"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.169101.png": {
+      "expected": "f25a60b87a0d27608e1cecfd5387479b1736c205019b6ad830b3be1976dbe8ef",
+      "actual": "f25a60b87a0d27608e1cecfd5387479b1736c205019b6ad830b3be1976dbe8ef"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.333164.png": {
+      "expected": "f86400056522a9ad61a389ed7c816e42a1a0c1439c25e3a61d4423ffc0dfb4f1",
+      "actual": "f86400056522a9ad61a389ed7c816e42a1a0c1439c25e3a61d4423ffc0dfb4f1"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.601166.png": {
+      "expected": "0b4baa9e842b0affdebbe76b6267733dcb8d5a9ca59789b70dd486d21531afbe",
+      "actual": "0b4baa9e842b0affdebbe76b6267733dcb8d5a9ca59789b70dd486d21531afbe"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.801342.png": {
+      "expected": "cf2bbe4ce8136bc5fcfdb729841dba4c08ccb6f2197eeb9dbd9b38aa620f8158",
+      "actual": "cf2bbe4ce8136bc5fcfdb729841dba4c08ccb6f2197eeb9dbd9b38aa620f8158"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031926.969122.png": {
+      "expected": "1d63b0f779c383e03af4f10a0330313257baa78e2a346584bfab57896be7022f",
+      "actual": "1d63b0f779c383e03af4f10a0330313257baa78e2a346584bfab57896be7022f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031927.101272.png": {
+      "expected": "5cd5b6c42bd8a6f3e018cbd17bfeb895b42853a532020c4e8ca4fd7acc14093c",
+      "actual": "5cd5b6c42bd8a6f3e018cbd17bfeb895b42853a532020c4e8ca4fd7acc14093c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031927.233491.png": {
+      "expected": "15a50a9c9e74ccbaaa129e52b00276d5324911b328b27475458082fd8e9908b6",
+      "actual": "15a50a9c9e74ccbaaa129e52b00276d5324911b328b27475458082fd8e9908b6"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031927.433274.png": {
+      "expected": "ed786afcd0327e8e0db6f5a2a413a08f1696ac81c1a7955ca038c6474685ab08",
+      "actual": "ed786afcd0327e8e0db6f5a2a413a08f1696ac81c1a7955ca038c6474685ab08"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031927.633201.png": {
+      "expected": "540b3c0863bdc86a8d41d7ea17d12b2e7334e58add87776a6b2582023140214c",
+      "actual": "540b3c0863bdc86a8d41d7ea17d12b2e7334e58add87776a6b2582023140214c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.133202.png": {
+      "expected": "9db93121f8afbc192ac0cf7925e719f4704ce7b66378a8088456a2cc5d5ea92a",
+      "actual": "9db93121f8afbc192ac0cf7925e719f4704ce7b66378a8088456a2cc5d5ea92a"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.369520.png": {
+      "expected": "bb4fbf35194dc52e78fa478c8cf8ec6d28e9c8ea4e632f785da324a6c3ed15b2",
+      "actual": "bb4fbf35194dc52e78fa478c8cf8ec6d28e9c8ea4e632f785da324a6c3ed15b2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.533982.png": {
+      "expected": "6f5b767abf6facbd74fcf2663df0ccb15afe898a432dcbac26fb806d02be9471",
+      "actual": "6f5b767abf6facbd74fcf2663df0ccb15afe898a432dcbac26fb806d02be9471"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.633595.png": {
+      "expected": "7cc343e7ea61789cbc73e9de8d53bcb1d2c16ef4f9baf7230f4b0dac8c8aa0f4",
+      "actual": "7cc343e7ea61789cbc73e9de8d53bcb1d2c16ef4f9baf7230f4b0dac8c8aa0f4"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.733185.png": {
+      "expected": "3ac62ce8d86a68ba9fbc5510d423ef7ce01256fa592caf294806855f6b01b202",
+      "actual": "3ac62ce8d86a68ba9fbc5510d423ef7ce01256fa592caf294806855f6b01b202"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031928.869148.png": {
+      "expected": "62f4cab7dfd4b9dd251a9bb7d4c3863e0cd8055bdb7392b9940a5d59fc15c92e",
+      "actual": "62f4cab7dfd4b9dd251a9bb7d4c3863e0cd8055bdb7392b9940a5d59fc15c92e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.001155.png": {
+      "expected": "387b2b32f4690ab4384535d4ec0ea003eb130670845004580d0c7c5b96a8929a",
+      "actual": "387b2b32f4690ab4384535d4ec0ea003eb130670845004580d0c7c5b96a8929a"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.101213.png": {
+      "expected": "aba94a1fb549ae5e43eb45c1b59399ac9f01c4b90dde84e2a20bf96d0a55665d",
+      "actual": "aba94a1fb549ae5e43eb45c1b59399ac9f01c4b90dde84e2a20bf96d0a55665d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.269214.png": {
+      "expected": "c1f4835eab6019f4dd2d671f09642cc2e6ebca6d71ab284b3f08e3f0f2c179d5",
+      "actual": "c1f4835eab6019f4dd2d671f09642cc2e6ebca6d71ab284b3f08e3f0f2c179d5"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.401369.png": {
+      "expected": "32279a0cd6a92d128176e1429c86892bcebb01cea3959f0ae4ff0c970f49bfc0",
+      "actual": "32279a0cd6a92d128176e1429c86892bcebb01cea3959f0ae4ff0c970f49bfc0"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.634447.png": {
+      "expected": "beceb0909defe51ae69ab65129b1caca8efc15cd197c3a9ee21ee116ae525b1b",
+      "actual": "beceb0909defe51ae69ab65129b1caca8efc15cd197c3a9ee21ee116ae525b1b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031929.969176.png": {
+      "expected": "03989e50edf927689025bc72f0e7ecb97a28682fa4d9b234c2d49678191c5dd1",
+      "actual": "03989e50edf927689025bc72f0e7ecb97a28682fa4d9b234c2d49678191c5dd1"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031930.301105.png": {
+      "expected": "c66312b425180ca4487989cf2408eeb4b30a4ac0893a24adaa00c2e48d4790e1",
+      "actual": "c66312b425180ca4487989cf2408eeb4b30a4ac0893a24adaa00c2e48d4790e1"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031930.469130.png": {
+      "expected": "79bf98279f27a6e059f9221afa660d3bbc50d863176ff95c5a9310ad9859d905",
+      "actual": "79bf98279f27a6e059f9221afa660d3bbc50d863176ff95c5a9310ad9859d905"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031930.668925.png": {
+      "expected": "1bf252ffe5e68ed064413a55f9b04285bfaa60ac4f8ccfb68e8e85d535b17881",
+      "actual": "1bf252ffe5e68ed064413a55f9b04285bfaa60ac4f8ccfb68e8e85d535b17881"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031931.000795.png": {
+      "expected": "ccc3c3ea128830656266c292238b93147828ca66c6d3fcb67f13b897bf198e89",
+      "actual": "ccc3c3ea128830656266c292238b93147828ca66c6d3fcb67f13b897bf198e89"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031931.200696.png": {
+      "expected": "0966521e108bc9244e54dab89daa8e047007034eaa9cb04a437288d87f72ae55",
+      "actual": "0966521e108bc9244e54dab89daa8e047007034eaa9cb04a437288d87f72ae55"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031931.332991.png": {
+      "expected": "061ab38e31abecacf0af3d54cc5e1db4a0d1e9e8aef608c4549406f7911c90ea",
+      "actual": "061ab38e31abecacf0af3d54cc5e1db4a0d1e9e8aef608c4549406f7911c90ea"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031931.569726.png": {
+      "expected": "4495b5aef9bb2b8b71a02d0a6b8afbbad7ad803205ffaf403d9a9f8d0fd5f2b8",
+      "actual": "4495b5aef9bb2b8b71a02d0a6b8afbbad7ad803205ffaf403d9a9f8d0fd5f2b8"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.200948.png": {
+      "expected": "00990606616d470ce988012e98f57edecf9a51f641f990f6fc4097b89d137b8f",
+      "actual": "00990606616d470ce988012e98f57edecf9a51f641f990f6fc4097b89d137b8f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.532959.png": {
+      "expected": "e04f5c62e686a31432a87865fc68532f7927a78e3b75dd1d55f14e21812cb8d5",
+      "actual": "e04f5c62e686a31432a87865fc68532f7927a78e3b75dd1d55f14e21812cb8d5"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.669236.png": {
+      "expected": "2f1f47a07814105eeacbb46743238094402c7f992c66ec7c3050caa5ae026f1d",
+      "actual": "2f1f47a07814105eeacbb46743238094402c7f992c66ec7c3050caa5ae026f1d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.800821.png": {
+      "expected": "cccee0319b205da36a2d51d35bb3f600aa7aab7015f822a82b123330210ac2ff",
+      "actual": "cccee0319b205da36a2d51d35bb3f600aa7aab7015f822a82b123330210ac2ff"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031932.901214.png": {
+      "expected": "d1ae1843c40a7b6b048289fd5d49b7ecd1bf77db4b59ff6192326538ba3f8de5",
+      "actual": "d1ae1843c40a7b6b048289fd5d49b7ecd1bf77db4b59ff6192326538ba3f8de5"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.001958.png": {
+      "expected": "ae187afd9943a13c404880e45cebbb0248a5434c552d49eb2f1f08c4857d4bd2",
+      "actual": "ae187afd9943a13c404880e45cebbb0248a5434c552d49eb2f1f08c4857d4bd2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.100908.png": {
+      "expected": "551c7213b72021374340b8b08053f114b1c492a9468ec99f2f970c62e976567e",
+      "actual": "551c7213b72021374340b8b08053f114b1c492a9468ec99f2f970c62e976567e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.233374.png": {
+      "expected": "820be46e49e009d5a951a1dffb6de6fd761e4a2806381b41aff9a607fe9d04eb",
+      "actual": "820be46e49e009d5a951a1dffb6de6fd761e4a2806381b41aff9a607fe9d04eb"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.432912.png": {
+      "expected": "d9b157b12179a20bcf27995034d759d4d71e0d3a7662d2590c5e326ccfef6265",
+      "actual": "d9b157b12179a20bcf27995034d759d4d71e0d3a7662d2590c5e326ccfef6265"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.600899.png": {
+      "expected": "4c27d94c27846d9832f98c58acad80bde978da695d17bd82cb1cbf8ca359c255",
+      "actual": "4c27d94c27846d9832f98c58acad80bde978da695d17bd82cb1cbf8ca359c255"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.700931.png": {
+      "expected": "69629f26ae0b8a6b9d325cf914015aaae657c8106702ab51a9a46230329fdb16",
+      "actual": "69629f26ae0b8a6b9d325cf914015aaae657c8106702ab51a9a46230329fdb16"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.833132.png": {
+      "expected": "4ac69f3766329ae831644e24fca0596388fb37db8f5dba28e094e5dff0f50a67",
+      "actual": "4ac69f3766329ae831644e24fca0596388fb37db8f5dba28e094e5dff0f50a67"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031933.968843.png": {
+      "expected": "66303cc497a3408447b5fa596c3196ebb1c91e37f0bfb938816869ca904bed36",
+      "actual": "66303cc497a3408447b5fa596c3196ebb1c91e37f0bfb938816869ca904bed36"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.100917.png": {
+      "expected": "b6509e855ab1d85aa47f01b9f2a03f58d218cfb94123396722b2d95ec72062a3",
+      "actual": "b6509e855ab1d85aa47f01b9f2a03f58d218cfb94123396722b2d95ec72062a3"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.200808.png": {
+      "expected": "e66bce455e8bbc87a031ce1f75cc234ff45fab64926432b2e831e9f8848def78",
+      "actual": "e66bce455e8bbc87a031ce1f75cc234ff45fab64926432b2e831e9f8848def78"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.336871.png": {
+      "expected": "b07127be59260d347e2773c17517ffe44d36157a7373f134c80a77b88735b6c2",
+      "actual": "b07127be59260d347e2773c17517ffe44d36157a7373f134c80a77b88735b6c2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.536876.png": {
+      "expected": "b893ec06c0e01b53531c2473d8c63a9855b8df5e7cf24680da7553ea930a70bd",
+      "actual": "b893ec06c0e01b53531c2473d8c63a9855b8df5e7cf24680da7553ea930a70bd"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.668984.png": {
+      "expected": "13213772f8cfdb54a2100b1b3e4f77067b097bd1e97bbe6ac3727388cb9df95a",
+      "actual": "13213772f8cfdb54a2100b1b3e4f77067b097bd1e97bbe6ac3727388cb9df95a"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.801627.png": {
+      "expected": "93aab0be2a70380c94de323ad45f3484bac7e8fe2a0b61483545fab4106c25c6",
+      "actual": "93aab0be2a70380c94de323ad45f3484bac7e8fe2a0b61483545fab4106c25c6"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031934.937234.png": {
+      "expected": "43db5b4af23f381278c3897bc47924f96538bc5998704474e04734999ee055bb",
+      "actual": "43db5b4af23f381278c3897bc47924f96538bc5998704474e04734999ee055bb"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.100912.png": {
+      "expected": "e693af121bfb1361e3e648666bf26e8fbeecd45eb25bcd77a9732e7c8a05a1f5",
+      "actual": "e693af121bfb1361e3e648666bf26e8fbeecd45eb25bcd77a9732e7c8a05a1f5"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.336810.png": {
+      "expected": "538a8cec5e39ae62f6b56121b2b09796d44663ed4d6bc26bb98f53504e883541",
+      "actual": "538a8cec5e39ae62f6b56121b2b09796d44663ed4d6bc26bb98f53504e883541"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.500863.png": {
+      "expected": "bf5baa31078eee6bd8c4bb57c591f67640f4143d50d78ade0cf361ddde5b2397",
+      "actual": "bf5baa31078eee6bd8c4bb57c591f67640f4143d50d78ade0cf361ddde5b2397"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.669100.png": {
+      "expected": "10fcb3a008be3a1af220be3ca75af7b464ad87b6cc95d769b63ec325b8a31a25",
+      "actual": "10fcb3a008be3a1af220be3ca75af7b464ad87b6cc95d769b63ec325b8a31a25"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031935.836877.png": {
+      "expected": "b2ededae5a2dc3f020b003b558f07e36779518498d05c99a435485119c044c8e",
+      "actual": "b2ededae5a2dc3f020b003b558f07e36779518498d05c99a435485119c044c8e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031936.000820.png": {
+      "expected": "3dc083ba6cbc06aa09ab747318f0057cb75d53a99c4a643d4b3812fcded6e843",
+      "actual": "3dc083ba6cbc06aa09ab747318f0057cb75d53a99c4a643d4b3812fcded6e843"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031936.368927.png": {
+      "expected": "a981b6122d4d8f338a19557a5fe5853e774b30527b3bcefbc6f97fc184dd29c5",
+      "actual": "a981b6122d4d8f338a19557a5fe5853e774b30527b3bcefbc6f97fc184dd29c5"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031936.900833.png": {
+      "expected": "36314d1dc257158e62d4971c90692f4c713581d2f954ddfef8da82eef5ab85e8",
+      "actual": "36314d1dc257158e62d4971c90692f4c713581d2f954ddfef8da82eef5ab85e8"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.068765.png": {
+      "expected": "9da5c71193231db80b1d5106777e288d33754fb0b7489612af20d7cd7f5173e4",
+      "actual": "9da5c71193231db80b1d5106777e288d33754fb0b7489612af20d7cd7f5173e4"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.200813.png": {
+      "expected": "87d5295bd8c6fea01861ef56f9bc173abe5ed819969f0eeccd72c15e56099840",
+      "actual": "87d5295bd8c6fea01861ef56f9bc173abe5ed819969f0eeccd72c15e56099840"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.336862.png": {
+      "expected": "fefbb8e63174e11467f10cd4a95e4b7249747901af079f1cf2e70c1673836f60",
+      "actual": "fefbb8e63174e11467f10cd4a95e4b7249747901af079f1cf2e70c1673836f60"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.536931.png": {
+      "expected": "310884a73de50c25ca90614890f20dadccbc5929af3b92ed5297fb1793ad6927",
+      "actual": "310884a73de50c25ca90614890f20dadccbc5929af3b92ed5297fb1793ad6927"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.700837.png": {
+      "expected": "e3f0967ef91021c35b45fb8bb27abb8b6bb724bacfafa1840cdcd1543e3fe21e",
+      "actual": "e3f0967ef91021c35b45fb8bb27abb8b6bb724bacfafa1840cdcd1543e3fe21e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031937.936960.png": {
+      "expected": "023ecb9f144fb728d41934737d5f140a3419144f2e26a7ccb68a8825216a683c",
+      "actual": "023ecb9f144fb728d41934737d5f140a3419144f2e26a7ccb68a8825216a683c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.200883.png": {
+      "expected": "791cc46dc1f71eab3dd0e28905d97f680d8c644f15f7d7cad4414f54fe6ea0ed",
+      "actual": "791cc46dc1f71eab3dd0e28905d97f680d8c644f15f7d7cad4414f54fe6ea0ed"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.400842.png": {
+      "expected": "095c76504e7b22a86760baf96093ab85e2094be07e948ded96c2f4bc955d2e2c",
+      "actual": "095c76504e7b22a86760baf96093ab85e2094be07e948ded96c2f4bc955d2e2c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.537028.png": {
+      "expected": "51c2c236dfc6e75acaf43b87077f242eb3376e72967a3af19dacf2fc732f445e",
+      "actual": "51c2c236dfc6e75acaf43b87077f242eb3376e72967a3af19dacf2fc732f445e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.637299.png": {
+      "expected": "f614a623fa46240894b66edc66223ff81fd61c6015248814974250d19b5d172a",
+      "actual": "f614a623fa46240894b66edc66223ff81fd61c6015248814974250d19b5d172a"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.700851.png": {
+      "expected": "111526cccf7fb3d4c08a48199cafd5215c66ef26cf3ec131ad0ac07fd13bf5cf",
+      "actual": "111526cccf7fb3d4c08a48199cafd5215c66ef26cf3ec131ad0ac07fd13bf5cf"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.769073.png": {
+      "expected": "05df2d44555b1b92d06bebeb7462a0a789b5b4904b1e6add53c55811b96cd962",
+      "actual": "05df2d44555b1b92d06bebeb7462a0a789b5b4904b1e6add53c55811b96cd962"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.836754.png": {
+      "expected": "e0ea75a6a414bc9fd73e8fe9b11cdf007761a98ac353b26bdb0042744cfb1cbb",
+      "actual": "e0ea75a6a414bc9fd73e8fe9b11cdf007761a98ac353b26bdb0042744cfb1cbb"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.900976.png": {
+      "expected": "294408ddc7df836a7de6216edfbf0705cc42f04e834b94cf1a7b25c1f670734f",
+      "actual": "294408ddc7df836a7de6216edfbf0705cc42f04e834b94cf1a7b25c1f670734f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031938.936828.png": {
+      "expected": "b92336e8705cdf59fbdea669bee6759d5a574c782549d770d6ce6eac73c3c96f",
+      "actual": "b92336e8705cdf59fbdea669bee6759d5a574c782549d770d6ce6eac73c3c96f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.001030.png": {
+      "expected": "63b5fd65447598a7da2f6450766cca7caba626aae64aaefea9f9319ff4e12a0d",
+      "actual": "63b5fd65447598a7da2f6450766cca7caba626aae64aaefea9f9319ff4e12a0d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.200865.png": {
+      "expected": "2d170f3012b133820ed4dd100282e6410eeb2ffba432145ea86ada28322d8fa6",
+      "actual": "2d170f3012b133820ed4dd100282e6410eeb2ffba432145ea86ada28322d8fa6"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.468851.png": {
+      "expected": "bdb6324a147095a0d2d4ffb06cfe6d647e4545ce755600ed9a63bbe7679b5f5f",
+      "actual": "bdb6324a147095a0d2d4ffb06cfe6d647e4545ce755600ed9a63bbe7679b5f5f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.768919.png": {
+      "expected": "88ded25095e9a86e4ab378d35f8e68bf946f4a10c82d1e67f83549565e77e410",
+      "actual": "88ded25095e9a86e4ab378d35f8e68bf946f4a10c82d1e67f83549565e77e410"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031939.968904.png": {
+      "expected": "d73596f0f5be3375f4cb0327603fb870c949300a611637d153ea560ef360acdc",
+      "actual": "d73596f0f5be3375f4cb0327603fb870c949300a611637d153ea560ef360acdc"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031940.136746.png": {
+      "expected": "8733815540dc140f5ce567401522c1d1e002fb62268ba5ea3131b334480b19cb",
+      "actual": "8733815540dc140f5ce567401522c1d1e002fb62268ba5ea3131b334480b19cb"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031940.336732.png": {
+      "expected": "f28a89774edfcd430a46419fc0fbb0dc710c2ebac0b7414de3f82711f142936b",
+      "actual": "f28a89774edfcd430a46419fc0fbb0dc710c2ebac0b7414de3f82711f142936b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031940.503804.png": {
+      "expected": "8846e1814539b4a226e9b94757b6fa0312b6bf0b588e606770d20f774a4bdf96",
+      "actual": "8846e1814539b4a226e9b94757b6fa0312b6bf0b588e606770d20f774a4bdf96"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031940.803047.png": {
+      "expected": "aab8bc0c33358020e81d8a3375c8c654b6f4ef49402e6b7986b98be0ea8d163d",
+      "actual": "aab8bc0c33358020e81d8a3375c8c654b6f4ef49402e6b7986b98be0ea8d163d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031941.003160.png": {
+      "expected": "e0d98622325ca5a052df8799dcc4d495e40a532b58aa01d662352e9bede67a18",
+      "actual": "e0d98622325ca5a052df8799dcc4d495e40a532b58aa01d662352e9bede67a18"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031941.570287.png": {
+      "expected": "6df8d2e45e14ea48e7a2516a703612cd43e2012585f8f8e5014e4bfdade52cd7",
+      "actual": "6df8d2e45e14ea48e7a2516a703612cd43e2012585f8f8e5014e4bfdade52cd7"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031941.800820.png": {
+      "expected": "bb7adfa8d63aebc367120d40a2c6847461d06c9c01a06c4cad3ccc9f9faec518",
+      "actual": "bb7adfa8d63aebc367120d40a2c6847461d06c9c01a06c4cad3ccc9f9faec518"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.036729.png": {
+      "expected": "327fd52a5c3c07a3a83f99091a81a58fbd2e64ccfd7a709a07c019e26ea42aa8",
+      "actual": "327fd52a5c3c07a3a83f99091a81a58fbd2e64ccfd7a709a07c019e26ea42aa8"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.100691.png": {
+      "expected": "042e2274a4265695523cb324303b57dc310ff6b20291e7be8a7db9c9c33cfe25",
+      "actual": "042e2274a4265695523cb324303b57dc310ff6b20291e7be8a7db9c9c33cfe25"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.271105.png": {
+      "expected": "123465a5b2fc2398cba5a1228ca4880fcfc55bb4d3b9862a9a21fe392f472267",
+      "actual": "123465a5b2fc2398cba5a1228ca4880fcfc55bb4d3b9862a9a21fe392f472267"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.370761.png": {
+      "expected": "46dc83dddf8fd55297f4c4006519b5b6e1af0565637fe52db2ec8bd0532ece14",
+      "actual": "46dc83dddf8fd55297f4c4006519b5b6e1af0565637fe52db2ec8bd0532ece14"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.439262.png": {
+      "expected": "52729ef5b270715bd2d5c1f860deacbe193bd008dfeeb187d454925b8cf021f7",
+      "actual": "52729ef5b270715bd2d5c1f860deacbe193bd008dfeeb187d454925b8cf021f7"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.669006.png": {
+      "expected": "bca4baebeeefb78b33f140450ba41aacf30a06d3863463746c63dcbdf2b4422c",
+      "actual": "bca4baebeeefb78b33f140450ba41aacf30a06d3863463746c63dcbdf2b4422c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031942.936816.png": {
+      "expected": "1cb9136e6fc8151be453125262d19409a8474b748db49551a319f35dc7758d3f",
+      "actual": "1cb9136e6fc8151be453125262d19409a8474b748db49551a319f35dc7758d3f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.240004.png": {
+      "expected": "125eb0f90b29aab7ce8d9a81f0f64247dc041836dc9eb16255e5ec7c57543628",
+      "actual": "125eb0f90b29aab7ce8d9a81f0f64247dc041836dc9eb16255e5ec7c57543628"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.303965.png": {
+      "expected": "759aa2e2ac324ca13a5170864fc24f4050d2808a37f40e336c554bf190c179ab",
+      "actual": "759aa2e2ac324ca13a5170864fc24f4050d2808a37f40e336c554bf190c179ab"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.404245.png": {
+      "expected": "338f5e6f65791b1a96de28a08d1394a06462919225052dc386b3da28d58527c2",
+      "actual": "338f5e6f65791b1a96de28a08d1394a06462919225052dc386b3da28d58527c2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.501108.png": {
+      "expected": "f8bd53e19a5626adf070ca632aa0ebeca3aa7994532ed0689e163fb6f454001f",
+      "actual": "f8bd53e19a5626adf070ca632aa0ebeca3aa7994532ed0689e163fb6f454001f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.607467.png": {
+      "expected": "6cfdd96954ae7060422ba82f30c61cfb92d328f40852666e8ff22ff9c5cae84b",
+      "actual": "6cfdd96954ae7060422ba82f30c61cfb92d328f40852666e8ff22ff9c5cae84b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.707251.png": {
+      "expected": "622febd0e3a77decbaf36c3302117b49ef663665bc5470318cbb6a88a1d8c4cb",
+      "actual": "622febd0e3a77decbaf36c3302117b49ef663665bc5470318cbb6a88a1d8c4cb"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031943.837754.png": {
+      "expected": "e729554a4bc85c073d66a4a88c6b543f4bc15e3127e6ca6b3fde1cb355ecd65e",
+      "actual": "e729554a4bc85c073d66a4a88c6b543f4bc15e3127e6ca6b3fde1cb355ecd65e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.007760.png": {
+      "expected": "070f9cba6fc2b02666e2e1d669911a3c4394805fc775c6c216f7910d3e6b1aa9",
+      "actual": "070f9cba6fc2b02666e2e1d669911a3c4394805fc775c6c216f7910d3e6b1aa9"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.206998.png": {
+      "expected": "b9a8e125b06e4a1039851853e46ca17022cb4ac39e94fd7727d99f0a124ecebf",
+      "actual": "b9a8e125b06e4a1039851853e46ca17022cb4ac39e94fd7727d99f0a124ecebf"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.339308.png": {
+      "expected": "57c507782dab191171e0992375ec5aa3ae96190348794eb2be426b2153e47ffd",
+      "actual": "57c507782dab191171e0992375ec5aa3ae96190348794eb2be426b2153e47ffd"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.471304.png": {
+      "expected": "c117c951cfac4e0faa9a7072a27ad4f86457801b9e22f5049da0345b0ae9da6e",
+      "actual": "c117c951cfac4e0faa9a7072a27ad4f86457801b9e22f5049da0345b0ae9da6e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031944.639625.png": {
+      "expected": "a44f462ebcd84979998c219a93e91805409b8a3501db53124b6a5debc60e6430",
+      "actual": "a44f462ebcd84979998c219a93e91805409b8a3501db53124b6a5debc60e6430"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.069177.png": {
+      "expected": "c23a094cc790f324dfb3a7431062a2cd34fcd8da5bfb46b402b9c058a674ed09",
+      "actual": "c23a094cc790f324dfb3a7431062a2cd34fcd8da5bfb46b402b9c058a674ed09"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.469167.png": {
+      "expected": "978076bacfee2bce368b0832407ff6fb54b7faef8fbe7c00e855ec0ab389cc93",
+      "actual": "978076bacfee2bce368b0832407ff6fb54b7faef8fbe7c00e855ec0ab389cc93"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.506438.png": {
+      "expected": "62029735eb2d4a624135d9a572aed19f0904a8c6206e568100306d01c6216192",
+      "actual": "62029735eb2d4a624135d9a572aed19f0904a8c6206e568100306d01c6216192"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.806240.png": {
+      "expected": "d116e5b450361a9e4a70ffffe9d29eccf04df42d7a0934ee3ecdef682ce795d4",
+      "actual": "d116e5b450361a9e4a70ffffe9d29eccf04df42d7a0934ee3ecdef682ce795d4"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031945.969300.png": {
+      "expected": "5247ccf0290ab0a4722c0b3728e8ec7749763e61777375b4f4171bf75506bf2b",
+      "actual": "5247ccf0290ab0a4722c0b3728e8ec7749763e61777375b4f4171bf75506bf2b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031946.369021.png": {
+      "expected": "274bb88aa847c67712a357934d5567f51b2ae0dda95816f4041d7cea41b39ee6",
+      "actual": "274bb88aa847c67712a357934d5567f51b2ae0dda95816f4041d7cea41b39ee6"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031946.869090.png": {
+      "expected": "0a5d23bb4bcceb85472320082cbe7ed3718993d7b35971d15bcb4941dd7558b3",
+      "actual": "0a5d23bb4bcceb85472320082cbe7ed3718993d7b35971d15bcb4941dd7558b3"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031947.304951.png": {
+      "expected": "8c5677018279faadbd79e8ab1e83a8535734e5a124cdfae6ce855bb04bce5054",
+      "actual": "8c5677018279faadbd79e8ab1e83a8535734e5a124cdfae6ce855bb04bce5054"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031947.568989.png": {
+      "expected": "0dcc858567481e545e54b0012e02d3f6bdbfa7fb084dc10d819dd6ec67d5977d",
+      "actual": "0dcc858567481e545e54b0012e02d3f6bdbfa7fb084dc10d819dd6ec67d5977d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031947.837022.png": {
+      "expected": "014c220e81045b523c3505ec49363db669d7dde5c386a8012dbc17bfd4c124c3",
+      "actual": "014c220e81045b523c3505ec49363db669d7dde5c386a8012dbc17bfd4c124c3"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031948.269041.png": {
+      "expected": "100c0f24231ba887ffc76b87eb69b8bdd5ed594bd72460145740b17840ad9e06",
+      "actual": "100c0f24231ba887ffc76b87eb69b8bdd5ed594bd72460145740b17840ad9e06"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031948.636912.png": {
+      "expected": "b24e34aa850821bc0428227245b6551b338cc0942f0191ca6dbd7d91beef326a",
+      "actual": "b24e34aa850821bc0428227245b6551b338cc0942f0191ca6dbd7d91beef326a"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.005006.png": {
+      "expected": "f04f38f2f903ef22aff52ac5ce818b4a9ed9fc4fe512cfb00a70596466d42cbc",
+      "actual": "f04f38f2f903ef22aff52ac5ce818b4a9ed9fc4fe512cfb00a70596466d42cbc"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.237011.png": {
+      "expected": "3d876756e8cc38ea39b9f0f23036b172e3c6de68cc249d63532468972e785412",
+      "actual": "3d876756e8cc38ea39b9f0f23036b172e3c6de68cc249d63532468972e785412"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.604798.png": {
+      "expected": "8532a681617807bf9a33c4bef8e5cc629ab2ab48dd1cb0d9456156d500edadc7",
+      "actual": "8532a681617807bf9a33c4bef8e5cc629ab2ab48dd1cb0d9456156d500edadc7"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.768985.png": {
+      "expected": "c4f615863d5e34b075fd08a35cdfe4c55cb8c2c5bccdf36d2f27c9703b1f9231",
+      "actual": "c4f615863d5e34b075fd08a35cdfe4c55cb8c2c5bccdf36d2f27c9703b1f9231"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031949.968881.png": {
+      "expected": "072086fa7b39e69a33e1fdd02be7f1230992355900437b36c6ac12f01eeee096",
+      "actual": "072086fa7b39e69a33e1fdd02be7f1230992355900437b36c6ac12f01eeee096"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.104966.png": {
+      "expected": "eb24459a6eeb1b4205c9e91c59fe90cf70a9f65d41361cf2f1008615fc250a1c",
+      "actual": "eb24459a6eeb1b4205c9e91c59fe90cf70a9f65d41361cf2f1008615fc250a1c"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.204933.png": {
+      "expected": "12ff4f6890324832cf30c76076374d19bb38e21be5118f4e2e1608ccf5db32f7",
+      "actual": "12ff4f6890324832cf30c76076374d19bb38e21be5118f4e2e1608ccf5db32f7"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.304978.png": {
+      "expected": "d146238f87be21331d421b4d1893b139db22289f9de5ce7591eb19e272b64a76",
+      "actual": "d146238f87be21331d421b4d1893b139db22289f9de5ce7591eb19e272b64a76"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.404939.png": {
+      "expected": "44aa41cc4f8afbb44f17f27bcdde1ef9fb73867acec9beb79b250a2fea0da85a",
+      "actual": "44aa41cc4f8afbb44f17f27bcdde1ef9fb73867acec9beb79b250a2fea0da85a"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031950.568883.png": {
+      "expected": "933dec90d98fde879caafdeaa49f52721aa0d0e1858105249e8cde1b94a0c90e",
+      "actual": "933dec90d98fde879caafdeaa49f52721aa0d0e1858105249e8cde1b94a0c90e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.004836.png": {
+      "expected": "2cbc192e553ad22fd0600adeb2cda380c9aa9afabe3cba327d0eda205ff26446",
+      "actual": "2cbc192e553ad22fd0600adeb2cda380c9aa9afabe3cba327d0eda205ff26446"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.204914.png": {
+      "expected": "0c1b1e0744eac75efaaacf0f5310829d84b53d56dd48e6bde90511b1d7a5e83f",
+      "actual": "0c1b1e0744eac75efaaacf0f5310829d84b53d56dd48e6bde90511b1d7a5e83f"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.336937.png": {
+      "expected": "6b95ff641554a8c69ffde014c2605b92c10752b1994a89913f17018e9922d112",
+      "actual": "6b95ff641554a8c69ffde014c2605b92c10752b1994a89913f17018e9922d112"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.468857.png": {
+      "expected": "268b9d4636873cdc12117045146de24874122bd415c0ab92f02838767fa07f7b",
+      "actual": "268b9d4636873cdc12117045146de24874122bd415c0ab92f02838767fa07f7b"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.668929.png": {
+      "expected": "c891d18202c1b0248c68239240c425536b322ef77fff2581efb954c75bc26808",
+      "actual": "c891d18202c1b0248c68239240c425536b322ef77fff2581efb954c75bc26808"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031951.936962.png": {
+      "expected": "584002ef1c785d96c6003705c18050e2c54fc33fe27c22ee4a72839db88ceb9d",
+      "actual": "584002ef1c785d96c6003705c18050e2c54fc33fe27c22ee4a72839db88ceb9d"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.068888.png": {
+      "expected": "e706c0d6576e8dc5daa421284abca70fedad516af25f78c28f148285ee064cfc",
+      "actual": "e706c0d6576e8dc5daa421284abca70fedad516af25f78c28f148285ee064cfc"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.204914.png": {
+      "expected": "cac3e0c523ef0bf7bc6d2eb39a98a0a217cbbffdbd3241d7be6013c7d5b133ae",
+      "actual": "cac3e0c523ef0bf7bc6d2eb39a98a0a217cbbffdbd3241d7be6013c7d5b133ae"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.336993.png": {
+      "expected": "83a8b9a2ea104575c7f4c191532d78cd1328898868536dac70d3c8ec21cd06c2",
+      "actual": "83a8b9a2ea104575c7f4c191532d78cd1328898868536dac70d3c8ec21cd06c2"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.468939.png": {
+      "expected": "7a2694978ed18d40156b2990804d298857aee0bccf084ba662d4785c1e352881",
+      "actual": "7a2694978ed18d40156b2990804d298857aee0bccf084ba662d4785c1e352881"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.636992.png": {
+      "expected": "90ad6cd70919bf96800c61de370075e04952264df287455fb3084ebc27b9fe2e",
+      "actual": "90ad6cd70919bf96800c61de370075e04952264df287455fb3084ebc27b9fe2e"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031952.804919.png": {
+      "expected": "fc66de9c474297148140e0d03faa3262a85c62578906be5df01ad39ff8f120ac",
+      "actual": "fc66de9c474297148140e0d03faa3262a85c62578906be5df01ad39ff8f120ac"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031953.137098.png": {
+      "expected": "cd21867d175fb169184b134d89cb589712c8c06ab72c5fac357f2a430e0e8434",
+      "actual": "cd21867d175fb169184b134d89cb589712c8c06ab72c5fac357f2a430e0e8434"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031953.404920.png": {
+      "expected": "bd2947ac68db680d82662d1925e1281ad0bd381acfb60022513d943f3d7ef3de",
+      "actual": "bd2947ac68db680d82662d1925e1281ad0bd381acfb60022513d943f3d7ef3de"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031953.636962.png": {
+      "expected": "9ba1b2d2bff70ef9db4eae2a5f6611365462a9f9e45b6dd09639f251e8a2d793",
+      "actual": "9ba1b2d2bff70ef9db4eae2a5f6611365462a9f9e45b6dd09639f251e8a2d793"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031953.904912.png": {
+      "expected": "ea6484ad80911f81d2256f9966572ec7edafe3f8eb9018784b93ad83154a8a21",
+      "actual": "ea6484ad80911f81d2256f9966572ec7edafe3f8eb9018784b93ad83154a8a21"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031954.136939.png": {
+      "expected": "088f90e337b95bf767e6f62f38c8b0eb9a26ff137173432a543b15c2fdfac208",
+      "actual": "088f90e337b95bf767e6f62f38c8b0eb9a26ff137173432a543b15c2fdfac208"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031954.372872.png": {
+      "expected": "b0d55b0e3a654ac3061310593d332da299351000f77ee11c50f9b2adcf3fa2f8",
+      "actual": "b0d55b0e3a654ac3061310593d332da299351000f77ee11c50f9b2adcf3fa2f8"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031954.604885.png": {
+      "expected": "d60e3e8d5e1df38b514e04c17e763c0064f321adf5c260c965595f362bbf8894",
+      "actual": "d60e3e8d5e1df38b514e04c17e763c0064f321adf5c260c965595f362bbf8894"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031954.873001.png": {
+      "expected": "43683f6768633c2386ab798b61865077217367f6605d7cf566aa60b7e12c9523",
+      "actual": "43683f6768633c2386ab798b61865077217367f6605d7cf566aa60b7e12c9523"
+    },
+    "/home/prmi/zwj/mycartgs/resultsall/batch_20261016_nolog/data/TUM/fr1_room/rgb/1305031955.173003.png": {
+      "expected": "a344617b22c73543cd1c1b1c57aa88fea2d110772d6cd5b7701473c45333ad05",
+      "actual": "a344617b22c73543cd1c1b1c57aa88fea2d110772d6cd5b7701473c45333ad05"
+    },
+    "/home/prmi/zwj/redundancy-si-ranking-audit-20261019/contributions.pt": {
+      "expected": "146ddbfa407e5c933d95c9b30de8b9886e929c6dae240dca63f521ced26169d5",
+      "actual": "146ddbfa407e5c933d95c9b30de8b9886e929c6dae240dca63f521ced26169d5"
+    },
+    "/home/prmi/zwj/redundancy-si-ranking-audit-20261019/ranking_inputs.npz": {
+      "expected": "c89a9e157e3dde1eaca80a17153f68821e5e7ae7a71d7383304ef608dafaece4",
+      "actual": "c89a9e157e3dde1eaca80a17153f68821e5e7ae7a71d7383304ef608dafaece4"
+    },
+    "/home/prmi/zwj/redundancy-si-ranking-audit-20261019/audit_worker": {
+      "expected": "cf47b087a4b09a2e34a595580485896669f1247f0d9a2aa52edda79ac85259a2",
+      "actual": "cf47b087a4b09a2e34a595580485896669f1247f0d9a2aa52edda79ac85259a2"
+    },
+    "/home/prmi/zwj/sparse-hash-root-grid-20261019/fr1_room_input.bin": {
+      "expected": "e54e055fd9be3a211ba87cf6997fd088960659ff3f415d2affeebc7636d09a55",
+      "actual": "e54e055fd9be3a211ba87cf6997fd088960659ff3f415d2affeebc7636d09a55"
+    }
+  },
+  "runtime_resolution": {
+    "/home/prmi/zwj/mycartgs/lib/libgaussian_mapper.so": {
+      "resolved": "/home/prmi/zwj/geometry-marginal-online-20261019/runtime_before/lib/libgaussian_mapper.so",
+      "expected": "523bba9fea150989e07f93eb4977e95bbd91cafb4c58cc0ed3fcdb2964345b1c",
+      "actual": "523bba9fea150989e07f93eb4977e95bbd91cafb4c58cc0ed3fcdb2964345b1c",
+      "current_production_sha": "2f381f6512a4ebca1347375c453027a80526928388d8fea2440c3c8b3b24a0e0"
+    },
+    "/home/prmi/zwj/mycartgs/lib/libcuda_rasterizer.so": {
+      "resolved": "/home/prmi/zwj/geometry-marginal-online-20261019/runtime_before/lib/libcuda_rasterizer.so",
+      "expected": "019cbd9fb052c8fa01dd03a977ec0f0c262cb01c963c03e2bb87c4e383f5e6a7",
+      "actual": "019cbd9fb052c8fa01dd03a977ec0f0c262cb01c963c03e2bb87c4e383f5e6a7",
+      "current_production_sha": "019cbd9fb052c8fa01dd03a977ec0f0c262cb01c963c03e2bb87c4e383f5e6a7"
+    }
+  },
+  "mismatch": []
+}

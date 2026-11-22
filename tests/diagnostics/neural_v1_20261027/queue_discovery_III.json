@@ -1,0 +1,39 @@
+{
+  "tier": "discovery_III",
+  "jobs": [
+    {
+      "config": {
+        "id": "RatioDecoderExperts",
+        "kind": "ratio_experts",
+        "bands": 6
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialCycle",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "cycle": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialKnotsCycle",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "knots": true,
+        "cycle": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

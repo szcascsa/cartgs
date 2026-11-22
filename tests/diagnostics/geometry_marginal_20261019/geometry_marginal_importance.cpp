@@ -1,0 +1,28 @@
+#include "include/geometry_marginal_importance.h"
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+void GeometryMarginalImportance::reset(int64_t n,const torch::TensorOptions&o){score_=torch::zeros({n},o.dtype(torch::kFloat32));valid_=torch::zeros({n},o.dtype(torch::kBool));h_=0;ready_=false;gi_version_=0;published_iteration_=0;}
+void GeometryMarginalImportance::append(int64_t n){if(!n)return;score_=torch::cat({score_,torch::zeros({n},score_.options())});valid_=torch::cat({valid_,torch::zeros({n},valid_.options())});}
+void GeometryMarginalImportance::prune(const torch::Tensor&keep){TORCH_CHECK(keep.sizes()==valid_.sizes(),"Marginal prune row mismatch");score_=score_.index({keep});valid_=valid_.index({keep});}
+void GeometryMarginalImportance::assertAligned(int64_t n)const{TORCH_CHECK(score_.defined()&&valid_.defined()&&score_.numel()==n&&valid_.numel()==n,"Marginal publication topology mismatch");}
+void GeometryMarginalImportance::refresh(const torch::Tensor&xyz,const torch::Tensor&scale,const torch::Tensor&raw,const torch::Tensor&valid,uint64_t iteration,uint64_t gi_version,uint64_t topology,const std::filesystem::path&dir,bool compute,bool shadow,bool diagnostics){
+ torch::NoGradGuard guard;assertAligned(xyz.size(0));auto start=geo_marginal::Clock::now();
+ // One synchronized snapshot copy at existing full refresh; never per mapping step.
+ auto copy_start=geo_marginal::Clock::now();auto x=xyz.detach().to(torch::kCPU,torch::kFloat64).contiguous();auto s=scale.detach().to(torch::kCPU,torch::kFloat64).contiguous();auto w=raw.detach().to(torch::kCPU,torch::kFloat64).contiguous();auto v=valid.detach().to(torch::kCPU).contiguous();double copy_ms=geo_marginal::ms(copy_start);
+ auto xx=x.accessor<double,2>();auto ss=s.accessor<double,2>();auto ww=w.accessor<double,1>();auto vv=v.accessor<bool,1>();std::vector<geo_marginal::Point>points;std::vector<double>radii;
+ for(int64_t i=0;i<x.size(0);++i){if(!vv[i]||!(ww[i]>0)||!std::isfinite(ww[i]))continue;bool finite=true;for(int j=0;j<3;++j)finite=finite&&std::isfinite(xx[i][j])&&std::isfinite(ss[i][j])&&ss[i][j]>0;TORCH_CHECK(finite,"Invalid observed marginal geometry at full refresh");double radius=std::cbrt(ss[i][0]*ss[i][1]*ss[i][2]);points.push_back({{xx[i][0],xx[i][1],xx[i][2]},radius,ww[i],i});radii.push_back(radius);}
+ if(points.size()<8){std::cout<<"[GeometryMarginal] event=warmup iteration="<<iteration<<" candidates="<<points.size()<<" teacher=raw_explicit\n";return;}
+ if(h_==0){std::sort(radii.begin(),radii.end());size_t n=radii.size();double median=n%2?radii[n/2]:.5*(radii[n/2-1]+radii[n/2]);h_=16*median;TORCH_CHECK(h_>0&&std::isfinite(h_),"Invalid fixed h8 initialization");}
+ std::filesystem::create_directories(dir);if(diagnostics){std::ofstream f(dir/("marginal_snapshot_"+std::to_string(iteration)+".bin"),std::ios::binary);int64_t n=points.size();f.write((char*)&n,8);f.write((char*)&h_,8);for(auto&p:points){f.write((char*)p.x,24);f.write((char*)&p.radius,8);f.write((char*)&p.weight,8);f.write((char*)&p.id,8);}TORCH_CHECK(bool(f),"Marginal snapshot export failed");}
+ if(!compute){std::ofstream log(dir/"marginal_refresh.csv",std::ios::app);if(log.tellp()==0)log<<"iteration,gi_version,topology,N,candidates,h,copy_ms,total_ms,teacher\n";log<<iteration<<','<<gi_version<<','<<topology<<','<<xyz.size(0)<<','<<points.size()<<','<<std::setprecision(17)<<h_<<','<<copy_ms<<','<<geo_marginal::ms(start)<<",raw\n";return;}
+ auto result=geo_marginal::rank(points,h_,points.size());
+ if(shadow){auto reference=geo_marginal::rank(points,h_,points.size(),false,true);TORCH_CHECK(reference.order==result.order&&reference.gains==result.gains,"Online marginal optimized != brute force reference");std::cout<<"[GeometryMarginal] event=shadow_exact iteration="<<iteration<<" candidates="<<points.size()<<" topology="<<topology<<" full_ranking_equal=1 gains_equal=1\n";}
+ auto output=torch::zeros({xyz.size(0)},torch::TensorOptions().dtype(torch::kFloat32));auto mask=torch::zeros({xyz.size(0)},torch::TensorOptions().dtype(torch::kBool));auto oo=output.accessor<float,1>();auto mm=mask.accessor<bool,1>();for(size_t k=0;k<result.order.size();++k){oo[result.order[k]]=result.order.size()-k;mm[result.order[k]]=true;}
+ // Unique order scores preserve existing percentile construction after maturity/prune.
+ score_=output.to(xyz.device());valid_=mask.to(xyz.device());gi_version_=gi_version;published_iteration_=iteration;ready_=true;
+ size_t evals=0,selected=0;double similarity=0,rescore=0,coverage=0,init=0;size_t max_n=0;for(auto&z:result.stats){evals+=z.evaluations;selected+=z.selected;similarity+=z.similarity_ms;rescore+=z.rescore_ms;coverage+=z.coverage_ms;init+=z.init_ms;max_n=std::max(max_n,z.n);}
+ std::ofstream log(dir/"marginal_refresh.csv",std::ios::app);if(log.tellp()==0)log<<"iteration,gi_version,topology,N,candidates,h,copy_ms,grid_ms,membership_ms,similarity_ms,init_ms,rescore_ms,coverage_ms,merge_ms,ranking_ms,total_ms,cells,max_occupancy,pair_bytes,gain_evaluations,expanded,shadow\n";
+ log<<std::setprecision(17)<<iteration<<','<<gi_version<<','<<topology<<','<<xyz.size(0)<<','<<points.size()<<','<<h_<<','<<copy_ms<<','<<result.grid_ms<<','<<result.membership_ms<<','<<similarity<<','<<init<<','<<rescore<<','<<coverage<<','<<result.merge_ms<<','<<result.total_ms<<','<<geo_marginal::ms(start)<<','<<result.stats.size()<<','<<max_n<<','<<result.pair_bytes<<','<<evals<<','<<selected<<','<<shadow<<'\n';
+ std::cout<<"[GeometryMarginal] event=publish iteration="<<iteration<<" candidates="<<points.size()<<" cells="<<result.stats.size()<<" h="<<h_<<" ranking_ms="<<result.total_ms<<" total_ms="<<geo_marginal::ms(start)<<" snapshot_version="<<gi_version<<" topology="<<topology<<'\n';
+}

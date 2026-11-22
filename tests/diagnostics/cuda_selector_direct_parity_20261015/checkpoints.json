@@ -1,0 +1,9 @@
+[
+  {"name":"room_current","path":"/home/prmi/zwj/mycartgs/results/cudaselector/tum_rgbd/room/7900_shutdown/ply"},
+  {"name":"desk","path":"results/selector_online_ab_final_20261015/desk/legacy/repeat1/3617_shutdown/ply"},
+  {"name":"xyz","path":"results/selector_online_ab_final_20261015/xyz/legacy/repeat1/20961_shutdown/ply"},
+  {"name":"long","path":"results/selector_online_ab_final_20261015/long/legacy/repeat1/10479_shutdown/ply"},
+  {"name":"earlier_5329","path":"/home/prmi/zwj/mycartgs/results/cudatfnewprotection/tum_rgbd/room0.05hardertf/5329_online_end/ply"},
+  {"name":"middle_6900","path":"/home/prmi/zwj/mycartgs/results/cudatfnewprotection/tum_rgbd/roomfixednice/6900_shutdown/ply"},
+  {"name":"later_16400","path":"/home/prmi/zwj/mycartgs/results/cudatfnewprotection/tum_rgbd/room16400/16400_shutdown/ply"}
+]

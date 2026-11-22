@@ -1,0 +1,578 @@
+{
+  "event/aabb_min/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 12,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      3
+    ],
+    "stride" : 
+    [
+      1
+    ]
+  },
+  "event/current_rotation/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1370448,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      4
+    ],
+    "stride" : 
+    [
+      4,
+      1
+    ]
+  },
+  "event/current_scale/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1027836,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "event/current_xyz/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1027836,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "event/mature/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 85653,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Bool",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653
+    ],
+    "stride" : 
+    [
+      1
+    ]
+  },
+  "event/old_xyz/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1027836,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "tf/cache_values/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 3426120,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      85653,
+      10
+    ],
+    "stride" : 
+    [
+      10,
+      1
+    ]
+  },
+  "tf/mlp_stage_0/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      16
+    ],
+    "stride" : 
+    [
+      16,
+      1
+    ]
+  },
+  "tf/mlp_stage_1/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 2097152,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "tf/mlp_stage_2/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 2097152,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "tf/mlp_stage_3/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 2097152,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "tf/mlp_stage_4/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 2097152,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      32
+    ],
+    "stride" : 
+    [
+      32,
+      1
+    ]
+  },
+  "tf/mlp_stage_5/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 196608,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "tf/mlp_stage_6/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 196608,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "tf/mlp_stage_7/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 262144,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      4
+    ],
+    "stride" : 
+    [
+      4,
+      1
+    ]
+  },
+  "tf/residual_0/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 196608,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "torch::autograd::CppNode<tf_cuda::(anonymous namespace)::NeuralFunction>",
+    "requires_grad" : true,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "tf/residual_0/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 196608,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "tf/residual_1/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 196608,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "torch::autograd::CppNode<tf_cuda::(anonymous namespace)::NeuralFunction>",
+    "requires_grad" : true,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "tf/residual_1/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 196608,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      3,
+      1
+    ]
+  },
+  "tf/residual_2/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 262144,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "torch::autograd::CppNode<tf_cuda::(anonymous namespace)::NeuralFunction>",
+    "requires_grad" : true,
+    "shape" : 
+    [
+      16384,
+      4
+    ],
+    "stride" : 
+    [
+      4,
+      1
+    ]
+  },
+  "tf/residual_2/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 262144,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      4
+    ],
+    "stride" : 
+    [
+      4,
+      1
+    ]
+  },
+  "tf/sampled_feature/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "torch::autograd::CppNode<tf_cuda::(anonymous namespace)::QueryFunction>",
+    "requires_grad" : true,
+    "shape" : 
+    [
+      16384,
+      16
+    ],
+    "stride" : 
+    [
+      16,
+      1
+    ]
+  },
+  "tf/sampled_feature/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 1048576,
+    "contiguous" : true,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      16
+    ],
+    "stride" : 
+    [
+      16,
+      1
+    ]
+  },
+  "tf/target_log_scale/grad_enabled" : 
+  {
+    "alignment_mod_256" : 12,
+    "bytes" : 196608,
+    "contiguous" : false,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      10,
+      1
+    ]
+  },
+  "tf/target_log_scale/no_grad" : 
+  {
+    "alignment_mod_256" : 12,
+    "bytes" : 196608,
+    "contiguous" : false,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      10,
+      1
+    ]
+  },
+  "tf/target_rotation/grad_enabled" : 
+  {
+    "alignment_mod_256" : 24,
+    "bytes" : 262144,
+    "contiguous" : false,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      4
+    ],
+    "stride" : 
+    [
+      10,
+      1
+    ]
+  },
+  "tf/target_rotation/no_grad" : 
+  {
+    "alignment_mod_256" : 24,
+    "bytes" : 262144,
+    "contiguous" : false,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      4
+    ],
+    "stride" : 
+    [
+      10,
+      1
+    ]
+  },
+  "tf/target_xyz/grad_enabled" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 196608,
+    "contiguous" : false,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      10,
+      1
+    ]
+  },
+  "tf/target_xyz/no_grad" : 
+  {
+    "alignment_mod_256" : 0,
+    "bytes" : 196608,
+    "contiguous" : false,
+    "device" : "cuda:0",
+    "dtype" : "Float",
+    "grad_fn" : "none",
+    "requires_grad" : false,
+    "shape" : 
+    [
+      16384,
+      3
+    ],
+    "stride" : 
+    [
+      10,
+      1
+    ]
+  }
+}

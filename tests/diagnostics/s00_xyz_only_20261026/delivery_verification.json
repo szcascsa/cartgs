@@ -1,0 +1,15 @@
+{
+  "archive_sha256": "677a70b696dc327f547c4b5d0154df4b48e16e71dd77a57eceef4b146311226c",
+  "new_models": 2,
+  "reference_models": 2,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "source_scripts_exact": true,
+  "quality_rows": 6272,
+  "quality_finite": true,
+  "strict_xyz_only_input_verified": true,
+  "tracked_and_staged_state_unchanged": true,
+  "production_change": false,
+  "online_slam": false,
+  "report_sha256": "1476220e9b96fdcf97ca4d8b1d830af00288680728633d7ab6ae66b613edcc37"
+}

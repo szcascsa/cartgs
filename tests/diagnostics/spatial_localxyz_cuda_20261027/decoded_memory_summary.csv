@@ -1,0 +1,7 @@
+scene,method,persistent_increment_bytes,graphs,all_seven_shapes,parameters,parameter_bytes,optimizer_moment_bytes,persistent_MiB
+fr1_xyz,decoded_graph,39162368,7,True,33806,135224,270448,37.34814453125
+fr2_xyz,decoded_graph,39545344,7,True,33806,135224,270448,37.71337890625
+fr1_xyz,graph_cached55_fused,38830080,7,True,33806,135224,270448,37.03125
+fr2_xyz,graph_cached55_fused,39095808,7,True,33806,135224,270448,37.28466796875
+fr1_xyz,reference,12573184,0,True,33806,135224,270448,11.99072265625
+fr2_xyz,reference,12697088,0,True,33806,135224,270448,12.10888671875

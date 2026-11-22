@@ -1,0 +1,13 @@
+{
+  "all_passed": true,
+  "files_verified": 225,
+  "archive_sha256": "1d9f9c71929ef53e89a2d0bb10ba5f55b6db9bef6cc1a3c3b941d146f79dc6ea",
+  "HEAD": "3cfccc4a92c8e1ec6c3d491dac1c9efbf151daeb",
+  "tracked_diff_empty": true,
+  "index_diff_empty": true,
+  "no_commit": true,
+  "no_stage": true,
+  "no_push": true,
+  "report": "H:\\AIProjects\\cartgs优化更细致版\\mycartgs\\PROGRESSIVE_INTERNAL_REP_UTILITY_AUDIT.md",
+  "diagnostics": "H:\\AIProjects\\cartgs优化更细致版\\mycartgs\\tests\\diagnostics\\progressive_internal_rep_utility_20261019"
+}

@@ -1,0 +1,38 @@
+{
+  "octree_cpu": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "octree_python_cpu": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "fixed_cpu": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "octree_cuda": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "octree_python_cuda": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "fixed_cuda": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "adaptive_mapping": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "fixed_mapping": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "adaptive_change_distill": {
+    "passed": true,
+    "exit_code": 0
+  }
+}

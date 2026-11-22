@@ -1,0 +1,35 @@
+{
+  "7": {
+    "name": "warp tree narrow input VJP",
+    "direct_tolerance_passed": true,
+    "exact_preserved": false,
+    "max_gradient_relative_l2": 1.1678329175606655e-7,
+    "decision": "拒绝：基线 exact，新增系统性输入梯度误差；未继续训练或性能验收",
+    "patch_base": "474e8e0",
+    "patch": "rejected_narrow_warp.patch"
+  },
+  "8": {
+    "name": "ordered FMA warp narrow input VJP",
+    "seven_checkpoint_isolated_exact": true,
+    "seven_times_1000_step_exact": true,
+    "backward_219969_wall_ms": 2.54948,
+    "forward_backward_219969_wall_ms": 4.60709,
+    "caller_219969_wall_ms": 5.26858,
+    "decision": "拒绝：低 lane 利用率的顺序点积比 cuBLAS 慢，F+B/caller 回退",
+    "patch_base": "474e8e0",
+    "patch": "rejected_narrow_serial.patch"
+  },
+  "9": {
+    "name": "shared tile fused spatial ReLU and input VJP",
+    "seven_checkpoint_isolated_exact": true,
+    "seven_times_1000_step_exact": true,
+    "clean_backward_219969_wall_ms": [2.40994, 2.41045],
+    "same_binary_strategy6_backward_219969_wall_ms": 1.99468,
+    "additional_boundary_nonexact_tensors": 36,
+    "decision": "拒绝：独占复测仍变慢，且小 batch 输入梯度不 exact；增加 workspace 未换得速度",
+    "initial_measurement_usable_for_performance_decision": false,
+    "initial_measurement_limitation": "CPU 编译与探索性测量重叠，forward 同时异常变慢；决策使用 clean9 顺序复测",
+    "patch_base": "474e8e0",
+    "patch": "rejected_spatial_input.patch"
+  }
+}

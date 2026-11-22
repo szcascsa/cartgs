@@ -1,0 +1,17 @@
+{
+  "archive_sha256": "e5fa00ba421f202e379f5b7766415dd7feeb24ae199b1c646e4606d35b411b5e",
+  "models": 4,
+  "seeds": [
+    3100,
+    3101
+  ],
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "source_scripts_exact": true,
+  "quality_rows": 10024,
+  "quality_finite": true,
+  "tracked_and_staged_state_unchanged": true,
+  "preexisting_dirty_files": 17,
+  "production_change": false,
+  "online_slam": false
+}

@@ -1,0 +1,11 @@
+# TUM质量与保留点数
+
+每场景先平均单目与RGB-D，再对5个场景等权平均，不按帧数加权。
+
+场景：freiburg1_desk、freiburg1_room、freiburg1_xyz、freiburg2_xyz、freiburg3_long_office_household。
+
+蓝色为CaRtGS随机删除，金色为CaRtGS Opacity删除，红色为我们全局LoD。实线读取左侧质量刻度，虚线读取右侧K刻度（0–40000），图下表以千点表示平均K。两种CaRtGS裁剪K相同，虚线重合并用交错蓝金线段显示，未偏移数据。
+
+质量刻度保持Replica原版：PSNR为0–40，SSIM为0–1，LPIPS为反向1–0，均为等距刻度。相同指标在不同数据集使用同样质量刻度；点数上限按各数据集最大平均K整万向上取整。
+
+保留K不是逐视角可见或参与Alpha合成的点数。各方法按自身N确定预算，属于同Ratio、不同K比较。沿用现有未校正原图评价结果及各自轨迹；帧数、来源和逐场景指标保存在CSV。随机删除只有seed0，不代表多随机种子稳定性。本轮不重新训练或渲染。

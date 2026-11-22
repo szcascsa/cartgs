@@ -1,0 +1,37 @@
+#version 450
+layout(local_size_x=16,local_size_y=16) in;
+struct Splat { vec4 centerRadius; vec4 conicAlpha; vec4 color; };
+layout(std430,set=0,binding=0) readonly buffer Splats { Splat values[]; } splats;
+layout(std430,set=0,binding=1) readonly buffer Ranges { uvec2 values[]; } ranges;
+layout(std430,set=0,binding=2) readonly buffer Members { uint values[]; } members;
+layout(std430,set=0,binding=3) writeonly buffer Image { vec4 values[]; } image;
+layout(push_constant) uniform Params { uint width,height,tilesX,srgb; vec4 background; } pc;
+shared Splat batch[256];
+void main() {
+    uvec2 pixel=gl_GlobalInvocationID.xy;
+    uint lane=gl_LocalInvocationIndex;
+    uvec2 range=ranges.values[gl_WorkGroupID.y*pc.tilesX+gl_WorkGroupID.x];
+    bool inside=pixel.x<pc.width && pixel.y<pc.height;
+    bool done=!inside;
+    precise float transmission=1.0;
+    precise vec3 color=vec3(0);
+    for(uint begin=range.x;begin<range.y;begin+=256) {
+        uint count=min(256,range.y-begin);
+        if(lane<count)batch[lane]=splats.values[members.values[begin+lane]];
+        barrier();
+        for(uint j=0;j<count && !done;++j) {
+            Splat s=batch[j];
+            precise vec2 delta=s.centerRadius.xy-vec2(pixel);
+            precise float power=-0.5*(s.conicAlpha.x*delta.x*delta.x+s.conicAlpha.z*delta.y*delta.y)-s.conicAlpha.y*delta.x*delta.y;
+            if(power>0.0)continue;
+            precise float alpha=min(0.99,s.conicAlpha.w*exp(power));
+            if(alpha<1.0/255.0)continue;
+            precise float nextT=transmission*(1.0-alpha);
+            if(nextT<0.0001) { done=true; continue; }
+            color+=s.color.rgb*alpha*transmission;
+            transmission=nextT;
+        }
+        barrier();
+    }
+    if(inside)image.values[pixel.y*pc.width+pixel.x]=vec4(color+transmission*pc.background.rgb,1);
+}

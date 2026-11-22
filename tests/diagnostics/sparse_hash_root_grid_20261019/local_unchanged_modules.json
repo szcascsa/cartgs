@@ -1,0 +1,17 @@
+{
+  "all_passed": true,
+  "untouched_modules": {
+    "src/gaussian_mapper.cpp": true,
+    "include/global_gi_bank.h": true,
+    "src/global_gi.cpp": true,
+    "src/gi_teacher.cpp": true,
+    "cuda_rasterizer/forward.cu": true,
+    "improvements/selector/gumbel_network.h": true,
+    "include/selector_handoff.h": true
+  },
+  "unchanged_math": {
+    "geometry": "0205db4af2bfa4f03b40cc3673000653ab59a2be66f944a08f13dcdc57846e32",
+    "representative_greedy": "be624d69e834e418d3aa34a83d369033997c20abcea3229cfe5f14c3505b8491",
+    "redistribution": "369c0afc6ff3c64661ecea4f74d2437fd047fd653b0fc97c735d1b2d047f1ac8"
+  }
+}

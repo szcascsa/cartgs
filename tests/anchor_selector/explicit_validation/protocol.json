@@ -1,0 +1,53 @@
+{
+  "baseline_commit": "03e135b9083e49bd868ac776a9fa221504e2bb7d",
+  "scene": "fr1_xyz",
+  "seeds": [
+    2026,
+    2027
+  ],
+  "mapping_steps": 10000,
+  "arms": [
+    "fixed",
+    "explicit"
+  ],
+  "input_dim": 27,
+  "feature_dim": 16,
+  "width": 32,
+  "initial_observation_levels": [
+    0,
+    1
+  ],
+  "max_level": 2,
+  "h0": 0.1,
+  "slots": 10,
+  "sparse_seed_radius_fraction": 0.025,
+  "sigma_fraction_fallback": 0.05,
+  "sigma_fraction_bounds": [
+    0.001,
+    0.25
+  ],
+  "initial_opacity": "1-pow(0.5,1/10)",
+  "growth_tau0": "q90 of finite positive Full-only L0 average screen gradient from first nonempty growth window; locked thereafter",
+  "growth_alpha": 2,
+  "growth_window": "existing densification interval; Full only; preserve old stats on append",
+  "pruning": "all ten satisfy legacy per-point delete predicate",
+  "geometry": "stable UID permanent ten-slot ownership; reference center transported by member-count-weighted per-point correction; scale transported linearly; collision buckets allowed",
+  "si": "disabled",
+  "primary": "cached_bernoulli actual N",
+  "secondary": "same common absolute K locked before quality",
+  "do_not_change": [
+    "loss",
+    "ratio scheduling",
+    "TF",
+    "Change Distill",
+    "Full/joint routing"
+  ],
+  "base_config": "/home/prmi/zwj/anchor-attributes-no-si-20261020/attribute_no_si_seed2026/input_selector.yaml",
+  "ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "global_xyz": false
+}

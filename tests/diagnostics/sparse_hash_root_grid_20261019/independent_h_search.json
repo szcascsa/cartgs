@@ -1,0 +1,10 @@
+{
+  "all_passed": true,
+  "candidate_only": true,
+  "samples_checked": 255,
+  "tested_minimum_error": 0,
+  "chosen_h": 0.29986755746366806,
+  "achieved": 2048,
+  "tie_break_larger_h": true,
+  "global_optimum_claim": false
+}

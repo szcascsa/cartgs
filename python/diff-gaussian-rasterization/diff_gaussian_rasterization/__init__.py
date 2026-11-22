@@ -34,7 +34,19 @@ def rasterize_gaussians(
     rotations,
     cov3Ds_precomp,
     raster_settings,
+    inference_only=False,
 ):
+    if inference_only:
+        with torch.no_grad():
+            return _C.rasterize_gaussians_inference(
+                raster_settings.bg, means3D, colors_precomp, opacities, scales,
+                rotations, raster_settings.scale_modifier, cov3Ds_precomp,
+                raster_settings.viewmatrix, raster_settings.projmatrix,
+                raster_settings.tanfovx, raster_settings.tanfovy,
+                raster_settings.image_height, raster_settings.image_width,
+                dc, sh, raster_settings.sh_degree, raster_settings.campos,
+                raster_settings.prefiltered, raster_settings.debug,
+            )
     return _RasterizeGaussians.apply(
         means3D,
         means2D,
@@ -262,9 +274,14 @@ class GaussianRasterizationSettings(NamedTuple):
 
 
 class GaussianRasterizer(nn.Module):
-    def __init__(self, raster_settings):
+    def __init__(self, raster_settings, inference_only=False):
         super().__init__()
         self.raster_settings = raster_settings
+        self.inference_only = inference_only
+        if inference_only and not hasattr(_C, "rasterize_gaussians_inference"):
+            raise RuntimeError(
+                "Rebuild diff_gaussian_rasterization: the loaded extension has no inference entry point"
+            )
 
     def markVisible(self, positions):
         # Mark visible points (based on frustum culling for camera) with a boolean
@@ -336,6 +353,7 @@ class GaussianRasterizer(nn.Module):
             rotations,
             cov3D_precomp,
             raster_settings,
+            inference_only=self.inference_only,
         )
 
 

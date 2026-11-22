@@ -1,0 +1,5 @@
+147d0e890f4951bb2b1aea24f682b4eed22c6bbe5ed06b20ff668d38f875622f  selector_parity.cpp
+3887c60b11ba46c7af6404f66d23d346f80559cf4837c85034f7c1c5636da815  network_benchmark.cpp
+371a9c791c7f58487bf29a6fc94099d87254e38f199c2d596e46384349ae3382  ../../../src/selector_cuda.cpp
+650f8f61dbd98696177c696e8fcab708fa2ab50a66d2b3c9b59aa4a8cfaff7ad  ../../../src/selector_cuda.cu
+f258c156e642c40e0785b1d0cb3fb6b026700acda62af17962075e5a73825f75  ../../../include/selector_cuda.h

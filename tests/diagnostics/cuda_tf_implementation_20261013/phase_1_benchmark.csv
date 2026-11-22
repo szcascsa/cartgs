@@ -1,0 +1,13 @@
+backend,N,stage,mean_ms,p50_ms,p95_ms
+legacy,1000,total_regularized,11.1912,11.1647,11.3336
+cuda_query_old_mlp,1000,total_regularized,9.37834,9.35526,9.50784
+legacy,5000,total_regularized,11.3108,11.3111,11.5016
+cuda_query_old_mlp,5000,total_regularized,9.39989,9.36858,9.56518
+legacy,8491,total_regularized,11.3323,11.348,11.5466
+cuda_query_old_mlp,8491,total_regularized,9.50063,9.50477,9.65939
+legacy,10000,total_regularized,11.2995,11.2712,11.4524
+cuda_query_old_mlp,10000,total_regularized,9.44257,9.43309,9.58054
+legacy,20000,total_regularized,11.2066,11.1831,11.3715
+cuda_query_old_mlp,20000,total_regularized,9.38601,9.36448,9.49862
+legacy,50000,total_regularized,11.8123,11.7924,11.9532
+cuda_query_old_mlp,50000,total_regularized,9.50238,9.51194,9.68602

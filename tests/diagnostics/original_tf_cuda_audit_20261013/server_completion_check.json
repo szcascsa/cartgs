@@ -1,0 +1,24 @@
+{
+  "source_files_unchanged": true,
+  "source_checks": {
+    "src/transform_field.cpp": true,
+    "src/hexplane_field.cpp": true,
+    "include/transform_field.h": true,
+    "include/hexplane_field.h": true,
+    "include/aabb.h": true,
+    "include/quaternion_utils.h": true,
+    "src/gaussian_mapper.cpp": true,
+    "src/change_distill.cpp": true,
+    "src/change_management.cpp": true,
+    "src/constrained_adam.cpp": true,
+    "src/gradient_constraint.cpp": true,
+    "src/drift_stability.cpp": true,
+    "python/transform_field.py": true,
+    "cfg/selector/fast.yaml": true,
+    "cfg/selector/selector_config.yaml": true,
+    "CMakeLists.txt": true
+  },
+  "report_hash_matches": true,
+  "benchmark_exit": "0",
+  "nsight_exit": "0"
+}

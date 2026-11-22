@@ -1,0 +1,67 @@
+{
+  "protocol": "same legacy binary/config/dataset; unrestricted online cycles; no tail",
+  "training_chain_exit": 1,
+  "command": [
+    "/home/prmi/zwj/mycartgs/bin/tum_rgbd_cuda_tf_online",
+    "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+    "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+    "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+    "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+    "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+    "/home/prmi/zwj/mycartgs/results/cuda_tf_online_regression_control_20261014/long/legacy_repeat",
+    "no_viewer",
+    "--selector-config",
+    "/home/prmi/zwj/mycartgs/results/cuda_tf_online_regression_control_20261014/long/legacy_repeat/selector_config.yaml"
+  ],
+  "output": "/home/prmi/zwj/mycartgs/results/cuda_tf_online_regression_control_20261014/long/legacy_repeat",
+  "status": "complete",
+  "start": 1791910414.9687078,
+  "evaluations": [
+    {
+      "label": "full",
+      "frames": 2515,
+      "metrics": {
+        "psnr": 18.403574741810974,
+        "ssim": 0.6745292850446037,
+        "lpips": 0.3455977900364764
+      }
+    },
+    {
+      "label": "lod_01",
+      "frames": 2515,
+      "metrics": {
+        "psnr": 16.96944313428511,
+        "ssim": 0.632727088203013,
+        "lpips": 0.5582531997745127
+      }
+    },
+    {
+      "label": "lod_05",
+      "frames": 2515,
+      "metrics": {
+        "psnr": 17.911405991085957,
+        "ssim": 0.6580394609310992,
+        "lpips": 0.43858613860062057
+      }
+    },
+    {
+      "label": "lod_10",
+      "frames": 2515,
+      "metrics": {
+        "psnr": 18.226270321491462,
+        "ssim": 0.667884103524282,
+        "lpips": 0.38600612109745475
+      }
+    },
+    {
+      "label": "lod_15",
+      "frames": 2515,
+      "metrics": {
+        "psnr": 18.28532301673358,
+        "ssim": 0.6697402513880379,
+        "lpips": 0.3732301562728275
+      }
+    }
+  ],
+  "wall_seconds": 126.54911184310913
+}

@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.gz binary
+*.nsys-rep binary
+*.sqlite binary

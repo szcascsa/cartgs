@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "changed_config_keys": {
+    "CUDA.fused_residual48_training_input": [
+      null,
+      " 1"
+    ],
+    "CUDA.fused_residual48_input": [
+      null,
+      " 1"
+    ]
+  },
+  "non_cuda_config_changed": false,
+  "cpp_missing_key_defaults_enabled": true
+}

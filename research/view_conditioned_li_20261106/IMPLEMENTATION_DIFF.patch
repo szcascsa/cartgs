@@ -1,0 +1,114 @@
+--- before/src/gaussian_mapper.cpp
++++ after/src/gaussian_mapper.cpp
+@@ -1355,8 +1355,8 @@
+         <<selector_view_gi_weight_<<" full_map=1 global_round/view_round selector_base_detached_in_view="<<!selector_view_input_enabled_<<'\n';
+   }
+   if(view_budget_enabled_) {
+-    TORCH_CHECK(!view_budget_conditioning_||(!view_budget_view_residual_&&!view_budget_global_control_&&view_budget_loss_weight_>0&&view_budget_li_weight_==0),
+-        "Joint view conditioning requires local ViewBudget, no residual and LI=0");
++    TORCH_CHECK(!view_budget_conditioning_||(!view_budget_view_residual_&&!view_budget_global_control_&&view_budget_loss_weight_>0),
++        "Joint view conditioning requires local ViewBudget and no residual");
+     TORCH_CHECK(real_lod_.enabled&&real_lod_full_loss_weight_>0&&!selector_detach_gaussian_parameters_&&
+         flexgs_importance_enabled_&&selector_compensation_&&selector_compensation_method_=="spatial_offset3_residual48"&&
+         !selector_view_input_enabled_&&!selector_view_residual_enabled_&&!mixed_ratio_config_.enabled&&
+--- before/src/view_budget_training.cpp
++++ after/src/view_budget_training.cpp
+@@ -192,6 +192,9 @@
+         trace["li_pool_full_contribution_fraction"]=local.sum().item<double>()/std::max(1e-20,view_budget_li_.sum().item<double>());
+         trace["li_selected_mass_fraction"]=local.index_select(0,sampled.chosen).sum().item<double>()/std::max(1e-20,local.sum().item<double>());
+         trace["li_positive_contributors"]=Json::Int64(((local>0)&eligible).sum().item<int64_t>());
++        trace["li_teacher_zero_contributors"]=Json::Int64(((labels>0)&(local==0)).sum().item<int64_t>());
++        trace["li_teacher_mass_fraction"]=(local*labels).sum().item<double>()/std::max(1e-20,local.sum().item<double>());
++        trace["li_sample_teacher_overlap_fraction"]=labels.index_select(0,sampled.chosen).sum().item<double>()/std::max<int64_t>(1,ids.numel());
+       }
+     }
+   }
+--- before/tests/anchor_selector/joint_view_conditioning_test.cpp
++++ after/tests/anchor_selector/joint_view_conditioning_test.cpp
+@@ -1,5 +1,6 @@
+ #include "include/gaussian_mapper.h"
+ #include "include/view_budget_training.h"
++#include "include/local_importance.h"
+ #include <iostream>
+ 
+ using namespace improvements::selector;
+@@ -93,9 +94,10 @@
+   JointViewMapperTest(const std::filesystem::path& out,const std::string& mode):GaussianMapper(nullptr,
+       std::filesystem::path(CARTGS_TEST_SOURCE_DIR)/"cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",out,7,torch::kCUDA,true,
+       std::filesystem::path(CARTGS_TEST_SOURCE_DIR)/("cfg/selector/spatial_offset3_residual48_joint_"+mode+".yaml")){}
+-  void verify(bool empty) {
++  void verify(bool empty,bool isolation=false) {
+     auto o=torch::TensorOptions().device(torch::kCUDA).dtype(torch::kFloat32);
+-    TORCH_CHECK(view_budget_conditioning_>0&&!selector_view_input_enabled_&&!view_budget_view_residual_&&view_budget_li_weight_==0,"Wrong joint controls");
++    TORCH_CHECK(view_budget_conditioning_>0&&!selector_view_input_enabled_&&!view_budget_view_residual_&&
++        (view_budget_li_weight_==0||view_budget_li_weight_==.1f),"Wrong joint controls");
+     std::map<point3D_id_t,Point3D> points;
+     for(int i=0;i<80;++i) {Point3D p;p.xyz_=Eigen::Vector3d((i%10-5)*.025+.013+(empty||i>=40?5.:0.),((i/10)%8-4)*.025+.017,2.02+(i%3)*.005);
+       p.color_=Eigen::Vector3f(.4,.3,.2);points[i]=p;}
+@@ -107,11 +109,45 @@
+     camera->full_proj_transform_=camera->getProjectionMatrix(.01f,100.f,1.f,1.f,torch::kCUDA).transpose(0,1).contiguous();
+     camera->camera_center_=torch::zeros({3},o);camera->original_image_=torch::full({3,32,40},.1,o);undistort_mask_[0]=torch::ones({32,40},o);scene_->addKeyframe(camera,&kfid_shuffled_);
+     real_lod_.online_steps=12;real_lod_.phase=RealLodSchedule::Phase::TailFull;real_lod_.beginLod();
++    if(isolation) {
++      TORCH_CHECK(view_budget_li_weight_==.1f&&!empty,"LI isolation requires nonempty LI configuration");
++      selector_network_->initializeSelectorViewInput(gaussians_->getXYZ());
++      auto& anchors=selector_network_->anchors();
++      auto code=anchorViewCode(anchors->centers(),anchors->offsetScales(),camera->camera_center_,camera->world_view_transform_,
++          camera->full_proj_transform_,32,40,.01f,selector_network_->selectorViewSceneScale()).index_select(0,anchors->rows());
++      {torch::NoGradGuard guard;selector_network_->named_parameters()["soft_net.weight"].normal_(0,.1);}
++      auto input=selector_network_->forwardFlexgsCUDA(gaussians_->getXYZ(),.1f,gaussians_->getScalingActivation(),
++          gaussians_->features_dc_,gaussians_->getOpacityActivation(),{},{},code);
++      auto eligible=torch::ones({gaussians_->xyz_.size(0)},o.dtype(torch::kBool));
++      auto sampled=viewBudgetSelection(input.logits,eligible,torch::ones_like(input.logits),1.);
++      auto labels=torch::zeros_like(sampled.mask);labels.slice(0,0,12).fill_(1);
++      auto loss=.1*localImportanceLoss(sampled.mask,labels);
++      std::vector<torch::Tensor> mlp;
++      for(const auto& p:selector_network_->named_parameters())
++        if(p.key().rfind("local_emd.",0)==0||p.key().rfind("soft_net.",0)==0)mlp.push_back(p.value());
++      TORCH_CHECK(mlp.size()==6,"Wrong conditional Selector gradient scope");
++      auto expected=torch::autograd::grad({loss},mlp,{},true);
++      auto all=selector_network_->parameters();
++      for(auto p:{gaussians_->xyz_,gaussians_->scaling_,gaussians_->rotation_,gaussians_->opacity_,gaussians_->features_dc_,gaussians_->features_rest_})all.push_back(p);
++      {torch::NoGradGuard guard;for(auto p:all)p.mutable_grad()=torch::full_like(p,.125);}
++      accumulateLocalImportanceGradients(loss,mlp);
++      for(auto p:all) {
++        size_t i=0;while(i<mlp.size()&&p.unsafeGetTensorImpl()!=mlp[i].unsafeGetTensorImpl())++i;
++        auto target=i<mlp.size()?expected[i]+.125:torch::full_like(p,.125);
++        TORCH_CHECK(p.grad().contiguous().reshape({-1}).view(torch::kUInt8).equal(target.contiguous().reshape({-1}).view(torch::kUInt8)),
++            "LI changed a non-Selector gradient or failed additive accumulation");
++      }
++      TORCH_CHECK(!code.grad().defined(),"LI view code must be detached");
++      std::cout<<"PASS conditional LI VJP mode="<<view_budget_conditioning_
++          <<": six Selector gradients added, all Master/Compensation/Feature gradients bitwise intact\n";return;
++    }
+     auto owners=selector_network_->anchors()->rows().clone();auto topology=topology_version_;
+     auto projection=selector_network_->spatialCompensation()->view_projection->weight;
+     while(real_lod_.optimizingLod())trainRealLodIteration(camera);
+     TORCH_CHECK(real_lod_full_renders_==12&&view_budget_renders_==(empty?0:12)&&flexgs_lod_master_updates_==12&&flexgs_lod_selector_updates_==12&&
+-        topology==topology_version_&&owners.equal(selector_network_->anchors()->rows())&&view_budget_li_backwards_==0,"Exposure/topology/LI changed");
++        topology==topology_version_&&owners.equal(selector_network_->anchors()->rows())&&
++        view_budget_li_backwards_==((!empty&&view_budget_li_weight_>0)?12:0),"Exposure/topology/LI changed");
++    TORCH_CHECK(view_budget_li_full_renders_==(view_budget_li_weight_>0?12:0),"LI collection must reuse existing Full renders");
+     auto it=gaussians_->optimizer_->state().find(projection.unsafeGetTensorImpl());
+     TORCH_CHECK(it!=gaussians_->optimizer_->state().end()&&
+         static_cast<const torch::optim::AdamParamState&>(*it->second).step()==12,"Conditional Adam clock mismatch");
+@@ -126,7 +162,8 @@
+     if(!empty&&(view_budget_conditioning_==2||view_budget_conditioning_==4))
+       TORCH_CHECK(projection.slice(1,0,7).count_nonzero().item<int64_t>()>0,"Real-view Compensation did not learn");
+     savePly(result_dir_/"checkpoint");saveRealLodState(result_dir_);
+-    std::cout<<"PASS joint Mapping mode="<<view_budget_conditioning_<<" empty="<<empty<<": three branches, one Adam, unchanged topology, LI off, learned condition\n";
++    std::cout<<"PASS joint Mapping mode="<<view_budget_conditioning_<<" empty="<<empty<<" LI="<<view_budget_li_weight_
++        <<": three branches, one Adam, unchanged topology, correct LI routing, learned condition\n";
+   }
+ };
+ 
+@@ -139,6 +176,8 @@
+     if(torch::cuda::is_available())unit(torch::kCUDA,out/std::to_string(schema)/"cuda",schema);
+   }return 0;}
+   if(!torch::cuda::is_available())return 77;
++  const bool isolation=mode.size()>10&&mode.substr(mode.size()-10)=="_isolation";
++  if(isolation)mode=mode.substr(0,mode.size()-10);
+   const bool empty=mode.size()>6&&mode.substr(mode.size()-6)=="_empty";
+-  JointViewMapperTest mapper(out,empty?mode.substr(0,mode.size()-6):mode);mapper.verify(empty);
++  JointViewMapperTest mapper(out,empty?mode.substr(0,mode.size()-6):mode);mapper.verify(empty,isolation);
+ }

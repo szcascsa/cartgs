@@ -1,0 +1,10 @@
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+Capture range started in the application.
+Generating '/tmp/nsys-report-2630.qdstrm'
+Capture range ended in the application.
+[1/1] [0%                          ] paired_fb.nsys-rep[1/1] [0%                          ] paired_fb.nsys-rep[1/1] [0%                          ] paired_fb.nsys-rep[1/1] [8%                          ] paired_fb.nsys-rep[1/1] [=17%                        ] paired_fb.nsys-rep[1/1] [==================78%       ] paired_fb.nsys-rep[1/1] [===================79%      ] paired_fb.nsys-rep[1/1] [========================100%] paired_fb.nsys-rep[1/1] [========================100%] paired_fb.nsys-rep
+paired M=219969 complete
+Generated:
+    /home/prmi/zwj/selector-cuda-20261015/tests/diagnostics/cuda_selector_backward_20261015/paired_fb.nsys-rep

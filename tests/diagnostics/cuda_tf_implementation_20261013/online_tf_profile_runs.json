@@ -1,0 +1,61 @@
+{
+  "protocol": "separate diagnostic graph brackets; sampled current-stream CUDA events; no explicit synchronize",
+  "runs": [
+    {
+      "backend": "legacy",
+      "scene": "long",
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd_cuda_tf_profile",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+        "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+        "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+        "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+        "/home/prmi/zwj/mycartgs/results/cuda_tf_stage_profile_20261014/legacy",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/mycartgs/results/cuda_tf_online_guard_off_20261014/long/legacy/selector_config.yaml"
+      ],
+      "output": "/home/prmi/zwj/mycartgs/results/cuda_tf_stage_profile_20261014/legacy",
+      "status": "complete",
+      "start": 1791910153.9965804,
+      "stage_reports": [
+        "[TF DIAGNOSTIC] stage=forward calls=2314 transformed_N_sum=21927795 host_mean_ms=1.269334 cuda_samples=121 cuda_elapsed_mean_ms=1.317076",
+        "[TF DIAGNOSTIC] stage=backward calls=2314 transformed_N_sum=0 host_mean_ms=4.848680 cuda_samples=121 cuda_elapsed_mean_ms=4.750954",
+        "[TF DIAGNOSTIC] stage=regularization_forward calls=2314 transformed_N_sum=0 host_mean_ms=1.317871 cuda_samples=121 cuda_elapsed_mean_ms=1.286322",
+        "[TF DIAGNOSTIC] stage=regularization_backward calls=2314 transformed_N_sum=0 host_mean_ms=6.100673 cuda_samples=121 cuda_elapsed_mean_ms=6.042015",
+        "[TF DIAGNOSTIC] stage=optimizer calls=2314 transformed_N_sum=0 host_mean_ms=1.150854 cuda_samples=121 cuda_elapsed_mean_ms=0.967231",
+        "[TF DIAGNOSTIC] pending_samples=0 explicit_synchronize=0 diagnostic_graph_brackets=1"
+      ],
+      "wall_seconds": 125.89629745483398
+    },
+    {
+      "backend": "cuda",
+      "scene": "long",
+      "command": [
+        "/home/prmi/zwj/mycartgs/bin/tum_rgbd_cuda_tf_profile",
+        "/home/prmi/zwj/mycartgs/third_party/ORB-SLAM3/Vocabulary/ORBvoc.txt",
+        "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/tum_freiburg3_long_office_household.yaml",
+        "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml",
+        "/home/prmi/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household",
+        "/home/prmi/zwj/mycartgs/cfg/ORB_SLAM3/RGB-D/TUM/associations/tum_freiburg3_long_office_household.txt",
+        "/home/prmi/zwj/mycartgs/results/cuda_tf_stage_profile_20261014/cuda",
+        "no_viewer",
+        "--selector-config",
+        "/home/prmi/zwj/mycartgs/results/cuda_tf_online_guard_off_20261014/long/cuda/selector_config.yaml"
+      ],
+      "output": "/home/prmi/zwj/mycartgs/results/cuda_tf_stage_profile_20261014/cuda",
+      "status": "complete",
+      "start": 1791910279.8931491,
+      "stage_reports": [
+        "[TF DIAGNOSTIC] stage=forward calls=4191 transformed_N_sum=36646925 host_mean_ms=0.501053 cuda_samples=220 cuda_elapsed_mean_ms=0.511525",
+        "[TF DIAGNOSTIC] stage=backward calls=4191 transformed_N_sum=0 host_mean_ms=1.619681 cuda_samples=220 cuda_elapsed_mean_ms=1.476813",
+        "[TF DIAGNOSTIC] stage=regularization_forward calls=4191 transformed_N_sum=0 host_mean_ms=0.032372 cuda_samples=220 cuda_elapsed_mean_ms=0.070535",
+        "[TF DIAGNOSTIC] stage=regularization_backward calls=4191 transformed_N_sum=0 host_mean_ms=0.169215 cuda_samples=220 cuda_elapsed_mean_ms=0.161811",
+        "[TF DIAGNOSTIC] stage=optimizer calls=4191 transformed_N_sum=0 host_mean_ms=0.117909 cuda_samples=220 cuda_elapsed_mean_ms=0.092402",
+        "[TF DIAGNOSTIC] pending_samples=0 explicit_synchronize=0 diagnostic_graph_brackets=1"
+      ],
+      "wall_seconds": 127.35549592971802
+    }
+  ]
+}

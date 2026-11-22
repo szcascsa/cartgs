@@ -1,0 +1,15 @@
+{
+  "N_total": 44142,
+  "N_candidate": 43059,
+  "valid_count": 44142,
+  "observed_count": 43059,
+  "Bank": 14,
+  "evaluation": 39,
+  "d50": 0.002020284574903986,
+  "h": 0.01616227659923189,
+  "occupied_roots": 2048,
+  "h_root": 0.1251487810923318,
+  "final_leaves": 5090,
+  "final_representatives": 11448,
+  "weighted_leaf_Q": 0.9008886653003791
+}

@@ -1,0 +1,59 @@
+%YAML:1.0
+
+# 停用实验配置归档，2026-10-15。
+# 以下功能尚未通过验证，已从日常配置和模型导出的 selector_config.yaml 移除。
+# 算法实现和旧参数读取保留；本文件仅记录历史参数，不是完整运行配置，不自动加载或合并。
+# 数值按本次停用前 fast.yaml 记录；重新使用前需要明确启用并完成验证。
+# selector_config.yaml 原有差异：GradientConstraint.cancel_fallback_enable: 0，DriftStability.epochs: 1。
+# Streaming GlobalGI、Selector、Protection、TransformField、ChangeDistill 不属于本次停用范围。
+
+# 近期关键帧窗口；历史配置曾启用，当前程序缺省关闭。
+RecentWindow.enable: 1
+RecentWindow.size: 16
+RecentWindow.ema_decay: 0.9
+
+# 近期 GI：按窗口内各视角贡献归一化、时间衰减后聚合，需要显式启用 RecentWindow。
+# 日常配置继续使用 streaming，也可显式 disabled；省略 GlobalGI.mode 时关闭 GI。
+GlobalGI.mode: "recent"
+
+# 在线历史质量约束及冲突更新回退。
+GradientConstraint.enable: 0
+GradientConstraint.check_interval: 1
+GradientConstraint.memory_views_per_check: 1
+GradientConstraint.memory_ratios_per_check: 1
+GradientConstraint.max_candidate_checks: 3
+GradientConstraint.tf_warmup_steps: 1000
+GradientConstraint.log_interval: 100
+GradientConstraint.cancel_fallback_enable: 1
+GradientConstraint.cancel_fallback_scale: 0.2
+
+# 历史退化检测与恢复蒸馏，与 ChangeDistill 独立。
+DriftStability.enable: 0
+DriftStability.probe_interval: 1000
+DriftStability.min_bad_views: 2
+DriftStability.max_gaussians: 32768
+DriftStability.batch_size: 8192
+DriftStability.consecutive_trigger_count: 2
+DriftStability.reference_horizon: 5000
+DriftStability.reference_min_age: 3000
+DriftStability.reference_max_age: 10000
+DriftStability.reference_ema_decay: 0.5
+DriftStability.non_regression_refresh_count: 3
+DriftStability.function_threshold: 0.02
+DriftStability.psnr_regression_threshold: 0.1
+DriftStability.budget_relative_tolerance: 0.25
+DriftStability.position_weight: 1.0
+DriftStability.scale_weight: 1.0
+DriftStability.rotation_weight: 1.0
+DriftStability.selector_learning_rate: 0.00005
+DriftStability.tf_grid_learning_rate: 0.00008
+DriftStability.tf_mlp_learning_rate: 0.000008
+DriftStability.epochs: 5
+DriftStability.seed: 0
+
+# 历史离群视角选择，供上述历史检查使用。
+HistoricalOutlier.diversity_enabled: 1
+HistoricalOutlier.count: 4
+HistoricalOutlier.translation_weight: 1.0
+HistoricalOutlier.rotation_weight: 0.5
+HistoricalOutlier.diversity_recent_weight: 0.5

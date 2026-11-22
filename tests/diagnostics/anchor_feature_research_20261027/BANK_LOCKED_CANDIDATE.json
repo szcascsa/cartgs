@@ -1,0 +1,148 @@
+{
+  "selected": "FrozenBaseHead8",
+  "entries": [
+    {
+      "model": "Head8",
+      "criterion": "mean paired low(1%,5%) Bank improvement; seven-ratio mean as tie breaker only",
+      "score": 0.02597713394042689,
+      "details": [
+        {
+          "scene": "fr1_xyz",
+          "seed": 7200,
+          "low_delta": 0.09205565085777678,
+          "seven_delta": 0.15164627871670433,
+          "unseen_delta": 0.16654645479642483
+        },
+        {
+          "scene": "fr1_xyz",
+          "seed": 7201,
+          "low_delta": 0.043163959796611806,
+          "seven_delta": 0.1449446416163198,
+          "unseen_delta": 0.21379808279183976
+        },
+        {
+          "scene": "fr2_xyz",
+          "seed": 7200,
+          "low_delta": 0.011460979779560176,
+          "seven_delta": -0.02342861039297972,
+          "unseen_delta": -0.07224498854743189
+        },
+        {
+          "scene": "fr2_xyz",
+          "seed": 7201,
+          "low_delta": -0.04277205467224121,
+          "seven_delta": -0.007204350971040441,
+          "unseen_delta": -0.011567857530380365
+        }
+      ]
+    },
+    {
+      "model": "AnchorFiLM8",
+      "criterion": "mean paired low(1%,5%) Bank improvement; seven-ratio mean as tie breaker only",
+      "score": 0.03384498143807324,
+      "details": [
+        {
+          "scene": "fr1_xyz",
+          "seed": 7200,
+          "low_delta": 0.14003394200251407,
+          "seven_delta": 0.17947812132782914,
+          "unseen_delta": 0.18504624489026256
+        },
+        {
+          "scene": "fr1_xyz",
+          "seed": 7201,
+          "low_delta": 0.016059472010685027,
+          "seven_delta": 0.07196057497800012,
+          "unseen_delta": 0.10324749579796233
+        },
+        {
+          "scene": "fr2_xyz",
+          "seed": 7200,
+          "low_delta": 0.041691740353901,
+          "seven_delta": 0.03199978101821088,
+          "unseen_delta": -0.011957724889121835
+        },
+        {
+          "scene": "fr2_xyz",
+          "seed": 7201,
+          "low_delta": -0.06240522861480713,
+          "seven_delta": 0.004472562244959732,
+          "unseen_delta": 0.03352295027838892
+        }
+      ]
+    },
+    {
+      "model": "FrozenBaseHead8",
+      "criterion": "mean paired low(1%,5%) Bank improvement; seven-ratio mean as tie breaker only",
+      "score": 0.12995487222304725,
+      "details": [
+        {
+          "scene": "fr1_xyz",
+          "seed": 7200,
+          "low_delta": 0.2381256176875155,
+          "seven_delta": 0.40416274227938587,
+          "unseen_delta": 0.5436536837846795
+        },
+        {
+          "scene": "fr1_xyz",
+          "seed": 7201,
+          "low_delta": 0.1657898976252632,
+          "seven_delta": 0.2121299177735736,
+          "unseen_delta": 0.2761754500560265
+        },
+        {
+          "scene": "fr2_xyz",
+          "seed": 7200,
+          "low_delta": -0.0717445214589425,
+          "seven_delta": -0.014719077519007584,
+          "unseen_delta": 0.05934333801269531
+        },
+        {
+          "scene": "fr2_xyz",
+          "seed": 7201,
+          "low_delta": 0.1876484950383528,
+          "seven_delta": 0.1384023144131632,
+          "unseen_delta": 0.12963419490390393
+        }
+      ]
+    },
+    {
+      "model": "FrozenBaseContextHead8",
+      "criterion": "mean paired low(1%,5%) Bank improvement; seven-ratio mean as tie breaker only",
+      "score": 0.09830558223602015,
+      "details": [
+        {
+          "scene": "fr1_xyz",
+          "seed": 7200,
+          "low_delta": 0.2319949590242807,
+          "seven_delta": 0.35806874914483444,
+          "unseen_delta": 0.4959085415571174
+        },
+        {
+          "scene": "fr1_xyz",
+          "seed": 7201,
+          "low_delta": 0.1203729556157036,
+          "seven_delta": 0.153759128444797,
+          "unseen_delta": 0.23101315131554045
+        },
+        {
+          "scene": "fr2_xyz",
+          "seed": 7200,
+          "low_delta": -0.10554675261179725,
+          "seven_delta": -0.05231708572024374,
+          "unseen_delta": 0.0427983601888009
+        },
+        {
+          "scene": "fr2_xyz",
+          "seed": 7201,
+          "low_delta": 0.14640116691589355,
+          "seven_delta": 0.09517896743047771,
+          "unseen_delta": 0.10648772451612842
+        }
+      ]
+    }
+  ],
+  "all_candidates_still_evaluated": true,
+  "selection_data": "Bank only; no nonBank metrics read",
+  "scope": "research candidate, not authorization or evidence for production replacement"
+}

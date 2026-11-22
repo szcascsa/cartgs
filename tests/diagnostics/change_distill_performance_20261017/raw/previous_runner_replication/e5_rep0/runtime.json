@@ -1,0 +1,22 @@
+{
+  "additional_allocated_mb" : 54.7841796875,
+  "anchors" : 15202,
+  "controlled_rng" : true,
+  "elapsed_seconds" : 0.76266659299999995,
+  "epochs" : 5,
+  "gaussian_unchanged" : true,
+  "mapping_clock_advanced" : false,
+  "normal_adam_unchanged" : true,
+  "observed" : false,
+  "observer_seconds" : 0.0,
+  "optimizer_path_seconds" : 0.76266659299999995,
+  "peak_allocated_mb" : 631.95166015625,
+  "peak_reserved_mb" : 726.0,
+  "seed" : 0,
+  "selector_count" : 29687,
+  "selector_steps" : 20,
+  "skipped_outside" : 4,
+  "tf_count" : 29683,
+  "tf_steps" : 20,
+  "warmup" : true
+}

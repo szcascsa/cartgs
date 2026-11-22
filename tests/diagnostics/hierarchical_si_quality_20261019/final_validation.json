@@ -1,0 +1,15 @@
+{
+  "all_passed": true,
+  "pre_registration_unchanged": true,
+  "frozen_sources_unchanged": 240,
+  "historical_rankings_SHA_exact": true,
+  "input_manifest_exact": true,
+  "mean_per_view_consistency": true,
+  "K_and_nested": true,
+  "frozen_worker_tensors": true,
+  "production_libraries_unchanged": true,
+  "verdict_matches_original_user_mixed_direction_clause": true,
+  "decision": "QUALITY INCONCLUSIVE",
+  "python": "3.11.16",
+  "numpy": "2.4.6"
+}

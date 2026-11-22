@@ -1,0 +1,88 @@
+%YAML:1.0
+
+# Experiment parameters for Selector, Online GI, and Transform Field.
+
+Selector.enabled: 1
+Selector.target_ratios: [0.01, 0.05, 0.10, 0.15]
+Selector.protection_enabled: 1
+Selector.temperature: 1.0
+Selector.learning_rate: 0.001
+Selector.render_loss_weight: 1.0
+Selector.gi_loss_weight: 1.0
+Selector.ratio_loss_weight: 0.01
+Selector.replay_enabled: 1
+Selector.replay_interval: 300
+Selector.replay_num_frames: 2
+Selector.replay_seed: 0
+# 0: preserve the original CaRtGS stopping policy; non-zero: target normal KF mappings.
+Selector.max_mapping_iterations: 10000
+
+OnlineGI.enable: 1
+OnlineGI.fast_ema_decay: 0.9
+OnlineGI.fast_weight: 0.7
+OnlineGI.eps: 1e-8
+
+TransformField.enable: 1
+TransformField.start_iter: 100
+TransformField.aabb_scale: 1.3
+TransformField.spatial_resolution: 64
+TransformField.ratio_resolution: 150
+TransformField.feature_dim: 16
+TransformField.multires: [1, 2, 4]
+TransformField.hidden_dim: 64
+TransformField.grid_lr_init: 0.0016
+TransformField.grid_lr_final: 0.00016
+TransformField.mlp_lr_init: 0.00016
+TransformField.mlp_lr_final: 0.000016
+TransformField.lr_delay_mult: 0.01
+TransformField.lr_max_steps: 20000
+TransformField.spatial_smooth_weight: 0.0002
+TransformField.ratio_smooth_weight: 0.001
+TransformField.ratio_l1_weight: 0.0001
+TransformField.outside_identity: 1
+TransformField.mature_only: 1
+TransformField.dynamic_aabb: 1
+TransformField.aabb_check_interval: 1000
+TransformField.outside_count_threshold: 100
+TransformField.expand_margin_ratio: 0.2
+TransformField.bound_quantile_low: 0.001
+TransformField.bound_quantile_high: 0.999
+TransformField.fixed_resolution: 1
+
+ChangeDistill.enable: 1
+ChangeDistill.distill_selector_on_geometry_change: 1
+ChangeDistill.distill_tf_on_geometry_change: 1
+ChangeDistill.distill_tf_on_aabb_change: 1
+ChangeDistill.position_weight: 1.0
+ChangeDistill.scale_weight: 1.0
+ChangeDistill.rotation_weight: 1.0
+ChangeDistill.selector_weight: 1.0
+ChangeDistill.selector_learning_rate: 0.0001
+ChangeDistill.tf_grid_learning_rate: 0.00016
+ChangeDistill.tf_mlp_learning_rate: 0.000016
+ChangeDistill.batch_size: 8192
+ChangeDistill.epochs: 5
+ChangeDistill.seed: 0
+ChangeDistill.enable_unaffected_anchors: 1
+ChangeDistill.anchor_ratio_to_corrected: 1.0
+ChangeDistill.anchor_max_count: 32768
+ChangeDistill.anchor_loss_weight: 1.0
+# Event-local Adam uses the fixed CD learning rates above, with weight_decay=0.
+# Normal mapping/replay clocks do not advance during CD.
+ChangeDistill.post_change_replay: 0
+
+Protection.age_ready: 100
+
+Protection.optimization_ready: 80
+
+Protection.unique_keyframe_ready: 4
+
+Protection.stale_age: 1000
+
+Protection.max_budget_fraction: 0.35
+
+Protection.weighted_bernoulli: 1
+
+Protection.clone_split_inherit_keyframe_support: 1
+
+Protection.performance_logging: 1

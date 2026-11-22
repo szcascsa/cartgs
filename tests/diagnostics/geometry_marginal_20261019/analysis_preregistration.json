@@ -1,0 +1,14 @@
+{
+  "frozen_before_online_render_quality": true,
+  "primary": "fr1_room production cached-uniform selection at1/5%; paired seeds2026/2027, report each ratio and seed",
+  "stable_quality_regression": "both seeds have negative PSNR delta and mean delta<-0.10dB at either primary ratio",
+  "visible_positive_benefit": "mean primary four paired PSNR deltas>0.05dB and at least3/4 deltas>=0; SSIM/LPIPS tradeoffs reported separately",
+  "full_map_regression": "both primary-scene seeds negative Full PSNR and mean delta<-0.20dB",
+  "systematic_ATE_regression": "both primary-scene paired SE3 ATE changes exceed max(0.005m,0.10*RawATE)",
+  "performance_problem": "scene mean Mapping wall overhead>10%, or consistent tracking-tail latency degradation; report all refresh p95/max and standalone marginal amortized cost",
+  "online_GO": "exact offline+shadow gates, no stable selected/Full/ATE regression, positive benefit, reduced same-K snapshot redundancy, and no performance problem",
+  "weak_or_NO_GO": "if quality merely similar without clear benefit, classify online benefit weak/NO-GO; never reinterpret offline redundancy GO as online GO",
+  "second_scene": "fr1_desk is zero-tuning directional check, report independently; no checkpoint or seed selection",
+  "tracking_limit": "tracking per-frame distribution and GI association wait counters measured; no per-refresh causal attribution from separate logs",
+  "no_auto_remedy": "no sparse approximate path, architecture changes, threshold/LR tuning or altered refresh cadence to rescue results"
+}

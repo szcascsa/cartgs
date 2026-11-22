@@ -44,7 +44,8 @@ struct GaussianRasterizationSettings {
                                 torch::Tensor& campos,
                                 bool prefiltered,
                                 bool debug,
-                                bool collect_importance = false)
+                                bool collect_importance = false,
+                                RasterizeMode mode = RasterizeMode::Training)
       : image_height_(image_height),
         image_width_(image_width),
         tanfovx_(tanfovx),
@@ -57,7 +58,7 @@ struct GaussianRasterizationSettings {
         campos_(campos),
         prefiltered_(prefiltered),
         debug_(debug),
-        collect_importance_(collect_importance) {}
+        collect_importance_(collect_importance), mode_(mode) {}
 
   int image_height_;
   int image_width_;
@@ -72,6 +73,7 @@ struct GaussianRasterizationSettings {
   bool prefiltered_;
   bool debug_;
   bool collect_importance_;
+  RasterizeMode mode_;
 };
 
 class GaussianRasterizerFunction

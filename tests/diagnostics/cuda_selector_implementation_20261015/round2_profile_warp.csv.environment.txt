@@ -1,0 +1,2 @@
+allowTF32CuBLAS=0
+allowTF32CuDNN=1

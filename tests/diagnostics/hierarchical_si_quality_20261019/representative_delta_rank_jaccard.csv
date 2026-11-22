@@ -1,0 +1,9 @@
+ratio,population,K,Jaccard
+0.01,candidate_K,503,0.4289772727272727
+0.01,representative_population_K,137,0.2744186046511628
+0.05,candidate_K,2517,0.6926698049764627
+0.05,representative_population_K,686,0.464247598719317
+0.1,candidate_K,5033,0.7512178148921363
+0.1,representative_population_K,1372,0.5916473317865429
+0.15,candidate_K,7550,0.8221310486303849
+0.15,representative_population_K,2057,0.6682887266828873

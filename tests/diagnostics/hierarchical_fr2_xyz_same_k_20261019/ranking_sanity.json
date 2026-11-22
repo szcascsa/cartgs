@@ -1,0 +1,26 @@
+{
+  "all_passed": true,
+  "N_candidate": 43059,
+  "complete_permutations": true,
+  "same_K": {
+    "0.01": 431,
+    "0.05": 2153,
+    "0.1": 4306,
+    "0.15": 6459
+  },
+  "nested": true,
+  "C_repeat_exact": true,
+  "F3_repeat_exact": true,
+  "B_repeat_exact": true,
+  "B_predecessor_order": true,
+  "all_C_node_reps_Q_independent_check": true,
+  "mass_relative_error": 0.0,
+  "input_sha256": "e782809b8e6395ef2357ee58745ffc1763f76f3cf540d875daca5b5bd78bbada",
+  "tree_sha256": "af4cd411a4bc42a38bd59392c8b33743c01632cd641f694e3c0d21582f3107c7",
+  "runtime_ms": {
+    "B": 978.5432331264019,
+    "C": 7904.14293,
+    "F3": 2578.7938237190247
+  },
+  "quality_started": false
+}

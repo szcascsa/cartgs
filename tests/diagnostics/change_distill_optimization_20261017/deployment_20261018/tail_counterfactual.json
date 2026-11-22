@@ -1,0 +1,38 @@
+[
+  {
+    "library": "backup",
+    "exit": -6,
+    "last_lines": [
+      "[TailOptimization] event=begin slam_stop_iter=6011 start_mapping=6011 target=7 ignored_max_mapping_iterations=0",
+      "terminate called after throwing an instance of 'std::runtime_error'",
+      "  what():  Mode1 tail advanced clocks without Gaussian/TF optimizer updates"
+    ]
+  },
+  {
+    "library": "optimized",
+    "exit": -6,
+    "last_lines": [
+      "[TailOptimization] event=begin slam_stop_iter=6011 start_mapping=6011 target=7 ignored_max_mapping_iterations=0",
+      "terminate called after throwing an instance of 'std::runtime_error'",
+      "  what():  Mode1 tail advanced clocks without Gaussian/TF optimizer updates"
+    ]
+  },
+  {
+    "library": "optimized_repeat",
+    "exit": -6,
+    "last_lines": [
+      "[TailOptimization] event=begin slam_stop_iter=6011 start_mapping=6011 target=7 ignored_max_mapping_iterations=0",
+      "terminate called after throwing an instance of 'std::runtime_error'",
+      "  what():  Mode1 tail advanced clocks without Gaussian/TF optimizer updates"
+    ]
+  },
+  {
+    "library": "backup_original_binary",
+    "exit": -6,
+    "last_lines": [
+      "[TailOptimization] event=begin slam_stop_iter=6011 start_mapping=6011 target=7 ignored_max_mapping_iterations=0",
+      "terminate called after throwing an instance of 'std::runtime_error'",
+      "  what():  Mode1 tail advanced clocks without Gaussian/TF optimizer updates"
+    ]
+  }
+]

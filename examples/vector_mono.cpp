@@ -193,6 +193,8 @@ int main(int argc, char **argv) {
         std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1)
             .count();
     vTimesTrack[ni] = ttrack;
+    if ((ni + 1) % 100 == 0 || ni + 1 == nImages)
+      std::cout << "[Experiment PROGRESS] frames=" << ni + 1 << "/" << nImages << std::endl;
 
     // Wait to load the next frame
     double T = 0;

@@ -1,0 +1,8 @@
+[1/8] Building CXX object CMakeFiles/tum_rgbd_cuda_tf_online.dir/cuda_tf_online_main.cpp.o
+[2/8] Building CXX object CMakeFiles/tum_rgbd_cuda_tf_profile.dir/cuda_tf_profile_main.cpp.o
+[3/8] Linking CXX executable /home/prmi/zwj/mycartgs/bin/tum_rgbd_cuda_tf_online
+[4/8] Building CXX object CMakeFiles/tum_rgbd_selector_validation.dir/selector_revised_main.cpp.o
+[5/8] Building CXX object CMakeFiles/tum_rgbd_cuda_tf_profile.dir/cuda_tf_profile_mapper.cpp.o
+[6/8] Linking CXX executable /home/prmi/zwj/mycartgs/bin/tum_rgbd_cuda_tf_profile
+[7/8] Building CXX object CMakeFiles/tum_rgbd_selector_validation.dir/selector_revised_mapper.cpp.o
+[8/8] Linking CXX executable /home/prmi/zwj/mycartgs/bin/tum_rgbd_selector_validation

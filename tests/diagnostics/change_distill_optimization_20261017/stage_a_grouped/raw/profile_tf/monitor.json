@@ -1,0 +1,57 @@
+[
+  {
+    "time": 1792259793.8763776,
+    "own_pid": 1086548,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792259794.1422384,
+    "own_pid": 1086548,
+    "gpu_processes": ""
+  },
+  {
+    "time": 1792259794.4221954,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  },
+  {
+    "time": 1792259794.6845841,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  },
+  {
+    "time": 1792259794.9460657,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  },
+  {
+    "time": 1792259795.2072976,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  },
+  {
+    "time": 1792259795.4903493,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  },
+  {
+    "time": 1792259795.7515962,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  },
+  {
+    "time": 1792259796.0129075,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  },
+  {
+    "time": 1792259796.274177,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  },
+  {
+    "time": 1792259796.5352693,
+    "own_pid": 1086548,
+    "gpu_processes": "1086548, /home/prmi/zwj/mycartgs/results/change_distill_optimization/20261017/stage_a_grouped/benchmark_instrumented"
+  }
+]

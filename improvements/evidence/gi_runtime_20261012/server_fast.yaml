@@ -1,0 +1,154 @@
+%YAML:1.0
+
+# Fast 配置：在线 LOD 宽高减半，SLAM 结束后恢复原图尺寸。
+# 超轻量模式默认关闭；开启后在线固定 1%/5%/10%/15%/Full 轮转，在线结束即停止。
+Training.ultra_light_enabled: 1
+# 仅保留旧配置兼容性，不再参与轮转调度。
+Training.ultra_light_interval: 20
+
+# 强制覆写尾优化默认关闭；仅非 ultra_light 模式生效，开启后忽略 Selector.max_mapping_iterations。
+# -1: SLAM 结束时 iteration 的一半（向下取整）；>=0: 固定尾部 Mapping 步数。
+Training.force_tail_optimization_enabled: 0
+Training.tail_optimization_steps: -1
+
+Selector.enabled: 1
+Selector.target_ratios: [0.01, 0.05, 0.10, 0.15]
+Selector.protection_enabled: 1
+Protection.age_ready: 800
+Protection.optimization_ready: 300
+Protection.unique_keyframe_ready: 5
+Protection.stale_age: 800
+Protection.max_budget_fraction: 0.35
+Protection.weighted_bernoulli: 1
+Protection.clone_split_inherit_keyframe_support: 1
+Protection.performance_logging: 1
+Selector.temperature: 1.0
+Selector.learning_rate: 0.001
+Selector.render_loss_weight: 1.0
+Selector.gi_loss_weight: 1.0
+Selector.ratio_loss_weight: 0.01
+# 仅 SLAM 在线时生效；SLAM 结束后 LOD 使用原图全分辨率。
+Selector.lod_render_scale: 0.5
+# 0: normal LOD loss also updates Gaussian attributes; 1: detach them.
+# Joint Full/LoD Replay consumes only conflict-source remote views; no random fallback.
+Selector.detach_gaussian_parameters: 0
+Selector.replay_enabled: 0
+Selector.replay_interval: 300
+Selector.replay_num_frames: 2
+ConflictReplay.trigger_cancel_count: 1000
+ConflictReplay.source_view_count: 2
+ConflictReplay.views_per_source: 4
+ConflictReplay.remote_candidate_count: 32
+ConflictReplay.queue_capacity: 16
+# 0: preserve the original CaRtGS stopping policy; non-zero: target normal KF mappings.
+# 强制覆写尾优化开启时，本项不限制在线 Mapping 或尾优化。
+Selector.max_mapping_iterations: 16400
+
+# 1: record per-mapping and final keyframe usage files; 0: disable file writes.
+Mapping.record_keyframe_used_times: 0
+
+RecentWindow.enable: 1
+RecentWindow.size: 16
+RecentWindow.ema_decay: 0.9
+# GI 来源：disabled / recent / streaming；RecentWindow 继续维护 Guard/Replay 时间窗口。
+GlobalGI.mode: "streaming"
+GlobalGI.view_ratio: 0.30
+GlobalGI.coverage_anchor_fraction: 0.80
+GlobalGI.sampling_seed: 0
+GlobalGI.refresh_interval: 1000
+GlobalGI.max_views: 0
+GlobalGI.performance_logging: 1
+# 0: 仅周期摘要；1: 打印逐次 Bank/拓扑详情，用于调试。
+GlobalGI.verbose_logging: 0
+Importance.ratio_aware_weight: 0
+Importance.ratio_weights: [1.0, 1.0, 1.0, 1.0]
+
+TransformField.enable: 1
+TransformField.start_iter: 800
+TransformField.aabb_scale: 1
+TransformField.spatial_resolution: 64
+TransformField.ratio_resolution: 150
+TransformField.feature_dim: 8
+TransformField.multires: [1, 2]
+TransformField.hidden_dim: 32
+TransformField.grid_lr_init: 0.0016
+TransformField.grid_lr_final: 0.00016
+TransformField.mlp_lr_init: 0.00016
+TransformField.mlp_lr_final: 0.000016
+TransformField.lr_delay_mult: 0.01
+TransformField.lr_max_steps: 20000
+TransformField.spatial_smooth_weight: 0.0002
+TransformField.ratio_smooth_weight: 0.001
+TransformField.ratio_l1_weight: 0.0001
+TransformField.outside_identity: 1
+TransformField.mature_only: 1
+TransformField.dynamic_aabb: 1
+TransformField.aabb_check_interval: 1000
+TransformField.outside_count_threshold: 100
+TransformField.expand_margin_ratio: 0.2
+TransformField.bound_quantile_low: 0.001
+TransformField.bound_quantile_high: 0.999
+TransformField.fixed_resolution: 1
+
+ChangeDistill.enable: 1
+ChangeDistill.distill_selector_on_geometry_change: 1
+ChangeDistill.distill_tf_on_geometry_change: 1
+ChangeDistill.distill_tf_on_aabb_change: 1
+ChangeDistill.position_weight: 1.0
+ChangeDistill.scale_weight: 1.0
+ChangeDistill.rotation_weight: 1.0
+ChangeDistill.selector_weight: 1.0
+ChangeDistill.selector_learning_rate: 0.0001
+ChangeDistill.tf_grid_learning_rate: 0.00016
+ChangeDistill.tf_mlp_learning_rate: 0.000016
+ChangeDistill.batch_size: 8192
+ChangeDistill.epochs: 5
+ChangeDistill.seed: 0
+ChangeDistill.enable_unaffected_anchors: 1
+ChangeDistill.anchor_ratio_to_corrected: 1.0
+ChangeDistill.anchor_max_count: 32768
+ChangeDistill.anchor_loss_weight: 1.0
+# Event-local Adam uses the fixed CD learning rates above, with weight_decay=0.
+# Normal mapping/replay clocks do not advance during CD.
+ChangeDistill.post_change_replay: 0
+
+# TF 正常更新满 1000 次后联合保护 Gaussian + Selector + TF；数量仅由正常 loss 约束。
+GradientConstraint.enable: 0
+GradientConstraint.check_interval: 1
+GradientConstraint.memory_views_per_check: 1
+GradientConstraint.memory_ratios_per_check: 1
+GradientConstraint.max_candidate_checks: 3
+GradientConstraint.tf_warmup_steps: 1000
+GradientConstraint.log_interval: 100
+GradientConstraint.cancel_fallback_enable: 1
+GradientConstraint.cancel_fallback_scale: 0.2
+
+# 仅控制退化后的历史检测/恢复蒸馏；0 关闭，1 启用。与 Change CD、在线预防独立。
+DriftStability.enable: 0
+DriftStability.probe_interval: 1000
+DriftStability.min_bad_views: 2
+DriftStability.max_gaussians: 32768
+DriftStability.batch_size: 8192
+DriftStability.consecutive_trigger_count: 2
+DriftStability.reference_horizon: 5000
+DriftStability.reference_min_age: 3000
+DriftStability.reference_max_age: 10000
+DriftStability.reference_ema_decay: 0.5
+DriftStability.non_regression_refresh_count: 3
+DriftStability.function_threshold: 0.02
+DriftStability.psnr_regression_threshold: 0.1
+DriftStability.budget_relative_tolerance: 0.25
+DriftStability.position_weight: 1.0
+DriftStability.scale_weight: 1.0
+DriftStability.rotation_weight: 1.0
+DriftStability.selector_learning_rate: 0.00005
+DriftStability.tf_grid_learning_rate: 0.00008
+DriftStability.tf_mlp_learning_rate: 0.000008
+DriftStability.epochs: 5
+DriftStability.seed: 0
+
+HistoricalOutlier.diversity_enabled: 1
+HistoricalOutlier.count: 4
+HistoricalOutlier.translation_weight: 1.0
+HistoricalOutlier.rotation_weight: 0.5
+HistoricalOutlier.diversity_recent_weight: 0.5

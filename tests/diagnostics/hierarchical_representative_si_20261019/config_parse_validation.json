@@ -1,0 +1,13 @@
+{
+  "all_passed": true,
+  "configs": {
+    "fast.yaml": {
+      "GlobalGI.HierarchicalRepresentative.enable": 0.0,
+      "GlobalGI.HierarchicalRepresentative.diagnostics": 0.0
+    },
+    "selector_config.yaml": {
+      "GlobalGI.HierarchicalRepresentative.enable": 0.0,
+      "GlobalGI.HierarchicalRepresentative.diagnostics": 0.0
+    }
+  }
+}

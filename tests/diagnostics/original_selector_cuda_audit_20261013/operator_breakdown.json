@@ -1,0 +1,1917 @@
+{
+  "kind": "Native LibTorch Kineto; 10 iterations; inclusive CPU operator times must not be summed; GPU attribution uses launch-runtime correlation and innermost enclosing CPU op because exported External id is inconsistent",
+  "operators": [
+    {
+      "name": "aten::addmm",
+      "count_per_iteration": 9.0,
+      "cpu_inclusive_ms_per_iteration": 0.3199999999999999,
+      "kernels_per_iteration": 9.0,
+      "kernel_active_ms_per_iteration": 3.743500000000001,
+      "shapes": {
+        "[[32], [1, 1], [1, 32], [], []]": 10,
+        "[[32], [1, 32], [32, 32], [], []]": 10,
+        "[[32], [219969, 3], [3, 32], [], []]": 20,
+        "[[32], [219969, 32], [32, 32], [], []]": 30,
+        "[[32], [219969, 4], [4, 32], [], []]": 10,
+        "[[2], [219969, 128], [128, 2], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::mm",
+      "count_per_iteration": 17.0,
+      "cpu_inclusive_ms_per_iteration": 0.34919999999999984,
+      "kernels_per_iteration": 24.0,
+      "kernel_active_ms_per_iteration": 1.492599999999999,
+      "shapes": {
+        "[[219969, 2], [2, 128]]": 10,
+        "[[2, 219969], [219969, 128]]": 10,
+        "[[219969, 32], [32, 32]]": 30,
+        "[[32, 219969], [219969, 32]]": 30,
+        "[[219969, 32], [32, 3]]": 20,
+        "[[32, 219969], [219969, 3]]": 20,
+        "[[219969, 32], [32, 4]]": 10,
+        "[[32, 219969], [219969, 4]]": 10,
+        "[[1, 32], [32, 32]]": 10,
+        "[[32, 1], [1, 32]]": 10,
+        "[[32, 1], [1, 1]]": 10
+      }
+    },
+    {
+      "name": "aten::threshold_backward",
+      "count_per_iteration": 8.0,
+      "cpu_inclusive_ms_per_iteration": 0.13630000000000003,
+      "kernels_per_iteration": 8.0,
+      "kernel_active_ms_per_iteration": 0.7788999999999997,
+      "shapes": {
+        "[[219969, 32], [219969, 32], []]": 60,
+        "[[1, 32], [1, 32], []]": 20
+      }
+    },
+    {
+      "name": "aten::clamp_min",
+      "count_per_iteration": 11.0,
+      "cpu_inclusive_ms_per_iteration": 0.18889999999999973,
+      "kernels_per_iteration": 11.0,
+      "kernel_active_ms_per_iteration": 0.42729999999999946,
+      "shapes": {
+        "[[220084], []]": 10,
+        "[[], []]": 10,
+        "[[220084, 1], []]": 10,
+        "[[1, 32], []]": 20,
+        "[[219969, 32], []]": 60
+      }
+    },
+    {
+      "name": "aten::sum",
+      "count_per_iteration": 17.0,
+      "cpu_inclusive_ms_per_iteration": 0.45569999999999977,
+      "kernels_per_iteration": 14.0,
+      "kernel_active_ms_per_iteration": 0.4049999999999997,
+      "shapes": {
+        "[[219969, 2], [], [], []]": 10,
+        "[[219969, 32], [], [], []]": 70,
+        "[[1, 32], [], [], []]": 20,
+        "[[220084, 4], [], [], []]": 10,
+        "[[220084], []]": 20,
+        "[[220084], [], [], []]": 20,
+        "[[219969], []]": 10,
+        "[[219969], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::cat",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.04170000000000001,
+      "kernels_per_iteration": 2.0,
+      "kernel_active_ms_per_iteration": 0.25460000000000005,
+      "shapes": {
+        "[[[1], [1]], []]": 10,
+        "[[[219969, 32], [219969, 32], [219969, 32], [219969, 32]], []]": 10
+      }
+    },
+    {
+      "name": "aten::mul",
+      "count_per_iteration": 53.0,
+      "cpu_inclusive_ms_per_iteration": 0.5813000000000005,
+      "kernels_per_iteration": 51.0,
+      "kernel_active_ms_per_iteration": 0.1531999999999999,
+      "shapes": {
+        "[[], []]": 50,
+        "[[8644, 1], [8644, 1]]": 3,
+        "[[220084], [220084]]": 30,
+        "[[219969, 2], [219969, 2]]": 20,
+        "[[220084, 3], [220084, 3]]": 10,
+        "[[220084, 4], [220084, 4]]": 10,
+        "[[220084, 1], [220084, 4]]": 10,
+        "[[8638, 1], [8638, 1]]": 3,
+        "[[8586, 1], [8586, 1]]": 3,
+        "[[8554, 1], [8554, 1]]": 3,
+        "[[8548, 1], [8548, 1]]": 3,
+        "[[8588, 1], [8588, 1]]": 3,
+        "[[8658, 1], [8658, 1]]": 3,
+        "[[8659, 1], [8659, 1]]": 3,
+        "[[8574, 1], [8574, 1]]": 3,
+        "[[8606, 1], [8606, 1]]": 3,
+        "[[220084], []]": 10,
+        "[[], [32, 3], [32, 3]]": 40,
+        "[[], [32], [32]]": 160,
+        "[[], [32, 32], [32, 32]]": 80,
+        "[[], [32, 4], [32, 4]]": 20,
+        "[[], [32, 1], [32, 1]]": 20,
+        "[[], [2, 128], [2, 128]]": 20,
+        "[[], [2], [2]]": 20
+      }
+    },
+    {
+      "name": "aten::div",
+      "count_per_iteration": 58.0,
+      "cpu_inclusive_ms_per_iteration": 0.8867999999999985,
+      "kernels_per_iteration": 32.0,
+      "kernel_active_ms_per_iteration": 0.1169,
+      "shapes": {
+        "[[8644, 1], []]": 2,
+        "[[], []]": 50,
+        "[[219969, 2], []]": 40,
+        "[[220084, 4], [220084, 4]]": 40,
+        "[[220084, 4], [220084, 1]]": 10,
+        "[[8638, 1], []]": 2,
+        "[[8586, 1], []]": 2,
+        "[[8554, 1], []]": 2,
+        "[[8548, 1], []]": 2,
+        "[[8588, 1], []]": 2,
+        "[[8658, 1], []]": 2,
+        "[[8659, 1], []]": 2,
+        "[[8574, 1], []]": 2,
+        "[[8606, 1], []]": 2,
+        "[[220084], []]": 60,
+        "[[32, 3], []]": 40,
+        "[[32], []]": 160,
+        "[[32, 32], []]": 80,
+        "[[32, 4], []]": 20,
+        "[[32, 1], []]": 20,
+        "[[2, 128], []]": 20,
+        "[[2], []]": 20
+      }
+    },
+    {
+      "name": "aten::add_",
+      "count_per_iteration": 56.0,
+      "cpu_inclusive_ms_per_iteration": 0.5588999999999984,
+      "kernels_per_iteration": 38.0,
+      "kernel_active_ms_per_iteration": 0.10160000000000007,
+      "shapes": {
+        "[[219969, 2], [219969, 2], []]": 10,
+        "[[220084, 4], [220084, 4], []]": 10,
+        "[[32, 3], [32, 3], []]": 20,
+        "[[32, 3], [], []]": 40,
+        "[[32], [32], []]": 80,
+        "[[32], [], []]": 160,
+        "[[32, 32], [32, 32], []]": 40,
+        "[[32, 32], [], []]": 80,
+        "[[32, 4], [32, 4], []]": 10,
+        "[[32, 4], [], []]": 20,
+        "[[32, 1], [32, 1], []]": 10,
+        "[[32, 1], [], []]": 20,
+        "[[2, 128], [2, 128], []]": 10,
+        "[[2, 128], [], []]": 20,
+        "[[2], [2], []]": 10,
+        "[[2], [], []]": 20
+      }
+    },
+    {
+      "name": "aten::index_select",
+      "count_per_iteration": 11.0,
+      "cpu_inclusive_ms_per_iteration": 0.23869999999999983,
+      "kernels_per_iteration": 11.0,
+      "kernel_active_ms_per_iteration": 0.07800000000000004,
+      "shapes": {
+        "[[220084], [], [219969]]": 10,
+        "[[220084, 3], [], [219969]]": 20,
+        "[[220084, 4], [], [219969]]": 10,
+        "[[220084, 3], [], [8644]]": 2,
+        "[[220084, 4], [], [8644]]": 1,
+        "[[220084, 1, 3], [], [8644]]": 1,
+        "[[220084, 15, 3], [], [8644]]": 1,
+        "[[220084, 1], [], [8644]]": 1,
+        "[[220084], [], [8644]]": 1,
+        "[[220084, 3], [], [8638]]": 2,
+        "[[220084, 4], [], [8638]]": 1,
+        "[[220084, 1, 3], [], [8638]]": 1,
+        "[[220084, 15, 3], [], [8638]]": 1,
+        "[[220084, 1], [], [8638]]": 1,
+        "[[220084], [], [8638]]": 1,
+        "[[220084, 3], [], [8586]]": 2,
+        "[[220084, 4], [], [8586]]": 1,
+        "[[220084, 1, 3], [], [8586]]": 1,
+        "[[220084, 15, 3], [], [8586]]": 1,
+        "[[220084, 1], [], [8586]]": 1,
+        "[[220084], [], [8586]]": 1,
+        "[[220084, 3], [], [8554]]": 2,
+        "[[220084, 4], [], [8554]]": 1,
+        "[[220084, 1, 3], [], [8554]]": 1,
+        "[[220084, 15, 3], [], [8554]]": 1,
+        "[[220084, 1], [], [8554]]": 1,
+        "[[220084], [], [8554]]": 1,
+        "[[220084, 3], [], [8548]]": 2,
+        "[[220084, 4], [], [8548]]": 1,
+        "[[220084, 1, 3], [], [8548]]": 1,
+        "[[220084, 15, 3], [], [8548]]": 1,
+        "[[220084, 1], [], [8548]]": 1,
+        "[[220084], [], [8548]]": 1,
+        "[[220084, 3], [], [8588]]": 2,
+        "[[220084, 4], [], [8588]]": 1,
+        "[[220084, 1, 3], [], [8588]]": 1,
+        "[[220084, 15, 3], [], [8588]]": 1,
+        "[[220084, 1], [], [8588]]": 1,
+        "[[220084], [], [8588]]": 1,
+        "[[220084, 3], [], [8658]]": 2,
+        "[[220084, 4], [], [8658]]": 1,
+        "[[220084, 1, 3], [], [8658]]": 1,
+        "[[220084, 15, 3], [], [8658]]": 1,
+        "[[220084, 1], [], [8658]]": 1,
+        "[[220084], [], [8658]]": 1,
+        "[[220084, 3], [], [8659]]": 2,
+        "[[220084, 4], [], [8659]]": 1,
+        "[[220084, 1, 3], [], [8659]]": 1,
+        "[[220084, 15, 3], [], [8659]]": 1,
+        "[[220084, 1], [], [8659]]": 1,
+        "[[220084], [], [8659]]": 1,
+        "[[220084, 3], [], [8574]]": 2,
+        "[[220084, 4], [], [8574]]": 1,
+        "[[220084, 1, 3], [], [8574]]": 1,
+        "[[220084, 15, 3], [], [8574]]": 1,
+        "[[220084, 1], [], [8574]]": 1,
+        "[[220084], [], [8574]]": 1,
+        "[[220084, 3], [], [8606]]": 2,
+        "[[220084, 4], [], [8606]]": 1,
+        "[[220084, 1, 3], [], [8606]]": 1,
+        "[[220084, 15, 3], [], [8606]]": 1,
+        "[[220084, 1], [], [8606]]": 1,
+        "[[220084], [], [8606]]": 1
+      }
+    },
+    {
+      "name": "aten::index_add_",
+      "count_per_iteration": 5.0,
+      "cpu_inclusive_ms_per_iteration": 0.061600000000000044,
+      "kernels_per_iteration": 5.0,
+      "kernel_active_ms_per_iteration": 0.04870000000000003,
+      "shapes": {
+        "[[220084], [], [8644], [8644], []]": 1,
+        "[[220084, 1], [], [8644], [8644, 1], []]": 1,
+        "[[220084, 3], [], [219969], [219969, 3], []]": 20,
+        "[[220084, 4], [], [219969], [219969, 4], []]": 10,
+        "[[220084], [], [8638], [8638], []]": 1,
+        "[[220084, 1], [], [8638], [8638, 1], []]": 1,
+        "[[220084], [], [8586], [8586], []]": 1,
+        "[[220084, 1], [], [8586], [8586, 1], []]": 1,
+        "[[220084], [], [8554], [8554], []]": 1,
+        "[[220084, 1], [], [8554], [8554, 1], []]": 1,
+        "[[220084], [], [8548], [8548], []]": 1,
+        "[[220084, 1], [], [8548], [8548, 1], []]": 1,
+        "[[220084], [], [8588], [8588], []]": 1,
+        "[[220084, 1], [], [8588], [8588, 1], []]": 1,
+        "[[220084], [], [8658], [8658], []]": 1,
+        "[[220084, 1], [], [8658], [8658, 1], []]": 1,
+        "[[220084], [], [8659], [8659], []]": 1,
+        "[[220084, 1], [], [8659], [8659, 1], []]": 1,
+        "[[220084], [], [8574], [8574], []]": 1,
+        "[[220084, 1], [], [8574], [8574, 1], []]": 1,
+        "[[220084], [], [8606], [8606], []]": 1,
+        "[[220084, 1], [], [8606], [8606, 1], []]": 1
+      }
+    },
+    {
+      "name": "aten::addcdiv_",
+      "count_per_iteration": 18.0,
+      "cpu_inclusive_ms_per_iteration": 0.1543,
+      "kernels_per_iteration": 18.0,
+      "kernel_active_ms_per_iteration": 0.047500000000000035,
+      "shapes": {
+        "[[32, 3], [32, 3], [32, 3], []]": 20,
+        "[[32], [32], [32], []]": 80,
+        "[[32, 32], [32, 32], [32, 32], []]": 40,
+        "[[32, 4], [32, 4], [32, 4], []]": 10,
+        "[[32, 1], [32, 1], [32, 1], []]": 10,
+        "[[2, 128], [2, 128], [2, 128], []]": 10,
+        "[[2], [2], [2], []]": 10
+      }
+    },
+    {
+      "name": "aten::fill_",
+      "count_per_iteration": 17.0,
+      "cpu_inclusive_ms_per_iteration": 0.17349999999999954,
+      "kernels_per_iteration": 17.0,
+      "kernel_active_ms_per_iteration": 0.04660000000000004,
+      "shapes": {
+        "[[220084], []]": 70,
+        "[[220084, 1], []]": 10,
+        "[[219969, 2], []]": 30,
+        "[[220084, 3], []]": 20,
+        "[[220084, 4], []]": 10,
+        "[[], []]": 20,
+        "[[1, 1], []]": 10
+      }
+    },
+    {
+      "name": "aten::sqrt",
+      "count_per_iteration": 18.0,
+      "cpu_inclusive_ms_per_iteration": 0.2003999999999996,
+      "kernels_per_iteration": 18.0,
+      "kernel_active_ms_per_iteration": 0.042400000000000035,
+      "shapes": {
+        "[[32, 3]]": 20,
+        "[[32]]": 80,
+        "[[32, 32]]": 40,
+        "[[32, 4]]": 10,
+        "[[32, 1]]": 10,
+        "[[2, 128]]": 10,
+        "[[2]]": 10
+      }
+    },
+    {
+      "name": "aten::addcmul_",
+      "count_per_iteration": 18.0,
+      "cpu_inclusive_ms_per_iteration": 0.1493999999999999,
+      "kernels_per_iteration": 18.0,
+      "kernel_active_ms_per_iteration": 0.041900000000000034,
+      "shapes": {
+        "[[32, 3], [32, 3], [32, 3], []]": 20,
+        "[[32], [32], [32], []]": 80,
+        "[[32, 32], [32, 32], [32, 32], []]": 40,
+        "[[32, 4], [32, 4], [32, 4], []]": 10,
+        "[[32, 1], [32, 1], [32, 1], []]": 10,
+        "[[2, 128], [2, 128], [2, 128], []]": 10,
+        "[[2], [2], [2], []]": 10
+      }
+    },
+    {
+      "name": "aten::copy_",
+      "count_per_iteration": 29.0,
+      "cpu_inclusive_ms_per_iteration": 0.32529999999999964,
+      "kernels_per_iteration": 9.0,
+      "kernel_active_ms_per_iteration": 0.033300000000000024,
+      "shapes": {
+        "[[219969], [219969], []]": 20,
+        "[[220084], [220084], []]": 70,
+        "[[], [], []]": 10,
+        "[[2], [2], []]": 20,
+        "[[32, 3], [32, 3], []]": 20,
+        "[[32], [32], []]": 80,
+        "[[32, 32], [32, 32], []]": 40,
+        "[[32, 4], [32, 4], []]": 10,
+        "[[32, 1], [32, 1], []]": 10,
+        "[[2, 128], [2, 128], []]": 10
+      }
+    },
+    {
+      "name": "aten::nonzero",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 3.8945999999999996,
+      "kernels_per_iteration": 8.0,
+      "kernel_active_ms_per_iteration": 0.028800000000000013,
+      "shapes": {
+        "[[220084]]": 20
+      }
+    },
+    {
+      "name": "aten::ge",
+      "count_per_iteration": 8.0,
+      "cpu_inclusive_ms_per_iteration": 0.1409999999999999,
+      "kernels_per_iteration": 8.0,
+      "kernel_active_ms_per_iteration": 0.02780000000000002,
+      "shapes": {
+        "[[220084, 1], []]": 10,
+        "[[220084], []]": 70
+      }
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.019399999999999997,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0159,
+      "shapes": {
+        "[[220084, 4], [], [], [], [], [220084, 1]]": 10
+      }
+    },
+    {
+      "name": "aten::masked_fill_",
+      "count_per_iteration": 4.0,
+      "cpu_inclusive_ms_per_iteration": 0.04820000000000002,
+      "kernels_per_iteration": 4.0,
+      "kernel_active_ms_per_iteration": 0.015600000000000008,
+      "shapes": {
+        "[[220084, 4], [220084, 1], []]": 10,
+        "[[220084], [220084], []]": 30
+      }
+    },
+    {
+      "name": "aten::sub_",
+      "count_per_iteration": 4.0,
+      "cpu_inclusive_ms_per_iteration": 0.04090000000000002,
+      "kernels_per_iteration": 4.0,
+      "kernel_active_ms_per_iteration": 0.015200000000000009,
+      "shapes": {
+        "[[220084], [220084], []]": 40
+      }
+    },
+    {
+      "name": "aten::bitwise_and",
+      "count_per_iteration": 5.0,
+      "cpu_inclusive_ms_per_iteration": 0.06310000000000003,
+      "kernels_per_iteration": 5.0,
+      "kernel_active_ms_per_iteration": 0.01420000000000001,
+      "shapes": {
+        "[[220084], [220084]]": 50
+      }
+    },
+    {
+      "name": "aten::neg",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.028300000000000013,
+      "kernels_per_iteration": 2.0,
+      "kernel_active_ms_per_iteration": 0.0134,
+      "shapes": {
+        "[[220084, 4]]": 10,
+        "[[219969, 2]]": 10
+      }
+    },
+    {
+      "name": "aten::add",
+      "count_per_iteration": 4.0,
+      "cpu_inclusive_ms_per_iteration": 0.05860000000000003,
+      "kernels_per_iteration": 4.0,
+      "kernel_active_ms_per_iteration": 0.012900000000000009,
+      "shapes": {
+        "[[219969, 2], [219969, 2], []]": 20,
+        "[[220084], [220084], []]": 10,
+        "[[], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::max",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.024199999999999996,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.010999999999999998,
+      "shapes": {
+        "[[219969, 2], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::_softmax",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.031200000000000012,
+      "kernels_per_iteration": 1.8,
+      "kernel_active_ms_per_iteration": 0.009400000000000002,
+      "shapes": {
+        "[[219969, 2], [], []]": 20
+      }
+    },
+    {
+      "name": "aten::_softmax_backward_data",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.053700000000000025,
+      "kernels_per_iteration": 2.0,
+      "kernel_active_ms_per_iteration": 0.008400000000000003,
+      "shapes": {
+        "[[219969, 2], [219969, 2], [], []]": 20
+      }
+    },
+    {
+      "name": "aten::clamp",
+      "count_per_iteration": 3.0,
+      "cpu_inclusive_ms_per_iteration": 0.040300000000000016,
+      "kernels_per_iteration": 3.0,
+      "kernel_active_ms_per_iteration": 0.008000000000000004,
+      "shapes": {
+        "[[220084], [], []]": 30
+      }
+    },
+    {
+      "name": "aten::exp",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.017800000000000003,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.008000000000000002,
+      "shapes": {
+        "[[220084, 3]]": 10
+      }
+    },
+    {
+      "name": "aten::minimum",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.02460000000000001,
+      "kernels_per_iteration": 2.0,
+      "kernel_active_ms_per_iteration": 0.006700000000000002,
+      "shapes": {
+        "[[220084], [220084]]": 20
+      }
+    },
+    {
+      "name": "aten::sigmoid_backward",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.018199999999999997,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.006599999999999999,
+      "shapes": {
+        "[[220084, 1], [220084, 1]]": 10
+      }
+    },
+    {
+      "name": "aten::lt",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.02830000000000001,
+      "kernels_per_iteration": 2.0,
+      "kernel_active_ms_per_iteration": 0.006100000000000002,
+      "shapes": {
+        "[[220084], []]": 10,
+        "[[220084], [220084]]": 10
+      }
+    },
+    {
+      "name": "aten::index_copy",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.038299999999999994,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.005999999999999999,
+      "shapes": {
+        "[[220084], [], [219969], [219969]]": 10
+      }
+    },
+    {
+      "name": "aten::sub",
+      "count_per_iteration": 3.0,
+      "cpu_inclusive_ms_per_iteration": 0.04870000000000002,
+      "kernels_per_iteration": 2.0,
+      "kernel_active_ms_per_iteration": 0.005800000000000002,
+      "shapes": {
+        "[[219969, 2], [219969, 2], []]": 10,
+        "[[], [], []]": 20
+      }
+    },
+    {
+      "name": "aten::bitwise_not",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.026200000000000008,
+      "kernels_per_iteration": 2.0,
+      "kernel_active_ms_per_iteration": 0.005500000000000001,
+      "shapes": {
+        "[[220084]]": 20
+      }
+    },
+    {
+      "name": "aten::exponential_",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0212,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.004999999999999999,
+      "shapes": {
+        "[[219969, 2], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::sigmoid",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0176,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0049,
+      "shapes": {
+        "[[220084, 1]]": 10
+      }
+    },
+    {
+      "name": "aten::mean",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.048700000000000014,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0049,
+      "shapes": {
+        "[[8644, 1], []]": 1,
+        "[[8644, 1], [], [], []]": 1,
+        "[[8638, 1], []]": 1,
+        "[[8638, 1], [], [], []]": 1,
+        "[[8586, 1], []]": 1,
+        "[[8586, 1], [], [], []]": 1,
+        "[[8554, 1], []]": 1,
+        "[[8554, 1], [], [], []]": 1,
+        "[[8548, 1], []]": 1,
+        "[[8548, 1], [], [], []]": 1,
+        "[[8588, 1], []]": 1,
+        "[[8588, 1], [], [], []]": 1,
+        "[[8658, 1], []]": 1,
+        "[[8658, 1], [], [], []]": 1,
+        "[[8659, 1], []]": 1,
+        "[[8659, 1], [], [], []]": 1,
+        "[[8574, 1], []]": 1,
+        "[[8574, 1], [], [], []]": 1,
+        "[[8606, 1], []]": 1,
+        "[[8606, 1], [], [], []]": 1
+      }
+    },
+    {
+      "name": "aten::where",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0249,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.004400000000000001,
+      "shapes": {
+        "[[220084, 1], [220084, 1], []]": 10
+      }
+    },
+    {
+      "name": "aten::scatter_",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0179,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.004000000000000001,
+      "shapes": {
+        "[[219969, 2], [], [219969, 1], []]": 10
+      }
+    },
+    {
+      "name": "aten::eq",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.021099999999999997,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0032999999999999995,
+      "shapes": {
+        "[[220084, 1], []]": 10
+      }
+    },
+    {
+      "name": "aten::log",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.016099999999999996,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0030999999999999995,
+      "shapes": {
+        "[[219969, 2]]": 10
+      }
+    },
+    {
+      "name": "aten::gt",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0185,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0029999999999999996,
+      "shapes": {
+        "[[220084], []]": 10
+      }
+    },
+    {
+      "name": "aten::clamp_max",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.013500000000000002,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0026000000000000007,
+      "shapes": {
+        "[[], []]": 10
+      }
+    },
+    {
+      "name": "aten::sgn",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.016300000000000002,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0020000000000000005,
+      "shapes": {
+        "[[]]": 10
+      }
+    },
+    {
+      "name": "aten::abs",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.04470000000000002,
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms_per_iteration": 0.0020000000000000005,
+      "shapes": {
+        "[[]]": 10,
+        "[[], [0]]": 10
+      }
+    },
+    {
+      "name": "aten::softmax",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.03490000000000001,
+      "kernels_per_iteration": 0.2,
+      "kernel_active_ms_per_iteration": 0.0008,
+      "shapes": {
+        "[[219969, 2], [], []]": 20
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: AddBackward0",
+      "count_per_iteration": 4.0,
+      "cpu_inclusive_ms_per_iteration": 0.02130000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 40
+      }
+    },
+    {
+      "name": "AddBackward0",
+      "count_per_iteration": 4.0,
+      "cpu_inclusive_ms_per_iteration": 0.002800000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 10,
+        "[[220084]]": 10,
+        "[[219969, 2]]": 20
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: MulBackward1",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.03300000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "MulBackward1",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.029500000000000005,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: MeanBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.036599999999999994,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "MeanBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.032100000000000004,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 10
+      }
+    },
+    {
+      "name": "aten::expand",
+      "count_per_iteration": 7.0,
+      "cpu_inclusive_ms_per_iteration": 0.03100000000000002,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], [], []]": 20,
+        "[[219969], [], []]": 10,
+        "[[220084, 1], [], []]": 20,
+        "[[32], [], []]": 10,
+        "[[1, 32], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::as_strided",
+      "count_per_iteration": 74.0,
+      "cpu_inclusive_ms_per_iteration": 0.05950000000000004,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], [], [], []]": 80,
+        "[[8644, 1], [], [], []]": 1,
+        "[[219969], [], [], []]": 20,
+        "[[219969, 2], [], [], []]": 60,
+        "[[128, 2], [], [], []]": 20,
+        "[[2, 128], [], [], []]": 20,
+        "[[219969, 128], [], [], []]": 40,
+        "[[32, 32], [], [], []]": 160,
+        "[[219969, 32], [], [], []]": 60,
+        "[[3, 32], [], [], []]": 40,
+        "[[32, 3], [], [], []]": 40,
+        "[[4, 32], [], [], []]": 20,
+        "[[32, 4], [], [], []]": 20,
+        "[[1, 32], [], [], []]": 40,
+        "[[32, 1], [], [], []]": 20,
+        "[[220084, 1], [], [], []]": 20,
+        "[[8638, 1], [], [], []]": 1,
+        "[[8586, 1], [], [], []]": 1,
+        "[[8554, 1], [], [], []]": 1,
+        "[[8548, 1], [], [], []]": 1,
+        "[[8588, 1], [], [], []]": 1,
+        "[[8658, 1], [], [], []]": 1,
+        "[[8659, 1], [], [], []]": 1,
+        "[[8574, 1], [], [], []]": 1,
+        "[[8606, 1], [], [], []]": 1,
+        "[[1, 219969], [], [], []]": 10,
+        "[[2], [], [], []]": 20,
+        "[[32], [], [], []]": 10,
+        "[[220084], [], [], []]": 10,
+        "[[1, 8644], [], [], []]": 1,
+        "[[8644], [], [], []]": 1,
+        "[[1, 8638], [], [], []]": 1,
+        "[[8638], [], [], []]": 1,
+        "[[1, 8586], [], [], []]": 1,
+        "[[8586], [], [], []]": 1,
+        "[[1, 8554], [], [], []]": 1,
+        "[[8554], [], [], []]": 1,
+        "[[1, 8548], [], [], []]": 1,
+        "[[8548], [], [], []]": 1,
+        "[[1, 8588], [], [], []]": 1,
+        "[[8588], [], [], []]": 1,
+        "[[1, 8658], [], [], []]": 1,
+        "[[8658], [], [], []]": 1,
+        "[[1, 8659], [], [], []]": 1,
+        "[[8659], [], [], []]": 1,
+        "[[1, 8574], [], [], []]": 1,
+        "[[8574], [], [], []]": 1,
+        "[[1, 8606], [], [], []]": 1,
+        "[[8606], [], [], []]": 1
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: DivBackward1",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.047800000000000016,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 20
+      }
+    },
+    {
+      "name": "DivBackward1",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.03880000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 10,
+        "[[219969, 2]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: AbsBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0377,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "AbsBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.03280000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: SubBackward1",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0036000000000000003,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "SubBackward1",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0005,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: SumBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.008799999999999999,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "SumBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.005599999999999999,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: MulBackward0",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.054900000000000025,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 20
+      }
+    },
+    {
+      "name": "MulBackward0",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.044100000000000014,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[8644, 1]]": 1,
+        "[[220084]]": 10,
+        "[[8638, 1]]": 1,
+        "[[8586, 1]]": 1,
+        "[[8554, 1]]": 1,
+        "[[8548, 1]]": 1,
+        "[[8588, 1]]": 1,
+        "[[8658, 1]]": 1,
+        "[[8659, 1]]": 1,
+        "[[8574, 1]]": 1,
+        "[[8606, 1]]": 1
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: UnsqueezeBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.011099999999999997,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "UnsqueezeBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.007300000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[8644, 1]]": 1,
+        "[[8638, 1]]": 1,
+        "[[8586, 1]]": 1,
+        "[[8554, 1]]": 1,
+        "[[8548, 1]]": 1,
+        "[[8588, 1]]": 1,
+        "[[8658, 1]]": 1,
+        "[[8659, 1]]": 1,
+        "[[8574, 1]]": 1,
+        "[[8606, 1]]": 1
+      }
+    },
+    {
+      "name": "aten::squeeze",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.005399999999999999,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[8644, 1], []]": 1,
+        "[[8638, 1], []]": 1,
+        "[[8586, 1], []]": 1,
+        "[[8554, 1], []]": 1,
+        "[[8548, 1], []]": 1,
+        "[[8588, 1], []]": 1,
+        "[[8658, 1], []]": 1,
+        "[[8659, 1], []]": 1,
+        "[[8574, 1], []]": 1,
+        "[[8606, 1], []]": 1
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: IndexSelectBackward0",
+      "count_per_iteration": 5.0,
+      "cpu_inclusive_ms_per_iteration": 0.21830000000000002,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 50
+      }
+    },
+    {
+      "name": "IndexSelectBackward0",
+      "count_per_iteration": 5.0,
+      "cpu_inclusive_ms_per_iteration": 0.1918,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[8644]]": 1,
+        "[[8644, 1]]": 1,
+        "[[219969, 3]]": 20,
+        "[[219969, 4]]": 10,
+        "[[8638]]": 1,
+        "[[8638, 1]]": 1,
+        "[[8586]]": 1,
+        "[[8586, 1]]": 1,
+        "[[8554]]": 1,
+        "[[8554, 1]]": 1,
+        "[[8548]]": 1,
+        "[[8548, 1]]": 1,
+        "[[8588]]": 1,
+        "[[8588, 1]]": 1,
+        "[[8658]]": 1,
+        "[[8658, 1]]": 1,
+        "[[8659]]": 1,
+        "[[8659, 1]]": 1,
+        "[[8574]]": 1,
+        "[[8574, 1]]": 1,
+        "[[8606]]": 1,
+        "[[8606, 1]]": 1
+      }
+    },
+    {
+      "name": "aten::index_select_backward",
+      "count_per_iteration": 5.0,
+      "cpu_inclusive_ms_per_iteration": 0.17979999999999996,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[8644], [], [], [8644]]": 1,
+        "[[8644, 1], [], [], [8644]]": 1,
+        "[[219969, 3], [], [], [219969]]": 20,
+        "[[219969, 4], [], [], [219969]]": 10,
+        "[[8638], [], [], [8638]]": 1,
+        "[[8638, 1], [], [], [8638]]": 1,
+        "[[8586], [], [], [8586]]": 1,
+        "[[8586, 1], [], [], [8586]]": 1,
+        "[[8554], [], [], [8554]]": 1,
+        "[[8554, 1], [], [], [8554]]": 1,
+        "[[8548], [], [], [8548]]": 1,
+        "[[8548, 1], [], [], [8548]]": 1,
+        "[[8588], [], [], [8588]]": 1,
+        "[[8588, 1], [], [], [8588]]": 1,
+        "[[8658], [], [], [8658]]": 1,
+        "[[8658, 1], [], [], [8658]]": 1,
+        "[[8659], [], [], [8659]]": 1,
+        "[[8659, 1], [], [], [8659]]": 1,
+        "[[8574], [], [], [8574]]": 1,
+        "[[8574, 1], [], [], [8574]]": 1,
+        "[[8606], [], [], [8606]]": 1,
+        "[[8606, 1], [], [], [8606]]": 1
+      }
+    },
+    {
+      "name": "aten::new_zeros",
+      "count_per_iteration": 5.0,
+      "cpu_inclusive_ms_per_iteration": 0.10270000000000006,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[8644], [], [], [], [], []]": 1,
+        "[[8644, 1], [], [], [], [], []]": 1,
+        "[[219969, 3], [], [], [], [], []]": 20,
+        "[[219969, 4], [], [], [], [], []]": 10,
+        "[[8638], [], [], [], [], []]": 1,
+        "[[8638, 1], [], [], [], [], []]": 1,
+        "[[8586], [], [], [], [], []]": 1,
+        "[[8586, 1], [], [], [], [], []]": 1,
+        "[[8554], [], [], [], [], []]": 1,
+        "[[8554, 1], [], [], [], [], []]": 1,
+        "[[8548], [], [], [], [], []]": 1,
+        "[[8548, 1], [], [], [], [], []]": 1,
+        "[[8588], [], [], [], [], []]": 1,
+        "[[8588, 1], [], [], [], [], []]": 1,
+        "[[8658], [], [], [], [], []]": 1,
+        "[[8658, 1], [], [], [], [], []]": 1,
+        "[[8659], [], [], [], [], []]": 1,
+        "[[8659, 1], [], [], [], [], []]": 1,
+        "[[8574], [], [], [], [], []]": 1,
+        "[[8574, 1], [], [], [], [], []]": 1,
+        "[[8606], [], [], [], [], []]": 1,
+        "[[8606, 1], [], [], [], [], []]": 1
+      }
+    },
+    {
+      "name": "aten::new_empty",
+      "count_per_iteration": 5.0,
+      "cpu_inclusive_ms_per_iteration": 0.02990000000000002,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[8644], [], [], [], [], []]": 1,
+        "[[8644, 1], [], [], [], [], []]": 1,
+        "[[219969, 3], [], [], [], [], []]": 20,
+        "[[219969, 4], [], [], [], [], []]": 10,
+        "[[8638], [], [], [], [], []]": 1,
+        "[[8638, 1], [], [], [], [], []]": 1,
+        "[[8586], [], [], [], [], []]": 1,
+        "[[8586, 1], [], [], [], [], []]": 1,
+        "[[8554], [], [], [], [], []]": 1,
+        "[[8554, 1], [], [], [], [], []]": 1,
+        "[[8548], [], [], [], [], []]": 1,
+        "[[8548, 1], [], [], [], [], []]": 1,
+        "[[8588], [], [], [], [], []]": 1,
+        "[[8588, 1], [], [], [], [], []]": 1,
+        "[[8658], [], [], [], [], []]": 1,
+        "[[8658, 1], [], [], [], [], []]": 1,
+        "[[8659], [], [], [], [], []]": 1,
+        "[[8659, 1], [], [], [], [], []]": 1,
+        "[[8574], [], [], [], [], []]": 1,
+        "[[8574, 1], [], [], [], [], []]": 1,
+        "[[8606], [], [], [], [], []]": 1,
+        "[[8606, 1], [], [], [], [], []]": 1
+      }
+    },
+    {
+      "name": "aten::empty",
+      "count_per_iteration": 24.0,
+      "cpu_inclusive_ms_per_iteration": 0.08360000000000006,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], [], [], [], [], []]": 240
+      }
+    },
+    {
+      "name": "aten::zero_",
+      "count_per_iteration": 9.0,
+      "cpu_inclusive_ms_per_iteration": 0.10860000000000003,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084]]": 20,
+        "[[220084, 1]]": 10,
+        "[[219969, 2]]": 30,
+        "[[220084, 3]]": 20,
+        "[[220084, 4]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: IndexCopyBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.03649999999999999,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "IndexCopyBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.031400000000000004,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084]]": 10
+      }
+    },
+    {
+      "name": "aten::resize_",
+      "count_per_iteration": 15.0,
+      "cpu_inclusive_ms_per_iteration": 0.053100000000000036,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[0], [], []]": 150
+      }
+    },
+    {
+      "name": "aten::expand_as",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.014400000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969], [219969]]": 10,
+        "[[220084, 1], [220084, 4]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: SelectBackward0",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.09070000000000003,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 20
+      }
+    },
+    {
+      "name": "SelectBackward0",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.08030000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969]]": 20
+      }
+    },
+    {
+      "name": "aten::select_backward",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.07560000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969], [], [], []]": 20
+      }
+    },
+    {
+      "name": "aten::zeros",
+      "count_per_iteration": 3.0,
+      "cpu_inclusive_ms_per_iteration": 0.054800000000000015,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], [], [], [], []]": 30
+      }
+    },
+    {
+      "name": "aten::select",
+      "count_per_iteration": 6.0,
+      "cpu_inclusive_ms_per_iteration": 0.03030000000000002,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 2], [], []]": 40,
+        "[[2], [], []]": 20
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: SoftmaxBackward0",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.08400000000000002,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 20
+      }
+    },
+    {
+      "name": "SoftmaxBackward0",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.06090000000000003,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 2]]": 20
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: AddmmBackward0",
+      "count_per_iteration": 9.0,
+      "cpu_inclusive_ms_per_iteration": 0.8205,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 90
+      }
+    },
+    {
+      "name": "AddmmBackward0",
+      "count_per_iteration": 9.0,
+      "cpu_inclusive_ms_per_iteration": 0.5160000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 2]]": 10,
+        "[[219969, 32]]": 60,
+        "[[1, 32]]": 20
+      }
+    },
+    {
+      "name": "aten::t",
+      "count_per_iteration": 46.0,
+      "cpu_inclusive_ms_per_iteration": 0.23629999999999898,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[128, 2]]": 20,
+        "[[219969, 2]]": 10,
+        "[[2, 128]]": 20,
+        "[[32, 32]]": 160,
+        "[[219969, 32]]": 60,
+        "[[3, 32]]": 40,
+        "[[32, 3]]": 40,
+        "[[4, 32]]": 20,
+        "[[32, 4]]": 20,
+        "[[1, 32]]": 30,
+        "[[32, 1]]": 20,
+        "[[1, 219969]]": 10,
+        "[[1, 8644]]": 1,
+        "[[1, 8638]]": 1,
+        "[[1, 8586]]": 1,
+        "[[1, 8554]]": 1,
+        "[[1, 8548]]": 1,
+        "[[1, 8588]]": 1,
+        "[[1, 8658]]": 1,
+        "[[1, 8659]]": 1,
+        "[[1, 8574]]": 1,
+        "[[1, 8606]]": 1
+      }
+    },
+    {
+      "name": "aten::transpose",
+      "count_per_iteration": 46.0,
+      "cpu_inclusive_ms_per_iteration": 0.11229999999999987,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[128, 2], [], []]": 20,
+        "[[219969, 2], [], []]": 10,
+        "[[2, 128], [], []]": 20,
+        "[[32, 32], [], []]": 160,
+        "[[219969, 32], [], []]": 60,
+        "[[3, 32], [], []]": 40,
+        "[[32, 3], [], []]": 40,
+        "[[4, 32], [], []]": 20,
+        "[[32, 4], [], []]": 20,
+        "[[1, 32], [], []]": 30,
+        "[[32, 1], [], []]": 20,
+        "[[1, 219969], [], []]": 10,
+        "[[1, 8644], [], []]": 1,
+        "[[1, 8638], [], []]": 1,
+        "[[1, 8586], [], []]": 1,
+        "[[1, 8554], [], []]": 1,
+        "[[1, 8548], [], []]": 1,
+        "[[1, 8588], [], []]": 1,
+        "[[1, 8658], [], []]": 1,
+        "[[1, 8659], [], []]": 1,
+        "[[1, 8574], [], []]": 1,
+        "[[1, 8606], [], []]": 1
+      }
+    },
+    {
+      "name": "aten::view",
+      "count_per_iteration": 11.0,
+      "cpu_inclusive_ms_per_iteration": 0.023400000000000018,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[1, 2], []]": 10,
+        "[[1, 32], []]": 80,
+        "[[219969, 1], []]": 10,
+        "[[8644, 1], []]": 1,
+        "[[8638, 1], []]": 1,
+        "[[8586, 1], []]": 1,
+        "[[8554, 1], []]": 1,
+        "[[8548, 1], []]": 1,
+        "[[8588, 1], []]": 1,
+        "[[8658, 1], []]": 1,
+        "[[8659, 1], []]": 1,
+        "[[8574, 1], []]": 1,
+        "[[8606, 1], []]": 1
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: torch::autograd::AccumulateGrad",
+      "count_per_iteration": 22.0,
+      "cpu_inclusive_ms_per_iteration": 0.1472999999999997,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 220
+      }
+    },
+    {
+      "name": "torch::autograd::AccumulateGrad",
+      "count_per_iteration": 22.0,
+      "cpu_inclusive_ms_per_iteration": 0.07830000000000006,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[2]]": 10,
+        "[[2, 128]]": 10,
+        "[[32]]": 80,
+        "[[32, 32]]": 40,
+        "[[32, 3]]": 20,
+        "[[32, 4]]": 10,
+        "[[32, 1]]": 10,
+        "[[220084, 3]]": 20,
+        "[[220084, 1]]": 10,
+        "[[220084, 4]]": 10
+      }
+    },
+    {
+      "name": "aten::detach",
+      "count_per_iteration": 24.0,
+      "cpu_inclusive_ms_per_iteration": 0.04860000000000004,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[2]]": 10,
+        "[[2, 128]]": 10,
+        "[[32]]": 80,
+        "[[32, 32]]": 40,
+        "[[32, 3]]": 20,
+        "[[32, 4]]": 10,
+        "[[32, 1]]": 10,
+        "[[220084, 3]]": 20,
+        "[[220084, 1]]": 10,
+        "[[220084, 4]]": 10,
+        "[[219969, 2]]": 10,
+        "[[220084]]": 10
+      }
+    },
+    {
+      "name": "detach",
+      "count_per_iteration": 24.0,
+      "cpu_inclusive_ms_per_iteration": 0.031200000000000023,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[2]]": 10,
+        "[[2, 128]]": 10,
+        "[[32]]": 80,
+        "[[32, 32]]": 40,
+        "[[32, 3]]": 20,
+        "[[32, 4]]": 10,
+        "[[32, 1]]": 10,
+        "[[220084, 3]]": 20,
+        "[[220084, 1]]": 10,
+        "[[220084, 4]]": 10,
+        "[[219969, 2]]": 10,
+        "[[220084]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: TBackward0",
+      "count_per_iteration": 9.0,
+      "cpu_inclusive_ms_per_iteration": 0.07150000000000005,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 90
+      }
+    },
+    {
+      "name": "TBackward0",
+      "count_per_iteration": 9.0,
+      "cpu_inclusive_ms_per_iteration": 0.04160000000000003,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[128, 2]]": 10,
+        "[[32, 32]]": 40,
+        "[[3, 32]]": 20,
+        "[[4, 32]]": 10,
+        "[[1, 32]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: CatBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0279,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "CatBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.023199999999999995,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 128]]": 10
+      }
+    },
+    {
+      "name": "aten::narrow",
+      "count_per_iteration": 4.0,
+      "cpu_inclusive_ms_per_iteration": 0.017700000000000007,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 128], [], [], []]": 40
+      }
+    },
+    {
+      "name": "aten::slice",
+      "count_per_iteration": 4.0,
+      "cpu_inclusive_ms_per_iteration": 0.011700000000000006,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 128], [], [], [], []]": 40
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: ReluBackward0",
+      "count_per_iteration": 8.0,
+      "cpu_inclusive_ms_per_iteration": 0.19639999999999994,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 80
+      }
+    },
+    {
+      "name": "ReluBackward0",
+      "count_per_iteration": 8.0,
+      "cpu_inclusive_ms_per_iteration": 0.15599999999999997,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 32]]": 60,
+        "[[1, 32]]": 20
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: ExpandBackward0",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.05460000000000002,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 20
+      }
+    },
+    {
+      "name": "ExpandBackward0",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.04540000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 32]]": 10,
+        "[[220084, 4]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: SigmoidBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0253,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "SigmoidBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.020899999999999995,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084, 1]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: ExpBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.021399999999999995,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "ExpBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.016900000000000002,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084, 3]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: DivBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0798,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "DivBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.07369999999999999,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084, 4]]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: ClampMinBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.07759999999999999,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "ClampMinBackward0",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0723,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084, 1]]": 10
+      }
+    },
+    {
+      "name": "aten::scalar_tensor",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.019399999999999997,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], [], [], [], []]": 10
+      }
+    },
+    {
+      "name": "autograd::engine::evaluate_function: NormBackward1",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.1012,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[]": 10
+      }
+    },
+    {
+      "name": "NormBackward1",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.08119999999999998,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084, 1]]": 10
+      }
+    },
+    {
+      "name": "aten::empty_like",
+      "count_per_iteration": 8.0,
+      "cpu_inclusive_ms_per_iteration": 0.06130000000000004,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084], [], [], [], [], []]": 50,
+        "[[219969, 2], [], [], [], [], []]": 20,
+        "[[], [], [], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::empty_strided",
+      "count_per_iteration": 15.0,
+      "cpu_inclusive_ms_per_iteration": 0.06290000000000004,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], [], [], [], [], []]": 150
+      }
+    },
+    {
+      "name": "aten::set_",
+      "count_per_iteration": 4.0,
+      "cpu_inclusive_ms_per_iteration": 0.015400000000000007,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[1, 219969], [219969, 1]]": 10,
+        "[[1, 219969], [], [], [], []]": 10,
+        "[[1, 8644], [8644, 1]]": 1,
+        "[[1, 8644], [], [], [], []]": 1,
+        "[[1, 8638], [8638, 1]]": 1,
+        "[[1, 8638], [], [], [], []]": 1,
+        "[[1, 8586], [8586, 1]]": 1,
+        "[[1, 8586], [], [], [], []]": 1,
+        "[[1, 8554], [8554, 1]]": 1,
+        "[[1, 8554], [], [], [], []]": 1,
+        "[[1, 8548], [8548, 1]]": 1,
+        "[[1, 8548], [], [], [], []]": 1,
+        "[[1, 8588], [8588, 1]]": 1,
+        "[[1, 8588], [], [], [], []]": 1,
+        "[[1, 8658], [8658, 1]]": 1,
+        "[[1, 8658], [], [], [], []]": 1,
+        "[[1, 8659], [8659, 1]]": 1,
+        "[[1, 8659], [], [], [], []]": 1,
+        "[[1, 8574], [8574, 1]]": 1,
+        "[[1, 8574], [], [], [], []]": 1,
+        "[[1, 8606], [8606, 1]]": 1,
+        "[[1, 8606], [], [], [], []]": 1
+      }
+    },
+    {
+      "name": "aten::reshape",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.009900000000000003,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 1], []]": 10,
+        "[[8644, 1], []]": 1,
+        "[[8638, 1], []]": 1,
+        "[[8586, 1], []]": 1,
+        "[[8554, 1], []]": 1,
+        "[[8548, 1], []]": 1,
+        "[[8588, 1], []]": 1,
+        "[[8658, 1], []]": 1,
+        "[[8659, 1], []]": 1,
+        "[[8574, 1], []]": 1,
+        "[[8606, 1], []]": 1
+      }
+    },
+    {
+      "name": "aten::to",
+      "count_per_iteration": 12.0,
+      "cpu_inclusive_ms_per_iteration": 0.20839999999999997,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084], [], [], [], []]": 100,
+        "[[], [], [], [], []]": 10,
+        "[[2], [], [], [], [], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::_to_copy",
+      "count_per_iteration": 8.0,
+      "cpu_inclusive_ms_per_iteration": 0.19769999999999993,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084], [], [], [], [], [], []]": 60,
+        "[[], [], [], [], [], [], []]": 10,
+        "[[2], [], [], [], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::full_like",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.017500000000000005,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084], [], [], [], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::stack",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.0322,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[[], []], []]": 10
+      }
+    },
+    {
+      "name": "aten::unsqueeze",
+      "count_per_iteration": 3.0,
+      "cpu_inclusive_ms_per_iteration": 0.008400000000000001,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], []]": 20,
+        "[[8644], []]": 1,
+        "[[8638], []]": 1,
+        "[[8586], []]": 1,
+        "[[8554], []]": 1,
+        "[[8548], []]": 1,
+        "[[8588], []]": 1,
+        "[[8658], []]": 1,
+        "[[8659], []]": 1,
+        "[[8574], []]": 1,
+        "[[8606], []]": 1
+      }
+    },
+    {
+      "name": "aten::item",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.0033,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 20
+      }
+    },
+    {
+      "name": "aten::_local_scalar_dense",
+      "count_per_iteration": 2.0,
+      "cpu_inclusive_ms_per_iteration": 0.0013000000000000002,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[]]": 20
+      }
+    },
+    {
+      "name": "aten::norm",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.037399999999999996,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[220084, 4], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::full",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.016600000000000004,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], [], [], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::relu",
+      "count_per_iteration": 8.0,
+      "cpu_inclusive_ms_per_iteration": 0.1865999999999999,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[1, 32]]": 20,
+        "[[219969, 32]]": 60
+      }
+    },
+    {
+      "name": "aten::zeros_like",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.021699999999999994,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[219969, 2], [], [], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::ones_like",
+      "count_per_iteration": 1.0,
+      "cpu_inclusive_ms_per_iteration": 0.017500000000000005,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[], [], [], [], [], []]": 10
+      }
+    },
+    {
+      "name": "aten::mul_",
+      "count_per_iteration": 36.0,
+      "cpu_inclusive_ms_per_iteration": 0.4324999999999992,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[32, 3], []]": 40,
+        "[[32], []]": 160,
+        "[[32, 32], []]": 80,
+        "[[32, 4], []]": 20,
+        "[[32, 1], []]": 20,
+        "[[2, 128], []]": 20,
+        "[[2], []]": 20
+      }
+    },
+    {
+      "name": "aten::detach_",
+      "count_per_iteration": 18.0,
+      "cpu_inclusive_ms_per_iteration": 0.011100000000000007,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[32, 3]]": 20,
+        "[[32]]": 80,
+        "[[32, 32]]": 40,
+        "[[32, 4]]": 10,
+        "[[32, 1]]": 10,
+        "[[2, 128]]": 10,
+        "[[2]]": 10
+      }
+    },
+    {
+      "name": "detach_",
+      "count_per_iteration": 18.0,
+      "cpu_inclusive_ms_per_iteration": 0.0025000000000000014,
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms_per_iteration": 0.0,
+      "shapes": {
+        "[[32, 3]]": 20,
+        "[[32]]": 80,
+        "[[32, 32]]": 40,
+        "[[32, 4]]": 10,
+        "[[32, 1]]": 10,
+        "[[2, 128]]": 10,
+        "[[2]]": 10
+      }
+    }
+  ]
+}

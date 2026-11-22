@@ -1,0 +1,9 @@
+[1/9] Building CXX object CMakeFiles/candidate_selector.dir/diagnostic_network.cpp.o
+[2/9] Building CXX object CMakeFiles/candidate_profile.dir/diagnostic_network.cpp.o
+[3/9] Building CUDA object CMakeFiles/candidate_selector.dir/home/prmi/zwj/selector-cuda-20261015/src/selector_cuda.cu.o
+[4/9] Linking CXX static library libcandidate_selector.a
+[5/9] Linking CXX executable backward_benchmark
+[6/9] Linking CXX executable backward_caller
+[7/9] Building CUDA object CMakeFiles/candidate_profile.dir/profile_candidate.cu.o
+[8/9] Linking CXX static library libcandidate_profile.a
+[9/9] Linking CXX executable backward_profile_candidate

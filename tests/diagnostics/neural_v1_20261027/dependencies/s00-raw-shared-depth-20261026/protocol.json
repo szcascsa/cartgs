@@ -1,0 +1,41 @@
+{
+  "scene": "fr1_xyz",
+  "seed": 3100,
+  "steps": 12000,
+  "exposure_per_ratio": 3000,
+  "training_ratios": [
+    0.01,
+    0.05,
+    0.1,
+    0.15
+  ],
+  "unseen_ratios": [
+    0.025,
+    0.075,
+    0.125
+  ],
+  "candidate": {
+    "id": "RawSharedE16D3",
+    "shared": 0,
+    "ratio": 0,
+    "extra": 16,
+    "selector_depth": 1,
+    "compensation_depth": 3,
+    "compensation_input": "raw11",
+    "attach_shared": true
+  },
+  "input": "per-Anchor per-ratio latent16 + raw11 + original shared h32, total59; h is not detached",
+  "changed": "compensation head hidden layers2->3, width32 unchanged; 59->32->32->32->14",
+  "initialization": "copy all common deterministic initial weights from two-layer control; insert trainable identity Linear32->32 with zero bias and ReLU after an existing ReLU; initial hidden function and delta preserved; not residual connections",
+  "previous_run_sha256": "1275308b6336354bffee85a0b728943d9fb9d903c92d63574f3d8b3c23e1c445",
+  "matched_reference": "/home/prmi/zwj/s00-direct-compensation-extra-20261026/results/fr1_xyz/RawSharedE16/3100",
+  "frozen": "Master all attributes, Gaussian IDs, Anchor ownership/centers/scales, cameras, eligible and cached uniforms",
+  "trainable": "original encoder/Selector, active-ratio Anchor compensation latent and compensation head including added layer",
+  "optimizer": "unchanged Adam fused lr=.001 eps1e-15; same per-ratio exposure and total steps",
+  "loss": "unchanged 0.8L1+0.2(1-fast_ssim)+.01 relative expected-budget L1",
+  "selection": "unchanged cached Bernoulli training; evaluation exact same-K logit(p)-logit(u) plus cached actualK",
+  "evaluation": "final12000 only; same54 Bank training/13 internal Bank holdout/45 historical nonBank; four metrics and7 ratios",
+  "interpolation": "unchanged raw-ratio linear interpolation of latent, then same compensation network",
+  "scope": "one new single-seed frozen-map model, no online SLAM, default or production changes, no hyperparameter search",
+  "no_stage_commit_push": true
+}

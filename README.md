@@ -33,6 +33,10 @@ Splat-wise back-propagation for Depth Rendering ([GS_ICP_SLAM](https://github.co
 
 ## CaRtGS Examples on Some Benchmark Datasets
 
+当前实验默认使用 A：仅 Anchor pruning、下一层 growing 不要求满10成员；保留可变成员、Gaussian clone/split 和原 joint。`scripts/*.sh` 默认读取 `cfg/selector/selector_config.yaml`，与命名配置 `cfg/selector/anchor_compensation.yaml` 参数一致：27维 Selector 输入、14维选后补偿、TF / SI / GI 关闭、Cached Bernoulli、在线 LoD scale=0.5。ChangeDistill 默认关闭，显式开启时沿用5 epochs。`Selector.max_mapping_iterations=0`，沿用原 CaRtGS 停止规则，不强制10000步。显式传入其他配置仍可运行历史对照；A/B 质量与 same-K 限制见 [消融报告](ANCHOR_ONLY_PRUNING_ABLATION_REPORT.md)。
+
+可变成员地图在闭环后将已修正 Gaussian 迁入同层目标 Anchor：容量上限10，超出的迁入点直接删除；目标不存在时创建。接收端 Feature 按留驻成员和实际接收成员数加权，丢弃点不计入。实现及验证边界见 [闭环迁移报告](LOCAL_ANCHOR_MIGRATION_REPORT.md)。
+
 The benchmark datasets mentioned in our paper: [Replica (NICE-SLAM Version)](https://github.com/cvg/nice-slam), [TUM RGB-D](https://cvg.cit.tum.de/data/datasets/rgbd-dataset/download) and [VECtor](https://star-datasets.github.io/vector/).
 
 0. (optional) Download the dataset.

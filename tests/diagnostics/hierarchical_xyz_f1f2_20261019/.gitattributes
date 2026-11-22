@@ -1,0 +1,2 @@
+* -text whitespace=cr-at-eol
+new_rankings.py whitespace=cr-at-eol,-blank-at-eol

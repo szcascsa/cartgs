@@ -1,0 +1,12 @@
+{
+  "initial_audit_drift": [],
+  "production_files_changed": [
+    "include/frozen_teacher_target_cache.h",
+    "include/selector_cuda.h",
+    "src/change_distill.cpp",
+    "src/selector_cuda.cpp",
+    "src/selector_cuda.cu",
+    "improvements/selector/gumbel_network.h"
+  ],
+  "all_other_manifest_files_unchanged": true
+}

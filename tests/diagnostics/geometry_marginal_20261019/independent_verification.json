@@ -1,0 +1,25 @@
+{
+  "all_passed": true,
+  "source_files_checked": 1831,
+  "models": 8,
+  "quality_cases": 40,
+  "offline_per_view_cases": 1288,
+  "configuration_differences": {
+    "fr1_room": {
+      "GlobalGI.mode": [
+        "streaming",
+        "streaming_marginal_geo"
+      ]
+    },
+    "fr1_desk": {
+      "GlobalGI.mode": [
+        "streaming",
+        "streaming_marginal_geo"
+      ]
+    }
+  },
+  "all_native_repetitions_exact": true,
+  "shadow_early_middle_late_exact": true,
+  "local_runtime_mode_default_raw": true,
+  "no_commit_no_push": true
+}

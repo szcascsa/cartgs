@@ -1,0 +1,34 @@
+{
+  "kernel_calls": 47859,
+  "total_kernel_gpu_ms": 145.737,
+  "attributed_kernel_calls": 47859,
+  "backward_kernel_gpu_ms": 6.408,
+  "student_forward_kernel_gpu_ms": 15.897,
+  "index_operator_kernel_gpu_ms": 51.82,
+  "tiny_kernel_calls_lt_10us": 47503,
+  "tiny_kernel_time_lt_10us_ms": 122.645,
+  "categories": {
+    "cpu_op": 145473,
+    "fwdbwd": 904,
+    "user_annotation": 1032,
+    "cpu_instant_event": 108197,
+    "gpu_memcpy": 7982,
+    "ac2g": 137392,
+    "cuda_runtime": 81531,
+    "kernel": 47859,
+    "gpu_memset": 20,
+    "gpu_user_annotation": 938,
+    "": 38,
+    "Trace": 1
+  },
+  "allocation_events": 108197,
+  "exclusive_phase_kernel_gpu_ms": {
+    "index_cache_event_and_misc": 8.781,
+    "teacher_forward": 5.546,
+    "teacher_geometry_transport": 105.226,
+    "student_forward": 15.897,
+    "loss_construction": 3.696,
+    "backward": 6.408,
+    "adam": 0.183
+  }
+}

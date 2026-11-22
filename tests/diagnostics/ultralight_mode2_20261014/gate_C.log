@@ -1,0 +1,98 @@
+Internal ctest changing into directory: /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+Test project /home/prmi/zwj/mycartgs/build-cuda118-sm86-gcc9
+      Start  1: constrained_adam
+ 1/46 Test  #1: constrained_adam ..................   Passed    0.36 sec
+      Start  2: gradient_constraint_solver
+ 2/46 Test  #2: gradient_constraint_solver ........   Passed    0.00 sec
+      Start  3: gradient_constraint_clock
+ 3/46 Test  #3: gradient_constraint_clock .........   Passed    0.00 sec
+      Start  4: conflict_replay
+ 4/46 Test  #4: conflict_replay ...................   Passed    0.00 sec
+      Start  5: joint_replay_cuda
+ 5/46 Test  #5: joint_replay_cuda .................   Passed    0.75 sec
+      Start  6: joint_replay_tf_cuda
+ 6/46 Test  #6: joint_replay_tf_cuda ..............   Passed    0.67 sec
+      Start  7: gradient_constraint
+ 7/46 Test  #7: gradient_constraint ...............   Passed    0.37 sec
+      Start  8: historical_gradient_render
+ 8/46 Test  #8: historical_gradient_render ........   Passed    0.42 sec
+      Start  9: historical_gradient_render_cuda
+ 9/46 Test  #9: historical_gradient_render_cuda ...   Passed    0.66 sec
+      Start 10: online_gi_lifecycle
+10/46 Test #10: online_gi_lifecycle ...............   Passed    0.34 sec
+      Start 11: recent_window_importance
+11/46 Test #11: recent_window_importance ..........   Passed    2.17 sec
+      Start 12: global_gi_bank
+12/46 Test #12: global_gi_bank ....................   Passed    0.39 sec
+      Start 13: global_gi_snapshot_cache
+13/46 Test #13: global_gi_snapshot_cache ..........   Passed    0.03 sec
+      Start 14: gi_association_state
+14/46 Test #14: gi_association_state ..............   Passed    0.37 sec
+      Start 15: global_gi
+15/46 Test #15: global_gi .........................   Passed    0.39 sec
+      Start 16: ultra_light_schedule
+16/46 Test #16: ultra_light_schedule ..............   Passed    0.36 sec
+      Start 17: tail_optimization_schedule
+17/46 Test #17: tail_optimization_schedule ........   Passed    0.00 sec
+      Start 18: ultrafast_rotation
+18/46 Test #18: ultrafast_rotation ................   Passed    0.01 sec
+      Start 19: ultrafast_mapping_cuda
+19/46 Test #19: ultrafast_mapping_cuda ............   Passed    0.73 sec
+      Start 20: ultralight_mode2_config
+20/46 Test #20: ultralight_mode2_config ...........   Passed    0.37 sec
+      Start 21: ultralight_mode2_full_parity
+21/46 Test #21: ultralight_mode2_full_parity ......   Passed    0.76 sec
+      Start 22: ultralight_mode2_stages
+22/46 Test #22: ultralight_mode2_stages ...........   Passed    0.81 sec
+      Start 23: ultralight_mode2_clocks
+23/46 Test #23: ultralight_mode2_clocks ...........   Passed    0.79 sec
+      Start 24: ultralight_mode2_special
+24/46 Test #24: ultralight_mode2_special ..........   Passed    0.75 sec
+      Start 25: ultrafast_eval
+25/46 Test #25: ultrafast_eval ....................   Passed    0.07 sec
+      Start 26: historical_outlier_selector
+26/46 Test #26: historical_outlier_selector .......   Passed    0.35 sec
+      Start 27: gaussian_model_lifecycle
+27/46 Test #27: gaussian_model_lifecycle ..........   Passed    0.62 sec
+      Start 28: transform_field
+28/46 Test #28: transform_field ...................   Passed    0.39 sec
+      Start 29: hexplane_resample
+29/46 Test #29: hexplane_resample .................   Passed    0.36 sec
+      Start 30: change_distill
+30/46 Test #30: change_distill ....................   Passed    0.49 sec
+      Start 31: drift_stability
+31/46 Test #31: drift_stability ...................   Passed    0.70 sec
+      Start 32: change_distill_tf_cuda
+32/46 Test #32: change_distill_tf_cuda ............   Passed    0.89 sec
+      Start 33: drift_stability_tf_cuda
+33/46 Test #33: drift_stability_tf_cuda ...........   Passed    1.36 sec
+      Start 34: gi_teacher
+34/46 Test #34: gi_teacher ........................   Passed    0.39 sec
+      Start 35: performance_primitives
+35/46 Test #35: performance_primitives ............   Passed    0.37 sec
+      Start 36: mapping_profiler
+36/46 Test #36: mapping_profiler ..................   Passed    0.38 sec
+      Start 37: renderer_readonly_cuda
+37/46 Test #37: renderer_readonly_cuda ............   Passed    0.59 sec
+      Start 38: frozen_teacher_target_cache
+38/46 Test #38: frozen_teacher_target_cache .......   Passed    0.36 sec
+      Start 39: historical_probe_cache
+39/46 Test #39: historical_probe_cache ............   Passed    0.36 sec
+      Start 40: elastic_budget_allocation
+40/46 Test #40: elastic_budget_allocation .........   Passed    0.01 sec
+      Start 41: elastic_budget_cuda
+41/46 Test #41: elastic_budget_cuda ...............   Passed    0.56 sec
+      Start 42: gaussian_protection
+42/46 Test #42: gaussian_protection ...............   Passed    0.39 sec
+      Start 43: gaussian_protection_cuda
+43/46 Test #43: gaussian_protection_cuda ..........   Passed    0.55 sec
+      Start 44: elastic_budget
+44/46 Test #44: elastic_budget ....................   Passed    0.36 sec
+      Start 45: compact_lod
+45/46 Test #45: compact_lod .......................   Passed    0.39 sec
+      Start 46: compact_lod_cuda
+46/46 Test #46: compact_lod_cuda ..................   Passed    0.90 sec
+
+100% tests passed, 0 tests failed out of 46
+
+Total Test time (real) =  22.36 sec

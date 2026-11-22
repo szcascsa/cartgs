@@ -1,0 +1,3402 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "type": "AddBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 1,
+      "type": "MeanBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 2,
+      "type": "PowBackward0",
+      "saved_tensors": {
+        "_saved_self": {
+          "shape": [
+            257,
+            4
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "DivBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            4
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "ClampMinBackward0",
+      "saved_tensors": {
+        "_saved_self": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "SqrtBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "SumBackward1",
+      "saved_tensors": {}
+    },
+    {
+      "id": 7,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            4
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            4
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "CatBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 9,
+      "type": "AddBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 10,
+      "type": "LinalgCrossBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 12,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 13,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 14,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 15,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 16,
+      "type": "DivBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            4
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 17,
+      "type": "ClampMinBackward0",
+      "saved_tensors": {
+        "_saved_self": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 18,
+      "type": "SqrtBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 19,
+      "type": "SumBackward1",
+      "saved_tensors": {}
+    },
+    {
+      "id": 20,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            4
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            4
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 21,
+      "type": "AddBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 22,
+      "type": "AddmmBackward0",
+      "saved_tensors": {
+        "_saved_mat1": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        },
+        "_saved_mat2": {
+          "shape": [
+            32,
+            4
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            32
+          ]
+        }
+      }
+    },
+    {
+      "id": 23,
+      "type": "TBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 24,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 25,
+      "type": "ReluBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 26,
+      "type": "AddmmBackward0",
+      "saved_tensors": {
+        "_saved_mat1": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        },
+        "_saved_mat2": {
+          "shape": [
+            32,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            32
+          ]
+        }
+      }
+    },
+    {
+      "id": 27,
+      "type": "TBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 28,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 29,
+      "type": "ReluBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 30,
+      "type": "AddmmBackward0",
+      "saved_tensors": {
+        "_saved_mat1": {
+          "shape": [
+            257,
+            16
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            16,
+            1
+          ]
+        },
+        "_saved_mat2": {
+          "shape": [
+            16,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            16
+          ]
+        }
+      }
+    },
+    {
+      "id": 31,
+      "type": "TBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 32,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 33,
+      "type": "CatBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 34,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 35,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 36,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 37,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            150,
+            128
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            153600,
+            19200,
+            128,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 38,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 39,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 40,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 41,
+      "type": "CatBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 42,
+      "type": "SubBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 43,
+      "type": "DivBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 44,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "stride": []
+        }
+      }
+    },
+    {
+      "id": 45,
+      "type": "SubBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 46,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 47,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 48,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 49,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 50,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 51,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 52,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            150,
+            128
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            153600,
+            19200,
+            128,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 53,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 54,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 55,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 56,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 57,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 58,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 59,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 60,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 61,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            128,
+            128
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            131072,
+            16384,
+            128,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 62,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 63,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 64,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 65,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 66,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 67,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 68,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 69,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 70,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            150,
+            128
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            153600,
+            19200,
+            128,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 71,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 72,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 73,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 74,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 75,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 76,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 77,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 78,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 79,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            128,
+            128
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            131072,
+            16384,
+            128,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 80,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 81,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 82,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 83,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 84,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 85,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 86,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 87,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            128,
+            128
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            131072,
+            16384,
+            128,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 88,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 89,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 90,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 91,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 92,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 93,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 94,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 95,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 96,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            150,
+            64
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            76800,
+            9600,
+            64,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 97,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 98,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 99,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 100,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 101,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 102,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 103,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 104,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 105,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            150,
+            64
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            76800,
+            9600,
+            64,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 106,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 107,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 108,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 109,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 110,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 111,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 112,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 113,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 114,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            64,
+            64
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32768,
+            4096,
+            64,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 115,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 116,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 117,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 118,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 119,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 120,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 121,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 122,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 123,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            150,
+            64
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            76800,
+            9600,
+            64,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 124,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 125,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 126,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 127,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 128,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 129,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            8
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            257
+          ]
+        }
+      }
+    },
+    {
+      "id": 130,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 131,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 132,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            64,
+            64
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32768,
+            4096,
+            64,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 133,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 134,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 135,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 136,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 137,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 138,
+      "type": "TransposeBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 139,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 140,
+      "type": "GridSampler2DBackward0",
+      "saved_tensors": {
+        "_saved_grid": {
+          "shape": [
+            1,
+            1,
+            257,
+            2
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            514,
+            514,
+            2,
+            1
+          ]
+        },
+        "_saved_input": {
+          "shape": [
+            1,
+            8,
+            64,
+            64
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32768,
+            4096,
+            64,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 141,
+      "type": "ViewBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 142,
+      "type": "StackBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 143,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 144,
+      "type": "SelectBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 145,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 146,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 147,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 148,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 149,
+      "type": "AddBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 150,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 151,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 152,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 153,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 154,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 155,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 156,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 157,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 158,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 159,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 160,
+      "type": "SubBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 161,
+      "type": "SumBackward1",
+      "saved_tensors": {}
+    },
+    {
+      "id": 162,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 163,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 164,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 165,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 166,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 167,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            4,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 168,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 169,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 170,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 171,
+      "type": "SliceBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 172,
+      "type": "AddBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 173,
+      "type": "MeanBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 174,
+      "type": "PowBackward0",
+      "saved_tensors": {
+        "_saved_self": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            3,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 175,
+      "type": "MulBackward0",
+      "saved_tensors": {
+        "_saved_other": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            3,
+            1
+          ]
+        },
+        "_saved_self": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            3,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 176,
+      "type": "ExpBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            3,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 177,
+      "type": "AddmmBackward0",
+      "saved_tensors": {
+        "_saved_mat1": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        },
+        "_saved_mat2": {
+          "shape": [
+            32,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            32
+          ]
+        }
+      }
+    },
+    {
+      "id": 178,
+      "type": "TBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 179,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 180,
+      "type": "ReluBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 181,
+      "type": "AddmmBackward0",
+      "saved_tensors": {
+        "_saved_mat1": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        },
+        "_saved_mat2": {
+          "shape": [
+            32,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            32
+          ]
+        }
+      }
+    },
+    {
+      "id": 182,
+      "type": "TBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 183,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 184,
+      "type": "ReluBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 185,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 186,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 187,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 188,
+      "type": "AddBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 189,
+      "type": "MeanBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 190,
+      "type": "PowBackward0",
+      "saved_tensors": {
+        "_saved_self": {
+          "shape": [
+            257,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            3,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 191,
+      "type": "AddBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 192,
+      "type": "AddmmBackward0",
+      "saved_tensors": {
+        "_saved_mat1": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        },
+        "_saved_mat2": {
+          "shape": [
+            32,
+            3
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            32
+          ]
+        }
+      }
+    },
+    {
+      "id": 193,
+      "type": "TBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 194,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 195,
+      "type": "ReluBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 196,
+      "type": "AddmmBackward0",
+      "saved_tensors": {
+        "_saved_mat1": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        },
+        "_saved_mat2": {
+          "shape": [
+            32,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            1,
+            32
+          ]
+        }
+      }
+    },
+    {
+      "id": 197,
+      "type": "TBackward0",
+      "saved_tensors": {}
+    },
+    {
+      "id": 198,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 199,
+      "type": "ReluBackward0",
+      "saved_tensors": {
+        "_saved_result": {
+          "shape": [
+            257,
+            32
+          ],
+          "dtype": "torch.float32",
+          "stride": [
+            32,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 200,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    },
+    {
+      "id": 201,
+      "type": "AccumulateGrad",
+      "saved_tensors": {}
+    }
+  ],
+  "edges": [
+    [
+      0,
+      172
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      8
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      160
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      149
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      14
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      14,
+      15
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      16,
+      21
+    ],
+    [
+      16,
+      17
+    ],
+    [
+      17,
+      18
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      20
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      21,
+      22
+    ],
+    [
+      22,
+      148
+    ],
+    [
+      22,
+      25
+    ],
+    [
+      22,
+      23
+    ],
+    [
+      23,
+      24
+    ],
+    [
+      25,
+      26
+    ],
+    [
+      26,
+      147
+    ],
+    [
+      26,
+      29
+    ],
+    [
+      26,
+      27
+    ],
+    [
+      27,
+      28
+    ],
+    [
+      29,
+      30
+    ],
+    [
+      30,
+      146
+    ],
+    [
+      30,
+      33
+    ],
+    [
+      30,
+      31
+    ],
+    [
+      31,
+      32
+    ],
+    [
+      33,
+      93
+    ],
+    [
+      33,
+      34
+    ],
+    [
+      34,
+      49
+    ],
+    [
+      34,
+      35
+    ],
+    [
+      35,
+      36
+    ],
+    [
+      36,
+      37
+    ],
+    [
+      37,
+      48
+    ],
+    [
+      37,
+      38
+    ],
+    [
+      38,
+      39
+    ],
+    [
+      39,
+      47
+    ],
+    [
+      39,
+      40
+    ],
+    [
+      40,
+      41
+    ],
+    [
+      41,
+      42
+    ],
+    [
+      42,
+      43
+    ],
+    [
+      43,
+      44
+    ],
+    [
+      44,
+      45
+    ],
+    [
+      45,
+      46
+    ],
+    [
+      47,
+      41
+    ],
+    [
+      49,
+      58
+    ],
+    [
+      49,
+      50
+    ],
+    [
+      50,
+      51
+    ],
+    [
+      51,
+      52
+    ],
+    [
+      52,
+      57
+    ],
+    [
+      52,
+      53
+    ],
+    [
+      53,
+      54
+    ],
+    [
+      54,
+      56
+    ],
+    [
+      54,
+      55
+    ],
+    [
+      55,
+      41
+    ],
+    [
+      56,
+      41
+    ],
+    [
+      58,
+      67
+    ],
+    [
+      58,
+      59
+    ],
+    [
+      59,
+      60
+    ],
+    [
+      60,
+      61
+    ],
+    [
+      61,
+      66
+    ],
+    [
+      61,
+      62
+    ],
+    [
+      62,
+      63
+    ],
+    [
+      63,
+      65
+    ],
+    [
+      63,
+      64
+    ],
+    [
+      64,
+      41
+    ],
+    [
+      65,
+      41
+    ],
+    [
+      67,
+      76
+    ],
+    [
+      67,
+      68
+    ],
+    [
+      68,
+      69
+    ],
+    [
+      69,
+      70
+    ],
+    [
+      70,
+      75
+    ],
+    [
+      70,
+      71
+    ],
+    [
+      71,
+      72
+    ],
+    [
+      72,
+      74
+    ],
+    [
+      72,
+      73
+    ],
+    [
+      73,
+      41
+    ],
+    [
+      74,
+      41
+    ],
+    [
+      76,
+      85
+    ],
+    [
+      76,
+      77
+    ],
+    [
+      77,
+      78
+    ],
+    [
+      78,
+      79
+    ],
+    [
+      79,
+      84
+    ],
+    [
+      79,
+      80
+    ],
+    [
+      80,
+      81
+    ],
+    [
+      81,
+      83
+    ],
+    [
+      81,
+      82
+    ],
+    [
+      82,
+      41
+    ],
+    [
+      83,
+      41
+    ],
+    [
+      85,
+      86
+    ],
+    [
+      86,
+      87
+    ],
+    [
+      87,
+      92
+    ],
+    [
+      87,
+      88
+    ],
+    [
+      88,
+      89
+    ],
+    [
+      89,
+      91
+    ],
+    [
+      89,
+      90
+    ],
+    [
+      90,
+      41
+    ],
+    [
+      91,
+      41
+    ],
+    [
+      93,
+      102
+    ],
+    [
+      93,
+      94
+    ],
+    [
+      94,
+      95
+    ],
+    [
+      95,
+      96
+    ],
+    [
+      96,
+      101
+    ],
+    [
+      96,
+      97
+    ],
+    [
+      97,
+      98
+    ],
+    [
+      98,
+      100
+    ],
+    [
+      98,
+      99
+    ],
+    [
+      99,
+      41
+    ],
+    [
+      100,
+      41
+    ],
+    [
+      102,
+      111
+    ],
+    [
+      102,
+      103
+    ],
+    [
+      103,
+      104
+    ],
+    [
+      104,
+      105
+    ],
+    [
+      105,
+      110
+    ],
+    [
+      105,
+      106
+    ],
+    [
+      106,
+      107
+    ],
+    [
+      107,
+      109
+    ],
+    [
+      107,
+      108
+    ],
+    [
+      108,
+      41
+    ],
+    [
+      109,
+      41
+    ],
+    [
+      111,
+      120
+    ],
+    [
+      111,
+      112
+    ],
+    [
+      112,
+      113
+    ],
+    [
+      113,
+      114
+    ],
+    [
+      114,
+      119
+    ],
+    [
+      114,
+      115
+    ],
+    [
+      115,
+      116
+    ],
+    [
+      116,
+      118
+    ],
+    [
+      116,
+      117
+    ],
+    [
+      117,
+      41
+    ],
+    [
+      118,
+      41
+    ],
+    [
+      120,
+      129
+    ],
+    [
+      120,
+      121
+    ],
+    [
+      121,
+      122
+    ],
+    [
+      122,
+      123
+    ],
+    [
+      123,
+      128
+    ],
+    [
+      123,
+      124
+    ],
+    [
+      124,
+      125
+    ],
+    [
+      125,
+      127
+    ],
+    [
+      125,
+      126
+    ],
+    [
+      126,
+      41
+    ],
+    [
+      127,
+      41
+    ],
+    [
+      129,
+      138
+    ],
+    [
+      129,
+      130
+    ],
+    [
+      130,
+      131
+    ],
+    [
+      131,
+      132
+    ],
+    [
+      132,
+      137
+    ],
+    [
+      132,
+      133
+    ],
+    [
+      133,
+      134
+    ],
+    [
+      134,
+      136
+    ],
+    [
+      134,
+      135
+    ],
+    [
+      135,
+      41
+    ],
+    [
+      136,
+      41
+    ],
+    [
+      138,
+      139
+    ],
+    [
+      139,
+      140
+    ],
+    [
+      140,
+      145
+    ],
+    [
+      140,
+      141
+    ],
+    [
+      141,
+      142
+    ],
+    [
+      142,
+      144
+    ],
+    [
+      142,
+      143
+    ],
+    [
+      143,
+      41
+    ],
+    [
+      144,
+      41
+    ],
+    [
+      149,
+      155
+    ],
+    [
+      149,
+      150
+    ],
+    [
+      150,
+      153
+    ],
+    [
+      150,
+      151
+    ],
+    [
+      151,
+      152
+    ],
+    [
+      152,
+      16
+    ],
+    [
+      153,
+      154
+    ],
+    [
+      154,
+      13
+    ],
+    [
+      155,
+      158
+    ],
+    [
+      155,
+      156
+    ],
+    [
+      156,
+      157
+    ],
+    [
+      157,
+      13
+    ],
+    [
+      158,
+      159
+    ],
+    [
+      159,
+      16
+    ],
+    [
+      160,
+      167
+    ],
+    [
+      160,
+      161
+    ],
+    [
+      161,
+      162
+    ],
+    [
+      162,
+      165
+    ],
+    [
+      162,
+      163
+    ],
+    [
+      163,
+      164
+    ],
+    [
+      164,
+      13
+    ],
+    [
+      165,
+      166
+    ],
+    [
+      166,
+      16
+    ],
+    [
+      167,
+      170
+    ],
+    [
+      167,
+      168
+    ],
+    [
+      168,
+      169
+    ],
+    [
+      169,
+      13
+    ],
+    [
+      170,
+      171
+    ],
+    [
+      171,
+      16
+    ],
+    [
+      172,
+      188
+    ],
+    [
+      172,
+      173
+    ],
+    [
+      173,
+      174
+    ],
+    [
+      174,
+      175
+    ],
+    [
+      175,
+      187
+    ],
+    [
+      175,
+      176
+    ],
+    [
+      176,
+      177
+    ],
+    [
+      177,
+      186
+    ],
+    [
+      177,
+      180
+    ],
+    [
+      177,
+      178
+    ],
+    [
+      178,
+      179
+    ],
+    [
+      180,
+      181
+    ],
+    [
+      181,
+      185
+    ],
+    [
+      181,
+      184
+    ],
+    [
+      181,
+      182
+    ],
+    [
+      182,
+      183
+    ],
+    [
+      184,
+      30
+    ],
+    [
+      188,
+      189
+    ],
+    [
+      189,
+      190
+    ],
+    [
+      190,
+      191
+    ],
+    [
+      191,
+      46
+    ],
+    [
+      191,
+      192
+    ],
+    [
+      192,
+      201
+    ],
+    [
+      192,
+      195
+    ],
+    [
+      192,
+      193
+    ],
+    [
+      193,
+      194
+    ],
+    [
+      195,
+      196
+    ],
+    [
+      196,
+      200
+    ],
+    [
+      196,
+      199
+    ],
+    [
+      196,
+      197
+    ],
+    [
+      197,
+      198
+    ],
+    [
+      199,
+      30
+    ]
+  ],
+  "type_counts": {
+    "AddBackward0": 7,
+    "MeanBackward0": 3,
+    "PowBackward0": 3,
+    "DivBackward0": 3,
+    "ClampMinBackward0": 2,
+    "SqrtBackward0": 2,
+    "SumBackward1": 3,
+    "MulBackward0": 18,
+    "CatBackward0": 3,
+    "LinalgCrossBackward0": 1,
+    "SliceBackward0": 20,
+    "AccumulateGrad": 29,
+    "AddmmBackward0": 7,
+    "TBackward0": 7,
+    "ReluBackward0": 6,
+    "TransposeBackward0": 12,
+    "ViewBackward0": 24,
+    "GridSampler2DBackward0": 12,
+    "StackBackward0": 12,
+    "SelectBackward0": 24,
+    "SubBackward0": 3,
+    "ExpBackward0": 1
+  },
+  "intermediates": {
+    "sample_L0_xy": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L0_xz": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L0_xe": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L0_yz": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L0_ye": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L0_ze": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "product_L0": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L1_xy": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L1_xz": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L1_xe": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L1_yz": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L1_ye": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "sample_L1_ze": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "product_L1": {
+      "shape": [
+        257,
+        8
+      ],
+      "stride": [
+        1,
+        257
+      ],
+      "contiguous": false
+    },
+    "coordinates": {
+      "shape": [
+        257,
+        4
+      ],
+      "stride": [
+        4,
+        1
+      ],
+      "contiguous": true,
+      "dtype": "torch.float32"
+    },
+    "feature": {
+      "shape": [
+        257,
+        16
+      ],
+      "stride": [
+        16,
+        1
+      ],
+      "contiguous": true,
+      "dtype": "torch.float32"
+    },
+    "hidden": {
+      "shape": [
+        257,
+        32
+      ],
+      "stride": [
+        32,
+        1
+      ],
+      "contiguous": true,
+      "dtype": "torch.float32"
+    },
+    "delta_xyz": {
+      "shape": [
+        257,
+        3
+      ],
+      "stride": [
+        3,
+        1
+      ],
+      "contiguous": true,
+      "dtype": "torch.float32"
+    },
+    "delta_log_scale": {
+      "shape": [
+        257,
+        3
+      ],
+      "stride": [
+        3,
+        1
+      ],
+      "contiguous": true,
+      "dtype": "torch.float32"
+    },
+    "delta_rotation_raw": {
+      "shape": [
+        257,
+        4
+      ],
+      "stride": [
+        4,
+        1
+      ],
+      "contiguous": true,
+      "dtype": "torch.float32"
+    }
+  },
+  "tf32_matmul": false
+}

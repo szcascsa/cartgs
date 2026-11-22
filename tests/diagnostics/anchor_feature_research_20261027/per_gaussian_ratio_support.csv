@@ -1,0 +1,15 @@
+scene,ratio,K,below_min_train_ratio,above_max_train_ratio,never_selected
+fr1_xyz,0.01,68,0,0,0
+fr1_xyz,0.025,170,102,0,0
+fr1_xyz,0.05,341,0,0,0
+fr1_xyz,0.075,512,171,0,0
+fr1_xyz,0.1,683,0,0,0
+fr1_xyz,0.125,854,172,0,0
+fr1_xyz,0.15,1025,0,0,0
+fr2_xyz,0.01,92,0,0,0
+fr2_xyz,0.025,231,139,0,0
+fr2_xyz,0.05,463,0,0,0
+fr2_xyz,0.075,695,232,0,0
+fr2_xyz,0.1,927,0,0,0
+fr2_xyz,0.125,1159,232,0,0
+fr2_xyz,0.15,1391,0,0,0

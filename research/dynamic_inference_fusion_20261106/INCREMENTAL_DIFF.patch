@@ -1,0 +1,384 @@
+--- previous_cuda/python/anchor_budget.py
++++ dynamic_fusion/python/anchor_budget.py
+@@ -118,8 +118,10 @@
+             compact = pc
+             available = None
+         else:
+-            visible = anchor_frustum_mask(anchors.centers, anchors.offset_scales,
+-                                          camera.full_proj_transform, self.occupied)
++            visible = (self.inference.frustum(camera.full_proj_transform, self.occupied)
++                       if self.inference is not None and self.inference.dynamic_fusion else
++                       anchor_frustum_mask(anchors.centers, anchors.offset_scales,
++                                           camera.full_proj_transform, self.occupied))
+             if anchor_mask is not None:visible = visible & anchor_mask
+             if self.inference is None:
+                 visible_count = int(visible.sum())
+@@ -175,7 +177,9 @@
+                 if global_ratio is not None:
+                     mask, _, _ = flexgs_inference_mask(logits, ratio, eligible=eligible, noise=self.noise)
+                 else:
+-                    scores = gumbel_selection(logits, hard=False, noise=self.noise[rows])
++                    scores = (self.inference.scores(logits, self.noise, rows)
++                              if self.inference is not None and self.inference.dynamic_fusion else
++                              gumbel_selection(logits, hard=False, noise=self.noise[rows]))
+                     if self.inference is None:mask = exact_budget_mask(scores, eligible, budget)
+                     else:native_ids = self.inference.select(scores, eligible, min(budget, available))
+             if measure_time and pc.get_xyz.is_cuda:torch.cuda.synchronize(pc.get_xyz.device)
+--- previous_cuda/python/anchor_visibility.py
++++ dynamic_fusion/python/anchor_visibility.py
+@@ -30,20 +30,26 @@
+         return self.last_mask
+ 
+     @torch.no_grad()
+-    def frame_stats(self, anchors, camera, mask, ids, radii):
+-        visible = anchor_frustum_mask(anchors.centers, anchors.offset_scales, camera.full_proj_transform, self.occupied)
+-        enabled = self.occupied if mask is None else mask & self.occupied
+-        enabled_levels = self.level_masks & enabled
+-        visible_levels = self.level_masks & visible
+-        allowed_visible = visible_levels & enabled
+-        submitted_owners = self.owners[ids]
+-        projected_owners = submitted_owners[radii > 0]
+-        per_level = lambda rows: torch.bincount(self.levels[rows], minlength=3)
+-        counts = torch.stack((enabled_levels.sum(1), (enabled_levels*self.counts).sum(1),
+-            visible_levels.sum(1), (visible_levels*self.counts).sum(1),
+-            allowed_visible.sum(1), (allowed_visible*self.counts).sum(1),
+-            per_level(submitted_owners.unique()), per_level(projected_owners.unique()),
+-            per_level(submitted_owners), per_level(projected_owners))).cpu().tolist()
++    def frame_stats(self, anchors, camera, mask, ids, radii, inference=None):
++        if inference is not None and getattr(inference, 'summary_fusion', False):
++            # Recompute visibility for this call; no camera/ratio-result cache.
++            visible = inference.frustum(camera.full_proj_transform, self.occupied)
++            counts = inference.ext.frame_counts(visible, self.counts, self.levels,
++                self.owners, ids, radii, inference.empty if mask is None else mask).cpu().tolist()
++        else:
++            visible = anchor_frustum_mask(anchors.centers, anchors.offset_scales, camera.full_proj_transform, self.occupied)
++            enabled = self.occupied if mask is None else mask & self.occupied
++            enabled_levels = self.level_masks & enabled
++            visible_levels = self.level_masks & visible
++            allowed_visible = visible_levels & enabled
++            submitted_owners = self.owners[ids]
++            projected_owners = submitted_owners[radii > 0]
++            per_level = lambda rows: torch.bincount(self.levels[rows], minlength=3)
++            counts = torch.stack((enabled_levels.sum(1), (enabled_levels*self.counts).sum(1),
++                visible_levels.sum(1), (visible_levels*self.counts).sum(1),
++                allowed_visible.sum(1), (allowed_visible*self.counts).sum(1),
++                per_level(submitted_owners.unique()), per_level(projected_owners.unique()),
++                per_level(submitted_owners), per_level(projected_owners))).cpu().tolist()
+         levels = [dict(self.catalog[level], enabled=level in self.last_key,
+             visible_anchors=counts[2][level], visible_gaussians=counts[3][level],
+             submitted_gaussians=counts[8][level], projected_gaussians=counts[9][level]) for level in range(3)]
+--- previous_cuda/python/budget_viewer.py
++++ dynamic_fusion/python/budget_viewer.py
+@@ -260,9 +260,9 @@
+         rendered = render_prepared(camera, data, self.background, measure_time=True, return_radii=True)
+         image = rendered['render'].clamp(0, 1)
+         summary_started = time.perf_counter()
+-        stats.update(self.anchor_visibility.frame_stats(self.model.anchors, camera, anchor_mask, ids, rendered['radii']))
++        stats.update(self.anchor_visibility.frame_stats(self.model.anchors, camera, anchor_mask, ids, rendered['radii'], self.renderer.inference))
+         stats['anchor_summary_ms'] = (time.perf_counter()-summary_started)*1000
+-        stats.update(mode=mode, projected_gaussians=int((rendered['radii'] > 0).sum()),
++        stats.update(mode=mode, projected_gaussians=sum(level['projected_gaussians'] for level in stats['anchor_levels']),
+                      rasterizer_ms=rendered['rendering_ms'],
+                      prepare_plus_render_ms=stats['prepare_ms']+rendered['rendering_ms'],
+                      frame=frame, view_kind='dataset' if frame is not None else 'free',
+--- previous_cuda/python/frozen_inference_bindings.cpp
++++ dynamic_fusion/python/frozen_inference_bindings.cpp
+@@ -19,9 +19,41 @@
+ torch::Tensor publish_selected(const std::vector<torch::Tensor>&, const torch::Tensor&,
+     const torch::Tensor&, const torch::Tensor&, bool);
+ torch::Tensor exact_select(const torch::Tensor&, const torch::Tensor&, int64_t,
+-    const std::vector<torch::Tensor>&);
++    const std::vector<torch::Tensor>&, bool);
+ std::vector<torch::Tensor> visible_candidates(const torch::Tensor&, const torch::Tensor&,
+     const torch::Tensor&, const torch::Tensor&, const torch::Tensor&, const torch::Tensor&);
++
++torch::Tensor frame_counts(const torch::Tensor&, const torch::Tensor&, const torch::Tensor&,
++    const torch::Tensor&, const torch::Tensor&, const torch::Tensor&, const torch::Tensor&);
++
++torch::Tensor quaternion_identity(const torch::Tensor&);
++torch::Tensor quaternion_divide(const torch::Tensor&, const torch::Tensor&);
++torch::Tensor quaternion_multiply(const torch::Tensor&, const torch::Tensor&, const torch::Tensor&);
++
++torch::Tensor quaternion_decode(const torch::Tensor& residual, const torch::Tensor& rows,
++    const torch::Tensor& master) {
++  TORCH_CHECK(!torch::GradMode::is_enabled(), "Frozen quaternion only");
++  c10::cuda::CUDAGuard guard(residual.device());
++  auto q=quaternion_identity(residual);
++  q=quaternion_divide(q,at::linalg_vector_norm(q,2,at::IntArrayRef{-1},true));
++  q=quaternion_multiply(q,rows,master);
++  q=quaternion_divide(q,at::linalg_vector_norm(q,2,at::IntArrayRef{-1},true));
++  // Keep the original Renderer activation's second normalization.
++  return quaternion_divide(q,at::linalg_vector_norm(q,2,at::IntArrayRef{-1},true));
++}
++
++torch::Tensor frustum_planes(const torch::Tensor&);
++torch::Tensor frustum_test(const torch::Tensor&, const torch::Tensor&, const torch::Tensor&, const torch::Tensor&);
++torch::Tensor selection_scores(const torch::Tensor&, const torch::Tensor&, const torch::Tensor&);
++
++torch::Tensor frustum(const torch::Tensor& centers, const torch::Tensor& scales,
++    const torch::Tensor& projection, const torch::Tensor& occupied) {
++  TORCH_CHECK(!torch::GradMode::is_enabled(), "Frozen frustum only");
++  // Keep the original GEMM and its strided plane operand. Only fuse its perimeter.
++  auto planes=frustum_planes(projection);
++  auto distance=at::matmul(centers,planes.slice(1,0,3).t());
++  return frustum_test(distance,planes,scales,occupied);
++}
+ 
+ torch::Tensor selector_logits(const torch::Tensor& input, const std::vector<torch::Tensor>& p) {
+   TORCH_CHECK(!torch::GradMode::is_enabled() && p.size()==6, "Frozen Selector inference only");
+@@ -59,6 +91,13 @@
+ }
+ 
+ PYBIND11_MODULE(TORCH_EXTENSION_NAME, module) {
++  module.def("quaternion_identity", &quaternion_identity);
++  module.def("quaternion_divide", &quaternion_divide);
++  module.def("quaternion_multiply", &quaternion_multiply);
++  module.def("quaternion_decode", &quaternion_decode);
++  module.def("frame_counts", &frame_counts);
++  module.def("frustum", &frustum);
++  module.def("selection_scores", &selection_scores);
+   module.def("selector_pack", &selector_pack);
+   module.def("selector_view_pack", &selector_view_pack);
+   module.def("condition_pack", &condition_pack);
+@@ -72,6 +111,6 @@
+   module.def("publish_render", &publish_render);
+   module.def("publish_selected", &publish_selected);
+   module.def("exact_select", &exact_select, pybind11::arg("scores"), pybind11::arg("eligible"),
+-      pybind11::arg("k"), pybind11::arg("workspace")=std::vector<torch::Tensor>{});
++      pybind11::arg("k"), pybind11::arg("workspace")=std::vector<torch::Tensor>{}, pybind11::arg("narrow_indices")=true);
+   module.def("visible_candidates", &visible_candidates);
+ }
+--- previous_cuda/python/frozen_inference_cuda.py
++++ dynamic_fusion/python/frozen_inference_cuda.py
+@@ -10,7 +10,7 @@
+ def extension():
+     from torch.utils.cpp_extension import load
+     root = Path(__file__).resolve().parent
+-    return load(name='mycartgs_frozen_inference_v2',
++    return load(name='mycartgs_frozen_inference_v3',
+         sources=[str(root/'frozen_inference_bindings.cpp'), str(root/'frozen_inference_kernels.cu')],
+         extra_cflags=['-O3'], extra_cuda_cflags=['-O3', '--fmad=false'], verbose=False)
+ 
+@@ -39,6 +39,10 @@
+         self.model, self.pc, self.spatial, self.anchors = model, gaussians, spatial, anchors
+         self.ext, self.graph = extension(), bool(graph)
+         self.fused_view = True
++        self.dynamic_fusion = True
++        self.quaternion_fusion = True
++        self.narrow_sort = True
++        self.summary_fusion = True
+         self.decode_fusion = (hasattr(spatial, 'softplus_scale_schema') or
+                               hasattr(spatial, 'physical_scale_additive_schema'))
+         self.graphs = OrderedDict()
+@@ -127,6 +131,14 @@
+         return self.pc.get_xyz.new_tensor(weights+[t, math.sin(math.pi*t/2), math.cos(math.pi*t/2)])
+ 
+     @torch.no_grad()
++    def frustum(self, projection, occupied):
++        return self.ext.frustum(self.anchors.centers, self.anchors.offset_scales, projection, occupied)
++
++    @torch.no_grad()
++    def scores(self, logits, noise, rows):
++        return self.ext.selection_scores(logits, noise, rows)
++
++    @torch.no_grad()
+     def candidates(self, visible):
+         _, counts, self.candidate_workspace = self.ext.visible_candidates(visible, self.owners,
+             self.eligible_counts, self.candidate_storage, self.candidate_counts, self.candidate_workspace)
+@@ -135,7 +147,7 @@
+ 
+     @torch.no_grad()
+     def select(self, scores, eligible, k):
+-        return self.ext.exact_select(scores.contiguous(), eligible, k, self.sort_workspace)
++        return self.ext.exact_select(scores.contiguous(), eligible, k, self.sort_workspace, self.narrow_sort)
+ 
+     @torch.no_grad()
+     def selector_input(self, rows, ratio, code=None, local=False):
+@@ -189,10 +201,13 @@
+                                               self.rotation, pc.get_features_dc, pc.get_features_rest)]
+         from transform_field import _normalize_quaternion, _multiply_quaternion
+         residual = self.residual(rows, controls, code, local)
+-        identity = torch.zeros_like(residual[:, 6:10]);identity[:, 0] = 1
+-        rotation = _normalize_quaternion(_multiply_quaternion(
+-            _normalize_quaternion(identity+residual[:, 6:10]), self.rotation[rows]))
+-        rotation = pc.rotation_activation(rotation)
++        if self.quaternion_fusion:
++            rotation = self.ext.quaternion_decode(residual, rows, self.rotation)
++        else:
++            identity = torch.zeros_like(residual[:, 6:10]);identity[:, 0] = 1
++            rotation = _normalize_quaternion(_multiply_quaternion(
++                _normalize_quaternion(identity+residual[:, 6:10]), self.rotation[rows]))
++            rotation = pc.rotation_activation(rotation)
+         if self.decode_fusion:
+             if not (hasattr(self.spatial, 'softplus_scale_schema') or hasattr(self.spatial, 'physical_scale_additive_schema')):
+                 raise ValueError('Fused decode requires Softplus or physical-additive Scale')
+--- previous_cuda/python/frozen_inference_kernels.cu
++++ dynamic_fusion/python/frozen_inference_kernels.cu
+@@ -307,7 +307,7 @@
+   C10_CUDA_KERNEL_LAUNCH_CHECK();return output;
+ }
+ torch::Tensor exact_select(const torch::Tensor& scores,const torch::Tensor& eligible,int64_t k,
+-    const std::vector<torch::Tensor>& workspace) {
++    const std::vector<torch::Tensor>& workspace, bool narrow_indices) {
+   TORCH_CHECK(!torch::GradMode::is_enabled(),"Frozen inference only");
+   check(scores,scores);check(eligible,scores,at::kBool);
+   const auto n=scores.numel();TORCH_CHECK(n<=INT_MAX && eligible.numel()==n && k>=0 && k<=n,"Selection layout");
+@@ -324,13 +324,15 @@
+   auto sorted_indices=workspace.empty()?torch::empty_like(indices):workspace[3];
+   const auto stream=c10::cuda::getCurrentCUDAStream();
+   maskedScores<<<(n+255)/256,256,0,stream>>>(n,scores.data_ptr<float>(),eligible.data_ptr<bool>(),keys.data_ptr<float>(),indices.data_ptr<int64_t>());
++  int bits=64;
++  if(narrow_indices){bits=1;for(auto v=n-1;v>>=1;)++bits;}
+   size_t bytes=0,bytes2=0;
+   C10_CUDA_CHECK(cub::DeviceRadixSort::SortPairsDescending(nullptr,bytes,keys.data_ptr<float>(),sorted_keys.data_ptr<float>(),indices.data_ptr<int64_t>(),sorted_indices.data_ptr<int64_t>(),int(n),0,32,stream));
+-  C10_CUDA_CHECK(cub::DeviceRadixSort::SortKeys(nullptr,bytes2,sorted_indices.data_ptr<int64_t>(),output.data_ptr<int64_t>(),int(k),0,64,stream));
++  C10_CUDA_CHECK(cub::DeviceRadixSort::SortKeys(nullptr,bytes2,sorted_indices.data_ptr<int64_t>(),output.data_ptr<int64_t>(),int(k),0,bits,stream));
+   auto temp=workspace.empty()?torch::empty({int64_t(std::max(bytes,bytes2))},scores.options().dtype(at::kByte)):workspace[4];
+   TORCH_CHECK(temp.numel()>=int64_t(std::max(bytes,bytes2)),"Sort temporary workspace capacity");
+   C10_CUDA_CHECK(cub::DeviceRadixSort::SortPairsDescending(temp.data_ptr(),bytes,keys.data_ptr<float>(),sorted_keys.data_ptr<float>(),indices.data_ptr<int64_t>(),sorted_indices.data_ptr<int64_t>(),int(n),0,32,stream));
+-  C10_CUDA_CHECK(cub::DeviceRadixSort::SortKeys(temp.data_ptr(),bytes2,sorted_indices.data_ptr<int64_t>(),output.data_ptr<int64_t>(),int(k),0,64,stream));
++  C10_CUDA_CHECK(cub::DeviceRadixSort::SortKeys(temp.data_ptr(),bytes2,sorted_indices.data_ptr<int64_t>(),output.data_ptr<int64_t>(),int(k),0,bits,stream));
+   C10_CUDA_KERNEL_LAUNCH_CHECK();return output;
+ }
+ 
+@@ -354,3 +356,140 @@
+   } else C10_CUDA_CHECK(cudaMemsetAsync(counts.data_ptr<int64_t>(),0,sizeof(int64_t),stream));
+   C10_CUDA_KERNEL_LAUNCH_CHECK();return {storage,counts,temporary};
+ }
++
++namespace {
++__global__ void makePlanes(const float* m,int64_t s0,int64_t s1,float* out) {
++  const int i=threadIdx.x;
++  if(i>=24)return;
++  const int p=i/4,c=i%4;
++  const float a=m[c*s0+3*s1],b=m[c*s0+(p/2)*s1];
++  out[i]=p==4?m[c*s0+2*s1]:(p%2?__fsub_rn(a,b):__fadd_rn(a,b));
++}
++__global__ void testFrustum(int64_t n,const float* d,const float* planes,
++    const float* scales,const bool* occupied,bool* out) {
++  const auto i=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
++  if(i>=n)return;
++  bool visible=occupied[i];
++  for(int p=0;p<6;++p) {
++    float norm=__fadd_rn(__fadd_rn(fabsf(planes[p*4]),fabsf(planes[p*4+2])),fabsf(planes[p*4+1]));
++    float radius=__fmul_rn(__fmul_rn(scales[i],.5f),norm);
++    float distance=__fadd_rn(d[i*6+p],planes[p*4+3]);
++    visible=visible && __fadd_rn(distance,radius)>=0.f;
++  }
++  out[i]=visible;
++}
++__global__ void selectionScores(int64_t n,const float* logits,const float* noise,
++    const int64_t* rows,float* output) {
++  const auto i=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
++  if(i>=n)return;
++  const auto r=rows[i];
++  float a=__fadd_rn(logits[2*i],noise[2*r]),b=__fadd_rn(logits[2*i+1],noise[2*r+1]);
++  float maximum=fmaxf(a,b);
++  float ea=expf(__fsub_rn(a,maximum)),eb=expf(__fsub_rn(b,maximum));
++  output[i]=__fdiv_rn(eb,__fadd_rn(ea,eb));
++}
++}
++torch::Tensor frustum_planes(const torch::Tensor& projection) {
++  TORCH_CHECK(projection.is_cuda() && projection.scalar_type()==at::kFloat && projection.sizes()==at::IntArrayRef({4,4}),"Frustum projection layout");
++  c10::cuda::CUDAGuard guard(projection.device());
++  auto out=torch::empty({6,4},projection.options());
++  makePlanes<<<1,32,0,c10::cuda::getCurrentCUDAStream()>>>(projection.data_ptr<float>(),projection.stride(0),projection.stride(1),out.data_ptr<float>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
++}
++torch::Tensor frustum_test(const torch::Tensor& distance,const torch::Tensor& planes,
++    const torch::Tensor& scales,const torch::Tensor& occupied) {
++  check(distance,distance);check(planes,distance);check(scales,distance);check(occupied,distance,at::kBool);
++  const auto n=scales.numel();
++  TORCH_CHECK(distance.sizes()==at::IntArrayRef({n,6}) && occupied.numel()==n,"Frustum row layout");
++  c10::cuda::CUDAGuard guard(distance.device());auto out=torch::empty({n},occupied.options());
++  if(n)testFrustum<<<(n+127)/128,128,0,c10::cuda::getCurrentCUDAStream()>>>(n,distance.data_ptr<float>(),planes.data_ptr<float>(),scales.data_ptr<float>(),occupied.data_ptr<bool>(),out.data_ptr<bool>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
++}
++torch::Tensor selection_scores(const torch::Tensor& logits,const torch::Tensor& noise,const torch::Tensor& rows) {
++  TORCH_CHECK(!torch::GradMode::is_enabled(),"Frozen scores only");
++  check(logits,logits);check(noise,logits);check(rows,logits,at::kLong);
++  const auto n=rows.numel();TORCH_CHECK(logits.sizes()==at::IntArrayRef({n,2}) && noise.dim()==2 && noise.size(1)==2,"Selection score layout");
++  c10::cuda::CUDAGuard guard(logits.device());auto out=torch::empty({n},logits.options());
++  if(n)selectionScores<<<(n+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(n,logits.data_ptr<float>(),noise.data_ptr<float>(),rows.data_ptr<int64_t>(),out.data_ptr<float>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
++}
++
++namespace {
++__global__ void quaternionIdentity(int64_t n,const float* residual,float* out) {
++  const auto i=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
++  if(i<n*4)out[i]=__fadd_rn(i%4==0?1.f:0.f,residual[(i/4)*14+6+i%4]);
++}
++__global__ void quaternionDivide(int64_t n,const float* q,const float* norm,float* out) {
++  const auto i=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
++  if(i<n*4){float v=norm[i/4];out[i]=__fdiv_rn(q[i],isnan(v)?v:fmaxf(v,1e-12f));}
++}
++__global__ void quaternionMultiply(int64_t n,const float* q,const int64_t* rows,const float* master,float* out) {
++  const auto i=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
++  if(i>=n)return;
++  const auto a=q+i*4,b=master+rows[i]*4;
++  float sum=__fadd_rn(__fadd_rn(__fmul_rn(a[1],b[1]),__fmul_rn(a[3],b[3])),__fmul_rn(a[2],b[2]));
++  out[i*4]=__fsub_rn(__fmul_rn(a[0],b[0]),sum);
++  for(int j=1;j<4;++j) {
++    int k=j%3+1,l=(j+1)%3+1;
++    float cross=__fmaf_rn(a[k],b[l],-__fmul_rn(a[l],b[k]));
++    out[i*4+j]=__fadd_rn(__fadd_rn(__fmul_rn(a[0],b[j]),__fmul_rn(b[0],a[j])),cross);
++  }
++}
++}
++torch::Tensor quaternion_identity(const torch::Tensor& residual) {
++  check(residual,residual);TORCH_CHECK(residual.dim()==2 && residual.size(1)==14,"Quaternion residual layout");
++  auto out=torch::empty({residual.size(0),4},residual.options());
++  if(out.numel())quaternionIdentity<<<(out.numel()+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(residual.size(0),residual.data_ptr<float>(),out.data_ptr<float>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
++}
++torch::Tensor quaternion_divide(const torch::Tensor& q,const torch::Tensor& norm) {
++  auto out=torch::empty_like(q);
++  if(out.numel())quaternionDivide<<<(out.numel()+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(q.size(0),q.data_ptr<float>(),norm.data_ptr<float>(),out.data_ptr<float>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
++}
++torch::Tensor quaternion_multiply(const torch::Tensor& q,const torch::Tensor& rows,const torch::Tensor& master) {
++  check(q,q);check(rows,q,at::kLong);check(master,q);
++  TORCH_CHECK(q.sizes()==at::IntArrayRef({rows.numel(),4}) && master.dim()==2 && master.size(1)==4,"Quaternion master layout");
++  auto out=torch::empty_like(q);
++  if(q.size(0))quaternionMultiply<<<(q.size(0)+127)/128,128,0,c10::cuda::getCurrentCUDAStream()>>>(q.size(0),q.data_ptr<float>(),rows.data_ptr<int64_t>(),master.data_ptr<float>(),out.data_ptr<float>());
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return out;
++}
++
++namespace {
++__global__ void countRows(int64_t n,const int64_t* rows,const int64_t* owners,const int* radii,
++    int64_t anchors,unsigned long long* counts) {
++  const auto i=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
++  if(i>=n)return;
++  const auto owner=owners[rows[i]];
++  atomicAdd(counts+owner,1ULL);
++  if(radii[i]>0)atomicAdd(counts+anchors+owner,1ULL);
++}
++__global__ void countAnchors(int64_t n,const bool* visible,const int64_t* members,const int64_t* levels,
++    const bool* enabled,const unsigned long long* rows,unsigned long long* output) {
++  const auto a=int64_t(blockIdx.x)*blockDim.x+threadIdx.x;
++  if(a>=n)return;
++  const int level=levels[a];
++  const bool active=members[a]>0 && (!enabled || enabled[a]);
++  const bool seen=visible[a];
++  if(active){atomicAdd(output+level,1ULL);atomicAdd(output+3+level,static_cast<unsigned long long>(members[a]));}
++  if(seen){atomicAdd(output+6+level,1ULL);atomicAdd(output+9+level,static_cast<unsigned long long>(members[a]));}
++  if(active&&seen){atomicAdd(output+12+level,1ULL);atomicAdd(output+15+level,static_cast<unsigned long long>(members[a]));}
++  const auto submitted=rows[a],projected=rows[n+a];
++  if(submitted){atomicAdd(output+18+level,1ULL);atomicAdd(output+24+level,submitted);}
++  if(projected){atomicAdd(output+21+level,1ULL);atomicAdd(output+27+level,projected);}
++}
++}
++torch::Tensor frame_counts(const torch::Tensor& visible,const torch::Tensor& members,const torch::Tensor& levels,
++    const torch::Tensor& owners,const torch::Tensor& ids,const torch::Tensor& radii,const torch::Tensor& enabled) {
++  TORCH_CHECK(!torch::GradMode::is_enabled(),"Frozen integer summary only");
++  check(visible,visible,at::kBool);check(members,visible,at::kLong);check(levels,visible,at::kLong);
++  check(owners,visible,at::kLong);check(ids,visible,at::kLong);check(radii,visible,at::kInt);
++  const auto a=visible.numel(),n=ids.numel();
++  TORCH_CHECK(members.numel()==a && levels.numel()==a && radii.numel()==n,"Frame summary layout");
++  if(enabled.numel()){check(enabled,visible,at::kBool);TORCH_CHECK(enabled.numel()==a,"Summary mask layout");}
++  c10::cuda::CUDAGuard guard(visible.device());auto scratch=torch::zeros({2*a+30},members.options());
++  auto counts=reinterpret_cast<unsigned long long*>(scratch.data_ptr<int64_t>());
++  if(n)countRows<<<(n+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(n,ids.data_ptr<int64_t>(),owners.data_ptr<int64_t>(),radii.data_ptr<int>(),a,counts);
++  if(a)countAnchors<<<(a+255)/256,256,0,c10::cuda::getCurrentCUDAStream()>>>(a,visible.data_ptr<bool>(),members.data_ptr<int64_t>(),levels.data_ptr<int64_t>(),enabled.numel()?enabled.data_ptr<bool>():nullptr,counts,counts+2*a);
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return scratch.slice(0,2*a).view({10,3});
++}

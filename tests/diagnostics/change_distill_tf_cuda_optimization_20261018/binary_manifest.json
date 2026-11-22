@@ -1,0 +1,26 @@
+{
+  "lib/libgaussian_mapper.so": {
+    "sha256": "674444e1bf191f1afc8d014940f238822c2399dcbf6083a28fca19956493dfeb",
+    "bytes": 2748488
+  },
+  "lib/libgaussian_viewer.so": {
+    "sha256": "c7a2468e94bf5dd206cc2141fc0650029aab4ae7fb158cba01886907ed657cc1",
+    "bytes": 134368
+  },
+  "bin/tum_rgbd": {
+    "sha256": "8d3f70de48add1927d8c0c3f83ef77743a4ba924f205310fdb11bf287190d00d",
+    "bytes": 89376
+  },
+  "build-cuda118-sm86-gcc9/libtransform_field_cuda.a": {
+    "sha256": "d45dbd0b6db1cb8fc2fba63c2e36e8a8e9a78fb014c4a6cdfbb083eb7556333f",
+    "bytes": 1021738
+  },
+  "baseline_libtransform_field_cuda.a": {
+    "sha256": "fdac2cb5c65cf32208fc1efdffbdfc9e2146e8a73f9785ec68dd46988a308956",
+    "bytes": 924244
+  },
+  "baseline_libselector_cuda.a": {
+    "sha256": "9ceaf05269b72840d950d121894a140548fff29806031809e18047d287ee1fb7",
+    "bytes": 367196
+  }
+}

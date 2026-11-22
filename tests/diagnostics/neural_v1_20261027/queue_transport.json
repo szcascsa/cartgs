@@ -1,0 +1,28 @@
+{
+  "tier": "transport_screen",
+  "jobs": [
+    {
+      "config": {
+        "id": "RedistributionFiLM",
+        "kind": "self",
+        "width": 64,
+        "context": "transport",
+        "film": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "SpatialRedistribution",
+        "kind": "self",
+        "width": 64,
+        "context": "transport",
+        "film": true,
+        "bands": 6
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

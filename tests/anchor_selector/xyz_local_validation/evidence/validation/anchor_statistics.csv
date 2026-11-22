@@ -1,0 +1,5 @@
+arm,seed,population,features,nodes_L0,nodes_L1,nodes_L2,occupied_leaves_L0,occupied_leaves_L1,occupied_leaves_L2,retained_empty_nodes,max_leaf_occupancy,l2_over_capacity_cells,l2_over_capacity_gaussians,internal_nodes,retained_empty_leaf_nodes
+fixed,2026,25248,1321,1321,0,0,1321,0,0,0,472.0,0,0,0,0
+adaptive,2026,27536,2914,1851,709,354,1263,611,336,704,127.0,0,0,156,548
+fixed,2027,24566,1223,1223,0,0,1223,0,0,0,521.0,0,0,0,0
+adaptive,2027,23361,2964,1989,656,319,1156,554,284,970,124.0,0,0,139,831

@@ -1,0 +1,8 @@
+{
+  "original_model_reused": true,
+  "no_retraining": true,
+  "complete_trajectory_poses": 1352,
+  "full_mapping_budget": 16900,
+  "exit_code_unobserved": true,
+  "one_run_resource_samples_unavailable": true
+}

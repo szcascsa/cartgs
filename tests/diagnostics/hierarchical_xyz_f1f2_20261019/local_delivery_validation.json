@@ -1,0 +1,40 @@
+{
+  "all_passed": true,
+  "files_verified": 210,
+  "total_renders": 2232,
+  "scenes": {
+    "fr1_xyz": {
+      "all_passed": true,
+      "N_candidate": 23643,
+      "complete_same_K_nested": true,
+      "F1_first3_exact": true,
+      "aggregate_max_abs_error": 0.0,
+      "F1_supported": false,
+      "F2_supported": false,
+      "F3_supported": false,
+      "baseline_max_abs": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0,
+        "photo": 0.0
+      }
+    },
+    "fr2_xyz": {
+      "all_passed": true,
+      "N_candidate": 43059,
+      "complete_same_K_nested": true,
+      "F1_first3_exact": true,
+      "aggregate_max_abs_error": 0.0,
+      "F1_supported": false,
+      "F2_supported": false,
+      "F3_supported": false,
+      "baseline_max_abs": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0,
+        "photo": 0.0
+      }
+    }
+  },
+  "bundle_sha256": "c6273e9cb97618ec54c4abb86506c6d824353d94d0ec498b53cac1ad2910d87a"
+}

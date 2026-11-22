@@ -1,0 +1,3 @@
+SPARSE_TEST_PASS A_empty_space C_negative_key D_determinism E_huge_key_range B_outlier_h_ratio=1.00017 body_h=0.162125 outlier_h=0.162153 roots=2048
+SPARSE_TEST_PASS F_octree_partition G_same_leaf_representative_parity masks_and_no_mass_in_search
+SPARSE_ROOT_TEST_PASS

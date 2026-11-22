@@ -1,0 +1,430 @@
+--- a/include/frozen_teacher_target_cache.h
++++ b/include/frozen_teacher_target_cache.h
+@@ -11,7 +11,10 @@
+                            options.dtype(torch::kBool).requires_grad(false))) {}
+ 
+   template <typename Evaluate>
+-  torch::Tensor get(const torch::Tensor& indices, Evaluate evaluate) {
++  torch::Tensor get(const torch::Tensor& indices, Evaluate evaluate, bool fully_cached = false) {
++    // The caller must have populated this complete set (or a superset) through
++    // get() earlier in this event. Unknown/resampled coverage stays lazy.
++    if (fully_cached) return getCached(indices);
+     torch::NoGradGuard no_grad;
+     auto missing = indices.index({~ready_.index_select(0, indices)});
+     if (missing.numel() > 0) {
+@@ -27,6 +30,12 @@
+     return values_.index_select(0, indices);
+   }
+ 
++  torch::Tensor getCached(const torch::Tensor& indices) const {
++    torch::NoGradGuard no_grad;
++    TORCH_CHECK(values_.defined(), "Teacher cache has not been populated");
++    return values_.index_select(0, indices);
++  }
++
+  private:
+   torch::Tensor ready_;
+   torch::Tensor values_;
+--- a/include/selector_cuda.h
++++ b/include/selector_cuda.h
+@@ -16,7 +16,10 @@
+ // Parameter order is the existing module registration order, never packed copies.
+ // Forward returns the eight ReLU activations followed by two-class logits.
+ std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,
+-    const std::vector<torch::Tensor>& parameters, Candidate candidate);
++    const std::vector<torch::Tensor>& parameters, Candidate candidate,
++    const std::vector<torch::Tensor>& spatial = {});
++std::vector<torch::Tensor> spatialForward(const std::vector<torch::Tensor>& inputs,
++    const std::vector<torch::Tensor>& parameters);
+ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     const std::vector<torch::Tensor>& parameters,
+     const std::vector<torch::Tensor>& activations, const torch::Tensor& upstream,
+@@ -25,4 +28,9 @@
+     const std::vector<torch::Tensor>& parameters, Candidate candidate,
+     BackwardStrategy strategy = BackwardStrategy::DirectFinalRelu);
+ 
++// Reuse only this call's spatial forward activations. Each ratio retains the
++// existing strict final GEMM and backward, including parameter-gradient sums.
++std::vector<torch::Tensor> networkMany(const std::vector<torch::Tensor>& inputs,
++    const std::vector<torch::Tensor>& ratios, const std::vector<torch::Tensor>& parameters);
++
+ }  // namespace selector_cuda
+--- a/src/change_distill.cpp
++++ b/src/change_distill.cpp
+@@ -36,20 +36,52 @@
+   return capture.mature_indices_before.slice(0, 0, 0);
+ }
+ 
++// Resolve membership on the host from one event-local ID table. Keep each
++// group's original GEMM shape and arithmetic, including its point ordering.
++class TargetTransport {
++ public:
++  explicit TargetTransport(const ChangeEvent& event) : groups_(event.correction_groups) {
++    if (!groups_.empty()) group_ids_ = event.correction_group_id.cpu().contiguous();
++  }
++
++  GaussianAttrState apply(GaussianAttrState target, const torch::Tensor& indices) const {
++    if (groups_.empty() || indices.numel() == 0) return target;
++    torch::NoGradGuard no_grad;
++    const auto host_indices = indices.cpu().contiguous();
++    const auto* ids = host_indices.data_ptr<int64_t>();
++    const auto* group_ids = group_ids_.data_ptr<int64_t>();
++    std::vector<std::vector<int64_t>> local(groups_.size());
++    for (int64_t i = 0; i < indices.numel(); ++i) {
++      const auto g = group_ids[ids[i]];
++      if (g >= 0) local[g].push_back(i);
++    }
++    std::vector<int64_t> packed;
++    packed.reserve(indices.numel());
++    for (const auto& group : local) packed.insert(packed.end(), group.begin(), group.end());
++    if (packed.empty()) return target;
++    // A single H2D copy, instead of one dynamic nonzero/synchronization per group.
++    const auto positions = torch::tensor(packed, torch::kLong).to(indices.device());
++    int64_t offset = 0;
++    for (size_t g = 0; g < groups_.size(); ++g) {
++      if (local[g].empty()) continue;
++      const auto positions_g = positions.slice(0, offset, offset + local[g].size());
++      offset += local[g].size();
++      const auto moved = applyGaussianTransform(target.select(positions_g), groups_[g]);
++      target = {target.xyz.index_copy(0, positions_g, moved.xyz),
++                target.log_scaling.index_copy(0, positions_g, moved.log_scaling),
++                target.rotation.index_copy(0, positions_g, moved.rotation)};
++    }
++    return target;
++  }
++
++ private:
++  const std::vector<CorrectionGroup>& groups_;
++  torch::Tensor group_ids_;
++};
++
+ GaussianAttrState transportTarget(GaussianAttrState target, const torch::Tensor& indices,
+-                                  const ChangeEvent& event) {
+-  torch::NoGradGuard no_grad;
+-  auto ids = event.correction_group_id.index_select(0, indices);
+-  for (std::size_t g = 0; g < event.correction_groups.size(); ++g) {
+-    auto local = torch::nonzero(ids == static_cast<int64_t>(g)).reshape({-1});
+-    if (local.numel() == 0) continue;
+-    auto moved = applyGaussianTransform(target.select(local), event.correction_groups[g]);
+-    // index_copy is out-of-place: never modify the frozen snapshot via aliases.
+-    target = {target.xyz.index_copy(0, local, moved.xyz),
+-              target.log_scaling.index_copy(0, local, moved.log_scaling),
+-              target.rotation.index_copy(0, local, moved.rotation)};
+-  }
+-  return target;
++                                  const TargetTransport& transport) {
++  return transport.apply(std::move(target), indices);
+ }
+ 
+ std::array<torch::Tensor, 3> tfErrors(const GaussianAttrState& student,
+@@ -61,21 +93,25 @@
+           (1.0 - (qs * qt).sum(1).abs().clamp(0.0, 1.0)).mean()};
+ }
+ 
+-torch::Tensor selectorLoss(improvements::selector::GumbelNetwork& student,
+-    const ChangeCapture& capture, const GaussianAttrState& current,
++torch::Tensor selectorLoss(const ChangeCapture& capture,
+     const torch::Tensor& indices, float ratio, double temperature,
+-    FrozenTeacherTargetCache& targets) {
+-  auto after = current.select(indices);
+-  auto ratios = torch::full({indices.numel(), 1}, ratio, after.xyz.options());
++    FrozenTeacherTargetCache& targets, bool fully_cached,
++    const torch::Tensor& probability) {
+   auto teacher = targets.get(indices, [&](const torch::Tensor& missing) {
+     auto before = capture.old_state.select(missing);
+     auto teacher_ratios = torch::full({missing.numel(), 1}, ratio, before.xyz.options());
+     return capture.teacher_selector.ptr()->forwardProbability(
+         before.xyz, before.rotation, before.log_scaling.exp(), teacher_ratios, temperature);
+-  });
+-  auto probability = student->forwardProbability(
++  }, fully_cached);
++  return (probability - teacher).abs().mean();
++}
++
++std::vector<torch::Tensor> selectorProbabilities(
++    improvements::selector::GumbelNetwork& student, const GaussianAttrState& current,
++    const torch::Tensor& indices, const std::vector<float>& ratios, double temperature) {
++  auto after = current.select(indices);
++  return student->forwardProbabilities(
+       after.xyz, after.rotation, after.log_scaling.exp(), ratios, temperature);
+-  return (probability - teacher).abs().mean();
+ }
+ 
+ // Stratified batches preserve separate population means. Tiny strata are reused
+@@ -173,15 +209,19 @@
+     // Keep exactly the same anchor audit set for pre/post metrics, even when
+     // later epochs resample their training anchors.
+     const auto audit_anchors = anchors;
+-    auto evaluate = [&](const torch::Tensor& indices) {
++    const bool all_anchors_cached = anchors.numel() == unaffected.numel();
++    auto evaluate = [&](const torch::Tensor& indices, bool fully_cached = false) {
+       torch::NoGradGuard no_grad;
+       if (indices.numel() == 0) return 0.0;
+       double total = 0.0;
+       for (int64_t begin = 0; begin < indices.numel(); begin += batch_size) {
+         auto batch = indices.slice(0, begin, std::min(begin + batch_size, indices.numel()));
++        const auto probabilities = selectorProbabilities(
++            context.selector, current, batch, context.ratios, context.temperature);
+         for (std::size_t r = 0; r < context.ratios.size(); ++r)
+-          total += selectorLoss(context.selector, capture, current, batch, context.ratios[r],
+-                                context.temperature, teacher_targets[r]).item<double>() * batch.numel();
++          total += selectorLoss(capture, batch, context.ratios[r],
++                                context.temperature, teacher_targets[r], fully_cached,
++                                probabilities[r]).item<double>() * batch.numel();
+       }
+       return total / (indices.numel() * ratio_count);
+     };
+@@ -221,14 +261,22 @@
+         optimizer->zero_grad();
+         auto main = stratumBatch(corrected, b, batches);
+         auto anchor = stratumBatch(anchors, b, batches);
++        const auto primary_probabilities = selectorProbabilities(
++            context.selector, current, main.first, context.ratios, context.temperature);
++        std::vector<torch::Tensor> anchor_probabilities;
++        if (anchor.first.numel() > 0 && config_.anchor_loss_weight > 0)
++          anchor_probabilities = selectorProbabilities(
++              context.selector, current, anchor.first, context.ratios, context.temperature);
+         auto total = torch::zeros({}, current.xyz.options());
+         for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+-          total = total + main.second * selectorLoss(context.selector, capture, current,
+-                          main.first, context.ratios[r], context.temperature, teacher_targets[r]);
++          total = total + main.second * selectorLoss(capture,
++                          main.first, context.ratios[r], context.temperature, teacher_targets[r], true,
++                          primary_probabilities[r]);
+           if (anchor.first.numel() > 0 && config_.anchor_loss_weight > 0)
+             total = total + config_.anchor_loss_weight * anchor.second *
+-                selectorLoss(context.selector, capture, current, anchor.first,
+-                             context.ratios[r], context.temperature, teacher_targets[r]);
++                selectorLoss(capture, anchor.first,
++                             context.ratios[r], context.temperature, teacher_targets[r],
++                             epoch == 0 || all_anchors_cached, anchor_probabilities[r]);
+         }
+         total = total * (config_.selector_weight / ratio_count);
+         TORCH_CHECK(torch::isfinite(total).item<bool>(), "Nonfinite Selector CD loss");
+@@ -240,8 +288,8 @@
+           ++report.selector_steps;
+         }
+       }
+-      report.selector_post = evaluate(selector_indices);
+-      report.anchor_post = evaluate(audit_anchors);
++      report.selector_post = evaluate(selector_indices, true);
++      report.anchor_post = evaluate(audit_anchors, true);
+       const double loss = weighted_loss(report.selector_post, report.anchor_post);
+       log_epoch(epoch + 1, report.selector_post, report.anchor_post,
+                 loss - previous_loss, report.selector_steps - steps_before);
+@@ -278,28 +326,29 @@
+     report.tf_count = tf_indices.numel();
+     const double diagonal = capture.old_aabb.diagonal().item<double>();
+     const std::array<double, 3> weights = {config_.position_weight, config_.scale_weight, config_.rotation_weight};
++    const TargetTransport transport(event);
+     std::vector<FrozenTeacherTargetCache> teacher_targets;
+     for (std::size_t r = 0; r < context.ratios.size(); ++r)
+       teacher_targets.emplace_back(capture.snapshot_count, current.xyz.options());
+-    auto errors = [&](const torch::Tensor& batch, std::size_t r) {
++    auto errors = [&](const torch::Tensor& batch, std::size_t r, bool fully_cached = false) {
+       const auto ratio = context.ratios[r];
+       auto packed = teacher_targets[r].get(batch, [&](const torch::Tensor& missing) {
+         auto target = transportTarget(capture.teacher_tf.ptr()->applyLogResidual(
+-            capture.old_state.select(missing), ratio), missing, event);
++            capture.old_state.select(missing), ratio), missing, transport);
+         return torch::cat({target.xyz, target.log_scaling, target.rotation}, 1);
+-      });
++      }, fully_cached);
+       GaussianAttrState target{packed.slice(1, 0, 3), packed.slice(1, 3, 6),
+                                packed.slice(1, 6, 10)};
+       return tfErrors(context.tf->applyLogResidual(current.select(batch), ratio), target, diagonal);
+     };
+-    auto evaluate = [&](const torch::Tensor& indices) {
++    auto evaluate = [&](const torch::Tensor& indices, bool fully_cached = false) {
+       torch::NoGradGuard no_grad;
+       std::array<double, 3> sums{};
+       if (indices.numel() == 0) return sums;
+       for (int64_t begin = 0; begin < indices.numel(); begin += batch_size) {
+         auto batch = indices.slice(0, begin, std::min(begin + batch_size, indices.numel()));
+         for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+-          auto loss = errors(batch, r);
++          auto loss = errors(batch, r, fully_cached);
+           for (int j = 0; j < 3; ++j) sums[j] += loss[j].item<double>() * batch.numel();
+         }
+       }
+@@ -348,7 +397,7 @@
+           auto batch = indices.slice(0, begin, std::min(begin + batch_size, indices.numel()));
+           auto total = torch::zeros({}, current.xyz.options());
+           for (std::size_t r = 0; r < context.ratios.size(); ++r) {
+-            auto loss = errors(batch, r);
++            auto loss = errors(batch, r, true);
+             for (int j = 0; j < 3; ++j) total = total + weights[j] * loss[j];
+           }
+           total = total / ratio_count;
+@@ -361,7 +410,7 @@
+             ++report.tf_steps;
+           }
+         }
+-        post = evaluate(tf_indices);
++        post = evaluate(tf_indices, true);
+         const double loss = weighted_loss(post);
+         log_epoch(epoch + 1, post, loss - previous_loss, report.tf_steps - steps_before);
+         previous_loss = loss;
+@@ -372,7 +421,7 @@
+                 << " reason=no_in_domain_gaussians skipped_outside=" << report.skipped_outside
+                 << std::endl;
+     }
+-    const auto audit_post = evaluate(audit);
++    const auto audit_post = evaluate(audit, true);
+     report.tf_pre = weighted_loss(pre);
+     report.tf_post = weighted_loss(post);
+     std::ostringstream summary;
+--- a/src/selector_cuda.cpp
++++ b/src/selector_cuda.cpp
+@@ -8,9 +8,13 @@
+   static torch::Tensor forward(torch::autograd::AutogradContext* ctx,
+                                at::TensorList tensors, int64_t candidate, int64_t strategy) {
+     auto in=tensors.vec();
+-    TORCH_CHECK(in.size()==22,"Selector expects four inputs and eighteen parameters");
++    TORCH_CHECK(in.size()==22 || in.size()==28,"Selector expects inputs, parameters and optional spatial features");
++    const auto extra=in.size()-22;
++    const std::vector<torch::Tensor> spatial(in.begin()+22,in.end());
++    in.resize(22);
+     auto stages=selector_cuda::forward({in.begin(),in.begin()+4},
+-        {in.begin()+4,in.end()},static_cast<Candidate>(candidate));
++        {in.begin()+4,in.end()},static_cast<Candidate>(candidate),spatial);
++    ctx->saved_data["extra"]=static_cast<int64_t>(extra);
+     ctx->saved_data["strategy"]=strategy;
+     for(int i=0;i<8;++i) {
+       // Second-layer activations are already present in the packed features.
+@@ -29,6 +33,9 @@
+     auto result=selector_cuda::backward({saved.begin(),saved.begin()+4},
+         {saved.begin()+4,saved.begin()+22},{saved.begin()+22,saved.end()},gradients[0].contiguous(),
+         static_cast<BackwardStrategy>(ctx->saved_data["strategy"].toInt()));
++    // The shared activations are internal saved values, with derivatives routed
++    // through the original parameter inputs of each ratio's custom Function.
++    for(int64_t i=0;i<ctx->saved_data["extra"].toInt();++i) result.push_back(torch::Tensor());
+     result.push_back(torch::Tensor()); // Candidate enum has no gradient.
+     result.push_back(torch::Tensor()); // Backward strategy has no gradient.
+     return result;
+@@ -42,4 +49,21 @@
+   tensors.insert(tensors.end(),parameters.begin(),parameters.end());
+   return NetworkFunction::apply(at::TensorList(tensors),static_cast<int64_t>(candidate),static_cast<int64_t>(strategy));
+ }
++
++std::vector<torch::Tensor> networkMany(const std::vector<torch::Tensor>& inputs,
++    const std::vector<torch::Tensor>& ratios,const std::vector<torch::Tensor>& parameters) {
++  TORCH_CHECK(inputs.size()==3 && !ratios.empty(),"Selector shared inputs/ratios mismatch");
++  auto first=inputs;first.push_back(ratios.front());
++  std::vector<torch::Tensor> spatial;
++  { torch::NoGradGuard no_grad; spatial=spatialForward(first,parameters); }
++  std::vector<torch::Tensor> result;
++  for(const auto& ratio:ratios) {
++    auto tensors=inputs;tensors.push_back(ratio);
++    tensors.insert(tensors.end(),parameters.begin(),parameters.end());
++    tensors.insert(tensors.end(),spatial.begin(),spatial.end());
++    result.push_back(NetworkFunction::apply(at::TensorList(tensors),
++        static_cast<int64_t>(Candidate::CublasStrict),static_cast<int64_t>(BackwardStrategy::DirectFinalRelu)));
++  }
++  return result;
++}
+ }  // namespace selector_cuda
+--- a/src/selector_cuda.cu
++++ b/src/selector_cuda.cu
+@@ -235,12 +235,16 @@
+ }  // namespace
+ 
+ std::vector<torch::Tensor> forward(const std::vector<torch::Tensor>& inputs,
+-    const std::vector<torch::Tensor>& p,Candidate candidate) {
++    const std::vector<torch::Tensor>& p,Candidate candidate,
++    const std::vector<torch::Tensor>& spatial) {
+   validate(inputs,p);c10::cuda::CUDAGuard guard(inputs[0].device());
++  TORCH_CHECK(spatial.empty() || (spatial.size()==6 && candidate==Candidate::CublasStrict),
++              "Shared Selector features require CublasStrict");
+   std::vector<torch::Tensor> x;for(auto t:inputs)x.push_back(t.contiguous());
+   const int n=x[0].size(0);auto options=x[0].options().requires_grad(false);
+   std::vector<torch::Tensor> h;
+-  for(int b=0;b<4;++b)for(int l=0;l<2;++l)h.push_back(torch::empty({x[b].size(0),32},options));
++  for(int b=0;b<4;++b)for(int l=0;l<2;++l)
++    h.push_back(b<3 && !spatial.empty() ? spatial[b*2+l] : torch::empty({x[b].size(0),32},options));
+   h.push_back(torch::empty({n,2},options));
+   linear(x[3],p[12],p[13],h[6]);linear(h[6],p[14],p[15],h[7]);
+   if(candidate==Candidate::Warp) {
+@@ -250,7 +254,8 @@
+     a.ratio=h[7].data_ptr<float>();a.ratio_rows=h[7].size(0);a.out=h[8].data_ptr<float>();
+     if(n)warpNetwork<<<(n+3)/4,128,0,stream()>>>(a,n);
+   } else {
+-    for(int b=0;b<3;++b){linear(x[b],p[b*4],p[b*4+1],h[b*2]);linear(h[b*2],p[b*4+2],p[b*4+3],h[b*2+1]);}
++    if(spatial.empty())
++      for(int b=0;b<3;++b){linear(x[b],p[b*4],p[b*4+1],h[b*2]);linear(h[b*2],p[b*4+2],p[b*4+3],h[b*2+1]);}
+     if(candidate==Candidate::CublasStrict) {
+       // Split final GEMMs failed the exact tie fixture. Preserve the legacy
+       // 128-term GEMM and its reduction layout. This candidate intentionally
+@@ -280,6 +285,20 @@
+   }
+   C10_CUDA_KERNEL_LAUNCH_CHECK();return h;
+ }
++std::vector<torch::Tensor> spatialForward(const std::vector<torch::Tensor>& inputs,
++    const std::vector<torch::Tensor>& p) {
++  validate(inputs,p);c10::cuda::CUDAGuard guard(inputs[0].device());
++  std::vector<torch::Tensor> h;
++  for(int b=0;b<3;++b) {
++    auto x=inputs[b].contiguous();
++    h.push_back(torch::empty({x.size(0),32},x.options().requires_grad(false)));
++    h.push_back(torch::empty_like(h.back()));
++    linear(x,p[b*4],p[b*4+1],h[b*2]);
++    linear(h[b*2],p[b*4+2],p[b*4+3],h[b*2+1]);
++  }
++  C10_CUDA_KERNEL_LAUNCH_CHECK();return h;
++}
++
+ std::vector<torch::Tensor> backward(const std::vector<torch::Tensor>& inputs,
+     const std::vector<torch::Tensor>& p,const std::vector<torch::Tensor>& h,
+     const torch::Tensor& upstream,BackwardStrategy strategy) {
+--- a/improvements/selector/gumbel_network.h
++++ b/improvements/selector/gumbel_network.h
+@@ -119,6 +119,27 @@
+     return teacher;
+   }
+ 
++  std::vector<torch::Tensor> forwardProbabilities(const torch::Tensor& position,
++      const torch::Tensor& rotation, const torch::Tensor& scale,
++      const std::vector<float>& ratios, double tau = 1.0) {
++    std::vector<torch::Tensor> result;
++#ifdef CARTGS_EXPERIMENTAL_SELECTOR_CUDA
++    if (selector_backend_ == "cuda" && ratios.size() > 1) {
++      std::vector<torch::Tensor> ratio_inputs;
++      for (float ratio : ratios)
++        ratio_inputs.push_back(torch::full({position.size(0), 1}, ratio, position.options()));
++      for (const auto& logits : selector_cuda::networkMany(
++               {position, rotation, scale}, ratio_inputs, parameters()))
++        result.push_back((logits / tau).softmax(-1).select(1, 1));
++      return result;
++    }
++#endif
++    for (float ratio : ratios)
++      result.push_back(forwardProbability(position, rotation, scale,
++          torch::full({position.size(0), 1}, ratio, position.options()), tau));
++    return result;
++  }
++
+  private:
+   torch::Tensor logitsFor(const torch::Tensor& position,
+                           const torch::Tensor& rotation,
+--- a/tests/frozen_teacher_target_cache_test.cpp
++++ b/tests/frozen_teacher_target_cache_test.cpp
+@@ -31,6 +31,19 @@
+   check(evaluated == 3 && torch::equal(repeated, input.detach().index_select(
+       0, torch::tensor({2, 0}, ids)) * 2.0), "Cache aliases returned batches");
+ 
++  auto duplicates = torch::tensor({2, 0, 2, 3}, ids);
++  const auto direct = cache.getCached(duplicates);
++  const auto generic = cache.get(duplicates, teacher);
++  check(torch::equal(direct, generic) && evaluated == 3,
++        "Proven cache hits differ for repeated IDs");
++  auto fast = cache.get(duplicates, [&](const torch::Tensor&) -> torch::Tensor {
++    throw std::runtime_error("Fully cached path evaluated teacher");
++  }, true);
++  check(torch::equal(fast, direct), "Explicit coverage contract mismatch");
++  auto partial = cache.get(torch::tensor({1, 2, 1}, ids), teacher);
++  check(evaluated == 5 && torch::equal(partial, input.detach().index_select(
++      0, torch::tensor({1, 2, 1}, ids)) * 2.0), "Duplicate lazy misses mismatch");
++
+   // Cached teacher targets must preserve the uncached Student loss and gradient.
+   auto student = torch::ones_like(second).set_requires_grad(true);
+   auto cached_loss = (student - second).abs().mean();

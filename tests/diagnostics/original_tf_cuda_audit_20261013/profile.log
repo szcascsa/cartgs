@@ -1,0 +1,13 @@
+native mirror parity passed
+STAGE:2026-10-13 21:26:23 3080853:3080853 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+STAGE:2026-10-13 21:26:24 3080853:3080853 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2026-10-13 21:26:24 3080853:3080853 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+profile core Counter({'backward': 729, 'optimizer': 624, 'forward': 243, 'loss': 21})
+STAGE:2026-10-13 21:26:26 3080853:3080853 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+STAGE:2026-10-13 21:26:26 3080853:3080853 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2026-10-13 21:26:26 3080853:3080853 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+profile regularized Counter({'backward': 1836, 'optimizer': 624, 'regularization': 261, 'forward': 243, 'loss': 21})
+STAGE:2026-10-13 21:26:30 3080853:3080853 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+STAGE:2026-10-13 21:26:30 3080853:3080853 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2026-10-13 21:26:30 3080853:3080853 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+profile preview Counter({'backward': 1836, 'optimizer': 780, 'regularization': 261, 'forward': 243, 'loss': 21})

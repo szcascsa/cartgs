@@ -20,6 +20,7 @@
  */
 
 #include "MapPoint.h"
+#include "GIAssociationState.h"
 
 #include <mutex>
 
@@ -250,6 +251,7 @@ void MapPoint::AddObservation(KeyFrame* pKF, int idx) {
 }
 
 void MapPoint::EraseObservation(KeyFrame* pKF) {
+  GIAssociationState::Write gi_write;
   bool bBad = false;
   {
     unique_lock<mutex> lock(mMutexFeatures);
@@ -290,6 +292,8 @@ int MapPoint::Observations() {
 }
 
 void MapPoint::SetBadFlag() {
+  GIAssociationState::Write gi_write;
+  GIAssociationState::invalidateBadPoints();
   map<KeyFrame*, tuple<int, int>> obs;
   {
     unique_lock<mutex> lock1(mMutexFeatures);
@@ -321,7 +325,9 @@ MapPoint* MapPoint::GetReplaced() {
 }
 
 void MapPoint::Replace(MapPoint* pMP) {
+  GIAssociationState::Write gi_write;
   if (pMP->mnId == this->mnId) return;
+  GIAssociationState::invalidateBadPoints();
 
   int nvisible, nfound;
   map<KeyFrame*, tuple<int, int>> obs;
@@ -375,6 +381,11 @@ bool MapPoint::isBad() {
   unique_lock<mutex> lock2(mMutexPos, std::defer_lock);
   lock(lock1, lock2);
 
+  return mbBad;
+}
+
+bool MapPoint::GIBad() const {
+  GIAssociationState::assertReading();
   return mbBad;
 }
 

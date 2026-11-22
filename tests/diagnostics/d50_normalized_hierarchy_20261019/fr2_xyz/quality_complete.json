@@ -1,0 +1,9 @@
+{
+  "all_passed": true,
+  "baseline_rerenders": 624,
+  "new_C32_P32_renders": 312,
+  "total_renders": 936,
+  "cases": 24,
+  "optimizer_updates": 0,
+  "no_F1_F3_renders": true
+}

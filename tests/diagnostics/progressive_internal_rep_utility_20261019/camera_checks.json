@@ -1,0 +1,26 @@
+{
+  "all_passed": true,
+  "checks": [
+    {
+      "scene": "fr1_room",
+      "camera": "/home/prmi/zwj/second-scene-strong-go-20261018/inputs/fr1_room/cameras.pt",
+      "sha256": "90e74ad824dddcdd2a740d004082d747f170ce912aaaff07e99f6c1c9e5caabf",
+      "historical_expected": "90e74ad824dddcdd2a740d004082d747f170ce912aaaff07e99f6c1c9e5caabf",
+      "exact": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "camera": "/home/prmi/zwj/hierarchical-fr1-xyz-same-k-20261019/inputs/fr1_xyz/cameras.pt",
+      "sha256": "684882bed264ddfc1dfdaca74eab0168f9b7d255e120e3d18aa2d3cdfb5fc074",
+      "historical_expected": "684882bed264ddfc1dfdaca74eab0168f9b7d255e120e3d18aa2d3cdfb5fc074",
+      "exact": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "camera": "/home/prmi/zwj/hierarchical-fr2-xyz-same-k-20261019/inputs/fr2_xyz/cameras.pt",
+      "sha256": "e145e03f8c787663df2a17418240c8262696ffab6beb19e50ac0639d0c98057e",
+      "historical_expected": "e145e03f8c787663df2a17418240c8262696ffab6beb19e50ac0639d0c98057e",
+      "exact": true
+    }
+  ]
+}

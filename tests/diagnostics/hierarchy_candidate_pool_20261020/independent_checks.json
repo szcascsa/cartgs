@@ -1,0 +1,63 @@
+{
+  "all_passed": true,
+  "checks": [
+    {
+      "scene": "fr1_room",
+      "F": 13715,
+      "M": 13789,
+      "node_rep_occurrences": 16769,
+      "structural_union_exact": true,
+      "Raw_C_sort_exact": true,
+      "source_tie_exact": true,
+      "same_K_nested_exact": true,
+      "capacity_no_refill": true
+    },
+    {
+      "scene": "fr1_xyz",
+      "F": 10889,
+      "M": 10931,
+      "node_rep_occurrences": 13055,
+      "structural_union_exact": true,
+      "Raw_C_sort_exact": true,
+      "source_tie_exact": true,
+      "same_K_nested_exact": true,
+      "capacity_no_refill": true
+    },
+    {
+      "scene": "fr2_xyz",
+      "F": 11448,
+      "M": 11494,
+      "node_rep_occurrences": 14232,
+      "structural_union_exact": true,
+      "Raw_C_sort_exact": true,
+      "source_tie_exact": true,
+      "same_K_nested_exact": true,
+      "capacity_no_refill": true
+    }
+  ],
+  "synthetic": [
+    "cross_level_duplicate_union",
+    "multi_hot_identity",
+    "Raw_C_scoring",
+    "stable_source_tie",
+    "capacity_insufficient_no_refill"
+  ],
+  "no_GT_or_quality_read": true,
+  "pre_render_SHA": {
+    "fr1_room": {
+      "selected_sets.npz": "b8bec2e154fedeadaf1205daa8d62f175ca0363a073debada848154c92eee84f",
+      "pool_rankings.npz": "6b4fdbc8b86c737bd9f30e264ced2b56f059639ef5e88027e9fc8e8e93354e71",
+      "candidate_pool_rows.csv": "5369729225e9cc781601e771372a9fed752556fb5b208155f50d8a0b851c162d"
+    },
+    "fr1_xyz": {
+      "selected_sets.npz": "8d2b298f09f837626139bf3d89b850df8e553cb0c7bc11145ddefe68cf452765",
+      "pool_rankings.npz": "cfc9cec122b7c3154de50900208d85745f532e731a2f54b08265eeed759c1c6e",
+      "candidate_pool_rows.csv": "8b462272dcc5dd2e207dc969de0f30366e5f900ae4c837d43119aeb92cf5a90c"
+    },
+    "fr2_xyz": {
+      "selected_sets.npz": "71f68c1f2725386abec24276013bdb2357322d5d86a0106b55bbe91f8db5ebcd",
+      "pool_rankings.npz": "3d766eb7d947b5220ba0037af4d9e8713bf561f7e339fa2731c8440a8381cb39",
+      "candidate_pool_rows.csv": "046dd7da65ef83cc740071f3bb3a9c6b121b356d45e03495d687974c1bb70004"
+    }
+  }
+}

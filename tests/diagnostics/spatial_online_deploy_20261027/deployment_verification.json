@@ -1,0 +1,46 @@
+{
+  "phase": "complete",
+  "pass_": true,
+  "finished": 1793083749.080349,
+  "source_files_verified": 4395,
+  "base_commit": "74fc1524d8d6345eda8e732a1da2efa9a4934951",
+  "source_is_uncommitted_working_tree": true,
+  "production_default": "spatial_localxyz",
+  "production_cuda": "live K-row input+Fourier+FiLM and existing decode14; Master gradients preserved",
+  "targets": [
+    "spatial_compensation_test",
+    "spatial_mapping_test",
+    "tum_rgbd",
+    "tum_mono",
+    "replica_rgbd",
+    "replica_mono",
+    "vector_mono",
+    "vector_stereo",
+    "view_result",
+    "train_colmap"
+  ],
+  "binary_sha256": {
+    "spatial_compensation_test": "3b1a7cdf0a03e02a773fcc89adc049b5942d0bb7b2ac2d86a80d65fc8ca07a11",
+    "spatial_mapping_test": "b6ef96d749dbd114c2896c633251947c2fc7fa2f8ef063ae536e571b22739dfa",
+    "tum_rgbd": "a6388235fe9fe0eed32af22fd0dd05d8211847dacb814a0b632d35f1d4f2e711",
+    "tum_mono": "22197611ff49d37204f51d26083ffc04e1977ccafdc5f0f516dc57adb7eb2439",
+    "replica_rgbd": "2596a10e92eea4836883502d1b4d911e37be07b63e921b668ddcb72d436e615a",
+    "replica_mono": "0df94f48eb1902d260f8334ddba4c666da68fe24a653691ac4dc7780487c774a",
+    "vector_mono": "4447e8d05b84e28a55b98f1db833a9f1fd8ac2c71b7d521519a8ffd679d612c1",
+    "vector_stereo": "1194de924c95a2c10e30f0083acb2a618f3807e2eb9c9ccb8d0e30cc2619b025",
+    "view_result": "20780ebdf07362c34079befeac134ed67d0d98cee98a1cc1700b908d26163390",
+    "train_colmap": "d84da90a1dcb5d2d64c844da3ee137e64f31275f0abfd36badb1f78039ac4551"
+  },
+  "library_sha256": {
+    "libgaussian_viewer.so": "3e23b00a80fdc77465907bf9084b245c0d3483fa5fcd12a253c188ac97141fce",
+    "libgaussian_mapper.so": "fc68916f824b733f286bcfa306956794141255cae1e0a82d83473f350b5b443e"
+  },
+  "backup": "/home/prmi/zwj/spatial-online-deploy-20261027/backup",
+  "online_runs": [
+    "online_spatial",
+    "online_live_fused"
+  ],
+  "commit": false,
+  "stage": false,
+  "push": false
+}

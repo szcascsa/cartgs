@@ -1,0 +1,50 @@
+{
+  "attribute_cpu": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "attribute_python_cpu": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "attribute_cuda": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "attribute_python_cuda": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "legacy_anchor_cpu": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "legacy_python_cpu": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "legacy_anchor_cuda": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "legacy_python_cuda": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "old_anchor_mapping": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "attribute_mapping": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "old_anchor_cd": {
+    "exit_code": 0,
+    "passed": true
+  },
+  "attribute_cd": {
+    "exit_code": 0,
+    "passed": true
+  }
+}

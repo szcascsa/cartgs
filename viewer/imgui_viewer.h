@@ -52,12 +52,15 @@ class Settings;
 
 }  // namespace ORB_SLAM3
 
+class BudgetViewerClient;
+
 class ImGuiViewer {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   ImGuiViewer(std::shared_ptr<ORB_SLAM3::System> pSLAM,
               std::shared_ptr<GaussianMapper> pGausMapper,
               bool training = true);
+  explicit ImGuiViewer(std::shared_ptr<BudgetViewerClient> budget_client);
   void readConfigFromFile(std::filesystem::path cfg_path);
 
   void run();
@@ -70,10 +73,12 @@ class ImGuiViewer {
   void mouseWheel();
   void mouseDrag();
   void keyboardEvent();
+  void runBudget();
 
  protected:
   std::shared_ptr<ORB_SLAM3::System> pSLAM_;
   std::shared_ptr<GaussianMapper> pGausMapper_;
+  std::shared_ptr<BudgetViewerClient> budget_client_;
 
   ORB_SLAM3::FrameDrawer* pSlamFrameDrawer_;
   ORB_SLAM3::MapDrawer* pSlamMapDrawer_;

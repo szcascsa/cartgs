@@ -1,0 +1,13 @@
+{
+  "all_passed": true,
+  "HEAD_unchanged": "3cfccc4a92c8e1ec6c3d491dac1c9efbf151daeb",
+  "production_source_unchanged": true,
+  "pre_registration_unchanged": true,
+  "independent_aggregate_paired_and_gates": true,
+  "same_K_and_nested": true,
+  "F1": false,
+  "F2": true,
+  "F3": true,
+  "committed": false,
+  "pushed": false
+}

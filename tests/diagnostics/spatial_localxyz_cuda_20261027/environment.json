@@ -1,0 +1,17 @@
+{
+  "torch": "2.3.1+cu118",
+  "triton": "2.3.1",
+  "device": "NVIDIA GeForce RTX 3090",
+  "tf32": false,
+  "executables": {
+    "nvcc": null,
+    "nsys": null,
+    "ncu": null,
+    "g++": "/usr/bin/g++"
+  },
+  "reference_sha": {
+    "neural.py": "4ebfc843094b614d559f0ba96d0df6a3b4786e8d6ddc3c5a6a69bf1f7d71e713",
+    "run.py": "7d2957f1f4c4b843c044d4d457759312b08be8433d700f7b954cbdb486c5e9d9",
+    "matrix_runtime.py": "9ae25a86d702050c55db2255e6f6cc1f65b4cccd359341166f855f7bcb822025"
+  }
+}

@@ -1,0 +1,956 @@
+{
+  "stages": {
+    "protection": {
+      "kernels_per_iteration": 53.0,
+      "kernel_active_ms": 0.2050888,
+      "copies_per_iteration": 2.0,
+      "memsets_per_iteration": 2.0,
+      "nvtx_host_ms": 0.9611538000000001,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.870241,
+          "active_ms": 0.203293,
+          "gap_ms": 0.666948
+        },
+        {
+          "span_ms": 1.408257,
+          "active_ms": 0.220992,
+          "gap_ms": 1.187265
+        },
+        {
+          "span_ms": 0.715745,
+          "active_ms": 0.194335,
+          "gap_ms": 0.52141
+        },
+        {
+          "span_ms": 0.729697,
+          "active_ms": 0.194336,
+          "gap_ms": 0.535361
+        },
+        {
+          "span_ms": 0.792993,
+          "active_ms": 0.198911,
+          "gap_ms": 0.594082
+        },
+        {
+          "span_ms": 0.689888,
+          "active_ms": 0.194304,
+          "gap_ms": 0.495584
+        },
+        {
+          "span_ms": 0.805057,
+          "active_ms": 0.309952,
+          "gap_ms": 0.495105
+        },
+        {
+          "span_ms": 0.670753,
+          "active_ms": 0.202631,
+          "gap_ms": 0.468122
+        },
+        {
+          "span_ms": 0.744833,
+          "active_ms": 0.19235,
+          "gap_ms": 0.552483
+        },
+        {
+          "span_ms": 0.799553,
+          "active_ms": 0.20042,
+          "gap_ms": 0.599133
+        }
+      ]
+    },
+    "features": {
+      "kernels_per_iteration": 8.0,
+      "kernel_active_ms": 0.0844708,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.1586576,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.152832,
+          "active_ms": 0.08896,
+          "gap_ms": 0.063872
+        },
+        {
+          "span_ms": 0.088608,
+          "active_ms": 0.083199,
+          "gap_ms": 0.005409
+        },
+        {
+          "span_ms": 0.088288,
+          "active_ms": 0.0824,
+          "gap_ms": 0.005888
+        },
+        {
+          "span_ms": 0.14656,
+          "active_ms": 0.087744,
+          "gap_ms": 0.058816
+        },
+        {
+          "span_ms": 0.088641,
+          "active_ms": 0.083522,
+          "gap_ms": 0.005119
+        },
+        {
+          "span_ms": 0.132161,
+          "active_ms": 0.082528,
+          "gap_ms": 0.049633
+        },
+        {
+          "span_ms": 0.089856,
+          "active_ms": 0.08384,
+          "gap_ms": 0.006016
+        },
+        {
+          "span_ms": 0.087232,
+          "active_ms": 0.082048,
+          "gap_ms": 0.005184
+        },
+        {
+          "span_ms": 0.139776,
+          "active_ms": 0.085888,
+          "gap_ms": 0.053888
+        },
+        {
+          "span_ms": 0.089697,
+          "active_ms": 0.084579,
+          "gap_ms": 0.005118
+        }
+      ]
+    },
+    "network": {
+      "kernels_per_iteration": 19.0,
+      "kernel_active_ms": 4.3945232,
+      "copies_per_iteration": 1.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.5123248,
+      "per_iteration_spans": [
+        {
+          "span_ms": 4.515941,
+          "active_ms": 4.323492,
+          "gap_ms": 0.192449
+        },
+        {
+          "span_ms": 5.064164,
+          "active_ms": 4.830854,
+          "gap_ms": 0.23331
+        },
+        {
+          "span_ms": 4.490692,
+          "active_ms": 4.296452,
+          "gap_ms": 0.19424
+        },
+        {
+          "span_ms": 4.15002,
+          "active_ms": 3.977349,
+          "gap_ms": 0.172671
+        },
+        {
+          "span_ms": 4.485092,
+          "active_ms": 4.292517,
+          "gap_ms": 0.192575
+        },
+        {
+          "span_ms": 4.137892,
+          "active_ms": 3.980902,
+          "gap_ms": 0.15699
+        },
+        {
+          "span_ms": 5.467846,
+          "active_ms": 5.294439,
+          "gap_ms": 0.173407
+        },
+        {
+          "span_ms": 4.942821,
+          "active_ms": 4.707333,
+          "gap_ms": 0.235488
+        },
+        {
+          "span_ms": 4.158564,
+          "active_ms": 3.980515,
+          "gap_ms": 0.178049
+        },
+        {
+          "span_ms": 4.481764,
+          "active_ms": 4.287685,
+          "gap_ms": 0.194079
+        }
+      ]
+    },
+    "gumbel": {
+      "kernels_per_iteration": 3.0,
+      "kernel_active_ms": 0.0124418,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.0570004,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.014304,
+          "active_ms": 0.0128,
+          "gap_ms": 0.001504
+        },
+        {
+          "span_ms": 0.0144,
+          "active_ms": 0.012097,
+          "gap_ms": 0.002303
+        },
+        {
+          "span_ms": 0.014496,
+          "active_ms": 0.013025,
+          "gap_ms": 0.001471
+        },
+        {
+          "span_ms": 0.013952,
+          "active_ms": 0.012512,
+          "gap_ms": 0.00144
+        },
+        {
+          "span_ms": 0.013728,
+          "active_ms": 0.012384,
+          "gap_ms": 0.001344
+        },
+        {
+          "span_ms": 0.015104,
+          "active_ms": 0.012768,
+          "gap_ms": 0.002336
+        },
+        {
+          "span_ms": 0.013664,
+          "active_ms": 0.012192,
+          "gap_ms": 0.001472
+        },
+        {
+          "span_ms": 0.013696,
+          "active_ms": 0.012192,
+          "gap_ms": 0.001504
+        },
+        {
+          "span_ms": 0.013888,
+          "active_ms": 0.012384,
+          "gap_ms": 0.001504
+        },
+        {
+          "span_ms": 0.014368,
+          "active_ms": 0.012064,
+          "gap_ms": 0.002304
+        }
+      ]
+    },
+    "probability": {
+      "kernels_per_iteration": 4.0,
+      "kernel_active_ms": 0.0193503,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.0710103,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.021696,
+          "active_ms": 0.018944,
+          "gap_ms": 0.002752
+        },
+        {
+          "span_ms": 0.022465,
+          "active_ms": 0.019487,
+          "gap_ms": 0.002978
+        },
+        {
+          "span_ms": 0.021568,
+          "active_ms": 0.019392,
+          "gap_ms": 0.002176
+        },
+        {
+          "span_ms": 0.021024,
+          "active_ms": 0.018912,
+          "gap_ms": 0.002112
+        },
+        {
+          "span_ms": 0.02224,
+          "active_ms": 0.019392,
+          "gap_ms": 0.002848
+        },
+        {
+          "span_ms": 0.023008,
+          "active_ms": 0.019872,
+          "gap_ms": 0.003136
+        },
+        {
+          "span_ms": 0.0208,
+          "active_ms": 0.018688,
+          "gap_ms": 0.002112
+        },
+        {
+          "span_ms": 0.021056,
+          "active_ms": 0.018976,
+          "gap_ms": 0.00208
+        },
+        {
+          "span_ms": 0.021312,
+          "active_ms": 0.019104,
+          "gap_ms": 0.002208
+        },
+        {
+          "span_ms": 0.02288,
+          "active_ms": 0.020736,
+          "gap_ms": 0.002144
+        }
+      ]
+    },
+    "row_argmax": {
+      "kernels_per_iteration": 1.0,
+      "kernel_active_ms": 0.011216,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.0292974,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.0112,
+          "active_ms": 0.0112,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011168,
+          "active_ms": 0.011168,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.01104,
+          "active_ms": 0.01104,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011168,
+          "active_ms": 0.011168,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011072,
+          "active_ms": 0.011072,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011168,
+          "active_ms": 0.011168,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011104,
+          "active_ms": 0.011104,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011552,
+          "active_ms": 0.011552,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.011008,
+          "active_ms": 0.011008,
+          "gap_ms": 0.0
+        },
+        {
+          "span_ms": 0.01168,
+          "active_ms": 0.01168,
+          "gap_ms": 0.0
+        }
+      ]
+    },
+    "mask": {
+      "kernels_per_iteration": 11.0,
+      "kernel_active_ms": 0.042121900000000004,
+      "copies_per_iteration": 1.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.1788612,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.054496,
+          "active_ms": 0.045952,
+          "gap_ms": 0.008544
+        },
+        {
+          "span_ms": 0.054432,
+          "active_ms": 0.046336,
+          "gap_ms": 0.008096
+        },
+        {
+          "span_ms": 0.054721,
+          "active_ms": 0.045891,
+          "gap_ms": 0.00883
+        },
+        {
+          "span_ms": 0.053824,
+          "active_ms": 0.04576,
+          "gap_ms": 0.008064
+        },
+        {
+          "span_ms": 0.054496,
+          "active_ms": 0.046432,
+          "gap_ms": 0.008064
+        },
+        {
+          "span_ms": 0.053568,
+          "active_ms": 0.045696,
+          "gap_ms": 0.007872
+        },
+        {
+          "span_ms": 0.054336,
+          "active_ms": 0.045088,
+          "gap_ms": 0.009248
+        },
+        {
+          "span_ms": 0.054816,
+          "active_ms": 0.045472,
+          "gap_ms": 0.009344
+        },
+        {
+          "span_ms": 0.053248,
+          "active_ms": 0.04528,
+          "gap_ms": 0.007968
+        },
+        {
+          "span_ms": 0.053376,
+          "active_ms": 0.045408,
+          "gap_ms": 0.007968
+        }
+      ]
+    },
+    "compact_indices": {
+      "kernels_per_iteration": 5.0,
+      "kernel_active_ms": 0.020266,
+      "copies_per_iteration": 1.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 3.9792095,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.073952,
+          "active_ms": 0.021504,
+          "gap_ms": 0.052448
+        },
+        {
+          "span_ms": 0.67296,
+          "active_ms": 0.022496,
+          "gap_ms": 0.650464
+        },
+        {
+          "span_ms": 0.211233,
+          "active_ms": 0.021507,
+          "gap_ms": 0.189726
+        },
+        {
+          "span_ms": 0.057248,
+          "active_ms": 0.020576,
+          "gap_ms": 0.036672
+        },
+        {
+          "span_ms": 0.203296,
+          "active_ms": 0.021088,
+          "gap_ms": 0.182208
+        },
+        {
+          "span_ms": 0.193376,
+          "active_ms": 0.024768,
+          "gap_ms": 0.168608
+        },
+        {
+          "span_ms": 0.698144,
+          "active_ms": 0.023041,
+          "gap_ms": 0.675103
+        },
+        {
+          "span_ms": 0.19376,
+          "active_ms": 0.020256,
+          "gap_ms": 0.173504
+        },
+        {
+          "span_ms": 0.055681,
+          "active_ms": 0.020929,
+          "gap_ms": 0.034752
+        },
+        {
+          "span_ms": 0.198528,
+          "active_ms": 0.0208,
+          "gap_ms": 0.177728
+        }
+      ]
+    },
+    "gather": {
+      "kernels_per_iteration": 8.0,
+      "kernel_active_ms": 0.0351394,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 0.1436894,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.122016,
+          "active_ms": 0.03264,
+          "gap_ms": 0.089376
+        },
+        {
+          "span_ms": 0.038944,
+          "active_ms": 0.033888,
+          "gap_ms": 0.005056
+        },
+        {
+          "span_ms": 0.038528,
+          "active_ms": 0.033504,
+          "gap_ms": 0.005024
+        },
+        {
+          "span_ms": 0.115328,
+          "active_ms": 0.032768,
+          "gap_ms": 0.08256
+        },
+        {
+          "span_ms": 0.038944,
+          "active_ms": 0.033696,
+          "gap_ms": 0.005248
+        },
+        {
+          "span_ms": 0.05648,
+          "active_ms": 0.049984,
+          "gap_ms": 0.006496
+        },
+        {
+          "span_ms": 0.038657,
+          "active_ms": 0.03392,
+          "gap_ms": 0.004737
+        },
+        {
+          "span_ms": 0.039392,
+          "active_ms": 0.033472,
+          "gap_ms": 0.00592
+        },
+        {
+          "span_ms": 0.115424,
+          "active_ms": 0.032959,
+          "gap_ms": 0.082465
+        },
+        {
+          "span_ms": 0.039456,
+          "active_ms": 0.034563,
+          "gap_ms": 0.004893
+        }
+      ]
+    },
+    "loss_vjp": {
+      "kernels_per_iteration": 7.0,
+      "kernel_active_ms": 0.0285341,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 1.0,
+      "nvtx_host_ms": 0.1335796,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.132704,
+          "active_ms": 0.0272,
+          "gap_ms": 0.105504
+        },
+        {
+          "span_ms": 0.033152,
+          "active_ms": 0.027102,
+          "gap_ms": 0.00605
+        },
+        {
+          "span_ms": 0.269024,
+          "active_ms": 0.035776,
+          "gap_ms": 0.233248
+        },
+        {
+          "span_ms": 0.101728,
+          "active_ms": 0.026975,
+          "gap_ms": 0.074753
+        },
+        {
+          "span_ms": 0.215104,
+          "active_ms": 0.028895,
+          "gap_ms": 0.186209
+        },
+        {
+          "span_ms": 0.078528,
+          "active_ms": 0.041952,
+          "gap_ms": 0.036576
+        },
+        {
+          "span_ms": 0.032672,
+          "active_ms": 0.026881,
+          "gap_ms": 0.005791
+        },
+        {
+          "span_ms": 0.209281,
+          "active_ms": 0.028897,
+          "gap_ms": 0.180384
+        },
+        {
+          "span_ms": 0.104416,
+          "active_ms": 0.027007,
+          "gap_ms": 0.077409
+        },
+        {
+          "span_ms": 0.209185,
+          "active_ms": 0.027806,
+          "gap_ms": 0.181379
+        }
+      ]
+    },
+    "backward": {
+      "kernels_per_iteration": 88.0,
+      "kernel_active_ms": 2.8548535,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 8.0,
+      "nvtx_host_ms": 2.1494682999999997,
+      "per_iteration_spans": [
+        {
+          "span_ms": 3.610628,
+          "active_ms": 2.985444,
+          "gap_ms": 0.625184
+        },
+        {
+          "span_ms": 3.495524,
+          "active_ms": 2.49303,
+          "gap_ms": 1.002494
+        },
+        {
+          "span_ms": 4.362852,
+          "active_ms": 2.505982,
+          "gap_ms": 1.85687
+        },
+        {
+          "span_ms": 3.082404,
+          "active_ms": 2.497917,
+          "gap_ms": 0.584487
+        },
+        {
+          "span_ms": 3.685443,
+          "active_ms": 2.772641,
+          "gap_ms": 0.912802
+        },
+        {
+          "span_ms": 3.180419,
+          "active_ms": 2.572125,
+          "gap_ms": 0.608294
+        },
+        {
+          "span_ms": 3.499364,
+          "active_ms": 3.183621,
+          "gap_ms": 0.315743
+        },
+        {
+          "span_ms": 4.969765,
+          "active_ms": 4.272613,
+          "gap_ms": 0.697152
+        },
+        {
+          "span_ms": 3.080227,
+          "active_ms": 2.505955,
+          "gap_ms": 0.574272
+        },
+        {
+          "span_ms": 3.763971,
+          "active_ms": 2.854082,
+          "gap_ms": 0.909889
+        }
+      ]
+    },
+    "optimizer": {
+      "kernels_per_iteration": 144.0,
+      "kernel_active_ms": 0.3501092,
+      "copies_per_iteration": 0.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": 1.3795166,
+      "per_iteration_spans": [
+        {
+          "span_ms": 0.44928,
+          "active_ms": 0.348606,
+          "gap_ms": 0.100674
+        },
+        {
+          "span_ms": 0.4488,
+          "active_ms": 0.34848,
+          "gap_ms": 0.10032
+        },
+        {
+          "span_ms": 0.447425,
+          "active_ms": 0.348135,
+          "gap_ms": 0.09929
+        },
+        {
+          "span_ms": 0.448544,
+          "active_ms": 0.347901,
+          "gap_ms": 0.100643
+        },
+        {
+          "span_ms": 0.448577,
+          "active_ms": 0.349414,
+          "gap_ms": 0.099163
+        },
+        {
+          "span_ms": 0.544993,
+          "active_ms": 0.365771,
+          "gap_ms": 0.179222
+        },
+        {
+          "span_ms": 0.449505,
+          "active_ms": 0.349472,
+          "gap_ms": 0.100033
+        },
+        {
+          "span_ms": 0.448225,
+          "active_ms": 0.347897,
+          "gap_ms": 0.100328
+        },
+        {
+          "span_ms": 0.449184,
+          "active_ms": 0.3472,
+          "gap_ms": 0.101984
+        },
+        {
+          "span_ms": 0.448417,
+          "active_ms": 0.348216,
+          "gap_ms": 0.100201
+        }
+      ]
+    },
+    "outside": {
+      "kernels_per_iteration": 0.0,
+      "kernel_active_ms": 0.0,
+      "copies_per_iteration": 18.0,
+      "memsets_per_iteration": 0.0,
+      "nvtx_host_ms": null,
+      "per_iteration_spans": []
+    }
+  },
+  "memory": {
+    "native_cuda_allocation_requests": 2490,
+    "allocation_requests_per_iteration": 249.0,
+    "requested_bytes_per_iteration": 991612876.8,
+    "peak_allocated_bytes": 616943616,
+    "peak_reserved_bytes": 757071872,
+    "note": "Native Kineto allocator events; includes profiler-retained tensors and untimed 18-tensor restore; peak is absolute process allocation, not incremental production peak",
+    "operator_attribution_note": "Allocator instant events attributed to the innermost same-thread CPU operator, excluding empty allocation APIs. Scope attribution is not a separate cudaMalloc or production peak measurement.",
+    "by_operator": [
+      {
+        "name": "aten::mm",
+        "requests_per_iteration": 17.0,
+        "requested_bytes_per_iteration": 207264256.0
+      },
+      {
+        "name": "aten::addmm",
+        "requests_per_iteration": 17.0,
+        "requested_bytes_per_iteration": 179088384.0
+      },
+      {
+        "name": "aten::clamp_min",
+        "requests_per_iteration": 11.0,
+        "requested_bytes_per_iteration": 171581440.0
+      },
+      {
+        "name": "aten::threshold_backward",
+        "requests_per_iteration": 8.0,
+        "requested_bytes_per_iteration": 168939520.0
+      },
+      {
+        "name": "aten::cat",
+        "requests_per_iteration": 2.0,
+        "requested_bytes_per_iteration": 113246720.0
+      },
+      {
+        "name": "aten::sum",
+        "requests_per_iteration": 36.0,
+        "requested_bytes_per_iteration": 25553408.0
+      },
+      {
+        "name": "aten::div",
+        "requests_per_iteration": 32.0,
+        "requested_bytes_per_iteration": 25279334.4
+      },
+      {
+        "name": "aten::mul",
+        "requests_per_iteration": 15.0,
+        "requested_bytes_per_iteration": 16834611.2
+      },
+      {
+        "name": "aten::resize_",
+        "requests_per_iteration": 15.0,
+        "requested_bytes_per_iteration": 14510643.2
+      },
+      {
+        "name": "aten::new_zeros",
+        "requests_per_iteration": 5.0,
+        "requested_bytes_per_iteration": 10565632.0
+      },
+      {
+        "name": "unscoped_allocator",
+        "requests_per_iteration": 5.0,
+        "requested_bytes_per_iteration": 7043072.0
+      },
+      {
+        "name": "aten::_to_copy",
+        "requests_per_iteration": 6.2,
+        "requested_bytes_per_iteration": 5371955.2
+      },
+      {
+        "name": "aten::neg",
+        "requests_per_iteration": 2.0,
+        "requested_bytes_per_iteration": 5281792.0
+      },
+      {
+        "name": "aten::add",
+        "requests_per_iteration": 4.0,
+        "requested_bytes_per_iteration": 4403200.0
+      },
+      {
+        "name": "aten::zeros",
+        "requests_per_iteration": 3.0,
+        "requested_bytes_per_iteration": 4401152.0
+      },
+      {
+        "name": "aten::_softmax_backward_data",
+        "requests_per_iteration": 2.0,
+        "requested_bytes_per_iteration": 3522048.0
+      },
+      {
+        "name": "aten::exp",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 3442688.0
+      },
+      {
+        "name": "aten::_softmax",
+        "requests_per_iteration": 1.8,
+        "requested_bytes_per_iteration": 3168460.8
+      },
+      {
+        "name": "aten::clamp",
+        "requests_per_iteration": 3.0,
+        "requested_bytes_per_iteration": 2641920.0
+      },
+      {
+        "name": "aten::max",
+        "requests_per_iteration": 2.0,
+        "requested_bytes_per_iteration": 2640384.0
+      },
+      {
+        "name": "aten::log",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 1761792.0
+      },
+      {
+        "name": "aten::zeros_like",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 1761792.0
+      },
+      {
+        "name": "aten::ge",
+        "requests_per_iteration": 8.0,
+        "requested_bytes_per_iteration": 1761280.0
+      },
+      {
+        "name": "aten::minimum",
+        "requests_per_iteration": 2.0,
+        "requested_bytes_per_iteration": 1761280.0
+      },
+      {
+        "name": "aten::sub",
+        "requests_per_iteration": 2.0,
+        "requested_bytes_per_iteration": 1760768.0
+      },
+      {
+        "name": "aten::bitwise_and",
+        "requests_per_iteration": 5.0,
+        "requested_bytes_per_iteration": 1100800.0
+      },
+      {
+        "name": "aten::sigmoid_backward",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 880640.0
+      },
+      {
+        "name": "aten::full_like",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 880640.0
+      },
+      {
+        "name": "aten::norm",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 880640.0
+      },
+      {
+        "name": "aten::sigmoid",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 880640.0
+      },
+      {
+        "name": "aten::index_copy",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 880640.0
+      },
+      {
+        "name": "aten::to",
+        "requests_per_iteration": 0.8,
+        "requested_bytes_per_iteration": 792524.8
+      },
+      {
+        "name": "aten::lt",
+        "requests_per_iteration": 2.0,
+        "requested_bytes_per_iteration": 440320.0
+      },
+      {
+        "name": "aten::bitwise_not",
+        "requests_per_iteration": 2.0,
+        "requested_bytes_per_iteration": 440320.0
+      },
+      {
+        "name": "aten::softmax",
+        "requests_per_iteration": 0.2,
+        "requested_bytes_per_iteration": 352051.2
+      },
+      {
+        "name": "aten::eq",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 220160.0
+      },
+      {
+        "name": "aten::gt",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 220160.0
+      },
+      {
+        "name": "aten::nonzero",
+        "requests_per_iteration": 6.0,
+        "requested_bytes_per_iteration": 28672.0
+      },
+      {
+        "name": "aten::sqrt",
+        "requests_per_iteration": 18.0,
+        "requested_bytes_per_iteration": 24064.0
+      },
+      {
+        "name": "aten::sgn",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 512.0
+      },
+      {
+        "name": "aten::scalar_tensor",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 512.0
+      },
+      {
+        "name": "aten::clamp_max",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 512.0
+      },
+      {
+        "name": "aten::full",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 512.0
+      },
+      {
+        "name": "aten::mean",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 512.0
+      },
+      {
+        "name": "aten::ones_like",
+        "requests_per_iteration": 1.0,
+        "requested_bytes_per_iteration": 512.0
+      }
+    ]
+  }
+}

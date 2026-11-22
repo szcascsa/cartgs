@@ -1,0 +1,9 @@
+mode,metric,mean,p50,p95
+adam_shared_options,cuda_event_ms,0.624632,0.579584,1.19091
+adam_shared_options,wall_ms,0.954869,0.82543,1.74353
+preview_commit,cuda_event_ms,1.43612,1.41824,2.1033
+preview_commit,wall_ms,1.71601,1.60102,2.43
+preview_discard,cuda_event_ms,1.42086,1.38342,2.08179
+preview_discard,wall_ms,1.69474,1.60203,2.44116
+zero_grad,cuda_event_ms,0.00632384,0.003072,0.017408
+zero_grad,wall_ms,0.0728209,0.01035,0.203676

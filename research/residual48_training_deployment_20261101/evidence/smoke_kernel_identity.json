@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "kernels": [
+    [
+      "mapping_cuda::<unnamed>::trainingPack(long, const float *, const float *, const float *, const float *, const float *, mapping_cuda::<unnamed>::Features, float *, float *)",
+      429,
+      5006493
+    ],
+    [
+      "mapping_cuda::<unnamed>::trainingXYZVjp(long, const float *, const float *, const float *, const float *, long, long, float *)",
+      429,
+      1495778
+    ]
+  ],
+  "checkpoint": "/home/prmi/zwj/deployments/residual48_training_20261101/runs/ONLINE_NSYS/1500_shutdown/ply",
+  "actual_training_forward_and_backward_observed": true
+}

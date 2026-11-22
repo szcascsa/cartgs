@@ -1,0 +1,130 @@
+{
+  "CMakeLists.txt": {
+    "sha256": "2809f9c2da2ab258aea644e706f2b3f51ebcf9f8d42c4d98715a550b13fbfdfb",
+    "normalized_sha256": "a0053e032271e54b556b99def9068566de4526c92b22a5df1bcd91d52220c9e2"
+  },
+  "include/aabb.h": {
+    "sha256": "6ebe55549983af71488751f71bee5648a7f80d5712492e30c819e75bffcbe1bd",
+    "normalized_sha256": "045506f38a6970259b5dd9669b0dbf34087612e391f7cddc9b77a602748366b0"
+  },
+  "include/change_management.h": {
+    "sha256": "de0b0acc9a9af8da72e5d17dde72b9842cc1bb65fa0e8cef825c6c30f1e0be5e",
+    "normalized_sha256": "257cc9796061e0c2776711fecf18a18fc18f70996b54bf80b148321c6efd1ba5"
+  },
+  "include/elastic_entry.h": {
+    "sha256": "70b15e27a57d74d207c2663106659ed86d4da26db15de0cbcf200ea2911b4d17",
+    "normalized_sha256": "17097f8623e6e206c2b53065f54258885439178595caa26c10624a4ff538aec2"
+  },
+  "include/frozen_teacher_target_cache.h": {
+    "sha256": "1c9ff0f9b8d2851556230c5f5535b204ceebcf064cb869d84121df9fac0aead4",
+    "normalized_sha256": "68fa251756094141a13f63707fedb9bd7c4151e8fae5d4600f344631d7ebf05b"
+  },
+  "include/gaussian_transform_ops.h": {
+    "sha256": "ae0936a268c673e07f28d6f38796128b93901e60c9f863b3eaa8febce21b9608",
+    "normalized_sha256": "8b8074a30ccd5a5c819356d9f6499420bd9b318e4a681ca035db4d4d25fdd8ec"
+  },
+  "include/hexplane_field.h": {
+    "sha256": "594066b9b3b058157227ca48166304e9fbbd5fae5d6b68f6c987c2055ce0bab0",
+    "normalized_sha256": "4e4955f361140bc85a006fc0b8ab5f318c7c7022e9c421050ee161e9cbc2e786"
+  },
+  "include/model_snapshot.h": {
+    "sha256": "2dd013765d0cb164d6b95d23f226cd917ecfe5af494468ce7b52dfb051f9faf9",
+    "normalized_sha256": "e7dfed97a6eea63aaee2ff70b7729269224a061ea97fd61993deb9f6b8c472d2"
+  },
+  "include/protection_profiler.h": {
+    "sha256": "d523d837efca147e0c69cbe99cf283223373d7d5b504431e88203479c3f01d39",
+    "normalized_sha256": "3d0466c38f7fc4d69891ba154d80ec1055a43f27e1fd989423a9009b7a1375cb"
+  },
+  "include/quaternion_utils.h": {
+    "sha256": "a99a15321bb9059f1093e344299b2b0d5650e9792a2ace274cc121bb701dd6fc",
+    "normalized_sha256": "a7600c6af6102f647a3bf3e8d87c2be46dfc141694c47d6701d442180cb2817f"
+  },
+  "include/selector_cuda.h": {
+    "sha256": "0249481d2f70fa31063ffc109498dee52b7cd01a1ef7f1a835151f8981a6711f",
+    "normalized_sha256": "9ec184070f36dbc5c719f037e54a76fee25bb2d83856b9929d5024436ea2a7d9"
+  },
+  "include/selector_handoff.h": {
+    "sha256": "540581b23db96d6935c9b8b1e7023519ee04defc067ff762037bdebd13a6524d",
+    "normalized_sha256": "636a09aab148dac0f690e579351cd78b8054fced2b0bdd5637bdb38046a97aae"
+  },
+  "include/transform_field.h": {
+    "sha256": "0f35390f1c13315e3faec1f5e6d6a023ca2d73b2e98a0ea991c6dccb720fd1a8",
+    "normalized_sha256": "9f6e37259fe20d5fb2b0c4f6f54f0585d9c043d11601b596cc0b81d39a506e7a"
+  },
+  "include/transform_field_cuda.h": {
+    "sha256": "b892e2c47dcf19a3f956b76ec13c6ed6c0f37a61a86806619c22aecb1ad84a6e",
+    "normalized_sha256": "f66ea2d79e88891a0c712d8fbc04bf49602c5c1e4da20700c10be23f5129f733"
+  },
+  "include/transform_field_cuda_optimizer.h": {
+    "sha256": "b57dd881fb9626d732231d898f52f7c657af473626fdade257691b0ef34dbc3c",
+    "normalized_sha256": "1ae23d01698c0c8bd2dc2ea3be7889401a49c46091f97ed34e5305e923f4768b"
+  },
+  "src/change_distill.cpp": {
+    "sha256": "4b8b45bebe5c095fe4238a095d4038e066e5b3aca3995f1be297bcabf667f05f",
+    "normalized_sha256": "31b6a308784ee797b6b57f1a31c8d5820b488f1fdcde137b47c9934ffe7a237a"
+  },
+  "src/change_management.cpp": {
+    "sha256": "7f7b6348a0752c1bcc6e60996ce474c2b94c2ccdce3aa6b752b54673f6868b46",
+    "normalized_sha256": "898c795d13f3489850beae8b81075326471cdc330a84d5782367cc0103c30c96"
+  },
+  "src/gaussian_mapper.cpp": {
+    "sha256": "ec63b904b2ab6c9fb9a4d940417bb72374e027fd9607d5fe3c5000e5cc7dceb1",
+    "normalized_sha256": "8849d3d8763550f70213c0cf5a09697ac99fdd944277a381887e0665c062c060"
+  },
+  "src/hexplane_field.cpp": {
+    "sha256": "28ac7922cd36d25bbfb64748cff8613f5ac1d65ac0880821e249b8ca4e795534",
+    "normalized_sha256": "f9d1b17a5106b3163bbd29fe55a87f63de98e9f1095ee2f568539554556b78d8"
+  },
+  "src/protection_profiler.cpp": {
+    "sha256": "be33ebc516f9832f97c62e8dadf99e9a64e5e32cda7d9d1464a6498b8da0236f",
+    "normalized_sha256": "8b2d83dc4b9f42dfb7f7a6d81243cffec475fcb06d37b108041ab4ec8647e130"
+  },
+  "src/selector_cuda.cpp": {
+    "sha256": "f0e72dcdb300265f5d44da40c7ea27a4b37d81194bcb8a7cbe566c96b3836a1c",
+    "normalized_sha256": "5c8942dc26272769f4a48551d3eecf126a1a027d231d2ec339fbcfd80ace0b37"
+  },
+  "src/selector_cuda.cu": {
+    "sha256": "fc638b3ddb4a2fb412c7b5a667f0edcb1ea709a1a5deb1db20dea8276912beab",
+    "normalized_sha256": "ecf7dd9e36553c0db95be70952c4befa9781b7ad22107b1cfb2bea452953df48"
+  },
+  "src/transform_field.cpp": {
+    "sha256": "7c8e58501299ebda4027699b2eec362c30b114ea944b109d3caf39bf17508f47",
+    "normalized_sha256": "6734dfdf587dc3f3beb524c670726701c24cbcb02b6bb18d61173a4b251ae137"
+  },
+  "src/transform_field_cuda.cpp": {
+    "sha256": "08da80ae16f8aaab3493e1f711904b624337054ab7e7539af2e4da65cc99cb74",
+    "normalized_sha256": "0cbb2366652eaa1669542e2785550d11d98713774466836a07ff1cd76a85e1c4"
+  },
+  "src/transform_field_cuda.cu": {
+    "sha256": "e00a632a6a648d0b0f29bb02142224cef5f60394df92417138ff13e65a5b4e83",
+    "normalized_sha256": "f7935bd282aee672b8d1b57d690e6a3e90feb1937d3bb3f75365b7d45775c42f"
+  },
+  "src/transform_field_cuda_neural.cu": {
+    "sha256": "86113a8f941b9d1baaae1df74527c3c8696b73414e3b8407818cd04f5df48372",
+    "normalized_sha256": "72fc5fce0dbf245e0efbe5d86a326d530e544c42834acf54a4bd55237295b32a"
+  },
+  "src/transform_field_cuda_optimizer.cpp": {
+    "sha256": "3234187fb7ec264010a19078f280056d0618bc91717b6b1e6114acfc291bcf65",
+    "normalized_sha256": "44ee815fc884b63bb00e8d39b487031dcf35fed859c62c4521a271cd296fed44"
+  },
+  "src/transform_field_cuda_optimizer.cu": {
+    "sha256": "843185c951020bd4ecf8342c412a9300fa7728f0d8e4752a4becd643f47d31d7",
+    "normalized_sha256": "22cd8376d356a7aaf2b92ab626545319310049a562f7c451289d3f3c01c3ece0"
+  },
+  "src/transform_field_cuda_regularization.cu": {
+    "sha256": "04eb822a7078b00633eb5e06b91e4313e311ca81b09abecc1b0a59c872e2ebcb",
+    "normalized_sha256": "581ec257f5164e4366336baaa1def1d539b6b583c07531373fb52d8e19174bb4"
+  },
+  "improvements/selector/gumbel_network.h": {
+    "sha256": "666f20bba9d4e563668249ea7ccca5ddbb5bb266b193071e6c24bfbacffda3e6",
+    "normalized_sha256": "27de26edb430a34572fa6bfb70e2d24d731a9da7cc620c80689d6e1d15b68af4"
+  },
+  "cfg/selector/fast.yaml": {
+    "sha256": "9ff314b4298a0afdd308af28914f59a3fd7f2ae787f367cca93219141ad69408",
+    "normalized_sha256": "84929bd72e40ef3665376c4bada7af8ff64384b3300be3587594a0cd9622fc74"
+  },
+  "cfg/selector/selector_config.yaml": {
+    "sha256": "efc88234ed7a7f489805fad8014951a4e85ba127eafe2b8b908d16c02bdf3ebc",
+    "normalized_sha256": "0584b392bffa95c2a786d52609be294c0bc7cc2ebde2a3dba4ec59d898152035"
+  }
+}

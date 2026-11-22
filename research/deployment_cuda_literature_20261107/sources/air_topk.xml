@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/DCNaMJnvj45Fgh+7nMW0zHmP9rE</id>
+  <title>arXiv Query: search_query=all:"Adaptive and Iterative Refinement"&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-11-07T03:51:18Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:%22Adaptive+and+Iterative+Refinement%22&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>3</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2506.10895v1</id>
+    <title>AIR: Zero-shot Generative Model Adaptation with Iterative Refinement</title>
+    <updated>2025-06-12T17:00:50Z</updated>
+    <link href="https://arxiv.org/abs/2506.10895v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.10895v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Zero-shot generative model adaptation (ZSGM) aims to adapt a pre-trained generator to a target domain using only text guidance and without any samples from the target domain. Central to recent ZSGM approaches are directional loss which use the text guidance in the form of aligning the image offset with text offset in the embedding space of a vision-language model like CLIP. This is similar to the analogical reasoning in NLP where the offset between one pair of words is used to identify a missing element in another pair by aligning the offset between these two pairs. However, a major limitation of existing ZSGM methods is that the learning objective assumes the complete alignment between image offset and text offset in the CLIP embedding space, resulting in quality degrade in generated images. Our work makes two main contributions. Inspired by the offset misalignment studies in NLP, as our first contribution, we perform an empirical study to analyze the misalignment between text offset and image offset in CLIP embedding space for various large publicly available datasets. Our important finding is that offset misalignment in CLIP embedding space is correlated with concept distance, i.e., close concepts have a less offset misalignment. To address the limitations of the current approaches, as our second contribution, we propose Adaptation with Iterative Refinement (AIR) which is the first ZSGM approach to focus on improving target domain image quality based on our new insight on offset misalignment.Qualitative, quantitative, and user study in 26 experiment setups consistently demonstrate the proposed AIR approach achieves SOTA performance. Additional experiments are in Supp.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-12T17:00:50Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Guimeng Liu</name>
+    </author>
+    <author>
+      <name>Milad Abdollahzadeh</name>
+    </author>
+    <author>
+      <name>Ngai-Man Cheung</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2402.14843v1</id>
+    <title>Text Diffusion with Reinforced Conditioning</title>
+    <updated>2024-02-19T09:24:02Z</updated>
+    <link href="https://arxiv.org/abs/2402.14843v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2402.14843v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Diffusion models have demonstrated exceptional capability in generating high-quality images, videos, and audio. Due to their adaptiveness in iterative refinement, they provide a strong potential for achieving better non-autoregressive sequence generation. However, existing text diffusion models still fall short in their performance due to a challenge in handling the discreteness of language. This paper thoroughly analyzes text diffusion models and uncovers two significant limitations: degradation of self-conditioning during training and misalignment between training and sampling. Motivated by our findings, we propose a novel Text Diffusion model called TREC, which mitigates the degradation with Reinforced Conditioning and the misalignment by Time-Aware Variance Scaling. Our extensive experiments demonstrate the competitiveness of TREC against autoregressive, non-autoregressive, and diffusion baselines. Moreover, qualitative analysis shows its advanced ability to fully utilize the diffusion process in refining samples.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-02-19T09:24:02Z</published>
+    <arxiv:comment>9 pages, 3 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Yuxuan Liu</name>
+    </author>
+    <author>
+      <name>Tianchi Yang</name>
+    </author>
+    <author>
+      <name>Shaohan Huang</name>
+    </author>
+    <author>
+      <name>Zihan Zhang</name>
+    </author>
+    <author>
+      <name>Haizhen Huang</name>
+    </author>
+    <author>
+      <name>Furu Wei</name>
+    </author>
+    <author>
+      <name>Weiwei Deng</name>
+    </author>
+    <author>
+      <name>Feng Sun</name>
+    </author>
+    <author>
+      <name>Qi Zhang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.05051v1</id>
+    <title>Listen, Think, Transcribe: Continuous Latent Test-Time Scaling for ASR</title>
+    <updated>2026-07-06T13:25:33Z</updated>
+    <link href="https://arxiv.org/abs/2607.05051v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.05051v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>End-to-end ASR models transcribe in a single pass, leaving no room for the decoder to revisit hard inputs. We propose LatentASR, a parameter-efficient method that adds continuous latent test-time scaling to a frozen ASR backbone. Two small trainable modules drive it: a Latent Adapter that iteratively refines a few latent prefix positions through bounded, stabilized updates, and a Value Head that predicts whether extra computation will help and halts the loop early. The Qwen3-ASR-0.6B backbone stays fully frozen, and we train only ~4M extra parameters. We activate this loop with a deliberately small, diverse 500-utterance training set. Under this minimal-data regime, standard adaptation methods all regress: full fine-tuning, LoRA, and prompt tuning each increase WER. LatentASR is the only tested method that reduces WER on both clean benchmarks (FLEURS -2.54% and VoxPopuli -0.47% relative). The reductions are concentrated on intrinsically hard inputs. On accented and code-switched speech (ASCEND), LatentASR achieves a 16.0% relative CER reduction. Across 30 FLEURS languages (23,049 utterances), the multilingual WER decreases uniformly across resource tiers, confirming that the adapter generalizes without overfitting. Dynamic halting preserves most of the clean-set reduction at a fraction of the compute, skipping roughly half of all utterances at the entry gate. Our results show that a small, carefully chosen activation set can switch on test-time scaling inside a frozen ASR model without corrupting the model itself, converting fixed per-utterance compute into input-dependent compute where it is most needed.</summary>
+    <category term="cs.SD" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-06T13:25:33Z</published>
+    <arxiv:primary_category term="cs.SD"/>
+    <author>
+      <name>Ho Lam Chung</name>
+    </author>
+    <author>
+      <name>Yiming Chen</name>
+    </author>
+    <author>
+      <name>Dau-Cheng Lyu</name>
+    </author>
+    <author>
+      <name>Hsiao-Tsung Hung</name>
+    </author>
+    <author>
+      <name>Hung-yi Lee</name>
+    </author>
+  </entry>
+</feed>

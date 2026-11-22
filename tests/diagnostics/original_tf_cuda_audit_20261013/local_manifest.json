@@ -1,0 +1,71 @@
+{
+  "local_branch": "cuda-tf",
+  "local_head": "99a9bb1f05e458617f50fabb30a910f14aaf7c9c",
+  "compared": {
+    "src/transform_field.cpp": {
+      "local": "6b76fa1d05fb1a819327dd7696fab7fbf59c2f18c68f8a4202eb2cb4d1d48305",
+      "remote": "6b76fa1d05fb1a819327dd7696fab7fbf59c2f18c68f8a4202eb2cb4d1d48305"
+    },
+    "src/hexplane_field.cpp": {
+      "local": "28ac7922cd36d25bbfb64748cff8613f5ac1d65ac0880821e249b8ca4e795534",
+      "remote": "28ac7922cd36d25bbfb64748cff8613f5ac1d65ac0880821e249b8ca4e795534"
+    },
+    "include/transform_field.h": {
+      "local": "c58eeeab3836d81ccb12eafaa55f5c340e80f10eac9965e3f9072a0eea7fe9bf",
+      "remote": "c58eeeab3836d81ccb12eafaa55f5c340e80f10eac9965e3f9072a0eea7fe9bf"
+    },
+    "include/hexplane_field.h": {
+      "local": "594066b9b3b058157227ca48166304e9fbbd5fae5d6b68f6c987c2055ce0bab0",
+      "remote": "594066b9b3b058157227ca48166304e9fbbd5fae5d6b68f6c987c2055ce0bab0"
+    },
+    "include/aabb.h": {
+      "local": "6ebe55549983af71488751f71bee5648a7f80d5712492e30c819e75bffcbe1bd",
+      "remote": "6ebe55549983af71488751f71bee5648a7f80d5712492e30c819e75bffcbe1bd"
+    },
+    "include/quaternion_utils.h": {
+      "local": "a99a15321bb9059f1093e344299b2b0d5650e9792a2ace274cc121bb701dd6fc",
+      "remote": "a99a15321bb9059f1093e344299b2b0d5650e9792a2ace274cc121bb701dd6fc"
+    },
+    "src/gaussian_mapper.cpp": {
+      "local": "041dfaf4504c6e121c11f943464ead2f41a7ce4b8ffd925000872714de0b6784",
+      "remote": "041dfaf4504c6e121c11f943464ead2f41a7ce4b8ffd925000872714de0b6784"
+    },
+    "src/change_distill.cpp": {
+      "local": "b359c3f1daa6dd2de9c7a2972b55a4813a353c85c961132267378e775c999b9b",
+      "remote": "b359c3f1daa6dd2de9c7a2972b55a4813a353c85c961132267378e775c999b9b"
+    },
+    "src/change_management.cpp": {
+      "local": "92ddbd92080ee32b8af585600a1daf33ed53b717e1aad55a4e5d44fed8231cbf",
+      "remote": "92ddbd92080ee32b8af585600a1daf33ed53b717e1aad55a4e5d44fed8231cbf"
+    },
+    "src/constrained_adam.cpp": {
+      "local": "d399f18a17b4563d0f5aab91fcc55d2351d2b7395130a15a267c58cb3bcea7c9",
+      "remote": "d399f18a17b4563d0f5aab91fcc55d2351d2b7395130a15a267c58cb3bcea7c9"
+    },
+    "src/gradient_constraint.cpp": {
+      "local": "ba35734c1779a19953e734eec4f1ea1cf50a8d53b37c1f03a68390c24faaaa1b",
+      "remote": "ba35734c1779a19953e734eec4f1ea1cf50a8d53b37c1f03a68390c24faaaa1b"
+    },
+    "src/drift_stability.cpp": {
+      "local": "c36e02bca09ddd3a5537aeba51325537254928461cb234f100a8536e696577aa",
+      "remote": "c36e02bca09ddd3a5537aeba51325537254928461cb234f100a8536e696577aa"
+    },
+    "python/transform_field.py": {
+      "local": "65b447c82db93d8e434266942a9780985b80075aebc18592e243d39ed5f933ba",
+      "remote": "65b447c82db93d8e434266942a9780985b80075aebc18592e243d39ed5f933ba"
+    },
+    "cfg/selector/fast.yaml": {
+      "local": "f11e39a44d8bc22aec84e3691eaaf6abc17bfc96acf5ccafb4f9fec34caf44d2",
+      "remote": "f11e39a44d8bc22aec84e3691eaaf6abc17bfc96acf5ccafb4f9fec34caf44d2"
+    },
+    "cfg/selector/selector_config.yaml": {
+      "local": "34f3020e9d9428f2d1054de432fc7dd117757b0ac68dd1a1c45b8bafe0f2834a",
+      "remote": "34f3020e9d9428f2d1054de432fc7dd117757b0ac68dd1a1c45b8bafe0f2834a"
+    },
+    "CMakeLists.txt": {
+      "local": "b1dfc69e12903b38b55943dbd92f05306e1876602b5b3c56dc70470f6c2c6e4f",
+      "remote": "b1dfc69e12903b38b55943dbd92f05306e1876602b5b3c56dc70470f6c2c6e4f"
+    }
+  },
+  "all_equal": true
+}

@@ -1,0 +1,211 @@
+{
+  "production_commit": "2167e5f13d0fbe7846349ca662451742b18ed0b8",
+  "final_test_commit": "1772546",
+  "run_count": 12,
+  "all_runs_complete": true,
+  "all_quality_values_finite": true,
+  "mode2_full_render_and_backward_per_mapping": true,
+  "mode2_gaussian_empty_topology_steps_excluded": true,
+  "mode2_ratio_warmup_and_cycle_valid": true,
+  "mode2_normal_attempt_count": 23100,
+  "mode2_successful_commit_clocks_valid": true,
+  "generated_images_removed": 227824,
+  "remaining_png_jpg_jpeg": 0,
+  "user_preexisting_tracked_diff_unchanged": true,
+  "local_remote_accepted_sha256_match": true,
+  "gate_C_passed": 46,
+  "gate_C_failed": 0,
+  "clock_details": [
+    {
+      "scene": "room",
+      "online": {
+        "full_backwards": 5925,
+        "full_renders": 5925,
+        "gaussian_step_calls": 5925,
+        "gaussian_updates": 5915,
+        "lod_attempts": 2925,
+        "lod_nonfinite": 0,
+        "lod_renders": 2925,
+        "mappings": 5925,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          732,
+          731,
+          731,
+          731
+        ],
+        "selector_commits": 2925,
+        "stats": 5925,
+        "tf_commits": 2925,
+        "topology": 10
+      },
+      "tail": {
+        "full_backwards": 475,
+        "full_renders": 475,
+        "gaussian_step_calls": 475,
+        "gaussian_updates": 474,
+        "lod_attempts": 475,
+        "lod_nonfinite": 0,
+        "lod_renders": 475,
+        "mappings": 475,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          118,
+          119,
+          119,
+          119
+        ],
+        "selector_commits": 475,
+        "stats": 475,
+        "tf_commits": 475,
+        "topology": 1
+      },
+      "cursor": 3400
+    },
+    {
+      "scene": "desk",
+      "online": {
+        "full_backwards": 3952,
+        "full_renders": 3952,
+        "gaussian_step_calls": 3952,
+        "gaussian_updates": 3946,
+        "lod_attempts": 952,
+        "lod_nonfinite": 0,
+        "lod_renders": 952,
+        "mappings": 3952,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          238,
+          238,
+          238,
+          238
+        ],
+        "selector_commits": 952,
+        "stats": 3952,
+        "tf_commits": 952,
+        "topology": 6
+      },
+      "tail": {
+        "full_backwards": 448,
+        "full_renders": 448,
+        "gaussian_step_calls": 448,
+        "gaussian_updates": 447,
+        "lod_attempts": 448,
+        "lod_nonfinite": 0,
+        "lod_renders": 448,
+        "mappings": 448,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          112,
+          112,
+          112,
+          112
+        ],
+        "selector_commits": 448,
+        "stats": 448,
+        "tf_commits": 448,
+        "topology": 1
+      },
+      "cursor": 1400
+    },
+    {
+      "scene": "xyz",
+      "online": {
+        "full_backwards": 14286,
+        "full_renders": 14286,
+        "gaussian_step_calls": 14286,
+        "gaussian_updates": 14259,
+        "lod_attempts": 11286,
+        "lod_nonfinite": 0,
+        "lod_renders": 11286,
+        "mappings": 14286,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          2822,
+          2822,
+          2821,
+          2821
+        ],
+        "selector_commits": 11286,
+        "stats": 14286,
+        "tf_commits": 11286,
+        "topology": 27
+      },
+      "tail": {
+        "full_backwards": 614,
+        "full_renders": 614,
+        "gaussian_step_calls": 614,
+        "gaussian_updates": 613,
+        "lod_attempts": 614,
+        "lod_nonfinite": 0,
+        "lod_renders": 614,
+        "mappings": 614,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          153,
+          153,
+          154,
+          154
+        ],
+        "selector_commits": 614,
+        "stats": 614,
+        "tf_commits": 614,
+        "topology": 1
+      },
+      "cursor": 11900
+    },
+    {
+      "scene": "long",
+      "online": {
+        "full_backwards": 8603,
+        "full_renders": 8603,
+        "gaussian_step_calls": 8603,
+        "gaussian_updates": 8587,
+        "lod_attempts": 5603,
+        "lod_nonfinite": 0,
+        "lod_renders": 5603,
+        "mappings": 8603,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          1401,
+          1401,
+          1401,
+          1400
+        ],
+        "selector_commits": 5603,
+        "stats": 8603,
+        "tf_commits": 5603,
+        "topology": 16
+      },
+      "tail": {
+        "full_backwards": 797,
+        "full_renders": 797,
+        "gaussian_step_calls": 797,
+        "gaussian_updates": 796,
+        "lod_attempts": 797,
+        "lod_nonfinite": 0,
+        "lod_renders": 797,
+        "mappings": 797,
+        "opacity_resets": 0,
+        "ratio_counts": [
+          199,
+          199,
+          199,
+          200
+        ],
+        "selector_commits": 797,
+        "stats": 797,
+        "tf_commits": 797,
+        "topology": 1
+      },
+      "cursor": 6400
+    }
+  ],
+  "source_sha256": {
+    "src/gaussian_mapper.cpp": "70a3a2184bab210c24f4bb65dcfe91dad7e8125616b657925bc60d710dba14d2",
+    "include/gaussian_mapper.h": "bdeeae000ec22b3812ed953b55291f9ef2399a0d9d384b15f90e1fda4359b652",
+    "include/mapping_profiler.h": "4ca2ca7cbc2bbcbe7708b8f1750c2cb553e3cdb8ec5b36f5ae2fdc0e2af6cd2a",
+    "tests/ultralight_mode2_mapping_test.cpp": "b9ed91cf194c0d832176df5cbca9042cf2e3c5840be38ad0c01270e96f3d6158",
+    "CMakeLists.txt": "2e2cfdff55a1578c41c49eb21f0368d09aad55fb1ad33e5aac8b95335e9533ad"
+  }
+}

@@ -26,6 +26,9 @@
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/vector.hpp>
 #include <mutex>
+#include <atomic>
+#include <cstdint>
+#include "GIAssociationState.h"
 
 #include "Frame.h"
 #include "GeometricCamera.h"
@@ -191,6 +194,9 @@ class KeyFrame {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   KeyFrame();
+  uint64_t GIAssociationRevision() const { return gi_association_revision_.load(std::memory_order_relaxed); }
+  bool GIBad() const;
+  std::vector<uint64_t> GIPointIds() const;
   KeyFrame(Frame& F, Map* pMap, KeyFrameDatabase* pKFDB);
 
   // Pose functions
@@ -436,6 +442,7 @@ class KeyFrame {
   // The following variables need to be accessed trough a mutex to be thread
   // safe.
  protected:
+  std::atomic<uint64_t> gi_association_revision_{0};
   // sophus poses
   Sophus::SE3<float> mTcw;
   Eigen::Matrix3f mRcw;

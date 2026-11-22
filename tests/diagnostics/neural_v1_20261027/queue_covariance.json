@@ -1,0 +1,30 @@
+{
+  "tier": "covariance_screen",
+  "jobs": [
+    {
+      "config": {
+        "id": "AffineCovariance",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "output": "affine"
+      },
+      "seed": 5100,
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "AffineCovarianceKnots",
+        "kind": "self",
+        "width": 64,
+        "bands": 6,
+        "film": true,
+        "output": "affine",
+        "knots": true
+      },
+      "seed": 5100,
+      "steps": 4000
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+# 数据清单
+
+真实实验数据。
+
+- Replica/office0/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office0__mono.png 和 figures/Replica/Replica__office0__mono.svg。
+- Replica/office0/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office0__rgbd.png 和 figures/Replica/Replica__office0__rgbd.svg。
+- Replica/office1/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office1__mono.png 和 figures/Replica/Replica__office1__mono.svg。
+- Replica/office1/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office1__rgbd.png 和 figures/Replica/Replica__office1__rgbd.svg。
+- Replica/office2/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office2__mono.png 和 figures/Replica/Replica__office2__mono.svg。
+- Replica/office2/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office2__rgbd.png 和 figures/Replica/Replica__office2__rgbd.svg。
+- Replica/office3/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office3__mono.png 和 figures/Replica/Replica__office3__mono.svg。
+- Replica/office3/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office3__rgbd.png 和 figures/Replica/Replica__office3__rgbd.svg。
+- Replica/office4/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office4__mono.png 和 figures/Replica/Replica__office4__mono.svg。
+- Replica/office4/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__office4__rgbd.png 和 figures/Replica/Replica__office4__rgbd.svg。
+- Replica/room0/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__room0__mono.png 和 figures/Replica/Replica__room0__mono.svg。
+- Replica/room0/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__room0__rgbd.png 和 figures/Replica/Replica__room0__rgbd.svg。
+- Replica/room1/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__room1__mono.png 和 figures/Replica/Replica__room1__mono.svg。
+- Replica/room1/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__room1__rgbd.png 和 figures/Replica/Replica__room1__rgbd.svg。
+- Replica/room2/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__room2__mono.png 和 figures/Replica/Replica__room2__mono.svg。
+- Replica/room2/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/Replica/Replica__room2__rgbd.png 和 figures/Replica/Replica__room2__rgbd.svg。
+- TUM_RGBD/freiburg1_desk/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg1_desk__mono.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg1_desk__mono.svg。
+- TUM_RGBD/freiburg1_desk/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg1_desk__rgbd.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg1_desk__rgbd.svg。
+- TUM_RGBD/freiburg1_room/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg1_room__mono.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg1_room__mono.svg。
+- TUM_RGBD/freiburg1_room/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg1_room__rgbd.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg1_room__rgbd.svg。
+- TUM_RGBD/freiburg1_xyz/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg1_xyz__mono.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg1_xyz__mono.svg。
+- TUM_RGBD/freiburg1_xyz/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg1_xyz__rgbd.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg1_xyz__rgbd.svg。
+- TUM_RGBD/freiburg2_xyz/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg2_xyz__mono.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg2_xyz__mono.svg。
+- TUM_RGBD/freiburg2_xyz/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg2_xyz__rgbd.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg2_xyz__rgbd.svg。
+- TUM_RGBD/freiburg3_long_office_household/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg3_long_office_household__mono.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg3_long_office_household__mono.svg。
+- TUM_RGBD/freiburg3_long_office_household/rgbd：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/TUM_RGBD/TUM_RGBD__freiburg3_long_office_household__rgbd.png 和 figures/TUM_RGBD/TUM_RGBD__freiburg3_long_office_household__rgbd.svg。
+- VECtor/corner-slow/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/VECtor/VECtor__corner-slow__mono.png 和 figures/VECtor/VECtor__corner-slow__mono.svg。
+- VECtor/corner-slow/stereo：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/VECtor/VECtor__corner-slow__stereo.png 和 figures/VECtor/VECtor__corner-slow__stereo.svg。
+- VECtor/corridors-dolly/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/VECtor/VECtor__corridors-dolly__mono.png 和 figures/VECtor/VECtor__corridors-dolly__mono.svg。
+- VECtor/corridors-dolly/stereo：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/VECtor/VECtor__corridors-dolly__stereo.png 和 figures/VECtor/VECtor__corridors-dolly__stereo.svg。
+- VECtor/robot-normal/mono：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/VECtor/VECtor__robot-normal__mono.png 和 figures/VECtor/VECtor__robot-normal__mono.svg。
+- VECtor/robot-normal/stereo：QUALITY_RENDERED_COUNTS.csv 同名 group；源 data/QUALITY_RENDERED_COUNTS.json；绘图 plot_quality_counts.py；输出 figures/VECtor/VECtor__robot-normal__stereo.png 和 figures/VECtor/VECtor__robot-normal__stereo.svg。

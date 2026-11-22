@@ -1,0 +1,27 @@
+{
+  "HEAD": "40751d07e194aaaa997d06bdea14d90f813b1222",
+  "branch": "redundancy-aware-si",
+  "initial_status": "?? STREAMING_GI_CURRENT_REPORT.md\n?? tests/__pycache__/\n?? tests/diagnostics/change_distill_optimization_20261017/__pycache__/\n?? tests/diagnostics/change_distill_optimization_20261017/deployment_20261018/__pycache__/\n?? tests/diagnostics/change_distill_performance_20261017/__pycache__/\n?? tests/diagnostics/change_distill_tf_multi_ratio_20261018/__pycache__/\n?? tests/diagnostics/cuda_selector_backward_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_direct_parity_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_implementation_20261015/__pycache__/\n?? tests/diagnostics/cuda_selector_revised_20261015/__pycache__/\n?? tests/diagnostics/original_tf_cuda_audit_20261013/__pycache__/\n?? tests/diagnostics/ultralight_mode2_20261014/__pycache__/\n",
+  "source_before": {
+    "src/global_gi.cpp": "93a22b400142381d3390d820aa989b3cbe9013898218f0c5a4e6a27ee6a5bd8d",
+    "include/global_gi.h": "a9fd5c75a04a8bacc1177ddae01174fb904c2a8ed50a7d9651c7fc4c9aadce9d",
+    "include/global_gi_bank.h": "ad4814d70ad06ae1803186264933efa0a00d5484e525b7339ac97f0704dfe28f",
+    "src/gaussian_mapper.cpp": "2be50ba1feb335bceb9cf2ab07cde46fd07d638878c8ca16b322ea878369b8cf",
+    "src/gaussian_model.cpp": "b56ade7eb1de526652311c6fee4732640897bc92021362d5ae9271f88199acef",
+    "src/gi_teacher.cpp": "71ec10c0a1a36d514ce7ca1ff57ab2d57fb868ff7074d87433c02060bcf41921",
+    "cuda_rasterizer/forward.cu": "7d7b3888b784502ddec23c86cac3de504ab566f75d32e244a72e9ec91e5a1e96",
+    "src/gaussian_renderer.cpp": "199b57ca97f5c063b1cf8bbbe95bdac9dfd6e5473de9f513c8f64fc9f2d18337",
+    "include/selector_handoff.h": "540581b23db96d6935c9b8b1e7023519ee04defc067ff762037bdebd13a6524d",
+    "python/selector.py": "b338eee724b5ebd656a1ae69a5cc13c90d84c8a81c30b83ac94b1e8603186daa"
+  },
+  "constants": {
+    "initial_cells": 256,
+    "representatives_per_leaf": 3,
+    "threshold": 0.8,
+    "max_level": 3,
+    "epsilon": 1e-12
+  },
+  "maturity": 1,
+  "updates": 0,
+  "build_policy": "stateless rebuild on each enabled teacher read under render lock; no persistent hierarchy cache"
+}

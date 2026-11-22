@@ -52,9 +52,11 @@ void GaussianKeyframe::setPose(const Eigen::Quaterniond& q,
   this->set_pose_ = true;
 }
 
-Sophus::SE3d GaussianKeyframe::getPose() { return this->Tcw_; }
+Sophus::SE3d GaussianKeyframe::getPose() const { return this->Tcw_; }
 
-Sophus::SE3f GaussianKeyframe::getPosef() { return this->Tcw_.cast<float>(); }
+Sophus::SE3f GaussianKeyframe::getPosef() const {
+  return this->Tcw_.cast<float>();
+}
 
 void GaussianKeyframe::setCameraParams(const Camera& camera) {
   this->camera_id_ = camera.camera_id_;

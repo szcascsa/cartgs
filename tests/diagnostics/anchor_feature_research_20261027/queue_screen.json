@@ -1,0 +1,82 @@
+{
+  "tier": "screen",
+  "scene": "fr1_xyz",
+  "jobs": [
+    {
+      "config": {
+        "id": "Baseline",
+        "feature": "none"
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "Early8",
+        "feature": "learned",
+        "fusion": "early",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "Mid8",
+        "feature": "learned",
+        "fusion": "mid",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "AnchorFiLM8",
+        "feature": "learned",
+        "fusion": "film",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "Head8",
+        "feature": "learned",
+        "fusion": "head",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "ContextFiLM8",
+        "feature": "context",
+        "fusion": "film",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 4000
+    },
+    {
+      "config": {
+        "id": "HybridFiLM8",
+        "feature": "hybrid",
+        "fusion": "film",
+        "dim": 8
+      },
+      "seed": 7200,
+      "route": "continue",
+      "steps": 4000
+    }
+  ],
+  "decision": "Bank holdout only; continue same original12000 model and Adam; same additional4000 steps and order; no nonBank before design lock"
+}

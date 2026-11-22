@@ -1,0 +1,31 @@
+[Gaussian Mapper]CUDA available! Training on GPU.
+[Gaussian Mapper]Reading parameters from "/home/prmi/zwj/mycartgs/cfg/gaussian_mapper/RGB-D/TUM/tum_rgbd.yaml"
+[Gaussian Mapper]Reading selector experiment parameters from "/tmp/cartgs-ultrafast-test-21292011894650901/selector_config.yaml"
+[Mapping LOGGING] iteration_logging=0 synchronized_timing=0
+[Mapping CONFIG] ultra_light_mode=1 explicit_mode=1
+[TailOptimization CONFIG] enabled=0 steps=-1
+[Gaussian Mapper] selector_backend=cuda
+[UltrafastRotation CONFIG] ratios=0.01,0.05,0.10,0.15,Full stop_at_online_end=0 topology_full_only=1 tail_policy=configured
+[Protection CONFIG] schema=continuous_cycle_geometric drift_temperature=0.1 maturity_enabled=1 maturity_ablation_mode=g_real beta_fast=0.6 beta_slow=0.15 maturity_rise_rate=0.05 maturity_fall_rate=0.5 compatibility_mature_threshold=0.8 observation_modes=1,2
+[Gaussian Mapper]Selector.detach_gaussian_parameters = 0 (joint replay keeps Gaussian gradients)
+[Gaussian Mapper]Selector.max_mapping_iterations = 0
+[Gaussian Mapper]TransformField.backend = cuda
+[GlobalGI CONFIG] mode=recent view_ratio=0.3 anchor_fraction=0.8 refresh_interval=1000 verbose_logging=0
+[Gaussian Mapper] Joint Replay enabled=0 interval=300 frames=2 trigger=1000 sources=2 views_per_source=4 remote_pool=32 capacity=16 distance_weights(T/R)=1.0000/0.5000 recent_window=16 ema_decay=0.9000 guard=0 fallback=0 fallback_scale=0.2000
+[Gaussian Mapper] Historical recovery DSD=0 (DriftStability.enable; independent of Change CD)
+[Continuous TF INIT] mapping_iteration=6000 start_mode=fixed_iteration first_valid_maturity_cycle_iteration=-1 initialization_seed=0
+[Elastic TF INIT] tf_initialization_iteration=6000 ready_count_when_initialized=3 initial_aabb_population=3 initial_aabb_threshold=0
+[UltrafastRotation TF] event=first_initialized mapping_iteration=6000
+[Gaussian Mapper] Transform Field initialized at mapping_iter 6000, current-position AABB initialized
+[Gaussian Mapper] Normal LOD Selector parameters attached to the shared Gaussian optimizer (group 6)
+[Gaussian Mapper] Normal LOD Transform Field parameters attached to the shared Gaussian optimizer (groups 7, 8)
+[UltrafastRotation TF] event=first_applied_lod mapping_iteration=6001 normal_training_step=0
+[Continuous TF INIT] mapping_iteration=6011 start_mode=fixed_iteration first_valid_maturity_cycle_iteration=6010 initialization_seed=0
+[Elastic TF INIT] tf_initialization_iteration=6011 ready_count_when_initialized=3 initial_aabb_population=3 initial_aabb_threshold=0
+[UltrafastRotation TF] event=first_initialized mapping_iteration=6011
+[Gaussian Mapper] Transform Field initialized at mapping_iter 6011, current-position AABB initialized
+[Gaussian Mapper] Normal LOD Transform Field parameters attached to the shared Gaussian optimizer (groups 9, 10)
+[UltrafastRotation ONLINE_END] online_end_mapping_iteration=6011 online_end_rotation_step=11 tail_training_steps=0
+[TailOptimization] event=begin slam_stop_iter=6011 start_mapping=6011 target=7 ignored_max_mapping_iterations=0
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Mode1 tail advanced clocks without Gaussian/TF optimizer updates

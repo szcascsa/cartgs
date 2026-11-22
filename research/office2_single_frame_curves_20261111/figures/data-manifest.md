@@ -1,0 +1,3 @@
+# 图表数据清单
+
+数据均为本轮office2完整轨迹实测。点数和PSNR来自QUALITY_COUNTS.csv；每帧时间取TIMINGS.csv三次重复的中位数。主图第三栏为纯渲染，附图为含准备和网络的完整流程。PSNR仅显示时作sigma=35帧的高斯平滑，点数和时间不平滑，不删除帧或异常时间样本。所有输入SHA256见DATA_MANIFEST.json。

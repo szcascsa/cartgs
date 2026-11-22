@@ -13,7 +13,8 @@ from setuptools import setup
 from torch.utils.cpp_extension import CUDAExtension, BuildExtension
 import os
 
-include_dir = os.path.abspath("../../cuda_rasterizer/")
+source_dir = os.path.dirname(os.path.abspath(__file__))
+include_dir = os.path.abspath(os.path.join(source_dir, "../../cuda_rasterizer"))
 
 
 setup(
@@ -23,13 +24,13 @@ setup(
         CUDAExtension(
             name="diff_gaussian_rasterization._C",
             sources=[
-                "../../cuda_rasterizer/rasterizer_impl.cu",
-                "../../cuda_rasterizer/forward.cu",
-                "../../cuda_rasterizer/backward.cu",
-                "../../cuda_rasterizer/rasterize_points.cu",
-                "../../cuda_rasterizer/adam.cu",
-                "../../cuda_rasterizer/conv.cu",
-                "ext.cpp",
+                os.path.join(include_dir, "rasterizer_impl.cu"),
+                os.path.join(include_dir, "forward.cu"),
+                os.path.join(include_dir, "backward.cu"),
+                os.path.join(include_dir, "rasterize_points.cu"),
+                os.path.join(include_dir, "adam.cu"),
+                os.path.join(include_dir, "conv.cu"),
+                os.path.join(source_dir, "ext.cpp"),
             ],
             extra_compile_args=["-I" + include_dir],
         )
