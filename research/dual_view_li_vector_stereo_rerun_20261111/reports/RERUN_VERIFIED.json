@@ -1,0 +1,153 @@
+{
+  "complete": true,
+  "jobs": [
+    {
+      "id": "VECtor/corner-slow/stereo",
+      "full_checkpoint_unchanged": true,
+      "configs_identical": true,
+      "initialization_bitwise_verified": true,
+      "keyframe_sequence": {
+        "rows": 11470,
+        "identical": true,
+        "different_rows": 0,
+        "first_different": []
+      },
+      "ratio_sequence": {
+        "rows": 11470,
+        "identical": true,
+        "different_rows": 0,
+        "first_different": []
+      },
+      "steps": 11470,
+      "attempts": 1,
+      "health_failures": 0,
+      "oom_failures": 0,
+      "training_seconds": 491.8116158650082,
+      "trained_model": "/home/prmi/zwj/realLOD/saved_experiments/dual_view_li_vector_stereo_rerun_20261111/runs/VECtor/corner-slow/stereo/attempt_01/model",
+      "gaussian_count": 5716,
+      "evaluated_frames": 1238,
+      "old_health": {
+        "global": {
+          "records": 11470,
+          "scale_factor_max": 17.402101516723633,
+          "xyz_anchor_units_max": 14.032670021057129,
+          "zero_streak_global": 0,
+          "zero_streak_ratio": 0,
+          "saturation_streak_ratio": 0,
+          "scale_tail_fraction": 0,
+          "xyz_tail_fraction": 0
+        },
+        "view_budget": {
+          "records": 11470,
+          "scale_factor_max": 20.285198211669922,
+          "xyz_anchor_units_max": 14.89838981628418,
+          "zero_streak_global": 0,
+          "zero_streak_ratio": 0,
+          "saturation_streak_ratio": 0,
+          "scale_tail_fraction": 0,
+          "xyz_tail_fraction": 0
+        }
+      },
+      "new_health": {
+        "global": {
+          "records": 11470,
+          "scale_factor_max": 27.95578384399414,
+          "xyz_anchor_units_max": 29.012182235717773,
+          "zero_streak_global": 0,
+          "zero_streak_ratio": 0,
+          "saturation_streak_ratio": 0,
+          "scale_tail_fraction": 0,
+          "xyz_tail_fraction": 0
+        },
+        "view_budget": {
+          "records": 11470,
+          "scale_factor_max": 33.506568908691406,
+          "xyz_anchor_units_max": 32.04370880126953,
+          "zero_streak_global": 0,
+          "zero_streak_ratio": 0,
+          "saturation_streak_ratio": 0,
+          "scale_tail_fraction": 0,
+          "xyz_tail_fraction": 0
+        }
+      }
+    },
+    {
+      "id": "VECtor/robot-normal/stereo",
+      "full_checkpoint_unchanged": true,
+      "configs_identical": true,
+      "initialization_bitwise_verified": true,
+      "keyframe_sequence": {
+        "rows": 13006,
+        "identical": true,
+        "different_rows": 0,
+        "first_different": []
+      },
+      "ratio_sequence": {
+        "rows": 13006,
+        "identical": true,
+        "different_rows": 0,
+        "first_different": []
+      },
+      "steps": 13006,
+      "attempts": 1,
+      "health_failures": 0,
+      "oom_failures": 0,
+      "training_seconds": 567.2038849520031,
+      "trained_model": "/home/prmi/zwj/realLOD/saved_experiments/dual_view_li_vector_stereo_rerun_20261111/runs/VECtor/robot-normal/stereo/attempt_01/model",
+      "gaussian_count": 6774,
+      "evaluated_frames": 1205,
+      "old_health": {
+        "global": {
+          "records": 13006,
+          "scale_factor_max": 33.88938522338867,
+          "xyz_anchor_units_max": 13.292494773864746,
+          "zero_streak_global": 0,
+          "zero_streak_ratio": 0,
+          "saturation_streak_ratio": 0,
+          "scale_tail_fraction": 0,
+          "xyz_tail_fraction": 0
+        },
+        "view_budget": {
+          "records": 13006,
+          "scale_factor_max": 38.12116241455078,
+          "xyz_anchor_units_max": 14.606108665466309,
+          "zero_streak_global": 0,
+          "zero_streak_ratio": 0,
+          "saturation_streak_ratio": 0,
+          "scale_tail_fraction": 0,
+          "xyz_tail_fraction": 0
+        }
+      },
+      "new_health": {
+        "global": {
+          "records": 13006,
+          "scale_factor_max": 16.071882247924805,
+          "xyz_anchor_units_max": 10.463285446166992,
+          "zero_streak_global": 0,
+          "zero_streak_ratio": 0,
+          "saturation_streak_ratio": 0,
+          "scale_tail_fraction": 0,
+          "xyz_tail_fraction": 0
+        },
+        "view_budget": {
+          "records": 13006,
+          "scale_factor_max": 16.813581466674805,
+          "xyz_anchor_units_max": 13.365303039550781,
+          "zero_streak_global": 0,
+          "zero_streak_ratio": 0,
+          "saturation_streak_ratio": 0,
+          "scale_tail_fraction": 0,
+          "xyz_tail_fraction": 0
+        }
+      }
+    }
+  ],
+  "comparison_rows": 46,
+  "source_files_verified": 527,
+  "runtime_files_verified": 16,
+  "protected_files": 741,
+  "protected_hashes_unchanged": true,
+  "old_results_replaced": false,
+  "render_images_saved": 0,
+  "reference_batch": "/home/prmi/zwj/realLOD/saved_experiments/dual_view_li_vector_best_full_20261107"
+}

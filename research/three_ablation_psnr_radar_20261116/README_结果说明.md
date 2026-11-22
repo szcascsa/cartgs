@@ -16,6 +16,10 @@ corner-slow与robot-normal双目的关闭重要性源表仍引用11月7日完整
 
 全部27组的N、评价帧数和局部实际K均核对一致。四种消融每Ratio使用同一最新完整方案PSNR；Detach Master的全部32组也逐项核对了N、帧数与实际K。
 
+## 2026年11月19日双目评价口径修正
+
+此前Frozen GS的VECtor双目使用校正左图，而当前完整方案使用未校正原图，导致旧VECtor绿色曲线不可比。现已从三个原Frozen checkpoint重新评价69项，将GT统一为未校正原图。帧关联、选点ID、局部逐帧预算及全局补偿导出均核验一致，原模型和旧评价保持原值。本图使用修正后的736行合并表，69项更新，其余667项保留。旧图已归档到master_detach_original_rgb_20261119/prior_outputs。
+
 ## 实验解释范围
 
 关闭Compensator和随机选择属于冻结模型的推理干预，保留共同训练的Master。关闭重要性与Detach Master属于从原Full起点重新执行Fine：前者关闭GI／LI但允许Master更新，后者保留GI／LI并固定Master，只训练网络和Anchor Feature。四条曲线包含不同类型的干预，不能直接用幅度给模块因果作用排序。无重要性与Detach实验的健康停止规则均存在各自历史差异；单seed结果不包含重复试验置信区间。

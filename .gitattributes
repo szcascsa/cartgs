@@ -66,3 +66,11 @@
 /tests/diagnostics/spatial_localxyz_cuda_20261027/** -text whitespace=cr-at-eol
 /tests/diagnostics/spatial_online_deploy_20261027/** -text whitespace=cr-at-eol
 /tests/diagnostics/anchor_feature_research_20261027/** -text whitespace=cr-at-eol
+
+# Preserve ablation inputs whose exact bytes are verified by SHA256.
+/research/local_inference_ablation_20261115/reports/LOCAL_ABLATION_COMPARISON.csv -text whitespace=cr-at-eol
+/research/dual_view_li_vector_stereo_rerun_20261111/reports/RERUN_COMPARISON.csv -text whitespace=cr-at-eol
+/research/no_importance_all_scenes_20261115/outputs/01a1de13-ebef-7091-b328-52d3c81cfc40/** -text whitespace=cr-at-eol
+/research/master_detach_original_rgb_20261119/reports/MASTER_DETACH_LOD_METRICS_ORIGINAL_RGB.csv -text whitespace=cr-at-eol
+/research/three_ablation_psnr_radar_20261116/data/source_master_detach_lod_metrics.csv -text whitespace=cr-at-eol
+/research/three_ablation_psnr_radar_20261116/data/source_master_detach_final_audit.json -text whitespace=cr-at-eol

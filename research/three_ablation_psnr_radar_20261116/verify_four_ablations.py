@@ -60,7 +60,7 @@ def main():
 
     baseline = {(row['group'], float(row['ratio'])): row
                 for row in read_csv('source_inference_comparison.csv')}
-    detached = {(row['id'], float(row['ratio'])): row for row in read_csv('source_master_detach_lod_metrics.csv')
+    detached = {(row['id'], float(row['ratio'])): row for row in read_csv('source_master_detach_original_rgb_metrics.csv')
                 if row['scope'] == 'view_ratio'}
     detach_audit = read_csv('MASTER_DETACH_ALL32_PSNR_DECREASE.csv')
     assert len(baseline) == len(detached) == len(detach_audit) == 352
@@ -89,6 +89,7 @@ def main():
                for path in figure_files)
 
     report = dict(complete=True, independent_weighted_reaggregation='passed', max_error=max_error,
+        frozen_stereo_original_rgb_reevaluated=69,
         common_groups=27, master_detach_groups=32, master_detach_evaluations=736,
         excluded_zero_selection_groups=5, dataset_means_verified=132,
         baseline_references_verified=297, master_detach_pairs_verified=352,

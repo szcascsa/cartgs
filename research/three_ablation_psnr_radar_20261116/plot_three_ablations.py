@@ -43,6 +43,8 @@ SOURCES = {
     'rerun_verification': RERUN/'RERUN_VERIFIED.json',
     'master_detach_metrics': ROOT/'data/source_master_detach_lod_metrics.csv',
     'master_detach_verification': ROOT/'data/source_master_detach_final_audit.json',
+    'master_detach_original_rgb_metrics': RESEARCH/'master_detach_original_rgb_20261119/reports/MASTER_DETACH_LOD_METRICS_ORIGINAL_RGB.csv',
+    'master_detach_original_rgb_verification': RESEARCH/'master_detach_original_rgb_20261119/reports/VERIFIED.json',
 }
 
 
@@ -75,11 +77,15 @@ def aggregate():
     importance = json.loads(SOURCES['no_importance_verification'].read_text(encoding='utf-8'))
     rerun = json.loads(SOURCES['rerun_verification'].read_text(encoding='utf-8'))
     detach_audit = json.loads(SOURCES['master_detach_verification'].read_text(encoding='utf-8'))
+    corrected_audit = json.loads(SOURCES['master_detach_original_rgb_verification'].read_text(encoding='utf-8'))
     assert inference['complete'] and inference['new_evaluations'] == 704
     assert importance['完成数'] == 27 and importance['连续零选点失败数'] == 5
     assert rerun['complete'] and len(rerun['jobs']) == 2
     assert detach_audit['audit_passed'] and detach_audit['all_32_groups_succeeded']
     assert detach_audit['completed_evaluations'] == detach_audit['csv_rows'] == 736
+    assert corrected_audit['complete'] and corrected_audit['corrected_evaluations'] == 69
+    assert corrected_audit['all_original_rgb'] and corrected_audit['all_frame_associations_equal']
+    assert digest(SOURCES['master_detach_original_rgb_metrics']) == corrected_audit['merged_csv_sha256']
     raw = read_csv(SOURCES['inference_comparison'])
     lookup = {(row['group'], float(row['ratio'])): row for row in raw}
     assert len(lookup) == len(raw) == 352
@@ -90,7 +96,20 @@ def aggregate():
     assert len(successful) == 27
     rerun_lookup = {(row['id'], float(row['ratio'])): row
                     for row in read_csv(SOURCES['rerun_comparison']) if row['scope'] == 'view_ratio'}
-    detach_rows = read_csv(SOURCES['master_detach_metrics'])
+    original_detach = read_csv(SOURCES['master_detach_metrics'])
+    detach_rows = read_csv(SOURCES['master_detach_original_rgb_metrics'])
+    original_lookup = {(row['id'], row['scope'], float(row['ratio'])):row for row in original_detach}
+    corrected_count = 0
+    for row in detach_rows:
+        previous = original_lookup[row['id'], row['scope'], float(row['ratio'])]
+        corrected = row['dataset'] == 'VECtor' and row['mode'] == 'stereo'
+        if corrected:
+            assert row['evaluation_protocol'] == 'cartgs_original_rgb_full_trajectory'
+            assert row['original_rgb_verified'] == 'True'
+            corrected_count += 1
+        else:
+            assert all(row[key] == value for key,value in previous.items())
+    assert corrected_count == 69
     detach_lookup = {(row['id'], float(row['ratio'])): row for row in detach_rows if row['scope'] == 'view_ratio'}
     assert len(detach_rows) == 736 and len(detach_lookup) == 352
     coverage = [dict(group=row['id'], dataset=row['dataset'], scene=row['scene'], mode=row['mode'],
@@ -304,6 +323,7 @@ def main():
     averages = aggregate()
     for name in ['inference_comparison', 'no_importance_metrics', 'no_importance_status']:
         shutil.copyfile(SOURCES[name], ROOT/'data'/f'source_{name}.csv')
+    shutil.copyfile(SOURCES['master_detach_original_rgb_metrics'], ROOT/'data/source_master_detach_original_rgb_metrics.csv')
     (ROOT/'figures/data-manifest.md').write_text(
         '# 三数据集局部Ratio四项消融图数据清单\n\n'
         '| 图 | 数据文件 | 数据性质 | 来源 | 脚本 | 输出 |\n|---|---|---|---|---|---|\n'
@@ -324,6 +344,7 @@ def main():
                       'no_importance':'GI=0、LI=0，重新训练Fine',
                       'master_detach':'Full、全局LoD、局部LoD三路均detach Master，重新训练Fine'},
         master_detach_all_groups=32, master_detach_evaluations=736,
+        master_detach_stereo_original_rgb_corrected=69,
         dataset_mean_rows=len(averages), radial_limits=[RADIAL_MIN,RADIAL_MAX],
         outputs={str(path.relative_to(ROOT)).replace('\\','/'):digest(path) for path in figures})
     (ROOT/'SOURCE_MANIFEST.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
@@ -337,6 +358,10 @@ def main():
         '## 统一完整方案基准\n\n'
         'corner-slow与robot-normal双目的关闭重要性源表仍引用11月7日完整模型，另两项推理消融已使用11月11日复跑模型。本次按用户要求统一使用复跑模型PSNR，重新计算关闭重要性的下降量。每Ratio的旧基准、新基准和修正量保存在data/BASELINE_REFERENCE_AUDIT.csv，原始报告保持原值。两组复跑的Full起点、配置、初始化、关键帧序列和Ratio序列已核验一致。\n\n'
         '全部27组的N、评价帧数和局部实际K均核对一致。四种消融每Ratio使用同一最新完整方案PSNR；Detach Master的全部32组也逐项核对了N、帧数与实际K。\n\n'
+        '## 2026年11月19日双目评价口径修正\n\n'
+        '此前Frozen GS的VECtor双目使用校正左图，而当前完整方案使用未校正原图，导致旧VECtor绿色曲线不可比。'
+        '现已从三个原Frozen checkpoint重新评价69项，将GT统一为未校正原图。帧关联、选点ID、局部逐帧预算及全局补偿导出均核验一致，原模型和旧评价保持原值。'
+        '本图使用修正后的736行合并表，69项更新，其余667项保留。旧图已归档到master_detach_original_rgb_20261119/prior_outputs。\n\n'
         '## 实验解释范围\n\n'
         '关闭Compensator和随机选择属于冻结模型的推理干预，保留共同训练的Master。关闭重要性与Detach Master属于从原Full起点重新执行Fine：前者关闭GI／LI但允许Master更新，后者保留GI／LI并固定Master，只训练网络和Anchor Feature。四条曲线包含不同类型的干预，不能直接用幅度给模块因果作用排序。无重要性与Detach实验的健康停止规则均存在各自历史差异；单seed结果不包含重复试验置信区间。\n', encoding='utf-8')
     with zipfile.ZipFile(ROOT/'FOUR_ABLATION_PSNR_FIGURES.zip', 'w', zipfile.ZIP_DEFLATED) as archive:

@@ -1,0 +1,18 @@
+{
+  "complete": true,
+  "groups": 32,
+  "new_evaluations": 704,
+  "comparison_rows": 352,
+  "protected_files": 3007,
+  "protected_hashes_unchanged": true,
+  "training_steps": 0,
+  "images_saved": 0,
+  "all_frame_ids_and_K_verified": true,
+  "source_sha256": "e56cc01dfe0dcfb1613f06d4211ce5d7e137b6c6ce341c2667db200cc027c891",
+  "total_reference_selection_checks": 618838,
+  "reference_max_error": {
+    "psnr": 7.62939453125e-06,
+    "ssim": 2.384185791015625e-07,
+    "lpips": 1.3947486877441406e-05
+  }
+}
